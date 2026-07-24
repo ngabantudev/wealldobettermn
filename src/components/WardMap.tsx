@@ -66,9 +66,9 @@ const MODE_FILTER_LABELS: Record<LayerMode, Record<City, string>> = {
 
 // User-facing names for the mode toggle — "which level of government."
 const MODE_LABELS: Record<LayerMode, string> = {
-  wards: "City Level",
-  commissioners: "County Level",
-  "state-legislature": "State Level",
+  wards: "City",
+  commissioners: "County",
+  "state-legislature": "State",
 };
 
 const OUTLINE_COLOR = "#44403c";
@@ -378,9 +378,16 @@ export default function WardMap() {
         map.setFilter(STATE_LEG_PULSE_LAYER_ID, ["all", CONTESTED_FILTER, filter] as unknown as maplibregl.FilterSpecification);
       }
     }
+    // Chamber match alone isn't enough — without also checking the current
+    // mode, every House (or Senate) pin turns visible the moment this runs
+    // during setup, regardless of which top-level mode is actually active.
+    // (applyLayerMode already gates state-legislature pins on chamber too,
+    // but only runs on a mode *switch* — this is the one that has to hold
+    // on initial load, when the mode never "switches" at all.)
+    const showStateLegPins = layerModeRef.current === "state-legislature";
     for (const { marker, properties, mode } of pinMarkersRef.current) {
       if (mode !== "state-legislature") continue;
-      marker.getElement().style.display = properties.chamber === nextChamber ? "" : "none";
+      marker.getElement().style.display = showStateLegPins && properties.chamber === nextChamber ? "" : "none";
     }
   };
 
