@@ -44,6 +44,12 @@ const MODE_FILTER_LABELS: Record<LayerMode, Record<City, string>> = {
   commissioners: { Minneapolis: "Hennepin County", "St. Paul": "Ramsey County" },
 };
 
+// User-facing names for the mode toggle — "which level of government."
+const MODE_LABELS: Record<LayerMode, string> = {
+  wards: "City Level",
+  commissioners: "County Level",
+};
+
 // Two distinct hue families (cool for Minneapolis/Hennepin, warm for
 // St. Paul/Ramsey) so the two sides read apart at a glance, cycled by
 // ward/district number so adjoining areas land on visibly different shades.
@@ -105,11 +111,11 @@ interface PinMarker {
 
 // Pin diameter scales with how much ground the office actually covers: a
 // citywide executive (one mayor) reads as more prominent than one of
-// several countywide board seats. Ward council members don't get a pin at
-// all yet (see the fill-layer click instead), so they're not listed here.
+// several countywide board seats, which in turn outranks a single ward.
 const PIN_DIAMETER_BY_ROLE: Partial<Record<RepProperties["role"], number>> = {
   Mayor: 52,
   "County Commissioner": 40,
+  "Council Member": 34,
 };
 const DEFAULT_PIN_DIAMETER = 44;
 
@@ -397,12 +403,19 @@ export default function WardMap() {
       // map.addSource/addLayer already are below).
       if (map.getSource(WARDS_SOURCE_ID)) return;
 
-      for (const feature of mayorsData.features) {
-        if (feature.geometry.type !== "Point") continue;
-        const properties = feature.properties as RepProperties;
-        const [lng, lat] = feature.geometry.coordinates as [number, number];
-        const el = createRepPinElement(properties, PIN_DIAMETER_BY_ROLE.Mayor);
-        const marker = new maplibregl.Marker({ element: el, anchor: "center" }).setLngLat([lng, lat]).addTo(map);
+      // Shared by every pin type (mayors, council members, commissioners):
+      // creates the marker, wires up the same hover/click behavior, and
+      // registers it for the mode/city visibility toggles. One place to
+      // get this right instead of a near-identical loop body per role.
+      const addPin = (
+        properties: RepProperties,
+        coordinates: maplibregl.LngLatLike,
+        diameter: number = DEFAULT_PIN_DIAMETER,
+        mode: LayerMode,
+        zoomBounds: maplibregl.LngLatBounds,
+      ) => {
+        const el = createRepPinElement(properties, diameter);
+        const marker = new maplibregl.Marker({ element: el, anchor: "center" }).setLngLat(coordinates).addTo(map);
 
         el.addEventListener("mouseenter", () => {
           if (!isDesktopHover || selectedRef.current?.pinned) return;
@@ -415,10 +428,27 @@ export default function WardMap() {
         el.addEventListener("click", (e) => {
           e.stopPropagation();
           setSelected({ properties, pinned: true });
-          zoomToBounds(boundsAroundPoint(lng, lat));
+          zoomToBounds(zoomBounds);
         });
 
-        pinMarkersRef.current.push({ marker, properties, mode: "wards" });
+        pinMarkersRef.current.push({ marker, properties, mode });
+      };
+
+      for (const feature of mayorsData.features) {
+        if (feature.geometry.type !== "Point") continue;
+        const properties = feature.properties as RepProperties;
+        const [lng, lat] = feature.geometry.coordinates as [number, number];
+        addPin(properties, [lng, lat], PIN_DIAMETER_BY_ROLE.Mayor, "wards", boundsAroundPoint(lng, lat));
+      }
+
+      // One pin per council member, centered on their ward — same
+      // bounds-center-as-marker-position approach as commissioners below,
+      // since (unlike mayors) there's no single office address to anchor to.
+      for (const feature of data.features) {
+        if (feature.geometry.type !== "Polygon" && feature.geometry.type !== "MultiPolygon") continue;
+        const properties = feature.properties as RepProperties;
+        const bounds = boundsFromFeature(feature as Feature<Geometry>);
+        addPin(properties, bounds.getCenter(), PIN_DIAMETER_BY_ROLE["Council Member"], "wards", bounds);
       }
 
       // One pin per commissioner, same interaction pattern as mayors, but
@@ -428,25 +458,8 @@ export default function WardMap() {
       for (const feature of commissionersData.features) {
         if (feature.geometry.type !== "Polygon" && feature.geometry.type !== "MultiPolygon") continue;
         const properties = feature.properties as RepProperties;
-        const center = boundsFromFeature(feature as Feature<Geometry>).getCenter();
-        const el = createRepPinElement(properties, PIN_DIAMETER_BY_ROLE["County Commissioner"]);
-        const marker = new maplibregl.Marker({ element: el, anchor: "center" }).setLngLat(center).addTo(map);
-
-        el.addEventListener("mouseenter", () => {
-          if (!isDesktopHover || selectedRef.current?.pinned) return;
-          setSelected({ properties, pinned: false });
-        });
-        el.addEventListener("mouseleave", () => {
-          if (!isDesktopHover || selectedRef.current?.pinned) return;
-          setSelected(null);
-        });
-        el.addEventListener("click", (e) => {
-          e.stopPropagation();
-          setSelected({ properties, pinned: true });
-          zoomToBounds(boundsFromFeature(feature as Feature<Geometry>));
-        });
-
-        pinMarkersRef.current.push({ marker, properties, mode: "commissioners" });
+        const bounds = boundsFromFeature(feature as Feature<Geometry>);
+        addPin(properties, bounds.getCenter(), PIN_DIAMETER_BY_ROLE["County Commissioner"], "commissioners", bounds);
       }
 
       map.addSource(WARDS_SOURCE_ID, { type: "geojson", data });
@@ -664,7 +677,7 @@ export default function WardMap() {
                 layerMode === mode ? "bg-neutral-900 text-white" : "text-neutral-600 hover:bg-neutral-100"
               }`}
             >
-              {mode === "wards" ? "Council & Mayors" : "County Commissioners"}
+              {MODE_LABELS[mode]}
             </button>
           ))}
         </div>
