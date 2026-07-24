@@ -191,6 +191,12 @@ async function fetchMinneapolisWards() {
         neighborhoods: MINNEAPOLIS_NEIGHBORHOODS[wardNum] ?? [],
         officeRoom: MINNEAPOLIS_OFFICE_ROOM,
         profileUrl: `https://www.minneapolismn.gov/government/city-council/members/ward-${wardNum}/`,
+        // No source for candidate filings is wired up yet — empty rather
+        // than guessed, since a civic-transparency app is the last place
+        // that should show made-up election data. isContested mirrors
+        // candidates.length >= 2 and must be kept in sync with it here.
+        candidates: [],
+        isContested: false,
       },
     };
   });
@@ -223,6 +229,12 @@ async function fetchStPaulWards() {
         neighborhoods: ST_PAUL_NEIGHBORHOODS[wardNum] ?? [],
         officeRoom: ST_PAUL_OFFICE_ROOM[wardNum] ?? null,
         profileUrl: `https://www.stpaul.gov/department/city-council/${ST_PAUL_PROFILE_SLUG[wardNum] ?? `ward-${wardNum}`}`,
+        // No source for candidate filings is wired up yet — empty rather
+        // than guessed, since a civic-transparency app is the last place
+        // that should show made-up election data. isContested mirrors
+        // candidates.length >= 2 and must be kept in sync with it here.
+        candidates: [],
+        isContested: false,
       },
     };
   });

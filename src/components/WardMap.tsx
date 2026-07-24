@@ -6,8 +6,8 @@ import "maplibre-gl/dist/maplibre-gl.css";
 import type { Feature, FeatureCollection, Geometry } from "geojson";
 import type { RepProperties } from "@/lib/types";
 import { getUpcomingHearings } from "@/lib/hearings";
-import { CITY_ACCENT, accentFor, accentSoftFor } from "@/lib/cityTheme";
-import WardModal from "./WardModal";
+import { CITY_ACCENT, CONTESTED_COLOR, accentFor, accentSoftFor } from "@/lib/cityTheme";
+import WardModal, { areaLabel, roleLabel } from "./WardModal";
 
 // Matches the OpenFreeMap "Liberty" style used by the get-flocked project,
 // for visual consistency across these MN civic-data map tools.
@@ -16,12 +16,15 @@ const LIBERTY_STYLE_URL = "https://tiles.openfreemap.org/styles/liberty";
 const WARDS_SOURCE_ID = "wards-source";
 const WARDS_FILL_LAYER_ID = "wards-fill";
 const WARDS_OUTLINE_LAYER_ID = "wards-outline";
+const WARDS_PULSE_LAYER_ID = "wards-pulse";
 const WARDS_LABEL_LAYER_ID = "wards-label";
 
 const COMMISSIONERS_SOURCE_ID = "commissioners-source";
 const COMMISSIONERS_FILL_LAYER_ID = "commissioners-fill";
 const COMMISSIONERS_OUTLINE_LAYER_ID = "commissioners-outline";
+const COMMISSIONERS_PULSE_LAYER_ID = "commissioners-pulse";
 const COMMISSIONERS_LABEL_LAYER_ID = "commissioners-label";
+
 
 const CITIES = ["Minneapolis", "St. Paul"] as const;
 type City = (typeof CITIES)[number];
@@ -74,6 +77,12 @@ function fillColorExpression(numberField: string): maplibregl.ExpressionSpecific
 const WARD_FILL_COLOR_EXPRESSION = fillColorExpression("ward");
 const COMMISSIONER_FILL_COLOR_EXPRESSION = fillColorExpression("district");
 
+// The pulse layers' permanent filter (same property name on both
+// sources) — city visibility gets ANDed onto this in applyCityFilter
+// rather than replacing it, since the pulse layer always needs both
+// conditions at once.
+const CONTESTED_FILTER = ["==", ["get", "isContested"], true] as unknown as maplibregl.FilterSpecification;
+
 const TWIN_CITIES_CENTER: [number, number] = [-93.185, 44.955];
 const DEFAULT_ZOOM = 10.4;
 // How far around a point marker (mayor pin) to pad when "zooming to" it —
@@ -85,10 +94,24 @@ interface SelectedRep {
   pinned: boolean;
 }
 
-interface MayorMarker {
+interface PinMarker {
   marker: maplibregl.Marker;
   properties: RepProperties;
+  // Which layer mode this pin belongs to — mayors ride along with wards,
+  // commissioners with commissioner districts — so visibility toggling can
+  // tell the two groups of pins apart without a second ref/loop per type.
+  mode: LayerMode;
 }
+
+// Pin diameter scales with how much ground the office actually covers: a
+// citywide executive (one mayor) reads as more prominent than one of
+// several countywide board seats. Ward council members don't get a pin at
+// all yet (see the fill-layer click instead), so they're not listed here.
+const PIN_DIAMETER_BY_ROLE: Partial<Record<RepProperties["role"], number>> = {
+  Mayor: 52,
+  "County Commissioner": 40,
+};
+const DEFAULT_PIN_DIAMETER = 44;
 
 function boundsFromFeature(feature: Feature<Geometry>): maplibregl.LngLatBounds {
   const bounds = new maplibregl.LngLatBounds();
@@ -135,6 +158,8 @@ function normalizeRepProperties(raw: Record<string, unknown> | null | undefined)
     repPhone: p.repPhone ?? null,
     officeRoom: p.officeRoom ?? null,
     profileUrl: p.profileUrl ?? null,
+    candidates: Array.isArray(p.candidates) ? p.candidates : [],
+    isContested: p.isContested === true,
   };
 }
 
@@ -149,9 +174,11 @@ function isMobileViewport(): boolean {
   return window.innerWidth < 768;
 }
 
-// A circular headshot "pin" for a mayor at City Hall — plain DOM rather
-// than a symbol-layer icon, since clipping a photo to a circle with a
-// colored ring is trivial in CSS and painful to pre-bake into a sprite.
+// A circular headshot "pin" — plain DOM rather than a symbol-layer icon,
+// since clipping a photo to a circle with a colored ring is trivial in CSS
+// and painful to pre-bake into a sprite. Reused for every office that gets
+// a point marker (currently mayors and county commissioners); diameter is
+// the caller's way of expressing how much ground the office covers.
 //
 // Two nested elements, not one: maplibregl.Marker positions its element by
 // writing `transform: translate(...)` directly onto it on every render. The
@@ -159,16 +186,16 @@ function isMobileViewport(): boolean {
 // same element, that overwrites Marker's translate and the pin jumps to
 // the map's untransformed top-left corner. Scaling the inner element
 // instead leaves Marker's own transform on the outer one alone.
-function createMayorMarkerElement(rep: RepProperties): HTMLDivElement {
+function createRepPinElement(rep: RepProperties, diameter: number = DEFAULT_PIN_DIAMETER): HTMLDivElement {
   const accent = accentFor(rep.city);
   const outer = document.createElement("div");
   outer.setAttribute("role", "button");
-  outer.setAttribute("aria-label", `${rep.city} Mayor ${rep.repName ?? ""}`);
+  outer.setAttribute("aria-label", `${areaLabel(rep)} ${roleLabel(rep)}${rep.repName ? ` ${rep.repName}` : ""}`);
   outer.style.cssText = "cursor: pointer;";
 
   const inner = document.createElement("div");
   inner.style.cssText = `
-    width: 44px; height: 44px; border-radius: 9999px;
+    width: ${diameter}px; height: ${diameter}px; border-radius: 9999px;
     border: 3px solid ${accent}; box-shadow: 0 2px 8px rgba(0,0,0,0.35);
     background: ${accentSoftFor(rep.city)}; overflow: hidden;
     display: flex; align-items: center; justify-content: center;
@@ -179,7 +206,7 @@ function createMayorMarkerElement(rep: RepProperties): HTMLDivElement {
   if (rep.repPhotoUrl) {
     const img = document.createElement("img");
     img.src = rep.repPhotoUrl;
-    img.alt = rep.repName ?? "Mayor photo";
+    img.alt = rep.repName ?? "Representative photo";
     img.style.cssText = "width: 100%; height: 100%; object-fit: cover;";
     inner.appendChild(img);
   } else {
@@ -207,7 +234,8 @@ export default function WardMap() {
   // enough for that.
   const wardsDataRef = useRef<FeatureCollection | null>(null);
   const commissionersDataRef = useRef<FeatureCollection | null>(null);
-  const mayorMarkersRef = useRef<MayorMarker[]>([]);
+  const pinMarkersRef = useRef<PinMarker[]>([]);
+  const pulseAnimationFrameRef = useRef<number | null>(null);
   const [selected, setSelected] = useState<SelectedRep | null>(null);
   const selectedRef = useRef<SelectedRep | null>(null);
   const [layerMode, setLayerMode] = useState<LayerMode>("wards");
@@ -269,9 +297,16 @@ export default function WardMap() {
       ]) {
         if (map.getLayer(layerId)) map.setFilter(layerId, filter);
       }
+      // The pulse layers additionally require isContested — city
+      // visibility is ANDed onto that rather than overwriting it.
+      for (const layerId of [WARDS_PULSE_LAYER_ID, COMMISSIONERS_PULSE_LAYER_ID]) {
+        if (map.getLayer(layerId)) {
+          map.setFilter(layerId, ["all", CONTESTED_FILTER, filter] as unknown as maplibregl.FilterSpecification);
+        }
+      }
     }
-    for (const { marker, properties } of mayorMarkersRef.current) {
-      const visible = layerModeRef.current === "wards" && cities[properties.city as City];
+    for (const { marker, properties, mode } of pinMarkersRef.current) {
+      const visible = mode === layerModeRef.current && cities[properties.city as City];
       marker.getElement().style.display = visible ? "" : "none";
     }
   };
@@ -280,14 +315,14 @@ export default function WardMap() {
     const map = mapRef.current;
     if (!map) return;
     const showWards = mode === "wards";
-    for (const layerId of [WARDS_FILL_LAYER_ID, WARDS_OUTLINE_LAYER_ID, WARDS_LABEL_LAYER_ID]) {
+    for (const layerId of [WARDS_FILL_LAYER_ID, WARDS_OUTLINE_LAYER_ID, WARDS_PULSE_LAYER_ID, WARDS_LABEL_LAYER_ID]) {
       if (map.getLayer(layerId)) map.setLayoutProperty(layerId, "visibility", showWards ? "visible" : "none");
     }
-    for (const layerId of [COMMISSIONERS_FILL_LAYER_ID, COMMISSIONERS_OUTLINE_LAYER_ID, COMMISSIONERS_LABEL_LAYER_ID]) {
+    for (const layerId of [COMMISSIONERS_FILL_LAYER_ID, COMMISSIONERS_OUTLINE_LAYER_ID, COMMISSIONERS_PULSE_LAYER_ID, COMMISSIONERS_LABEL_LAYER_ID]) {
       if (map.getLayer(layerId)) map.setLayoutProperty(layerId, "visibility", showWards ? "none" : "visible");
     }
-    for (const { marker, properties } of mayorMarkersRef.current) {
-      marker.getElement().style.display = showWards && visibleCitiesRef.current[properties.city as City] ? "" : "none";
+    for (const { marker, properties, mode: pinMode } of pinMarkersRef.current) {
+      marker.getElement().style.display = pinMode === mode && visibleCitiesRef.current[properties.city as City] ? "" : "none";
     }
   };
 
@@ -357,7 +392,7 @@ export default function WardMap() {
       commissionersDataRef.current = commissionersData;
 
       // Guards the whole "add sources/layers/markers" block as a unit —
-      // without it, a second 'load' firing would duplicate every mayor
+      // without it, a second 'load' firing would duplicate every pin
       // marker on top of itself (Marker instances aren't deduped the way
       // map.addSource/addLayer already are below).
       if (map.getSource(WARDS_SOURCE_ID)) return;
@@ -366,7 +401,7 @@ export default function WardMap() {
         if (feature.geometry.type !== "Point") continue;
         const properties = feature.properties as RepProperties;
         const [lng, lat] = feature.geometry.coordinates as [number, number];
-        const el = createMayorMarkerElement(properties);
+        const el = createRepPinElement(properties, PIN_DIAMETER_BY_ROLE.Mayor);
         const marker = new maplibregl.Marker({ element: el, anchor: "center" }).setLngLat([lng, lat]).addTo(map);
 
         el.addEventListener("mouseenter", () => {
@@ -383,7 +418,35 @@ export default function WardMap() {
           zoomToBounds(boundsAroundPoint(lng, lat));
         });
 
-        mayorMarkersRef.current.push({ marker, properties });
+        pinMarkersRef.current.push({ marker, properties, mode: "wards" });
+      }
+
+      // One pin per commissioner, same interaction pattern as mayors, but
+      // there's no office address to anchor to — a district's bounds
+      // center stands in for "somewhere inside the district" well enough
+      // for a marker (as opposed to fitBounds, which needs the real shape).
+      for (const feature of commissionersData.features) {
+        if (feature.geometry.type !== "Polygon" && feature.geometry.type !== "MultiPolygon") continue;
+        const properties = feature.properties as RepProperties;
+        const center = boundsFromFeature(feature as Feature<Geometry>).getCenter();
+        const el = createRepPinElement(properties, PIN_DIAMETER_BY_ROLE["County Commissioner"]);
+        const marker = new maplibregl.Marker({ element: el, anchor: "center" }).setLngLat(center).addTo(map);
+
+        el.addEventListener("mouseenter", () => {
+          if (!isDesktopHover || selectedRef.current?.pinned) return;
+          setSelected({ properties, pinned: false });
+        });
+        el.addEventListener("mouseleave", () => {
+          if (!isDesktopHover || selectedRef.current?.pinned) return;
+          setSelected(null);
+        });
+        el.addEventListener("click", (e) => {
+          e.stopPropagation();
+          setSelected({ properties, pinned: true });
+          zoomToBounds(boundsFromFeature(feature as Feature<Geometry>));
+        });
+
+        pinMarkersRef.current.push({ marker, properties, mode: "commissioners" });
       }
 
       map.addSource(WARDS_SOURCE_ID, { type: "geojson", data });
@@ -400,6 +463,17 @@ export default function WardMap() {
         type: "line",
         source: WARDS_SOURCE_ID,
         paint: { "line-color": OUTLINE_COLOR, "line-width": 1.5 },
+      });
+      // Highlights wards with a contested election, on top of the normal
+      // outline but below labels. Starts matching zero features today —
+      // isContested is false everywhere until real candidate-filing data
+      // is sourced — the animation loop below drives its paint properties.
+      map.addLayer({
+        id: WARDS_PULSE_LAYER_ID,
+        type: "line",
+        source: WARDS_SOURCE_ID,
+        filter: CONTESTED_FILTER,
+        paint: { "line-color": CONTESTED_COLOR, "line-width": 3, "line-opacity": 0.85 },
       });
       map.addLayer({
         id: WARDS_LABEL_LAYER_ID,
@@ -428,6 +502,14 @@ export default function WardMap() {
         paint: { "line-color": OUTLINE_COLOR, "line-width": 1.5 },
       });
       map.addLayer({
+        id: COMMISSIONERS_PULSE_LAYER_ID,
+        type: "line",
+        source: COMMISSIONERS_SOURCE_ID,
+        layout: { visibility: "none" },
+        filter: CONTESTED_FILTER,
+        paint: { "line-color": CONTESTED_COLOR, "line-width": 3, "line-opacity": 0.85 },
+      });
+      map.addLayer({
         id: COMMISSIONERS_LABEL_LAYER_ID,
         type: "symbol",
         source: COMMISSIONERS_SOURCE_ID,
@@ -451,6 +533,29 @@ export default function WardMap() {
       map.on("mouseleave", COMMISSIONERS_FILL_LAYER_ID, handleHoverLeave);
 
       applyCityFilter(visibleCitiesRef.current);
+
+      // Only animate if something's actually contested — with today's data
+      // that's never true (see the isContested comment in types.ts), so
+      // this costs nothing until real candidate-filing data changes that.
+      const anyContested =
+        data.features.some((f) => f.properties?.isContested) ||
+        commissionersData.features.some((f) => f.properties?.isContested);
+      if (anyContested) {
+        const animatePulse = (timestamp: number) => {
+          // ~2.6s period, slow and steady rather than an alarm-like strobe.
+          const t = (Math.sin(timestamp / 420) + 1) / 2; // 0..1
+          const width = 2.5 + t * 2.5;
+          const opacity = 0.5 + t * 0.5;
+          for (const layerId of [WARDS_PULSE_LAYER_ID, COMMISSIONERS_PULSE_LAYER_ID]) {
+            if (map.getLayer(layerId)) {
+              map.setPaintProperty(layerId, "line-width", width);
+              map.setPaintProperty(layerId, "line-opacity", opacity);
+            }
+          }
+          pulseAnimationFrameRef.current = requestAnimationFrame(animatePulse);
+        };
+        pulseAnimationFrameRef.current = requestAnimationFrame(animatePulse);
+      }
 
       // Fit the map to each layer's actual extent rather than a hardcoded
       // bounding box, so this keeps working if boundaries shift. Stored so
@@ -526,8 +631,9 @@ export default function WardMap() {
 
     return () => {
       window.removeEventListener("resize", handleResize);
-      for (const { marker } of mayorMarkersRef.current) marker.remove();
-      mayorMarkersRef.current = [];
+      if (pulseAnimationFrameRef.current !== null) cancelAnimationFrame(pulseAnimationFrameRef.current);
+      for (const { marker } of pinMarkersRef.current) marker.remove();
+      pinMarkersRef.current = [];
       map.remove();
       mapRef.current = null;
     };

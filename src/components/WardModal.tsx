@@ -1,7 +1,7 @@
 "use client";
 
 import type { Hearing, RepProperties } from "@/lib/types";
-import { accentFor, accentSoftFor } from "@/lib/cityTheme";
+import { CONTESTED_COLOR, CONTESTED_COLOR_SOFT, accentFor, accentSoftFor } from "@/lib/cityTheme";
 
 function formatOfficeSince(iso: string): string {
   // timeZone: "UTC" matters here — these dates are stored as bare
@@ -40,7 +40,9 @@ function initials(name: string | null): string {
     .toUpperCase();
 }
 
-function roleLabel(rep: RepProperties): string {
+// Exported for reuse by WardMap's pin markers, which need the same labels
+// for their aria-label text as the modal shows.
+export function roleLabel(rep: RepProperties): string {
   if (rep.ward !== null) return `Ward ${rep.ward}`;
   if (rep.district !== null) return `District ${rep.district}`;
   return "Mayor";
@@ -50,8 +52,14 @@ function roleLabel(rep: RepProperties): string {
 // county — a Hennepin district covers a lot of suburbs "Minneapolis"
 // wouldn't accurately describe, even though it's grouped/colored with
 // Minneapolis everywhere else in the app (see the note on RepProperties).
-function areaLabel(rep: RepProperties): string {
+export function areaLabel(rep: RepProperties): string {
   return rep.county ?? rep.city;
+}
+
+// Mirrors rep.isContested (see the field's comment in types.ts for why
+// that's a stored flag rather than derived here from candidates.length).
+export function isContested(rep: RepProperties): boolean {
+  return rep.isContested === true;
 }
 
 function IconCalendar() {
@@ -108,6 +116,15 @@ function IconBuilding() {
   );
 }
 
+function IconBallot() {
+  return (
+    <svg viewBox="0 0 20 20" fill="none" className="h-4 w-4 shrink-0">
+      <rect x="3" y="3" width="14" height="14" rx="2" stroke="currentColor" strokeWidth="1.5" />
+      <path d="m6.5 10 2 2 5-5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
 function IconExternal() {
   return (
     <svg viewBox="0 0 20 20" fill="none" className="h-3.5 w-3.5 shrink-0">
@@ -134,6 +151,7 @@ export default function WardModal({ ward: rep, hearings, pinned, onClose }: Ward
   // open from before that change could still be holding one in memory).
   const committees = Array.isArray(rep.committees) ? rep.committees : [];
   const neighborhoods = Array.isArray(rep.neighborhoods) ? rep.neighborhoods : [];
+  const candidates = Array.isArray(rep.candidates) ? rep.candidates : [];
 
   const avatar = rep.repPhotoUrl ? (
     // eslint-disable-next-line @next/next/no-img-element
@@ -172,6 +190,12 @@ export default function WardModal({ ward: rep, hearings, pinned, onClose }: Ward
             <div className="text-sm font-semibold text-neutral-900 truncate">{repName ?? "Vacant / TBD"}</div>
           </div>
         </div>
+        {isContested(rep) && (
+          <div className="px-3 pb-2 -mt-1 flex items-center gap-1.5 text-xs font-medium" style={{ color: CONTESTED_COLOR }}>
+            <IconBallot />
+            <span>Contested &middot; {candidates.length} candidates</span>
+          </div>
+        )}
         {isWard && (
           <div className="px-3 pb-3 -mt-1 flex items-center gap-1.5 text-xs text-neutral-500">
             <IconCalendar />
@@ -227,6 +251,33 @@ export default function WardModal({ ward: rep, hearings, pinned, onClose }: Ward
             </svg>
           </button>
         </div>
+
+        {isContested(rep) && (
+          <div className="border-t border-neutral-100 px-4 py-3" style={{ backgroundColor: CONTESTED_COLOR_SOFT }}>
+            <div className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide mb-2.5" style={{ color: CONTESTED_COLOR }}>
+              <IconBallot />
+              Contested seat &middot; {candidates.length} on the ballot
+            </div>
+            <ul className="space-y-2">
+              {candidates.map((candidate) => (
+                <li key={candidate.name} className="text-sm">
+                  <div className="flex items-center gap-1.5 flex-wrap">
+                    <span className="font-medium text-neutral-900">{candidate.name}</span>
+                    {candidate.isIncumbent && (
+                      <span className="text-[10px] font-semibold uppercase tracking-wide text-neutral-500 bg-white/70 px-1.5 py-0.5 rounded">
+                        Incumbent
+                      </span>
+                    )}
+                  </div>
+                  <div className="text-xs text-neutral-500">{candidate.party}</div>
+                  {candidate.endorsements.length > 0 && (
+                    <div className="text-xs text-neutral-500">Endorsed by {candidate.endorsements.join(", ")}</div>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
 
         {committees.length > 0 && (
           <div className="px-4 pb-3 flex flex-wrap gap-1.5">

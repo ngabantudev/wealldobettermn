@@ -138,6 +138,12 @@ async function fetchRamseyDistricts() {
         neighborhoods: [],
         officeRoom: null,
         profileUrl: props.Web ?? null,
+        // No source for candidate filings is wired up yet — empty rather
+        // than guessed, since a civic-transparency app is the last place
+        // that should show made-up election data. isContested mirrors
+        // candidates.length >= 2 and must be kept in sync with it here.
+        candidates: [],
+        isContested: false,
       },
     };
   });
@@ -171,6 +177,12 @@ async function fetchHennepinDistricts() {
         neighborhoods: [],
         officeRoom: null,
         profileUrl: `https://www.hennepincounty.gov/government/leadership/board-of-commissioners/district-${districtNum}`,
+        // No source for candidate filings is wired up yet — empty rather
+        // than guessed, since a civic-transparency app is the last place
+        // that should show made-up election data. isContested mirrors
+        // candidates.length >= 2 and must be kept in sync with it here.
+        candidates: [],
+        isContested: false,
       },
     };
   });
