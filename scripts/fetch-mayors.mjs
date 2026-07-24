@@ -48,6 +48,94 @@ const MAYORS = [
     officeRoom: "Saint Paul City Hall, 15 Kellogg Blvd. West",
     profileUrl: "https://www.stpaul.gov/departments/mayors-office",
   },
+  // --- Metro suburbs (pilot) — see fetch-wards.mjs for the matching ward
+  // rosters. None of these six state an exact "took office" date on their
+  // own site (only term-expiration dates) — dates below are secondary-
+  // sourced best efforts, same caveat as the ward rosters.
+  {
+    city: "Bloomington",
+    coordinates: [-93.3024154, 44.8251814], // Bloomington Civic Plaza
+    repName: "Tim Busse",
+    repParty: NONPARTISAN,
+    repPhotoUrl: "https://www.bloomingtonmn.gov/sites/default/files/styles/240x336/public/2026-02/Busse-Tim-2026.jpg?h=59969086&itok=ewxwDjDP",
+    repEmail: "tbusse@BloomingtonMN.gov",
+    repPhone: "952-457-7506",
+    officeSince: "2020-01-02", // elected Nov 2019; previously an at-large councilmember 2011-2019
+    committees: ["Mayor of Bloomington"],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://www.bloomingtonmn.gov/cc/city-councilmembers-and-district-maps",
+  },
+  {
+    city: "Plymouth",
+    coordinates: [-93.474067, 45.018313],
+    repName: "Jeff Wosje",
+    repParty: NONPARTISAN,
+    repPhotoUrl: "https://www.plymouthmn.gov/home/showpublishedimage/4692/636190361468730000",
+    repEmail: "jwosje@plymouthmn.gov",
+    repPhone: "763-509-5007",
+    officeSince: "2019-01-01", // elected Nov 2018; previously Ward 2 councilmember 2011-2018
+    committees: ["Mayor of Plymouth"],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://www.plymouthmn.gov/departments/city-council/city-council-members",
+  },
+  {
+    city: "Minnetonka",
+    coordinates: [-93.4660093, 44.9400905], // Minnetonka City Hall
+    repName: "Rebecca Schack",
+    repParty: NONPARTISAN,
+    repPhotoUrl: "https://www.minnetonkamn.gov/home/showpublishedimage/1103/638436738444100000",
+    repEmail: "rschack@minnetonkamn.gov",
+    repPhone: "612-590-3735",
+    officeSince: "2025-01-01", // previously Ward 2 council member (appointed 2018, elected 2019, re-elected 2023)
+    committees: ["Mayor of Minnetonka"],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://www.minnetonkamn.gov/government/city-council-mayor/mayor",
+  },
+  {
+    city: "St. Louis Park",
+    coordinates: [-93.3428234, 44.9480894], // Saint Louis Park City Hall
+    repName: "Nadia Mohamed",
+    repParty: NONPARTISAN,
+    repPhotoUrl: "https://www.stlouisparkmn.gov/home/showpublishedimage/6962/639046881797230000",
+    repEmail: "nmohamed@stlouisparkmn.gov",
+    repPhone: "952-207-0256",
+    officeSince: "2024-01-01", // previously an at-large council member starting 2020
+    committees: ["Mayor of St. Louis Park"],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://www.stlouisparkmn.gov/government/city-council/mayor-council-members/mayor",
+  },
+  {
+    city: "Richfield",
+    coordinates: [-93.2685853, 44.8806821], // Richfield Municipal Center
+    repName: "Mary Supple",
+    repParty: NONPARTISAN,
+    repPhotoUrl: "https://www.richfieldmn.gov/ImageRepository/Document?documentID=902",
+    repEmail: "MSupple@RichfieldMN.gov",
+    repPhone: "612-281-7482",
+    officeSince: "2023-01-01", // elected Nov 2022; previously a ward council member since 2018
+    committees: ["Mayor of Richfield"],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://www.richfieldmn.gov/directory.aspx?eid=60",
+  },
+  {
+    city: "Blaine",
+    coordinates: [-93.208792, 45.1654714],
+    repName: "Tim Sanders",
+    repParty: NONPARTISAN,
+    repPhotoUrl: "https://www.blainemn.gov/ImageRepository/Document?documentID=11405",
+    repEmail: "tsanders@blainemn.gov",
+    repPhone: "763-203-3286",
+    officeSince: "2021-01-01", // elected Nov 2020, replacing retiring mayor Tom Ryan; re-elected 2024
+    committees: ["Mayor of Blaine"],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://www.blainemn.gov/directory.aspx?eid=378",
+  },
 ];
 
 async function main() {
@@ -56,7 +144,20 @@ async function main() {
     features: MAYORS.map(({ city, coordinates, ...properties }) => ({
       type: "Feature",
       geometry: { type: "Point", coordinates },
-      properties: { role: "Mayor", city, county: null, ward: null, district: null, candidates: [], isContested: false, ...properties },
+      properties: {
+        role: "Mayor",
+        city,
+        county: null,
+        ward: null,
+        district: null,
+        stateDistrict: null,
+        chamber: null,
+        candidates: [],
+        isContested: false,
+        partyUnityPercent: null,
+        recentVotes: [],
+        ...properties,
+      },
     })),
   };
 
