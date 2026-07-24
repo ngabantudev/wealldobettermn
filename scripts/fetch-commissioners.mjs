@@ -128,6 +128,8 @@ async function fetchRamseyDistricts() {
         county: "Ramsey County",
         ward: null,
         district: districtNum,
+        stateDistrict: null,
+        chamber: null,
         repName: props.Name ?? null,
         repParty: NONPARTISAN,
         repPhotoUrl: extra.photo,
@@ -144,6 +146,8 @@ async function fetchRamseyDistricts() {
         // candidates.length >= 2 and must be kept in sync with it here.
         candidates: [],
         isContested: false,
+        partyUnityPercent: null,
+        recentVotes: [],
       },
     };
   });
@@ -167,6 +171,8 @@ async function fetchHennepinDistricts() {
         county: "Hennepin County",
         ward: null,
         district: districtNum,
+        stateDistrict: null,
+        chamber: null,
         repName: info?.name ?? null,
         repParty: NONPARTISAN,
         repPhotoUrl: info?.photo ? `${HENNEPIN_PHOTO_BASE}${info.photo}` : null,
@@ -183,6 +189,8 @@ async function fetchHennepinDistricts() {
         // candidates.length >= 2 and must be kept in sync with it here.
         candidates: [],
         isContested: false,
+        partyUnityPercent: null,
+        recentVotes: [],
       },
     };
   });

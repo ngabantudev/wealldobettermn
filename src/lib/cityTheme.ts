@@ -21,3 +21,18 @@ export function accentSoftFor(city: string): string {
 // "this race is contested" reads as one consistent visual language.
 export const CONTESTED_COLOR = "#F59E0B";
 export const CONTESTED_COLOR_SOFT = "#FEF3C7";
+
+// State legislature districts are colored by party rather than by city
+// (see the note on RepProperties) — shared by the map's fill expression
+// (WardMap) and the party-unity bar (WardModal) so both agree on which
+// color means which party. Not every party a candidate could list (MN
+// currently only seats these two), hence the neutral fallback.
+export const PARTY_COLORS: Record<string, string> = {
+  "Democratic-Farmer-Labor": "#2563EB",
+  Republican: "#DC2626",
+};
+export const DEFAULT_PARTY_COLOR = "#9CA3AF";
+
+export function partyColor(party: string): string {
+  return PARTY_COLORS[party] ?? DEFAULT_PARTY_COLOR;
+}

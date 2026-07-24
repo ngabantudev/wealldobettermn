@@ -1,7 +1,7 @@
 "use client";
 
 import type { Hearing, RepProperties } from "@/lib/types";
-import { CONTESTED_COLOR, CONTESTED_COLOR_SOFT, accentFor, accentSoftFor } from "@/lib/cityTheme";
+import { CONTESTED_COLOR, CONTESTED_COLOR_SOFT, accentFor, accentSoftFor, partyColor } from "@/lib/cityTheme";
 
 function formatOfficeSince(iso: string): string {
   // timeZone: "UTC" matters here — these dates are stored as bare
@@ -45,14 +45,19 @@ function initials(name: string | null): string {
 export function roleLabel(rep: RepProperties): string {
   if (rep.ward !== null) return `Ward ${rep.ward}`;
   if (rep.district !== null) return `District ${rep.district}`;
+  if (rep.stateDistrict !== null) return `District ${rep.stateDistrict}`;
   return "Mayor";
 }
 
 // Council members and mayors are identified by city; commissioners by
-// county — a Hennepin district covers a lot of suburbs "Minneapolis"
-// wouldn't accurately describe, even though it's grouped/colored with
-// Minneapolis everywhere else in the app (see the note on RepProperties).
+// county; state legislators by chamber — a Hennepin district covers a lot
+// of suburbs "Minneapolis" wouldn't accurately describe, even though it's
+// grouped/colored with Minneapolis everywhere else in the app (see the
+// note on RepProperties), and a legislative district can straddle both
+// cities or neither.
 export function areaLabel(rep: RepProperties): string {
+  if (rep.chamber === "house") return "MN House";
+  if (rep.chamber === "senate") return "MN Senate";
   return rep.county ?? rep.city;
 }
 
@@ -152,6 +157,7 @@ export default function WardModal({ ward: rep, hearings, pinned, onClose }: Ward
   const committees = Array.isArray(rep.committees) ? rep.committees : [];
   const neighborhoods = Array.isArray(rep.neighborhoods) ? rep.neighborhoods : [];
   const candidates = Array.isArray(rep.candidates) ? rep.candidates : [];
+  const recentVotes = Array.isArray(rep.recentVotes) ? rep.recentVotes : [];
 
   const avatar = rep.repPhotoUrl ? (
     // eslint-disable-next-line @next/next/no-img-element
@@ -290,6 +296,63 @@ export default function WardModal({ ward: rep, hearings, pinned, onClose }: Ward
                 {role}
               </span>
             ))}
+          </div>
+        )}
+
+        {rep.partyUnityPercent !== null && (
+          <div className="px-4 pb-3">
+            <div className="flex items-center justify-between text-xs text-neutral-500 mb-1">
+              <span>Votes with own party</span>
+              <span className="font-semibold" style={{ color: partyColor(rep.repParty) }}>
+                {rep.partyUnityPercent}%
+              </span>
+            </div>
+            <div className="h-2 rounded-full bg-neutral-100 overflow-hidden">
+              <div
+                className="h-full rounded-full"
+                style={{ width: `${rep.partyUnityPercent}%`, backgroundColor: partyColor(rep.repParty) }}
+              />
+            </div>
+          </div>
+        )}
+
+        {recentVotes.length > 0 && (
+          <div className="border-t border-neutral-100 px-4 py-3">
+            <div className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-neutral-500 mb-2.5">
+              <IconBallot />
+              Recent votes
+            </div>
+            <ul className="space-y-2.5">
+              {recentVotes.map((vote) => (
+                <li key={vote.voteId} className="text-sm">
+                  <div className="flex items-start justify-between gap-2">
+                    <span className="font-medium text-neutral-900">{vote.identifier}</span>
+                    <span
+                      className="text-[10px] font-semibold uppercase tracking-wide px-1.5 py-0.5 rounded shrink-0"
+                      style={
+                        vote.option === "yes"
+                          ? { color: "#166534", backgroundColor: "#DCFCE7" }
+                          : { color: "#991B1B", backgroundColor: "#FEE2E2" }
+                      }
+                    >
+                      Voted {vote.option}
+                    </span>
+                  </div>
+                  <div className="text-xs text-neutral-500">{vote.title}</div>
+                  {vote.openstatesUrl && (
+                    <a
+                      href={vote.openstatesUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-xs font-medium hover:underline"
+                      style={{ color: accent }}
+                    >
+                      View bill
+                    </a>
+                  )}
+                </li>
+              ))}
+            </ul>
           </div>
         )}
 

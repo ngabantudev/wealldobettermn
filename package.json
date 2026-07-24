@@ -10,6 +10,7 @@
     "data:wards": "node scripts/fetch-wards.mjs",
     "data:mayors": "node scripts/fetch-mayors.mjs",
     "data:commissioners": "node scripts/fetch-commissioners.mjs",
+    "data:state-legislature": "node scripts/fetch-state-legislature.mjs",
     "data:all": "npm run data:wards && npm run data:mayors && npm run data:commissioners",
     "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
     "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",

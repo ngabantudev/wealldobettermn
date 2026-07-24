@@ -181,6 +181,8 @@ async function fetchMinneapolisWards() {
         county: null,
         ward: wardNum,
         district: null,
+        stateDistrict: null,
+        chamber: null,
         repName: MINNEAPOLIS_ROSTER[wardNum] ?? null,
         repParty: NONPARTISAN,
         repPhotoUrl: photo ? `${MINNEAPOLIS_PHOTO_BASE}${photo}` : null,
@@ -197,6 +199,8 @@ async function fetchMinneapolisWards() {
         // candidates.length >= 2 and must be kept in sync with it here.
         candidates: [],
         isContested: false,
+        partyUnityPercent: null,
+        recentVotes: [],
       },
     };
   });
@@ -219,6 +223,8 @@ async function fetchStPaulWards() {
         county: null,
         ward: wardNum,
         district: null,
+        stateDistrict: null,
+        chamber: null,
         repName: props.name ?? null,
         repParty: NONPARTISAN,
         repPhotoUrl: props.imgpath ?? null,
@@ -235,6 +241,8 @@ async function fetchStPaulWards() {
         // candidates.length >= 2 and must be kept in sync with it here.
         candidates: [],
         isContested: false,
+        partyUnityPercent: null,
+        recentVotes: [],
       },
     };
   });

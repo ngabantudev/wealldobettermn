@@ -6,7 +6,7 @@ import "maplibre-gl/dist/maplibre-gl.css";
 import type { Feature, FeatureCollection, Geometry } from "geojson";
 import type { RepProperties } from "@/lib/types";
 import { getUpcomingHearings } from "@/lib/hearings";
-import { CITY_ACCENT, CONTESTED_COLOR, accentFor, accentSoftFor } from "@/lib/cityTheme";
+import { CITY_ACCENT, CONTESTED_COLOR, DEFAULT_PARTY_COLOR, PARTY_COLORS, accentFor, accentSoftFor } from "@/lib/cityTheme";
 import WardModal, { areaLabel, roleLabel } from "./WardModal";
 
 // Matches the OpenFreeMap "Liberty" style used by the get-flocked project,
@@ -25,29 +25,42 @@ const COMMISSIONERS_OUTLINE_LAYER_ID = "commissioners-outline";
 const COMMISSIONERS_PULSE_LAYER_ID = "commissioners-pulse";
 const COMMISSIONERS_LABEL_LAYER_ID = "commissioners-label";
 
+const STATE_LEG_SOURCE_ID = "state-legislature-source";
+const STATE_LEG_FILL_LAYER_ID = "state-legislature-fill";
+const STATE_LEG_OUTLINE_LAYER_ID = "state-legislature-outline";
+const STATE_LEG_PULSE_LAYER_ID = "state-legislature-pulse";
+const STATE_LEG_LABEL_LAYER_ID = "state-legislature-label";
 
 const CITIES = ["Minneapolis", "St. Paul"] as const;
 type City = (typeof CITIES)[number];
 
-// Wards and commissioner districts are two different government layers
-// covering different areas (a county is a lot bigger than the city inside
-// it) — showing both as overlapping fills at once would just be visual
-// noise, so only one is ever on screen. Mayors are city-level, so they
-// only make sense alongside wards.
-type LayerMode = "wards" | "commissioners";
+const CHAMBERS = ["house", "senate"] as const;
+type Chamber = (typeof CHAMBERS)[number];
+const CHAMBER_LABELS: Record<Chamber, string> = { house: "MN House", senate: "MN Senate" };
+
+// Wards, commissioner districts, and state legislative districts are three
+// different government layers covering different areas — showing more
+// than one as overlapping fills at once would just be visual noise, so
+// only one is ever on screen. Mayors are city-level, so they only make
+// sense alongside wards.
+type LayerMode = "wards" | "commissioners" | "state-legislature";
 
 // Same city grouping/coloring either way, but a Hennepin County district
 // covers plenty of suburbs "Minneapolis" doesn't literally describe — the
-// checkbox label should say so.
+// checkbox label should say so. State legislature mode doesn't use the
+// city filter at all (a district can straddle both cities or neither), so
+// its entry here is never actually rendered — see the legend JSX below.
 const MODE_FILTER_LABELS: Record<LayerMode, Record<City, string>> = {
   wards: { Minneapolis: "Minneapolis", "St. Paul": "St. Paul" },
   commissioners: { Minneapolis: "Hennepin County", "St. Paul": "Ramsey County" },
+  "state-legislature": { Minneapolis: "", "St. Paul": "" },
 };
 
 // User-facing names for the mode toggle — "which level of government."
 const MODE_LABELS: Record<LayerMode, string> = {
   wards: "City Level",
   commissioners: "County Level",
+  "state-legislature": "State Level",
 };
 
 // Two distinct hue families (cool for Minneapolis/Hennepin, warm for
@@ -83,6 +96,18 @@ function fillColorExpression(numberField: string): maplibregl.ExpressionSpecific
 const WARD_FILL_COLOR_EXPRESSION = fillColorExpression("ward");
 const COMMISSIONER_FILL_COLOR_EXPRESSION = fillColorExpression("district");
 
+// State legislative districts don't belong to one city the way wards or
+// commissioner districts do, so the city-hue scheme above doesn't apply —
+// party is the one dimension actually worth coloring this layer by. Built
+// from the same PARTY_COLORS map WardModal's party-unity bar uses, so the
+// map and the modal never disagree on which color means which party.
+const STATE_LEG_FILL_COLOR_EXPRESSION = [
+  "match",
+  ["get", "repParty"],
+  ...Object.entries(PARTY_COLORS).flatMap(([party, color]) => [party, color]),
+  DEFAULT_PARTY_COLOR, // vacant or minor-party seats
+] as unknown as maplibregl.ExpressionSpecification;
+
 // The pulse layers' permanent filter (same property name on both
 // sources) — city visibility gets ANDed onto this in applyCityFilter
 // rather than replacing it, since the pulse layer always needs both
@@ -115,6 +140,8 @@ interface PinMarker {
 const PIN_DIAMETER_BY_ROLE: Partial<Record<RepProperties["role"], number>> = {
   Mayor: 52,
   "County Commissioner": 40,
+  "State Senator": 38,
+  "State Representative": 36,
   "Council Member": 34,
 };
 const DEFAULT_PIN_DIAMETER = 44;
@@ -166,6 +193,10 @@ function normalizeRepProperties(raw: Record<string, unknown> | null | undefined)
     profileUrl: p.profileUrl ?? null,
     candidates: Array.isArray(p.candidates) ? p.candidates : [],
     isContested: p.isContested === true,
+    stateDistrict: p.stateDistrict ?? null,
+    chamber: p.chamber ?? null,
+    partyUnityPercent: typeof p.partyUnityPercent === "number" ? p.partyUnityPercent : null,
+    recentVotes: Array.isArray(p.recentVotes) ? p.recentVotes : [],
   };
 }
 
@@ -234,12 +265,14 @@ export default function WardMap() {
   const mapRef = useRef<maplibregl.Map | null>(null);
   const wardsBoundsRef = useRef<maplibregl.LngLatBounds | null>(null);
   const commissionersBoundsRef = useRef<maplibregl.LngLatBounds | null>(null);
+  const stateLegBoundsRef = useRef<maplibregl.LngLatBounds | null>(null);
   // The untouched fetch results, kept around so a click can look up a
   // ward/district's true full geometry — see the comment on the click
   // handler for why queryRenderedFeatures's own geometry isn't good
   // enough for that.
   const wardsDataRef = useRef<FeatureCollection | null>(null);
   const commissionersDataRef = useRef<FeatureCollection | null>(null);
+  const stateLegDataRef = useRef<FeatureCollection | null>(null);
   const pinMarkersRef = useRef<PinMarker[]>([]);
   const pulseAnimationFrameRef = useRef<number | null>(null);
   const [selected, setSelected] = useState<SelectedRep | null>(null);
@@ -251,6 +284,8 @@ export default function WardMap() {
     "St. Paul": true,
   });
   const visibleCitiesRef = useRef(visibleCities);
+  const [chamber, setChamber] = useState<Chamber>("house");
+  const chamberRef = useRef(chamber);
 
   useEffect(() => {
     selectedRef.current = selected;
@@ -259,6 +294,10 @@ export default function WardMap() {
   useEffect(() => {
     visibleCitiesRef.current = visibleCities;
   }, [visibleCities]);
+
+  useEffect(() => {
+    chamberRef.current = chamber;
+  }, [chamber]);
 
   useEffect(() => {
     layerModeRef.current = layerMode;
@@ -278,7 +317,8 @@ export default function WardMap() {
 
   const zoomToDefault = (mode: LayerMode = layerModeRef.current) => {
     const map = mapRef.current;
-    const bounds = mode === "wards" ? wardsBoundsRef.current : commissionersBoundsRef.current;
+    const bounds =
+      mode === "wards" ? wardsBoundsRef.current : mode === "commissioners" ? commissionersBoundsRef.current : stateLegBoundsRef.current;
     if (!map || !bounds) return;
     map.fitBounds(bounds, { padding: 40, duration: 600 });
   };
@@ -312,23 +352,59 @@ export default function WardMap() {
       }
     }
     for (const { marker, properties, mode } of pinMarkersRef.current) {
+      if (mode === "state-legislature") continue; // governed by applyChamberFilter instead
       const visible = mode === layerModeRef.current && cities[properties.city as City];
       marker.getElement().style.display = visible ? "" : "none";
+    }
+  };
+
+  // State legislature mode's equivalent of applyCityFilter above —
+  // districts are filtered by chamber (House/Senate) instead of by city,
+  // since a district doesn't cleanly belong to one Twin City the way a
+  // ward does.
+  const applyChamberFilter = (nextChamber: Chamber) => {
+    const map = mapRef.current;
+    if (map) {
+      const filter = ["==", ["get", "chamber"], nextChamber] as unknown as maplibregl.FilterSpecification;
+      for (const layerId of [STATE_LEG_FILL_LAYER_ID, STATE_LEG_OUTLINE_LAYER_ID, STATE_LEG_LABEL_LAYER_ID]) {
+        if (map.getLayer(layerId)) map.setFilter(layerId, filter);
+      }
+      if (map.getLayer(STATE_LEG_PULSE_LAYER_ID)) {
+        map.setFilter(STATE_LEG_PULSE_LAYER_ID, ["all", CONTESTED_FILTER, filter] as unknown as maplibregl.FilterSpecification);
+      }
+    }
+    for (const { marker, properties, mode } of pinMarkersRef.current) {
+      if (mode !== "state-legislature") continue;
+      marker.getElement().style.display = properties.chamber === nextChamber ? "" : "none";
     }
   };
 
   const applyLayerMode = (mode: LayerMode) => {
     const map = mapRef.current;
     if (!map) return;
-    const showWards = mode === "wards";
-    for (const layerId of [WARDS_FILL_LAYER_ID, WARDS_OUTLINE_LAYER_ID, WARDS_PULSE_LAYER_ID, WARDS_LABEL_LAYER_ID]) {
-      if (map.getLayer(layerId)) map.setLayoutProperty(layerId, "visibility", showWards ? "visible" : "none");
-    }
-    for (const layerId of [COMMISSIONERS_FILL_LAYER_ID, COMMISSIONERS_OUTLINE_LAYER_ID, COMMISSIONERS_PULSE_LAYER_ID, COMMISSIONERS_LABEL_LAYER_ID]) {
-      if (map.getLayer(layerId)) map.setLayoutProperty(layerId, "visibility", showWards ? "none" : "visible");
+    const layerGroups: [LayerMode, string[]][] = [
+      ["wards", [WARDS_FILL_LAYER_ID, WARDS_OUTLINE_LAYER_ID, WARDS_PULSE_LAYER_ID, WARDS_LABEL_LAYER_ID]],
+      [
+        "commissioners",
+        [COMMISSIONERS_FILL_LAYER_ID, COMMISSIONERS_OUTLINE_LAYER_ID, COMMISSIONERS_PULSE_LAYER_ID, COMMISSIONERS_LABEL_LAYER_ID],
+      ],
+      [
+        "state-legislature",
+        [STATE_LEG_FILL_LAYER_ID, STATE_LEG_OUTLINE_LAYER_ID, STATE_LEG_PULSE_LAYER_ID, STATE_LEG_LABEL_LAYER_ID],
+      ],
+    ];
+    for (const [groupMode, layerIds] of layerGroups) {
+      for (const layerId of layerIds) {
+        if (map.getLayer(layerId)) map.setLayoutProperty(layerId, "visibility", groupMode === mode ? "visible" : "none");
+      }
     }
     for (const { marker, properties, mode: pinMode } of pinMarkersRef.current) {
-      marker.getElement().style.display = pinMode === mode && visibleCitiesRef.current[properties.city as City] ? "" : "none";
+      const visible =
+        pinMode === mode &&
+        (mode === "state-legislature"
+          ? properties.chamber === chamberRef.current
+          : visibleCitiesRef.current[properties.city as City]);
+      marker.getElement().style.display = visible ? "" : "none";
     }
   };
 
@@ -343,6 +419,13 @@ export default function WardMap() {
       }
       return next;
     });
+  };
+
+  const switchChamber = (next: Chamber) => {
+    if (next === chamberRef.current) return;
+    setChamber(next);
+    setSelected(null);
+    applyChamberFilter(next);
   };
 
   const switchMode = (mode: LayerMode) => {
@@ -386,16 +469,19 @@ export default function WardMap() {
       // scripts/fetch-*.mjs) — a browser-cached copy from before a field
       // got added crashes the modal on a field the current component code
       // expects to exist.
-      const [wardsRes, mayorsRes, commissionersRes] = await Promise.all([
+      const [wardsRes, mayorsRes, commissionersRes, stateLegRes] = await Promise.all([
         fetch("/wards.geojson", { cache: "no-store" }),
         fetch("/mayors.geojson", { cache: "no-store" }),
         fetch("/commissioners.geojson", { cache: "no-store" }),
+        fetch("/state-legislature.geojson", { cache: "no-store" }),
       ]);
       const data: FeatureCollection = await wardsRes.json();
       const mayorsData: FeatureCollection = await mayorsRes.json();
       const commissionersData: FeatureCollection = await commissionersRes.json();
+      const stateLegData: FeatureCollection = await stateLegRes.json();
       wardsDataRef.current = data;
       commissionersDataRef.current = commissionersData;
+      stateLegDataRef.current = stateLegData;
 
       // Guards the whole "add sources/layers/markers" block as a unit —
       // without it, a second 'load' firing would duplicate every pin
@@ -462,8 +548,19 @@ export default function WardMap() {
         addPin(properties, bounds.getCenter(), PIN_DIAMETER_BY_ROLE["County Commissioner"], "commissioners", bounds);
       }
 
+      // One pin per state legislator — role (and so pin size) varies
+      // feature-to-feature here, unlike the loops above, since a single
+      // source covers both House and Senate districts.
+      for (const feature of stateLegData.features) {
+        if (feature.geometry.type !== "Polygon" && feature.geometry.type !== "MultiPolygon") continue;
+        const properties = feature.properties as RepProperties;
+        const bounds = boundsFromFeature(feature as Feature<Geometry>);
+        addPin(properties, bounds.getCenter(), PIN_DIAMETER_BY_ROLE[properties.role], "state-legislature", bounds);
+      }
+
       map.addSource(WARDS_SOURCE_ID, { type: "geojson", data });
       map.addSource(COMMISSIONERS_SOURCE_ID, { type: "geojson", data: commissionersData });
+      map.addSource(STATE_LEG_SOURCE_ID, { type: "geojson", data: stateLegData });
 
       map.addLayer({
         id: WARDS_FILL_LAYER_ID,
@@ -535,6 +632,47 @@ export default function WardMap() {
         paint: { "text-color": "#1f2937", "text-halo-color": "#ffffff", "text-halo-width": 1.4 },
       });
 
+      // Starts filtered to the default chamber (House) — switchChamber
+      // updates this filter, switchMode's visibility toggle is separate.
+      const defaultChamberFilter = ["==", ["get", "chamber"], chamberRef.current] as unknown as maplibregl.FilterSpecification;
+      map.addLayer({
+        id: STATE_LEG_FILL_LAYER_ID,
+        type: "fill",
+        source: STATE_LEG_SOURCE_ID,
+        layout: { visibility: "none" },
+        filter: defaultChamberFilter,
+        paint: { "fill-color": STATE_LEG_FILL_COLOR_EXPRESSION, "fill-opacity": 0.6 },
+      });
+      map.addLayer({
+        id: STATE_LEG_OUTLINE_LAYER_ID,
+        type: "line",
+        source: STATE_LEG_SOURCE_ID,
+        layout: { visibility: "none" },
+        filter: defaultChamberFilter,
+        paint: { "line-color": OUTLINE_COLOR, "line-width": 1.5 },
+      });
+      map.addLayer({
+        id: STATE_LEG_PULSE_LAYER_ID,
+        type: "line",
+        source: STATE_LEG_SOURCE_ID,
+        layout: { visibility: "none" },
+        filter: ["all", CONTESTED_FILTER, defaultChamberFilter] as unknown as maplibregl.FilterSpecification,
+        paint: { "line-color": CONTESTED_COLOR, "line-width": 3, "line-opacity": 0.85 },
+      });
+      map.addLayer({
+        id: STATE_LEG_LABEL_LAYER_ID,
+        type: "symbol",
+        source: STATE_LEG_SOURCE_ID,
+        layout: {
+          "text-field": ["concat", "District ", ["get", "stateDistrict"]],
+          "text-font": ["Noto Sans Bold"],
+          "text-size": 12,
+          visibility: "none",
+        },
+        filter: defaultChamberFilter,
+        paint: { "text-color": "#1f2937", "text-halo-color": "#ffffff", "text-halo-width": 1.4 },
+      });
+
       // Registered here, after both fill layers exist, rather than
       // synchronously at effect setup — map.on(event, layerId, handler) is
       // itself a layer-scoped query, and MapLibre throws the same "layer
@@ -544,22 +682,32 @@ export default function WardMap() {
       map.on("mouseleave", WARDS_FILL_LAYER_ID, handleHoverLeave);
       map.on("mousemove", COMMISSIONERS_FILL_LAYER_ID, handleHoverMove);
       map.on("mouseleave", COMMISSIONERS_FILL_LAYER_ID, handleHoverLeave);
+      map.on("mousemove", STATE_LEG_FILL_LAYER_ID, handleHoverMove);
+      map.on("mouseleave", STATE_LEG_FILL_LAYER_ID, handleHoverLeave);
 
       applyCityFilter(visibleCitiesRef.current);
+      // Mode/chamber can change via a click while these fetches were still
+      // in flight — setLayerMode/setChamber happened, but applyLayerMode/
+      // applyChamberFilter's map.getLayer() guards no-opped since these
+      // layers didn't exist yet. Re-apply whatever's current now that they
+      // do, rather than trusting each layer's just-added default state.
+      applyLayerMode(layerModeRef.current);
+      applyChamberFilter(chamberRef.current);
 
       // Only animate if something's actually contested — with today's data
       // that's never true (see the isContested comment in types.ts), so
       // this costs nothing until real candidate-filing data changes that.
       const anyContested =
         data.features.some((f) => f.properties?.isContested) ||
-        commissionersData.features.some((f) => f.properties?.isContested);
+        commissionersData.features.some((f) => f.properties?.isContested) ||
+        stateLegData.features.some((f) => f.properties?.isContested);
       if (anyContested) {
         const animatePulse = (timestamp: number) => {
           // ~2.6s period, slow and steady rather than an alarm-like strobe.
           const t = (Math.sin(timestamp / 420) + 1) / 2; // 0..1
           const width = 2.5 + t * 2.5;
           const opacity = 0.5 + t * 0.5;
-          for (const layerId of [WARDS_PULSE_LAYER_ID, COMMISSIONERS_PULSE_LAYER_ID]) {
+          for (const layerId of [WARDS_PULSE_LAYER_ID, COMMISSIONERS_PULSE_LAYER_ID, STATE_LEG_PULSE_LAYER_ID]) {
             if (map.getLayer(layerId)) {
               map.setPaintProperty(layerId, "line-width", width);
               map.setPaintProperty(layerId, "line-opacity", opacity);
@@ -577,8 +725,10 @@ export default function WardMap() {
       // into the surrounding suburbs.
       const wardsBounds = boundsFromFeatureCollection(data);
       const commissionersBounds = boundsFromFeatureCollection(commissionersData);
+      const stateLegBounds = boundsFromFeatureCollection(stateLegData);
       if (!wardsBounds.isEmpty()) wardsBoundsRef.current = wardsBounds;
       if (!commissionersBounds.isEmpty()) commissionersBoundsRef.current = commissionersBounds;
+      if (!stateLegBounds.isEmpty()) stateLegBoundsRef.current = stateLegBounds;
       if (!wardsBounds.isEmpty()) map.fitBounds(wardsBounds, { padding: 40, duration: 0 });
     });
 
@@ -608,8 +758,8 @@ export default function WardMap() {
       // Guard against a click landing before the async load handler has
       // finished adding both fill layers — queryRenderedFeatures throws if
       // any listed layer ID doesn't exist yet, instead of just ignoring it.
-      const queryableLayers = [WARDS_FILL_LAYER_ID, COMMISSIONERS_FILL_LAYER_ID].filter((id) =>
-        map.getLayer(id),
+      const queryableLayers = [WARDS_FILL_LAYER_ID, COMMISSIONERS_FILL_LAYER_ID, STATE_LEG_FILL_LAYER_ID].filter(
+        (id) => map.getLayer(id),
       );
       if (queryableLayers.length === 0) return;
       const features = map.queryRenderedFeatures(e.point, {
@@ -629,13 +779,19 @@ export default function WardMap() {
       // than the ward/district, especially for large areas near a tile
       // edge. Look the same feature up in the untiled source data fetched
       // at load time for its real geometry instead.
-      const isCommissioner = hit.layer.id === COMMISSIONERS_FILL_LAYER_ID;
-      const sourceData = isCommissioner ? commissionersDataRef.current : wardsDataRef.current;
-      const fullFeature = sourceData?.features.find((f) =>
-        isCommissioner
-          ? f.properties?.county === hitProps.county && f.properties?.district === hitProps.district
-          : f.properties?.city === hitProps.city && f.properties?.ward === hitProps.ward,
-      );
+      let sourceData: FeatureCollection | null;
+      let matchesHit: (f: Feature) => boolean;
+      if (hit.layer.id === COMMISSIONERS_FILL_LAYER_ID) {
+        sourceData = commissionersDataRef.current;
+        matchesHit = (f) => f.properties?.county === hitProps.county && f.properties?.district === hitProps.district;
+      } else if (hit.layer.id === STATE_LEG_FILL_LAYER_ID) {
+        sourceData = stateLegDataRef.current;
+        matchesHit = (f) => f.properties?.chamber === hitProps.chamber && f.properties?.stateDistrict === hitProps.stateDistrict;
+      } else {
+        sourceData = wardsDataRef.current;
+        matchesHit = (f) => f.properties?.city === hitProps.city && f.properties?.ward === hitProps.ward;
+      }
+      const fullFeature = sourceData?.features.find(matchesHit);
       zoomToBounds(boundsFromFeature((fullFeature ?? hit) as Feature<Geometry>));
     });
 
@@ -668,7 +824,7 @@ export default function WardMap() {
           aria-label="Choose map layer"
           className="flex rounded-lg bg-white/90 backdrop-blur-sm border border-neutral-200 shadow-lg p-1 text-sm"
         >
-          {(["wards", "commissioners"] as const).map((mode) => (
+          {(["wards", "commissioners", "state-legislature"] as const).map((mode) => (
             <button
               key={mode}
               type="button"
@@ -682,27 +838,51 @@ export default function WardMap() {
           ))}
         </div>
 
-        <div
-          role="group"
-          aria-label="Filter by area"
-          className="rounded-lg bg-white/90 backdrop-blur-sm border border-neutral-200 shadow-lg divide-y divide-neutral-100 text-sm text-neutral-700"
-        >
-          {CITIES.map((city) => (
-            <label key={city} className="flex items-center gap-2 px-3 py-2.5 sm:py-2 cursor-pointer select-none">
-              <input
-                type="checkbox"
-                checked={visibleCities[city]}
-                onChange={() => toggleCity(city)}
-                className="cursor-pointer"
-              />
-              <span
-                className="h-2.5 w-2.5 rounded-full shrink-0"
-                style={{ backgroundColor: CITY_ACCENT[city] }}
-              />
-              {MODE_FILTER_LABELS[layerMode][city]}
-            </label>
-          ))}
-        </div>
+        {layerMode === "state-legislature" ? (
+          // A district doesn't cleanly belong to one Twin City, so this
+          // level filters by chamber instead of the Minneapolis/St. Paul
+          // checkboxes below — same toggle pattern as the mode switcher.
+          <div
+            role="group"
+            aria-label="Choose chamber"
+            className="flex rounded-lg bg-white/90 backdrop-blur-sm border border-neutral-200 shadow-lg p-1 text-sm"
+          >
+            {CHAMBERS.map((c) => (
+              <button
+                key={c}
+                type="button"
+                onClick={() => switchChamber(c)}
+                className={`px-3 py-1.5 rounded-md font-medium transition-colors ${
+                  chamber === c ? "bg-neutral-900 text-white" : "text-neutral-600 hover:bg-neutral-100"
+                }`}
+              >
+                {CHAMBER_LABELS[c]}
+              </button>
+            ))}
+          </div>
+        ) : (
+          <div
+            role="group"
+            aria-label="Filter by area"
+            className="rounded-lg bg-white/90 backdrop-blur-sm border border-neutral-200 shadow-lg divide-y divide-neutral-100 text-sm text-neutral-700"
+          >
+            {CITIES.map((city) => (
+              <label key={city} className="flex items-center gap-2 px-3 py-2.5 sm:py-2 cursor-pointer select-none">
+                <input
+                  type="checkbox"
+                  checked={visibleCities[city]}
+                  onChange={() => toggleCity(city)}
+                  className="cursor-pointer"
+                />
+                <span
+                  className="h-2.5 w-2.5 rounded-full shrink-0"
+                  style={{ backgroundColor: CITY_ACCENT[city] }}
+                />
+                {MODE_FILTER_LABELS[layerMode][city]}
+              </label>
+            ))}
+          </div>
+        )}
       </div>
 
       {selected && (
