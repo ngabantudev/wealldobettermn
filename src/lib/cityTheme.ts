@@ -1,18 +1,26 @@
 // City identity — used only for genuinely geographic distinctions: the
-// legend's Minneapolis/St. Paul filter swatches, and the per-ward/
-// per-district number-cycling fill palette below. Deliberately NOT
-// blue/red or green: those are reserved for PARTY_COLORS, and reusing
-// them here would make every nonpartisan city ward, mayor, or
-// commissioner look like it's carrying a party signal it doesn't have.
+// legend's per-city filter swatches, and the per-ward/per-district
+// number-cycling fill palette below. Deliberately NOT blue/red or green:
+// those are reserved for PARTY_COLORS, and reusing them here would make
+// every nonpartisan city ward, mayor, or commissioner look like it's
+// carrying a party signal it doesn't have.
 export const CITY_ACCENT: Record<string, string> = {
   Minneapolis: "#0D9488", // teal
   "St. Paul": "#9333EA", // purple
+  Bloomington: "#F97316", // orange
+  Plymouth: "#EAB308", // yellow/gold
+  Minnetonka: "#F43F5E", // rose
+  "St. Louis Park": "#EC4899", // pink
+  Richfield: "#65A30D", // olive/lime
+  Blaine: "#78716C", // warm stone
 };
 
-// Two distinct hue families (teal/green/cyan for Minneapolis, purple/
-// fuchsia for St. Paul) so the two sides read apart at a glance, cycled
-// by ward/district number so adjoining areas land on visibly different
-// shades. Kept out of blue/red/green on purpose — see the note above.
+// One hue family per city so adjoining areas land on visibly different
+// shades of the *same* city's color, and different cities never read as
+// the same color family as each other. Kept out of blue/red/green on
+// purpose — see the note above. Minneapolis/St. Paul's palettes are
+// longer (13/7 shades) since they were built ward-by-ward first; the
+// newer cities' palettes are sized to their actual ward counts (3-4).
 export const CITY_PALETTES: Record<string, string[]> = {
   Minneapolis: [
     "#5EEAD4", "#2DD4BF", "#99F6E4", "#6EE7B7", "#34D399",
@@ -20,6 +28,12 @@ export const CITY_PALETTES: Record<string, string[]> = {
     "#4ADE80", "#BBF7D0", "#5EEAD4",
   ],
   "St. Paul": ["#D8B4FE", "#F0ABFC", "#C084FC", "#E879F9", "#E9D5FF", "#F5D0FE", "#DDD6FE"],
+  Bloomington: ["#FED7AA", "#FDBA74", "#FB923C", "#F97316"],
+  Plymouth: ["#FEF08A", "#FDE047", "#FACC15", "#EAB308"],
+  Minnetonka: ["#FECDD3", "#FDA4AF", "#FB7185", "#F43F5E"],
+  "St. Louis Park": ["#FBCFE8", "#F9A8D4", "#F472B6", "#EC4899"],
+  Richfield: ["#D9F99D", "#BEF264", "#A3E635"],
+  Blaine: ["#E7E5E4", "#D6D3D1", "#A8A29E"],
 };
 
 // A color distinct from every city and party hue, shared by the map's
