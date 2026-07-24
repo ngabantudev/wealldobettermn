@@ -6,7 +6,15 @@ import "maplibre-gl/dist/maplibre-gl.css";
 import type { Feature, FeatureCollection, Geometry } from "geojson";
 import type { RepProperties } from "@/lib/types";
 import { getUpcomingHearings } from "@/lib/hearings";
-import { CITY_ACCENT, CONTESTED_COLOR, DEFAULT_PARTY_COLOR, PARTY_COLORS, accentFor, accentSoftFor } from "@/lib/cityTheme";
+import {
+  CITY_ACCENT,
+  CITY_PALETTES,
+  CONTESTED_COLOR,
+  NEUTRAL_PARTY_COLOR,
+  PARTY_COLORS,
+  partyColor,
+  partyColorSoft,
+} from "@/lib/cityTheme";
 import WardModal, { areaLabel, roleLabel } from "./WardModal";
 
 // Matches the OpenFreeMap "Liberty" style used by the get-flocked project,
@@ -63,13 +71,6 @@ const MODE_LABELS: Record<LayerMode, string> = {
   "state-legislature": "State Level",
 };
 
-// Two distinct hue families (cool for Minneapolis/Hennepin, warm for
-// St. Paul/Ramsey) so the two sides read apart at a glance, cycled by
-// ward/district number so adjoining areas land on visibly different shades.
-const CITY_PALETTES: Record<City, string[]> = {
-  Minneapolis: ["#93C5FD", "#67E8F9", "#7DD3FC", "#A5B4FC", "#5EEAD4", "#7DD3C0", "#38BDF8", "#A78BFA", "#38DED0", "#60A5FA", "#2DD4BF", "#818CF8", "#22D3EE"],
-  "St. Paul": ["#FDBA74", "#FCA5A5", "#FDE68A", "#FB923C", "#F87171", "#FACC15", "#FB7185"],
-};
 const OUTLINE_COLOR = "#44403c";
 
 function cityMatchExpression(city: City, numberField: string): unknown[] {
@@ -105,7 +106,7 @@ const STATE_LEG_FILL_COLOR_EXPRESSION = [
   "match",
   ["get", "repParty"],
   ...Object.entries(PARTY_COLORS).flatMap(([party, color]) => [party, color]),
-  DEFAULT_PARTY_COLOR, // vacant or minor-party seats
+  NEUTRAL_PARTY_COLOR, // vacant or minor-party seats
 ] as unknown as maplibregl.ExpressionSpecification;
 
 // The pulse layers' permanent filter (same property name on both
@@ -215,7 +216,11 @@ function isMobileViewport(): boolean {
 // since clipping a photo to a circle with a colored ring is trivial in CSS
 // and painful to pre-bake into a sprite. Reused for every office that gets
 // a point marker (currently mayors and county commissioners); diameter is
-// the caller's way of expressing how much ground the office covers.
+// the caller's way of expressing how much ground the office covers. The
+// ring/background color identifies the office-holder by party — real
+// party for state legislators, the shared neutral color for every
+// nonpartisan city/county role — not by city (see PARTY_COLORS's comment
+// in cityTheme.ts for why those are kept separate).
 //
 // Two nested elements, not one: maplibregl.Marker positions its element by
 // writing `transform: translate(...)` directly onto it on every render. The
@@ -224,7 +229,7 @@ function isMobileViewport(): boolean {
 // the map's untransformed top-left corner. Scaling the inner element
 // instead leaves Marker's own transform on the outer one alone.
 function createRepPinElement(rep: RepProperties, diameter: number = DEFAULT_PIN_DIAMETER): HTMLDivElement {
-  const accent = accentFor(rep.city);
+  const accent = partyColor(rep.repParty);
   const outer = document.createElement("div");
   outer.setAttribute("role", "button");
   outer.setAttribute("aria-label", `${areaLabel(rep)} ${roleLabel(rep)}${rep.repName ? ` ${rep.repName}` : ""}`);
@@ -234,7 +239,7 @@ function createRepPinElement(rep: RepProperties, diameter: number = DEFAULT_PIN_
   inner.style.cssText = `
     width: ${diameter}px; height: ${diameter}px; border-radius: 9999px;
     border: 3px solid ${accent}; box-shadow: 0 2px 8px rgba(0,0,0,0.35);
-    background: ${accentSoftFor(rep.city)}; overflow: hidden;
+    background: ${partyColorSoft(rep.repParty)}; overflow: hidden;
     display: flex; align-items: center; justify-content: center;
     transition: transform 0.15s ease; background-size: cover; background-position: center;
   `;

@@ -1,7 +1,7 @@
 "use client";
 
 import type { Hearing, RepProperties } from "@/lib/types";
-import { CONTESTED_COLOR, CONTESTED_COLOR_SOFT, accentFor, accentSoftFor, partyColor } from "@/lib/cityTheme";
+import { CONTESTED_COLOR, CONTESTED_COLOR_SOFT, partyColor, partyColorSoft } from "@/lib/cityTheme";
 
 function formatOfficeSince(iso: string): string {
   // timeZone: "UTC" matters here — these dates are stored as bare
@@ -148,8 +148,8 @@ export interface WardModalProps {
 
 export default function WardModal({ ward: rep, hearings, pinned, onClose }: WardModalProps) {
   const repName = displayName(rep.repName);
-  const accent = accentFor(rep.city);
-  const accentSoft = accentSoftFor(rep.city);
+  const accent = partyColor(rep.repParty);
+  const accentSoft = partyColorSoft(rep.repParty);
   const isWard = rep.ward !== null;
   // Defends against a browser-cached wards.geojson response from before
   // these fields existed (fetch is cache: "no-store" now, but a tab left
