@@ -41,7 +41,17 @@ function initials(name: string | null): string {
 }
 
 function roleLabel(rep: RepProperties): string {
-  return rep.ward !== null ? `Ward ${rep.ward}` : "Mayor";
+  if (rep.ward !== null) return `Ward ${rep.ward}`;
+  if (rep.district !== null) return `District ${rep.district}`;
+  return "Mayor";
+}
+
+// Council members and mayors are identified by city; commissioners by
+// county — a Hennepin district covers a lot of suburbs "Minneapolis"
+// wouldn't accurately describe, even though it's grouped/colored with
+// Minneapolis everywhere else in the app (see the note on RepProperties).
+function areaLabel(rep: RepProperties): string {
+  return rep.county ?? rep.city;
 }
 
 function IconCalendar() {
@@ -151,13 +161,13 @@ export default function WardModal({ ward: rep, hearings, pinned, onClose }: Ward
       <div
         className="pointer-events-auto w-72 rounded-xl border border-neutral-200 bg-white shadow-xl overflow-hidden"
         role="dialog"
-        aria-label={`${rep.city} ${roleLabel(rep)} preview`}
+        aria-label={`${areaLabel(rep)} ${roleLabel(rep)} preview`}
       >
         <div className="flex items-center gap-3 p-3">
           <div className="h-11 w-11 text-base">{avatar}</div>
           <div className="min-w-0 flex-1">
             <div className="text-[11px] font-semibold uppercase tracking-wide" style={{ color: accent }}>
-              {rep.city} &middot; {roleLabel(rep)}
+              {areaLabel(rep)} &middot; {roleLabel(rep)}
             </div>
             <div className="text-sm font-semibold text-neutral-900 truncate">{repName ?? "Vacant / TBD"}</div>
           </div>
@@ -182,7 +192,7 @@ export default function WardModal({ ward: rep, hearings, pinned, onClose }: Ward
     <div
       className="pointer-events-auto w-full sm:w-[380px] max-h-[75vh] sm:max-h-[80vh] flex flex-col rounded-t-2xl sm:rounded-2xl border border-neutral-200 bg-white shadow-2xl overflow-hidden"
       role="dialog"
-      aria-label={`${rep.city} ${roleLabel(rep)} info`}
+      aria-label={`${areaLabel(rep)} ${roleLabel(rep)} info`}
     >
       {/* Drag-handle affordance — bottom-sheet convention, mobile only */}
       <div className="sm:hidden flex justify-center pt-2 pb-1 shrink-0">
@@ -197,7 +207,7 @@ export default function WardModal({ ward: rep, hearings, pinned, onClose }: Ward
               className="inline-block text-[11px] font-semibold uppercase tracking-wide px-2 py-0.5 rounded-full mb-1"
               style={{ color: accent, backgroundColor: accentSoft }}
             >
-              {rep.city} &middot; {roleLabel(rep)}
+              {areaLabel(rep)} &middot; {roleLabel(rep)}
             </div>
             <div className="text-lg font-bold text-neutral-900 leading-tight truncate">
               {repName ?? "Vacant / TBD"}

@@ -178,7 +178,9 @@ async function fetchMinneapolisWards() {
       properties: {
         role: "Council Member",
         city: "Minneapolis",
+        county: null,
         ward: wardNum,
+        district: null,
         repName: MINNEAPOLIS_ROSTER[wardNum] ?? null,
         repParty: NONPARTISAN,
         repPhotoUrl: photo ? `${MINNEAPOLIS_PHOTO_BASE}${photo}` : null,
@@ -208,7 +210,9 @@ async function fetchStPaulWards() {
       properties: {
         role: "Council Member",
         city: "St. Paul",
+        county: null,
         ward: wardNum,
+        district: null,
         repName: props.name ?? null,
         repParty: NONPARTISAN,
         repPhotoUrl: props.imgpath ?? null,

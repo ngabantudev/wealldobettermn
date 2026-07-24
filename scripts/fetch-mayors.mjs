@@ -56,7 +56,7 @@ async function main() {
     features: MAYORS.map(({ city, coordinates, ...properties }) => ({
       type: "Feature",
       geometry: { type: "Point", coordinates },
-      properties: { role: "Mayor", city, ward: null, ...properties },
+      properties: { role: "Mayor", city, county: null, ward: null, district: null, ...properties },
     })),
   };
 
