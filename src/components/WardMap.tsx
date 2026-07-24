@@ -39,7 +39,16 @@ const STATE_LEG_OUTLINE_LAYER_ID = "state-legislature-outline";
 const STATE_LEG_PULSE_LAYER_ID = "state-legislature-pulse";
 const STATE_LEG_LABEL_LAYER_ID = "state-legislature-label";
 
-const CITIES = ["Minneapolis", "St. Paul"] as const;
+const CITIES = [
+  "Minneapolis",
+  "St. Paul",
+  "Bloomington",
+  "Plymouth",
+  "Minnetonka",
+  "St. Louis Park",
+  "Richfield",
+  "Blaine",
+] as const;
 type City = (typeof CITIES)[number];
 
 const CHAMBERS = ["house", "senate"] as const;
@@ -57,11 +66,54 @@ type LayerMode = "wards" | "commissioners" | "state-legislature";
 // covers plenty of suburbs "Minneapolis" doesn't literally describe — the
 // checkbox label should say so. State legislature mode doesn't use the
 // city filter at all (a district can straddle both cities or neither), so
-// its entry here is never actually rendered — see the legend JSX below.
+// its entries here are never actually rendered — see the legend JSX below.
+// Every mode needs a label for every City (Record<City,string> demands
+// full coverage), but commissioners/state-legislature only ever render
+// the subset MODE_VISIBLE_CITIES lists for them — the rest are dead
+// entries that exist purely to satisfy the type.
 const MODE_FILTER_LABELS: Record<LayerMode, Record<City, string>> = {
-  wards: { Minneapolis: "Minneapolis", "St. Paul": "St. Paul" },
-  commissioners: { Minneapolis: "Hennepin County", "St. Paul": "Ramsey County" },
-  "state-legislature": { Minneapolis: "", "St. Paul": "" },
+  wards: {
+    Minneapolis: "Minneapolis",
+    "St. Paul": "St. Paul",
+    Bloomington: "Bloomington",
+    Plymouth: "Plymouth",
+    Minnetonka: "Minnetonka",
+    "St. Louis Park": "St. Louis Park",
+    Richfield: "Richfield",
+    Blaine: "Blaine",
+  },
+  commissioners: {
+    Minneapolis: "Hennepin County",
+    "St. Paul": "Ramsey County",
+    Bloomington: "",
+    Plymouth: "",
+    Minnetonka: "",
+    "St. Louis Park": "",
+    Richfield: "",
+    Blaine: "",
+  },
+  "state-legislature": {
+    Minneapolis: "",
+    "St. Paul": "",
+    Bloomington: "",
+    Plymouth: "",
+    Minnetonka: "",
+    "St. Louis Park": "",
+    Richfield: "",
+    Blaine: "",
+  },
+};
+
+// Which of the CITIES checkboxes actually make sense to show per mode.
+// Commissioner districts only ever carry city:"Minneapolis"/"St. Paul"
+// (see fetch-commissioners.mjs — Hennepin/Ramsey aren't broken out by
+// suburb), so listing the newer ward-only cities there would just be dead
+// checkboxes that filter nothing. State legislature mode doesn't use the
+// city filter at all — see the comment above.
+const MODE_VISIBLE_CITIES: Record<LayerMode, readonly City[]> = {
+  wards: CITIES,
+  commissioners: ["Minneapolis", "St. Paul"],
+  "state-legislature": [],
 };
 
 // User-facing names for the mode toggle — "which level of government."
@@ -83,15 +135,17 @@ function cityMatchExpression(city: City, numberField: string): unknown[] {
   ];
 }
 
+// Data-driven over CITY_PALETTES rather than a hardcoded per-city case, so
+// adding a new city's palette to cityTheme.ts is enough to color it here —
+// no second edit needed. Commissioner districts only ever carry
+// city:"Minneapolis"/"St. Paul", so the extra branches for newer cities
+// are inert (never matched) when this builds COMMISSIONER_FILL_COLOR_EXPRESSION.
 function fillColorExpression(numberField: string): maplibregl.ExpressionSpecification {
-  return [
-    "case",
-    ["==", ["get", "city"], "Minneapolis"],
-    cityMatchExpression("Minneapolis", numberField),
-    ["==", ["get", "city"], "St. Paul"],
-    cityMatchExpression("St. Paul", numberField),
-    "#e5e7eb",
-  ] as unknown as maplibregl.ExpressionSpecification;
+  const branches = (Object.keys(CITY_PALETTES) as City[]).flatMap((city) => [
+    ["==", ["get", "city"], city],
+    cityMatchExpression(city, numberField),
+  ]);
+  return ["case", ...branches, "#e5e7eb"] as unknown as maplibregl.ExpressionSpecification;
 }
 
 const WARD_FILL_COLOR_EXPRESSION = fillColorExpression("ward");
@@ -284,10 +338,9 @@ export default function WardMap() {
   const selectedRef = useRef<SelectedRep | null>(null);
   const [layerMode, setLayerMode] = useState<LayerMode>("wards");
   const layerModeRef = useRef(layerMode);
-  const [visibleCities, setVisibleCities] = useState<Record<City, boolean>>({
-    Minneapolis: true,
-    "St. Paul": true,
-  });
+  const [visibleCities, setVisibleCities] = useState<Record<City, boolean>>(
+    () => Object.fromEntries(CITIES.map((city) => [city, true])) as Record<City, boolean>,
+  );
   const visibleCitiesRef = useRef(visibleCities);
   const [chamber, setChamber] = useState<Chamber>("house");
   const chamberRef = useRef(chamber);
@@ -542,11 +595,24 @@ export default function WardMap() {
       // One pin per council member, centered on their ward — same
       // bounds-center-as-marker-position approach as commissioners below,
       // since (unlike mayors) there's no single office address to anchor to.
+      // A handful of wards (Blaine's, currently) seat two members off one
+      // shared polygon — bounds-center would place both pins on the exact
+      // same coordinate, so the second (and any further) occurrence of a
+      // given city+ward is nudged sideways to stay independently clickable.
+      // The polygon itself (fill/outline/zoom target) is untouched — only
+      // the pin marker's coordinate shifts.
+      const wardPinOccurrences = new Map<string, number>();
       for (const feature of data.features) {
         if (feature.geometry.type !== "Polygon" && feature.geometry.type !== "MultiPolygon") continue;
         const properties = feature.properties as RepProperties;
         const bounds = boundsFromFeature(feature as Feature<Geometry>);
-        addPin(properties, bounds.getCenter(), PIN_DIAMETER_BY_ROLE["Council Member"], "wards", bounds);
+        const wardKey = `${properties.city}-${properties.ward}`;
+        const occurrence = wardPinOccurrences.get(wardKey) ?? 0;
+        wardPinOccurrences.set(wardKey, occurrence + 1);
+        const center = bounds.getCenter();
+        const coordinates: maplibregl.LngLatLike =
+          occurrence === 0 ? center : [center.lng + occurrence * 0.0015, center.lat];
+        addPin(properties, coordinates, PIN_DIAMETER_BY_ROLE["Council Member"], "wards", bounds);
       }
 
       // One pin per commissioner, same interaction pattern as mayors, but
@@ -878,7 +944,7 @@ export default function WardMap() {
             aria-label="Filter by area"
             className="rounded-lg bg-white/90 backdrop-blur-sm border border-neutral-200 shadow-lg divide-y divide-neutral-100 text-sm text-neutral-700"
           >
-            {CITIES.map((city) => (
+            {MODE_VISIBLE_CITIES[layerMode].map((city) => (
               <label key={city} className="flex items-center gap-2 px-3 py-2.5 sm:py-2 cursor-pointer select-none">
                 <input
                   type="checkbox"
