@@ -31,6 +31,15 @@ export interface RepProperties {
   city: string;
   county: string | null;
   ward: number | null;
+  // A handful of cities (Brooklyn Park's Central/East/West, currently) name
+  // their council districts instead of numbering them — their GIS source
+  // carries no ward number at all. `ward` still gets a synthetic, stable
+  // number in that case (fill-color cycling and click-identity matching
+  // both key off it), but display code should prefer this field when it's
+  // set so the UI says what the city actually calls the area, not "Ward 1."
+  // Same reasoning as stateDistrict below: a string sibling field rather
+  // than changing what the numeric field means for every other city.
+  wardName: string | null;
   district: number | null;
   // MN House/Senate districts are alphanumeric ("47B", "50"), not the plain
   // numbers `district` above holds for county commissioners — a separate

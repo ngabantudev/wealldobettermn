@@ -48,6 +48,8 @@ const CITIES = [
   "St. Louis Park",
   "Richfield",
   "Blaine",
+  "Brooklyn Park",
+  "Coon Rapids",
 ] as const;
 type City = (typeof CITIES)[number];
 
@@ -62,46 +64,28 @@ const CHAMBER_LABELS: Record<Chamber, string> = { house: "MN House", senate: "MN
 // sense alongside wards.
 type LayerMode = "wards" | "commissioners" | "state-legislature";
 
-// Same city grouping/coloring either way, but a Hennepin County district
-// covers plenty of suburbs "Minneapolis" doesn't literally describe — the
-// checkbox label should say so. State legislature mode doesn't use the
-// city filter at all (a district can straddle both cities or neither), so
-// its entries here are never actually rendered — see the legend JSX below.
-// Every mode needs a label for every City (Record<City,string> demands
-// full coverage), but commissioners/state-legislature only ever render
-// the subset MODE_VISIBLE_CITIES lists for them — the rest are dead
-// entries that exist purely to satisfy the type.
+// A Hennepin County commissioner district covers plenty of suburbs
+// "Minneapolis" doesn't literally describe — the checkbox label should say
+// so. Only Minneapolis/St. Paul need an override here: every other city's
+// commissioner-mode (and state-legislature-mode) label is a dead entry —
+// see MODE_VISIBLE_CITIES below for why those never actually render — so
+// it falls back to "" rather than needing its own line per city.
+const COMMISSIONER_LABEL_OVERRIDES: Partial<Record<City, string>> = {
+  Minneapolis: "Hennepin County",
+  "St. Paul": "Ramsey County",
+};
+
+// Derived from CITIES so adding a city there is enough to get it a correct
+// wards-mode label — no separate list to keep in sync (this used to be one,
+// and needing a 9th/10th hand-written entry per mode is what prompted
+// deriving it instead).
 const MODE_FILTER_LABELS: Record<LayerMode, Record<City, string>> = {
-  wards: {
-    Minneapolis: "Minneapolis",
-    "St. Paul": "St. Paul",
-    Bloomington: "Bloomington",
-    Plymouth: "Plymouth",
-    Minnetonka: "Minnetonka",
-    "St. Louis Park": "St. Louis Park",
-    Richfield: "Richfield",
-    Blaine: "Blaine",
-  },
-  commissioners: {
-    Minneapolis: "Hennepin County",
-    "St. Paul": "Ramsey County",
-    Bloomington: "",
-    Plymouth: "",
-    Minnetonka: "",
-    "St. Louis Park": "",
-    Richfield: "",
-    Blaine: "",
-  },
-  "state-legislature": {
-    Minneapolis: "",
-    "St. Paul": "",
-    Bloomington: "",
-    Plymouth: "",
-    Minnetonka: "",
-    "St. Louis Park": "",
-    Richfield: "",
-    Blaine: "",
-  },
+  wards: Object.fromEntries(CITIES.map((city) => [city, city])) as Record<City, string>,
+  commissioners: Object.fromEntries(CITIES.map((city) => [city, COMMISSIONER_LABEL_OVERRIDES[city] ?? ""])) as Record<
+    City,
+    string
+  >,
+  "state-legislature": Object.fromEntries(CITIES.map((city) => [city, ""])) as Record<City, string>,
 };
 
 // Which of the CITIES checkboxes actually make sense to show per mode.
@@ -239,6 +223,7 @@ function normalizeRepProperties(raw: Record<string, unknown> | null | undefined)
     ...p,
     county: p.county ?? null,
     ward: p.ward ?? null,
+    wardName: p.wardName ?? null,
     district: p.district ?? null,
     repName: p.repName ?? null,
     repPhotoUrl: p.repPhotoUrl ?? null,
@@ -287,7 +272,14 @@ function createRepPinElement(rep: RepProperties, diameter: number = DEFAULT_PIN_
   const outer = document.createElement("div");
   outer.setAttribute("role", "button");
   outer.setAttribute("aria-label", `${areaLabel(rep)} ${roleLabel(rep)}${rep.repName ? ` ${rep.repName}` : ""}`);
-  outer.style.cssText = "cursor: pointer;";
+  // Bigger pins render on top of smaller ones wherever two roles' pins
+  // land close enough to overlap (mainly Mayor over Council Member — the
+  // only two roles that ever share a mode/screen) — z-index tracks
+  // diameter directly rather than a separate role table, so the stacking
+  // order can never drift out of sync with the size hierarchy it's
+  // reinforcing. All markers are siblings in MapLibre's own marker
+  // container, so z-index here does control their relative stacking.
+  outer.style.cssText = `cursor: pointer; z-index: ${Math.round(diameter)};`;
 
   const inner = document.createElement("div");
   inner.style.cssText = `
@@ -668,7 +660,10 @@ export default function WardMap() {
         type: "symbol",
         source: WARDS_SOURCE_ID,
         layout: {
-          "text-field": ["concat", "Ward ", ["to-string", ["get", "ward"]]],
+          // Falls back to "Ward N" only when there's no city-given name for
+          // the area (Brooklyn Park's Central/East/West districts carry a
+          // wardName instead — see the field's comment in types.ts).
+          "text-field": ["coalesce", ["get", "wardName"], ["concat", "Ward ", ["to-string", ["get", "ward"]]]],
           "text-font": ["Noto Sans Bold"],
           "text-size": 12,
         },
