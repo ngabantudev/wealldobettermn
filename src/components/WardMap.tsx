@@ -16,6 +16,7 @@ import {
   partyColor,
   partyColorSoft,
 } from "@/lib/cityTheme";
+import { MN_GREEN, MN_NAVY } from "@/lib/brandTheme";
 import WardModal, { areaLabel, roleLabel } from "./WardModal";
 
 // Matches the OpenFreeMap "Liberty" style used by the get-flocked project,
@@ -1002,15 +1003,18 @@ export default function WardMap() {
           filter panel first. z-[60]: comfortably above every pin's own
           z-index (diameter-based, tops out at 52 for Mayor pins — see
           createRepPinElement) so nothing on the map can render over it. */}
-      <div className="absolute inset-x-0 top-0 z-[60] h-14 flex items-center px-3 sm:px-4 bg-white/95 backdrop-blur-sm border-b border-neutral-200 shadow-sm font-sans">
-        <div role="group" aria-label="Choose map layer" className="flex rounded-lg bg-neutral-100 p-1 text-sm">
+      <div
+        className="absolute inset-x-0 top-0 z-[60] h-14 flex items-center px-3 sm:px-4 shadow-sm font-sans"
+        style={{ backgroundColor: MN_NAVY, borderBottom: `3px solid ${MN_GREEN}` }}
+      >
+        <div role="group" aria-label="Choose map layer" className="flex rounded-lg bg-white/10 p-1 text-sm">
           {(["wards", "commissioners", "state-legislature"] as const).map((mode) => (
             <button
               key={mode}
               type="button"
               onClick={() => switchMode(mode)}
               className={`px-3 py-1.5 rounded-md font-medium transition-colors ${
-                layerMode === mode ? "bg-neutral-900 text-white" : "text-neutral-600 hover:bg-neutral-100"
+                layerMode === mode ? "bg-white text-[#003865]" : "text-white/80 hover:bg-white/10 hover:text-white"
               }`}
             >
               {MODE_LABELS[mode]}
@@ -1036,10 +1040,11 @@ export default function WardMap() {
           onClick={() => setSidebarCollapsedOverride((prev) => !(prev ?? isMobile))}
           aria-expanded={!sidebarCollapsed}
           aria-controls="sidebar-content"
-          className="flex md:hidden items-center justify-between gap-2 px-3.5 py-2.5 text-sm font-semibold text-neutral-700"
+          className="flex md:hidden items-center justify-between gap-2 px-3.5 py-2.5 text-sm font-semibold"
+          style={{ color: MN_NAVY }}
         >
           <span>{layerMode === "state-legislature" ? "Chamber" : "Filter by area"}</span>
-          <ChevronDownIcon className={`h-4 w-4 text-neutral-400 transition-transform ${sidebarCollapsed ? "" : "rotate-180"}`} />
+          <ChevronDownIcon className={`h-4 w-4 text-[#003865] transition-transform ${sidebarCollapsed ? "" : "rotate-180"}`} />
         </button>
 
         <div
@@ -1060,7 +1065,7 @@ export default function WardMap() {
                   type="button"
                   onClick={() => switchChamber(c)}
                   className={`flex-1 px-3 py-1.5 rounded-md font-medium transition-colors ${
-                    chamber === c ? "bg-neutral-900 text-white" : "bg-neutral-100 text-neutral-600 hover:bg-neutral-200"
+                    chamber === c ? "bg-[#003865] text-white" : "bg-[#EFEFEF] text-neutral-600 hover:bg-neutral-200"
                   }`}
                 >
                   {CHAMBER_LABELS[c]}
@@ -1078,7 +1083,7 @@ export default function WardMap() {
                     type="checkbox"
                     checked={visibleCities[city]}
                     onChange={() => toggleCity(city)}
-                    className="cursor-pointer"
+                    className="cursor-pointer accent-[#78BE21]"
                   />
                   <span
                     className="h-2.5 w-2.5 rounded-full shrink-0"
@@ -1100,7 +1105,7 @@ export default function WardMap() {
           aria-expanded={!sidebarCollapsed}
           aria-controls="sidebar-content"
           aria-label="Toggle filters panel"
-          className="hidden md:flex absolute z-[60] items-center justify-center bg-white border border-neutral-200 border-l-0 text-neutral-400 hover:text-neutral-700 hover:bg-neutral-50 transition-colors top-1/2 right-0 translate-x-full -translate-y-1/2 w-7 h-12 rounded-r-lg shadow-sm"
+          className="hidden md:flex absolute z-[60] items-center justify-center bg-white border border-neutral-200 border-l-0 text-[#003865]/60 hover:text-[#003865] hover:bg-neutral-50 transition-colors top-1/2 right-0 translate-x-full -translate-y-1/2 w-7 h-12 rounded-r-lg shadow-sm"
         >
           <ChevronDownIcon className={`h-3.5 w-3.5 transition-transform -rotate-90 ${sidebarCollapsed ? "rotate-90" : ""}`} />
         </button>
