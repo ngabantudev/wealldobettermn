@@ -243,6 +243,7 @@ function buildFeature(districtFeature, chamber, legislatorsByDistrict, partyUnit
       city: nearestCity(centroidOfFeature(districtFeature)),
       county: null,
       ward: null,
+      wardName: null,
       district: null,
       stateDistrict: districtKey,
       chamber,

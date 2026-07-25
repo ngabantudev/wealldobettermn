@@ -11,6 +11,8 @@
 import { writeFile, mkdir } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { union } from "@turf/union";
+import { featureCollection } from "@turf/helpers";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const OUTPUT_PATH = path.join(__dirname, "../public/wards.geojson");
@@ -253,6 +255,34 @@ const BLAINE_PHOTOS = {
 // RAMSEY_EXTRAS's default below for a date that couldn't be confirmed.
 const BLAINE_OFFICE_SINCE_FALLBACK = "2025-01-01";
 
+// --- Brooklyn Park (Hennepin County) ---------------------------------------
+//
+// On the same Hennepin ward layer as the five cities above (MUNIC_NAME=
+// 'Brooklyn Park'), but its WARD field is null — this city names its three
+// districts (Central/East/West) instead of numbering them, and NAME_TXT
+// carries that name ("W-Central" etc.) instead. Like Blaine, each district
+// seats two members, so this emits two features per polygon; unlike
+// Blaine, the roster isn't embedded on the layer, so it's hand-transcribed
+// below, same as the numbered-ward cities. `ward` still gets a synthetic,
+// stable number (fill-color cycling and click-identity matching both key
+// off it) — `wardName` carries the real name the UI actually displays; see
+// the field's comment in types.ts.
+const BROOKLYN_PARK_DISTRICT_TO_WARD_NUM = { Central: 1, East: 2, West: 3 };
+const BROOKLYN_PARK_ROSTER = {
+  Central: [
+    { name: "Nichole Klonowski", email: "nichole.klonowski@brooklynpark.org", phone: "763-493-8372", photo: "https://www.brooklynpark.org/wp-content/uploads/2023/01/Nichole-Klonowski-e1673535427571.jpg", officeSince: "2022-01-01", profileUrl: "https://www.brooklynpark.org/contact/nichole-klonowski/" },
+    { name: "Shelle Page", email: "shelle.page@brooklynpark.org", phone: "763-493-8040", photo: "https://www.brooklynpark.org/wp-content/uploads/2025/01/shelle-page-copy.jpg", officeSince: "2025-01-06", profileUrl: "https://www.brooklynpark.org/contact/shelle-page/" },
+  ],
+  East: [
+    { name: "Christian Eriksen", email: "christian.eriksen@brooklynpark.org", phone: "763-493-8097", photo: "https://www.brooklynpark.org/wp-content/uploads/2023/01/Christian-Eriksen-e1673535748609.jpg", officeSince: "2022-01-01", profileUrl: "https://www.brooklynpark.org/contact/christian-eriksen/" },
+    { name: "Amanda Cheng Xiong", email: "amanda.xiong@brooklynpark.org", phone: "763-493-8010", photo: "https://www.brooklynpark.org/wp-content/uploads/2025/01/amanda-cheng-xiong-copy.jpg", officeSince: "2025-01-06", profileUrl: "https://www.brooklynpark.org/contact/amanda-cheng-xiong/" },
+  ],
+  West: [
+    { name: "Maria Tran", email: "maria.tran@brooklynpark.org", phone: "763-315-8442", photo: "https://www.brooklynpark.org/wp-content/uploads/2019/06/Maria-Tran-Image-scaled-e1709677467466.jpg", officeSince: "2022-01-01", profileUrl: "https://www.brooklynpark.org/contact/maria-tran/" },
+    { name: "Tony McGarvey", email: "tony.mcgarvey@brooklynpark.org", phone: "763-315-8496", photo: "https://www.brooklynpark.org/wp-content/uploads/2026/04/Tony-McGarvey.jpg", officeSince: "2023-01-01", profileUrl: "https://www.brooklynpark.org/contact/tony-mcgarvey/" },
+  ],
+};
+
 async function fetchJson(url) {
   const res = await fetch(url, { headers: { "User-Agent": "mn-civic-map-etl/0.1" } });
   if (!res.ok) throw new Error(`HTTP ${res.status} ${res.statusText} for ${url}`);
@@ -273,6 +303,7 @@ async function fetchMinneapolisWards() {
         city: "Minneapolis",
         county: null,
         ward: wardNum,
+        wardName: null,
         district: null,
         stateDistrict: null,
         chamber: null,
@@ -315,6 +346,7 @@ async function fetchStPaulWards() {
         city: "St. Paul",
         county: null,
         ward: wardNum,
+        wardName: null,
         district: null,
         stateDistrict: null,
         chamber: null,
@@ -365,6 +397,7 @@ async function fetchHennepinSuburbWards(cityName, roster, profileUrl) {
         city: cityName,
         county: null,
         ward: wardNum,
+        wardName: null,
         district: null,
         stateDistrict: null,
         chamber: null,
@@ -412,6 +445,7 @@ async function fetchBlaineWards() {
           city: "Blaine",
           county: null,
           ward: wardNum,
+          wardName: null,
           district: null,
           stateDistrict: null,
           chamber: null,
@@ -437,8 +471,137 @@ async function fetchBlaineWards() {
   return features;
 }
 
+async function fetchBrooklynParkWards() {
+  console.log("[wards] fetching Brooklyn Park...");
+  const url = new URL(HENNEPIN_WARDS_URL);
+  url.searchParams.set("where", "MUNIC_NAME='Brooklyn Park'");
+  url.searchParams.set("outFields", "NAME_TXT,MUNIC_NAME");
+  url.searchParams.set("f", "geojson");
+  const geojson = await fetchJson(url.toString());
+  const features = [];
+  for (const feature of geojson.features ?? []) {
+    const districtName = String(feature.properties?.NAME_TXT ?? "").replace(/^W-/, "");
+    const wardNum = BROOKLYN_PARK_DISTRICT_TO_WARD_NUM[districtName] ?? null;
+    const reps = BROOKLYN_PARK_ROSTER[districtName] ?? [];
+    for (const info of reps) {
+      features.push({
+        type: "Feature",
+        geometry: feature.geometry,
+        properties: {
+          role: "Council Member",
+          city: "Brooklyn Park",
+          county: null,
+          ward: wardNum,
+          wardName: districtName || null,
+          district: null,
+          stateDistrict: null,
+          chamber: null,
+          repName: info.name,
+          repParty: NONPARTISAN,
+          repPhotoUrl: info.photo ?? null,
+          repEmail: info.email ?? null,
+          repPhone: info.phone ?? null,
+          officeSince: info.officeSince ?? "2025-01-01",
+          committees: [],
+          neighborhoods: [],
+          officeRoom: null,
+          profileUrl: info.profileUrl ?? null,
+          candidates: [],
+          isContested: false,
+          partyUnityPercent: null,
+          recentVotes: [],
+        },
+      });
+    }
+  }
+  console.log(`[wards] Brooklyn Park: ${features.length} district seat(s)`);
+  return features;
+}
+
+// --- Coon Rapids (Anoka County) ---------------------------------------------
+//
+// Unlike every city above, Coon Rapids has no dedicated ward-boundary GIS
+// layer at all (its own GIS server's redistricting endpoints are
+// token-walled, and its public "Ward Map" is a static PDF). What Anoka
+// County does publish is a countywide *precinct* layer with a WARD
+// attribute — several precincts per ward, not one polygon per ward — so
+// each ward here is assembled by dissolving (geometrically unioning) its
+// precincts into a single polygon, rather than queried as one feature like
+// every other city's source.
+const ANOKA_PRECINCTS_URL = "https://gisservices.co.anoka.mn.us/anoka_gis/rest/services/OpenData_Political/FeatureServer/3/query";
+
+const COON_RAPIDS_ROSTER = {
+  1: { name: "Brad Greskowiak", phone: "763-757-6944", photo: "https://www.coonrapidsmn.gov/ImageRepository/Document?documentID=13431", profileUrl: "https://www.coonrapidsmn.gov/Directory.aspx?EID=4" },
+  2: { name: "Peter Butler", phone: "612-481-1061", photo: "https://www.coonrapidsmn.gov/ImageRepository/Document?documentID=18433", profileUrl: "https://www.coonrapidsmn.gov/Directory.aspx?EID=295" },
+  3: { name: "Sean Novack", phone: "612-391-1284", photo: "https://www.coonrapidsmn.gov/ImageRepository/Document?documentID=14794", profileUrl: "https://www.coonrapidsmn.gov/Directory.aspx?EID=283" },
+  4: { name: "Christopher Geisler", phone: "763-458-1928", photo: "https://www.coonrapidsmn.gov/ImageRepository/Document?documentID=18432", profileUrl: "https://www.coonrapidsmn.gov/Directory.aspx?EID=296" },
+  5: { name: "Brian Armstrong", phone: "612-868-1455", photo: "https://www.coonrapidsmn.gov/ImageRepository/Document?documentID=14795", profileUrl: "https://www.coonrapidsmn.gov/Directory.aspx?EID=282" },
+};
+// No email is published for any of these 5 — the city's directory pages
+// carry only a shared general inbox, which isn't any one member's contact,
+// so repEmail stays null rather than substituting it. "Since" isn't stated
+// anywhere either (checked both the directory and each member's own
+// profile page) — same best-effort fallback convention as Blaine's.
+const COON_RAPIDS_OFFICE_SINCE_FALLBACK = "2025-01-01";
+
+async function fetchCoonRapidsWards() {
+  console.log("[wards] fetching Coon Rapids...");
+  const url = new URL(ANOKA_PRECINCTS_URL);
+  url.searchParams.set("where", "CITY='Coon Rapids'");
+  url.searchParams.set("outFields", "WARD,CITY");
+  url.searchParams.set("f", "geojson");
+  const geojson = await fetchJson(url.toString());
+
+  const precinctsByWard = new Map();
+  for (const feature of geojson.features ?? []) {
+    const wardNum = Number(feature.properties?.WARD);
+    if (!precinctsByWard.has(wardNum)) precinctsByWard.set(wardNum, []);
+    precinctsByWard.get(wardNum).push(feature);
+  }
+
+  const features = [];
+  for (const [wardNum, precincts] of precinctsByWard) {
+    const dissolved = precincts.length === 1 ? precincts[0] : union(featureCollection(precincts));
+    if (!dissolved) {
+      console.warn(`[wards] Coon Rapids ward ${wardNum}: union() returned null, skipping`);
+      continue;
+    }
+    const info = COON_RAPIDS_ROSTER[wardNum];
+    features.push({
+      type: "Feature",
+      geometry: dissolved.geometry,
+      properties: {
+        role: "Council Member",
+        city: "Coon Rapids",
+        county: null,
+        ward: wardNum,
+        wardName: null,
+        district: null,
+        stateDistrict: null,
+        chamber: null,
+        repName: info?.name ?? null,
+        repParty: NONPARTISAN,
+        repPhotoUrl: info?.photo ?? null,
+        repEmail: info?.email ?? null,
+        repPhone: info?.phone ?? null,
+        officeSince: COON_RAPIDS_OFFICE_SINCE_FALLBACK,
+        committees: [],
+        neighborhoods: [],
+        officeRoom: null,
+        profileUrl: info?.profileUrl ?? null,
+        candidates: [],
+        isContested: false,
+        partyUnityPercent: null,
+        recentVotes: [],
+      },
+    });
+  }
+  console.log(`[wards] Coon Rapids: ${features.length} ward(s)`);
+  return features;
+}
+
 async function main() {
-  const [mpls, stPaul, bloomington, plymouth, minnetonka, stLouisPark, richfield, blaine] = await Promise.all([
+  const [mpls, stPaul, bloomington, plymouth, minnetonka, stLouisPark, richfield, blaine, brooklynPark, coonRapids] = await Promise.all([
     fetchMinneapolisWards(),
     fetchStPaulWards(),
     fetchHennepinSuburbWards("Bloomington", BLOOMINGTON_ROSTER, BLOOMINGTON_PROFILE_URL),
@@ -447,15 +610,24 @@ async function main() {
     fetchHennepinSuburbWards("St. Louis Park", ST_LOUIS_PARK_ROSTER),
     fetchHennepinSuburbWards("Richfield", RICHFIELD_ROSTER),
     fetchBlaineWards(),
+    fetchBrooklynParkWards(),
+    fetchCoonRapidsWards(),
   ]);
-  const featureCollection = {
+  // Named outputCollection, not featureCollection — shadowing the
+  // @turf/helpers import of the same name would still work correctly here
+  // (this is a different function's scope), but reads as if it might be
+  // calling the imported function when it's really just a local object.
+  const outputCollection = {
     type: "FeatureCollection",
-    features: [...mpls, ...stPaul, ...bloomington, ...plymouth, ...minnetonka, ...stLouisPark, ...richfield, ...blaine],
+    features: [
+      ...mpls, ...stPaul, ...bloomington, ...plymouth, ...minnetonka, ...stLouisPark, ...richfield, ...blaine,
+      ...brooklynPark, ...coonRapids,
+    ],
   };
 
   await mkdir(path.dirname(OUTPUT_PATH), { recursive: true });
-  await writeFile(OUTPUT_PATH, JSON.stringify(featureCollection));
-  console.log(`[done] wrote ${featureCollection.features.length} ward feature(s) to ${OUTPUT_PATH}`);
+  await writeFile(OUTPUT_PATH, JSON.stringify(outputCollection));
+  console.log(`[done] wrote ${outputCollection.features.length} ward feature(s) to ${OUTPUT_PATH}`);
 }
 
 main().catch((err) => {
