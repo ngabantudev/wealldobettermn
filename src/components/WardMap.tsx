@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
+import polylabel from "polylabel";
 import type { Feature, FeatureCollection, Geometry } from "geojson";
 import type { RepProperties } from "@/lib/types";
 import { getUpcomingHearings } from "@/lib/hearings";
@@ -184,6 +185,11 @@ const PIN_DIAMETER_BY_ROLE: Partial<Record<RepProperties["role"], number>> = {
   "Council Member": 34,
 };
 const DEFAULT_PIN_DIAMETER = 44;
+// Center-to-center pixel gap for wards that seat more than one member off
+// a shared polygon (Blaine, Brooklyn Park) — Council Member pins are 34px,
+// so 38px center-to-center leaves a small visible gap between edges
+// rather than the pins touching or overlapping.
+const PIN_SIDE_BY_SIDE_SPACING_PX = 38;
 
 function boundsFromFeature(feature: Feature<Geometry>): maplibregl.LngLatBounds {
   const bounds = new maplibregl.LngLatBounds();
@@ -197,6 +203,33 @@ function boundsFromFeature(feature: Feature<Geometry>): maplibregl.LngLatBounds 
     }
   }
   return bounds;
+}
+
+// A polygon's bounding-box center can land outside the polygon itself for
+// any non-convex shape (a crescent, an L, or — concretely — Coon Rapids
+// Ward 4's dissolved MultiPolygon, which carries a small disconnected
+// sliver alongside its main body — see fetch-wards.mjs) — landing a pin
+// on a shared boundary line or inside a neighboring ward instead of
+// clearly within its own. Pole of inaccessibility (the point farthest
+// from any edge) reliably stays inside. For a MultiPolygon, each part is
+// checked and the one with the largest resulting distance wins — the
+// same "pick the more substantial piece" behavior this needs. polylabel
+// is purpose-built for exactly this at interactive/real-time scale (it's
+// what Mapbox GL JS itself uses for automatic label placement), so
+// running it once per feature at load time — a few hundred wards and
+// districts total — isn't a real performance concern. Falls back to the
+// bounding-box center for a degenerate/empty geometry (an empty ring, or
+// a feature with no polygon at all) rather than throwing.
+function pinPositionForFeature(feature: Feature<Geometry>, bounds: maplibregl.LngLatBounds): maplibregl.LngLat {
+  const geom = feature.geometry;
+  const polygons = geom.type === "Polygon" ? [geom.coordinates] : geom.type === "MultiPolygon" ? geom.coordinates : [];
+  let best: ([number, number] & { distance: number }) | null = null;
+  for (const rings of polygons) {
+    if (rings.length === 0 || rings[0].length < 4) continue;
+    const result = polylabel(rings as unknown as [number, number][][], 0.000001);
+    if (!best || result.distance > best.distance) best = result;
+  }
+  return best ? new maplibregl.LngLat(best[0], best[1]) : bounds.getCenter();
 }
 
 function boundsFromFeatureCollection(data: FeatureCollection): maplibregl.LngLatBounds {
@@ -249,6 +282,32 @@ function boundsAroundPoint(lng: number, lat: number): maplibregl.LngLatBounds {
 
 function isMobileViewport(): boolean {
   return window.innerWidth < 768;
+}
+
+// Paired with isMobileViewport for the sidebar's default-collapsed state
+// via useSyncExternalStore. A real subscription, not a no-op — without
+// one, isMobile would permanently lock in whatever it read on the very
+// first render and never re-check, which is fragile: a real user resizing
+// the window (or an actual mobile browser's viewport settling a beat
+// after first paint, as its own chrome finishes laying out) would get
+// stuck on a stale reading.
+function subscribeToResize(onStoreChange: () => void): () => void {
+  window.addEventListener("resize", onStoreChange);
+  return () => window.removeEventListener("resize", onStoreChange);
+}
+
+function isMobileServerSnapshot(): boolean {
+  return false;
+}
+
+// Sidebar collapse/expand affordance — mobile header trigger and desktop
+// pull-tab both use this, rotated differently for each (see call sites).
+function ChevronDownIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 20 20" fill="none" className={className}>
+      <path d="m5 7.5 5 5 5-5" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
 }
 
 // A circular headshot "pin" — plain DOM rather than a symbol-layer icon,
@@ -336,6 +395,25 @@ export default function WardMap() {
   const visibleCitiesRef = useRef(visibleCities);
   const [chamber, setChamber] = useState<Chamber>("house");
   const chamberRef = useRef(chamber);
+  // Desktop default (expanded) matches the panel's previous always-open
+  // behavior. Mobile starts collapsed instead — with 10 cities, the filter
+  // list is now tall enough to fill the whole screen on a phone, which
+  // defeats the point of a *map* app.
+  //
+  // isMobile is read via useSyncExternalStore rather than a plain
+  // useState+useEffect pair: window.innerWidth isn't available during
+  // server rendering, and a useState lazy initializer runs during the
+  // client's very first (hydration) render too, before it's had a chance
+  // to differ from the server — React would flag that as a hydration
+  // mismatch. useSyncExternalStore is the hook built specifically to read
+  // a browser-only value without that problem (it renders the server
+  // snapshot first, then corrects to the real one). sidebarCollapsed
+  // itself stays a plain override so a manual toggle isn't clobbered by
+  // isMobile settling to its real value right after — it only *defaults*
+  // to isMobile until the user clicks the toggle for the first time.
+  const isMobile = useSyncExternalStore(subscribeToResize, isMobileViewport, isMobileServerSnapshot);
+  const [sidebarCollapsedOverride, setSidebarCollapsedOverride] = useState<boolean | null>(null);
+  const sidebarCollapsed = sidebarCollapsedOverride ?? isMobile;
 
   useEffect(() => {
     selectedRef.current = selected;
@@ -356,11 +434,15 @@ export default function WardMap() {
   const zoomToBounds = (bounds: maplibregl.LngLatBounds) => {
     const map = mapRef.current;
     if (!map) return;
-    // The modal sits bottom-left (a bottom sheet on mobile), so padding is
-    // reserved on that side — otherwise fitBounds centers the target in
-    // the *full* viewport and the modal ends up covering it.
+    // Reserve space for whatever chrome is actually on screen so
+    // fitBounds doesn't center the target *under* it: the topbar (both),
+    // the collapsed sidebar's header row (mobile — it isn't full-height
+    // there, so it only eats a little, not the whole left edge), the
+    // full-height sidebar (desktop left), and the modal itself, which is
+    // a bottom sheet on mobile but bottom-right on desktop — see its
+    // wrapper's sm: classes below.
     map.fitBounds(bounds, {
-      padding: isMobileViewport() ? { top: 60, bottom: 260, left: 40, right: 40 } : { top: 80, bottom: 300, left: 420, right: 80 },
+      padding: isMobileViewport() ? { top: 110, bottom: 260, left: 40, right: 40 } : { top: 80, bottom: 40, left: 320, right: 420 },
       duration: 600,
     });
   };
@@ -370,7 +452,12 @@ export default function WardMap() {
     const bounds =
       mode === "wards" ? wardsBoundsRef.current : mode === "commissioners" ? commissionersBoundsRef.current : stateLegBoundsRef.current;
     if (!map || !bounds) return;
-    map.fitBounds(bounds, { padding: 40, duration: 600 });
+    // No modal to clear here (deselecting implies it's closing/closed) —
+    // just the topbar and, on desktop, the persistent left sidebar.
+    map.fitBounds(bounds, {
+      padding: isMobileViewport() ? { top: 110, bottom: 40, left: 16, right: 16 } : { top: 80, bottom: 40, left: 320, right: 40 },
+      duration: 600,
+    });
   };
 
   const deselect = () => {
@@ -556,9 +643,16 @@ export default function WardMap() {
         diameter: number = DEFAULT_PIN_DIAMETER,
         mode: LayerMode,
         zoomBounds: maplibregl.LngLatBounds,
+        // Pixel offset, not a coordinate nudge — stays a constant visual
+        // distance apart regardless of zoom level (a fixed-degree lng/lat
+        // offset would shrink to nothing when zoomed out). Used for wards
+        // that seat more than one member off a single shared polygon.
+        pixelOffset: maplibregl.PointLike = [0, 0],
       ) => {
         const el = createRepPinElement(properties, diameter);
-        const marker = new maplibregl.Marker({ element: el, anchor: "center" }).setLngLat(coordinates).addTo(map);
+        const marker = new maplibregl.Marker({ element: el, anchor: "center", offset: pixelOffset })
+          .setLngLat(coordinates)
+          .addTo(map);
 
         el.addEventListener("mouseenter", () => {
           if (!isDesktopHover || selectedRef.current?.pinned) return;
@@ -584,38 +678,42 @@ export default function WardMap() {
         addPin(properties, [lng, lat], PIN_DIAMETER_BY_ROLE.Mayor, "wards", boundsAroundPoint(lng, lat));
       }
 
-      // One pin per council member, centered on their ward — same
-      // bounds-center-as-marker-position approach as commissioners below,
-      // since (unlike mayors) there's no single office address to anchor to.
-      // A handful of wards (Blaine's, currently) seat two members off one
-      // shared polygon — bounds-center would place both pins on the exact
-      // same coordinate, so the second (and any further) occurrence of a
-      // given city+ward is nudged sideways to stay independently clickable.
-      // The polygon itself (fill/outline/zoom target) is untouched — only
-      // the pin marker's coordinate shifts.
-      const wardPinOccurrences = new Map<string, number>();
+      // One pin per council member, positioned inside their ward — grouped
+      // by (city, ward) first because a handful of wards (Blaine's,
+      // Brooklyn Park's) seat two members off one shared polygon. Each
+      // group's anchor point (pole of inaccessibility, not bounds-center —
+      // see pinPositionForFeature) is computed once and shared; members
+      // within a group fan out left-to-right around it via a fixed pixel
+      // offset, so two-member wards read as clearly side-by-side rather
+      // than stacked on the same point. The polygon itself (fill/outline/
+      // zoom target) is untouched either way — only the pin coordinate.
+      const wardGroups = new Map<string, { feature: (typeof data.features)[number]; properties: RepProperties }[]>();
       for (const feature of data.features) {
         if (feature.geometry.type !== "Polygon" && feature.geometry.type !== "MultiPolygon") continue;
         const properties = feature.properties as RepProperties;
-        const bounds = boundsFromFeature(feature as Feature<Geometry>);
         const wardKey = `${properties.city}-${properties.ward}`;
-        const occurrence = wardPinOccurrences.get(wardKey) ?? 0;
-        wardPinOccurrences.set(wardKey, occurrence + 1);
-        const center = bounds.getCenter();
-        const coordinates: maplibregl.LngLatLike =
-          occurrence === 0 ? center : [center.lng + occurrence * 0.0015, center.lat];
-        addPin(properties, coordinates, PIN_DIAMETER_BY_ROLE["Council Member"], "wards", bounds);
+        if (!wardGroups.has(wardKey)) wardGroups.set(wardKey, []);
+        wardGroups.get(wardKey)!.push({ feature, properties });
+      }
+      for (const group of wardGroups.values()) {
+        const bounds = boundsFromFeature(group[0].feature as Feature<Geometry>);
+        const anchor = pinPositionForFeature(group[0].feature as Feature<Geometry>, bounds);
+        group.forEach(({ properties }, i) => {
+          const offsetX = group.length > 1 ? (i - (group.length - 1) / 2) * PIN_SIDE_BY_SIDE_SPACING_PX : 0;
+          addPin(properties, anchor, PIN_DIAMETER_BY_ROLE["Council Member"], "wards", bounds, [offsetX, 0]);
+        });
       }
 
       // One pin per commissioner, same interaction pattern as mayors, but
-      // there's no office address to anchor to — a district's bounds
-      // center stands in for "somewhere inside the district" well enough
-      // for a marker (as opposed to fitBounds, which needs the real shape).
+      // there's no office address to anchor to — pinPositionForFeature
+      // stands in for "somewhere well inside the district" (as opposed to
+      // fitBounds, which needs the real shape, hence bounds staying separate).
       for (const feature of commissionersData.features) {
         if (feature.geometry.type !== "Polygon" && feature.geometry.type !== "MultiPolygon") continue;
         const properties = feature.properties as RepProperties;
         const bounds = boundsFromFeature(feature as Feature<Geometry>);
-        addPin(properties, bounds.getCenter(), PIN_DIAMETER_BY_ROLE["County Commissioner"], "commissioners", bounds);
+        const position = pinPositionForFeature(feature as Feature<Geometry>, bounds);
+        addPin(properties, position, PIN_DIAMETER_BY_ROLE["County Commissioner"], "commissioners", bounds);
       }
 
       // One pin per state legislator — role (and so pin size) varies
@@ -625,7 +723,8 @@ export default function WardMap() {
         if (feature.geometry.type !== "Polygon" && feature.geometry.type !== "MultiPolygon") continue;
         const properties = feature.properties as RepProperties;
         const bounds = boundsFromFeature(feature as Feature<Geometry>);
-        addPin(properties, bounds.getCenter(), PIN_DIAMETER_BY_ROLE[properties.role], "state-legislature", bounds);
+        const position = pinPositionForFeature(feature as Feature<Geometry>, bounds);
+        addPin(properties, position, PIN_DIAMETER_BY_ROLE[properties.role], "state-legislature", bounds);
       }
 
       map.addSource(WARDS_SOURCE_ID, { type: "geojson", data });
@@ -802,7 +901,14 @@ export default function WardMap() {
       if (!wardsBounds.isEmpty()) wardsBoundsRef.current = wardsBounds;
       if (!commissionersBounds.isEmpty()) commissionersBoundsRef.current = commissionersBounds;
       if (!stateLegBounds.isEmpty()) stateLegBoundsRef.current = stateLegBounds;
-      if (!wardsBounds.isEmpty()) map.fitBounds(wardsBounds, { padding: 40, duration: 0 });
+      // Same padding zoomToDefault uses, so the very first render doesn't
+      // visibly "jump" the moment any subsequent zoom-to-default fires.
+      if (!wardsBounds.isEmpty()) {
+        map.fitBounds(wardsBounds, {
+          padding: isMobileViewport() ? { top: 110, bottom: 40, left: 16, right: 16 } : { top: 80, bottom: 40, left: 320, right: 40 },
+          duration: 0,
+        });
+      }
     });
 
     const handleHoverMove = (e: maplibregl.MapLayerMouseEvent) => {
@@ -891,12 +997,13 @@ export default function WardMap() {
     <div className="relative w-full h-dvh overflow-hidden">
       <div ref={mapContainerRef} className="absolute inset-0 w-full h-full" />
 
-      <div className="absolute left-3 top-3 z-20 flex flex-col gap-2 font-sans">
-        <div
-          role="group"
-          aria-label="Choose map layer"
-          className="flex rounded-lg bg-white/90 backdrop-blur-sm border border-neutral-200 shadow-lg p-1 text-sm"
-        >
+      {/* Topbar — always visible regardless of the sidebar's collapsed
+          state, so switching government level never requires opening the
+          filter panel first. z-[60]: comfortably above every pin's own
+          z-index (diameter-based, tops out at 52 for Mayor pins — see
+          createRepPinElement) so nothing on the map can render over it. */}
+      <div className="absolute inset-x-0 top-0 z-[60] h-14 flex items-center px-3 sm:px-4 bg-white/95 backdrop-blur-sm border-b border-neutral-200 shadow-sm font-sans">
+        <div role="group" aria-label="Choose map layer" className="flex rounded-lg bg-neutral-100 p-1 text-sm">
           {(["wards", "commissioners", "state-legislature"] as const).map((mode) => (
             <button
               key={mode}
@@ -910,56 +1017,97 @@ export default function WardMap() {
             </button>
           ))}
         </div>
+      </div>
 
-        {layerMode === "state-legislature" ? (
-          // A district doesn't cleanly belong to one Twin City, so this
-          // level filters by chamber instead of the Minneapolis/St. Paul
-          // checkboxes below — same toggle pattern as the mode switcher.
-          <div
-            role="group"
-            aria-label="Choose chamber"
-            className="flex rounded-lg bg-white/90 backdrop-blur-sm border border-neutral-200 shadow-lg p-1 text-sm"
-          >
-            {CHAMBERS.map((c) => (
-              <button
-                key={c}
-                type="button"
-                onClick={() => switchChamber(c)}
-                className={`px-3 py-1.5 rounded-md font-medium transition-colors ${
-                  chamber === c ? "bg-neutral-900 text-white" : "text-neutral-600 hover:bg-neutral-100"
-                }`}
-              >
-                {CHAMBER_LABELS[c]}
-              </button>
-            ))}
-          </div>
-        ) : (
-          <div
-            role="group"
-            aria-label="Filter by area"
-            className="rounded-lg bg-white/90 backdrop-blur-sm border border-neutral-200 shadow-lg divide-y divide-neutral-100 text-sm text-neutral-700"
-          >
-            {MODE_VISIBLE_CITIES[layerMode].map((city) => (
-              <label key={city} className="flex items-center gap-2 px-3 py-2.5 sm:py-2 cursor-pointer select-none">
-                <input
-                  type="checkbox"
-                  checked={visibleCities[city]}
-                  onChange={() => toggleCity(city)}
-                  className="cursor-pointer"
-                />
-                <span
-                  className="h-2.5 w-2.5 rounded-full shrink-0"
-                  style={{ backgroundColor: CITY_ACCENT[city] }}
-                />
-                {MODE_FILTER_LABELS[layerMode][city]}
-              </label>
-            ))}
-          </div>
-        )}
+      {/* Filter sidebar — desktop: docked to the left edge, full height,
+          slides off-screen via translate-x when collapsed (content stays
+          mounted, just off past the left edge, so re-expanding is instant
+          rather than re-rendering). Mobile: a card below the topbar whose
+          content height collapses instead, since there's no room for a
+          full-height dock on a phone-width screen — same z-[60] reasoning
+          as the topbar above. */}
+      <div
+        className={`absolute z-[60] top-14 left-0 right-3 sm:right-auto sm:w-80 md:w-72 md:right-auto md:bottom-0 bg-white/95 md:bg-white backdrop-blur-sm md:backdrop-blur-none border-b md:border-b-0 md:border-r border-neutral-200 shadow-lg md:shadow-none rounded-b-xl md:rounded-none flex flex-col font-sans transition-transform duration-300 ease-out ${
+          sidebarCollapsed ? "md:-translate-x-full" : "md:translate-x-0"
+        }`}
+      >
+        <button
+          type="button"
+          onClick={() => setSidebarCollapsedOverride((prev) => !(prev ?? isMobile))}
+          aria-expanded={!sidebarCollapsed}
+          aria-controls="sidebar-content"
+          className="flex md:hidden items-center justify-between gap-2 px-3.5 py-2.5 text-sm font-semibold text-neutral-700"
+        >
+          <span>{layerMode === "state-legislature" ? "Chamber" : "Filter by area"}</span>
+          <ChevronDownIcon className={`h-4 w-4 text-neutral-400 transition-transform ${sidebarCollapsed ? "" : "rotate-180"}`} />
+        </button>
+
+        <div
+          id="sidebar-content"
+          aria-hidden={sidebarCollapsed}
+          className={`overflow-y-auto transition-[max-height] duration-300 ease-out md:!max-h-none md:flex-1 ${
+            sidebarCollapsed ? "max-h-0" : "max-h-[45vh]"
+          }`}
+        >
+          {layerMode === "state-legislature" ? (
+            // A district doesn't cleanly belong to one Twin City, so this
+            // level filters by chamber instead of the Minneapolis/St. Paul
+            // checkboxes below — same toggle pattern as the mode switcher.
+            <div role="group" aria-label="Choose chamber" className="flex gap-1 px-3.5 pb-3.5 pt-1 md:pt-3.5 text-sm">
+              {CHAMBERS.map((c) => (
+                <button
+                  key={c}
+                  type="button"
+                  onClick={() => switchChamber(c)}
+                  className={`flex-1 px-3 py-1.5 rounded-md font-medium transition-colors ${
+                    chamber === c ? "bg-neutral-900 text-white" : "bg-neutral-100 text-neutral-600 hover:bg-neutral-200"
+                  }`}
+                >
+                  {CHAMBER_LABELS[c]}
+                </button>
+              ))}
+            </div>
+          ) : (
+            <div role="group" aria-label="Filter by area" className="divide-y divide-neutral-100 text-sm text-neutral-700">
+              {MODE_VISIBLE_CITIES[layerMode].map((city) => (
+                <label
+                  key={city}
+                  className="flex items-center gap-2 px-3.5 py-2.5 sm:py-2 cursor-pointer select-none hover:bg-neutral-50"
+                >
+                  <input
+                    type="checkbox"
+                    checked={visibleCities[city]}
+                    onChange={() => toggleCity(city)}
+                    className="cursor-pointer"
+                  />
+                  <span
+                    className="h-2.5 w-2.5 rounded-full shrink-0"
+                    style={{ backgroundColor: CITY_ACCENT[city] }}
+                  />
+                  {MODE_FILTER_LABELS[layerMode][city]}
+                </label>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Desktop-only pull-tab — the header button above is mobile-only
+            (md:hidden), so desktop needs its own always-visible trigger to
+            re-expand a collapsed sidebar. */}
+        <button
+          type="button"
+          onClick={() => setSidebarCollapsedOverride((prev) => !(prev ?? isMobile))}
+          aria-expanded={!sidebarCollapsed}
+          aria-controls="sidebar-content"
+          aria-label="Toggle filters panel"
+          className="hidden md:flex absolute z-[60] items-center justify-center bg-white border border-neutral-200 border-l-0 text-neutral-400 hover:text-neutral-700 hover:bg-neutral-50 transition-colors top-1/2 right-0 translate-x-full -translate-y-1/2 w-7 h-12 rounded-r-lg shadow-sm"
+        >
+          <ChevronDownIcon className={`h-3.5 w-3.5 transition-transform -rotate-90 ${sidebarCollapsed ? "rotate-90" : ""}`} />
+        </button>
       </div>
 
       {selected && (
-        <div className="absolute inset-x-0 bottom-0 z-10 flex justify-center pointer-events-none pb-[env(safe-area-inset-bottom)] sm:inset-x-auto sm:justify-start sm:left-4 sm:bottom-4 sm:pb-0">
+        <div className="absolute inset-x-0 bottom-0 z-[70] flex justify-center pointer-events-none pb-[env(safe-area-inset-bottom)] sm:inset-x-auto sm:justify-end sm:right-4 sm:left-auto sm:bottom-4 sm:pb-0">
           <WardModal
             ward={selected.properties}
             hearings={hearings}
