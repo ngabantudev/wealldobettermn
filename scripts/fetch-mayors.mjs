@@ -1,10 +1,16 @@
 #!/usr/bin/env node
 // scripts/fetch-mayors.mjs
 //
-// Writes public/mayors.geojson — a two-point FeatureCollection (one per
-// city, at its City Hall) that WardMap renders as photo pins. Neither
-// city publishes a mayor API, so this is hand-transcribed from each city's
-// own mayor page (linked per-entry below) — re-check after a mayoral
+// Writes public/mayors.geojson — a point FeatureCollection anchored at
+// each city's City Hall — that WardMap renders as photo pins. Every city
+// gets one Mayor point here; cities whose council is elected fully
+// at-large (no wards to draw at all — see fetch-wards.mjs's cities for
+// the ones that do have wards) also get one point per at-large council
+// member, sharing their mayor's same City Hall coordinate. WardMap groups
+// same-city points and fans them out side-by-side, the same mechanism
+// wards that seat more than one member off a shared polygon already use.
+// No city publishes an API for any of this, so it's all hand-transcribed
+// from each city's own site (linked per-entry below) — re-check after an
 // election, since names, photos, and dates all change then.
 
 import { writeFile, mkdir } from "node:fs/promises";
@@ -164,16 +170,265 @@ const MAYORS = [
     officeRoom: null,
     profileUrl: "https://www.coonrapidsmn.gov/Directory.aspx?EID=2",
   },
+  // --- Fully at-large cities (pilot) ------------------------------------
+  //
+  // Confirmed elsewhere (a ~20-city metro survey) as electing their whole
+  // council citywide, with no wards at all — so unlike every city above,
+  // these mayors have company: see AT_LARGE_COUNCIL below for their
+  // council members, sharing this same City Hall coordinate.
+  {
+    city: "Edina",
+    coordinates: [-93.3473318, 44.911093], // Edina City Hall
+    repName: "James Hovland",
+    repParty: NONPARTISAN,
+    repPhotoUrl: "https://www.edinamn.gov/ImageRepository/Document?documentID=10560",
+    repEmail: "jhovland@EdinaMN.gov",
+    repPhone: "612-874-8551",
+    officeSince: "2005-01-01", // elected Nov 2004
+    committees: ["Mayor of Edina"],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://www.edinamn.gov/1144/Meet-the-Mayor-and-City-Council",
+  },
+  {
+    city: "Eden Prairie",
+    coordinates: [-93.4603848, 44.856807], // Eden Prairie City Hall
+    repName: "Ron Case",
+    repParty: NONPARTISAN,
+    repPhotoUrl: "https://www.edenprairiemn.gov/home/showpublishedimage/7492/637680867226730000",
+    repEmail: "RCase@edenprairiemn.gov",
+    repPhone: "952-949-8593",
+    // Not stated anywhere on his own bio (only "re-elected mayor in 2022,
+    // after one term as mayor and five-and-a-half terms on council") —
+    // best-effort fallback, same convention as Coon Rapids' above.
+    officeSince: "2025-01-01",
+    committees: ["Mayor of Eden Prairie"],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://www.edenprairiemn.gov/city-government/city-council/ron-case",
+  },
+  {
+    city: "Roseville",
+    coordinates: [-93.149359, 45.0208972], // Roseville City Hall
+    repName: "Dan Roe",
+    repParty: NONPARTISAN,
+    repPhotoUrl: "https://www.cityofroseville.com/ImageRepository/Document?documentID=37812",
+    repEmail: "dan.roe@cityofroseville.com",
+    repPhone: "651-487-9654",
+    officeSince: "2011-01-01", // as Mayor; previously on Council 2007-2010
+    committees: ["Mayor of Roseville"],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://www.cityofroseville.com/56/Members",
+  },
+  {
+    city: "Maplewood",
+    coordinates: [-93.0218213, 45.0063231], // Maplewood City Hall
+    repName: "Marylee Abrams",
+    repParty: NONPARTISAN,
+    repPhotoUrl: "https://www.maplewoodmn.gov/ImageRepository/Document?documentId=23014",
+    repEmail: "Marylee.Abrams@maplewoodmn.gov",
+    repPhone: "612-322-1620",
+    officeSince: "2019-01-01", // on Council since 2014; Mayor since 2019 (both stated in her official bio)
+    committees: ["Mayor of Maplewood"],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://www.maplewoodmn.gov/1974/Marylee-Abrams",
+  },
+];
+
+// At-large council members for the fully at-large cities above — each
+// shares their city's mayor's coordinates (same MAYORS entry, same City
+// Hall) since there's no ward to anchor to instead, same reasoning as the
+// mayors themselves. role/city/coordinates are set in main() below by
+// looking up each entry's mayor, not repeated per member here.
+const AT_LARGE_COUNCIL = [
+  {
+    city: "Edina",
+    repName: "Kate Agnew",
+    repPhotoUrl: "https://www.edinamn.gov/ImageRepository/Document?documentID=12855",
+    repEmail: "KAgnew@EdinaMN.gov",
+    repPhone: "952-833-9556",
+    officeSince: "2023-01-01", // elected Nov 2022
+    profileUrl: "https://www.edinamn.gov/1144/Meet-the-Mayor-and-City-Council",
+  },
+  {
+    city: "Edina",
+    repName: "Carolyn Jackson",
+    repPhotoUrl: "https://www.edinamn.gov/ImageRepository/Document?documentID=15559",
+    repEmail: "CJackson@EdinaMN.gov",
+    repPhone: "952-833-9547",
+    officeSince: "2021-01-01", // elected Nov 2020
+    profileUrl: "https://www.edinamn.gov/1144/Meet-the-Mayor-and-City-Council",
+  },
+  {
+    city: "Edina",
+    repName: "James Pierce",
+    repPhotoUrl: "https://www.edinamn.gov/ImageRepository/Document?documentID=14137",
+    repEmail: "JPierce@EdinaMN.gov",
+    repPhone: "952-833-9548",
+    officeSince: "2021-01-01", // elected Nov 2020
+    profileUrl: "https://www.edinamn.gov/1144/Meet-the-Mayor-and-City-Council",
+  },
+  {
+    city: "Edina",
+    repName: "Julie Risser",
+    repPhotoUrl: "https://www.edinamn.gov/ImageRepository/Document?documentID=15558",
+    repEmail: "JRisser@EdinaMN.gov",
+    repPhone: "952-833-9557",
+    officeSince: "2023-01-01", // elected Nov 2022
+    profileUrl: "https://www.edinamn.gov/1144/Meet-the-Mayor-and-City-Council",
+  },
+  {
+    city: "Eden Prairie",
+    repName: "Mark Freiberg",
+    repPhotoUrl: "https://www.edenprairiemn.gov/home/showpublishedimage/7496/637000945131870000",
+    repEmail: "MFreiberg@edenprairiemn.gov",
+    repPhone: "612-581-7504",
+    officeSince: "2025-01-01", // not stated (bio: re-elected to 2nd term in 2022 election) — best-effort fallback
+    profileUrl: "https://www.edenprairiemn.gov/city-government/city-council/mark-freiberg",
+  },
+  {
+    city: "Eden Prairie",
+    repName: "PG Narayanan",
+    repPhotoUrl: "https://www.edenprairiemn.gov/home/showpublishedimage/7498/637680867626270000",
+    repEmail: "PGNarayanan@edenprairiemn.gov",
+    repPhone: "952-393-3100",
+    officeSince: "2025-01-01", // not stated (bio: re-elected to 3rd term in 2024 election) — best-effort fallback
+    profileUrl: "https://www.edenprairiemn.gov/city-government/city-council/pg-narayanan",
+  },
+  {
+    city: "Eden Prairie",
+    repName: "Kathy Nelson",
+    repPhotoUrl: "https://www.edenprairiemn.gov/home/showpublishedimage/7500/637680867866430000",
+    repEmail: "KNelson@edenprairiemn.gov",
+    repPhone: "952-941-6613",
+    officeSince: "2025-01-01", // not stated (bio: re-elected to 5th term in 2022 election) — best-effort fallback
+    profileUrl: "https://www.edenprairiemn.gov/city-government/city-council/kathy-nelson",
+  },
+  {
+    city: "Eden Prairie",
+    repName: "Lisa Toomey",
+    repPhotoUrl: "https://www.edenprairiemn.gov/home/showpublishedimage/9637/638963061056330000",
+    repEmail: "LToomey@edenprairiemn.gov",
+    repPhone: "952-388-8827",
+    officeSince: "2025-01-01", // not stated (bio: re-elected to 2nd term in 2024 election) — best-effort fallback
+    profileUrl: "https://www.edenprairiemn.gov/city-government/city-council/lisa-toomey",
+  },
+  {
+    city: "Roseville",
+    repName: "Matt Bauer",
+    repPhotoUrl: "https://www.cityofroseville.com/ImageRepository/Document?documentID=37813",
+    repEmail: "matt.bauer@cityofroseville.com",
+    repPhone: "651-243-1218",
+    officeSince: "2025-01-01", // first term
+    profileUrl: "https://www.cityofroseville.com/56/Members",
+  },
+  {
+    city: "Roseville",
+    repName: "Wayne Groff",
+    repPhotoUrl: "https://www.cityofroseville.com/ImageRepository/Document?documentID=37814",
+    repEmail: "wayne.groff@cityofroseville.com",
+    repPhone: "612-867-0915",
+    officeSince: "2019-01-01",
+    profileUrl: "https://www.cityofroseville.com/56/Members",
+  },
+  {
+    city: "Roseville",
+    repName: "Robin Schroeder",
+    repPhotoUrl: "https://www.cityofroseville.com/ImageRepository/Document?documentID=37815",
+    repEmail: "robin.schroeder@cityofroseville.com",
+    repPhone: "651-488-0129",
+    officeSince: "2023-01-01", // first term
+    profileUrl: "https://www.cityofroseville.com/56/Members",
+  },
+  {
+    city: "Roseville",
+    repName: "Julie Strahan",
+    repPhotoUrl: "https://www.cityofroseville.com/ImageRepository/Document?documentID=37816",
+    repEmail: "julie.strahan@cityofroseville.com",
+    repPhone: "612-460-7503",
+    officeSince: "2021-01-01",
+    profileUrl: "https://www.cityofroseville.com/56/Members",
+  },
+  {
+    city: "Maplewood",
+    repName: "Kathleen Juenemann",
+    repPhotoUrl: "https://www.maplewoodmn.gov/ImageRepository/Document?documentId=23022",
+    repEmail: "Kathleen.Juenemann@maplewoodmn.gov",
+    repPhone: "651-771-3670",
+    // Not stated on the city's own site; her own 2022 candidate statement
+    // says "since January 2002, I have missed only one meeting" — unconfirmed
+    // by the city itself, but specific enough to use over a generic fallback.
+    officeSince: "2002-01-01",
+    profileUrl: "https://www.maplewoodmn.gov/1975/Kathleen-Juenemann",
+  },
+  {
+    city: "Maplewood",
+    repName: "Chonburi Lee",
+    repPhotoUrl: "https://www.maplewoodmn.gov/ImageRepository/Document?documentId=31748",
+    repEmail: "Chonburi.Lee@maplewoodmn.gov",
+    repPhone: "651-321-2299",
+    // Not stated on the city's own site; his campaign bio says "currently
+    // serving my fourth year," consistent with elected Nov 2022 — unconfirmed
+    // by the city itself, but specific enough to use over a generic fallback.
+    officeSince: "2023-01-01",
+    profileUrl: "https://www.maplewoodmn.gov/1978/Chonburi-Lee",
+  },
+  {
+    city: "Maplewood",
+    repName: "Rebecca Cave",
+    repPhotoUrl: "https://www.maplewoodmn.gov/ImageRepository/Document?documentId=29083",
+    repEmail: "Rebecca.Cave@maplewoodmn.gov",
+    repPhone: "651-399-1779",
+    officeSince: "2025-01-01", // no bio, no reliable first-elected year found — best-effort fallback
+    profileUrl: "https://www.maplewoodmn.gov/1977/Rebecca-Cave",
+  },
+  {
+    city: "Maplewood",
+    repName: "Nikki Villavicencio",
+    repPhotoUrl: "https://www.maplewoodmn.gov/ImageRepository/Document?documentId=29082",
+    repEmail: "Nikki.Villavicencio@maplewoodmn.gov",
+    repPhone: "651-558-7662",
+    // Not stated on the city's own site; a Nov 9, 2020 Sahan Journal report
+    // of her election win implies taking office Jan 2021 — unconfirmed by
+    // the city itself, but specific enough to use over a generic fallback.
+    officeSince: "2021-01-01",
+    profileUrl: "https://www.maplewoodmn.gov/1976/Nikki-Villavicencio",
+  },
 ];
 
 async function main() {
-  const featureCollection = {
-    type: "FeatureCollection",
-    features: MAYORS.map(({ city, coordinates, ...properties }) => ({
+  const coordinatesByCity = new Map(MAYORS.map((m) => [m.city, m.coordinates]));
+
+  const mayorFeatures = MAYORS.map(({ city, coordinates, ...properties }) => ({
+    type: "Feature",
+    geometry: { type: "Point", coordinates },
+    properties: {
+      role: "Mayor",
+      city,
+      county: null,
+      ward: null,
+      wardName: null,
+      district: null,
+      stateDistrict: null,
+      chamber: null,
+      candidates: [],
+      isContested: false,
+      partyUnityPercent: null,
+      recentVotes: [],
+      ...properties,
+    },
+  }));
+
+  const atLargeFeatures = AT_LARGE_COUNCIL.map(({ city, ...properties }) => {
+    const coordinates = coordinatesByCity.get(city);
+    if (!coordinates) throw new Error(`AT_LARGE_COUNCIL entry for "${city}" has no matching MAYORS entry to anchor to`);
+    return {
       type: "Feature",
       geometry: { type: "Point", coordinates },
       properties: {
-        role: "Mayor",
+        role: "Council Member",
         city,
         county: null,
         ward: null,
@@ -181,18 +436,29 @@ async function main() {
         district: null,
         stateDistrict: null,
         chamber: null,
+        repParty: NONPARTISAN,
         candidates: [],
         isContested: false,
         partyUnityPercent: null,
         recentVotes: [],
+        committees: [],
+        neighborhoods: [],
+        officeRoom: null,
+        repEmail: null,
+        repPhone: null,
         ...properties,
       },
-    })),
+    };
+  });
+
+  const featureCollection = {
+    type: "FeatureCollection",
+    features: [...mayorFeatures, ...atLargeFeatures],
   };
 
   await mkdir(path.dirname(OUTPUT_PATH), { recursive: true });
   await writeFile(OUTPUT_PATH, JSON.stringify(featureCollection));
-  console.log(`[done] wrote ${featureCollection.features.length} mayor feature(s) to ${OUTPUT_PATH}`);
+  console.log(`[done] wrote ${featureCollection.features.length} feature(s) to ${OUTPUT_PATH}`);
 }
 
 main().catch((err) => {

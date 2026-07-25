@@ -15,6 +15,14 @@ export const CITY_ACCENT: Record<string, string> = {
   Blaine: "#78716C", // warm stone
   "Brooklyn Park": "#D97706", // brown/amber
   "Coon Rapids": "#475569", // cool slate
+  // These four are fully at-large (no wards, no polygon to fill — see
+  // fetch-mayors.mjs's AT_LARGE_COUNCIL) so their accent is only ever a
+  // legend-checkbox dot, never a district fill; collision risk with the
+  // hues above is lower than it would be for a polygon-having city.
+  Edina: "#0891B2", // cyan
+  "Eden Prairie": "#C026D3", // fuchsia
+  Roseville: "#CA8A04", // dark gold
+  Maplewood: "#7C3AED", // violet
 };
 
 // One hue family per city so adjoining areas land on visibly different
