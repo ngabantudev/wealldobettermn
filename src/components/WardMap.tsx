@@ -51,6 +51,10 @@ const CITIES = [
   "Blaine",
   "Brooklyn Park",
   "Coon Rapids",
+  "Edina",
+  "Eden Prairie",
+  "Roseville",
+  "Maplewood",
 ] as const;
 type City = (typeof CITIES)[number];
 
@@ -671,11 +675,30 @@ export default function WardMap() {
         pinMarkersRef.current.push({ marker, properties, mode });
       };
 
+      // One pin per point-anchored rep: every city's mayor, plus — for
+      // cities whose whole council is elected at-large (no wards to draw
+      // at all, unlike every ward-having city above) — their council
+      // members too, sharing the mayor's same City Hall coordinate. See
+      // fetch-mayors.mjs's AT_LARGE_COUNCIL. Grouped by city so a
+      // multi-rep city's points fan out side-by-side, the same mechanism
+      // multi-rep wards above already use.
+      const cityPointGroups = new Map<string, { properties: RepProperties; coordinates: [number, number] }[]>();
       for (const feature of mayorsData.features) {
         if (feature.geometry.type !== "Point") continue;
         const properties = feature.properties as RepProperties;
-        const [lng, lat] = feature.geometry.coordinates as [number, number];
-        addPin(properties, [lng, lat], PIN_DIAMETER_BY_ROLE.Mayor, "wards", boundsAroundPoint(lng, lat));
+        const coordinates = feature.geometry.coordinates as [number, number];
+        if (!cityPointGroups.has(properties.city)) cityPointGroups.set(properties.city, []);
+        cityPointGroups.get(properties.city)!.push({ properties, coordinates });
+      }
+      for (const group of cityPointGroups.values()) {
+        const [lng, lat] = group[0].coordinates;
+        group.forEach(({ properties }, i) => {
+          const offsetX = group.length > 1 ? (i - (group.length - 1) / 2) * PIN_SIDE_BY_SIDE_SPACING_PX : 0;
+          addPin(properties, [lng, lat], PIN_DIAMETER_BY_ROLE[properties.role], "wards", boundsAroundPoint(lng, lat), [
+            offsetX,
+            0,
+          ]);
+        });
       }
 
       // One pin per council member, positioned inside their ward — grouped

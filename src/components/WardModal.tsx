@@ -52,7 +52,12 @@ export function roleLabel(rep: RepProperties): string {
   if (rep.ward !== null) return `Ward ${rep.ward}`;
   if (rep.district !== null) return `District ${rep.district}`;
   if (rep.stateDistrict !== null) return `District ${rep.stateDistrict}`;
-  return "Mayor";
+  // Every one of the checks above is some area a rep represents — a
+  // *lack* of one used to mean "must be a mayor" back when mayors were
+  // the only role that never had one. That stopped being true once
+  // at-large council members (no ward, citywide seat) existed too, so
+  // this checks the role directly instead of assuming.
+  return rep.role === "Mayor" ? "Mayor" : "At-Large";
 }
 
 // Council members and mayors are identified by city; commissioners by
