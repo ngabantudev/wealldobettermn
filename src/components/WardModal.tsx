@@ -43,6 +43,12 @@ function initials(name: string | null): string {
 // Exported for reuse by WardMap's pin markers, which need the same labels
 // for their aria-label text as the modal shows.
 export function roleLabel(rep: RepProperties): string {
+  // Truthy, not `!== null` — mayor pins read straight from the fetched
+  // JSON without going through normalizeRepProperties's null-defaulting
+  // (see that function's own comment), so a mayor from a fetch script that
+  // simply omits wardName would have it as undefined, not null, and
+  // undefined !== null is true. A truthy check treats both as "absent."
+  if (rep.wardName) return `${rep.wardName} District`;
   if (rep.ward !== null) return `Ward ${rep.ward}`;
   if (rep.district !== null) return `District ${rep.district}`;
   if (rep.stateDistrict !== null) return `District ${rep.stateDistrict}`;

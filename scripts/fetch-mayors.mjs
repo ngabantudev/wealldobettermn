@@ -136,6 +136,34 @@ const MAYORS = [
     officeRoom: null,
     profileUrl: "https://www.blainemn.gov/directory.aspx?eid=378",
   },
+  {
+    city: "Brooklyn Park",
+    coordinates: [-93.3470976, 45.1095365], // Brooklyn Park City Hall
+    repName: "Hollies J. Winston",
+    repParty: NONPARTISAN,
+    repPhotoUrl: "https://www.brooklynpark.org/wp-content/uploads/2019/06/Hollies-Winston_Studio-scaled-e1673533312964.jpg",
+    repEmail: "mayor@brooklynpark.org",
+    repPhone: "763-493-8146",
+    officeSince: "2023-01-01", // elected Nov 2022, sworn in Jan 2023 as the city's first Black mayor
+    committees: ["Mayor of Brooklyn Park"],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://www.brooklynpark.org/contact/hollies-winston/",
+  },
+  {
+    city: "Coon Rapids",
+    coordinates: [-93.3042559, 45.1723758], // Coon Rapids City Hall
+    repName: "Jerry Koch",
+    repParty: NONPARTISAN,
+    repPhotoUrl: "https://www.coonrapidsmn.gov/ImageRepository/Document?documentID=13430",
+    repEmail: null, // no personal email published — the city's directory pages carry only a shared general inbox
+    repPhone: "763-767-1811",
+    officeSince: "2025-01-01", // not stated on the city's own site (checked directory + profile page) — best-effort fallback
+    committees: ["Mayor of Coon Rapids"],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://www.coonrapidsmn.gov/Directory.aspx?EID=2",
+  },
 ];
 
 async function main() {
@@ -149,6 +177,7 @@ async function main() {
         city,
         county: null,
         ward: null,
+        wardName: null,
         district: null,
         stateDistrict: null,
         chamber: null,

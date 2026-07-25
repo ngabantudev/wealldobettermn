@@ -13,6 +13,8 @@ export const CITY_ACCENT: Record<string, string> = {
   "St. Louis Park": "#EC4899", // pink
   Richfield: "#65A30D", // olive/lime
   Blaine: "#78716C", // warm stone
+  "Brooklyn Park": "#D97706", // brown/amber
+  "Coon Rapids": "#475569", // cool slate
 };
 
 // One hue family per city so adjoining areas land on visibly different
@@ -34,6 +36,11 @@ export const CITY_PALETTES: Record<string, string[]> = {
   "St. Louis Park": ["#FBCFE8", "#F9A8D4", "#F472B6", "#EC4899"],
   Richfield: ["#D9F99D", "#BEF264", "#A3E635"],
   Blaine: ["#E7E5E4", "#D6D3D1", "#A8A29E"],
+  // Skips amber-400/500 — the latter is CONTESTED_COLOR, and adjacent fill
+  // shades next to that pulsing outline color would blur the distinction.
+  "Brooklyn Park": ["#FDE68A", "#FCD34D", "#D97706"],
+  // Skips slate-500 — that's NEUTRAL_PARTY_COLOR, reserved for pin rings.
+  "Coon Rapids": ["#F8FAFC", "#E2E8F0", "#CBD5E1", "#94A3B8", "#475569"],
 };
 
 // A color distinct from every city and party hue, shared by the map's
