@@ -145,3 +145,31 @@ export interface AddressIndex {
   // never an empty-but-present array standing in for the same thing.
   zips: Record<string, WardRef[]>;
 }
+
+// The full Minnesota gazetteer, shipped as public/mn-places.json and built
+// once per npm run data:places from the U.S. Census Bureau's public-domain
+// Gazetteer Files (scripts/fetch-places.mjs) — every incorporated city and
+// every county in the state, not just the much smaller set this app has
+// ward/commissioner data for (src/lib/cities.ts's CITIES/COUNTIES). This
+// is what lets SearchBar recognize *any* MN place name at all; whether the
+// app actually covers it is a separate question, answered by cross-
+// referencing cities.ts. A name found here but absent from cities.ts
+// resolves to an honest "not covered yet" outcome (AGENTS.md §3.3
+// Coverage Honesty) — never silence, and never a fabricated ward.
+export interface MnPlaces {
+  schemaVersion: 1;
+  generatedAt: string;
+  source: {
+    sourceAgency: string;
+    documentType: string;
+    primarySourceUrl: string;
+    placesUrl: string;
+    countiesUrl: string;
+    licence: string;
+  };
+  // No "County"/"city" suffix — same bare-name style as cities.ts's
+  // CITIES/COUNTIES, so the two lists compare directly without either
+  // side needing to strip anything first.
+  counties: string[];
+  cities: string[];
+}

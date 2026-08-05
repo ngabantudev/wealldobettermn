@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 import type { Feature, FeatureCollection, Geometry } from "geojson";
-import type { AddressIndex, RepProperties, WardRef } from "@/lib/types";
+import type { AddressIndex, MnPlaces, RepProperties, WardRef } from "@/lib/types";
 import { CITIES, type City } from "@/lib/cities";
 import {
   CITY_ACCENT,
@@ -363,6 +363,7 @@ export default function WardMap() {
   // readable synchronously the moment the effect that set them has run.
   const civicDataPromiseRef = useRef<Promise<CivicData | null> | null>(null);
   const [addressIndex, setAddressIndex] = useState<AddressIndex | null>(null);
+  const [mnPlaces, setMnPlaces] = useState<MnPlaces | null>(null);
   const pinMarkersRef = useRef<PinMarker[]>([]);
   const pulseAnimationFrameRef = useRef<number | null>(null);
   const [selected, setSelected] = useState<SelectedRep | null>(null);
@@ -425,6 +426,25 @@ export default function WardMap() {
         if (!cancelled) setAddressIndex(data);
       })
       .catch((err) => console.error("[WardMap] failed to load address index", err));
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  // The full Minnesota city/county gazetteer (public/mn-places.json, a
+  // few dozen KB — see scripts/fetch-places.mjs) that lets SearchBar
+  // recognize *any* MN place name, not just the ones in src/lib/cities.ts
+  // this app has ward data for. Fetched separately for the same reason as
+  // address-index.json above: it's its own independent, lazily-loaded
+  // concern, and covered-city/-county search already works without it.
+  useEffect(() => {
+    let cancelled = false;
+    fetch("/mn-places.json", { cache: "no-store" })
+      .then((res) => res.json())
+      .then((data: MnPlaces) => {
+        if (!cancelled) setMnPlaces(data);
+      })
+      .catch((err) => console.error("[WardMap] failed to load MN place list", err));
     return () => {
       cancelled = true;
     };
@@ -1012,6 +1032,7 @@ export default function WardMap() {
   const searchBar = (
     <SearchBar
       index={addressIndex}
+      allPlaces={mnPlaces}
       onSelectWard={applySearchResult}
       onSelectCity={applyCityZoom}
       onSelectCounty={(_county, cities) => applyCountyZoom(cities)}

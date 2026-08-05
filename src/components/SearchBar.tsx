@@ -1,7 +1,7 @@
 "use client";
 
 import { useId, useMemo, useState } from "react";
-import type { AddressIndex, WardRef } from "@/lib/types";
+import type { AddressIndex, MnPlaces, WardRef } from "@/lib/types";
 import { CITIES, COUNTIES, COUNTY_CITIES, type City, type County } from "@/lib/cities";
 import { parseQuery, resolve, suggestStreets, type SearchOutcome } from "@/lib/addressSearch";
 
@@ -12,6 +12,12 @@ interface SearchBarProps {
   // finishes loading, and it shouldn't have to wait for the gazetteer to
   // let someone search a city or county in the meantime either).
   index: AddressIndex | null;
+  // null while public/mn-places.json is still being fetched. Every MN
+  // city/county this app actually covers (CITIES/COUNTIES below) works
+  // immediately regardless — this only widens suggestions/recognition to
+  // the rest of the state (AGENTS.md §3.3 Coverage Honesty; see
+  // addressSearch.ts's "uncovered-place" kind).
+  allPlaces: MnPlaces | null;
   onSelectWard: (ref: WardRef) => void;
   onSelectCity: (city: City) => void;
   onSelectCounty: (county: County, cities: City[]) => void;
@@ -26,16 +32,24 @@ interface SearchBarProps {
 type Suggestion =
   | { kind: "city"; label: string; city: City }
   | { kind: "county"; label: string; county: County }
+  // A real MN city/county name (from public/mn-places.json) this app
+  // doesn't have ward data for — kept as its own suggestion kind (not
+  // merged into "city"/"county" above) so it can render with a visibly
+  // different label and, on commit, an honest "not covered" message
+  // instead of a fabricated zoom-to-nothing.
+  | { kind: "uncovered-place"; label: string; name: string; placeType: "city" | "county" }
   | { kind: "zip"; label: string; zip: string }
   | { kind: "street"; label: string; houseNumber: number; street: string; cityHint: City | null; zipHint: string | null };
 
 const MAX_SUGGESTIONS = 8;
 
-function buildSuggestions(rawQuery: string, index: AddressIndex | null): Suggestion[] {
+function buildSuggestions(rawQuery: string, index: AddressIndex | null, allPlaces: MnPlaces | null): Suggestion[] {
   const trimmed = rawQuery.trim();
   if (!trimmed) return [];
   const upper = trimmed.toUpperCase();
   const items: Suggestion[] = [];
+  const coveredCities = new Set<string>(CITIES.map((c) => c.toUpperCase()));
+  const coveredCounties = new Set<string>(COUNTIES.map((c) => c.toUpperCase()));
 
   for (const city of CITIES) {
     if (city.toUpperCase().startsWith(upper)) items.push({ kind: "city", label: city, city });
@@ -45,13 +59,35 @@ function buildSuggestions(rawQuery: string, index: AddressIndex | null): Suggest
       items.push({ kind: "county", label: `${county} County`, county });
     }
   }
+  // The rest of Minnesota — every city/county this app doesn't map yet.
+  // Listed after the covered matches above so an address this site can
+  // actually resolve always outranks one it can only acknowledge.
+  if (allPlaces) {
+    for (const city of allPlaces.cities) {
+      if (coveredCities.has(city.toUpperCase())) continue; // already suggested above
+      if (city.toUpperCase().startsWith(upper)) {
+        items.push({ kind: "uncovered-place", label: `${city} (not mapped yet)`, name: city, placeType: "city" });
+      }
+    }
+    for (const county of allPlaces.counties) {
+      if (coveredCounties.has(county.toUpperCase())) continue;
+      if (`${county.toUpperCase()} COUNTY`.startsWith(upper) || county.toUpperCase().startsWith(upper)) {
+        items.push({
+          kind: "uncovered-place",
+          label: `${county} County (not mapped yet)`,
+          name: county,
+          placeType: "county",
+        });
+      }
+    }
+  }
   if (index && /^\d{1,5}$/.test(trimmed)) {
     for (const zip of Object.keys(index.zips)) {
       if (zip.startsWith(trimmed)) items.push({ kind: "zip", label: zip, zip });
     }
   }
   if (index) {
-    const parsed = parseQuery(trimmed);
+    const parsed = parseQuery(trimmed, allPlaces);
     if (parsed.kind === "address") {
       for (const street of suggestStreets(index, parsed.street, MAX_SUGGESTIONS)) {
         items.push({
@@ -72,7 +108,7 @@ function wardLabel(ref: WardRef): string {
   return `${ref.city} Ward ${ref.ward}`;
 }
 
-export default function SearchBar({ index, onSelectWard, onSelectCity, onSelectCounty }: SearchBarProps) {
+export default function SearchBar({ index, allPlaces, onSelectWard, onSelectCity, onSelectCounty }: SearchBarProps) {
   const [query, setQuery] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(-1);
@@ -85,7 +121,7 @@ export default function SearchBar({ index, onSelectWard, onSelectCity, onSelectC
   const [statusMessage, setStatusMessage] = useState("");
   const listboxId = useId();
 
-  const suggestions = useMemo(() => buildSuggestions(query, index), [query, index]);
+  const suggestions = useMemo(() => buildSuggestions(query, index, allPlaces), [query, index, allPlaces]);
 
   // Both "still typing" (suggestions) and "just committed an ambiguous
   // query" (a real ward list) render through the same listbox and the
@@ -93,9 +129,13 @@ export default function SearchBar({ index, onSelectWard, onSelectCity, onSelectC
   // content, never two separate widgets to keep in sync.
   const options = useMemo(() => {
     if (outcome?.status === "ambiguous") {
-      return outcome.wards.map((ref) => ({ label: wardLabel(ref), commit: () => commitWard(ref) }));
+      return outcome.wards.map((ref) => ({ label: wardLabel(ref), muted: false, commit: () => commitWard(ref) }));
     }
-    return suggestions.map((s) => ({ label: s.label, commit: () => commitSuggestion(s) }));
+    // "muted" is a style hint only (dimmer text for a real MN place this
+    // app doesn't map) — the "(not mapped yet)" text baked into the label
+    // itself is what actually carries the meaning, per AGENTS.md's "color
+    // is never the only signal."
+    return suggestions.map((s) => ({ label: s.label, muted: s.kind === "uncovered-place", commit: () => commitSuggestion(s) }));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [outcome, suggestions]);
 
@@ -141,6 +181,7 @@ export default function SearchBar({ index, onSelectWard, onSelectCity, onSelectC
   function commitSuggestion(s: Suggestion) {
     if (s.kind === "city") return applyOutcome({ status: "city", city: s.city });
     if (s.kind === "county") return applyOutcome({ status: "county", county: s.county, cities: COUNTY_CITIES[s.county] });
+    if (s.kind === "uncovered-place") return applyOutcome(resolve(index, { kind: "uncovered-place", name: s.name, placeType: s.placeType }));
     if (s.kind === "zip") return applyOutcome(resolve(index, { kind: "zip", zip: s.zip }));
     return applyOutcome(
       resolve(index, { kind: "address", houseNumber: s.houseNumber, street: s.street, cityHint: s.cityHint, zipHint: s.zipHint }),
@@ -148,7 +189,7 @@ export default function SearchBar({ index, onSelectWard, onSelectCity, onSelectC
   }
 
   function commitRawQuery() {
-    applyOutcome(resolve(index, parseQuery(query)));
+    applyOutcome(resolve(index, parseQuery(query, allPlaces)));
   }
 
   function handleChange(value: string) {
@@ -216,7 +257,9 @@ export default function SearchBar({ index, onSelectWard, onSelectCity, onSelectC
                 aria-selected={i === activeIndex}
                 onMouseDown={(e) => e.preventDefault()} // keep input focus so the click doesn't blur-then-lose the value
                 onClick={() => opt.commit()}
-                className={`cursor-pointer px-2.5 py-1.5 ${i === activeIndex ? "bg-neutral-900 text-white" : "text-neutral-800 hover:bg-neutral-100"}`}
+                className={`cursor-pointer px-2.5 py-1.5 ${
+                  i === activeIndex ? "bg-neutral-900 text-white" : opt.muted ? "text-neutral-400 hover:bg-neutral-100" : "text-neutral-800 hover:bg-neutral-100"
+                }`}
               >
                 {opt.label}
               </li>

@@ -11,7 +11,7 @@
 // browser, and nothing here ever silently picks one ward when more than
 // one candidate is on the table.
 
-import type { AddressEdge, AddressIndex, WardRef } from "./types";
+import type { AddressEdge, AddressIndex, MnPlaces, WardRef } from "./types";
 import { CITIES, COUNTIES, COUNTY_CITIES, type City, type County } from "./cities";
 import { normalizeStreetName } from "./streetNormalize.mjs";
 
@@ -21,6 +21,13 @@ export type ParsedQuery =
   | { kind: "zip"; zip: string }
   | { kind: "city"; city: City }
   | { kind: "county"; county: County }
+  // A real Minnesota city or county name (from public/mn-places.json) that
+  // isn't one of the ones this app has ward/commissioner data for — see
+  // the "not-covered" SearchOutcome this maps to in resolve() below.
+  // Deliberately its own kind rather than folded into "unparseable": the
+  // whole point is telling "we don't understand you" apart from "we
+  // understood you perfectly, we just don't have that place yet."
+  | { kind: "uncovered-place"; name: string; placeType: "city" | "county" }
   | { kind: "address"; houseNumber: number; street: string; cityHint: City | null; zipHint: string | null }
   | { kind: "unparseable" };
 
@@ -34,7 +41,8 @@ export type SearchOutcome =
   | { status: "city"; city: City }
   | { status: "county"; county: County; cities: City[] }
   // Parsed as a real street/ZIP shape, and that street/ZIP exists in the
-  // data, but every match falls outside every ward this app covers.
+  // data, but every match falls outside every ward this app covers. Also
+  // covers a real MN city/county name this app just doesn't map yet.
   | { status: "not-covered"; reason: string }
   // Parsed as a real street/ZIP shape, but nothing in the data matches at
   // all (unknown street, or a house number outside any range on file).
@@ -67,8 +75,16 @@ const ADDRESS_RE = /^(\d+)[A-Za-z]?\s+(.+)$/;
  * collapsed copy of what the resident typed — never logged, never thrown
  * into an error, never written anywhere but the search input's own live
  * React state (see SearchBar.tsx).
+ *
+ * `allPlaces` is the full MN gazetteer (public/mn-places.json) — optional
+ * and nullable because it loads asynchronously (see WardMap.tsx) and
+ * because covered-city/-county recognition above never needed it anyway.
+ * Passing it in only widens what counts as "recognized" (adding the
+ * "uncovered-place" kind below); omitting it never changes a covered
+ * city/county/address/ZIP result, it just means an uncovered MN place
+ * falls through to "unparseable" instead of the more honest "not-covered."
  */
-export function parseQuery(raw: string): ParsedQuery {
+export function parseQuery(raw: string, allPlaces?: MnPlaces | null): ParsedQuery {
   let s = raw.trim().replace(/\s+/g, " ");
   if (!s) return { kind: "unparseable" };
 
@@ -103,6 +119,19 @@ export function parseQuery(raw: string): ParsedQuery {
   if (FOLDED_CITIES.has(foldedWhole)) return { kind: "city", city: FOLDED_CITIES.get(foldedWhole)! };
   const foldedCounty = foldedWhole.replace(/\bCOUNTY\b/, "").trim();
   if (FOLDED_COUNTIES.has(foldedCounty)) return { kind: "county", county: FOLDED_COUNTIES.get(foldedCounty)! };
+
+  // Not one of the cities/counties this app covers — check whether it's a
+  // *real* Minnesota place anyway before giving up. Linear scans over
+  // allPlaces (854 cities + 87 counties) rather than precomputed Maps like
+  // FOLDED_CITIES/FOLDED_COUNTIES above, since allPlaces is loaded async
+  // and can't be folded once at module scope the way the small, static
+  // CITIES/COUNTIES consts are.
+  if (allPlaces) {
+    const cityMatch = allPlaces.cities.find((c) => fold(c) === foldedWhole);
+    if (cityMatch) return { kind: "uncovered-place", name: cityMatch, placeType: "city" };
+    const countyMatch = allPlaces.counties.find((c) => fold(c) === foldedCounty);
+    if (countyMatch) return { kind: "uncovered-place", name: countyMatch, placeType: "county" };
+  }
 
   const addressMatch = s.match(ADDRESS_RE);
   if (addressMatch) {
@@ -262,6 +291,14 @@ export function resolve(index: AddressIndex | null, parsed: ParsedQuery): Search
       return { status: "city", city: parsed.city };
     case "county":
       return { status: "county", county: parsed.county, cities: COUNTY_CITIES[parsed.county] };
+    case "uncovered-place": {
+      const label = parsed.placeType === "county" ? `${parsed.name} County` : parsed.name;
+      const kindWord = parsed.placeType === "county" ? "county" : "city";
+      return {
+        status: "not-covered",
+        reason: `${label} isn't a ${kindWord} this site has data for yet — it currently covers ${CITIES.join(", ")}.`,
+      };
+    }
     case "address":
       if (!index) return { status: "not-found", reason: "Address and ZIP search are still loading — try again in a moment." };
       return resolveAddress(index, parsed.houseNumber, parsed.street, parsed.cityHint, parsed.zipHint);
