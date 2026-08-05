@@ -999,18 +999,30 @@ export default function WardMap() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // Defined once, referenced from both the desktop and mobile branches
+  // below — each usage still mounts its own independent SearchBar
+  // instance (React treats the two JSX positions as separate component
+  // instances regardless of sharing this element description), so this
+  // is purely to keep the props in one place rather than duplicating
+  // four lines of callbacks that need to stay in sync.
+  const searchBar = (
+    <SearchBar
+      index={addressIndex}
+      onSelectWard={applySearchResult}
+      onSelectCity={applyCityZoom}
+      onSelectCounty={(_county, cities) => applyCountyZoom(cities)}
+    />
+  );
+
   return (
     <div className="relative w-full h-dvh overflow-hidden">
       <div ref={mapContainerRef} className="absolute inset-0 w-full h-full" />
 
+      {/* Mode switcher + city/chamber filter — always top-left, on every
+          screen size. Search moved out to its own placement below: center-
+          top on desktop, bottom-docked on mobile (see AGENTS.md Part 4 —
+          "Search Is The Primary Interface"). */}
       <div className="absolute left-3 top-3 z-20 flex flex-col gap-2 font-sans">
-        <SearchBar
-          index={addressIndex}
-          onSelectWard={applySearchResult}
-          onSelectCity={applyCityZoom}
-          onSelectCounty={(_county, cities) => applyCountyZoom(cities)}
-        />
-
         <div
           role="group"
           aria-label="Choose map layer"
@@ -1056,7 +1068,16 @@ export default function WardMap() {
           <div
             role="group"
             aria-label="Filter by area"
-            className="rounded-lg bg-white/90 backdrop-blur-sm border border-neutral-200 shadow-lg divide-y divide-neutral-100 text-sm text-neutral-700"
+            // Capped height + internal scroll: with all 10 cities checked
+            // this list runs ~400px+ tall, and on mobile — where the
+            // search bar and (if open) the ward modal now dock along the
+            // bottom edge instead of sharing this same top-left column —
+            // nothing else pushes it out of the way anymore. Without a
+            // cap, a tall modal can pull that bottom stack's top edge up
+            // far enough to collide with this list. The cap is small
+            // enough to matter only on short mobile viewports; it's
+            // harmless — never actually engaged — on desktop.
+            className="max-h-[45vh] overflow-y-auto rounded-lg bg-white/90 backdrop-blur-sm border border-neutral-200 shadow-lg divide-y divide-neutral-100 text-sm text-neutral-700"
           >
             {MODE_VISIBLE_CITIES[layerMode].map((city) => (
               <label key={city} className="flex items-center gap-2 px-3 py-2.5 sm:py-2 cursor-pointer select-none">
@@ -1077,9 +1098,37 @@ export default function WardMap() {
         )}
       </div>
 
+      {/* Desktop (sm+): search bar floats centered at the top of the map,
+          independent of the mode-switcher stack — the primary interface
+          gets the primary position, not a corner. */}
+      <div className="hidden sm:flex absolute inset-x-0 top-3 z-20 justify-center px-4 pointer-events-none">
+        <div className="pointer-events-auto">{searchBar}</div>
+      </div>
+
+      {/* Mobile: search bar and (if open) the ward modal share one
+          bottom-docked stack, search on top — both are bottom sheets on
+          this breakpoint, and stacking them in the same flex column is
+          what keeps them from literally overlapping each other, rather
+          than each independently anchoring to the screen's bottom edge. */}
+      <div className="sm:hidden absolute inset-x-0 bottom-0 z-20 flex flex-col items-center gap-2 px-3 pb-[env(safe-area-inset-bottom)] pointer-events-none">
+        <div className="pointer-events-auto w-full flex justify-center">{searchBar}</div>
+        {selected && (
+          <div className="pointer-events-auto w-full flex justify-center">
+            <WardModal ward={selected.properties} pinned={selected.pinned} onClose={deselect} />
+          </div>
+        )}
+      </div>
+
+      {/* Desktop (sm+): modal keeps its existing bottom-left placement,
+          separate from the top-center search bar above. WardModal has no
+          internal state (pure function of props), so mounting it here in
+          addition to the mobile branch above is safe — never a second,
+          desynced copy of anything the user typed. */}
       {selected && (
-        <div className="absolute inset-x-0 bottom-0 z-10 flex justify-center pointer-events-none pb-[env(safe-area-inset-bottom)] sm:inset-x-auto sm:justify-start sm:left-4 sm:bottom-4 sm:pb-0">
-          <WardModal ward={selected.properties} pinned={selected.pinned} onClose={deselect} />
+        <div className="hidden sm:flex absolute z-10 left-4 bottom-4 pointer-events-none">
+          <div className="pointer-events-auto">
+            <WardModal ward={selected.properties} pinned={selected.pinned} onClose={deselect} />
+          </div>
         </div>
       )}
     </div>
