@@ -79,9 +79,3 @@ export interface RepProperties {
   // material partyUnityPercent above is computed from.
   recentVotes: BillVote[];
 }
-
-export interface Hearing {
-  title: string;
-  datetime: string;
-  location: string;
-}

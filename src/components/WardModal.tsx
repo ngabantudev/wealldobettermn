@@ -1,6 +1,6 @@
 "use client";
 
-import type { Hearing, RepProperties } from "@/lib/types";
+import type { RepProperties } from "@/lib/types";
 import { CONTESTED_COLOR, CONTESTED_COLOR_SOFT, partyColor, partyColorSoft } from "@/lib/cityTheme";
 
 function formatOfficeSince(iso: string): string {
@@ -10,17 +10,27 @@ function formatOfficeSince(iso: string): string {
   return new Date(iso).toLocaleDateString("en-US", { month: "long", year: "numeric", timeZone: "UTC" });
 }
 
-function formatHearingBadge(iso: string): { weekday: string; day: string } {
-  const d = new Date(iso);
-  return {
-    weekday: d.toLocaleDateString("en-US", { weekday: "short" }).toUpperCase(),
-    day: d.toLocaleDateString("en-US", { day: "numeric" }),
-  };
-}
-
-function formatHearingTime(iso: string): string {
-  return new Date(iso).toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" });
-}
+// Every mapped city's own official council-meetings/agenda calendar
+// page, each individually verified live (fetched and confirmed to be a
+// real, current meetings/agenda page, not guessed from a URL pattern).
+// This is the entire content of the "meetings" section below: AGENTS.md
+// §3.1 requires deleting fabricated hearing data outright rather than
+// labeling it, so there is no meetings feed here at all, real or
+// synthetic — only an honest pointer to where a resident can find one
+// themselves. A city missing from this table falls back to a plain-text
+// "check your city's website" prompt rather than a guessed link.
+const CITY_MEETINGS_URL: Partial<Record<string, string>> = {
+  Minneapolis: "https://www.minneapolismn.gov/government/city-council/",
+  "St. Paul": "https://www.stpaul.gov/meetings-agendas-and-minutes",
+  Bloomington: "https://www.bloomingtonmn.gov/cob/city-meetings-agendas-webcasts-and-documents",
+  Plymouth: "https://www.plymouthmn.gov/departments/city-council/meetings-agendas-videos-2406",
+  Minnetonka: "https://www.minnetonkamn.gov/government/city-council-mayor/city-council-meetings",
+  "St. Louis Park": "https://www.stlouisparkmn.gov/government/city-council/meetings",
+  Richfield: "https://richfieldmn.portal.civicclerk.com/",
+  Blaine: "https://www.blainemn.gov/AgendaCenter",
+  "Brooklyn Park": "https://www.brooklynpark.org/city-council/city-council-documents/",
+  "Coon Rapids": "https://www.coonrapidsmn.gov/572/Agendas-Minutes",
+};
 
 // St. Paul's source data includes a "Councilmember " prefix in the name
 // field; the role/city label above already establishes that, so it's just
@@ -147,12 +157,11 @@ function IconExternal() {
 
 export interface WardModalProps {
   ward: RepProperties;
-  hearings: Hearing[];
   pinned: boolean;
   onClose: () => void;
 }
 
-export default function WardModal({ ward: rep, hearings, pinned, onClose }: WardModalProps) {
+export default function WardModal({ ward: rep, pinned, onClose }: WardModalProps) {
   const repName = displayName(rep.repName);
   const accent = partyColor(rep.repParty);
   const accentSoft = partyColorSoft(rep.repParty);
@@ -182,11 +191,16 @@ export default function WardModal({ ward: rep, hearings, pinned, onClose }: Ward
   );
 
   // Hover-only preview (desktop, unpinned): a light glance — who, and
-  // what's the very next thing on their calendar — not the full profile.
-  // Modeled on map "place card" hover states rather than dumping every
-  // field into a fleeting mouseover.
+  // where — not the full profile. Modeled on map "place card" hover
+  // states rather than dumping every field into a fleeting mouseover.
+  // No meetings teaser here (there used to be one) — see the pinned
+  // modal's "Meetings" section below for why: this app has no real
+  // per-ward meetings feed connected, so there's nothing honest to
+  // preview in a two-line hover card. The full context (and a link to
+  // the city's own calendar) only belongs in the pinned modal, where
+  // there's room to say so plainly rather than implying a check that
+  // never happened.
   if (!pinned) {
-    const next = hearings[0];
     return (
       <div
         className="pointer-events-auto w-72 rounded-xl border border-neutral-200 bg-white shadow-xl overflow-hidden"
@@ -206,18 +220,6 @@ export default function WardModal({ ward: rep, hearings, pinned, onClose }: Ward
           <div className="px-3 pb-2 -mt-1 flex items-center gap-1.5 text-xs font-medium" style={{ color: CONTESTED_COLOR }}>
             <IconBallot />
             <span>Contested &middot; {candidates.length} candidates</span>
-          </div>
-        )}
-        {isWard && (
-          <div className="px-3 pb-3 -mt-1 flex items-center gap-1.5 text-xs text-neutral-500">
-            <IconCalendar />
-            {next ? (
-              <span className="truncate">
-                Next: {formatHearingBadge(next.datetime).weekday} {formatHearingBadge(next.datetime).day}, {formatHearingTime(next.datetime)}
-              </span>
-            ) : (
-              <span>No hearings this week</span>
-            )}
           </div>
         )}
       </div>
@@ -385,43 +387,38 @@ export default function WardModal({ ward: rep, hearings, pinned, onClose }: Ward
           </div>
         )}
 
-        {/* Hearings are tracked per-ward (see src/lib/hearings.ts) — the
-            mayor's office doesn't have an equivalent public schedule in
-            this data model, so showing an empty state here would imply a
-            real check that never happened. */}
+        {/* This used to be a per-ward hearing/meeting schedule — deleted
+            outright (not hidden behind a flag, not left as a fallback)
+            per AGENTS.md §3.1: it was fabricated, deterministic mock
+            data, and a resident who missed a real hearing because this
+            site invented a fake one would have been actively harmed.
+            An honest "we don't have this yet" with a real link to the
+            city's own calendar is the correct replacement, not a fake
+            feed relabeled as real. The mayor's office doesn't get this
+            section at all (isWard) — there's no ward-level "meetings
+            feed" concept to honestly say we lack for a citywide role. */}
         {isWard && (
           <div className="border-t border-neutral-100 px-4 py-3">
             <div className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-neutral-500 mb-2.5">
               <IconCalendar />
-              This &amp; next week
+              Meetings
             </div>
-            {hearings.length === 0 ? (
-              <p className="text-sm text-neutral-500">No hearings or meetings scheduled.</p>
+            <p className="text-sm text-neutral-500">
+              No meetings feed connected yet for {rep.city}.
+            </p>
+            {CITY_MEETINGS_URL[rep.city] ? (
+              <a
+                href={CITY_MEETINGS_URL[rep.city]}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1 text-sm font-medium hover:underline mt-1"
+                style={{ color: accent }}
+              >
+                See {rep.city}&rsquo;s own meeting calendar
+                <IconExternal />
+              </a>
             ) : (
-              <ul className="space-y-2.5">
-                {hearings.map((hearing) => {
-                  const badge = formatHearingBadge(hearing.datetime);
-                  return (
-                    <li key={`${hearing.title}-${hearing.datetime}`} className="flex gap-3">
-                      <div
-                        className="shrink-0 w-11 h-11 rounded-lg flex flex-col items-center justify-center leading-none"
-                        style={{ backgroundColor: accentSoft, color: accent }}
-                      >
-                        <span className="text-[9px] font-bold tracking-wide">{badge.weekday}</span>
-                        <span className="text-base font-bold">{badge.day}</span>
-                      </div>
-                      <div className="min-w-0 flex-1 pt-0.5">
-                        <div className="text-sm font-medium text-neutral-900">{hearing.title}</div>
-                        <div className="text-xs text-neutral-500">{formatHearingTime(hearing.datetime)}</div>
-                        <div className="text-xs text-neutral-500 flex items-start gap-1 mt-0.5">
-                          <span className="mt-0.5"><IconPin /></span>
-                          <span>{hearing.location}</span>
-                        </div>
-                      </div>
-                    </li>
-                  );
-                })}
-              </ul>
+              <p className="text-xs text-neutral-400 mt-1">Check {rep.city}&rsquo;s official website for upcoming meetings.</p>
             )}
           </div>
         )}
