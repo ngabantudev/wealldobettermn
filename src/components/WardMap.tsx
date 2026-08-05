@@ -16,6 +16,7 @@ import {
   partyColorSoft,
 } from "@/lib/cityTheme";
 import SearchBar from "./SearchBar";
+import SiteHeader from "./SiteHeader";
 import WardModal, { areaLabel, roleLabel } from "./WardModal";
 
 // Matches the OpenFreeMap "Liberty" style used by the get-flocked project,
@@ -1070,8 +1071,17 @@ export default function WardMap() {
   //        it. Per AGENTS.md §4 ("Search Is The Primary Interface, Not
   //        The Map"), this rung is reserved for controls a user always
   //        needs reachable regardless of what's selected on the map.
+  //
+  // SiteHeader sits outside this scale entirely — it's a normal static-
+  // flow flex sibling *above* the relative wrapper all of 0/10/20 live
+  // in, not an absolutely-positioned layer competing for a z-index rung.
+  // Every "absolute inset-0 / top-3 / bottom-0" below is scoped to that
+  // wrapper's own box (which already starts below the header), so there's
+  // no overlap to resolve and no rung needed for it.
   return (
-    <div className="relative w-full h-dvh overflow-hidden">
+    <div className="flex w-full h-dvh flex-col overflow-hidden bg-canvas">
+      <SiteHeader />
+      <div className="relative min-h-0 flex-1">
       <div ref={mapContainerRef} className="absolute inset-0 w-full h-full isolate z-0" />
 
       {/* Mode switcher + city/chamber filter — always top-left, on every
@@ -1082,7 +1092,7 @@ export default function WardMap() {
         <div
           role="group"
           aria-label="Choose map layer"
-          className="flex rounded-lg bg-white/90 backdrop-blur-sm border border-neutral-200 shadow-lg p-1 text-sm"
+          className="flex rounded-lg bg-panel-2/90 backdrop-blur-sm border border-hair shadow-lg p-1 text-sm well"
         >
           {(["wards", "commissioners", "state-legislature"] as const).map((mode) => (
             <button
@@ -1090,7 +1100,7 @@ export default function WardMap() {
               type="button"
               onClick={() => switchMode(mode)}
               className={`px-3 py-1.5 rounded-md font-medium transition-colors ${
-                layerMode === mode ? "bg-neutral-900 text-white" : "text-neutral-600 hover:bg-neutral-100"
+                layerMode === mode ? "bg-accent text-on-accent" : "text-ink-3 hover:bg-hover hover:text-ink"
               }`}
             >
               {MODE_LABELS[mode]}
@@ -1105,7 +1115,7 @@ export default function WardMap() {
           <div
             role="group"
             aria-label="Choose chamber"
-            className="flex rounded-lg bg-white/90 backdrop-blur-sm border border-neutral-200 shadow-lg p-1 text-sm"
+            className="flex rounded-lg bg-panel-2/90 backdrop-blur-sm border border-hair shadow-lg p-1 text-sm well"
           >
             {CHAMBERS.map((c) => (
               <button
@@ -1113,7 +1123,7 @@ export default function WardMap() {
                 type="button"
                 onClick={() => switchChamber(c)}
                 className={`px-3 py-1.5 rounded-md font-medium transition-colors ${
-                  chamber === c ? "bg-neutral-900 text-white" : "text-neutral-600 hover:bg-neutral-100"
+                  chamber === c ? "bg-accent text-on-accent" : "text-ink-3 hover:bg-hover hover:text-ink"
                 }`}
               >
                 {CHAMBER_LABELS[c]}
@@ -1133,15 +1143,15 @@ export default function WardMap() {
             // far enough to collide with this list. The cap is small
             // enough to matter only on short mobile viewports; it's
             // harmless — never actually engaged — on desktop.
-            className="max-h-[45vh] overflow-y-auto rounded-lg bg-white/90 backdrop-blur-sm border border-neutral-200 shadow-lg divide-y divide-neutral-100 text-sm text-neutral-700"
+            className="max-h-[45vh] overflow-y-auto rounded-lg bg-panel-2/90 backdrop-blur-sm border border-hair shadow-lg divide-y divide-hair text-sm text-ink-2 well"
           >
             {MODE_VISIBLE_CITIES[layerMode].map((city) => (
-              <label key={city} className="flex items-center gap-2 px-3 py-2.5 sm:py-2 cursor-pointer select-none">
+              <label key={city} className="flex items-center gap-2 px-3 py-2.5 sm:py-2 cursor-pointer select-none hover:bg-hover">
                 <input
                   type="checkbox"
                   checked={visibleCities[city]}
                   onChange={() => toggleCity(city)}
-                  className="cursor-pointer"
+                  className="cursor-pointer accent-accent"
                 />
                 <span
                   className="h-2.5 w-2.5 rounded-full shrink-0"
@@ -1187,6 +1197,7 @@ export default function WardMap() {
           </div>
         </div>
       )}
+      </div>
     </div>
   );
 }

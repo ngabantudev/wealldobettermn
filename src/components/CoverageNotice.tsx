@@ -19,7 +19,7 @@ export default function CoverageNotice() {
   const detailId = useId();
 
   return (
-    <div className="border-b border-neutral-200 pb-1.5 mb-1.5 text-neutral-700">
+    <div className="border-b border-hair pb-1.5 mb-1.5 text-ink-3">
       <p className="px-1">
         Full rep data covers <strong className="font-semibold">{WARD_CITIES.length} Twin Cities-area cities</strong>{" "}
         — not the whole metro, and not the rest of Minnesota.{" "}
@@ -28,7 +28,7 @@ export default function CoverageNotice() {
           aria-expanded={expanded}
           aria-controls={detailId}
           onClick={() => setExpanded((e) => !e)}
-          className="font-medium underline decoration-dotted underline-offset-2 hover:text-neutral-900"
+          className="font-medium text-accent underline decoration-dotted underline-offset-2 hover:text-accent-hover"
         >
           {expanded ? "Hide coverage" : "See what's covered"}
         </button>
@@ -47,20 +47,20 @@ export default function CoverageNotice() {
         <div
           id={detailId}
           tabIndex={0}
-          className="mt-1.5 px-1 space-y-1.5 text-neutral-600 max-h-40 overflow-y-auto"
+          className="mt-1.5 px-1 space-y-1.5 text-ink-3 max-h-40 overflow-y-auto"
         >
           <p>
-            <span className="font-medium text-neutral-800">City council &amp; mayor</span> — {WARD_CITIES.join(", ")}.
+            <span className="font-medium text-ink-2">City council &amp; mayor</span> — {WARD_CITIES.join(", ")}.
           </p>
           <p>
-            <span className="font-medium text-neutral-800">County commissioner</span> — {COMMISSIONER_COUNTIES.join(" & ")} counties
+            <span className="font-medium text-ink-2">County commissioner</span> — {COMMISSIONER_COUNTIES.join(" & ")} counties
             only.
           </p>
           <p>
-            <span className="font-medium text-neutral-800">State legislature</span> — {STATE_LEGISLATURE_NOTE}
+            <span className="font-medium text-ink-2">State legislature</span> — {STATE_LEGISLATURE_NOTE}
           </p>
           <p>
-            <span className="font-medium text-neutral-800">Not covered anywhere yet</span> — {NOT_COVERED_ANYWHERE.join("; ")}.
+            <span className="font-medium text-ink-2">Not covered anywhere yet</span> — {NOT_COVERED_ANYWHERE.join("; ")}.
           </p>
           <p>Search still recognizes any Minnesota city or county by name — it will just say honestly when we do not have it yet.</p>
         </div>
