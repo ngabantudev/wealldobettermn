@@ -203,7 +203,7 @@ export default function WardModal({ ward: rep, pinned, onClose }: WardModalProps
   if (!pinned) {
     return (
       <div
-        className="well pointer-events-auto w-72 rounded-xl border border-hair bg-panel-2 shadow-xl overflow-hidden"
+        className="pointer-events-auto w-72 rounded-xl border border-hair bg-panel-2 shadow-xl shadow-(color:--shadow-panel) overflow-hidden"
         role="dialog"
         aria-label={`${areaLabel(rep)} ${roleLabel(rep)} preview`}
       >
@@ -228,7 +228,7 @@ export default function WardModal({ ward: rep, pinned, onClose }: WardModalProps
 
   return (
     <div
-      className="well pointer-events-auto w-full sm:w-[380px] max-h-[75vh] sm:max-h-[80vh] flex flex-col rounded-t-2xl sm:rounded-2xl border border-hair bg-panel-2 shadow-2xl overflow-hidden"
+      className="pointer-events-auto w-full sm:w-[380px] max-h-[75vh] sm:max-h-[80vh] flex flex-col rounded-t-2xl sm:rounded-2xl border border-hair bg-panel-2 shadow-2xl shadow-(color:--shadow-panel) overflow-hidden"
       role="dialog"
       aria-label={`${areaLabel(rep)} ${roleLabel(rep)} info`}
     >

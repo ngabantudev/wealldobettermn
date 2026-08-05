@@ -1092,7 +1092,7 @@ export default function WardMap() {
         <div
           role="group"
           aria-label="Choose map layer"
-          className="flex rounded-lg bg-panel-2/90 backdrop-blur-sm border border-hair shadow-lg p-1 text-sm well"
+          className="flex rounded-lg bg-panel-2/90 backdrop-blur-sm border border-hair shadow-lg shadow-(color:--shadow-panel) p-1 text-sm"
         >
           {(["wards", "commissioners", "state-legislature"] as const).map((mode) => (
             <button
@@ -1115,7 +1115,7 @@ export default function WardMap() {
           <div
             role="group"
             aria-label="Choose chamber"
-            className="flex rounded-lg bg-panel-2/90 backdrop-blur-sm border border-hair shadow-lg p-1 text-sm well"
+            className="flex rounded-lg bg-panel-2/90 backdrop-blur-sm border border-hair shadow-lg shadow-(color:--shadow-panel) p-1 text-sm"
           >
             {CHAMBERS.map((c) => (
               <button
@@ -1143,7 +1143,7 @@ export default function WardMap() {
             // far enough to collide with this list. The cap is small
             // enough to matter only on short mobile viewports; it's
             // harmless — never actually engaged — on desktop.
-            className="max-h-[45vh] overflow-y-auto rounded-lg bg-panel-2/90 backdrop-blur-sm border border-hair shadow-lg divide-y divide-hair text-sm text-ink-2 well"
+            className="max-h-[45vh] overflow-y-auto rounded-lg bg-panel-2/90 backdrop-blur-sm border border-hair shadow-lg shadow-(color:--shadow-panel) divide-y divide-hair text-sm text-ink-2"
           >
             {MODE_VISIBLE_CITIES[layerMode].map((city) => (
               <label key={city} className="flex items-center gap-2 px-3 py-2.5 sm:py-2 cursor-pointer select-none hover:bg-hover">

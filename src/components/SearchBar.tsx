@@ -227,7 +227,7 @@ export default function SearchBar({ index, allPlaces, onSelectWard, onSelectCity
   const showMessage = outcome && outcome.status !== "ambiguous" && outcome.status !== "single";
 
   return (
-    <div className="well w-[min(90vw,24rem)] rounded-lg bg-panel-2/90 backdrop-blur-sm border border-hair shadow-lg p-2 font-sans text-sm">
+    <div className="w-[min(90vw,24rem)] rounded-lg bg-panel-2/90 backdrop-blur-sm border border-hair shadow-lg shadow-(color:--shadow-panel) p-2 font-sans text-sm">
       <CoverageNotice />
       <label htmlFor={`${listboxId}-input`} className="block px-1 pb-1 font-medium text-ink-2">
         Find your ward
@@ -250,7 +250,7 @@ export default function SearchBar({ index, allPlaces, onSelectWard, onSelectCity
           className="w-full rounded-md border border-hair-strong bg-panel-2 px-2.5 py-1.5 text-ink placeholder:text-ink-4 focus:outline-none focus:ring-2 focus:ring-accent"
         />
         {isOpen && options.length > 0 && (
-          <ul id={listboxId} role="listbox" className="well absolute left-0 right-0 top-full mt-1 max-h-64 overflow-y-auto rounded-md border border-hair bg-panel-2 shadow-lg z-10">
+          <ul id={listboxId} role="listbox" className="absolute left-0 right-0 top-full mt-1 max-h-64 overflow-y-auto rounded-md border border-hair bg-panel-2 shadow-lg shadow-(color:--shadow-panel) z-10">
             {options.map((opt, i) => (
               <li
                 key={`${opt.label}-${i}`}
