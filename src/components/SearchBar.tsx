@@ -4,6 +4,7 @@ import { useId, useMemo, useState } from "react";
 import type { AddressIndex, MnPlaces, WardRef } from "@/lib/types";
 import { CITIES, COUNTIES, COUNTY_CITIES, type City, type County } from "@/lib/cities";
 import { parseQuery, resolve, suggestStreets, type SearchOutcome } from "@/lib/addressSearch";
+import CoverageNotice from "./CoverageNotice";
 
 interface SearchBarProps {
   // null while public/address-index.json is still being fetched — see
@@ -227,6 +228,7 @@ export default function SearchBar({ index, allPlaces, onSelectWard, onSelectCity
 
   return (
     <div className="w-[min(90vw,24rem)] rounded-lg bg-white/90 backdrop-blur-sm border border-neutral-200 shadow-lg p-2 font-sans text-sm">
+      <CoverageNotice />
       <label htmlFor={`${listboxId}-input`} className="block px-1 pb-1 font-medium text-neutral-800">
         Find your ward
       </label>
