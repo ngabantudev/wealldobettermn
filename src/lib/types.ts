@@ -85,3 +85,69 @@ export interface Hearing {
   datetime: string;
   location: string;
 }
+
+// A pointer to one ward — the join key between the address/ZIP gazetteer
+// (src/lib/addressSearch.ts, public/address-index.json) and the ward
+// features already loaded from wards.geojson. Deliberately just the two
+// fields that identify a ward feature (matches the `${city}-${ward}` key
+// shape used elsewhere, e.g. WardMap.tsx's wardPinOccurrences) rather than
+// duplicating the full RepProperties — the gazetteer's job is "which
+// ward," not "who represents it," so it always resolves through a lookup
+// against the real, current ward data rather than carrying its own
+// (potentially stale) copy of rep info.
+export interface WardRef {
+  city: string;
+  ward: number;
+}
+
+// One TIGER/Line ADDRFEAT edge (a single block-face's worth of address
+// range on one street), as emitted by scripts/fetch-addresses.mjs. House
+// number ranges are kept as strings — TIGER's own encoding, and some
+// ranges carry non-numeric suffixes — and parsed defensively at query
+// time in addressSearch.ts rather than coerced at ingest.
+export interface AddressEdge {
+  tlid: number;
+  // WGS84 [lng, lat] endpoints ([start, end] — TIGER's ~5-vertex polyline
+  // simplified to its two ends, plenty for linear interpolation across a
+  // single block face), used only for approximating a house number's
+  // position along the block for map-zoom/pin precision. Never consulted
+  // for ward identity: that's wardCandidates below, computed once at
+  // build time instead. Empty when wardCandidates is empty — a zoom
+  // target only ever matters for an edge that resolved into a ward this
+  // app covers.
+  coords: [number, number][];
+  lfromhn: string | null;
+  ltohn: string | null;
+  rfromhn: string | null;
+  rtohn: string | null;
+  // Odd/Even/Both — which house-number parity this side's range covers.
+  parityL: "O" | "E" | "B" | null;
+  parityR: "O" | "E" | "B" | null;
+  zipl: string | null;
+  zipr: string | null;
+  // Every ward whose polygon contains any vertex of this edge, computed
+  // once offline in scripts/fetch-addresses.mjs — never recomputed in the
+  // browser. Usually length 1; length 2 means this block straddles a
+  // ward boundary (surfaced as a disambiguation, never resolved
+  // silently — see addressSearch.ts's resolve()); length 0 means this
+  // edge falls outside every ward this app covers, which is kept (not
+  // dropped) so "found the street, but it's outside our coverage" can be
+  // told apart from "no such street" in the UI.
+  wardCandidates: WardRef[];
+}
+
+// The on-device gazetteer shipped as public/address-index.json — the
+// entire implementation of AGENTS.md §2.5's "static index shipped with
+// the app." Built once per npm run data:addresses from free, public-domain
+// US Census TIGER/Line data; never fetched or computed against a live
+// service at request time.
+export interface AddressIndex {
+  schemaVersion: 1;
+  generatedAt: string; // build metadata only, never derived from a query
+  sourceCounties: { name: string; fips: string; url: string }[];
+  // Keyed by normalizeStreetName(FULLNAME) — see streetNormalize.mjs.
+  streets: Record<string, AddressEdge[]>;
+  // Keyed by 5-digit ZIP. An absent key means honestly "not covered,"
+  // never an empty-but-present array standing in for the same thing.
+  zips: Record<string, WardRef[]>;
+}

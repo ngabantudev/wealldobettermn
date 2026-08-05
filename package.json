@@ -11,7 +11,8 @@
     "data:mayors": "node scripts/fetch-mayors.mjs",
     "data:commissioners": "node scripts/fetch-commissioners.mjs",
     "data:state-legislature": "node scripts/fetch-state-legislature.mjs",
-    "data:all": "npm run data:wards && npm run data:mayors && npm run data:commissioners",
+    "data:addresses": "node scripts/fetch-addresses.mjs",
+    "data:all": "npm run data:wards && npm run data:addresses && npm run data:mayors && npm run data:commissioners",
     "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
     "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
     "upload": "opennextjs-cloudflare build && opennextjs-cloudflare upload",
@@ -34,6 +35,7 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.2.11",
+    "shpjs": "^6.2.0",
     "tailwindcss": "^4",
     "typescript": "^5",
     "wrangler": "^4.113.0"

@@ -4,8 +4,9 @@ import { useEffect, useRef, useState } from "react";
 import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 import type { Feature, FeatureCollection, Geometry } from "geojson";
-import type { RepProperties } from "@/lib/types";
+import type { AddressIndex, RepProperties, WardRef } from "@/lib/types";
 import { getUpcomingHearings } from "@/lib/hearings";
+import { CITIES, type City } from "@/lib/cities";
 import {
   CITY_ACCENT,
   CITY_PALETTES,
@@ -15,6 +16,7 @@ import {
   partyColor,
   partyColorSoft,
 } from "@/lib/cityTheme";
+import SearchBar from "./SearchBar";
 import WardModal, { areaLabel, roleLabel } from "./WardModal";
 
 // Matches the OpenFreeMap "Liberty" style used by the get-flocked project,
@@ -38,20 +40,6 @@ const STATE_LEG_FILL_LAYER_ID = "state-legislature-fill";
 const STATE_LEG_OUTLINE_LAYER_ID = "state-legislature-outline";
 const STATE_LEG_PULSE_LAYER_ID = "state-legislature-pulse";
 const STATE_LEG_LABEL_LAYER_ID = "state-legislature-label";
-
-const CITIES = [
-  "Minneapolis",
-  "St. Paul",
-  "Bloomington",
-  "Plymouth",
-  "Minnetonka",
-  "St. Louis Park",
-  "Richfield",
-  "Blaine",
-  "Brooklyn Park",
-  "Coon Rapids",
-] as const;
-type City = (typeof CITIES)[number];
 
 const CHAMBERS = ["house", "senate"] as const;
 type Chamber = (typeof CHAMBERS)[number];
@@ -208,6 +196,48 @@ function boundsFromFeatureCollection(data: FeatureCollection): maplibregl.LngLat
   return bounds;
 }
 
+interface CivicData {
+  wards: FeatureCollection;
+  mayors: FeatureCollection;
+  commissioners: FeatureCollection;
+  stateLeg: FeatureCollection;
+}
+
+// Fetches the four public/*.geojson layers independently of the MapLibre
+// instance — previously this ran inside map.on("load"), which meant a
+// resident whose map never finishes loading (WebGL unavailable, tile
+// host down) could never get ward data either, silently breaking search
+// along with the map itself. AGENTS.md Part 4 requires search to work
+// "with the map absent, failed, or never loaded," so this now runs on
+// its own, and the map-setup effect below awaits the same promise
+// instead of fetching a second time. Never throws: a failed fetch
+// resolves null so the caller can degrade (empty map, search that
+// honestly has nothing to search) rather than crash.
+async function fetchCivicData(): Promise<CivicData | null> {
+  try {
+    // no-store: this is static JSON re-fetched every election cycle (see
+    // scripts/fetch-*.mjs) — a browser-cached copy from before a field
+    // got added crashes the modal on a field the current component code
+    // expects to exist.
+    const [wardsRes, mayorsRes, commissionersRes, stateLegRes] = await Promise.all([
+      fetch("/wards.geojson", { cache: "no-store" }),
+      fetch("/mayors.geojson", { cache: "no-store" }),
+      fetch("/commissioners.geojson", { cache: "no-store" }),
+      fetch("/state-legislature.geojson", { cache: "no-store" }),
+    ]);
+    const [wards, mayors, commissioners, stateLeg] = await Promise.all([
+      wardsRes.json(),
+      mayorsRes.json(),
+      commissionersRes.json(),
+      stateLegRes.json(),
+    ]);
+    return { wards, mayors, commissioners, stateLeg };
+  } catch (err) {
+    console.error("[WardMap] failed to load civic data", err);
+    return null;
+  }
+}
+
 // MapLibre tiles GeoJSON sources internally (even client-side ones), and
 // that vector-tile-style property encoding has no null type — a `null` in
 // the source data comes back as `undefined` on features returned by
@@ -324,6 +354,12 @@ export default function WardMap() {
   const wardsDataRef = useRef<FeatureCollection | null>(null);
   const commissionersDataRef = useRef<FeatureCollection | null>(null);
   const stateLegDataRef = useRef<FeatureCollection | null>(null);
+  // The in-flight/settled fetchCivicData() call — a ref (not state)
+  // because the map-setup effect below needs to `await` this exact
+  // promise instance rather than re-fetch, and refs (unlike state) are
+  // readable synchronously the moment the effect that set them has run.
+  const civicDataPromiseRef = useRef<Promise<CivicData | null> | null>(null);
+  const [addressIndex, setAddressIndex] = useState<AddressIndex | null>(null);
   const pinMarkersRef = useRef<PinMarker[]>([]);
   const pulseAnimationFrameRef = useRef<number | null>(null);
   const [selected, setSelected] = useState<SelectedRep | null>(null);
@@ -352,6 +388,44 @@ export default function WardMap() {
   useEffect(() => {
     layerModeRef.current = layerMode;
   }, [layerMode]);
+
+  // Map-independent: runs regardless of whether MapLibre ever
+  // successfully constructs. See fetchCivicData's comment for why this
+  // is its own effect rather than living inside map.on("load").
+  useEffect(() => {
+    const promise = fetchCivicData();
+    civicDataPromiseRef.current = promise;
+    promise.then((data) => {
+      if (!data) return;
+      wardsDataRef.current = data.wards;
+      commissionersDataRef.current = data.commissioners;
+      stateLegDataRef.current = data.stateLeg;
+      const wardsBounds = boundsFromFeatureCollection(data.wards);
+      const commissionersBounds = boundsFromFeatureCollection(data.commissioners);
+      const stateLegBounds = boundsFromFeatureCollection(data.stateLeg);
+      if (!wardsBounds.isEmpty()) wardsBoundsRef.current = wardsBounds;
+      if (!commissionersBounds.isEmpty()) commissionersBoundsRef.current = commissionersBounds;
+      if (!stateLegBounds.isEmpty()) stateLegBoundsRef.current = stateLegBounds;
+    });
+  }, []);
+
+  // The address/ZIP gazetteer (a few MB — see scripts/fetch-addresses.mjs)
+  // that powers SearchBar's street-address and ZIP lookups. Fetched
+  // separately from wards/mayors/etc. above since SearchBar is the only
+  // consumer — city and county search work off wardsDataRef instead and
+  // don't need to wait on this at all.
+  useEffect(() => {
+    let cancelled = false;
+    fetch("/address-index.json", { cache: "no-store" })
+      .then((res) => res.json())
+      .then((data: AddressIndex) => {
+        if (!cancelled) setAddressIndex(data);
+      })
+      .catch((err) => console.error("[WardMap] failed to load address index", err));
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   const zoomToBounds = (bounds: maplibregl.LngLatBounds) => {
     const map = mapRef.current;
@@ -493,6 +567,64 @@ export default function WardMap() {
     zoomToDefault(mode);
   };
 
+  // Same as zoomToBounds, but without the padding it reserves for the
+  // pinned modal — city/county search results never open one (there's no
+  // single rep to show), so reserving that space would just leave the
+  // view off-center for nothing.
+  const zoomToBoundsNoModal = (bounds: maplibregl.LngLatBounds) => {
+    const map = mapRef.current;
+    if (!map) return;
+    map.fitBounds(bounds, { padding: 40, duration: 600 });
+  };
+
+  // Ensures wards mode is showing and the target city is visible before
+  // acting — a search result is meaningless in commissioners/state-
+  // legislature mode (only wards carry ward numbers) or against a city
+  // the user has filtered out. Mirrors switchMode's own steps but skips
+  // its zoomToDefault() call, which would zoom out to the full wards
+  // extent right before the search's own zoom call zoomed back in — a
+  // visible double-animation for what should read as one motion.
+  const prepareWardsView = (city: City) => {
+    if (layerModeRef.current !== "wards") {
+      setLayerMode("wards");
+      applyLayerMode("wards");
+    }
+    if (!visibleCitiesRef.current[city]) toggleCity(city);
+  };
+
+  // The three SearchBar outcomes that resolve to a map action — see
+  // SearchOutcome in src/lib/addressSearch.ts. Ward identity itself was
+  // already decided on-device (by scripts/fetch-addresses.mjs at build
+  // time for addresses/ZIPs, or is a direct property lookup for city/
+  // county); these just replay the same select-and-zoom steps a real
+  // click on the polygon would produce.
+  const applySearchResult = (ref: WardRef) => {
+    prepareWardsView(ref.city as City);
+    const feature = wardsDataRef.current?.features.find(
+      (f) => f.properties?.city === ref.city && f.properties?.ward === ref.ward,
+    );
+    if (!feature) return; // wardsDataRef isn't ready yet, or the ref is stale
+    setSelected({ properties: normalizeRepProperties(feature.properties), pinned: true });
+    zoomToBounds(boundsFromFeature(feature as Feature<Geometry>));
+  };
+
+  const applyCityZoom = (city: City) => {
+    prepareWardsView(city);
+    const cityWards = wardsDataRef.current?.features.filter((f) => f.properties?.city === city);
+    if (!cityWards || cityWards.length === 0) return;
+    setSelected(null);
+    zoomToBoundsNoModal(boundsFromFeatureCollection({ type: "FeatureCollection", features: cityWards }));
+  };
+
+  const applyCountyZoom = (cities: City[]) => {
+    for (const city of cities) prepareWardsView(city);
+    const citySet = new Set<City>(cities);
+    const countyWards = wardsDataRef.current?.features.filter((f) => citySet.has(f.properties?.city as City));
+    if (!countyWards || countyWards.length === 0) return;
+    setSelected(null);
+    zoomToBoundsNoModal(boundsFromFeatureCollection({ type: "FeatureCollection", features: countyWards }));
+  };
+
   useEffect(() => {
     if (!mapContainerRef.current) return;
 
@@ -522,23 +654,14 @@ export default function WardMap() {
       // container has its final size fixes that.
       setTimeout(() => map.resize(), 100);
 
-      // no-store: this is static JSON re-fetched every election cycle (see
-      // scripts/fetch-*.mjs) — a browser-cached copy from before a field
-      // got added crashes the modal on a field the current component code
-      // expects to exist.
-      const [wardsRes, mayorsRes, commissionersRes, stateLegRes] = await Promise.all([
-        fetch("/wards.geojson", { cache: "no-store" }),
-        fetch("/mayors.geojson", { cache: "no-store" }),
-        fetch("/commissioners.geojson", { cache: "no-store" }),
-        fetch("/state-legislature.geojson", { cache: "no-store" }),
-      ]);
-      const data: FeatureCollection = await wardsRes.json();
-      const mayorsData: FeatureCollection = await mayorsRes.json();
-      const commissionersData: FeatureCollection = await commissionersRes.json();
-      const stateLegData: FeatureCollection = await stateLegRes.json();
-      wardsDataRef.current = data;
-      commissionersDataRef.current = commissionersData;
-      stateLegDataRef.current = stateLegData;
+      // Awaits the *same* fetch the map-independent effect above kicked
+      // off on mount, rather than fetching a second time — that effect
+      // is also what populates wardsDataRef/commissionersDataRef/
+      // stateLegDataRef, so search can use them even if this "load"
+      // event never fires at all.
+      const civicData = await civicDataPromiseRef.current;
+      if (!civicData) return; // fetch failed — nothing to draw; already logged in fetchCivicData
+      const { wards: data, mayors: mayorsData, commissioners: commissionersData, stateLeg: stateLegData } = civicData;
 
       // Guards the whole "add sources/layers/markers" block as a unit —
       // without it, a second 'load' firing would duplicate every pin
@@ -791,17 +914,12 @@ export default function WardMap() {
         pulseAnimationFrameRef.current = requestAnimationFrame(animatePulse);
       }
 
-      // Fit the map to each layer's actual extent rather than a hardcoded
-      // bounding box, so this keeps working if boundaries shift. Stored so
-      // clicking away (or switching modes) can fly back to the right view
-      // — commissioner districts reach well past the wards' extent, out
-      // into the surrounding suburbs.
+      // Initial camera fit only — wardsBoundsRef/commissionersBoundsRef/
+      // stateLegBoundsRef (used by zoomToDefault) are already populated
+      // by the map-independent effect above, from the same data. Fit to
+      // each layer's actual extent rather than a hardcoded bounding box,
+      // so this keeps working if boundaries shift.
       const wardsBounds = boundsFromFeatureCollection(data);
-      const commissionersBounds = boundsFromFeatureCollection(commissionersData);
-      const stateLegBounds = boundsFromFeatureCollection(stateLegData);
-      if (!wardsBounds.isEmpty()) wardsBoundsRef.current = wardsBounds;
-      if (!commissionersBounds.isEmpty()) commissionersBoundsRef.current = commissionersBounds;
-      if (!stateLegBounds.isEmpty()) stateLegBoundsRef.current = stateLegBounds;
       if (!wardsBounds.isEmpty()) map.fitBounds(wardsBounds, { padding: 40, duration: 0 });
     });
 
@@ -892,6 +1010,13 @@ export default function WardMap() {
       <div ref={mapContainerRef} className="absolute inset-0 w-full h-full" />
 
       <div className="absolute left-3 top-3 z-20 flex flex-col gap-2 font-sans">
+        <SearchBar
+          index={addressIndex}
+          onSelectWard={applySearchResult}
+          onSelectCity={applyCityZoom}
+          onSelectCounty={(_county, cities) => applyCountyZoom(cities)}
+        />
+
         <div
           role="group"
           aria-label="Choose map layer"
