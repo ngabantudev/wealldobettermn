@@ -307,7 +307,11 @@ function createRepPinElement(rep: RepProperties, diameter: number = DEFAULT_PIN_
   // diameter directly rather than a separate role table, so the stacking
   // order can never drift out of sync with the size hierarchy it's
   // reinforcing. All markers are siblings in MapLibre's own marker
-  // container, so z-index here does control their relative stacking.
+  // container, so z-index here does control their relative stacking —
+  // and *only* their relative stacking: the map container renders with
+  // `isolate` (see the z-index scale comment on WardMap's return) so
+  // these values (up to ~52) never leak out and compete with the search
+  // bar or modal's own z-index further up the tree.
   outer.style.cssText = `cursor: pointer; z-index: ${Math.round(diameter)};`;
 
   const inner = document.createElement("div");
@@ -1014,9 +1018,40 @@ export default function WardMap() {
     />
   );
 
+  // z-index scale for this component's stacked layers (lowest to highest
+  // — each number below is the *only* place its value should be set; if a
+  // new layer is ever added, give it its own rung rather than reusing one
+  // of these):
+  //   0  — the map: canvas + every pin marker (mayors, council members,
+  //        commissioners, state legislators). `isolate` on the map
+  //        container div below is load-bearing, not decorative: pin
+  //        elements get an inline z-index of their own (see
+  //        createRepPinElement's comment) so a Mayor pin can render over
+  //        a Council Member pin it overlaps. Without `isolate`, that
+  //        inline z-index (up to 52) doesn't stay contained —
+  //        position:absolute with no z-index does NOT create a new
+  //        stacking context, so the pins' z-index was being compared
+  //        directly against the z-20/z-10 layers below at the root level
+  //        and winning, painting map pins over the search bar and the
+  //        ward modal. `isolate` forces the map div to own a stacking
+  //        context, so "highest z-index" pins only ever mean "highest
+  //        among pins."
+  //   10 — the desktop-only ward modal (bottom-left). Sits above the map
+  //        but below every persistent control, so a search can still be
+  //        started while a modal is open.
+  //   20 — every always-reachable control surface: the top-left mode/
+  //        filter stack, the desktop top-center search bar, and the
+  //        mobile bottom-docked search+modal stack. These three never
+  //        occupy the same screen space at the same breakpoint, so
+  //        sharing one z-index is fine — the mobile stack folding the
+  //        modal in at z-20 (rather than 10) is intentional too, since on
+  //        mobile it's stacked *with* search rather than competing with
+  //        it. Per AGENTS.md §4 ("Search Is The Primary Interface, Not
+  //        The Map"), this rung is reserved for controls a user always
+  //        needs reachable regardless of what's selected on the map.
   return (
     <div className="relative w-full h-dvh overflow-hidden">
-      <div ref={mapContainerRef} className="absolute inset-0 w-full h-full" />
+      <div ref={mapContainerRef} className="absolute inset-0 w-full h-full isolate z-0" />
 
       {/* Mode switcher + city/chamber filter — always top-left, on every
           screen size. Search moved out to its own placement below: center-
