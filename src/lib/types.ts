@@ -80,12 +80,6 @@ export interface RepProperties {
   recentVotes: BillVote[];
 }
 
-export interface Hearing {
-  title: string;
-  datetime: string;
-  location: string;
-}
-
 // A pointer to one ward — the join key between the address/ZIP gazetteer
 // (src/lib/addressSearch.ts, public/address-index.json) and the ward
 // features already loaded from wards.geojson. Deliberately just the two

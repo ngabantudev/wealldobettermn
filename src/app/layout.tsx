@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "MN Civic Map",
-  description: "Minnesota public issue layers: wards, reps, and upcoming hearings.",
+  description: "Minnesota public issue layers: wards, reps, and how to reach them.",
 };
 
 export default function RootLayout({
