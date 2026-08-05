@@ -5,7 +5,6 @@ import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 import type { Feature, FeatureCollection, Geometry } from "geojson";
 import type { RepProperties } from "@/lib/types";
-import { getUpcomingHearings } from "@/lib/hearings";
 import {
   CITY_ACCENT,
   CITY_PALETTES,
@@ -212,11 +211,11 @@ function boundsFromFeatureCollection(data: FeatureCollection): maplibregl.LngLat
 // that vector-tile-style property encoding has no null type — a `null` in
 // the source data comes back as `undefined` on features returned by
 // queryRenderedFeatures. Every nullable RepProperties field is checked
-// with strict `!== null` downstream (the hearings guard below, WardModal's
-// role/area labels), so re-normalize undefined back to null here, once,
-// right where features leave MapLibre's hands. Mayor markers don't need
-// this — their properties come straight from the fetched JSON, never
-// through MapLibre's tiling.
+// with strict `!== null` downstream (WardModal's role/area labels), so
+// re-normalize undefined back to null here, once, right where features
+// leave MapLibre's hands. Mayor markers don't need this — their
+// properties come straight from the fetched JSON, never through
+// MapLibre's tiling.
 function normalizeRepProperties(raw: Record<string, unknown> | null | undefined): RepProperties {
   const p = (raw ?? {}) as unknown as RepProperties;
   return {
@@ -882,11 +881,6 @@ export default function WardMap() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const hearings =
-    selected && selected.properties.ward !== null
-      ? getUpcomingHearings(selected.properties.city, selected.properties.ward)
-      : [];
-
   return (
     <div className="relative w-full h-dvh overflow-hidden">
       <div ref={mapContainerRef} className="absolute inset-0 w-full h-full" />
@@ -960,12 +954,7 @@ export default function WardMap() {
 
       {selected && (
         <div className="absolute inset-x-0 bottom-0 z-10 flex justify-center pointer-events-none pb-[env(safe-area-inset-bottom)] sm:inset-x-auto sm:justify-start sm:left-4 sm:bottom-4 sm:pb-0">
-          <WardModal
-            ward={selected.properties}
-            hearings={hearings}
-            pinned={selected.pinned}
-            onClose={deselect}
-          />
+          <WardModal ward={selected.properties} pinned={selected.pinned} onClose={deselect} />
         </div>
       )}
     </div>
