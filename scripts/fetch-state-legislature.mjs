@@ -11,18 +11,61 @@
 // Unlike every other layer in this app, state legislature data needs a
 // free Open States API key (https://open.pluralpolicy.com/accounts/signup/)
 // passed as OPEN_STATES_API_KEY.
+//
+// AGENTS.md §0.8 prefers bulk downloads over the keyed API ("Prefer bulk
+// files over the keyed API"). This script does not yet ship a bulk-file
+// ingest path — openstates/people's YAML-per-legislator bulk export on
+// GitHub is the documented target (see FEATURES.md Phase 1) — and that
+// gap is tracked here rather than silently worked around with the keyed
+// API standing in as if it were the intended long-term source:
+//
+//   knownGaps: bulk-download ingest for MN roster data (openstates/people
+//   on GitHub) is not implemented. The keyed v3 API below is used as an
+//   interim source and should be replaced once a bulk-file loader lands.
+//   The bill/vote sampling in fetchRecentVoteEvents() has no bulk
+//   equivalent in the openstates/people export at all (it's roster-only,
+//   not votes) and is expected to stay on the keyed API regardless.
+//
+// Every emitted record carries `verifiedAt`/`verifiedAgainst`
+// (AGENTS.md §3.2) and the build fails loudly if `verifiedAt` predates
+// the most recent MN state general election recorded in
+// src/lib/electionConfig.ts. Run with `--self-test` to exercise the pure
+// transform functions (buildFeature, computePartyUnity, the verification
+// checks) against a small, clearly-labeled fixture instead of the live
+// API — see scripts/fixtures/state-legislature-sample.json. The
+// self-test never touches public/state-legislature.geojson and never
+// presents its fixture output as real roster data.
 
-import { writeFile, mkdir } from "node:fs/promises";
+import { writeFile, mkdir, readFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import {
+  MN_STATE_GENERAL_ELECTION_DATE,
+  assertVerifiedSinceLastGeneralElection,
+} from "../src/lib/electionConfig.ts";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const OUTPUT_PATH = path.join(__dirname, "../public/state-legislature.geojson");
+const FIXTURE_PATH = path.join(__dirname, "fixtures/state-legislature-sample.json");
+
+const SELF_TEST = process.argv.includes("--self-test");
+
+// Source cited on every emitted record's `verifiedAgainst` — the Open
+// States v3 people endpoint this script actually queries. Kept as one
+// named constant rather than inlined per-record so the provenance string
+// and the fetch URL below can't drift from each other.
+const OPEN_STATES_PEOPLE_SOURCE = "https://v3.openstates.org/people?jurisdiction=Minnesota";
 
 const OPEN_STATES_API_KEY = process.env.OPEN_STATES_API_KEY;
-if (!OPEN_STATES_API_KEY) {
+if (!SELF_TEST && !OPEN_STATES_API_KEY) {
   console.error("[fatal] OPEN_STATES_API_KEY environment variable is required.");
   console.error("Get a free key at https://open.pluralpolicy.com/accounts/signup/");
+  console.error(
+    "public/state-legislature.geojson is already committed from a prior run, so the app's " +
+      "own build does not depend on this script running — see AGENTS.md §3.2. This failure " +
+      "only blocks `npm run data:state-legislature` itself, not `npm run build`.",
+  );
+  console.error("Run with --self-test to exercise this script's logic against a fixture instead.");
   process.exit(1);
 }
 
@@ -224,7 +267,7 @@ function computePartyUnity(voteEvents) {
   return tally;
 }
 
-function buildFeature(districtFeature, chamber, legislatorsByDistrict, partyUnityTally) {
+function buildFeature(districtFeature, chamber, legislatorsByDistrict, partyUnityTally, verifiedAt) {
   const districtKey = normalizeDistrictKey(districtFeature.properties.DISTRICT, chamber);
   const member = legislatorsByDistrict.get(districtKey);
   const entry = member ? partyUnityTally.get(member.id) : undefined;
@@ -236,6 +279,13 @@ function buildFeature(districtFeature, chamber, legislatorsByDistrict, partyUnit
     type: "Feature",
     geometry: districtFeature.geometry,
     properties: {
+      // AGENTS.md §3.2: every officeholder-sourced record carries its own
+      // verifiedAt/verifiedAgainst. verifiedAt is this run's own fetch
+      // date (never backdated); verifiedAgainst is the specific Open
+      // States endpoint this member's data came from, so a downstream
+      // consumer or a future UI staleness notice never has to guess.
+      verifiedAt,
+      verifiedAgainst: member?.openstates_url ?? OPEN_STATES_PEOPLE_SOURCE,
       role: chamber === "house" ? "State Representative" : "State Senator",
       // Best-effort label only — this layer's fill color is by party, not
       // city, since a district can straddle both or neither cleanly. Used
@@ -278,13 +328,15 @@ async function main() {
   const voteEvents = await fetchRecentVoteEvents();
   const partyUnityTally = computePartyUnity(voteEvents);
 
-  const featureCollection = {
-    type: "FeatureCollection",
-    features: [
-      ...houseDistricts.map((f) => buildFeature(f, "house", houseMembers, partyUnityTally)),
-      ...senateDistricts.map((f) => buildFeature(f, "senate", senateMembers, partyUnityTally)),
-    ],
-  };
+  const featureCollection = buildFeatureCollection(
+    houseDistricts,
+    senateDistricts,
+    houseMembers,
+    senateMembers,
+    partyUnityTally,
+  );
+
+  validateVerification(featureCollection);
 
   const scored = featureCollection.features.filter((f) => f.properties.partyUnityPercent !== null).length;
   console.log(`[state-legislature] ${scored} of ${featureCollection.features.length} district(s) got a party-unity score from this sample`);
@@ -294,7 +346,99 @@ async function main() {
   console.log(`[done] wrote ${featureCollection.features.length} state legislature district feature(s) to ${OUTPUT_PATH}`);
 }
 
-main().catch((err) => {
-  console.error("[fatal]", err);
-  process.exit(1);
-});
+// Shared between the live run and --self-test so both exercise the exact
+// same assembly logic — the fixture path is a real test of this
+// function, not a separate reimplementation of it.
+function buildFeatureCollection(houseDistricts, senateDistricts, houseMembers, senateMembers, partyUnityTally) {
+  const verifiedAt = new Date().toISOString().slice(0, 10);
+  return {
+    type: "FeatureCollection",
+    features: [
+      ...houseDistricts.map((f) => buildFeature(f, "house", houseMembers, partyUnityTally, verifiedAt)),
+      ...senateDistricts.map((f) => buildFeature(f, "senate", senateMembers, partyUnityTally, verifiedAt)),
+    ],
+  };
+}
+
+// AGENTS.md §3.2: "Build fails, loudly, if any record's verifiedAt
+// predates the most recent general election date recorded in config."
+// Runs over every feature this script is about to write; a single stale
+// record fails the whole run rather than shipping silently alongside
+// fresh ones.
+function validateVerification(featureCollection) {
+  for (const feature of featureCollection.features) {
+    const { stateDistrict, verifiedAt } = feature.properties;
+    assertVerifiedSinceLastGeneralElection(
+      verifiedAt,
+      MN_STATE_GENERAL_ELECTION_DATE,
+      `MN legislative district ${stateDistrict}`,
+    );
+  }
+}
+
+// --self-test: exercises buildFeatureCollection/validateVerification
+// against scripts/fixtures/state-legislature-sample.json — a small,
+// clearly-labeled, non-production fixture (see that file's own header) —
+// instead of the live Open States API. Never writes to public/, never
+// touches OUTPUT_PATH, and never claims its output is a real roster.
+// This is the fixture-driven test path for a build/CI environment where
+// OPEN_STATES_API_KEY and network access to Open States are both
+// unavailable.
+async function runSelfTest() {
+  console.log(`[self-test] loading fixture from ${FIXTURE_PATH}`);
+  const fixture = JSON.parse(await readFile(FIXTURE_PATH, "utf8"));
+  if (fixture.synthetic !== true) {
+    throw new Error("[self-test] fixture is missing its required `synthetic: true` marker — refusing to use it.");
+  }
+
+  const houseMembers = new Map(
+    fixture.legislators.filter((m) => m.chamber === "house").map((m) => [normalizeDistrictKey(m.current_role.district, "house"), m]),
+  );
+  const senateMembers = new Map(
+    fixture.legislators.filter((m) => m.chamber === "senate").map((m) => [normalizeDistrictKey(m.current_role.district, "senate"), m]),
+  );
+  const partyUnityTally = computePartyUnity(fixture.voteEvents);
+
+  const featureCollection = buildFeatureCollection(
+    fixture.houseDistricts,
+    fixture.senateDistricts,
+    houseMembers,
+    senateMembers,
+    partyUnityTally,
+  );
+  validateVerification(featureCollection);
+
+  const first = featureCollection.features[0];
+  if (!first || typeof first.properties.verifiedAt !== "string" || typeof first.properties.verifiedAgainst !== "string") {
+    throw new Error("[self-test] built feature is missing verifiedAt/verifiedAgainst.");
+  }
+
+  // Confirm the stale-election check actually fires on a record it should
+  // reject, not just that it passes on fresh ones above.
+  let threwOnStaleRecord = false;
+  try {
+    assertVerifiedSinceLastGeneralElection("2000-01-01", MN_STATE_GENERAL_ELECTION_DATE, "self-test fixture");
+  } catch {
+    threwOnStaleRecord = true;
+  }
+  if (!threwOnStaleRecord) {
+    throw new Error("[self-test] assertVerifiedSinceLastGeneralElection did not reject an obviously stale date.");
+  }
+
+  console.log(
+    `[self-test] PASS — built ${featureCollection.features.length} fixture feature(s), verification fields present, ` +
+      "stale-record check correctly rejects an old verifiedAt.",
+  );
+}
+
+if (SELF_TEST) {
+  runSelfTest().catch((err) => {
+    console.error("[fatal]", err);
+    process.exit(1);
+  });
+} else {
+  main().catch((err) => {
+    console.error("[fatal]", err);
+    process.exit(1);
+  });
+}

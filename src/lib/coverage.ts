@@ -19,8 +19,21 @@
 // scope it has to stay in sync with by hand.
 
 import { CITIES, type City } from "./cities";
+import { JURISDICTIONS } from "./jurisdictions";
 
 export const WARD_CITIES: readonly City[] = CITIES;
+
+// Cross-reference only — src/lib/models.ts's CoverageTier (A/B/C, keyed
+// per `jurisdiction`, structured) is a distinct concept from this file's
+// narrative "what this map can't see" disclosure and is never merged into
+// it. Re-exported here purely so a future CoverageNotice.tsx can show
+// both without importing jurisdictions.ts directly; nothing else in this
+// file reads from or depends on it.
+export const JURISDICTION_COVERAGE_TIERS = JURISDICTIONS.map((j) => ({
+  id: j.id,
+  name: j.name,
+  coverage_tier: j.coverage_tier,
+}));
 
 // Mirrors scripts/fetch-commissioners.mjs's own RAMSEY_DISTRICTS_URL /
 // HENNEPIN_DISTRICTS_URL pair — that script only ever fetches these two
