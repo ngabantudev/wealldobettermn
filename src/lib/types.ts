@@ -328,8 +328,21 @@ export interface VoteTally {
 // holding (office + term) they cast it from — never directly to a person
 // record — resolved by matching (person, date) against the holding active
 // on that date. See HoldingRef above.
+//
+// `holding` is nullable (fixed 2026-08-06, matching BillSponsor.holding's
+// already-correct `HoldingRef | null` above): resolution is a real,
+// documented gap — no `Holding` row is ever constructed anywhere in this
+// codebase for state legislators (see models.ts's NOTE (2026-08-06) above
+// Holding/VoteEvent/Vote), so scripts/ingest/state-bills.mjs's
+// resolveVoterHolding() always returns null today. This field was
+// previously typed as non-nullable `HoldingRef`, which would have forced
+// the ingest script to either fabricate a placeholder id (forbidden by
+// AGENTS.md §3.3 "Missing Sources" — never fabricate or infer) or skip
+// populating it altogether — neither is correct. Every recorded vote is
+// still an honest `option`; only the office/term attribution is
+// unresolved, per AGENTS.md §3.3.
 export interface Vote {
-  holding: HoldingRef;
+  holding: HoldingRef | null;
   option: VoteOption;
 }
 
