@@ -22,6 +22,7 @@
     "data:all": "npm run data:wards && npm run data:addresses && npm run data:places && npm run data:mayors && npm run data:commissioners && npm run data:minneapolis-lims",
     "data:roster-review-queue": "node scripts/ingest/write-roster-review-queue.mjs",
     "test:ingest": "node --test scripts/ingest/*.test.mjs",
+    "test:lib": "node --test src/lib/*.test.mjs",
     "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
     "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
     "upload": "opennextjs-cloudflare build && opennextjs-cloudflare upload",

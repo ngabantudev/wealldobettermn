@@ -2,6 +2,26 @@
 
 import type { RepProperties } from "@/lib/types";
 import { CONTESTED_COLOR, CONTESTED_COLOR_SOFT, partyColor, partyColorSoft } from "@/lib/cityTheme";
+import { isStale } from "@/lib/electionConfig";
+
+// AGENTS.md §3.2 soft staleness notice ("A record older than a
+// configured threshold renders a visible staleness notice"), scoped to
+// state legislators — the only role scripts/fetch-*.mjs currently emits
+// verifiedAt for (see the field's comment in types.ts). A missing
+// verifiedAt is treated the same as a stale one: neither gives a
+// resident any assurance the seat still has the person we're naming
+// attached to it, so both get the same visible banner rather than the
+// absent-field case silently rendering as "fine." Colour is never the
+// only signal (AGENTS.md §4) — this pairs an icon and explicit text with
+// the amber accent.
+const STALE_COLOR = "#B45309";
+const STALE_COLOR_SOFT = "#FEF3C7";
+
+function isVerificationStale(rep: RepProperties): boolean {
+  if (rep.chamber === null) return false; // only state legislature carries verifiedAt today
+  if (!rep.verifiedAt) return true; // missing verifiedAt fails the check, same as a stale one
+  return isStale(rep.verifiedAt);
+}
 
 function formatOfficeSince(iso: string): string {
   // timeZone: "UTC" matters here — these dates are stored as bare
@@ -137,6 +157,21 @@ function IconBuilding() {
   );
 }
 
+function IconWarning() {
+  return (
+    <svg viewBox="0 0 20 20" fill="none" className="h-4 w-4 shrink-0">
+      <path
+        d="M10 3.3 17.5 16H2.5L10 3.3Z"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinejoin="round"
+      />
+      <path d="M10 8v3.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+      <circle cx="10" cy="14" r="0.9" fill="currentColor" />
+    </svg>
+  );
+}
+
 function IconBallot() {
   return (
     <svg viewBox="0 0 20 20" fill="none" className="h-4 w-4 shrink-0">
@@ -222,6 +257,12 @@ export default function WardModal({ ward: rep, pinned, onClose }: WardModalProps
             <span>Contested &middot; {candidates.length} candidates</span>
           </div>
         )}
+        {isVerificationStale(rep) && (
+          <div className="px-3 pb-2 -mt-1 flex items-center gap-1.5 text-xs font-medium" style={{ color: STALE_COLOR }}>
+            <IconWarning />
+            <span>Verification may be out of date</span>
+          </div>
+        )}
       </div>
     );
   }
@@ -265,6 +306,17 @@ export default function WardModal({ ward: rep, pinned, onClose }: WardModalProps
             </svg>
           </button>
         </div>
+
+        {isVerificationStale(rep) && (
+          <div className="border-t border-hair px-4 py-2.5 flex items-center gap-1.5 text-xs font-semibold" style={{ color: STALE_COLOR, backgroundColor: STALE_COLOR_SOFT }}>
+            <IconWarning />
+            <span>
+              {rep.verifiedAt
+                ? `Not re-verified since ${formatOfficeSince(rep.verifiedAt)} — may be out of date.`
+                : "No verification date on record for this seat — may be out of date."}
+            </span>
+          </div>
+        )}
 
         {isContested(rep) && (
           <div className="border-t border-hair px-4 py-3" style={{ backgroundColor: CONTESTED_COLOR_SOFT }}>
