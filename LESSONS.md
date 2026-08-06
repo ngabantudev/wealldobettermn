@@ -115,12 +115,13 @@ Workers edge cases surface. -->
   `src/lib/hearings.ts` generates fake hearing data and is a known violation pending
   deletion. **That's stale.** The file was already removed (`git log` shows commit
   `2bd0d1a "Remove fabricated hearing/meeting data"`) — confirmed absent from both the
-  working tree and full git history as of PR #27's investigation. AGENTS.md §3.1 still
-  describes it as a present violation too and needs the same correction — that's a human
-  edit to the binding instructions file, not one an AI session should make unilaterally;
-  flagged, not applied. The underlying lesson stays valid: don't ship synthetic civic
-  data as fact, and if a mock ever gets reintroduced, follow the `synthetic: true` /
-  unmissable-label / never-in-exports rules AGENTS.md §3.1 lays out.
+  working tree and full git history, independently by both PR #27's and PR #28's
+  investigations. AGENTS.md §3.1 still describes it as a present violation too and needs
+  the same correction — that's a human edit to the binding instructions file, not one an
+  AI session should make unilaterally; flagged, not applied. The underlying lesson stays
+  valid: don't ship synthetic civic data as fact, and if a mock ever gets reintroduced,
+  follow the `synthetic: true` / unmissable-label / never-in-exports rules AGENTS.md §3.1
+  lays out.
 
 ---
 

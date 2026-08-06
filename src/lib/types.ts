@@ -176,26 +176,27 @@ export interface AddressIndex {
 // referencing cities.ts. A name found here but absent from cities.ts
 // resolves to an honest "not covered yet" outcome (AGENTS.md §3.3
 // Coverage Honesty) — never silence, and never a fabricated ward.
-
-// NOTE (2026-08-06): a `Holding` interface used to live here — one
-// person's tenure in one office on one Legistar body, shaped after
-// Legistar's own /officerecords fields (client/personId/bodyId/
-// officeTitle/startDate/endDate). It was scaffolded by the Phase 4
-// (St. Paul/Hennepin Legistar) PR before src/lib/models.ts's canonical,
-// relational `Holding` existed, and turned out to have zero real
-// consumers — nothing ever imported it, only comments referenced it
-// aspirationally. Removed as a duplicate rather than reconciled: per
-// AGENTS.md §0.1/§2.1, a `holding` is a single project-wide concept, and
+// NOTE (2026-08-06): two independent `Holding` interfaces used to live
+// here at different times, from two different phase-scaffold PRs that
+// couldn't see each other's work or src/lib/models.ts's canonical one:
+//   - Phase 4 (St. Paul/Hennepin Legistar): Legistar-/officerecords-
+//     shaped (client/personId/bodyId/officeTitle/startDate/endDate).
+//     Zero real consumers — nothing ever imported it.
+//   - Phase 3 (Minneapolis LIMS): a denormalized officeholding shape
+//     (officeOcdId/personExternalId/name/officeHeld/jurisdiction/
+//     termStart/termEnd/sourceUrl/verifiedAt), meant as the target for
+//     that PR's toHoldings() — which throws (unimplemented), so nothing
+//     depended on this exact shape either.
+// Both removed as duplicates rather than reconciled: per AGENTS.md
+// §0.1/§2.1, a `holding` is a single project-wide concept, and
 // models.ts's `Holding` (id/office_id/person_id/term_start/term_end/…) is
-// the canonical shape everything should converge on. When the real
-// Legistar persons/bodies/officerecords → Holding[] ingest gets built
-// (see scripts/ingest/legistar.mjs), it should construct models.ts's
-// `Holding` directly — resolving Legistar's per-client
-// personId/bodyId into this repo's own `Office`/`Person` ids — not
-// reintroduce a Legistar-shaped type here. The raw
-// OfficeRecordStartDate/OfficeRecordEndDate field-name mapping notes
-// that used to live in this comment are preserved in that PR's
-// description and in LESSONS.md instead of duplicated here.
+// the canonical shape everything should converge on. Any future ingest
+// that produces holdings — Legistar's persons/bodies/officerecords, LIMS's
+// CouncilMembers/CouncilTerms, or anything else — should construct
+// models.ts's `Holding` directly (resolving the source's own person/office
+// identifiers into this repo's own `Office`/`Person` ids), not reintroduce
+// a source-shaped duplicate here. See LESSONS.md's Process & Multi-PR
+// Coordination section for the pattern behind both of these.
 
 export interface MnPlaces {
   schemaVersion: 1;
