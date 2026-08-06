@@ -1359,9 +1359,18 @@ export default function WardMap() {
   // live in, not an absolutely-positioned layer competing for a z-index
   // rung. Every "absolute inset-0 / top-3 / bottom-0" below is scoped to
   // that wrapper's own box (which already starts below the header), so
-  // there's no overlap to resolve and no rung needed for it. The header's
-  // own search bar (passed to SiteHeader as `search`) is a normal flex
-  // child inside that header, same reasoning.
+  // there's no overlap to resolve for most of what's in the header. The
+  // header's own search bar (passed to SiteHeader as `search`) is a
+  // normal flex child inside that header, same reasoning.
+  //
+  // One exception: MastheadSaying's explanation popover (the third line
+  // under the wordmark) opens *downward*, past the header's own bottom
+  // edge, into this wrapper's z-stacked territory — and neither it nor
+  // this wrapper's own `relative` div establishes an intervening stacking
+  // context, so a same-value z-index there would tie directly against
+  // 20/30/40 below with DOM order as the tiebreaker, and this wrapper
+  // (later in the tree) would win, clipping it. That popover uses z-50,
+  // above every rung here on purpose — see its own comment.
   return (
     <div className="flex w-full h-dvh flex-col overflow-hidden bg-canvas">
       <SiteHeader search={searchBar} />
