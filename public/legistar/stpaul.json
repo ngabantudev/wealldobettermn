@@ -2,22 +2,22 @@
   "schemaVersion": 1,
   "client": "stpaul",
   "jurisdiction": "St. Paul City Council",
-  "generatedAt": "2026-08-06T08:21:00.854Z",
+  "generatedAt": "2026-08-06T16:32:00.025Z",
   "status": "probe_ok_pending_ingest",
-  "note": "Connectivity confirmed 2026-08-06T08:21:00.851Z; full ingest is a follow-up PR.",
+  "note": "Connectivity confirmed 2026-08-06T16:32:00.024Z; full ingest is a follow-up PR.",
   "provenance": {
     "primarySourceUrl": "https://webapi.legistar.com/v1/stpaul",
     "sourceAgency": "St. Paul City Council",
     "documentType": "Legistar Web API",
     "documentId": null,
     "issuedDate": null,
-    "fetchedAt": "2026-08-06T08:21:00.854Z",
+    "fetchedAt": "2026-08-06T16:32:00.025Z",
     "licence": "Public records served via Legistar InSite; no separate machine-reuse licence published by the host jurisdiction as of this writing.",
     "contentHash": null
   },
   "holdings": [],
   "knownGaps": [
     "Full persons/bodies/officerecords ingest not yet implemented — this file is a Phase 4 scaffold placeholder, not a coverage claim.",
-    "Connectivity confirmed 2026-08-06T08:21:00.851Z; full ingest is a follow-up PR."
+    "Connectivity confirmed 2026-08-06T16:32:00.024Z; full ingest is a follow-up PR."
   ]
 }

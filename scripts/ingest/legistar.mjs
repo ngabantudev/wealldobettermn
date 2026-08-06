@@ -50,10 +50,12 @@ const LEGISTAR_BASE = "https://webapi.legistar.com/v1";
 // --- Known MN Legistar clients -------------------------------------------
 // `client` is Legistar's own path segment. `tokenEnvVar` is checked before
 // falling back to the shared LEGISTAR_TOKEN. Neither known client has
-// required a token for the read-only endpoints probed below (confirmed
-//2026-08-06), but the field exists because FEATURES.md flags this as a
-// per-client possibility, not a per-project one. (Confirmed unauthenticated
-// against both clients' `bodies`/`persons` resources on 2026-08-06.)
+// required a token for the read-only endpoints probed below, but the
+// field exists because FEATURES.md flags this as a per-client possibility,
+// not a per-project one. Confirmed unauthenticated (live GETs, 200s, real
+// data, zero token/key) against both clients across the full path this
+// module exercises — Bodies, Persons, OfficeRecords, Events, Matters,
+// Matters/{id}/Histories, and EventItems/{id}/Votes — on 2026-08-06.
 export const LEGISTAR_CLIENTS = [
   {
     client: "stpaul",
@@ -197,18 +199,28 @@ export function getEventItemVotes(client, eventItemId, { token } = {}) {
 // The two-hop vote path FEATURES.md documents: find the history row
 // recording that `bodyName` took a final action on this matter (a non-null
 // MatterHistoryPassedFlag, i.e. it was actually voted rather than just
-// referred or read), then fetch the tally attached to that row's own Id as
-// an event-item id. Returns null (not []) when no matching history row is
-// found — absence here just means "no recorded action by this body on
-// this matter yet," never evidence of anything, per FEATURES.md's own
-// note that only InSite-public records come back at all.
+// referred or read), then fetch the tally attached to that row's own
+// MatterHistoryId, reused directly as an EventItemId. Returns null (not
+// []) when no matching history row is found — absence here just means "no
+// recorded action by this body on this matter yet," never evidence of
+// anything, per FEATURES.md's own note that only InSite-public records
+// come back at all.
+//
+// Live-verified 2026-08-06 against stpaul (MatterId 52530, "RES 26-1263"):
+// a MatterHistory row's `MatterHistoryId` and the corresponding
+// `EventItemId` are the same value (and share a GUID) — Legistar exposes
+// the same underlying row through both resources. There is no third
+// correlation query needed; the field is `MatterHistoryId`, not `Id` (the
+// field this helper read from until this fix — that typo meant every real
+// call here passed `undefined` to `eventitems/{id}/votes` and would have
+// silently 404'd or returned nothing once ingest wiring landed).
 export async function getVotesForMatterAction(client, matterId, bodyName, { token } = {}) {
   const histories = await getMatterHistories(client, matterId, { token });
   const actedRecord = histories.find(
     (h) => h.MatterHistoryPassedFlag !== null && h.MatterHistoryPassedFlag !== undefined && h.MatterHistoryActionBodyName === bodyName,
   );
   if (!actedRecord) return null;
-  return getEventItemVotes(client, actedRecord.Id, { token });
+  return getEventItemVotes(client, actedRecord.MatterHistoryId, { token });
 }
 
 // --- Empty-state output ----------------------------------------------------
