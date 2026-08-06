@@ -1,0 +1,110 @@
+name: CI
+
+# Gate for every PR into main. AGENTS.md §0.8 ("outlive the author") and
+# the 2026-08-06 state-legislature.geojson outage are why this exists:
+# `next build` succeeding locally is not proof the site works once
+# deployed — that incident's crash only existed one layer further in,
+# inside the compiled Cloudflare Worker bundle, and nothing before that
+# PR merged ever built or ran that bundle. See LESSONS.md's Build &
+# Tooling section for the full writeup.
+#
+# This workflow does NOT deploy anything. Deploys are Cloudflare Workers
+# Builds' own git integration (dashboard-configured, triggered directly
+# by pushes — see LESSONS.md's Cloudflare Workers Builds entry). This is
+# a separate, deploy-free check whose only job is to fail a PR loudly,
+# before merge, if the same class of bug ships again.
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-and-smoke-test:
+    name: Build, lint, and Workers-runtime smoke test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # node-version-file, not a hardcoded version: next.config.ts's
+      # build-time freshness check (added alongside this workflow, see
+      # the same incident above) imports a .ts file directly and relies
+      # on Node's native TypeScript type-stripping working *unflagged*.
+      # Live-verified against 26.5.0 (the .nvmrc pin); older Node
+      # versions may need --experimental-strip-types or may not support
+      # this at all. Keep .nvmrc and package.json's "engines" field in
+      # sync if this is ever bumped.
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: ".nvmrc"
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: next build (also runs the build-time data-freshness checks in next.config.ts)
+        run: npm run build
+
+      - name: Build the actual Cloudflare Worker bundle
+        run: npx opennextjs-cloudflare build
+
+      # The whole point of this job: `next build` succeeding says
+      # nothing about whether the compiled Worker can serve a request
+      # without crashing. Boot the real bundle in workerd (wrangler's
+      # default `dev` mode is fully local — no Cloudflare auth or
+      # secrets needed, confirmed via `wrangler dev --help`'s
+      # `--remote`/`-r` defaulting to false) and hit every static route
+      # that's known to exist. Add a new top-level route here when one
+      # is added to the app — an unlisted route isn't smoke-tested.
+      - name: Smoke test the Worker bundle in a real workerd sandbox
+        run: |
+          set -e
+          npx wrangler dev --port 8788 --ip 127.0.0.1 > /tmp/wrangler-dev.log 2>&1 &
+          WRANGLER_PID=$!
+
+          cleanup() {
+            kill "$WRANGLER_PID" 2>/dev/null || true
+          }
+          trap cleanup EXIT
+
+          # Poll instead of a fixed sleep: workerd's boot time varies with
+          # runner load, and a fixed sleep either wastes time or flakes.
+          READY=0
+          for i in $(seq 1 30); do
+            if curl -s -o /dev/null http://127.0.0.1:8788/; then
+              READY=1
+              break
+            fi
+            sleep 2
+          done
+          if [ "$READY" -ne 1 ]; then
+            echo "::error::wrangler dev never became reachable on :8788"
+            cat /tmp/wrangler-dev.log
+            exit 1
+          fi
+
+          FAILED=0
+          for route in / /bills; do
+            code=$(curl -s -o /tmp/route-body.html -w "%{http_code}" "http://127.0.0.1:8788${route}")
+            if [ "$code" != "200" ]; then
+              echo "::error::${route} returned HTTP ${code}, expected 200"
+              FAILED=1
+            else
+              echo "${route} -> HTTP ${code}"
+            fi
+          done
+
+          if [ "$FAILED" -ne 0 ]; then
+            echo "--- wrangler dev log ---"
+            cat /tmp/wrangler-dev.log
+            exit 1
+          fi

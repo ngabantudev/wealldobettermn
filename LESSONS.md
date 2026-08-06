@@ -83,6 +83,43 @@ Workers edge cases surface. -->
   should append large arrays with a plain loop or `push.apply`/`concat`, never spread —
   this only shows up at production data volume, not in a small local test.
 
+- 2026-08-06 — **[cloudflare workers / node:fs — SITE-DOWN INCIDENT]** — A `node:fs`
+  read of a `public/` file (`readFileSync`), anywhere it can end up bundled into an
+  `src/app` or `src/components` module, is a live production outage waiting to happen —
+  not a style nit. `next build` succeeding locally proves nothing about this: `public/`
+  is real disk during `next build` (a plain Node process), but OpenNext bundles page/
+  component modules into the deployed Cloudflare Worker too, and the Worker's runtime
+  has no filesystem at all — `public/` is served via the `ASSETS` binding, not `node:fs`.
+  **Real incident:** `src/app/page.tsx` called `loadAndValidateStateLegislatureData()`
+  (in `src/lib/stateLegislatureData.ts`) at **module scope** — a side effect that must
+  execute unconditionally on import per JS semantics, so it could never be tree-shaken
+  out of the Worker bundle. It threw `ENOENT '/bundle/public/state-legislature.geojson'`
+  on every single cold start, taking down **every route**, not just the home page — a
+  full site-wide 500 (`wrangler tail` is what found it; `next build` gave zero signal).
+  Fixed in #43 by moving the read into `next.config.ts`, gated on
+  `PHASE_PRODUCTION_BUILD` — a genuinely build-time-only execution context (real Node
+  process during `next build`) that never gets compiled into the Worker's route bundle.
+  A sibling case in `src/app/bills/page.tsx` used the same `readFileSync` pattern but
+  **function-scoped** inside a try/catch, not at module scope — it didn't crash (a JS
+  engine only executes function bodies when called, and a fully-static route with no
+  `revalidate`/`dynamic` export currently gets tree-shaken out of the Worker bundle
+  entirely, confirmed empirically: grep `.open-next/worker.js` for `readFileSync` — zero
+  hits, either before or after the fix), but it was one `export const revalidate = ...`
+  away from silently swapping real, live data for an empty state instead of crashing —
+  quieter and arguably worse. Fixed in #44 by switching to a bundler-resolved static
+  JSON import (`import data from "../../../public/foo.json"`), which the bundler inlines
+  into the compiled output at build time — no disk read left for the Worker to ever
+  depend on, regardless of future rendering-mode changes. **Rule going forward:** never
+  `readFileSync`/`writeFileSync`/`readdirSync`/`existsSync` a `public/` (or any) file
+  from anything under `src/app` or `src/components`, even guarded. Use a build-time-only
+  context (`next.config.ts`, gated on `PHASE_PRODUCTION_BUILD`) for validation-only
+  reads, or a bundler-resolved static/dynamic `import` for data that actually needs to
+  render — never `node:fs` in either case. A CI workflow (`.github/workflows/ci.yml`,
+  added same day) now builds the actual OpenNext/Cloudflare Worker bundle and
+  smoke-tests it in a real `wrangler dev` (workerd) sandbox on every PR specifically to
+  catch this class of bug before merge — `next build` alone was exactly the blind spot
+  both incidents shipped through.
+
 - 2026-08-06 — **[git worktrees]** — Agent-tool runs with `isolation: "worktree"` can
   leave orphaned worktrees under `.claude/worktrees/` if a session ends without cleanup
   (8 accumulated from one batch of phase-scaffold PRs, untracked, invisible except as
