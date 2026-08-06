@@ -24,10 +24,18 @@ import {
   storeMapStyleId,
 } from "@/lib/mapStyles";
 import { getActiveTheme, setTheme, type SiteTheme } from "@/lib/siteTheme";
-import MapThemeSelector from "./MapThemeSelector";
+import MapThemeSelector, { IconLayers, MapThemeOptions } from "./MapThemeSelector";
+import MobileNav, { IconSearch, IconSliders, type MobileNavTab } from "./MobileNav";
 import SearchBar from "./SearchBar";
 import SiteHeader from "./SiteHeader";
 import WardModal, { areaLabel, roleLabel } from "./WardModal";
+
+// The three destinations MobileNav's bottom bar offers — everything the
+// desktop chrome spreads across the header's search box, the top-left
+// mode/filter stack, and the bottom-right theme popover, folded into one
+// tab bar below `sm`. See MobileNav's own comment for why a tab's sheet
+// and the priority ward modal never compete for the same slot.
+type MobileSheetId = "search" | "filters" | "theme";
 
 const WARDS_SOURCE_ID = "wards-source";
 const WARDS_FILL_LAYER_ID = "wards-fill";
@@ -385,6 +393,13 @@ export default function WardMap() {
   const pulseAnimationFrameRef = useRef<number | null>(null);
   const [selected, setSelected] = useState<SelectedRep | null>(null);
   const selectedRef = useRef<SelectedRep | null>(null);
+  // Mobile-only — which of MobileNav's three tabs (if any) currently has
+  // its sheet raised. Doesn't need a ref alongside selectedRef: the map
+  // effect below only ever *sets* this (clearing it back to null when a
+  // pin/polygon gets tapped), never reads its current value, so a stale
+  // closure over the setter is harmless — setState setters are stable
+  // across renders regardless of when the closure capturing them was made.
+  const [activeMobileSheet, setActiveMobileSheet] = useState<MobileSheetId | null>(null);
   const [layerMode, setLayerMode] = useState<LayerMode>("wards");
   const layerModeRef = useRef(layerMode);
   const [visibleCities, setVisibleCities] = useState<Record<City, boolean>>(
@@ -684,6 +699,11 @@ export default function WardMap() {
     );
     if (!feature) return; // wardsDataRef isn't ready yet, or the ref is stale
     setSelected({ properties: normalizeRepProperties(feature.properties), pinned: true });
+    // Closes MobileNav's Search sheet on mobile so the ward modal (which
+    // takes over the sheet slot the instant `selected` is non-null) isn't
+    // left stacked behind it — a no-op on desktop, where nothing opened a
+    // mobile sheet to begin with.
+    setActiveMobileSheet(null);
     zoomToBounds(boundsFromFeature(feature as Feature<Geometry>));
   };
 
@@ -692,6 +712,7 @@ export default function WardMap() {
     const cityWards = wardsDataRef.current?.features.filter((f) => f.properties?.city === city);
     if (!cityWards || cityWards.length === 0) return;
     setSelected(null);
+    setActiveMobileSheet(null); // reveal the zoomed-to result instead of leaving the Search sheet up over it
     zoomToBoundsNoModal(boundsFromFeatureCollection({ type: "FeatureCollection", features: cityWards }));
   };
 
@@ -701,6 +722,7 @@ export default function WardMap() {
     const countyWards = wardsDataRef.current?.features.filter((f) => citySet.has(f.properties?.city as City));
     if (!countyWards || countyWards.length === 0) return;
     setSelected(null);
+    setActiveMobileSheet(null); // same as applyCityZoom above
     zoomToBoundsNoModal(boundsFromFeatureCollection({ type: "FeatureCollection", features: countyWards }));
   };
 
@@ -770,6 +792,7 @@ export default function WardMap() {
         el.addEventListener("click", (e) => {
           e.stopPropagation();
           setSelected({ properties, pinned: true });
+          setActiveMobileSheet(null); // see applySearchResult's comment on this same call
           zoomToBounds(zoomBounds);
         });
 
@@ -1112,6 +1135,7 @@ export default function WardMap() {
       }
       const hitProps = normalizeRepProperties(hit.properties);
       setSelected({ properties: hitProps, pinned: true });
+      setActiveMobileSheet(null); // see applySearchResult's comment on this same call
 
       // queryRenderedFeatures returns geometry clipped to whichever
       // internal tile the click landed in, not the feature's true full
@@ -1149,12 +1173,13 @@ export default function WardMap() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Defined once, referenced from both the desktop and mobile branches
-  // below — each usage still mounts its own independent SearchBar
-  // instance (React treats the two JSX positions as separate component
-  // instances regardless of sharing this element description), so this
-  // is purely to keep the props in one place rather than duplicating
-  // four lines of callbacks that need to stay in sync.
+  // Defined once, referenced from both the desktop (SiteHeader) and mobile
+  // (MobileNav's Search tab) branches below — each usage still mounts its
+  // own independent SearchBar instance (React treats the two JSX
+  // positions as separate component instances regardless of sharing this
+  // element description), so this is purely to keep the props in one
+  // place rather than duplicating four lines of callbacks that need to
+  // stay in sync.
   const searchBar = (
     <SearchBar
       index={addressIndex}
@@ -1164,6 +1189,133 @@ export default function WardMap() {
       onSelectCounty={(_county, cities) => applyCountyZoom(cities)}
     />
   );
+
+  // The mode switcher + city/chamber filter's inner content, with no
+  // positioning of its own — the desktop branch below wraps this in its
+  // usual top-left floating position; MobileNav's Filters tab drops it
+  // straight into its sheet slot instead, unwrapped. Same "define once,
+  // mount twice" split as searchBar above, for the same reason.
+  const filterControls = (
+    <>
+      <div
+        role="group"
+        aria-label="Choose map layer"
+        className="flex rounded-lg bg-panel-2/90 backdrop-blur-sm border border-hair shadow-lg shadow-(color:--shadow-panel) p-1 text-sm"
+      >
+        {(["wards", "commissioners", "state-legislature"] as const).map((mode) => (
+          <button
+            key={mode}
+            type="button"
+            onClick={() => switchMode(mode)}
+            className={`px-3 py-1.5 rounded-md font-medium transition-colors ${
+              layerMode === mode ? "bg-accent text-on-accent" : "text-ink-3 hover:bg-hover hover:text-ink"
+            }`}
+          >
+            {MODE_LABELS[mode]}
+          </button>
+        ))}
+      </div>
+
+      {layerMode === "state-legislature" ? (
+        // A district doesn't cleanly belong to one Twin City, so this
+        // level filters by chamber instead of the Minneapolis/St. Paul
+        // checkboxes below — same toggle pattern as the mode switcher.
+        <div
+          role="group"
+          aria-label="Choose chamber"
+          className="flex rounded-lg bg-panel-2/90 backdrop-blur-sm border border-hair shadow-lg shadow-(color:--shadow-panel) p-1 text-sm"
+        >
+          {CHAMBERS.map((c) => (
+            <button
+              key={c}
+              type="button"
+              onClick={() => switchChamber(c)}
+              className={`px-3 py-1.5 rounded-md font-medium transition-colors ${
+                chamber === c ? "bg-accent text-on-accent" : "text-ink-3 hover:bg-hover hover:text-ink"
+              }`}
+            >
+              {CHAMBER_LABELS[c]}
+            </button>
+          ))}
+        </div>
+      ) : (
+        <div
+          role="group"
+          aria-label="Filter by area"
+          // Capped height + internal scroll: with all 10 cities checked
+          // this list runs ~400px+ tall. On desktop nothing else pushes it
+          // out of the way; on mobile it's inside MobileNav's own capped,
+          // scrollable sheet slot already, so this second cap rarely
+          // engages there — harmless either way, just belt-and-suspenders.
+          className="max-h-[45vh] overflow-y-auto rounded-lg bg-panel-2/90 backdrop-blur-sm border border-hair shadow-lg shadow-(color:--shadow-panel) divide-y divide-hair text-sm text-ink-2"
+        >
+          {MODE_VISIBLE_CITIES[layerMode].map((city) => (
+            <label key={city} className="flex items-center gap-2 px-3 py-2.5 sm:py-2 cursor-pointer select-none hover:bg-hover">
+              <input
+                type="checkbox"
+                checked={visibleCities[city]}
+                onChange={() => toggleCity(city)}
+                className="cursor-pointer accent-accent"
+              />
+              <span className="h-2.5 w-2.5 rounded-full shrink-0" style={{ backgroundColor: CITY_ACCENT[city] }} />
+              {MODE_FILTER_LABELS[layerMode][city]}
+            </label>
+          ))}
+        </div>
+      )}
+    </>
+  );
+
+  // Site theme + map style radios, wrapped in the same `well` card chrome
+  // MapThemeSelector's own popover uses — MobileNav's Theme tab drops this
+  // straight into its sheet slot, same split as filterControls above.
+  // Picking a map style also lowers the sheet (setActiveMobileSheet(null)),
+  // mirroring MapThemeSelector's own popover-closes-on-pick behavior;
+  // picking a site theme doesn't, matching that same asymmetry.
+  const mobileThemeOptions = (
+    <div className="well rounded-xl border border-hair bg-panel-2 shadow-xl shadow-(color:--shadow-panel) p-1.5 flex flex-col gap-0.5">
+      <MapThemeOptions
+        siteTheme={siteTheme}
+        mapStyleId={mapStyleId}
+        onSelectSiteTheme={selectSiteTheme}
+        onSelectMapStyle={(styleId) => {
+          selectMapStyle(styleId);
+          setActiveMobileSheet(null);
+        }}
+      />
+    </div>
+  );
+
+  const mobileTabs: MobileNavTab[] = [
+    { id: "search", label: "Search", icon: <IconSearch /> },
+    { id: "filters", label: "Filters", icon: <IconSliders /> },
+    { id: "theme", label: "Theme", icon: <IconLayers /> },
+  ];
+
+  // The pinned ward/rep modal outranks any open tab — same priority
+  // mndatacenter's own facility sheet holds over its tab sheets (see
+  // MobileNav's file comment). Tapping a tab while the modal is up closes
+  // the modal *and* opens that tab in the same gesture (handleMobileTabSelect
+  // below), rather than leaving the first tap stranded doing nothing.
+  const mobileSheetContent = selected ? (
+    <WardModal ward={selected.properties} pinned={selected.pinned} onClose={deselect} />
+  ) : activeMobileSheet === "search" ? (
+    searchBar
+  ) : activeMobileSheet === "filters" ? (
+    filterControls
+  ) : activeMobileSheet === "theme" ? (
+    mobileThemeOptions
+  ) : null;
+
+  const closeMobileSheet = () => {
+    if (selected) deselect();
+    else setActiveMobileSheet(null);
+  };
+
+  const handleMobileTabSelect = (id: string) => {
+    if (selected) deselect(); // the priority modal wins a tap; dismiss it before opening a tab
+    setActiveMobileSheet((current) => (current === id ? null : (id as MobileSheetId)));
+  };
 
   // z-index scale for this component's stacked layers (lowest to highest
   // — each number below is the *only* place its value should be set; if a
@@ -1186,122 +1338,52 @@ export default function WardMap() {
   //   10 — the desktop-only ward modal (bottom-left). Sits above the map
   //        but below every persistent control, so a search can still be
   //        started while a modal is open.
-  //   20 — every always-reachable control surface: the top-left mode/
-  //        filter stack, the desktop top-center search bar, and the
-  //        mobile bottom-docked search+modal stack. These three never
-  //        occupy the same screen space at the same breakpoint, so
-  //        sharing one z-index is fine — the mobile stack folding the
-  //        modal in at z-20 (rather than 10) is intentional too, since on
-  //        mobile it's stacked *with* search rather than competing with
-  //        it. Per AGENTS.md §4 ("Search Is The Primary Interface, Not
-  //        The Map"), this rung is reserved for controls a user always
-  //        needs reachable regardless of what's selected on the map.
+  //   20 — desktop-only (sm+) persistent controls: the top-left mode/
+  //        filter stack and the bottom-right theme popover. Per AGENTS.md
+  //        §4 ("Search Is The Primary Interface, Not The Map"), this rung
+  //        is reserved for controls a resident always needs reachable
+  //        regardless of what's selected on the map — search itself moved
+  //        up into SiteHeader (outside this scale, see below) once it got
+  //        a permanent spot in the chrome instead of floating.
+  //   30 — mobile-only (below sm) scrim: a dimmed overlay behind whatever
+  //        MobileNav has open (a tab's sheet, or the priority ward modal),
+  //        blocking map interaction underneath it. See MobileNav's own
+  //        comment for why that's deliberate.
+  //   40 — mobile-only nav bar + its raised sheet (MobileNav). Above the
+  //        scrim at 30, and — since nothing above z-20 exists on desktop
+  //        and nothing at 20/10 renders on mobile — never actually
+  //        contends with the desktop rungs it numerically outranks.
   //
   // SiteHeader sits outside this scale entirely — it's a normal static-
-  // flow flex sibling *above* the relative wrapper all of 0/10/20 live
-  // in, not an absolutely-positioned layer competing for a z-index rung.
-  // Every "absolute inset-0 / top-3 / bottom-0" below is scoped to that
-  // wrapper's own box (which already starts below the header), so there's
-  // no overlap to resolve and no rung needed for it.
+  // flow flex sibling *above* the relative wrapper all of 0/10/20/30/40
+  // live in, not an absolutely-positioned layer competing for a z-index
+  // rung. Every "absolute inset-0 / top-3 / bottom-0" below is scoped to
+  // that wrapper's own box (which already starts below the header), so
+  // there's no overlap to resolve and no rung needed for it. The header's
+  // own search bar (passed to SiteHeader as `search`) is a normal flex
+  // child inside that header, same reasoning.
   return (
     <div className="flex w-full h-dvh flex-col overflow-hidden bg-canvas">
-      <SiteHeader />
+      <SiteHeader search={searchBar} />
       <div className="relative min-h-0 flex-1">
       <div ref={mapContainerRef} className="absolute inset-0 w-full h-full isolate z-0" />
 
-      {/* Mode switcher + city/chamber filter — always top-left, on every
-          screen size. Search moved out to its own placement below: center-
-          top on desktop, bottom-docked on mobile (see AGENTS.md Part 4 —
-          "Search Is The Primary Interface"). */}
-      <div className="absolute left-3 top-3 z-20 flex flex-col gap-2 font-sans">
-        <div
-          role="group"
-          aria-label="Choose map layer"
-          className="flex rounded-lg bg-panel-2/90 backdrop-blur-sm border border-hair shadow-lg shadow-(color:--shadow-panel) p-1 text-sm"
-        >
-          {(["wards", "commissioners", "state-legislature"] as const).map((mode) => (
-            <button
-              key={mode}
-              type="button"
-              onClick={() => switchMode(mode)}
-              className={`px-3 py-1.5 rounded-md font-medium transition-colors ${
-                layerMode === mode ? "bg-accent text-on-accent" : "text-ink-3 hover:bg-hover hover:text-ink"
-              }`}
-            >
-              {MODE_LABELS[mode]}
-            </button>
-          ))}
-        </div>
+      {/* Mode switcher + city/chamber filter — top-left, desktop/laptop
+          only (sm+). Below sm, the same controls (filterControls, defined
+          above) live in MobileNav's Filters tab instead. */}
+      <div className="hidden sm:flex absolute left-3 top-3 z-20 flex-col gap-2 font-sans">{filterControls}</div>
 
-        {layerMode === "state-legislature" ? (
-          // A district doesn't cleanly belong to one Twin City, so this
-          // level filters by chamber instead of the Minneapolis/St. Paul
-          // checkboxes below — same toggle pattern as the mode switcher.
-          <div
-            role="group"
-            aria-label="Choose chamber"
-            className="flex rounded-lg bg-panel-2/90 backdrop-blur-sm border border-hair shadow-lg shadow-(color:--shadow-panel) p-1 text-sm"
-          >
-            {CHAMBERS.map((c) => (
-              <button
-                key={c}
-                type="button"
-                onClick={() => switchChamber(c)}
-                className={`px-3 py-1.5 rounded-md font-medium transition-colors ${
-                  chamber === c ? "bg-accent text-on-accent" : "text-ink-3 hover:bg-hover hover:text-ink"
-                }`}
-              >
-                {CHAMBER_LABELS[c]}
-              </button>
-            ))}
-          </div>
-        ) : (
-          <div
-            role="group"
-            aria-label="Filter by area"
-            // Capped height + internal scroll: with all 10 cities checked
-            // this list runs ~400px+ tall, and on mobile — where the
-            // search bar and (if open) the ward modal now dock along the
-            // bottom edge instead of sharing this same top-left column —
-            // nothing else pushes it out of the way anymore. Without a
-            // cap, a tall modal can pull that bottom stack's top edge up
-            // far enough to collide with this list. The cap is small
-            // enough to matter only on short mobile viewports; it's
-            // harmless — never actually engaged — on desktop.
-            className="max-h-[45vh] overflow-y-auto rounded-lg bg-panel-2/90 backdrop-blur-sm border border-hair shadow-lg shadow-(color:--shadow-panel) divide-y divide-hair text-sm text-ink-2"
-          >
-            {MODE_VISIBLE_CITIES[layerMode].map((city) => (
-              <label key={city} className="flex items-center gap-2 px-3 py-2.5 sm:py-2 cursor-pointer select-none hover:bg-hover">
-                <input
-                  type="checkbox"
-                  checked={visibleCities[city]}
-                  onChange={() => toggleCity(city)}
-                  className="cursor-pointer accent-accent"
-                />
-                <span
-                  className="h-2.5 w-2.5 rounded-full shrink-0"
-                  style={{ backgroundColor: CITY_ACCENT[city] }}
-                />
-                {MODE_FILTER_LABELS[layerMode][city]}
-              </label>
-            ))}
-          </div>
-        )}
-      </div>
-
-      {/* Site theme + basemap popover. Desktop: bottom-right, stacked above
-          MapLibre's own zoom buttons. Mobile: top-right, mirroring the mode
-          switcher opposite it — the bottom-right corner belongs to the
-          search card there (see MapThemeSelector's own comment). Rendered
-          after the mode-switcher block above, not before: on a narrow
-          phone the filter list's intrinsic width can run close enough to
-          this control's own top-right corner that its open popover
-          panel's left edge grazes the filter list's right edge, and DOM
-          order — not just z-index — decides which one wins a click in
-          that sliver for two same-z-20 siblings. This has to lose that
-          tie while open, so it renders later. Persistent-controls rung
-          (z-20), same as the mode switcher and search bar — see the
-          z-index scale note above this return. */}
+      {/* Site theme + basemap popover — desktop/laptop only; the component
+          hides itself below sm (see MapThemeSelector's own `hidden
+          sm:block`), where MobileNav's Theme tab covers the same two
+          settings via mobileThemeOptions above. Rendered after the mode-
+          switcher block above, not before: on a narrow desktop window the
+          filter list's intrinsic width can run close enough to this
+          control's own top-right corner that its open popover panel's
+          left edge grazes the filter list's right edge, and DOM order —
+          not just z-index — decides which one wins a click in that sliver
+          for two same-z-20 siblings. This has to lose that tie while
+          open, so it renders later. */}
       <MapThemeSelector
         siteTheme={siteTheme}
         mapStyleId={mapStyleId}
@@ -1309,31 +1391,23 @@ export default function WardMap() {
         onSelectMapStyle={selectMapStyle}
       />
 
-      {/* Desktop (sm+): search bar floats centered at the top of the map,
-          independent of the mode-switcher stack — the primary interface
-          gets the primary position, not a corner. */}
-      <div className="hidden sm:flex absolute inset-x-0 top-3 z-20 justify-center px-4 pointer-events-none">
-        <div className="pointer-events-auto">{searchBar}</div>
-      </div>
-
-      {/* Mobile: search bar and (if open) the ward modal share one
-          bottom-docked stack, search on top — both are bottom sheets on
-          this breakpoint, and stacking them in the same flex column is
-          what keeps them from literally overlapping each other, rather
-          than each independently anchoring to the screen's bottom edge. */}
-      <div className="sm:hidden absolute inset-x-0 bottom-0 z-20 flex flex-col items-center gap-2 px-3 pb-[env(safe-area-inset-bottom)] pointer-events-none">
-        <div className="pointer-events-auto w-full flex justify-center">{searchBar}</div>
-        {selected && (
-          <div className="pointer-events-auto w-full flex justify-center">
-            <WardModal ward={selected.properties} pinned={selected.pinned} onClose={deselect} />
-          </div>
-        )}
-      </div>
+      {/* Mobile (below sm): one bottom tab bar for Search/Filters/Theme,
+          plus whatever sheet is currently raised — a tab's own content, or
+          (taking priority) the pinned ward modal. See MobileNav's own
+          comment for the full reasoning; WardMap only decides *what* goes
+          in the sheet slot (mobileSheetContent above), not how it's shown. */}
+      <MobileNav
+        tabs={mobileTabs}
+        activeTab={selected ? null : activeMobileSheet}
+        onSelectTab={handleMobileTabSelect}
+        onDismiss={closeMobileSheet}
+        sheetContent={mobileSheetContent}
+      />
 
       {/* Desktop (sm+): modal keeps its existing bottom-left placement,
-          separate from the top-center search bar above. WardModal has no
+          independent of the header's search bar above. WardModal has no
           internal state (pure function of props), so mounting it here in
-          addition to the mobile branch above is safe — never a second,
+          addition to MobileNav's sheet slot is safe — never a second,
           desynced copy of anything the user typed. */}
       {selected && (
         <div className="hidden sm:flex absolute z-10 left-4 bottom-4 pointer-events-none">

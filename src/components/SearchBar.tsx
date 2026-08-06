@@ -1,5 +1,6 @@
 "use client";
 
+import { Search } from "lucide-react";
 import { useId, useMemo, useState } from "react";
 import type { AddressIndex, MnPlaces, WardRef } from "@/lib/types";
 import { CITIES, COUNTIES, COUNTY_CITIES, type City, type County } from "@/lib/cities";
@@ -118,6 +119,15 @@ function wardLabel(ref: WardRef): string {
   return `${ref.city} Ward ${ref.ward}`;
 }
 
+// Shared by every overlay panel below the input (the suggestions listbox,
+// the outcome message, the loading notice) — opens upward by default,
+// downward at sm+. This input only ever sits at the top of the screen
+// (SiteHeader, desktop) or right above MobileNav's nav bar (its Search
+// sheet, mobile); a downward-opening panel from the second position has
+// nowhere to go but on top of the nav bar itself. Same flip
+// CoverageNotice's own popover uses, for the same reason.
+const OVERLAY_POSITION_CLASSES = "absolute left-0 right-0 bottom-full z-10 mb-2 sm:bottom-auto sm:top-full sm:mb-0 sm:mt-2";
+
 export default function SearchBar({ index, allPlaces, onSelectWard, onSelectCity, onSelectCounty }: SearchBarProps) {
   const [query, setQuery] = useState("");
   const [isOpen, setIsOpen] = useState(false);
@@ -234,13 +244,37 @@ export default function SearchBar({ index, allPlaces, onSelectWard, onSelectCity
 
   const activeOptionId = activeIndex >= 0 ? `${listboxId}-option-${activeIndex}` : undefined;
   const showMessage = outcome && outcome.status !== "ambiguous" && outcome.status !== "single";
+  // The address/ZIP gazetteer (index) is a few MB, fetched separately from
+  // everything else SearchBar can already do without it — city and county
+  // search work immediately regardless (see index's own prop comment).
+  // Rather than a separate "still loading" line taking up its own row
+  // underneath the input (which used to happen here, and is exactly the
+  // kind of extra height SiteHeader can't afford — see this component's
+  // own file comment on why it's a single fixed-height row now), the
+  // placeholder itself just says so until the fetch resolves, then reverts
+  // to the normal prompt. One line of text either way, never both.
+  const placeholder = index ? "Address, city, county, or ZIP" : "Loading address & ZIP search — city, county work now";
 
   return (
-    <div className="w-[min(90vw,24rem)] rounded-lg bg-panel-2/90 backdrop-blur-sm border border-hair shadow-lg shadow-(color:--shadow-panel) p-2 font-sans text-sm">
-      <label htmlFor={`${listboxId}-input`} className="block px-1 pb-1 font-medium text-ink-2">
+    // No more fixed `w-[min(90vw,24rem)]` — sized off its container
+    // instead (full width up to a cap), so it adapts to whatever's
+    // actually available: the topbar's flexible middle slot on desktop
+    // (SiteHeader), or the nearly-full-width sheet slot on mobile
+    // (MobileNav), rather than a viewport-relative guess that ignores
+    // either. The `.well` recessed-surface treatment (see globals.css's
+    // own comment on that token) is what gives this its Minnesota-flag
+    // coloring for free: Night Sky Blue darkened a step further than the
+    // topbar's own field when this renders inside `.band` (the header),
+    // white/neutral like any other elevated card when it doesn't (the
+    // mobile sheet) — no separate light/dark or band/non-band classes to
+    // maintain here, same mechanism as every other themed surface in this
+    // app.
+    <div className="w-full max-w-md font-sans text-sm">
+      <label htmlFor={`${listboxId}-input`} className="sr-only">
         Find your ward
       </label>
-      <div className="relative">
+      <div className="well relative flex items-center gap-1.5 rounded-xl border px-2.5 py-1.5">
+        <Search aria-hidden="true" className="h-4 w-4 shrink-0 text-ink-3" strokeWidth={1.75} />
         <input
           id={`${listboxId}-input`}
           type="text"
@@ -250,15 +284,23 @@ export default function SearchBar({ index, allPlaces, onSelectWard, onSelectCity
           aria-autocomplete="list"
           aria-activedescendant={activeOptionId}
           autoComplete="off"
-          placeholder="Address, city, county, or ZIP"
+          placeholder={placeholder}
           value={query}
           onChange={(e) => handleChange(e.target.value)}
           onKeyDown={handleKeyDown}
           onFocus={() => setIsOpen(query.trim().length > 0)}
-          className="w-full rounded-md border border-hair-strong bg-panel-2 px-2.5 py-1.5 text-ink placeholder:text-ink-4 focus:outline-none focus:ring-2 focus:ring-accent"
+          className="min-w-0 flex-1 bg-transparent text-ink placeholder:text-ink-4 focus:outline-none"
         />
+        {/* The "what this map can't see" disclosure — its own icon/popover
+            now, see CoverageNotice's file comment for why. */}
+        <CoverageNotice />
+
         {isOpen && options.length > 0 && (
-          <ul id={listboxId} role="listbox" className="absolute left-0 right-0 top-full mt-1 max-h-64 overflow-y-auto rounded-md border border-hair bg-panel-2 shadow-lg shadow-(color:--shadow-panel) z-10">
+          <ul
+            id={listboxId}
+            role="listbox"
+            className={`well ${OVERLAY_POSITION_CLASSES} max-h-64 overflow-y-auto rounded-xl border shadow-xl shadow-(color:--shadow-panel)`}
+          >
             {options.map((opt, i) => (
               <li
                 key={`${opt.label}-${i}`}
@@ -276,6 +318,19 @@ export default function SearchBar({ index, allPlaces, onSelectWard, onSelectCity
             ))}
           </ul>
         )}
+
+        {/* Outcome message (not-covered / not-found / unparseable) — an
+            overlay below the input rather than a line of normal-flow text
+            underneath it, same reasoning as the listbox above: nothing
+            here should be able to change this row's own height, which is
+            what lets SiteHeader treat the search bar as a fixed-height
+            toolbar control instead of one that can grow the whole topbar
+            taller mid-search. */}
+        {showMessage && (
+          <p className={`well ${OVERLAY_POSITION_CLASSES} rounded-xl border px-2.5 py-1.5 text-ink-3 shadow-xl shadow-(color:--shadow-panel)`}>
+            {outcome && "reason" in outcome ? outcome.reason : statusMessage}
+          </p>
+        )}
       </div>
       {/* Announces the outcome without moving focus out of the input —
           the standard, less-disorienting combobox convention. Nothing
@@ -285,9 +340,6 @@ export default function SearchBar({ index, allPlaces, onSelectWard, onSelectCity
       <p aria-live="polite" className="sr-only">
         {statusMessage}
       </p>
-      {showMessage && <p className="px-1 pt-1.5 text-ink-3">{outcome && "reason" in outcome ? outcome.reason : statusMessage}</p>}
-      <CoverageNotice />
-      {!index && <p className="px-1 pt-1.5 text-xs text-ink-4">Address &amp; ZIP search still loading — city and county work now.</p>}
     </div>
   );
 }
