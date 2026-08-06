@@ -29,8 +29,14 @@ export default function SiteHeader() {
         <span className="truncate text-2xl font-black uppercase tracking-tight leading-none text-ink">We All Do Better</span>
         {/* The completion, not a repeat — lowercase and small so it reads
             as one phrase continuing (and finishing) the bold line above,
-            not a second competing headline. */}
-        <span className="truncate text-xs text-ink-3">when we all do better</span>
+            not a second competing headline. `text-justify` +
+            `text-align-last:justify` spread its word-spacing to fill
+            exactly the headline's own width: the parent's flex-col
+            default (align-items: stretch) already sizes this span's box
+            to match the headline above it — nothing here sets a width
+            directly, so it can't drift out of sync if the headline's
+            text or size ever changes. */}
+        <span className="block truncate text-[11px] uppercase tracking-[0.2em] text-ink-3 text-justify [text-align-last:justify]">when we all do better</span>
       </div>
       <p className="hidden truncate text-xs text-ink-3 sm:block">
         Who represents you, what they vote for, how to reach them.
