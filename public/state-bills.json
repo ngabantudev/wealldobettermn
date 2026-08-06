@@ -1,0 +1,6710 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-06T21:51:33.931Z",
+  "bills": [
+    {
+      "schemaVersion": 1,
+      "id": "ocd-bill/46f0c95d-d200-4a4d-a3d3-9f4e1d0b8313",
+      "identifier": "HF 3871",
+      "session": "2025-2026",
+      "title": "Venue in child sexual abuse material law provided; on-scene preview of digital evidence in child sexual abuse material investigations provided; possession, sale, creation, dissemination, and purchase of child-like sex dolls prohibited; and defense of duress modified to include victims of trafficking.",
+      "chamber": "house",
+      "sponsors": [
+        {
+          "name": "Moller",
+          "classification": "primary",
+          "holding": null
+        },
+        {
+          "name": "Curran",
+          "classification": "cosponsor",
+          "holding": null
+        }
+      ],
+      "actions": [
+        {
+          "date": "2026-03-02",
+          "description": "Introduction and first reading, referred to Public Safety Finance and Policy",
+          "classification": [
+            "introduction",
+            "referral-committee"
+          ]
+        },
+        {
+          "date": "2026-03-25",
+          "description": "Author added Curran",
+          "classification": []
+        }
+      ],
+      "status": "Author added Curran",
+      "sources": [
+        {
+          "provider": "openstates",
+          "id": "https://www.revisor.mn.gov/bills/94/2026/0/HF/3871?list=open&body=House",
+          "url": "https://www.revisor.mn.gov/bills/94/2026/0/HF/3871?list=open&body=House"
+        }
+      ],
+      "provenance": {
+        "primarySourceUrl": "https://www.revisor.mn.gov/bills/94/2026/0/HF/3871?list=open&body=House",
+        "sourceAgency": "Open States",
+        "documentType": "bill",
+        "documentId": "ocd-bill/46f0c95d-d200-4a4d-a3d3-9f4e1d0b8313",
+        "issuedDate": "2026-03-02",
+        "fetchedAt": "2026-08-06T21:51:33.931Z",
+        "licence": "Open States data is available under a CC BY-SA 4.0-equivalent open license; see https://docs.openstates.org/en/latest/api/index.html",
+        "contentHash": "6f0f3557d83e240180e7b3b657d162dd98c46fd50c7c1204044c52cd6d01c5ed"
+      }
+    },
+    {
+      "schemaVersion": 1,
+      "id": "ocd-bill/39967a6a-485b-4390-8891-6b8bf7d43b6f",
+      "identifier": "HF 3538",
+      "session": "2025-2026",
+      "title": "Classroom instruction related to gender identity prohibited in public schools; parental notification required; grant program to include firearms safety, trap shooting, archery, hunting, and angling in school physical education courses established; and money appropriated.",
+      "chamber": "house",
+      "sponsors": [
+        {
+          "name": "Roach",
+          "classification": "primary",
+          "holding": null
+        },
+        {
+          "name": "Davis",
+          "classification": "cosponsor",
+          "holding": null
+        },
+        {
+          "name": "Gordon",
+          "classification": "cosponsor",
+          "holding": null
+        },
+        {
+          "name": "Wiener",
+          "classification": "cosponsor",
+          "holding": null
+        }
+      ],
+      "actions": [
+        {
+          "date": "2026-02-19",
+          "description": "Introduction and first reading, referred to Education Policy",
+          "classification": [
+            "introduction",
+            "referral-committee"
+          ]
+        }
+      ],
+      "status": "Introduction and first reading, referred to Education Policy",
+      "sources": [
+        {
+          "provider": "openstates",
+          "id": "https://www.revisor.mn.gov/bills/94/2026/0/HF/3538?list=open&body=House",
+          "url": "https://www.revisor.mn.gov/bills/94/2026/0/HF/3538?list=open&body=House"
+        }
+      ],
+      "provenance": {
+        "primarySourceUrl": "https://www.revisor.mn.gov/bills/94/2026/0/HF/3538?list=open&body=House",
+        "sourceAgency": "Open States",
+        "documentType": "bill",
+        "documentId": "ocd-bill/39967a6a-485b-4390-8891-6b8bf7d43b6f",
+        "issuedDate": "2026-02-19",
+        "fetchedAt": "2026-08-06T21:51:33.931Z",
+        "licence": "Open States data is available under a CC BY-SA 4.0-equivalent open license; see https://docs.openstates.org/en/latest/api/index.html",
+        "contentHash": "fa6849f839e4e6ba9d76947655a56a4e53c082aa311d667d9a2fbffbaad1999b"
+      }
+    },
+    {
+      "schemaVersion": 1,
+      "id": "ocd-bill/dd8a0b98-0d06-4b76-b48f-68040d66a64f",
+      "identifier": "HF 3702",
+      "session": "2025-2026",
+      "title": "Minnesota Historical Society grant funding provided to digitize legacy media, and money appropriated.",
+      "chamber": "house",
+      "sponsors": [
+        {
+          "name": "Fischer",
+          "classification": "primary",
+          "holding": null
+        },
+        {
+          "name": "Lillie",
+          "classification": "cosponsor",
+          "holding": null
+        },
+        {
+          "name": "Buck",
+          "classification": "cosponsor",
+          "holding": null
+        }
+      ],
+      "actions": [
+        {
+          "date": "2026-02-25",
+          "description": "Introduction and first reading, referred to Legacy Finance",
+          "classification": [
+            "introduction",
+            "referral-committee"
+          ]
+        }
+      ],
+      "status": "Introduction and first reading, referred to Legacy Finance",
+      "sources": [
+        {
+          "provider": "openstates",
+          "id": "https://www.revisor.mn.gov/bills/94/2026/0/HF/3702?list=open&body=House",
+          "url": "https://www.revisor.mn.gov/bills/94/2026/0/HF/3702?list=open&body=House"
+        }
+      ],
+      "provenance": {
+        "primarySourceUrl": "https://www.revisor.mn.gov/bills/94/2026/0/HF/3702?list=open&body=House",
+        "sourceAgency": "Open States",
+        "documentType": "bill",
+        "documentId": "ocd-bill/dd8a0b98-0d06-4b76-b48f-68040d66a64f",
+        "issuedDate": "2026-02-25",
+        "fetchedAt": "2026-08-06T21:51:33.931Z",
+        "licence": "Open States data is available under a CC BY-SA 4.0-equivalent open license; see https://docs.openstates.org/en/latest/api/index.html",
+        "contentHash": "3cd0587dbac86fcfee2a091c32319fcd4740be2eea8e12ea3c03d01dcf28c27f"
+      }
+    },
+    {
+      "schemaVersion": 1,
+      "id": "ocd-bill/5623b5a7-58e8-4163-a447-9df61523c130",
+      "identifier": "HF 692",
+      "session": "2025-2026",
+      "title": "Red River Basin; flood hazard mitigation projects funding provided, bonds issued, and money appropriated.",
+      "chamber": "house",
+      "sponsors": [
+        {
+          "name": "Burkel",
+          "classification": "primary",
+          "holding": null
+        },
+        {
+          "name": "Gander",
+          "classification": "cosponsor",
+          "holding": null
+        }
+      ],
+      "actions": [
+        {
+          "date": "2025-02-13",
+          "description": "Introduction and first reading, referred to Capital Investment",
+          "classification": [
+            "introduction",
+            "referral-committee"
+          ]
+        }
+      ],
+      "status": "Introduction and first reading, referred to Capital Investment",
+      "sources": [
+        {
+          "provider": "openstates",
+          "id": "https://www.revisor.mn.gov/bills/94/2025/0/HF/692?list=open&body=House",
+          "url": "https://www.revisor.mn.gov/bills/94/2025/0/HF/692?list=open&body=House"
+        }
+      ],
+      "provenance": {
+        "primarySourceUrl": "https://www.revisor.mn.gov/bills/94/2025/0/HF/692?list=open&body=House",
+        "sourceAgency": "Open States",
+        "documentType": "bill",
+        "documentId": "ocd-bill/5623b5a7-58e8-4163-a447-9df61523c130",
+        "issuedDate": "2025-02-13",
+        "fetchedAt": "2026-08-06T21:51:33.931Z",
+        "licence": "Open States data is available under a CC BY-SA 4.0-equivalent open license; see https://docs.openstates.org/en/latest/api/index.html",
+        "contentHash": "21d55a9bf0a79d6e32307f99bdea426d42aa4673e1712f7eca522163f9ae1936"
+      }
+    },
+    {
+      "schemaVersion": 1,
+      "id": "ocd-bill/d824f844-ca84-49e1-a7db-e7f007735ed2",
+      "identifier": "HF 4856",
+      "session": "2025-2026",
+      "title": "Spending authorized to acquire and better public land and buildings and for other improvements of a capital nature with certain conditions, new programs established and existing programs modified, prior appropriations modified, bonds issued, and money appropriated.",
+      "chamber": "house",
+      "sponsors": [
+        {
+          "name": "Lee, F.",
+          "classification": "primary",
+          "holding": null
+        }
+      ],
+      "actions": [
+        {
+          "date": "2026-04-07",
+          "description": "Introduction and first reading, referred to Capital Investment",
+          "classification": [
+            "introduction",
+            "referral-committee"
+          ]
+        }
+      ],
+      "status": "Introduction and first reading, referred to Capital Investment",
+      "sources": [
+        {
+          "provider": "openstates",
+          "id": "https://www.revisor.mn.gov/bills/94/2026/0/HF/4856?list=open&body=House",
+          "url": "https://www.revisor.mn.gov/bills/94/2026/0/HF/4856?list=open&body=House"
+        }
+      ],
+      "provenance": {
+        "primarySourceUrl": "https://www.revisor.mn.gov/bills/94/2026/0/HF/4856?list=open&body=House",
+        "sourceAgency": "Open States",
+        "documentType": "bill",
+        "documentId": "ocd-bill/d824f844-ca84-49e1-a7db-e7f007735ed2",
+        "issuedDate": "2026-04-07",
+        "fetchedAt": "2026-08-06T21:51:33.931Z",
+        "licence": "Open States data is available under a CC BY-SA 4.0-equivalent open license; see https://docs.openstates.org/en/latest/api/index.html",
+        "contentHash": "4f25cead22f39f1ca4a536056ef268f43694ed9f1c64875f50cd9212345e25ee"
+      }
+    },
+    {
+      "schemaVersion": 1,
+      "id": "ocd-bill/c1bd81f9-5f83-4bfa-ad0a-e01dd71908c1",
+      "identifier": "HF 5055",
+      "session": "2025-2026",
+      "title": "Individual income, corporate franchise, sales and use, and gross receipts taxes and other various taxes and tax-related provisions modified; federal conformity provided; sustainable aviation fuel credit modified; firearms gross receipts tax imposed; social media tax imposed; and money appropriated.",
+      "chamber": "house",
+      "sponsors": [
+        {
+          "name": "Gomez",
+          "classification": "primary",
+          "holding": null
+        },
+        {
+          "name": "Davids",
+          "classification": "cosponsor",
+          "holding": null
+        }
+      ],
+      "actions": [
+        {
+          "date": "2026-04-22",
+          "description": "Introduction and first reading, referred to Rules and Legislative Administration",
+          "classification": [
+            "introduction",
+            "referral-committee"
+          ]
+        }
+      ],
+      "status": "Introduction and first reading, referred to Rules and Legislative Administration",
+      "sources": [
+        {
+          "provider": "openstates",
+          "id": "https://www.revisor.mn.gov/bills/94/2026/0/HF/5055?list=open&body=House",
+          "url": "https://www.revisor.mn.gov/bills/94/2026/0/HF/5055?list=open&body=House"
+        }
+      ],
+      "provenance": {
+        "primarySourceUrl": "https://www.revisor.mn.gov/bills/94/2026/0/HF/5055?list=open&body=House",
+        "sourceAgency": "Open States",
+        "documentType": "bill",
+        "documentId": "ocd-bill/c1bd81f9-5f83-4bfa-ad0a-e01dd71908c1",
+        "issuedDate": "2026-04-22",
+        "fetchedAt": "2026-08-06T21:51:33.931Z",
+        "licence": "Open States data is available under a CC BY-SA 4.0-equivalent open license; see https://docs.openstates.org/en/latest/api/index.html",
+        "contentHash": "1ec17516854ff8e7cec532e761b909c9bb8a013fb208ce9001cb4e4768a19b37"
+      }
+    },
+    {
+      "schemaVersion": 1,
+      "id": "ocd-bill/0571e68f-c5b1-4856-9718-7c14a5786d0d",
+      "identifier": "HF 5045",
+      "session": "2025-2026",
+      "title": "Photo ID required to register to vote and to vote, SAVE Minnesota Act established, proof of citizenship to vote required, voter identification card created, provisional ballots established, driver's license requirements modified, and money appropriated.",
+      "chamber": "house",
+      "sponsors": [
+        {
+          "name": "Altendorf",
+          "classification": "primary",
+          "holding": null
+        },
+        {
+          "name": "Schultz",
+          "classification": "cosponsor",
+          "holding": null
+        },
+        {
+          "name": "Quam",
+          "classification": "cosponsor",
+          "holding": null
+        },
+        {
+          "name": "Knudsen",
+          "classification": "cosponsor",
+          "holding": null
+        },
+        {
+          "name": "Rymer",
+          "classification": "cosponsor",
+          "holding": null
+        },
+        {
+          "name": "Bakeberg",
+          "classification": "cosponsor",
+          "holding": null
+        },
+        {
+          "name": "Dippel",
+          "classification": "cosponsor",
+          "holding": null
+        },
+        {
+          "name": "Gordon",
+          "classification": "cosponsor",
+          "holding": null
+        },
+        {
+          "name": "Gander",
+          "classification": "cosponsor",
+          "holding": null
+        },
+        {
+          "name": "Heintzeman",
+          "classification": "cosponsor",
+          "holding": null
+        },
+        {
+          "name": "Van Binsbergen",
+          "classification": "cosponsor",
+          "holding": null
+        },
+        {
+          "name": "Perryman",
+          "classification": "cosponsor",
+          "holding": null
+        },
+        {
+          "name": "Dotseth",
+          "classification": "cosponsor",
+          "holding": null
+        },
+        {
+          "name": "Mekeland",
+          "classification": "cosponsor",
+          "holding": null
+        },
+        {
+          "name": "Repinski",
+          "classification": "cosponsor",
+          "holding": null
+        },
+        {
+          "name": "Fogelman",
+          "classification": "cosponsor",
+          "holding": null
+        },
+        {
+          "name": "Harder",
+          "classification": "cosponsor",
+          "holding": null
+        },
+        {
+          "name": "Robbins",
+          "classification": "cosponsor",
+          "holding": null
+        },
+        {
+          "name": "Zeleznikar",
+          "classification": "cosponsor",
+          "holding": null
+        },
+        {
+          "name": "Jacob",
+          "classification": "cosponsor",
+          "holding": null
+        },
+        {
+          "name": "Murphy",
+          "classification": "cosponsor",
+          "holding": null
+        },
+        {
+          "name": "Burkel",
+          "classification": "cosponsor",
+          "holding": null
+        },
+        {
+          "name": "McDonald",
+          "classification": "cosponsor",
+          "holding": null
+        },
+        {
+          "name": "Skraba",
+          "classification": "cosponsor",
+          "holding": null
+        },
+        {
+          "name": "Anderson, P. H.",
+          "classification": "cosponsor",
+          "holding": null
+        },
+        {
+          "name": "Scott",
+          "classification": "cosponsor",
+          "holding": null
+        },
+        {
+          "name": "Backer",
+          "classification": "cosponsor",
+          "holding": null
+        },
+        {
+          "name": "Gillman",
+          "classification": "cosponsor",
+          "holding": null
+        },
+        {
+          "name": "Joy",
+          "classification": "cosponsor",
+          "holding": null
+        },
+        {
+          "name": "Wiener",
+          "classification": "cosponsor",
+          "holding": null
+        },
+        {
+          "name": "Davis",
+          "classification": "cosponsor",
+          "holding": null
+        },
+        {
+          "name": "Roach",
+          "classification": "cosponsor",
+          "holding": null
+        },
+        {
+          "name": "Allen",
+          "classification": "cosponsor",
+          "holding": null
+        },
+        {
+          "name": "Lawrence",
+          "classification": "cosponsor",
+          "holding": null
+        },
+        {
+          "name": "Engen",
+          "classification": "cosponsor",
+          "holding": null
+        }
+      ],
+      "actions": [
+        {
+          "date": "2026-04-20",
+          "description": "Introduction and first reading, referred to Elections Finance and Government Operations",
+          "classification": [
+            "introduction",
+            "referral-committee"
+          ]
+        }
+      ],
+      "status": "Introduction and first reading, referred to Elections Finance and Government Operations",
+      "sources": [
+        {
+          "provider": "openstates",
+          "id": "https://www.revisor.mn.gov/bills/94/2026/0/HF/5045?list=open&body=House",
+          "url": "https://www.revisor.mn.gov/bills/94/2026/0/HF/5045?list=open&body=House"
+        }
+      ],
+      "provenance": {
+        "primarySourceUrl": "https://www.revisor.mn.gov/bills/94/2026/0/HF/5045?list=open&body=House",
+        "sourceAgency": "Open States",
+        "documentType": "bill",
+        "documentId": "ocd-bill/0571e68f-c5b1-4856-9718-7c14a5786d0d",
+        "issuedDate": "2026-04-20",
+        "fetchedAt": "2026-08-06T21:51:33.931Z",
+        "licence": "Open States data is available under a CC BY-SA 4.0-equivalent open license; see https://docs.openstates.org/en/latest/api/index.html",
+        "contentHash": "ce9332e3411ebadc00eacc127143d69ebb6e927ffda45889a313887316449f8f"
+      }
+    },
+    {
+      "schemaVersion": 1,
+      "id": "ocd-bill/ab51292b-20fa-4c48-92b3-5adda9c7f830",
+      "identifier": "HF 4298",
+      "session": "2025-2026",
+      "title": "New multimodal shared-use trail from La Crescent to Hokah and Houston to complete Root River State Trail funding provided, bonds issued, and money appropriated.",
+      "chamber": "house",
+      "sponsors": [
+        {
+          "name": "Davids",
+          "classification": "primary",
+          "holding": null
+        }
+      ],
+      "actions": [
+        {
+          "date": "2026-03-16",
+          "description": "Introduction and first reading, referred to Capital Investment",
+          "classification": [
+            "introduction",
+            "referral-committee"
+          ]
+        }
+      ],
+      "status": "Introduction and first reading, referred to Capital Investment",
+      "sources": [
+        {
+          "provider": "openstates",
+          "id": "https://www.revisor.mn.gov/bills/94/2026/0/HF/4298?list=open&body=House",
+          "url": "https://www.revisor.mn.gov/bills/94/2026/0/HF/4298?list=open&body=House"
+        }
+      ],
+      "provenance": {
+        "primarySourceUrl": "https://www.revisor.mn.gov/bills/94/2026/0/HF/4298?list=open&body=House",
+        "sourceAgency": "Open States",
+        "documentType": "bill",
+        "documentId": "ocd-bill/ab51292b-20fa-4c48-92b3-5adda9c7f830",
+        "issuedDate": "2026-03-16",
+        "fetchedAt": "2026-08-06T21:51:33.931Z",
+        "licence": "Open States data is available under a CC BY-SA 4.0-equivalent open license; see https://docs.openstates.org/en/latest/api/index.html",
+        "contentHash": "64e6ae92a45ff5f053e1961d82fc1b2d893ceaf2e04c0e35f2bdd8d7cd62b5ef"
+      }
+    },
+    {
+      "schemaVersion": 1,
+      "id": "ocd-bill/5682d217-83a6-4826-9a2b-c304d7a7a3b4",
+      "identifier": "HF 4138",
+      "session": "2025-2026",
+      "title": "Social media platform requirements established relating to accounts for minors, and enforcement mechanisms established for regulations on child social media accounts.",
+      "chamber": "house",
+      "sponsors": [
+        {
+          "name": "Scott",
+          "classification": "primary",
+          "holding": null
+        },
+        {
+          "name": "Bahner",
+          "classification": "cosponsor",
+          "holding": null
+        },
+        {
+          "name": "Robbins",
+          "classification": "cosponsor",
+          "holding": null
+        },
+        {
+          "name": "Elkins",
+          "classification": "cosponsor",
+          "holding": null
+        },
+        {
+          "name": "Dotseth",
+          "classification": "cosponsor",
+          "holding": null
+        },
+        {
+          "name": "Allen",
+          "classification": "cosponsor",
+          "holding": null
+        },
+        {
+          "name": "Perryman",
+          "classification": "cosponsor",
+          "holding": null
+        },
+        {
+          "name": "Davids",
+          "classification": "cosponsor",
+          "holding": null
+        },
+        {
+          "name": "Swedzinski",
+          "classification": "cosponsor",
+          "holding": null
+        },
+        {
+          "name": "Dippel",
+          "classification": "cosponsor",
+          "holding": null
+        },
+        {
+          "name": "Zeleznikar",
+          "classification": "cosponsor",
+          "holding": null
+        },
+        {
+          "name": "Bakeberg",
+          "classification": "cosponsor",
+          "holding": null
+        },
+        {
+          "name": "Greene",
+          "classification": "cosponsor",
+          "holding": null
+        },
+        {
+          "name": "Baker",
+          "classification": "cosponsor",
+          "holding": null
+        },
+        {
+          "name": "Schwartz",
+          "classification": "cosponsor",
+          "holding": null
+        },
+        {
+          "name": "Myers",
+          "classification": "cosponsor",
+          "holding": null
+        },
+        {
+          "name": "Smith",
+          "classification": "cosponsor",
+          "holding": null
+        },
+        {
+          "name": "Koznick",
+          "classification": "cosponsor",
+          "holding": null
+        },
+        {
+          "name": "Engen",
+          "classification": "cosponsor",
+          "holding": null
+        },
+        {
+          "name": "Maye Quade",
+          "classification": "cosponsor",
+          "holding": null
+        }
+      ],
+      "actions": [
+        {
+          "date": "2026-03-09",
+          "description": "Introduction and first reading, referred to Judiciary Finance and Civil Law",
+          "classification": [
+            "introduction",
+            "referral-committee"
+          ]
+        },
+        {
+          "date": "2026-03-12",
+          "description": "Author added Davids",
+          "classification": []
+        },
+        {
+          "date": "2026-03-18",
+          "description": "Author added Swedzinski",
+          "classification": []
+        },
+        {
+          "date": "2026-03-23",
+          "description": "Committee report, to adopt as amended and re-refer to Commerce Finance and Policy",
+          "classification": [
+            "committee-passage"
+          ]
+        },
+        {
+          "date": "2026-04-07",
+          "description": "Committee report, to adopt as amended and re-refer to Ways and Means",
+          "classification": [
+            "committee-passage"
+          ]
+        },
+        {
+          "date": "2026-04-07",
+          "description": "Author added Dippel, Zeleznikar, and Bakeberg",
+          "classification": []
+        },
+        {
+          "date": "2026-04-20",
+          "description": "Author added Greene",
+          "classification": []
+        },
+        {
+          "date": "2026-04-23",
+          "description": "Author added Baker",
+          "classification": []
+        },
+        {
+          "date": "2026-04-27",
+          "description": "Committee report, to adopt as amended",
+          "classification": [
+            "committee-passage"
+          ]
+        },
+        {
+          "date": "2026-04-27",
+          "description": "Second reading",
+          "classification": [
+            "reading-2"
+          ]
+        },
+        {
+          "date": "2026-04-27",
+          "description": "Author added Schwartz",
+          "classification": []
+        },
+        {
+          "date": "2026-04-28",
+          "description": "Author added Myers",
+          "classification": []
+        },
+        {
+          "date": "2026-05-06",
+          "description": "Author added Smith",
+          "classification": []
+        },
+        {
+          "date": "2026-05-11",
+          "description": "House rule 1.21, placed on Calendar for the Day Tuesday, May 12, 2026",
+          "classification": []
+        },
+        {
+          "date": "2026-05-11",
+          "description": "Author added Koznick",
+          "classification": []
+        },
+        {
+          "date": "2026-05-12",
+          "description": "Amended",
+          "classification": [
+            "amendment-passage"
+          ]
+        },
+        {
+          "date": "2026-05-12",
+          "description": "Motion for reconsideration Smith amendment",
+          "classification": []
+        },
+        {
+          "date": "2026-05-12",
+          "description": "Motion prevailed",
+          "classification": []
+        },
+        {
+          "date": "2026-05-12",
+          "description": "Motion for reconsideration Greenman amendment",
+          "classification": []
+        },
+        {
+          "date": "2026-05-12",
+          "description": "Motion prevailed",
+          "classification": []
+        },
+        {
+          "date": "2026-05-12",
+          "description": "Amendments offered",
+          "classification": [
+            "amendment-introduction"
+          ]
+        },
+        {
+          "date": "2026-05-12",
+          "description": "Amended",
+          "classification": [
+            "amendment-passage"
+          ]
+        },
+        {
+          "date": "2026-05-12",
+          "description": "Third reading as amended",
+          "classification": [
+            "reading-3"
+          ]
+        },
+        {
+          "date": "2026-05-12",
+          "description": "Bill was passed as amended",
+          "classification": [
+            "passage"
+          ]
+        },
+        {
+          "date": "2026-05-12",
+          "description": "Author added Engen",
+          "classification": []
+        },
+        {
+          "date": "2026-05-16",
+          "description": "Returned from Senate with amendment",
+          "classification": []
+        },
+        {
+          "date": "2026-05-16",
+          "description": "Motion to concur with Senate amendments",
+          "classification": []
+        },
+        {
+          "date": "2026-05-16",
+          "description": "Motion prevailed",
+          "classification": []
+        },
+        {
+          "date": "2026-05-16",
+          "description": "Third reading as amended by the Senate",
+          "classification": [
+            "reading-3"
+          ]
+        },
+        {
+          "date": "2026-05-16",
+          "description": "Bill was repassed as amended by the Senate",
+          "classification": []
+        },
+        {
+          "date": "2026-05-20",
+          "description": "Presented to Governor 05/20/2026",
+          "classification": [
+            "executive-receipt"
+          ]
+        },
+        {
+          "date": "2026-05-26",
+          "description": "Governor approval 05/26/2026",
+          "classification": [
+            "executive-signature"
+          ]
+        },
+        {
+          "date": "2026-05-26",
+          "description": "Secretary of State, Filed 05/26/2026",
+          "classification": []
+        },
+        {
+          "date": "2026-05-13",
+          "description": "Received from House",
+          "classification": [
+            "introduction"
+          ]
+        },
+        {
+          "date": "2026-05-13",
+          "description": "Introduction and first reading",
+          "classification": [
+            "introduction"
+          ]
+        },
+        {
+          "date": "2026-05-13",
+          "description": "Referred to Rules and Administration for comparison with SF4696",
+          "classification": [
+            "referral-committee"
+          ]
+        },
+        {
+          "date": "2026-05-14",
+          "description": "Comm report: Rule 45-amend, subst. General Orders SF4696",
+          "classification": []
+        },
+        {
+          "date": "2026-05-14",
+          "description": "Second reading",
+          "classification": [
+            "reading-2"
+          ]
+        },
+        {
+          "date": "2026-05-15",
+          "description": "Special Order: Amended",
+          "classification": []
+        },
+        {
+          "date": "2026-05-15",
+          "description": "Third reading Passed as amended",
+          "classification": [
+            "passage"
+          ]
+        },
+        {
+          "date": "2026-05-20",
+          "description": "Presentment date 05/20/26",
+          "classification": []
+        },
+        {
+          "date": "2026-05-26",
+          "description": "Governor's action Approval 05/26/26",
+          "classification": [
+            "executive-signature"
+          ]
+        },
+        {
+          "date": "2026-05-26",
+          "description": "Secretary of State Chapter 111 05/26/26",
+          "classification": []
+        },
+        {
+          "date": "2026-07-01",
+          "description": "Effective date 07/01/2026",
+          "classification": []
+        }
+      ],
+      "status": "Effective date 07/01/2026",
+      "sources": [
+        {
+          "provider": "openstates",
+          "id": "https://www.revisor.mn.gov/bills/94/2026/0/HF/4138?list=open&body=House",
+          "url": "https://www.revisor.mn.gov/bills/94/2026/0/HF/4138?list=open&body=House"
+        }
+      ],
+      "provenance": {
+        "primarySourceUrl": "https://www.revisor.mn.gov/bills/94/2026/0/HF/4138?list=open&body=House",
+        "sourceAgency": "Open States",
+        "documentType": "bill",
+        "documentId": "ocd-bill/5682d217-83a6-4826-9a2b-c304d7a7a3b4",
+        "issuedDate": "2026-03-09",
+        "fetchedAt": "2026-08-06T21:51:33.931Z",
+        "licence": "Open States data is available under a CC BY-SA 4.0-equivalent open license; see https://docs.openstates.org/en/latest/api/index.html",
+        "contentHash": "3be418320f672139a655da208fbb04aa32aa05ca7a3380174409ebf0fa4c6fd8"
+      }
+    },
+    {
+      "schemaVersion": 1,
+      "id": "ocd-bill/de4910c9-fff5-42f8-888b-8f729fed5be2",
+      "identifier": "HF 5127",
+      "session": "2025-2026",
+      "title": "BioImaging Center at the Hormel Institute in Austin funding provided, bonds issued, and money appropriated.",
+      "chamber": "house",
+      "sponsors": [
+        {
+          "name": "Mueller",
+          "classification": "primary",
+          "holding": null
+        }
+      ],
+      "actions": [
+        {
+          "date": "2026-05-07",
+          "description": "Introduction and first reading, referred to Capital Investment",
+          "classification": [
+            "introduction",
+            "referral-committee"
+          ]
+        }
+      ],
+      "status": "Introduction and first reading, referred to Capital Investment",
+      "sources": [
+        {
+          "provider": "openstates",
+          "id": "https://www.revisor.mn.gov/bills/94/2026/0/HF/5127?list=open&body=House",
+          "url": "https://www.revisor.mn.gov/bills/94/2026/0/HF/5127?list=open&body=House"
+        }
+      ],
+      "provenance": {
+        "primarySourceUrl": "https://www.revisor.mn.gov/bills/94/2026/0/HF/5127?list=open&body=House",
+        "sourceAgency": "Open States",
+        "documentType": "bill",
+        "documentId": "ocd-bill/de4910c9-fff5-42f8-888b-8f729fed5be2",
+        "issuedDate": "2026-05-07",
+        "fetchedAt": "2026-08-06T21:51:33.931Z",
+        "licence": "Open States data is available under a CC BY-SA 4.0-equivalent open license; see https://docs.openstates.org/en/latest/api/index.html",
+        "contentHash": "b54e31488ec0a5babb85ee22c5175200091339edaf3093b21d155d2ef2f049fc"
+      }
+    },
+    {
+      "schemaVersion": 1,
+      "id": "ocd-bill/e99b56e9-8c5a-407b-b6a0-75d0460fbe2e",
+      "identifier": "HF 3894",
+      "session": "2025-2026",
+      "title": "Hennepin County Sheriff's Office Forensic Science Laboratory funding provided, bonds issued, and money appropriated.",
+      "chamber": "house",
+      "sponsors": [
+        {
+          "name": "Myers",
+          "classification": "primary",
+          "holding": null
+        },
+        {
+          "name": "Carroll",
+          "classification": "cosponsor",
+          "holding": null
+        },
+        {
+          "name": "Nadeau",
+          "classification": "cosponsor",
+          "holding": null
+        },
+        {
+          "name": "Bahner",
+          "classification": "cosponsor",
+          "holding": null
+        }
+      ],
+      "actions": [
+        {
+          "date": "2026-03-02",
+          "description": "Introduction and first reading, referred to Capital Investment",
+          "classification": [
+            "introduction",
+            "referral-committee"
+          ]
+        }
+      ],
+      "status": "Introduction and first reading, referred to Capital Investment",
+      "sources": [
+        {
+          "provider": "openstates",
+          "id": "https://www.revisor.mn.gov/bills/94/2026/0/HF/3894?list=open&body=House",
+          "url": "https://www.revisor.mn.gov/bills/94/2026/0/HF/3894?list=open&body=House"
+        }
+      ],
+      "provenance": {
+        "primarySourceUrl": "https://www.revisor.mn.gov/bills/94/2026/0/HF/3894?list=open&body=House",
+        "sourceAgency": "Open States",
+        "documentType": "bill",
+        "documentId": "ocd-bill/e99b56e9-8c5a-407b-b6a0-75d0460fbe2e",
+        "issuedDate": "2026-03-02",
+        "fetchedAt": "2026-08-06T21:51:33.931Z",
+        "licence": "Open States data is available under a CC BY-SA 4.0-equivalent open license; see https://docs.openstates.org/en/latest/api/index.html",
+        "contentHash": "33c2b0994b55896ec26f94a8fe7caf57b21cabc89ad7b490341172958707169d"
+      }
+    },
+    {
+      "schemaVersion": 1,
+      "id": "ocd-bill/8f38d579-dad0-4983-8424-12fa442d86b0",
+      "identifier": "HF 4126",
+      "session": "2025-2026",
+      "title": "Requirements for mandatory reports of child maltreatment modified, and criminal penalties for failure to report child maltreatment modified.",
+      "chamber": "house",
+      "sponsors": [
+        {
+          "name": "Johnson, P.",
+          "classification": "primary",
+          "holding": null
+        },
+        {
+          "name": "Kozlowski",
+          "classification": "cosponsor",
+          "holding": null
+        },
+        {
+          "name": "Zeleznikar",
+          "classification": "cosponsor",
+          "holding": null
+        }
+      ],
+      "actions": [
+        {
+          "date": "2026-03-09",
+          "description": "Introduction and first reading, referred to Children and Families Finance and Policy",
+          "classification": [
+            "introduction",
+            "referral-committee"
+          ]
+        }
+      ],
+      "status": "Introduction and first reading, referred to Children and Families Finance and Policy",
+      "sources": [
+        {
+          "provider": "openstates",
+          "id": "https://www.revisor.mn.gov/bills/94/2026/0/HF/4126?list=open&body=House",
+          "url": "https://www.revisor.mn.gov/bills/94/2026/0/HF/4126?list=open&body=House"
+        }
+      ],
+      "provenance": {
+        "primarySourceUrl": "https://www.revisor.mn.gov/bills/94/2026/0/HF/4126?list=open&body=House",
+        "sourceAgency": "Open States",
+        "documentType": "bill",
+        "documentId": "ocd-bill/8f38d579-dad0-4983-8424-12fa442d86b0",
+        "issuedDate": "2026-03-09",
+        "fetchedAt": "2026-08-06T21:51:33.931Z",
+        "licence": "Open States data is available under a CC BY-SA 4.0-equivalent open license; see https://docs.openstates.org/en/latest/api/index.html",
+        "contentHash": "01d3ce456c38aa41504963f56d9ba83d5b8bb2d35cf7d25d0a763dafd8eef5ba"
+      }
+    },
+    {
+      "schemaVersion": 1,
+      "id": "ocd-bill/a68ab883-7ec5-40b3-ad97-c7b5d65c324e",
+      "identifier": "HF 4870",
+      "session": "2025-2026",
+      "title": "Minnesota Board of Early Care and Education established, duties and responsibilities provided, rulemaking authorized, reports required, and money appropriated.",
+      "chamber": "house",
+      "sponsors": [
+        {
+          "name": "Coulter",
+          "classification": "primary",
+          "holding": null
+        }
+      ],
+      "actions": [
+        {
+          "date": "2026-04-09",
+          "description": "Introduction and first reading, referred to Children and Families Finance and Policy",
+          "classification": [
+            "introduction",
+            "referral-committee"
+          ]
+        }
+      ],
+      "status": "Introduction and first reading, referred to Children and Families Finance and Policy",
+      "sources": [
+        {
+          "provider": "openstates",
+          "id": "https://www.revisor.mn.gov/bills/94/2026/0/HF/4870?list=open&body=House",
+          "url": "https://www.revisor.mn.gov/bills/94/2026/0/HF/4870?list=open&body=House"
+        }
+      ],
+      "provenance": {
+        "primarySourceUrl": "https://www.revisor.mn.gov/bills/94/2026/0/HF/4870?list=open&body=House",
+        "sourceAgency": "Open States",
+        "documentType": "bill",
+        "documentId": "ocd-bill/a68ab883-7ec5-40b3-ad97-c7b5d65c324e",
+        "issuedDate": "2026-04-09",
+        "fetchedAt": "2026-08-06T21:51:33.931Z",
+        "licence": "Open States data is available under a CC BY-SA 4.0-equivalent open license; see https://docs.openstates.org/en/latest/api/index.html",
+        "contentHash": "2227493ac68912c2f41fb5b620d5848302b019ffb6de8b41562b38822c1ed094"
+      }
+    },
+    {
+      "schemaVersion": 1,
+      "id": "ocd-bill/369c2e19-7b3e-4548-a819-31e90010c27f",
+      "identifier": "HF 4623",
+      "session": "2025-2026",
+      "title": "St. Paul; indoor recreational dome facility funding provided, bonds issued, and money appropriated.",
+      "chamber": "house",
+      "sponsors": [
+        {
+          "name": "Hussein",
+          "classification": "primary",
+          "holding": null
+        },
+        {
+          "name": "Xiong",
+          "classification": "cosponsor",
+          "holding": null
+        },
+        {
+          "name": "Huot",
+          "classification": "cosponsor",
+          "holding": null
+        },
+        {
+          "name": "Feist",
+          "classification": "cosponsor",
+          "holding": null
+        }
+      ],
+      "actions": [
+        {
+          "date": "2026-03-25",
+          "description": "Introduction and first reading, referred to Capital Investment",
+          "classification": [
+            "introduction",
+            "referral-committee"
+          ]
+        }
+      ],
+      "status": "Introduction and first reading, referred to Capital Investment",
+      "sources": [
+        {
+          "provider": "openstates",
+          "id": "https://www.revisor.mn.gov/bills/94/2026/0/HF/4623?list=open&body=House",
+          "url": "https://www.revisor.mn.gov/bills/94/2026/0/HF/4623?list=open&body=House"
+        }
+      ],
+      "provenance": {
+        "primarySourceUrl": "https://www.revisor.mn.gov/bills/94/2026/0/HF/4623?list=open&body=House",
+        "sourceAgency": "Open States",
+        "documentType": "bill",
+        "documentId": "ocd-bill/369c2e19-7b3e-4548-a819-31e90010c27f",
+        "issuedDate": "2026-03-25",
+        "fetchedAt": "2026-08-06T21:51:33.931Z",
+        "licence": "Open States data is available under a CC BY-SA 4.0-equivalent open license; see https://docs.openstates.org/en/latest/api/index.html",
+        "contentHash": "acf8d3a03e2377773cec9a20b3cce3f61c7b243544cbe0a2535f90f4cdc45ae4"
+      }
+    },
+    {
+      "schemaVersion": 1,
+      "id": "ocd-bill/d6bb4e2f-201f-4742-971b-f96a8a0011b1",
+      "identifier": "HF 4829",
+      "session": "2025-2026",
+      "title": "Provisions to support deployment of energy storage added and modified, Public Utilities Commission directed to issue an order, utilities required to install an energy storage system, incentive program established, and money appropriated.",
+      "chamber": "house",
+      "sponsors": [
+        {
+          "name": "Hollins",
+          "classification": "primary",
+          "holding": null
+        },
+        {
+          "name": "Xiong",
+          "classification": "cosponsor",
+          "holding": null
+        }
+      ],
+      "actions": [
+        {
+          "date": "2026-04-07",
+          "description": "Introduction and first reading, referred to Energy Finance and Policy",
+          "classification": [
+            "introduction",
+            "referral-committee"
+          ]
+        },
+        {
+          "date": "2026-04-09",
+          "description": "Author added Xiong",
+          "classification": []
+        }
+      ],
+      "status": "Author added Xiong",
+      "sources": [
+        {
+          "provider": "openstates",
+          "id": "https://www.revisor.mn.gov/bills/94/2026/0/HF/4829?list=open&body=House",
+          "url": "https://www.revisor.mn.gov/bills/94/2026/0/HF/4829?list=open&body=House"
+        }
+      ],
+      "provenance": {
+        "primarySourceUrl": "https://www.revisor.mn.gov/bills/94/2026/0/HF/4829?list=open&body=House",
+        "sourceAgency": "Open States",
+        "documentType": "bill",
+        "documentId": "ocd-bill/d6bb4e2f-201f-4742-971b-f96a8a0011b1",
+        "issuedDate": "2026-04-07",
+        "fetchedAt": "2026-08-06T21:51:33.931Z",
+        "licence": "Open States data is available under a CC BY-SA 4.0-equivalent open license; see https://docs.openstates.org/en/latest/api/index.html",
+        "contentHash": "8f144872efe06e6e4a03526b111d65a09a678dd3b64e41337283fa753ee540b0"
+      }
+    },
+    {
+      "schemaVersion": 1,
+      "id": "ocd-bill/6057f78b-7b12-4f91-9ad0-59fb6dc17a62",
+      "identifier": "HF 4339",
+      "session": "2025-2026",
+      "title": "Gitchi-Gami State Trail funding provided, bonds issued, and money appropriated.",
+      "chamber": "house",
+      "sponsors": [
+        {
+          "name": "Skraba",
+          "classification": "primary",
+          "holding": null
+        }
+      ],
+      "actions": [
+        {
+          "date": "2026-03-16",
+          "description": "Introduction and first reading, referred to Capital Investment",
+          "classification": [
+            "introduction",
+            "referral-committee"
+          ]
+        }
+      ],
+      "status": "Introduction and first reading, referred to Capital Investment",
+      "sources": [
+        {
+          "provider": "openstates",
+          "id": "https://www.revisor.mn.gov/bills/94/2026/0/HF/4339?list=open&body=House",
+          "url": "https://www.revisor.mn.gov/bills/94/2026/0/HF/4339?list=open&body=House"
+        }
+      ],
+      "provenance": {
+        "primarySourceUrl": "https://www.revisor.mn.gov/bills/94/2026/0/HF/4339?list=open&body=House",
+        "sourceAgency": "Open States",
+        "documentType": "bill",
+        "documentId": "ocd-bill/6057f78b-7b12-4f91-9ad0-59fb6dc17a62",
+        "issuedDate": "2026-03-16",
+        "fetchedAt": "2026-08-06T21:51:33.931Z",
+        "licence": "Open States data is available under a CC BY-SA 4.0-equivalent open license; see https://docs.openstates.org/en/latest/api/index.html",
+        "contentHash": "8451fe3121d2e54e609b26ba0ac777e5e2107b95277874ef7551fdf081181fdc"
+      }
+    },
+    {
+      "schemaVersion": 1,
+      "id": "ocd-bill/48e7b2e9-f86b-46af-8ec4-01aa60a8ecc3",
+      "identifier": "HF 3872",
+      "session": "2025-2026",
+      "title": "Immigrant Development Center grant funding provided for a cultural mall, and money appropriated.",
+      "chamber": "house",
+      "sponsors": [
+        {
+          "name": "Hussein",
+          "classification": "primary",
+          "holding": null
+        }
+      ],
+      "actions": [
+        {
+          "date": "2026-03-02",
+          "description": "Introduction and first reading, referred to Workforce, Labor, and Economic Development Finance and Policy",
+          "classification": [
+            "introduction",
+            "referral-committee"
+          ]
+        }
+      ],
+      "status": "Introduction and first reading, referred to Workforce, Labor, and Economic Development Finance and Policy",
+      "sources": [
+        {
+          "provider": "openstates",
+          "id": "https://www.revisor.mn.gov/bills/94/2026/0/HF/3872?list=open&body=House",
+          "url": "https://www.revisor.mn.gov/bills/94/2026/0/HF/3872?list=open&body=House"
+        }
+      ],
+      "provenance": {
+        "primarySourceUrl": "https://www.revisor.mn.gov/bills/94/2026/0/HF/3872?list=open&body=House",
+        "sourceAgency": "Open States",
+        "documentType": "bill",
+        "documentId": "ocd-bill/48e7b2e9-f86b-46af-8ec4-01aa60a8ecc3",
+        "issuedDate": "2026-03-02",
+        "fetchedAt": "2026-08-06T21:51:33.931Z",
+        "licence": "Open States data is available under a CC BY-SA 4.0-equivalent open license; see https://docs.openstates.org/en/latest/api/index.html",
+        "contentHash": "ba963bb895cde502f59032d77575a5c1e32ea2a7b47a0fe31d95b79d1f161900"
+      }
+    },
+    {
+      "schemaVersion": 1,
+      "id": "ocd-bill/903748c5-b269-41fd-b930-3ee61a9bf3a9",
+      "identifier": "SF 1495",
+      "session": "2025-2026",
+      "title": "Certain employment requirements modification for third-party testing program applicants",
+      "chamber": "senate",
+      "sponsors": [
+        {
+          "name": "Hauschild",
+          "classification": "primary",
+          "holding": null
+        }
+      ],
+      "actions": [
+        {
+          "date": "2025-02-17",
+          "description": "Introduction and first reading",
+          "classification": [
+            "introduction"
+          ]
+        },
+        {
+          "date": "2025-02-17",
+          "description": "Referred to Transportation",
+          "classification": [
+            "referral-committee"
+          ]
+        }
+      ],
+      "status": "Referred to Transportation",
+      "sources": [
+        {
+          "provider": "openstates",
+          "id": "https://www.revisor.mn.gov/bills/94/2025/0/SF/1495?list=open&body=Senate",
+          "url": "https://www.revisor.mn.gov/bills/94/2025/0/SF/1495?list=open&body=Senate"
+        }
+      ],
+      "provenance": {
+        "primarySourceUrl": "https://www.revisor.mn.gov/bills/94/2025/0/SF/1495?list=open&body=Senate",
+        "sourceAgency": "Open States",
+        "documentType": "bill",
+        "documentId": "ocd-bill/903748c5-b269-41fd-b930-3ee61a9bf3a9",
+        "issuedDate": "2025-02-17",
+        "fetchedAt": "2026-08-06T21:51:33.931Z",
+        "licence": "Open States data is available under a CC BY-SA 4.0-equivalent open license; see https://docs.openstates.org/en/latest/api/index.html",
+        "contentHash": "0d5e511093a35e859758e0aff604808f1d6bc484d81edac99451b10712fcad4e"
+      }
+    },
+    {
+      "schemaVersion": 1,
+      "id": "ocd-bill/2bd9ea09-a951-4905-a447-e419a4158da2",
+      "identifier": "HF 1190",
+      "session": "2025-2026",
+      "title": "Employment requirements modified for third-party testing program applicants.",
+      "chamber": "house",
+      "sponsors": [
+        {
+          "name": "Olson",
+          "classification": "primary",
+          "holding": null
+        }
+      ],
+      "actions": [
+        {
+          "date": "2025-02-19",
+          "description": "Introduction and first reading, referred to Transportation Finance and Policy",
+          "classification": [
+            "introduction",
+            "referral-committee"
+          ]
+        }
+      ],
+      "status": "Introduction and first reading, referred to Transportation Finance and Policy",
+      "sources": [
+        {
+          "provider": "openstates",
+          "id": "https://www.revisor.mn.gov/bills/94/2025/0/HF/1190?list=open&body=House",
+          "url": "https://www.revisor.mn.gov/bills/94/2025/0/HF/1190?list=open&body=House"
+        }
+      ],
+      "provenance": {
+        "primarySourceUrl": "https://www.revisor.mn.gov/bills/94/2025/0/HF/1190?list=open&body=House",
+        "sourceAgency": "Open States",
+        "documentType": "bill",
+        "documentId": "ocd-bill/2bd9ea09-a951-4905-a447-e419a4158da2",
+        "issuedDate": "2025-02-19",
+        "fetchedAt": "2026-08-06T21:51:33.931Z",
+        "licence": "Open States data is available under a CC BY-SA 4.0-equivalent open license; see https://docs.openstates.org/en/latest/api/index.html",
+        "contentHash": "c4ae0ee2c75da95d7d93ec10ea7836d611c73ae3fdfbfc3a458aea72e26ac333"
+      }
+    },
+    {
+      "schemaVersion": 1,
+      "id": "ocd-bill/50e709d8-9a46-42e6-95af-e4a30e5a27e7",
+      "identifier": "HF 4541",
+      "session": "2025-2026",
+      "title": "Cesar Chavez Day eliminated.",
+      "chamber": "house",
+      "sponsors": [
+        {
+          "name": "Pérez-Vega",
+          "classification": "primary",
+          "holding": null
+        },
+        {
+          "name": "Kozlowski",
+          "classification": "cosponsor",
+          "holding": null
+        },
+        {
+          "name": "Gomez",
+          "classification": "cosponsor",
+          "holding": null
+        },
+        {
+          "name": "Stephenson",
+          "classification": "cosponsor",
+          "holding": null
+        },
+        {
+          "name": "Xiong",
+          "classification": "cosponsor",
+          "holding": null
+        },
+        {
+          "name": "Hansen, R.",
+          "classification": "cosponsor",
+          "holding": null
+        },
+        {
+          "name": "Pappas",
+          "classification": "cosponsor",
+          "holding": null
+        }
+      ],
+      "actions": [
+        {
+          "date": "2026-03-23",
+          "description": "Introduction and first reading",
+          "classification": [
+            "introduction"
+          ]
+        },
+        {
+          "date": "2026-03-23",
+          "description": "Motion to suspend rules",
+          "classification": []
+        },
+        {
+          "date": "2026-03-23",
+          "description": "Motion prevailed",
+          "classification": []
+        },
+        {
+          "date": "2026-03-23",
+          "description": "Second reading",
+          "classification": [
+            "reading-2"
+          ]
+        },
+        {
+          "date": "2026-03-23",
+          "description": "Third reading",
+          "classification": [
+            "reading-3"
+          ]
+        },
+        {
+          "date": "2026-03-23",
+          "description": "Bill was passed",
+          "classification": [
+            "passage"
+          ]
+        },
+        {
+          "date": "2026-03-25",
+          "description": "Authors added Xiong and Hansen, R.",
+          "classification": []
+        },
+        {
+          "date": "2026-03-26",
+          "description": "Returned from Senate",
+          "classification": []
+        },
+        {
+          "date": "2026-03-27",
+          "description": "Governor approval 03/27/26",
+          "classification": [
+            "executive-signature"
+          ]
+        },
+        {
+          "date": "2026-03-27",
+          "description": "Secretary of State, Filed 03/27/26",
+          "classification": []
+        },
+        {
+          "date": "2026-03-23",
+          "description": "Received from House",
+          "classification": [
+            "introduction"
+          ]
+        },
+        {
+          "date": "2026-03-23",
+          "description": "Introduction and first reading",
+          "classification": [
+            "introduction"
+          ]
+        },
+        {
+          "date": "2026-03-23",
+          "description": "Laid on table",
+          "classification": []
+        },
+        {
+          "date": "2026-03-25",
+          "description": "Taken from table",
+          "classification": []
+        },
+        {
+          "date": "2026-03-25",
+          "description": "Second reading",
+          "classification": [
+            "reading-2"
+          ]
+        },
+        {
+          "date": "2026-03-26",
+          "description": "Special Order",
+          "classification": []
+        },
+        {
+          "date": "2026-03-26",
+          "description": "Third reading Passed",
+          "classification": [
+            "passage"
+          ]
+        },
+        {
+          "date": "2026-03-26",
+          "description": "Presentment date 03/26/26",
+          "classification": []
+        },
+        {
+          "date": "2026-03-27",
+          "description": "Governor's action Approval 03/27/26",
+          "classification": [
+            "executive-signature"
+          ]
+        },
+        {
+          "date": "2026-03-27",
+          "description": "Secretary of State Chapter 42 03/27/26",
+          "classification": []
+        },
+        {
+          "date": "2026-03-28",
+          "description": "Effective date 03/28/2026",
+          "classification": []
+        }
+      ],
+      "status": "Effective date 03/28/2026",
+      "sources": [
+        {
+          "provider": "openstates",
+          "id": "https://www.revisor.mn.gov/bills/94/2026/0/HF/4541?list=open&body=House",
+          "url": "https://www.revisor.mn.gov/bills/94/2026/0/HF/4541?list=open&body=House"
+        }
+      ],
+      "provenance": {
+        "primarySourceUrl": "https://www.revisor.mn.gov/bills/94/2026/0/HF/4541?list=open&body=House",
+        "sourceAgency": "Open States",
+        "documentType": "bill",
+        "documentId": "ocd-bill/50e709d8-9a46-42e6-95af-e4a30e5a27e7",
+        "issuedDate": "2026-03-23",
+        "fetchedAt": "2026-08-06T21:51:33.931Z",
+        "licence": "Open States data is available under a CC BY-SA 4.0-equivalent open license; see https://docs.openstates.org/en/latest/api/index.html",
+        "contentHash": "a07117f401c72876d57ddc234728c77ad22235a7835d96504f596363b58e9c0a"
+      }
+    }
+  ],
+  "voteEvents": [
+    {
+      "id": "ocd-vote/f240e22d-db70-44a9-999b-857d80a6f07c",
+      "billId": "ocd-bill/5682d217-83a6-4826-9a2b-c304d7a7a3b4",
+      "identifier": "",
+      "motion": "Passage, as amended",
+      "date": "2026-05-12",
+      "result": "pass",
+      "chamber": "house",
+      "votes": [
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        }
+      ],
+      "tallies": [
+        {
+          "source": "openstates",
+          "yes": 132,
+          "no": 2,
+          "other": 0,
+          "url": "https://www.house.mn.gov/Votes/Details?SessionKey=302&BillNumber=HF4138"
+        }
+      ],
+      "tallyDisagreement": false,
+      "sources": [
+        {
+          "provider": "openstates",
+          "id": "https://www.house.mn.gov/Votes/Details?SessionKey=302&BillNumber=HF4138",
+          "url": "https://www.house.mn.gov/Votes/Details?SessionKey=302&BillNumber=HF4138"
+        }
+      ],
+      "provenance": {
+        "primarySourceUrl": "https://www.house.mn.gov/Votes/Details?SessionKey=302&BillNumber=HF4138",
+        "sourceAgency": "Open States",
+        "documentType": "roll-call-vote",
+        "documentId": "ocd-vote/f240e22d-db70-44a9-999b-857d80a6f07c",
+        "issuedDate": "2026-05-12",
+        "fetchedAt": "2026-08-06T21:51:33.931Z",
+        "licence": "Open States data is available under a CC BY-SA 4.0-equivalent open license; see https://docs.openstates.org/en/latest/api/index.html",
+        "contentHash": "0ee0dad395282156bfa2a4cb2ae77d6b7dd17d29f75fb458389f6e1b6216a4f0"
+      }
+    },
+    {
+      "id": "ocd-vote/14014e10-fbe4-4b66-a6fb-a9bbf9e10104",
+      "billId": "ocd-bill/5682d217-83a6-4826-9a2b-c304d7a7a3b4",
+      "identifier": "",
+      "motion": "Amendment to Smith Amendment",
+      "date": "2026-05-12",
+      "result": "pass",
+      "chamber": "house",
+      "votes": [
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        }
+      ],
+      "tallies": [
+        {
+          "source": "openstates",
+          "yes": 83,
+          "no": 47,
+          "other": 0,
+          "url": "https://www.house.mn.gov/Votes/Details?SessionKey=302&BillNumber=HF4138"
+        }
+      ],
+      "tallyDisagreement": false,
+      "sources": [
+        {
+          "provider": "openstates",
+          "id": "https://www.house.mn.gov/Votes/Details?SessionKey=302&BillNumber=HF4138",
+          "url": "https://www.house.mn.gov/Votes/Details?SessionKey=302&BillNumber=HF4138"
+        }
+      ],
+      "provenance": {
+        "primarySourceUrl": "https://www.house.mn.gov/Votes/Details?SessionKey=302&BillNumber=HF4138",
+        "sourceAgency": "Open States",
+        "documentType": "roll-call-vote",
+        "documentId": "ocd-vote/14014e10-fbe4-4b66-a6fb-a9bbf9e10104",
+        "issuedDate": "2026-05-12",
+        "fetchedAt": "2026-08-06T21:51:33.931Z",
+        "licence": "Open States data is available under a CC BY-SA 4.0-equivalent open license; see https://docs.openstates.org/en/latest/api/index.html",
+        "contentHash": "d9c90038fbedc309fbcb435570f77dbb31bb7b7e4abacc22c8fd238fee09283d"
+      }
+    },
+    {
+      "id": "ocd-vote/e1a741dd-e7a9-473a-88ff-8285127d80a7",
+      "billId": "ocd-bill/5682d217-83a6-4826-9a2b-c304d7a7a3b4",
+      "identifier": "",
+      "motion": "Amendment, as amended",
+      "date": "2026-05-12",
+      "result": "pass",
+      "chamber": "house",
+      "votes": [
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        }
+      ],
+      "tallies": [
+        {
+          "source": "openstates",
+          "yes": 82,
+          "no": 50,
+          "other": 0,
+          "url": "https://www.house.mn.gov/Votes/Details?SessionKey=302&BillNumber=HF4138"
+        }
+      ],
+      "tallyDisagreement": false,
+      "sources": [
+        {
+          "provider": "openstates",
+          "id": "https://www.house.mn.gov/Votes/Details?SessionKey=302&BillNumber=HF4138",
+          "url": "https://www.house.mn.gov/Votes/Details?SessionKey=302&BillNumber=HF4138"
+        }
+      ],
+      "provenance": {
+        "primarySourceUrl": "https://www.house.mn.gov/Votes/Details?SessionKey=302&BillNumber=HF4138",
+        "sourceAgency": "Open States",
+        "documentType": "roll-call-vote",
+        "documentId": "ocd-vote/e1a741dd-e7a9-473a-88ff-8285127d80a7",
+        "issuedDate": "2026-05-12",
+        "fetchedAt": "2026-08-06T21:51:33.931Z",
+        "licence": "Open States data is available under a CC BY-SA 4.0-equivalent open license; see https://docs.openstates.org/en/latest/api/index.html",
+        "contentHash": "d06e3d3187dd264dd391e10925a9b34b24ac4493e89328004935867b6d42957d"
+      }
+    },
+    {
+      "id": "ocd-vote/eff01cb3-8120-4a3b-b630-780f56ff46ad",
+      "billId": "ocd-bill/5682d217-83a6-4826-9a2b-c304d7a7a3b4",
+      "identifier": "",
+      "motion": "Amendment",
+      "date": "2026-05-12",
+      "result": "fail",
+      "chamber": "house",
+      "votes": [
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        }
+      ],
+      "tallies": [
+        {
+          "source": "openstates",
+          "yes": 15,
+          "no": 111,
+          "other": 0,
+          "url": "https://www.house.mn.gov/Votes/Details?SessionKey=302&BillNumber=HF4138"
+        }
+      ],
+      "tallyDisagreement": false,
+      "sources": [
+        {
+          "provider": "openstates",
+          "id": "https://www.house.mn.gov/Votes/Details?SessionKey=302&BillNumber=HF4138",
+          "url": "https://www.house.mn.gov/Votes/Details?SessionKey=302&BillNumber=HF4138"
+        }
+      ],
+      "provenance": {
+        "primarySourceUrl": "https://www.house.mn.gov/Votes/Details?SessionKey=302&BillNumber=HF4138",
+        "sourceAgency": "Open States",
+        "documentType": "roll-call-vote",
+        "documentId": "ocd-vote/eff01cb3-8120-4a3b-b630-780f56ff46ad",
+        "issuedDate": "2026-05-12",
+        "fetchedAt": "2026-08-06T21:51:33.931Z",
+        "licence": "Open States data is available under a CC BY-SA 4.0-equivalent open license; see https://docs.openstates.org/en/latest/api/index.html",
+        "contentHash": "3afe8fc6888ccc2321cf9930b490e6f3ddc552be186972cd773bdd208ca7c7a7"
+      }
+    },
+    {
+      "id": "ocd-vote/40f57afd-3502-40e0-a32f-cb83aab8e726",
+      "billId": "ocd-bill/5682d217-83a6-4826-9a2b-c304d7a7a3b4",
+      "identifier": "",
+      "motion": "Amendment to Smith Amendment",
+      "date": "2026-05-12",
+      "result": "pass",
+      "chamber": "house",
+      "votes": [
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        }
+      ],
+      "tallies": [
+        {
+          "source": "openstates",
+          "yes": 67,
+          "no": 66,
+          "other": 0,
+          "url": "https://www.house.mn.gov/Votes/Details?SessionKey=302&BillNumber=HF4138"
+        }
+      ],
+      "tallyDisagreement": false,
+      "sources": [
+        {
+          "provider": "openstates",
+          "id": "https://www.house.mn.gov/Votes/Details?SessionKey=302&BillNumber=HF4138",
+          "url": "https://www.house.mn.gov/Votes/Details?SessionKey=302&BillNumber=HF4138"
+        }
+      ],
+      "provenance": {
+        "primarySourceUrl": "https://www.house.mn.gov/Votes/Details?SessionKey=302&BillNumber=HF4138",
+        "sourceAgency": "Open States",
+        "documentType": "roll-call-vote",
+        "documentId": "ocd-vote/40f57afd-3502-40e0-a32f-cb83aab8e726",
+        "issuedDate": "2026-05-12",
+        "fetchedAt": "2026-08-06T21:51:33.931Z",
+        "licence": "Open States data is available under a CC BY-SA 4.0-equivalent open license; see https://docs.openstates.org/en/latest/api/index.html",
+        "contentHash": "19ac3d23500488acc9e057b109250ef830a305aa3b08ab9b622532de997a965a"
+      }
+    },
+    {
+      "id": "ocd-vote/06474034-c6d0-449b-afb5-bf1aa2f6f260",
+      "billId": "ocd-bill/5682d217-83a6-4826-9a2b-c304d7a7a3b4",
+      "identifier": "",
+      "motion": "Amendment, as amended",
+      "date": "2026-05-12",
+      "result": "pass",
+      "chamber": "house",
+      "votes": [
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        }
+      ],
+      "tallies": [
+        {
+          "source": "openstates",
+          "yes": 67,
+          "no": 66,
+          "other": 0,
+          "url": "https://www.house.mn.gov/Votes/Details?SessionKey=302&BillNumber=HF4138"
+        }
+      ],
+      "tallyDisagreement": false,
+      "sources": [
+        {
+          "provider": "openstates",
+          "id": "https://www.house.mn.gov/Votes/Details?SessionKey=302&BillNumber=HF4138",
+          "url": "https://www.house.mn.gov/Votes/Details?SessionKey=302&BillNumber=HF4138"
+        }
+      ],
+      "provenance": {
+        "primarySourceUrl": "https://www.house.mn.gov/Votes/Details?SessionKey=302&BillNumber=HF4138",
+        "sourceAgency": "Open States",
+        "documentType": "roll-call-vote",
+        "documentId": "ocd-vote/06474034-c6d0-449b-afb5-bf1aa2f6f260",
+        "issuedDate": "2026-05-12",
+        "fetchedAt": "2026-08-06T21:51:33.931Z",
+        "licence": "Open States data is available under a CC BY-SA 4.0-equivalent open license; see https://docs.openstates.org/en/latest/api/index.html",
+        "contentHash": "d1657b0009a8e32857cea3b196369f5711f3dffbbfb61d5013047c295cae76d5"
+      }
+    },
+    {
+      "id": "ocd-vote/22f5b4e4-b2c4-45ef-8ffd-b7802482e29c",
+      "billId": "ocd-bill/5682d217-83a6-4826-9a2b-c304d7a7a3b4",
+      "identifier": "",
+      "motion": "Amendment to Smith Amendment",
+      "date": "2026-05-12",
+      "result": "fail",
+      "chamber": "house",
+      "votes": [
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        }
+      ],
+      "tallies": [
+        {
+          "source": "openstates",
+          "yes": 67,
+          "no": 67,
+          "other": 0,
+          "url": "https://www.house.mn.gov/Votes/Details?SessionKey=302&BillNumber=HF4138"
+        }
+      ],
+      "tallyDisagreement": false,
+      "sources": [
+        {
+          "provider": "openstates",
+          "id": "https://www.house.mn.gov/Votes/Details?SessionKey=302&BillNumber=HF4138",
+          "url": "https://www.house.mn.gov/Votes/Details?SessionKey=302&BillNumber=HF4138"
+        }
+      ],
+      "provenance": {
+        "primarySourceUrl": "https://www.house.mn.gov/Votes/Details?SessionKey=302&BillNumber=HF4138",
+        "sourceAgency": "Open States",
+        "documentType": "roll-call-vote",
+        "documentId": "ocd-vote/22f5b4e4-b2c4-45ef-8ffd-b7802482e29c",
+        "issuedDate": "2026-05-12",
+        "fetchedAt": "2026-08-06T21:51:33.931Z",
+        "licence": "Open States data is available under a CC BY-SA 4.0-equivalent open license; see https://docs.openstates.org/en/latest/api/index.html",
+        "contentHash": "11777c0ee59db32f91e2e10d99cd3a1ae4215797a05370811cd03dfb17837905"
+      }
+    },
+    {
+      "id": "ocd-vote/25c37af8-26cc-460e-9ceb-900658561ded",
+      "billId": "ocd-bill/5682d217-83a6-4826-9a2b-c304d7a7a3b4",
+      "identifier": "",
+      "motion": "Repassage, as amended by the Senate",
+      "date": "2026-05-16",
+      "result": "pass",
+      "chamber": "house",
+      "votes": [
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        },
+        {
+          "holding": null,
+          "option": "no"
+        }
+      ],
+      "tallies": [
+        {
+          "source": "openstates",
+          "yes": 131,
+          "no": 2,
+          "other": 0,
+          "url": "https://www.house.mn.gov/Votes/Details?SessionKey=302&BillNumber=HF4138"
+        }
+      ],
+      "tallyDisagreement": false,
+      "sources": [
+        {
+          "provider": "openstates",
+          "id": "https://www.house.mn.gov/Votes/Details?SessionKey=302&BillNumber=HF4138",
+          "url": "https://www.house.mn.gov/Votes/Details?SessionKey=302&BillNumber=HF4138"
+        }
+      ],
+      "provenance": {
+        "primarySourceUrl": "https://www.house.mn.gov/Votes/Details?SessionKey=302&BillNumber=HF4138",
+        "sourceAgency": "Open States",
+        "documentType": "roll-call-vote",
+        "documentId": "ocd-vote/25c37af8-26cc-460e-9ceb-900658561ded",
+        "issuedDate": "2026-05-16",
+        "fetchedAt": "2026-08-06T21:51:33.931Z",
+        "licence": "Open States data is available under a CC BY-SA 4.0-equivalent open license; see https://docs.openstates.org/en/latest/api/index.html",
+        "contentHash": "d98ab2672a76a67656a1680a72f289aa6190118cd456a1dffa168ef18b32a4de"
+      }
+    },
+    {
+      "id": "ocd-vote/fff8a8d6-e2d1-4ed1-8936-1ccd7519d92b",
+      "billId": "ocd-bill/50e709d8-9a46-42e6-95af-e4a30e5a27e7",
+      "identifier": "",
+      "motion": "Passage",
+      "date": "2026-03-23",
+      "result": "pass",
+      "chamber": "house",
+      "votes": [
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        },
+        {
+          "holding": null,
+          "option": "yes"
+        }
+      ],
+      "tallies": [
+        {
+          "source": "openstates",
+          "yes": 129,
+          "no": 0,
+          "other": 0,
+          "url": "https://www.house.mn.gov/Votes/Details?SessionKey=302&BillNumber=HF4541"
+        }
+      ],
+      "tallyDisagreement": false,
+      "sources": [
+        {
+          "provider": "openstates",
+          "id": "https://www.house.mn.gov/Votes/Details?SessionKey=302&BillNumber=HF4541",
+          "url": "https://www.house.mn.gov/Votes/Details?SessionKey=302&BillNumber=HF4541"
+        }
+      ],
+      "provenance": {
+        "primarySourceUrl": "https://www.house.mn.gov/Votes/Details?SessionKey=302&BillNumber=HF4541",
+        "sourceAgency": "Open States",
+        "documentType": "roll-call-vote",
+        "documentId": "ocd-vote/fff8a8d6-e2d1-4ed1-8936-1ccd7519d92b",
+        "issuedDate": "2026-03-23",
+        "fetchedAt": "2026-08-06T21:51:33.931Z",
+        "licence": "Open States data is available under a CC BY-SA 4.0-equivalent open license; see https://docs.openstates.org/en/latest/api/index.html",
+        "contentHash": "0c00b669c75c3aee8fa23118a542f69d8eafd2bbc38270d58b748f3c7d2e0314"
+      }
+    }
+  ]
+}
