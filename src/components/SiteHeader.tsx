@@ -1,15 +1,17 @@
 import type { ReactNode } from "react";
+import MastheadSaying from "./MastheadSaying";
 
 // The site's identity bar — visually matched to mndatacenter.org's own
 // navy/cyan header band (see globals.css's `.band` token overrides for
-// the mechanism). The wordmark is purely presentational, same as always;
-// the one control that does live here is the search bar itself (desktop/
-// laptop only — see the `search` prop below), which AGENTS.md Part 4
-// calls "the primary interface, not the map," so it earns a permanent
-// spot in the chrome rather than floating over the map where a resize or
-// a tall panel could ever crowd it. Map mode, filters, and the theme
-// popover stay off this bar — floating over the map on desktop, folded
-// into MobileNav's bottom tabs on mobile.
+// the mechanism). The wordmark itself is purely presentational; the
+// controls that do live here are the search bar (desktop/laptop only —
+// see the `search` prop below), which AGENTS.md Part 4 calls "the
+// primary interface, not the map," so it earns a permanent spot in the
+// chrome rather than floating over the map where a resize or a tall
+// panel could ever crowd it, and MastheadSaying's own info trigger (see
+// below). Map mode, filters, and the theme popover stay off this bar —
+// floating over the map on desktop, folded into MobileNav's bottom tabs
+// on mobile.
 //
 // "We All Do Better" / "when we all do better" — wealldobettermn.org,
 // this site's domain, after Paul Wellstone's line about collective
@@ -20,8 +22,16 @@ import type { ReactNode } from "react";
 // is a civic site whose own accessibility principles (AGENTS.md §0.7)
 // exist for exactly that visitor. Always-visible and screen-reader-native
 // beats "reward the curious." MN itself is left implicit — carried by
-// the map and the domain; there's no longer a tagline here to carry it
-// too (see the layout note below).
+// the map and the domain.
+//
+// A third line, MastheadSaying, sits under those two: one of eight
+// mottos from Minnesota's Indigenous, Somali, Hmong, and Pan-African
+// diaspora communities (src/lib/mastheadSayings.ts), auto-rotating every
+// hour. Same non-negotiable as the wordmark above it — the saying's own
+// text is always visible, never hidden behind a hover. Only the
+// *explanation* of what it means is progressive disclosure, and that's
+// reachable by hover, focus, or tap (see that component) — not the
+// `title=`-attribute trick this file already rejected once above.
 interface SiteHeaderProps {
   // The address-search combobox (SearchBar), pre-built by WardMap so this
   // component doesn't need to know about wards/index/callbacks — same
@@ -96,6 +106,19 @@ export default function SiteHeader({ search }: SiteHeaderProps) {
               the headline's text or size ever changes. */}
           <span className="block truncate text-[13px] uppercase tracking-[0.13em] text-ink-3 text-justify [text-align-last:justify]">when we all do better</span>
         </div>
+        {/* Deliberately outside the `inner` box above, as its own sibling
+            — not a third child of it. That box is sized with `w-fit` so
+            its width tracks the *headline's* own text (see the comment
+            above it), which the subtitle's justified spacing depends on;
+            a saying can run longer than "We All Do Better" (some of the
+            eight do), and if it were a child there its width would feed
+            into that same fit-content calculation and widen the box past
+            the headline, breaking the subtitle's alignment again. Sitting
+            here instead, it truncates against the *outer* box's full
+            stretched width — more room than the headline gets, which is
+            the right amount for a longer, independent line — without
+            touching the inner box's sizing at all. */}
+        <MastheadSaying />
       </div>
       {/* Desktop/laptop only. Below `sm`, MobileNav's Search tab is the
           reachable-in-one-tap equivalent — there's no width here to spare
