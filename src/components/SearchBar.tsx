@@ -228,7 +228,6 @@ export default function SearchBar({ index, allPlaces, onSelectWard, onSelectCity
 
   return (
     <div className="w-[min(90vw,24rem)] rounded-lg bg-panel-2/90 backdrop-blur-sm border border-hair shadow-lg shadow-(color:--shadow-panel) p-2 font-sans text-sm">
-      <CoverageNotice />
       <label htmlFor={`${listboxId}-input`} className="block px-1 pb-1 font-medium text-ink-2">
         Find your ward
       </label>
@@ -278,6 +277,7 @@ export default function SearchBar({ index, allPlaces, onSelectWard, onSelectCity
         {statusMessage}
       </p>
       {showMessage && <p className="px-1 pt-1.5 text-ink-3">{outcome && "reason" in outcome ? outcome.reason : statusMessage}</p>}
+      <CoverageNotice />
       <p className="px-1 pt-1.5 text-xs text-ink-4">
         Nothing you type here is sent anywhere — this box works entirely on your device.
         {!index && " (Address & ZIP search still loading — city and county work now.)"}
