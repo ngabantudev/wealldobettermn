@@ -59,6 +59,12 @@ Workers edge cases surface. -->
 - **[synthetic data]** — `src/lib/hearings.ts` generates fake hearing data. Do not
   extend it, do not import it in new components, do not use it as a reference pattern.
   It is a known violation pending deletion. See AGENTS.md §3.1.
+  **2026-08-06 correction:** confirmed absent from the working tree and from full git
+  history as of the `feature/phase3-minneapolis-lims` scaffold — there is nothing left to
+  delete. AGENTS.md §3.1 still describes the file as if it exists; that section needs a
+  human edit to match reality (either "not currently present" or removal of the
+  violation notice), separate from this entry. Do not assume the file exists just because
+  AGENTS.md or this line says so — check the tree first.
 
 ---
 

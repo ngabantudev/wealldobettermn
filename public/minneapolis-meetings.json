@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": null,
+  "status": "empty",
+  "reason": "No LIMS_API_KEY provisioned yet — this script has never completed a live fetch.",
+  "sourceAgency": "City of Minneapolis, Office of the City Clerk",
+  "primarySourceUrl": "https://lims.minneapolismn.gov/",
+  "councilMembers": [],
+  "councilTerms": [],
+  "meetingBodies": [],
+  "meetings": [],
+  "votes": [],
+  "fileItems": []
+}
