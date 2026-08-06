@@ -7,8 +7,15 @@
 export default function SiteHeader() {
   return (
     <header className="band flex shrink-0 items-center justify-between gap-3 border-b border-hair bg-panel px-3.5 py-2.5 sm:px-4">
+      {/* text-2xl font-black uppercase tracking-tight leading-none — the
+          exact class list mndatacenter.org's own masthead headline uses
+          (its FilterHeader.astro, the h1 that crossfades "Minnesota"/"Mni
+          Sóta Makoce"). `truncate`, not their `whitespace-nowrap`: their
+          headline sits in a fixed-width sidebar; this one's in a flexible
+          top bar next to the tagline, so it still needs a safety valve on
+          a narrow viewport. */}
       <div className="flex min-w-0 items-center">
-        <span className="truncate text-sm font-bold tracking-tight text-ink">MN Civic Watch</span>
+        <span className="truncate text-2xl font-black uppercase tracking-tight leading-none text-ink">MN Civic Watch</span>
       </div>
       <p className="hidden truncate text-xs text-ink-3 sm:block">
         Who represents you, what they vote for, how to reach them.

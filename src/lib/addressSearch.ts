@@ -68,7 +68,15 @@ const FOLDED_COUNTIES = new Map(COUNTIES.map((c) => [fold(c), c]));
 const ZIP_RE = /\b(\d{5})(?:-\d{4})?\s*$/;
 const MN_SUFFIX_RE = /,?\s*(MN|MINNESOTA)\s*$/i;
 const UNIT_RE = /\b(apt|unit|ste|suite|#)\.?\s*\S+\s*$/i;
-const ADDRESS_RE = /^(\d+)[A-Za-z]?\s+(.+)$/;
+// The street half is optional (wrapped in its own `(?:\s+...)?` group)
+// so a bare house number — "123", nothing typed after it yet — still
+// parses as an address shape (street: "") instead of falling through to
+// "unparseable". That's what lets SearchBar populate suggestions the
+// instant a house number is typed, before a resident has typed any part
+// of the street name (see suggestStreetsForHouseNumber below) — the
+// previous version required at least one street character to match at
+// all, so the moment right after typing just a number showed nothing.
+const ADDRESS_RE = /^(\d+)[A-Za-z]?(?:\s+(.+))?$/;
 
 /**
  * Classifies free-text search input. Applied to a trimmed, whitespace-
@@ -137,7 +145,7 @@ export function parseQuery(raw: string, allPlaces?: MnPlaces | null): ParsedQuer
   if (addressMatch) {
     const houseNumber = parseInt(addressMatch[1], 10);
     if (Number.isFinite(houseNumber)) {
-      return { kind: "address", houseNumber, street: normalizeStreetName(addressMatch[2]), cityHint, zipHint };
+      return { kind: "address", houseNumber, street: normalizeStreetName(addressMatch[2] ?? ""), cityHint, zipHint };
     }
   }
 
@@ -152,6 +160,32 @@ export function suggestStreets(index: AddressIndex, partial: string, limit: numb
   for (const street of Object.keys(index.streets)) {
     if (street.startsWith(prefix)) matches.push(street);
     if (matches.length >= limit) break;
+  }
+  return matches.sort();
+}
+
+/**
+ * Streets that actually carry `houseNumber` somewhere in their indexed
+ * address ranges — what SearchBar shows the instant a resident has typed
+ * a house number and nothing else yet (no street text to prefix-match
+ * against, which is what suggestStreets above needs). Reuses
+ * matchingSideFraction (below) rather than a second range check, so this
+ * can never disagree with what resolveAddress would actually resolve to.
+ *
+ * A full scan over every indexed street/edge, not an index keyed by house
+ * number — there isn't one to look up, since house-number ranges are
+ * per-street-segment and don't compress into a single number->street map.
+ * ~60k edges over ~9k streets is a handful of milliseconds even on a
+ * modest phone, well inside "type a digit, see the list update."
+ */
+export function suggestStreetsForHouseNumber(index: AddressIndex, houseNumber: number, limit: number): string[] {
+  const matches: string[] = [];
+  for (const street of Object.keys(index.streets)) {
+    const edges = index.streets[street];
+    if (edges.some((edge) => matchingSideFraction(houseNumber, edge) !== null)) {
+      matches.push(street);
+      if (matches.length >= limit) break;
+    }
   }
   return matches.sort();
 }
@@ -214,6 +248,14 @@ function resolveAddress(
   cityHint: City | null,
   zipHint: string | null,
 ): SearchOutcome {
+  // A bare house number with no street yet (ADDRESS_RE's street group is
+  // optional — see its own comment) parses to "address" so the dropdown
+  // can suggest streets for it, but there's nothing to resolve to on a
+  // direct Enter/commit: "unparseable" here is what keeps that keystroke
+  // from producing `We don't have "" in our covered streets.` instead of
+  // just leaving the still-open suggestion list as the answer.
+  if (!street) return { status: "unparseable" };
+
   const edges = index.streets[street];
   if (!edges || edges.length === 0) {
     return { status: "not-found", reason: `We don't have "${street}" in our covered streets.` };

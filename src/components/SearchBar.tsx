@@ -3,7 +3,7 @@
 import { useId, useMemo, useState } from "react";
 import type { AddressIndex, MnPlaces, WardRef } from "@/lib/types";
 import { CITIES, COUNTIES, COUNTY_CITIES, type City, type County } from "@/lib/cities";
-import { parseQuery, resolve, suggestStreets, type SearchOutcome } from "@/lib/addressSearch";
+import { parseQuery, resolve, suggestStreets, suggestStreetsForHouseNumber, type SearchOutcome } from "@/lib/addressSearch";
 import CoverageNotice from "./CoverageNotice";
 
 interface SearchBarProps {
@@ -90,7 +90,16 @@ function buildSuggestions(rawQuery: string, index: AddressIndex | null, allPlace
   if (index) {
     const parsed = parseQuery(trimmed, allPlaces);
     if (parsed.kind === "address") {
-      for (const street of suggestStreets(index, parsed.street, MAX_SUGGESTIONS)) {
+      // No street text yet — just typed the house number — suggest which
+      // *real* streets carry that number, instead of nothing. Once a
+      // resident starts typing the street, prefix-match against it like
+      // before; house-number-only matching would stop narrowing further
+      // at that point and start showing streets that don't fit what
+      // they've typed.
+      const streetSuggestions = parsed.street
+        ? suggestStreets(index, parsed.street, MAX_SUGGESTIONS)
+        : suggestStreetsForHouseNumber(index, parsed.houseNumber, MAX_SUGGESTIONS);
+      for (const street of streetSuggestions) {
         items.push({
           kind: "street",
           label: `${parsed.houseNumber} ${street}`,
