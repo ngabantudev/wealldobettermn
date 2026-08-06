@@ -173,3 +173,69 @@ export interface MnPlaces {
   counties: string[];
   cities: string[];
 }
+
+// --- Phase 7: suburban/outstate coverage inventory --------------------
+//
+// FEATURES.md Phase 7's research deliverable: what meeting/agenda/vote
+// system does each of the ~180 metro cities (and eventually the ~850
+// cities + 87 counties statewide) run, so a handful of per-platform
+// adapters (not ~180 per-city scrapers) can be written against whichever
+// ones are common. This is a `jurisdiction_platform` table, not a scraper
+// — see scripts/ingest/probe-legistar.mjs for the one live check this
+// phase performs (a cheap read-only probe for a Legistar API instance),
+// and public/jurisdiction-platform-inventory.json for the seeded, honest
+// "unknown" starting inventory (AGENTS.md §3.3 Coverage Honesty: absence
+// of a probe result is recorded as `"unknown"`, never guessed).
+//
+// No sibling `feature/data-model-phase1-state-legislature` branch exists
+// yet to extend (checked: not present locally or on origin as of this
+// PR), so `jurisdictionId` below is a minimal, compatible stand-in for
+// that future shared jurisdiction type — an AGENTS.md §2.4 OCD identifier
+// string (`ocd-division/country:us/state:mn/place:{slug}`) rather than a
+// richer object, so a later shared type can absorb this field without a
+// breaking rename.
+
+// The four real platforms this phase expects to find among metro cities
+// (CivicPlus, Granicus, iCompass, and Legistar — see FEATURES.md Phase 7
+// and AGENTS.md §3.2's Legistar/Granicus row), plus the two honest
+// fallbacks: `pdf-only` once a human has actually looked and confirmed
+// there's no structured feed at all, and `unknown` for "not probed yet."
+// `unknown` is the only value scripts/ingest/probe-legistar.mjs or the
+// seed step in this PR may write — the other platform values require a
+// human or a future adapter probe to have actually confirmed them.
+export type CivicPlatform = "legistar" | "civicplus" | "granicus" | "icompass" | "pdf-only" | "unknown";
+
+// Coverage tiers per FEATURES.md Phase 7's Data model section: A = full
+// votes + meetings + agendas (Legistar-class), B = meetings + agendas, no
+// structured votes (CivicPlus/Granicus adapter-class), C = roster +
+// contact info only. Every jurisdiction defaults to "C" until it's
+// promoted by an actual adapter or probe result — see
+// DEFAULT_COVERAGE_TIER in src/lib/jurisdictionPlatform.ts.
+export type CoverageTier = "A" | "B" | "C";
+
+export interface JurisdictionPlatformRecord {
+  // ocd-division/country:us/state:mn/place:{slug} — AGENTS.md §2.4. Not
+  // yet cross-checked against a canonical divisions dataset (none exists
+  // in this repo yet); see jurisdictionPlatform.ts's toJurisdictionId().
+  jurisdictionId: string;
+  // Bare city name, same no-suffix style as cities.ts's CITIES, so this
+  // table can be cross-referenced against the app's covered-city list
+  // without either side stripping anything first.
+  city: string;
+  platform: CivicPlatform;
+  // null until scripts/ingest/probe-legistar.mjs (or a future per-platform
+  // probe) actually runs against this jurisdiction. Never backfilled with
+  // today's date on a guess — AGENTS.md §3.3 Coverage Honesty.
+  probedAt: string | null;
+  // Evidence for `platform`: the URL that returned a hit (e.g. the
+  // Legistar `/bodies` endpoint that responded), or null while `platform`
+  // is still "unknown". Required once `platform` moves off "unknown".
+  sourceUrl: string | null;
+  coverageTier: CoverageTier;
+}
+
+export interface JurisdictionPlatformInventory {
+  schemaVersion: 1;
+  generatedAt: string;
+  jurisdictions: JurisdictionPlatformRecord[];
+}

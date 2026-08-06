@@ -1,0 +1,86 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-06T08:20:28.738Z",
+  "jurisdictions": [
+    {
+      "jurisdictionId": "ocd-division/country:us/state:mn/place:minneapolis",
+      "city": "Minneapolis",
+      "platform": "unknown",
+      "probedAt": null,
+      "sourceUrl": null,
+      "coverageTier": "C"
+    },
+    {
+      "jurisdictionId": "ocd-division/country:us/state:mn/place:st-paul",
+      "city": "St. Paul",
+      "platform": "unknown",
+      "probedAt": null,
+      "sourceUrl": null,
+      "coverageTier": "C"
+    },
+    {
+      "jurisdictionId": "ocd-division/country:us/state:mn/place:bloomington",
+      "city": "Bloomington",
+      "platform": "unknown",
+      "probedAt": null,
+      "sourceUrl": null,
+      "coverageTier": "C"
+    },
+    {
+      "jurisdictionId": "ocd-division/country:us/state:mn/place:plymouth",
+      "city": "Plymouth",
+      "platform": "unknown",
+      "probedAt": null,
+      "sourceUrl": null,
+      "coverageTier": "C"
+    },
+    {
+      "jurisdictionId": "ocd-division/country:us/state:mn/place:minnetonka",
+      "city": "Minnetonka",
+      "platform": "unknown",
+      "probedAt": null,
+      "sourceUrl": null,
+      "coverageTier": "C"
+    },
+    {
+      "jurisdictionId": "ocd-division/country:us/state:mn/place:st-louis-park",
+      "city": "St. Louis Park",
+      "platform": "unknown",
+      "probedAt": null,
+      "sourceUrl": null,
+      "coverageTier": "C"
+    },
+    {
+      "jurisdictionId": "ocd-division/country:us/state:mn/place:richfield",
+      "city": "Richfield",
+      "platform": "unknown",
+      "probedAt": null,
+      "sourceUrl": null,
+      "coverageTier": "C"
+    },
+    {
+      "jurisdictionId": "ocd-division/country:us/state:mn/place:blaine",
+      "city": "Blaine",
+      "platform": "unknown",
+      "probedAt": null,
+      "sourceUrl": null,
+      "coverageTier": "C"
+    },
+    {
+      "jurisdictionId": "ocd-division/country:us/state:mn/place:brooklyn-park",
+      "city": "Brooklyn Park",
+      "platform": "unknown",
+      "probedAt": null,
+      "sourceUrl": null,
+      "coverageTier": "C"
+    },
+    {
+      "jurisdictionId": "ocd-division/country:us/state:mn/place:coon-rapids",
+      "city": "Coon Rapids",
+      "platform": "unknown",
+      "probedAt": null,
+      "sourceUrl": null,
+      "coverageTier": "C"
+    }
+  ]
+}
