@@ -173,3 +173,131 @@ export interface MnPlaces {
   counties: string[];
   cities: string[];
 }
+
+// ---------------------------------------------------------------------------
+// Phase 2 — state bills & roll-call votes (FEATURES.md "Phase 2 — State
+// bills & roll-call votes"). See scripts/ingest/state-bills.mjs for the
+// ingest side of this schema.
+// ---------------------------------------------------------------------------
+
+// AGENTS.md §2.2's required provenance record, made a shared type instead
+// of the ad-hoc inline shape MnPlaces.source above uses — every Phase 2
+// feature (bills, vote events) carries one of these rather than each
+// re-declaring the same seven fields slightly differently.
+export interface Provenance {
+  primarySourceUrl: string;
+  sourceAgency: string;
+  documentType: string;
+  documentId: string;
+  issuedDate: string | null;
+  fetchedAt: string;
+  licence: string;
+  contentHash: string;
+}
+
+// A minimal stand-in for the full `holding` entity (a person's occupancy of
+// a specific office over a specific term — see AGENTS.md §1d's
+// officeHeld/jurisdiction/termStart/termEnd). As of this scaffold, no
+// sibling branch with that entity model has merged, so this repo has no
+// `holding` type to import yet: RepProperties still conflates person +
+// office + term into one flat record (src/lib/types.ts above). Per
+// FEATURES.md Phase 2, votes attach to *holding*, not *person*, resolved
+// by (person, date) — this gives Vote below a stable join key without
+// duplicating the eventual entity's fields here. When the real `holding`
+// type ships, replace this with an import of it; keep the `id` field as
+// that entity's primary key so no caller needs to change.
+export interface HoldingRef {
+  id: string;
+}
+
+export type VoteOption = "yes" | "no" | "other" | "absent" | "excused" | "not voting";
+
+// One bill sponsor as reported by the source — not yet resolved to a
+// HoldingRef in every case (a sponsor name from Open States doesn't always
+// cleanly match a current officeholder, e.g. former members, so resolution
+// failure is represented rather than guessed at).
+export interface BillSponsor {
+  name: string;
+  classification: string | null; // e.g. "primary", "cosponsor", as the source reports it
+  holding: HoldingRef | null;
+}
+
+export interface BillAction {
+  date: string;
+  description: string;
+  // Open States' own action classification tags (e.g. "introduction",
+  // "reading-2", "passage") — kept as reported, never re-interpreted.
+  classification: string[];
+}
+
+// One upstream record's own identifier for a bill or vote event, so a
+// disagreement between sources (see VoteEvent.tallies below) can always be
+// traced back to each source's own page for the record.
+export interface ExternalSource {
+  provider: "openstates" | "legiscan";
+  id: string;
+  url: string | null;
+}
+
+export interface Bill {
+  schemaVersion: 1;
+  // Open States' own OCD bill id, e.g. "ocd-bill/...", the interchange key
+  // per AGENTS.md §2.4.
+  id: string;
+  identifier: string; // e.g. "HF 4541"
+  session: string;
+  title: string;
+  chamber: "house" | "senate" | null;
+  sponsors: BillSponsor[];
+  actions: BillAction[];
+  // The bill's current status as the source reports it (e.g. "Signed into
+  // law", "In committee") — displayed as-is, never inferred from actions.
+  status: string;
+  sources: ExternalSource[];
+  provenance: Provenance;
+}
+
+// A single source's reported tally for one vote event. Kept per-source
+// rather than collapsed into one number so that when Open States and
+// LegiScan disagree, both survive — see VoteEvent.tallyDisagreement.
+export interface VoteTally {
+  source: "openstates" | "legiscan";
+  yes: number;
+  no: number;
+  other: number;
+  url: string | null;
+}
+
+// One legislator's recorded vote within a vote event, attached to the
+// holding (office + term) they cast it from — never directly to a person
+// record — resolved by matching (person, date) against the holding active
+// on that date. See HoldingRef above.
+export interface Vote {
+  holding: HoldingRef;
+  option: VoteOption;
+}
+
+export interface VoteEvent {
+  // Open States' own OCD vote id.
+  id: string;
+  billId: string; // Bill.id this roll call belongs to
+  identifier: string;
+  motion: string;
+  date: string; // ISO date the vote was taken
+  result: string; // e.g. "pass" | "fail", as the source reports it
+  chamber: "house" | "senate" | null;
+  // Full yea/nay roster for this vote event.
+  votes: Vote[];
+  // Per-source tallies. Where Open States and LegiScan disagree on the
+  // count, both entries are kept here rather than one being silently
+  // chosen — FEATURES.md Phase 2's explicit requirement. Populated only
+  // once the LegiScan cross-check (scripts/ingest/state-bills.mjs) is
+  // implemented; a single-entry array is not itself a disagreement.
+  tallies: VoteTally[];
+  // True only when two or more entries in `tallies` report different
+  // yes/no/other counts for the same vote event. Never resolved by picking
+  // one source; the UI must show the flag and both tallies.
+  tallyDisagreement: boolean;
+  sources: ExternalSource[];
+  provenance: Provenance;
+}
