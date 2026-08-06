@@ -1,4 +1,4 @@
-# mn-civic-watch
+# wealldobettermn
 
 A map of Minnesota city council wards. Click a ward to see its representative — photo, party, term start, contact info — plus a link to that city's own official meetings calendar.
 
