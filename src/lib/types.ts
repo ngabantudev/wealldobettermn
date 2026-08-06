@@ -1,3 +1,12 @@
+// CoverageTier (A/B/C) is defined once, in models.ts — the FEATURES.md
+// "Coverage tiers" concept applies project-wide, not per-file. Imported
+// here only for JurisdictionPlatformRecord's field type below (Phase 7);
+// consumers of CoverageTier itself should import it from "./models"
+// directly rather than through this re-export-free import, so it stays
+// obvious there's exactly one definition. See the 2026-08-06 note above
+// CoverageTier in models.ts.
+import type { CoverageTier } from "./models";
+
 export interface CandidateInfo {
   name: string;
   party: string;
@@ -78,6 +87,17 @@ export interface RepProperties {
   // first — doubles as "what have they been voting on" and as the raw
   // material partyUnityPercent above is computed from.
   recentVotes: BillVote[];
+  // AGENTS.md §3.2's per-record verification bookkeeping — "Every record
+  // carries verifiedAt and verifiedAgainst... The UI surfaces the
+  // verification date wherever a name or contact appears." Optional
+  // because only scripts/fetch-state-legislature.mjs sets these today;
+  // the other fetch-*.mjs scripts (mayors, wards, commissioners) don't
+  // yet emit them (a known gap, not fixed by this field's addition).
+  // Rendering a staleness notice from these in the UI is deferred — see
+  // src/lib/electionConfig.ts's isStale() for the check a future
+  // component would call.
+  verifiedAt?: string;
+  verifiedAgainst?: string;
 }
 
 // A pointer to one ward — the join key between the address/ZIP gazetteer
@@ -156,6 +176,28 @@ export interface AddressIndex {
 // referencing cities.ts. A name found here but absent from cities.ts
 // resolves to an honest "not covered yet" outcome (AGENTS.md §3.3
 // Coverage Honesty) — never silence, and never a fabricated ward.
+// NOTE (2026-08-06): two independent `Holding` interfaces used to live
+// here at different times, from two different phase-scaffold PRs that
+// couldn't see each other's work or src/lib/models.ts's canonical one:
+//   - Phase 4 (St. Paul/Hennepin Legistar): Legistar-/officerecords-
+//     shaped (client/personId/bodyId/officeTitle/startDate/endDate).
+//     Zero real consumers — nothing ever imported it.
+//   - Phase 3 (Minneapolis LIMS): a denormalized officeholding shape
+//     (officeOcdId/personExternalId/name/officeHeld/jurisdiction/
+//     termStart/termEnd/sourceUrl/verifiedAt), meant as the target for
+//     that PR's toHoldings() — which throws (unimplemented), so nothing
+//     depended on this exact shape either.
+// Both removed as duplicates rather than reconciled: per AGENTS.md
+// §0.1/§2.1, a `holding` is a single project-wide concept, and
+// models.ts's `Holding` (id/office_id/person_id/term_start/term_end/…) is
+// the canonical shape everything should converge on. Any future ingest
+// that produces holdings — Legistar's persons/bodies/officerecords, LIMS's
+// CouncilMembers/CouncilTerms, or anything else — should construct
+// models.ts's `Holding` directly (resolving the source's own person/office
+// identifiers into this repo's own `Office`/`Person` ids), not reintroduce
+// a source-shaped duplicate here. See LESSONS.md's Process & Multi-PR
+// Coordination section for the pattern behind both of these.
+
 export interface MnPlaces {
   schemaVersion: 1;
   generatedAt: string;
@@ -177,7 +219,22 @@ export interface MnPlaces {
 // ---------------------------------------------------------------------------
 // Phase 2 — state bills & roll-call votes (FEATURES.md "Phase 2 — State
 // bills & roll-call votes"). See scripts/ingest/state-bills.mjs for the
-// ingest side of this schema.
+// ingest side of this schema, and src/app/bills/page.tsx for the one real
+// consumer of Bill below.
+//
+// Bill/VoteEvent/Vote also exist in src/lib/models.ts, as normalized
+// relational stubs (foreign keys, meant to be joined) — part of the same
+// FEATURES.md Phase 1 entity model as Holding/Office/Person. The two
+// aren't the same shapes and aren't meant to converge: models.ts's
+// versions have zero real consumers as of this writing (nothing has ever
+// constructed one), while the Bill/VoteEvent/Vote below are the flat,
+// self-contained document shape scripts/ingest/state-bills.mjs actually
+// writes and src/app/bills/page.tsx actually reads — the same
+// flat-wire-vs-relational split this file's Holding note above and
+// models.ts's own header comment describe for the rest of the schema,
+// applied to these three entities too. If a real bill/vote ingest into
+// the relational model is ever built, that's a deliberate design decision
+// for whoever builds it, not an accidental duplicate to merge away.
 // ---------------------------------------------------------------------------
 
 // AGENTS.md §2.2's required provenance record, made a shared type instead
@@ -195,17 +252,16 @@ export interface Provenance {
   contentHash: string;
 }
 
-// A minimal stand-in for the full `holding` entity (a person's occupancy of
-// a specific office over a specific term — see AGENTS.md §1d's
-// officeHeld/jurisdiction/termStart/termEnd). As of this scaffold, no
-// sibling branch with that entity model has merged, so this repo has no
-// `holding` type to import yet: RepProperties still conflates person +
-// office + term into one flat record (src/lib/types.ts above). Per
-// FEATURES.md Phase 2, votes attach to *holding*, not *person*, resolved
-// by (person, date) — this gives Vote below a stable join key without
-// duplicating the eventual entity's fields here. When the real `holding`
-// type ships, replace this with an import of it; keep the `id` field as
-// that entity's primary key so no caller needs to change.
+// A lightweight pointer to a models.ts `Holding` — matching the same
+// reference-by-id pattern this file already uses for WardRef above,
+// rather than embedding a full Holding (with all its office/person/term
+// fields) inside every vote record. `id` is meant to match a real
+// `Holding["id"]` once holding resolution is actually implemented; kept
+// as its own named type (not `Holding["id"]` directly) so this file
+// doesn't need a value-level import of models.ts just for a string alias.
+// (Originally scaffolded as a full stand-in before models.ts's `Holding`
+// existed on this branch — updated 2026-08-06 now that it does; the
+// shape doesn't need to change, just this comment.)
 export interface HoldingRef {
   id: string;
 }
@@ -300,4 +356,169 @@ export interface VoteEvent {
   tallyDisagreement: boolean;
   sources: ExternalSource[];
   provenance: Provenance;
+}
+
+// --- Phase 7: suburban/outstate coverage inventory --------------------
+//
+// FEATURES.md Phase 7's research deliverable: what meeting/agenda/vote
+// system does each of the ~180 metro cities (and eventually the ~850
+// cities + 87 counties statewide) run, so a handful of per-platform
+// adapters (not ~180 per-city scrapers) can be written against whichever
+// ones are common. This is a `jurisdiction_platform` table, not a scraper
+// — see scripts/ingest/probe-legistar.mjs for the one live check this
+// phase performs (a cheap read-only probe for a Legistar API instance),
+// and public/jurisdiction-platform-inventory.json for the seeded, honest
+// "unknown" starting inventory (AGENTS.md §3.3 Coverage Honesty: absence
+// of a probe result is recorded as `"unknown"`, never guessed).
+//
+// No sibling `feature/data-model-phase1-state-legislature` branch exists
+// yet to extend (checked: not present locally or on origin as of this
+// PR), so `jurisdictionId` below is a minimal, compatible stand-in for
+// that future shared jurisdiction type — an AGENTS.md §2.4 OCD identifier
+// string (`ocd-division/country:us/state:mn/place:{slug}`) rather than a
+// richer object, so a later shared type can absorb this field without a
+// breaking rename.
+
+// The four real platforms this phase expects to find among metro cities
+// (CivicPlus, Granicus, iCompass, and Legistar — see FEATURES.md Phase 7
+// and AGENTS.md §3.2's Legistar/Granicus row), plus the two honest
+// fallbacks: `pdf-only` once a human has actually looked and confirmed
+// there's no structured feed at all, and `unknown` for "not probed yet."
+// `unknown` is the only value scripts/ingest/probe-legistar.mjs or the
+// seed step in this PR may write — the other platform values require a
+// human or a future adapter probe to have actually confirmed them.
+export type CivicPlatform = "legistar" | "civicplus" | "granicus" | "icompass" | "pdf-only" | "unknown";
+
+// CoverageTier: A = full votes + meetings + agendas (Legistar-class), B =
+// meetings + agendas, no structured votes (CivicPlus/Granicus
+// adapter-class), C = roster + contact info only. Every jurisdiction
+// defaults to "C" until it's promoted by an actual adapter or probe
+// result — see DEFAULT_COVERAGE_TIER in src/lib/jurisdictionPlatform.ts.
+// Defined once in models.ts (imported at the top of this file) — this
+// used to be a second, independent "A"|"B"|"C" definition here, added by
+// the Phase 7 PR in parallel with (and blind to) the Phase 1 PR that
+// defined the canonical one. Structurally identical so TypeScript never
+// complained, but two names for one FEATURES.md concept is exactly the
+// kind of drift AGENTS.md §2.1's registry pattern exists to prevent —
+// consolidated 2026-08-06, see LESSONS.md.
+
+export interface JurisdictionPlatformRecord {
+  // ocd-division/country:us/state:mn/place:{slug} — AGENTS.md §2.4. Not
+  // yet cross-checked against a canonical divisions dataset (none exists
+  // in this repo yet); see jurisdictionPlatform.ts's toJurisdictionId().
+  jurisdictionId: string;
+  // Bare city name, same no-suffix style as cities.ts's CITIES, so this
+  // table can be cross-referenced against the app's covered-city list
+  // without either side stripping anything first.
+  city: string;
+  platform: CivicPlatform;
+  // null until scripts/ingest/probe-legistar.mjs (or a future per-platform
+  // probe) actually runs against this jurisdiction. Never backfilled with
+  // today's date on a guess — AGENTS.md §3.3 Coverage Honesty.
+  probedAt: string | null;
+  // Evidence for `platform`: the URL that returned a hit (e.g. the
+  // Legistar `/bodies` endpoint that responded), or null while `platform`
+  // is still "unknown". Required once `platform` moves off "unknown".
+  sourceUrl: string | null;
+  coverageTier: CoverageTier;
+}
+
+export interface JurisdictionPlatformInventory {
+  schemaVersion: 1;
+  generatedAt: string;
+  jurisdictions: JurisdictionPlatformRecord[];
+}
+
+// --- Phase 6: meeting documents & agenda ingestion --------------------
+// (FEATURES.md's Phase 6 section.) scripts/ingest/agenda-documents.mjs
+// produces ArchivedDocument records; scripts/ingest/agenda-versions.mjs
+// builds and diffs AgendaItem version histories from AgendaItemSnapshots.
+// No fetch script populates these yet — this is scaffolding for the
+// Legistar/Granicus `/events`, `/matters` integration AGENTS.md §3.2
+// calls the project's highest-value integration, so these shapes are the
+// contract that work will emit into, not data that ships today.
+//
+// No `agenda_item` type existed in this file as of this addition (the
+// sibling state-legislature-schema PR that might define one hadn't
+// merged) — AgendaItem/AgendaItemSnapshot below are a minimal, from-
+// scratch definition, named to match this file's PascalCase-interface
+// convention rather than the snake_case FEATURES.md prose uses. If that
+// sibling PR lands its own agenda_item shape first, reconcile by renaming
+// rather than keeping two parallel types.
+
+// One source document (agenda packet, minutes, or meeting video) already
+// discovered by another ingest script's own upstream payload (e.g. a
+// Legistar `/events` response's `EventAgendaFile`) and mirrored under
+// public/documents/agendas/<contentHash>.<ext> by
+// scripts/ingest/agenda-documents.mjs's archiveDocument(). Implements
+// AGENTS.md §3.3 Document Retention.
+export interface ArchivedDocument {
+  sourceUrl: string;
+  documentType: "agenda" | "minutes" | "video" | "other";
+  sourceAgency: string | null;
+  fetchedAt: string; // ISO timestamp of the archive fetch — not the document's own issued date
+  contentHash: string; // sha256 hex of the exact bytes stored, per AGENTS.md §2.2's provenance record
+  storedPath: string; // relative to public/, e.g. "documents/agendas/<hash>.pdf"
+  byteLength: number;
+  contentType: string | null;
+  // Relative-to-public/ path to extracted plain text. Always null today —
+  // scripts/ingest/extract-text.mjs's extractText() is a stub pending a
+  // maintainer decision on a PDF-parsing dependency; see that file.
+  extractedTextRef: string | null;
+  extractionStatus: "pending" | "not_implemented" | "extracted" | "failed";
+}
+
+// One agenda item as it appeared in one specific agenda document.
+// Cities amend agendas after initial publication — an item added,
+// pulled, or reworded before the meeting — and FEATURES.md's Phase 6
+// note requires keeping *both* versions and diffing them rather than
+// overwriting. This is a snapshot, not a mutable record: a new
+// AgendaItemSnapshot is appended each time the same logical item
+// changes; existing snapshots are never edited in place. Mirrors
+// AGENTS.md §0.5 ("a map that silently overwrites its own history is
+// worse than no map").
+export interface AgendaItemSnapshot {
+  // Stable across amendments — identifies "this logical agenda item,"
+  // not "this printing of it." Caller-assigned (e.g. derived from the
+  // body's own matter/item id plus the meeting date).
+  agendaItemId: string;
+  version: number; // 1 for the first-seen printing, incrementing per amendment
+  // The version number this one supersedes, or null for the first
+  // version — chains back through history rather than a single "latest"
+  // pointer, so the full amendment trail stays walkable.
+  supersedesVersion: number | null;
+  title: string;
+  description: string | null;
+  // The archived document this snapshot's text/title came from — join
+  // key into ArchivedDocument.contentHash above. Null until the owning
+  // document has actually been archived.
+  documentHash: string | null;
+  extractedTextRef: string | null;
+  sourceUrl: string;
+  fetchedAt: string;
+}
+
+// All known snapshots of one logical agenda item, oldest first. Never
+// mutate `versions` in place — append via
+// scripts/ingest/agenda-versions.mjs's appendAgendaItemVersion() and
+// bump currentVersion instead.
+export interface AgendaItem {
+  agendaItemId: string;
+  currentVersion: number;
+  versions: AgendaItemSnapshot[];
+}
+
+// A field-level diff between two snapshots of the same agenda item —
+// "what changed when this got amended," not a general-purpose deep-diff.
+// Produced by scripts/ingest/agenda-versions.mjs's
+// diffAgendaItemSnapshots().
+export interface AgendaItemDiff {
+  agendaItemId: string;
+  fromVersion: number;
+  toVersion: number;
+  changedFields: Array<{
+    field: "title" | "description" | "documentHash";
+    before: string | null;
+    after: string | null;
+  }>;
 }
