@@ -2,18 +2,18 @@
   "schemaVersion": 1,
   "client": "stpaul",
   "jurisdiction": "St. Paul City Council",
-  "generatedAt": "2026-08-06T19:16:51.554Z",
+  "generatedAt": "2026-08-06T21:10:17.899Z",
   "status": "ingested",
-  "note": "Full ingest: 220 holding(s) across 26 office(s) and 41 person(s), from officerecords. Votes windowed to 2026-06-07–2026-08-07 on \"City Council\": 250/312 matter(s) processed, 111 vote event(s), 777 vote(s).",
+  "note": "Full ingest: 220 holding(s) across 26 office(s) and 41 person(s), from officerecords. Votes windowed to 2026-06-07–2026-08-07 on \"City Council\": 250/315 matter(s) processed, 111 vote event(s), 777 vote(s).",
   "provenance": {
     "primarySourceUrl": "https://webapi.legistar.com/v1/stpaul",
     "sourceAgency": "St. Paul City Council",
     "documentType": "Legistar Web API",
     "documentId": null,
     "issuedDate": null,
-    "fetchedAt": "2026-08-06T19:16:51.554Z",
+    "fetchedAt": "2026-08-06T21:10:17.899Z",
     "licence": "Public records served via Legistar InSite; no separate machine-reuse licence published by the host jurisdiction as of this writing.",
-    "contentHash": null
+    "contentHash": "a74ad701088047a0206e12dc4140a90577b8364167e231dc95a495d2aacaac14"
   },
   "jurisdiction_id": "legistar-stpaul",
   "bodies": [
@@ -9333,6 +9333,6 @@
     "officerecords rows dropped for belonging to a non-governing/internal body: Clerk, Council Secretary.",
     "Office here models 'membership in a Legistar body under a given title', not a per-seat/ward electoral district — these two clients' officerecords endpoint does not expose per-seat identifiers. See wards.geojson / commissioners.geojson for seat-level geography.",
     "Votes ingested only for the most recent 60 days (from 2026-06-07) — the current term on City Council began 2016-01-01, but a full-term backfill was not run in this pass to stay within a good-citizen request budget (AGENTS.md §2.2). Run this ingest on a recurring schedule to accumulate full-term coverage incrementally.",
-    "312 matter(s) found in the 2026-06-07–2026-08-07 window for stpaul; capped to the most recent 250 to bound this run's request volume."
+    "315 matter(s) found in the 2026-06-07–2026-08-07 window for stpaul; capped to the most recent 250 to bound this run's request volume."
   ]
 }
