@@ -97,8 +97,21 @@ export default function MobileNav({ tabs, activeTab, onSelectTab, sheetContent, 
           with no height math to keep in sync, the same technique the
           previous mobile search+modal stack used. */}
       <div className="fixed inset-x-0 bottom-0 z-40 flex flex-col font-sans">
+        {/* No height cap or overflow-auto on this wrapper itself, on
+            purpose: `overflow-y-auto` here would clip to *this element's
+            own* box — sized by its normal-flow content — and every
+            popover a child opens (SearchBar's suggestions listbox, its
+            coverage-info popover) is `position: absolute`, which doesn't
+            contribute to that sizing. A short row (the search pill) with
+            a tall popover anchored to it would size this wrapper to the
+            row alone and clip the popover to almost nothing — hit exactly
+            this while building the coverage popover above. Every actual
+            sheet body already caps and scrolls *itself* where it
+            genuinely needs to (WardModal's own max-h-[75vh], the Filters
+            city list's own max-h-[45vh]), so this wrapper doesn't need a
+            second, competing cap. */}
         {sheetContent && (
-          <div id={sheetId} className="max-h-[70vh] overflow-y-auto overflow-x-hidden px-3 pb-2 pt-2">
+          <div id={sheetId} className="px-3 pb-2 pt-2">
             {sheetContent}
           </div>
         )}
