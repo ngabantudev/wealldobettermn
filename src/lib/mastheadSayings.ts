@@ -102,6 +102,7 @@ export const MASTHEAD_SAYINGS: readonly MastheadSaying[] = [
     id: "hmong-ib-tug-neeg",
     community: "Hmong",
     quote: "Ib tug neeg lub neej nyob ntawm pab pawg",
+    translation: "A person's life depends on the group",
     meaning:
       "A communal ethos reflecting that an individual's livelihood, safety, and survival are entirely dependent on the strength and cooperation of the collective group.",
   },
