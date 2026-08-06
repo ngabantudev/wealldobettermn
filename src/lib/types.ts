@@ -78,6 +78,17 @@ export interface RepProperties {
   // first — doubles as "what have they been voting on" and as the raw
   // material partyUnityPercent above is computed from.
   recentVotes: BillVote[];
+  // AGENTS.md §3.2's per-record verification bookkeeping — "Every record
+  // carries verifiedAt and verifiedAgainst... The UI surfaces the
+  // verification date wherever a name or contact appears." Optional
+  // because only scripts/fetch-state-legislature.mjs sets these today;
+  // the other fetch-*.mjs scripts (mayors, wards, commissioners) don't
+  // yet emit them (a known gap, not fixed by this field's addition).
+  // Rendering a staleness notice from these in the UI is deferred — see
+  // src/lib/electionConfig.ts's isStale() for the check a future
+  // component would call.
+  verifiedAt?: string;
+  verifiedAgainst?: string;
 }
 
 // A pointer to one ward — the join key between the address/ZIP gazetteer
