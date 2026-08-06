@@ -3,7 +3,7 @@
 import { useId, useMemo, useState } from "react";
 import type { AddressIndex, MnPlaces, WardRef } from "@/lib/types";
 import { CITIES, COUNTIES, COUNTY_CITIES, type City, type County } from "@/lib/cities";
-import { parseQuery, resolve, suggestStreets, type SearchOutcome } from "@/lib/addressSearch";
+import { parseQuery, resolve, suggestStreets, suggestStreetsForHouseNumber, type SearchOutcome } from "@/lib/addressSearch";
 import CoverageNotice from "./CoverageNotice";
 
 interface SearchBarProps {
@@ -90,7 +90,16 @@ function buildSuggestions(rawQuery: string, index: AddressIndex | null, allPlace
   if (index) {
     const parsed = parseQuery(trimmed, allPlaces);
     if (parsed.kind === "address") {
-      for (const street of suggestStreets(index, parsed.street, MAX_SUGGESTIONS)) {
+      // No street text yet — just typed the house number — suggest which
+      // *real* streets carry that number, instead of nothing. Once a
+      // resident starts typing the street, prefix-match against it like
+      // before; house-number-only matching would stop narrowing further
+      // at that point and start showing streets that don't fit what
+      // they've typed.
+      const streetSuggestions = parsed.street
+        ? suggestStreets(index, parsed.street, MAX_SUGGESTIONS)
+        : suggestStreetsForHouseNumber(index, parsed.houseNumber, MAX_SUGGESTIONS);
+      for (const street of streetSuggestions) {
         items.push({
           kind: "street",
           label: `${parsed.houseNumber} ${street}`,
@@ -227,9 +236,8 @@ export default function SearchBar({ index, allPlaces, onSelectWard, onSelectCity
   const showMessage = outcome && outcome.status !== "ambiguous" && outcome.status !== "single";
 
   return (
-    <div className="w-[min(90vw,24rem)] rounded-lg bg-white/90 backdrop-blur-sm border border-neutral-200 shadow-lg p-2 font-sans text-sm">
-      <CoverageNotice />
-      <label htmlFor={`${listboxId}-input`} className="block px-1 pb-1 font-medium text-neutral-800">
+    <div className="w-[min(90vw,24rem)] rounded-lg bg-panel-2/90 backdrop-blur-sm border border-hair shadow-lg shadow-(color:--shadow-panel) p-2 font-sans text-sm">
+      <label htmlFor={`${listboxId}-input`} className="block px-1 pb-1 font-medium text-ink-2">
         Find your ward
       </label>
       <div className="relative">
@@ -247,10 +255,10 @@ export default function SearchBar({ index, allPlaces, onSelectWard, onSelectCity
           onChange={(e) => handleChange(e.target.value)}
           onKeyDown={handleKeyDown}
           onFocus={() => setIsOpen(query.trim().length > 0)}
-          className="w-full rounded-md border border-neutral-300 px-2.5 py-1.5 text-neutral-900 placeholder:text-neutral-400 focus:outline-none focus:ring-2 focus:ring-neutral-900"
+          className="w-full rounded-md border border-hair-strong bg-panel-2 px-2.5 py-1.5 text-ink placeholder:text-ink-4 focus:outline-none focus:ring-2 focus:ring-accent"
         />
         {isOpen && options.length > 0 && (
-          <ul id={listboxId} role="listbox" className="absolute left-0 right-0 top-full mt-1 max-h-64 overflow-y-auto rounded-md border border-neutral-200 bg-white shadow-lg z-10">
+          <ul id={listboxId} role="listbox" className="absolute left-0 right-0 top-full mt-1 max-h-64 overflow-y-auto rounded-md border border-hair bg-panel-2 shadow-lg shadow-(color:--shadow-panel) z-10">
             {options.map((opt, i) => (
               <li
                 key={`${opt.label}-${i}`}
@@ -260,7 +268,7 @@ export default function SearchBar({ index, allPlaces, onSelectWard, onSelectCity
                 onMouseDown={(e) => e.preventDefault()} // keep input focus so the click doesn't blur-then-lose the value
                 onClick={() => opt.commit()}
                 className={`cursor-pointer px-2.5 py-1.5 ${
-                  i === activeIndex ? "bg-neutral-900 text-white" : opt.muted ? "text-neutral-400 hover:bg-neutral-100" : "text-neutral-800 hover:bg-neutral-100"
+                  i === activeIndex ? "bg-accent text-on-accent" : opt.muted ? "text-ink-4 hover:bg-hover" : "text-ink-2 hover:bg-hover"
                 }`}
               >
                 {opt.label}
@@ -277,11 +285,9 @@ export default function SearchBar({ index, allPlaces, onSelectWard, onSelectCity
       <p aria-live="polite" className="sr-only">
         {statusMessage}
       </p>
-      {showMessage && <p className="px-1 pt-1.5 text-neutral-600">{outcome && "reason" in outcome ? outcome.reason : statusMessage}</p>}
-      <p className="px-1 pt-1.5 text-xs text-neutral-400">
-        Nothing you type here is sent anywhere — this box works entirely on your device.
-        {!index && " (Address & ZIP search still loading — city and county work now.)"}
-      </p>
+      {showMessage && <p className="px-1 pt-1.5 text-ink-3">{outcome && "reason" in outcome ? outcome.reason : statusMessage}</p>}
+      <CoverageNotice />
+      {!index && <p className="px-1 pt-1.5 text-xs text-ink-4">Address &amp; ZIP search still loading — city and county work now.</p>}
     </div>
   );
 }

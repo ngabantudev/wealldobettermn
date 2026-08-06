@@ -179,11 +179,11 @@ export default function WardModal({ ward: rep, pinned, onClose }: WardModalProps
     <img
       src={rep.repPhotoUrl}
       alt={repName ?? "Representative photo"}
-      className="h-full w-full rounded-full object-cover shrink-0 bg-neutral-100"
+      className="h-full w-full rounded-full object-cover shrink-0 bg-panel-3"
     />
   ) : (
     <div
-      className="h-full w-full rounded-full shrink-0 flex items-center justify-center font-semibold text-neutral-500"
+      className="h-full w-full rounded-full shrink-0 flex items-center justify-center font-semibold text-ink-3"
       style={{ backgroundColor: accentSoft }}
     >
       {initials(repName)}
@@ -203,7 +203,7 @@ export default function WardModal({ ward: rep, pinned, onClose }: WardModalProps
   if (!pinned) {
     return (
       <div
-        className="pointer-events-auto w-72 rounded-xl border border-neutral-200 bg-white shadow-xl overflow-hidden"
+        className="pointer-events-auto w-72 rounded-xl border border-hair bg-panel-2 shadow-xl shadow-(color:--shadow-panel) overflow-hidden"
         role="dialog"
         aria-label={`${areaLabel(rep)} ${roleLabel(rep)} preview`}
       >
@@ -213,7 +213,7 @@ export default function WardModal({ ward: rep, pinned, onClose }: WardModalProps
             <div className="text-[11px] font-semibold uppercase tracking-wide" style={{ color: accent }}>
               {areaLabel(rep)} &middot; {roleLabel(rep)}
             </div>
-            <div className="text-sm font-semibold text-neutral-900 truncate">{repName ?? "Vacant / TBD"}</div>
+            <div className="text-sm font-semibold text-ink truncate">{repName ?? "Vacant / TBD"}</div>
           </div>
         </div>
         {isContested(rep) && (
@@ -228,13 +228,13 @@ export default function WardModal({ ward: rep, pinned, onClose }: WardModalProps
 
   return (
     <div
-      className="pointer-events-auto w-full sm:w-[380px] max-h-[75vh] sm:max-h-[80vh] flex flex-col rounded-t-2xl sm:rounded-2xl border border-neutral-200 bg-white shadow-2xl overflow-hidden"
+      className="pointer-events-auto w-full sm:w-[380px] max-h-[75vh] sm:max-h-[80vh] flex flex-col rounded-t-2xl sm:rounded-2xl border border-hair bg-panel-2 shadow-2xl shadow-(color:--shadow-panel) overflow-hidden"
       role="dialog"
       aria-label={`${areaLabel(rep)} ${roleLabel(rep)} info`}
     >
       {/* Drag-handle affordance — bottom-sheet convention, mobile only */}
       <div className="sm:hidden flex justify-center pt-2 pb-1 shrink-0">
-        <div className="h-1 w-9 rounded-full bg-neutral-300" />
+        <div className="h-1 w-9 rounded-full bg-hair-strong" />
       </div>
 
       <div className="overflow-y-auto">
@@ -247,10 +247,10 @@ export default function WardModal({ ward: rep, pinned, onClose }: WardModalProps
             >
               {areaLabel(rep)} &middot; {roleLabel(rep)}
             </div>
-            <div className="text-lg font-bold text-neutral-900 leading-tight truncate">
+            <div className="text-lg font-bold text-ink leading-tight truncate">
               {repName ?? "Vacant / TBD"}
             </div>
-            <div className="text-xs text-neutral-500 mt-0.5">
+            <div className="text-xs text-ink-3 mt-0.5">
               {rep.repParty} &middot; in office since {formatOfficeSince(rep.officeSince)}
             </div>
           </div>
@@ -258,7 +258,7 @@ export default function WardModal({ ward: rep, pinned, onClose }: WardModalProps
             type="button"
             onClick={onClose}
             aria-label="Close"
-            className="shrink-0 -mr-1 -mt-1 h-10 w-10 flex items-center justify-center rounded-full text-neutral-400 hover:bg-neutral-100 hover:text-neutral-700 active:bg-neutral-200"
+            className="shrink-0 -mr-1 -mt-1 h-10 w-10 flex items-center justify-center rounded-full text-ink-4 hover:bg-hover hover:text-ink active:bg-hair-strong"
           >
             <svg viewBox="0 0 20 20" fill="none" className="h-4 w-4">
               <path d="m5 5 10 10M15 5 5 15" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" />
@@ -267,7 +267,7 @@ export default function WardModal({ ward: rep, pinned, onClose }: WardModalProps
         </div>
 
         {isContested(rep) && (
-          <div className="border-t border-neutral-100 px-4 py-3" style={{ backgroundColor: CONTESTED_COLOR_SOFT }}>
+          <div className="border-t border-hair px-4 py-3" style={{ backgroundColor: CONTESTED_COLOR_SOFT }}>
             <div className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide mb-2.5" style={{ color: CONTESTED_COLOR }}>
               <IconBallot />
               Contested seat &middot; {candidates.length} on the ballot
@@ -276,16 +276,16 @@ export default function WardModal({ ward: rep, pinned, onClose }: WardModalProps
               {candidates.map((candidate) => (
                 <li key={candidate.name} className="text-sm">
                   <div className="flex items-center gap-1.5 flex-wrap">
-                    <span className="font-medium text-neutral-900">{candidate.name}</span>
+                    <span className="font-medium text-ink">{candidate.name}</span>
                     {candidate.isIncumbent && (
-                      <span className="text-[10px] font-semibold uppercase tracking-wide text-neutral-500 bg-white/70 px-1.5 py-0.5 rounded">
+                      <span className="text-[10px] font-semibold uppercase tracking-wide text-ink-3 bg-panel-2/70 px-1.5 py-0.5 rounded">
                         Incumbent
                       </span>
                     )}
                   </div>
-                  <div className="text-xs text-neutral-500">{candidate.party}</div>
+                  <div className="text-xs text-ink-3">{candidate.party}</div>
                   {candidate.endorsements.length > 0 && (
-                    <div className="text-xs text-neutral-500">Endorsed by {candidate.endorsements.join(", ")}</div>
+                    <div className="text-xs text-ink-3">Endorsed by {candidate.endorsements.join(", ")}</div>
                   )}
                 </li>
               ))}
@@ -309,13 +309,13 @@ export default function WardModal({ ward: rep, pinned, onClose }: WardModalProps
 
         {rep.partyUnityPercent !== null && (
           <div className="px-4 pb-3">
-            <div className="flex items-center justify-between text-xs text-neutral-500 mb-1">
+            <div className="flex items-center justify-between text-xs text-ink-3 mb-1">
               <span>Votes with own party</span>
               <span className="font-semibold" style={{ color: partyColor(rep.repParty) }}>
                 {rep.partyUnityPercent}%
               </span>
             </div>
-            <div className="h-2 rounded-full bg-neutral-100 overflow-hidden">
+            <div className="h-2 rounded-full bg-panel-3 overflow-hidden">
               <div
                 className="h-full rounded-full"
                 style={{ width: `${rep.partyUnityPercent}%`, backgroundColor: partyColor(rep.repParty) }}
@@ -325,8 +325,8 @@ export default function WardModal({ ward: rep, pinned, onClose }: WardModalProps
         )}
 
         {recentVotes.length > 0 && (
-          <div className="border-t border-neutral-100 px-4 py-3">
-            <div className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-neutral-500 mb-2.5">
+          <div className="border-t border-hair px-4 py-3">
+            <div className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-ink-3 mb-2.5">
               <IconBallot />
               Recent votes
             </div>
@@ -334,7 +334,7 @@ export default function WardModal({ ward: rep, pinned, onClose }: WardModalProps
               {recentVotes.map((vote) => (
                 <li key={vote.voteId} className="text-sm">
                   <div className="flex items-start justify-between gap-2">
-                    <span className="font-medium text-neutral-900">{vote.identifier}</span>
+                    <span className="font-medium text-ink">{vote.identifier}</span>
                     <span
                       className="text-[10px] font-semibold uppercase tracking-wide px-1.5 py-0.5 rounded shrink-0"
                       style={
@@ -346,7 +346,7 @@ export default function WardModal({ ward: rep, pinned, onClose }: WardModalProps
                       Voted {vote.option}
                     </span>
                   </div>
-                  <div className="text-xs text-neutral-500">{vote.title}</div>
+                  <div className="text-xs text-ink-3">{vote.title}</div>
                   {vote.openstatesUrl && (
                     <a
                       href={vote.openstatesUrl}
@@ -369,7 +369,7 @@ export default function WardModal({ ward: rep, pinned, onClose }: WardModalProps
             {rep.repEmail && (
               <a
                 href={`mailto:${rep.repEmail}`}
-                className="flex items-center gap-1.5 text-xs font-medium text-neutral-600 border border-neutral-200 rounded-full px-3 py-1.5 hover:bg-neutral-50 active:bg-neutral-100"
+                className="flex items-center gap-1.5 text-xs font-medium text-ink-2 border border-hair rounded-full px-3 py-1.5 hover:bg-hover active:bg-hair-strong"
               >
                 <IconMail />
                 Email
@@ -378,7 +378,7 @@ export default function WardModal({ ward: rep, pinned, onClose }: WardModalProps
             {rep.repPhone && (
               <a
                 href={`tel:${rep.repPhone.replace(/[^\d+]/g, "")}`}
-                className="flex items-center gap-1.5 text-xs font-medium text-neutral-600 border border-neutral-200 rounded-full px-3 py-1.5 hover:bg-neutral-50 active:bg-neutral-100"
+                className="flex items-center gap-1.5 text-xs font-medium text-ink-2 border border-hair rounded-full px-3 py-1.5 hover:bg-hover active:bg-hair-strong"
               >
                 <IconPhone />
                 {rep.repPhone}
@@ -398,12 +398,12 @@ export default function WardModal({ ward: rep, pinned, onClose }: WardModalProps
             section at all (isWard) — there's no ward-level "meetings
             feed" concept to honestly say we lack for a citywide role. */}
         {isWard && (
-          <div className="border-t border-neutral-100 px-4 py-3">
-            <div className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-neutral-500 mb-2.5">
+          <div className="border-t border-hair px-4 py-3">
+            <div className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-ink-3 mb-2.5">
               <IconCalendar />
               Meetings
             </div>
-            <p className="text-sm text-neutral-500">
+            <p className="text-sm text-ink-3">
               No meetings feed connected yet for {rep.city}.
             </p>
             {CITY_MEETINGS_URL[rep.city] ? (
@@ -418,13 +418,13 @@ export default function WardModal({ ward: rep, pinned, onClose }: WardModalProps
                 <IconExternal />
               </a>
             ) : (
-              <p className="text-xs text-neutral-400 mt-1">Check {rep.city}&rsquo;s official website for upcoming meetings.</p>
+              <p className="text-xs text-ink-4 mt-1">Check {rep.city}&rsquo;s official website for upcoming meetings.</p>
             )}
           </div>
         )}
 
         {(rep.officeRoom || neighborhoods.length > 0 || rep.profileUrl) && (
-          <div className="border-t border-neutral-100 px-4 py-3 space-y-1.5 text-xs text-neutral-500">
+          <div className="border-t border-hair px-4 py-3 space-y-1.5 text-xs text-ink-3">
             {rep.officeRoom && (
               <div className="flex items-start gap-1.5">
                 <span className="mt-0.5"><IconBuilding /></span>

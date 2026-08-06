@@ -2,6 +2,19 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   "main": ".open-next/worker.js",
   "name": "mn-civic-watch",
+  "routes": [
+    { "pattern": "wealldobettermn.org", "custom_domain": true }
+  ],
+  // Adding an explicit `routes` entry above made wrangler default
+  // `workers_dev`/`preview_urls` to false — Cloudflare's normal assumption
+  // once you've declared a "real" route is that you no longer want the
+  // .workers.dev subdomain. That assumption breaks our own setup: Workers
+  // Builds' per-branch/per-commit Preview URLs (the whole point of the
+  // trigger fix earlier this thread) run on exactly that subdomain, and so
+  // does the current production alias every earlier link in this
+  // conversation points at. Both stay on explicitly.
+  "workers_dev": true,
+  "preview_urls": true,
   "compatibility_date": "2026-07-23",
   "compatibility_flags": [
     "nodejs_compat"

@@ -15,12 +15,19 @@ import {
   partyColor,
   partyColorSoft,
 } from "@/lib/cityTheme";
+import {
+  clearStoredMapStyleId,
+  getInitialMapStyleId,
+  getMapStyleIdForTheme,
+  getMapStyleUrlById,
+  isMapStyleDark,
+  storeMapStyleId,
+} from "@/lib/mapStyles";
+import { getActiveTheme, setTheme, type SiteTheme } from "@/lib/siteTheme";
+import MapThemeSelector from "./MapThemeSelector";
 import SearchBar from "./SearchBar";
+import SiteHeader from "./SiteHeader";
 import WardModal, { areaLabel, roleLabel } from "./WardModal";
-
-// Matches the OpenFreeMap "Liberty" style used by the get-flocked project,
-// for visual consistency across these MN civic-data map tools.
-const LIBERTY_STYLE_URL = "https://tiles.openfreemap.org/styles/liberty";
 
 const WARDS_SOURCE_ID = "wards-source";
 const WARDS_FILL_LAYER_ID = "wards-fill";
@@ -94,7 +101,17 @@ const MODE_LABELS: Record<LayerMode, string> = {
   "state-legislature": "State",
 };
 
-const OUTLINE_COLOR = "#44403c";
+// Outline/label colors are tuned against the *basemap's* own darkness
+// (isMapStyleDark), not this app's light/dark chrome theme — a resident can
+// pick a dark basemap (Fiord, Dark Mode) under either chrome theme, or a
+// light one, independently, via MapThemeSelector. Boundaries drawn in the
+// light-basemap colors below would be nearly invisible against a dark tile
+// background, and vice versa.
+const OUTLINE_COLOR = { light: "#44403c", dark: "#e7e5e4" };
+const LABEL_PAINT = {
+  light: { "text-color": "#1f2937", "text-halo-color": "#ffffff", "text-halo-width": 1.4 },
+  dark: { "text-color": "#f5f5f4", "text-halo-color": "#0a0a0a", "text-halo-width": 1.4 },
+} as const;
 
 function cityMatchExpression(city: City, numberField: string): unknown[] {
   const palette = CITY_PALETTES[city];
@@ -376,6 +393,22 @@ export default function WardMap() {
   const visibleCitiesRef = useRef(visibleCities);
   const [chamber, setChamber] = useState<Chamber>("house");
   const chamberRef = useRef(chamber);
+  // MapThemeSelector's own display state — which basemap/chrome-theme is
+  // currently active, for its checkmarks. Placeholder defaults (matching
+  // DEFAULT_SITE_THEME/its paired basemap) that get corrected to the real
+  // stored choice inside the map-construction effect below, once — reading
+  // localStorage/`document.documentElement` during render would break SSR,
+  // so this can't happen in the useState initializer itself. The popover is
+  // closed by default, so there's nothing to flash before that correction
+  // lands on mount.
+  const [mapStyleId, setMapStyleId] = useState<string>(getMapStyleIdForTheme("light"));
+  const [siteTheme, setSiteThemeState] = useState<SiteTheme>("light");
+  // Bridges MapThemeSelector's click handlers (component-level, called from
+  // the render below) to the actual setStyle()/re-add-layers logic, which
+  // has to live inside the map-construction effect since it closes over
+  // `map` and the hover handlers — same pattern as mapRef/wardsDataRef
+  // already bridge that effect's internals out to the rest of the component.
+  const switchBasemapRef = useRef<(styleId: string) => void>(() => {});
 
   useEffect(() => {
     selectedRef.current = selected;
@@ -590,6 +623,29 @@ export default function WardMap() {
     zoomToDefault(mode);
   };
 
+  // A resident picking a basemap by hand makes it sticky (storeMapStyleId) —
+  // unlike selectSiteTheme below, which applies a basemap too but doesn't
+  // persist it as an explicit choice. See mapStyles.ts's own comments for
+  // why that distinction is what keeps the theme/basemap pairing reachable
+  // for anyone who's never hand-picked a basemap.
+  const selectMapStyle = (styleId: string) => {
+    storeMapStyleId(styleId);
+    switchBasemapRef.current(styleId);
+  };
+
+  // Chrome theme and basemap move together: picking Light also drops the
+  // map to its paired basemap, and likewise for Dark — one decision in a
+  // resident's head ("make this light"), not two independent ones. This
+  // *clears* any hand-picked basemap rather than persisting the one it just
+  // applied, so a later repointing of THEME_BASEMAP still reaches everyone
+  // who's only ever used the paired default.
+  const selectSiteTheme = (theme: SiteTheme) => {
+    setTheme(theme);
+    setSiteThemeState(theme);
+    clearStoredMapStyleId();
+    switchBasemapRef.current(getMapStyleIdForTheme(theme));
+  };
+
   // Same as zoomToBounds, but without the padding it reserves for the
   // pinned modal — city/county search results never open one (there's no
   // single rep to show), so reserving that space would just leave the
@@ -651,9 +707,20 @@ export default function WardMap() {
   useEffect(() => {
     if (!mapContainerRef.current) return;
 
+    // Which basemap is loaded right now — read once here rather than from
+    // `mapStyleId` state, since this effect runs before that state's own
+    // corrective render lands, and updated in step by switchBasemap below
+    // (which also keeps `mapStyleId` state in sync for MapThemeSelector's
+    // checkmark). A resident's saved theme (or its paired basemap, if
+    // they've never hand-picked one) is what a fresh map opens on, so a
+    // light-theme visitor never gets a dark basemap on first paint.
+    let currentStyleId = getInitialMapStyleId();
+    setMapStyleId(currentStyleId);
+    setSiteThemeState(getActiveTheme());
+
     const map = new maplibregl.Map({
       container: mapContainerRef.current,
-      style: LIBERTY_STYLE_URL,
+      style: getMapStyleUrlById(currentStyleId),
       center: TWIN_CITIES_CENTER,
       zoom: DEFAULT_ZOOM,
       attributionControl: { compact: true },
@@ -669,28 +736,14 @@ export default function WardMap() {
       console.error("[MapLibre ERROR]", e.error?.message ?? e);
     });
 
-    map.on("load", async () => {
-      // The canvas's WebGL drawing buffer is sized from the container at
-      // construction time; if layout settles a beat after that (webfonts,
-      // flex sizing), the buffer is left smaller than the CSS box and only
-      // that top-left region ever gets painted. Forcing a resize once the
-      // container has its final size fixes that.
-      setTimeout(() => map.resize(), 100);
-
-      // Awaits the *same* fetch the map-independent effect above kicked
-      // off on mount, rather than fetching a second time — that effect
-      // is also what populates wardsDataRef/commissionersDataRef/
-      // stateLegDataRef, so search can use them even if this "load"
-      // event never fires at all.
-      const civicData = await civicDataPromiseRef.current;
-      if (!civicData) return; // fetch failed — nothing to draw; already logged in fetchCivicData
+    // Pins are plain DOM markers (maplibregl.Marker), not part of the
+    // MapLibre style — they survive a setStyle() basemap swap on their own,
+    // so this only ever runs once, guarded by pinMarkersRef itself rather
+    // than being re-invoked from switchBasemap below the way
+    // addSourcesAndLayers is.
+    const addPins = (civicData: CivicData) => {
+      if (pinMarkersRef.current.length > 0) return;
       const { wards: data, mayors: mayorsData, commissioners: commissionersData, stateLeg: stateLegData } = civicData;
-
-      // Guards the whole "add sources/layers/markers" block as a unit —
-      // without it, a second 'load' firing would duplicate every pin
-      // marker on top of itself (Marker instances aren't deduped the way
-      // map.addSource/addLayer already are below).
-      if (map.getSource(WARDS_SOURCE_ID)) return;
 
       // Shared by every pin type (mayors, council members, commissioners):
       // creates the marker, wires up the same hover/click behavior, and
@@ -773,6 +826,26 @@ export default function WardMap() {
         const bounds = boundsFromFeature(feature as Feature<Geometry>);
         addPin(properties, bounds.getCenter(), PIN_DIAMETER_BY_ROLE[properties.role], "state-legislature", bounds);
       }
+    };
+
+    // Sources and every fill/outline/pulse/label layer built off them —
+    // unlike pins, these ARE part of the MapLibre style, so setStyle()
+    // throws all of it away on a basemap swap. Guarded (not by a ref, but
+    // by map.getSource itself) so it's safe to call both from the initial
+    // "load" below and from switchBasemap's "style.load" after every
+    // subsequent swap — the guard passes either way, since a fresh style
+    // genuinely has none of these sources yet.
+    const addSourcesAndLayers = (civicData: CivicData) => {
+      if (map.getSource(WARDS_SOURCE_ID)) return;
+      const { wards: data, commissioners: commissionersData, stateLeg: stateLegData } = civicData;
+
+      // Tuned against the *current basemap's* own darkness — see
+      // OUTLINE_COLOR/LABEL_PAINT's own comment — recomputed on every call
+      // so a swap to/from a dark basemap re-colors boundaries and labels
+      // along with it, not just the tiles underneath them.
+      const dark = isMapStyleDark(currentStyleId);
+      const outlineColor = dark ? OUTLINE_COLOR.dark : OUTLINE_COLOR.light;
+      const labelPaint = dark ? LABEL_PAINT.dark : LABEL_PAINT.light;
 
       map.addSource(WARDS_SOURCE_ID, { type: "geojson", data });
       map.addSource(COMMISSIONERS_SOURCE_ID, { type: "geojson", data: commissionersData });
@@ -788,7 +861,7 @@ export default function WardMap() {
         id: WARDS_OUTLINE_LAYER_ID,
         type: "line",
         source: WARDS_SOURCE_ID,
-        paint: { "line-color": OUTLINE_COLOR, "line-width": 1.5 },
+        paint: { "line-color": outlineColor, "line-width": 1.5 },
       });
       // Highlights wards with a contested election, on top of the normal
       // outline but below labels. Starts matching zero features today —
@@ -813,7 +886,7 @@ export default function WardMap() {
           "text-font": ["Noto Sans Bold"],
           "text-size": 12,
         },
-        paint: { "text-color": "#1f2937", "text-halo-color": "#ffffff", "text-halo-width": 1.4 },
+        paint: labelPaint,
       });
 
       map.addLayer({
@@ -828,7 +901,7 @@ export default function WardMap() {
         type: "line",
         source: COMMISSIONERS_SOURCE_ID,
         layout: { visibility: "none" },
-        paint: { "line-color": OUTLINE_COLOR, "line-width": 1.5 },
+        paint: { "line-color": outlineColor, "line-width": 1.5 },
       });
       map.addLayer({
         id: COMMISSIONERS_PULSE_LAYER_ID,
@@ -848,7 +921,7 @@ export default function WardMap() {
           "text-size": 12,
           visibility: "none",
         },
-        paint: { "text-color": "#1f2937", "text-halo-color": "#ffffff", "text-halo-width": 1.4 },
+        paint: labelPaint,
       });
 
       // Starts filtered to the default chamber (House) — switchChamber
@@ -868,7 +941,7 @@ export default function WardMap() {
         source: STATE_LEG_SOURCE_ID,
         layout: { visibility: "none" },
         filter: defaultChamberFilter,
-        paint: { "line-color": OUTLINE_COLOR, "line-width": 1.5 },
+        paint: { "line-color": outlineColor, "line-width": 1.5 },
       });
       map.addLayer({
         id: STATE_LEG_PULSE_LAYER_ID,
@@ -889,14 +962,16 @@ export default function WardMap() {
           visibility: "none",
         },
         filter: defaultChamberFilter,
-        paint: { "text-color": "#1f2937", "text-halo-color": "#ffffff", "text-halo-width": 1.4 },
+        paint: labelPaint,
       });
 
       // Registered here, after both fill layers exist, rather than
       // synchronously at effect setup — map.on(event, layerId, handler) is
       // itself a layer-scoped query, and MapLibre throws the same "layer
       // does not exist" error queryRenderedFeatures does if the mouse moves
-      // over the canvas before the target layer has been added.
+      // over the canvas before the target layer has been added. Re-bound on
+      // every call (including after a basemap swap) since setStyle() drops
+      // these layer-scoped listeners along with the layers themselves.
       map.on("mousemove", WARDS_FILL_LAYER_ID, handleHoverMove);
       map.on("mouseleave", WARDS_FILL_LAYER_ID, handleHoverLeave);
       map.on("mousemove", COMMISSIONERS_FILL_LAYER_ID, handleHoverMove);
@@ -909,17 +984,65 @@ export default function WardMap() {
       // in flight — setLayerMode/setChamber happened, but applyLayerMode/
       // applyChamberFilter's map.getLayer() guards no-opped since these
       // layers didn't exist yet. Re-apply whatever's current now that they
-      // do, rather than trusting each layer's just-added default state.
+      // do, rather than trusting each layer's just-added default state —
+      // also what keeps the current mode/city/chamber selection intact
+      // across a basemap swap, since switchBasemap calls this too.
       applyLayerMode(layerModeRef.current);
       applyChamberFilter(chamberRef.current);
+    };
+
+    // Swaps the basemap: persists nothing itself (see selectMapStyle vs.
+    // selectSiteTheme above for who does), just applies `styleId` visually
+    // and re-adds the layers setStyle() is about to throw away. Assigned to
+    // switchBasemapRef so the component-level selectMapStyle/selectSiteTheme
+    // functions (called from MapThemeSelector's onClick handlers, outside
+    // this effect) can reach it.
+    const switchBasemap = (styleId: string) => {
+      currentStyleId = styleId;
+      setMapStyleId(styleId);
+      map.setStyle(getMapStyleUrlById(styleId));
+      // Nothing may touch wards/commissioners/state-legislature layers
+      // between here and "style.load" — they belong to the style being
+      // replaced. Pins are untouched: they're not part of the style.
+      map.once("style.load", async () => {
+        const civicData = await civicDataPromiseRef.current;
+        if (!civicData) return;
+        addSourcesAndLayers(civicData);
+      });
+    };
+    switchBasemapRef.current = switchBasemap;
+
+    map.on("load", async () => {
+      // The canvas's WebGL drawing buffer is sized from the container at
+      // construction time; if layout settles a beat after that (webfonts,
+      // flex sizing), the buffer is left smaller than the CSS box and only
+      // that top-left region ever gets painted. Forcing a resize once the
+      // container has its final size fixes that.
+      setTimeout(() => map.resize(), 100);
+
+      // Awaits the *same* fetch the map-independent effect above kicked
+      // off on mount, rather than fetching a second time — that effect
+      // is also what populates wardsDataRef/commissionersDataRef/
+      // stateLegDataRef, so search can use them even if this "load"
+      // event never fires at all.
+      const civicData = await civicDataPromiseRef.current;
+      if (!civicData) return; // fetch failed — nothing to draw; already logged in fetchCivicData
+
+      addPins(civicData);
+      addSourcesAndLayers(civicData);
 
       // Only animate if something's actually contested — with today's data
       // that's never true (see the isContested comment in types.ts), so
       // this costs nothing until real candidate-filing data changes that.
+      // Started once, here, never from switchBasemap: the animation loop's
+      // own `if (map.getLayer(layerId))` guards make it self-healing across
+      // a basemap swap (it just skips paint-property writes for the few
+      // frames the pulse layers don't exist yet, between setStyle() and
+      // addSourcesAndLayers re-adding them) — no second loop needed.
       const anyContested =
-        data.features.some((f) => f.properties?.isContested) ||
-        commissionersData.features.some((f) => f.properties?.isContested) ||
-        stateLegData.features.some((f) => f.properties?.isContested);
+        civicData.wards.features.some((f) => f.properties?.isContested) ||
+        civicData.commissioners.features.some((f) => f.properties?.isContested) ||
+        civicData.stateLeg.features.some((f) => f.properties?.isContested);
       if (anyContested) {
         const animatePulse = (timestamp: number) => {
           // ~2.6s period, slow and steady rather than an alarm-like strobe.
@@ -941,8 +1064,11 @@ export default function WardMap() {
       // stateLegBoundsRef (used by zoomToDefault) are already populated
       // by the map-independent effect above, from the same data. Fit to
       // each layer's actual extent rather than a hardcoded bounding box,
-      // so this keeps working if boundaries shift.
-      const wardsBounds = boundsFromFeatureCollection(data);
+      // so this keeps working if boundaries shift. Deliberately not
+      // repeated on a basemap swap — switchBasemap has no call to this,
+      // so picking a new basemap never snaps the camera back to this
+      // default extent out from under whatever the resident was looking at.
+      const wardsBounds = boundsFromFeatureCollection(civicData.wards);
       if (!wardsBounds.isEmpty()) map.fitBounds(wardsBounds, { padding: 40, duration: 0 });
     });
 
@@ -1070,8 +1196,17 @@ export default function WardMap() {
   //        it. Per AGENTS.md §4 ("Search Is The Primary Interface, Not
   //        The Map"), this rung is reserved for controls a user always
   //        needs reachable regardless of what's selected on the map.
+  //
+  // SiteHeader sits outside this scale entirely — it's a normal static-
+  // flow flex sibling *above* the relative wrapper all of 0/10/20 live
+  // in, not an absolutely-positioned layer competing for a z-index rung.
+  // Every "absolute inset-0 / top-3 / bottom-0" below is scoped to that
+  // wrapper's own box (which already starts below the header), so there's
+  // no overlap to resolve and no rung needed for it.
   return (
-    <div className="relative w-full h-dvh overflow-hidden">
+    <div className="flex w-full h-dvh flex-col overflow-hidden bg-canvas">
+      <SiteHeader />
+      <div className="relative min-h-0 flex-1">
       <div ref={mapContainerRef} className="absolute inset-0 w-full h-full isolate z-0" />
 
       {/* Mode switcher + city/chamber filter — always top-left, on every
@@ -1082,7 +1217,7 @@ export default function WardMap() {
         <div
           role="group"
           aria-label="Choose map layer"
-          className="flex rounded-lg bg-white/90 backdrop-blur-sm border border-neutral-200 shadow-lg p-1 text-sm"
+          className="flex rounded-lg bg-panel-2/90 backdrop-blur-sm border border-hair shadow-lg shadow-(color:--shadow-panel) p-1 text-sm"
         >
           {(["wards", "commissioners", "state-legislature"] as const).map((mode) => (
             <button
@@ -1090,7 +1225,7 @@ export default function WardMap() {
               type="button"
               onClick={() => switchMode(mode)}
               className={`px-3 py-1.5 rounded-md font-medium transition-colors ${
-                layerMode === mode ? "bg-neutral-900 text-white" : "text-neutral-600 hover:bg-neutral-100"
+                layerMode === mode ? "bg-accent text-on-accent" : "text-ink-3 hover:bg-hover hover:text-ink"
               }`}
             >
               {MODE_LABELS[mode]}
@@ -1105,7 +1240,7 @@ export default function WardMap() {
           <div
             role="group"
             aria-label="Choose chamber"
-            className="flex rounded-lg bg-white/90 backdrop-blur-sm border border-neutral-200 shadow-lg p-1 text-sm"
+            className="flex rounded-lg bg-panel-2/90 backdrop-blur-sm border border-hair shadow-lg shadow-(color:--shadow-panel) p-1 text-sm"
           >
             {CHAMBERS.map((c) => (
               <button
@@ -1113,7 +1248,7 @@ export default function WardMap() {
                 type="button"
                 onClick={() => switchChamber(c)}
                 className={`px-3 py-1.5 rounded-md font-medium transition-colors ${
-                  chamber === c ? "bg-neutral-900 text-white" : "text-neutral-600 hover:bg-neutral-100"
+                  chamber === c ? "bg-accent text-on-accent" : "text-ink-3 hover:bg-hover hover:text-ink"
                 }`}
               >
                 {CHAMBER_LABELS[c]}
@@ -1133,15 +1268,15 @@ export default function WardMap() {
             // far enough to collide with this list. The cap is small
             // enough to matter only on short mobile viewports; it's
             // harmless — never actually engaged — on desktop.
-            className="max-h-[45vh] overflow-y-auto rounded-lg bg-white/90 backdrop-blur-sm border border-neutral-200 shadow-lg divide-y divide-neutral-100 text-sm text-neutral-700"
+            className="max-h-[45vh] overflow-y-auto rounded-lg bg-panel-2/90 backdrop-blur-sm border border-hair shadow-lg shadow-(color:--shadow-panel) divide-y divide-hair text-sm text-ink-2"
           >
             {MODE_VISIBLE_CITIES[layerMode].map((city) => (
-              <label key={city} className="flex items-center gap-2 px-3 py-2.5 sm:py-2 cursor-pointer select-none">
+              <label key={city} className="flex items-center gap-2 px-3 py-2.5 sm:py-2 cursor-pointer select-none hover:bg-hover">
                 <input
                   type="checkbox"
                   checked={visibleCities[city]}
                   onChange={() => toggleCity(city)}
-                  className="cursor-pointer"
+                  className="cursor-pointer accent-accent"
                 />
                 <span
                   className="h-2.5 w-2.5 rounded-full shrink-0"
@@ -1153,6 +1288,26 @@ export default function WardMap() {
           </div>
         )}
       </div>
+
+      {/* Site theme + basemap popover. Desktop: bottom-right, stacked above
+          MapLibre's own zoom buttons. Mobile: top-right, mirroring the mode
+          switcher opposite it — the bottom-right corner belongs to the
+          search card there (see MapThemeSelector's own comment). Rendered
+          after the mode-switcher block above, not before: on a narrow
+          phone the filter list's intrinsic width can run close enough to
+          this control's own top-right corner that its open popover
+          panel's left edge grazes the filter list's right edge, and DOM
+          order — not just z-index — decides which one wins a click in
+          that sliver for two same-z-20 siblings. This has to lose that
+          tie while open, so it renders later. Persistent-controls rung
+          (z-20), same as the mode switcher and search bar — see the
+          z-index scale note above this return. */}
+      <MapThemeSelector
+        siteTheme={siteTheme}
+        mapStyleId={mapStyleId}
+        onSelectSiteTheme={selectSiteTheme}
+        onSelectMapStyle={selectMapStyle}
+      />
 
       {/* Desktop (sm+): search bar floats centered at the top of the map,
           independent of the mode-switcher stack — the primary interface
@@ -1187,6 +1342,7 @@ export default function WardMap() {
           </div>
         </div>
       )}
+      </div>
     </div>
   );
 }
