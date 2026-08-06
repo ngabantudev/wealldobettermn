@@ -32,9 +32,15 @@
    *means*, and swapping a value here (or a theme) never means hunting
    down every place it was used. `.band` re-declares a subset of these for
    one subtree (see below) rather than every component carrying a
-   light/dark *and* body/band variant of each color. */
+   light/dark *and* body/band variant of each color.
+
+   Theme is picked explicitly (Light/Dark, via MapThemeSelector.tsx +
+   src/lib/siteTheme.ts), not inferred from prefers-color-scheme — matching
+   the reference implementation's own choice. `.dark` on <html> is what
+   switches every token below; the inline script in layout.tsx sets that
+   class before first paint so there's no flash of the wrong theme. */
 :root {
-  color-scheme: light dark;
+  color-scheme: light;
 
   --canvas: #f0f0f0; /* page background, behind every panel */
   --panel: #f2f2f2; /* chrome surfaces: header, floating control bars */
@@ -73,34 +79,34 @@
   --shadow-panel: rgba(0, 45, 93, 0.18);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --canvas: #131314;
-    --panel: #18181b;
-    --panel-2: #09090b;
-    --panel-3: #09090b80;
-    --ink: #f5f5f5;
-    --ink-2: #e5e5e5;
-    --ink-3: #a3a3a3;
-    --ink-4: #737373;
-    --ink-canvas: #e5e5e5; /* a shade under --ink — the same direction --ink-3 already steps */
-    --hair: #ffffff1a;
-    --hair-strong: #ffffff29;
-    --hover: #ffffff0d;
-    --accent: #34d399;
-    --accent-hover: #6ee7b7;
-    --accent-soft: #34d3991a;
-    --on-accent: #0a0a0a;
-    --positive: #34d399;
-    --positive-hover: #6ee7b7;
-    --on-positive: #0a0a0a;
-    --well: #18181b;
-    --well-hair: #ffffff12;
-    --well-shadow:
-      inset 0 1px 0 #ffffff0a,
-      0 1px 2px #0006;
-    --shadow-panel: rgba(0, 0, 0, 0.6);
-  }
+.dark {
+  color-scheme: dark;
+
+  --canvas: #131314;
+  --panel: #18181b;
+  --panel-2: #09090b;
+  --panel-3: #09090b80;
+  --ink: #f5f5f5;
+  --ink-2: #e5e5e5;
+  --ink-3: #a3a3a3;
+  --ink-4: #737373;
+  --ink-canvas: #e5e5e5; /* a shade under --ink — the same direction --ink-3 already steps */
+  --hair: #ffffff1a;
+  --hair-strong: #ffffff29;
+  --hover: #ffffff0d;
+  --accent: #34d399;
+  --accent-hover: #6ee7b7;
+  --accent-soft: #34d3991a;
+  --on-accent: #0a0a0a;
+  --positive: #34d399;
+  --positive-hover: #6ee7b7;
+  --on-positive: #0a0a0a;
+  --well: #18181b;
+  --well-hair: #ffffff12;
+  --well-shadow:
+    inset 0 1px 0 #ffffff0a,
+    0 1px 2px #0006;
+  --shadow-panel: rgba(0, 0, 0, 0.6);
 }
 
 /* The "band" — the site's identity bar (SiteHeader) — is the flag itself,
@@ -111,54 +117,57 @@
    `band-*` class names to keep in sync — same mechanism the reference
    implementation uses. Light-mode only, on purpose: in dark mode the band
    drops to the workspace's own near-black instead of forcing navy-on-dark
-   (see the `.dark`-equivalent override further down) — the flag treatment
-   is a light-theme affordance, not a permanent brand color plastered over
-   both themes regardless of fit. */
-@media (prefers-color-scheme: light) {
-  .band {
-    /* Night Sky Blue, Pantone 648 — the flag's field. */
-    --panel: #002d5d;
-    --panel-2: #002d5d;
-    --panel-3: #002d5d;
-    /* The muted ink ramp is the North Star's white stepped down in
-       opacity, not a second family of light blues — the flag has exactly
-       one light blue and it's already spoken for as --accent below. */
-    --ink: #ffffff;
-    --ink-2: #ffffffe0;
-    --ink-3: #ffffffb8;
-    --ink-4: #ffffffa3;
-    /* Water Blue hairlines, and a row hover derived from it — the flag has
-       no mid-tone, so the step off the field is Water Blue at 16% over
-       Night Sky Blue. */
-    --hair: #52c9e852;
-    --hair-strong: #52c9e88c;
-    --hover: #0d4673;
-    /* Water Blue, Pantone 305. */
-    --accent: #52c9e8;
-    --accent-hover: #ffffff;
-    --accent-soft: #52c9e81f;
-    --on-accent: #002d5d;
-    /* Recessed well — derived (Night Sky darkened further), since the flag
-       offers nothing between its field and black. */
-    --well: #001e3f;
-    --well-hair: #52c9e838;
-    --well-shadow:
-      inset 0 1px 3px #000c1a80,
-      0 1px 0 #ffffff0d;
-  }
+   (see the `.dark .band` override further down) — the flag treatment is a
+   light-theme affordance, not a permanent brand color plastered over both
+   themes regardless of fit. */
+:root:not(.dark) .band {
+  /* Night Sky Blue, Pantone 648 — the flag's field. */
+  --panel: #002d5d;
+  --panel-2: #002d5d;
+  --panel-3: #002d5d;
+  /* The muted ink ramp is the North Star's white stepped down in
+     opacity, not a second family of light blues — the flag has exactly
+     one light blue and it's already spoken for as --accent below. */
+  --ink: #ffffff;
+  --ink-2: #ffffffe0;
+  --ink-3: #ffffffb8;
+  --ink-4: #ffffffa3;
+  /* Water Blue hairlines, and a row hover derived from it — the flag has
+     no mid-tone, so the step off the field is Water Blue at 16% over
+     Night Sky Blue. */
+  --hair: #52c9e852;
+  --hair-strong: #52c9e88c;
+  --hover: #0d4673;
+  /* Water Blue, Pantone 305. */
+  --accent: #52c9e8;
+  --accent-hover: #ffffff;
+  --accent-soft: #52c9e81f;
+  --on-accent: #002d5d;
+  /* Recessed well — derived (Night Sky darkened further), since the flag
+     offers nothing between its field and black. */
+  --well: #001e3f;
+  --well-hair: #52c9e838;
+  --well-shadow:
+    inset 0 1px 3px #000c1a80,
+    0 1px 0 #ffffff0d;
 }
 
 /* In dark mode the band still steps down a level from the surrounding
    workspace (its header has always read as a shade darker than the panels
    below it) — just without the flag override above, so it stays the
    workspace's own near-black rather than picking up Night Sky Blue. */
-@media (prefers-color-scheme: dark) {
-  .band {
-    --panel: #09090b;
-    --panel-2: #09090b;
-    --panel-3: #09090b;
-  }
+.dark .band {
+  --panel: #09090b;
+  --panel-2: #09090b;
+  --panel-3: #09090b;
 }
+
+/* Tailwind v4 keys `dark:` off prefers-color-scheme by default. This site
+   picks its theme explicitly (localStorage + MapThemeSelector), so
+   re-point the variant at the .dark class instead. Nothing currently uses
+   `dark:` — the tokens above make it unnecessary almost everywhere — but
+   this is here for the rare value with no light/dark counterpart. */
+@custom-variant dark (&:where(.dark, .dark *));
 
 @theme inline {
   --color-canvas: var(--canvas);
