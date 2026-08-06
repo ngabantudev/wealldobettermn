@@ -461,9 +461,10 @@ export interface ArchivedDocument {
   storedPath: string; // relative to public/, e.g. "documents/agendas/<hash>.pdf"
   byteLength: number;
   contentType: string | null;
-  // Relative-to-public/ path to extracted plain text. Always null today —
-  // scripts/ingest/extract-text.mjs's extractText() is a stub pending a
-  // maintainer decision on a PDF-parsing dependency; see that file.
+  // Relative-to-public/ path to extracted plain text, populated by
+  // scripts/ingest/extract-text.mjs's extractAndStoreDocumentText().
+  // Null until extraction has run, and stays null if extraction failed
+  // (see extractionStatus) — never a guess at what the text might say.
   extractedTextRef: string | null;
   extractionStatus: "pending" | "not_implemented" | "extracted" | "failed";
 }

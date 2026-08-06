@@ -17,8 +17,8 @@
 // thing: mirror one already-known document URL, once, with a hash.
 //
 // Dependency-light per AGENTS.md §0.8: only Node built-ins (global
-// fetch, node:crypto, node:fs, node:path). No PDF parsing here — see
-// ./extract-text.mjs for that step and why it's stubbed.
+// fetch, node:crypto, node:fs, node:path). No PDF parsing here — that's
+// a separate step, see ./extract-text.mjs.
 //
 // @typedef {import("../../src/lib/types.js").ArchivedDocument} ArchivedDocumentRecord
 

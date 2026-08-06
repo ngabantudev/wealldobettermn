@@ -54,7 +54,15 @@ import {
 } from "../../src/lib/campaignFinanceConfig.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const OUTPUT_PATH = path.join(__dirname, "../../public/campaign-finance.json");
+
+// Chunked output per AGENTS.md §0.7/§4 budget — see the header comment on
+// CampaignFinanceIndex in src/lib/campaignFinanceTypes.ts for why this
+// replaced a single ~41MB public/campaign-finance.json. INDEX_PATH is the
+// one file loaded upfront; CANDIDATES_DIR holds one small detail file per
+// candidate committee, fetched lazily.
+const OUTPUT_DIR = path.join(__dirname, "../../public/campaign-finance");
+const INDEX_PATH = path.join(OUTPUT_DIR, "index.json");
+const CANDIDATES_DIR = path.join(OUTPUT_DIR, "candidates");
 
 const USER_AGENT = "wealldobettermn-etl/0.1 (+https://github.com/ngabantudev/wealldobettermn; civic transparency data pipeline)";
 
@@ -269,11 +277,15 @@ function parseRawRows(raw) {
  * this function can't quietly drift from the allowlist it's supposed to
  * enforce.
  *
+ * Provenance is no longer attached per-record (see CampaignFinanceIndex /
+ * CampaignFinanceCandidateDetail in campaignFinanceTypes.ts) — it is
+ * written once per output file by main() below. This function's rows
+ * carry only the data fields.
+ *
  * @param {RawContributionRow[]} rows
- * @param {{ primarySourceUrl: string, documentId: string|null, issuedDate: string|null, fetchedAt: string, contentHash: string }} provenance
  * @returns {{ aggregates: import("../../src/lib/campaignFinanceTypes.js").ContributionAggregate[], namedEntityContributions: import("../../src/lib/campaignFinanceTypes.js").NamedEntityContribution[] }}
  */
-export function filterAndAggregate(rows, provenance) {
+export function filterAndAggregate(rows) {
   /** @type {Map<string, { recipientCommittee: string, cycle: string, totalReceiptsUsd: number, bandCounts: Map<string, number> }>} */
   const byCommitteeAndCycle = new Map();
   const namedEntityContributions = [];
@@ -308,14 +320,6 @@ export function filterAndAggregate(rows, provenance) {
         cycle: row.cycle,
         amountUsd: row.amountUsd,
         date: row.date,
-        primarySourceUrl: provenance.primarySourceUrl,
-        sourceAgency: SOURCE_AGENCY,
-        documentType: "campaign finance bulk export",
-        documentId: provenance.documentId,
-        issuedDate: provenance.issuedDate,
-        fetchedAt: provenance.fetchedAt,
-        licence: SOURCE_LICENCE,
-        contentHash: provenance.contentHash,
       });
     }
   }
@@ -329,14 +333,6 @@ export function filterAndAggregate(rows, provenance) {
       band,
       count: bucket.bandCounts.get(band.label) ?? 0,
     })),
-    primarySourceUrl: provenance.primarySourceUrl,
-    sourceAgency: SOURCE_AGENCY,
-    documentType: "campaign finance bulk export",
-    documentId: provenance.documentId,
-    issuedDate: provenance.issuedDate,
-    fetchedAt: provenance.fetchedAt,
-    licence: SOURCE_LICENCE,
-    contentHash: provenance.contentHash,
   }));
 
   return { aggregates, namedEntityContributions };
@@ -375,49 +371,175 @@ function assertNoIndividualDonorLeak({ aggregates, namedEntityContributions }) {
   }
 }
 
+const KNOWN_GAPS = [
+  "Local (city/county) candidate filings are largely PDF-only and are not covered by this importer yet — FEATURES.md Phase 8.",
+  "Federal receipts (OpenFEC) are not merged into this file.",
+  "Only the 'Candidates' recipient-type bulk file is ingested — Party unit and PAC recipient files (same schema, confirmed 2026-08-06) are not yet included.",
+  "'Self' (candidate self-funding) and 'Other' Contrib-type rows are counted in aggregates but never surfaced as named records — a deliberate fail-closed default, not a gap in coverage of what CFB reports (see mapDonorType() comment).",
+];
+
+/**
+ * Deterministic filename-safe slug for a recipient committee name — the
+ * candidate detail file id. Pure function of the name (no randomness, no
+ * run order dependence for the common case) per AGENTS.md §2.2
+ * "deterministic and re-runnable." Collisions (two distinct committee
+ * names slugifying to the same string — rare, but the real CFB export
+ * does contain near-duplicate committee names) are resolved by the
+ * caller, which walks committees in a fixed sort order and appends a
+ * stable numeric suffix, so the same input file always produces the same
+ * ids.
+ * @param {string} name
+ * @returns {string}
+ */
+function slugifyCommitteeName(name) {
+  const slug = name
+    .toLowerCase()
+    .normalize("NFKD")
+    .replace(/[̀-ͯ]/g, "") // strip combining diacritics after NFKD decomposition
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+  return slug || "committee";
+}
+
+/**
+ * Groups aggregates and named-entity contributions by recipient committee
+ * and assigns each committee a deterministic id/slug. Chunking-only
+ * reshaping — see the header comment in campaignFinanceTypes.ts. Uses
+ * plain loops throughout (never `array.push(...bigArray)`) per the V8
+ * call-stack note at the top of this file.
+ * @param {import("../../src/lib/campaignFinanceTypes.js").ContributionAggregate[]} aggregates
+ * @param {import("../../src/lib/campaignFinanceTypes.js").NamedEntityContribution[]} namedEntityContributions
+ * @returns {Map<string, { id: string, recipientCommittee: string, aggregates: import("../../src/lib/campaignFinanceTypes.js").ContributionAggregate[], namedEntityContributions: import("../../src/lib/campaignFinanceTypes.js").NamedEntityContribution[] }>}
+ *   keyed by recipientCommittee, in a fixed (sorted) iteration order.
+ */
+function groupByCommittee(aggregates, namedEntityContributions) {
+  const byCommittee = new Map();
+  const committeeNamesInOrder = [];
+
+  const ensureBucket = (recipientCommittee) => {
+    if (!byCommittee.has(recipientCommittee)) {
+      byCommittee.set(recipientCommittee, {
+        id: null,
+        recipientCommittee,
+        aggregates: [],
+        namedEntityContributions: [],
+      });
+      committeeNamesInOrder.push(recipientCommittee);
+    }
+    return byCommittee.get(recipientCommittee);
+  };
+
+  for (const agg of aggregates) ensureBucket(agg.recipientCommittee).aggregates.push(agg);
+  for (const rec of namedEntityContributions) ensureBucket(rec.recipientCommittee).namedEntityContributions.push(rec);
+
+  // Sort committee names for a stable, run-order-independent id
+  // assignment, then walk in that fixed order so a slug collision always
+  // resolves the same way given the same input roster.
+  committeeNamesInOrder.sort((a, b) => a.localeCompare(b));
+  const usedSlugs = new Set();
+  for (const name of committeeNamesInOrder) {
+    const baseSlug = slugifyCommitteeName(name);
+    let slug = baseSlug;
+    let suffix = 2;
+    while (usedSlugs.has(slug)) {
+      slug = `${baseSlug}-${suffix}`;
+      suffix += 1;
+    }
+    usedSlugs.add(slug);
+    byCommittee.get(name).id = slug;
+  }
+
+  return byCommittee;
+}
+
 async function main() {
   const fetchedAt = new Date().toISOString();
   const { rows: rawRows, fetchedFiles, rawTexts } = await fetchRawContributions();
 
   const contentHash = createHash("sha256").update(rawTexts.join("\n")).digest("hex");
-  const provenance = {
-    primarySourceUrl: BULK_DATA_SOURCES[0].url,
-    documentId: null,
-    issuedDate: null,
-    fetchedAt,
-    contentHash,
-  };
 
-  const { aggregates, namedEntityContributions } = filterAndAggregate(rawRows, provenance);
+  const { aggregates, namedEntityContributions } = filterAndAggregate(rawRows);
 
-  // Required before the write below — see assertNoIndividualDonorLeak()'s
+  // Required before any write below — see assertNoIndividualDonorLeak()'s
   // own comment for why this can't be skipped or moved after writeFile.
   assertNoIndividualDonorLeak({ aggregates, namedEntityContributions });
 
   const individualRowCount = rawRows.length - namedEntityContributions.length;
 
-  /** @type {import("../../src/lib/campaignFinanceTypes.js").CampaignFinanceExport} */
-  const output = {
+  /** @type {import("../../src/lib/campaignFinanceTypes.js").CampaignFinanceProvenance} */
+  const provenance = {
+    primarySourceUrl: BULK_DATA_SOURCES[0].url,
+    sourceAgency: SOURCE_AGENCY,
+    documentType: "campaign finance bulk export",
+    documentId: null,
+    issuedDate: null,
+    fetchedAt,
+    licence: SOURCE_LICENCE,
+    contentHash,
+  };
+
+  const byCommittee = groupByCommittee(aggregates, namedEntityContributions);
+
+  await mkdir(CANDIDATES_DIR, { recursive: true });
+
+  const cycles = new Set();
+  const candidateSummaries = [];
+
+  // Sorted iteration (Map insertion order here already follows the sorted
+  // committeeNamesInOrder walk in groupByCommittee) keeps both the written
+  // file set and the index's candidate list order deterministic.
+  for (const bucket of byCommittee.values()) {
+    let totalReceiptsUsdAllCycles = 0;
+    for (const agg of bucket.aggregates) {
+      cycles.add(agg.cycle);
+      totalReceiptsUsdAllCycles += agg.totalReceiptsUsd;
+    }
+
+    const dataPath = `/campaign-finance/candidates/${bucket.id}.json`;
+
+    /** @type {import("../../src/lib/campaignFinanceTypes.js").CampaignFinanceCandidateDetail} */
+    const detail = {
+      schemaVersion: 1,
+      id: bucket.id,
+      recipientCommittee: bucket.recipientCommittee,
+      provenance,
+      aggregates: bucket.aggregates,
+      namedEntityContributions: bucket.namedEntityContributions,
+    };
+    await writeFile(path.join(CANDIDATES_DIR, `${bucket.id}.json`), JSON.stringify(detail));
+
+    candidateSummaries.push({
+      id: bucket.id,
+      recipientCommittee: bucket.recipientCommittee,
+      cycles: bucket.aggregates.map((agg) => agg.cycle).sort((a, b) => a.localeCompare(b)),
+      totalReceiptsUsdAllCycles,
+      dataPath,
+    });
+  }
+
+  /** @type {import("../../src/lib/campaignFinanceTypes.js").CampaignFinanceIndex} */
+  const index = {
     schemaVersion: 1,
     generatedAt: fetchedAt,
     itemizationThresholdUsd: ITEMIZATION_THRESHOLD_USD,
     itemizationThresholdSourceUrl: ITEMIZATION_THRESHOLD_SOURCE_URL,
-    aggregates,
-    namedEntityContributions,
-    knownGaps: [
-      "Local (city/county) candidate filings are largely PDF-only and are not covered by this importer yet — FEATURES.md Phase 8.",
-      "Federal receipts (OpenFEC) are not merged into this file.",
-      "Only the 'Candidates' recipient-type bulk file is ingested — Party unit and PAC recipient files (same schema, confirmed 2026-08-06) are not yet included.",
-      "'Self' (candidate self-funding) and 'Other' Contrib-type rows are counted in aggregates but never surfaced as named records — a deliberate fail-closed default, not a gap in coverage of what CFB reports (see mapDonorType() comment).",
-    ],
+    provenance,
+    cycles: Array.from(cycles).sort((a, b) => a.localeCompare(b)),
+    candidates: candidateSummaries,
+    knownGaps: KNOWN_GAPS,
   };
 
-  await mkdir(path.dirname(OUTPUT_PATH), { recursive: true });
-  await writeFile(OUTPUT_PATH, JSON.stringify(output, null, 2));
+  // Compact, not pretty-printed — same convention as the per-candidate
+  // detail files above. This is the one file every visitor loads upfront
+  // (AGENTS.md §0.7), so indentation whitespace is pure budget waste here.
+  await writeFile(INDEX_PATH, JSON.stringify(index));
+
   console.log(
     `[done] parsed ${rawRows.length} row(s) from ${fetchedFiles.length} file(s) ` +
       `(${individualRowCount} individual/unmapped rows folded into aggregates only); ` +
-      `wrote ${aggregates.length} aggregate(s) and ${namedEntityContributions.length} named-entity record(s) to ${OUTPUT_PATH}`,
+      `wrote ${candidateSummaries.length} candidate detail file(s) under ${CANDIDATES_DIR} ` +
+      `and index to ${INDEX_PATH} ` +
+      `(${aggregates.length} aggregate(s), ${namedEntityContributions.length} named-entity record(s) total)`,
   );
 }
 
