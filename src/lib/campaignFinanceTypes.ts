@@ -15,6 +15,35 @@
 // at ingest time in campaignFinanceConfig.mjs / mn-campaign-finance.mjs —
 // by the time a record reaches these types, an individual donor's
 // identity has already been discarded, not merely omitted from display.
+//
+// --- Chunked output (§0.7 budget) -------------------------------------
+//
+// The importer used to emit a single ~41MB public/campaign-finance.json,
+// which blows the "usable on a throttled 3G connection on a five-year-old
+// phone" budget in AGENTS.md §0.7/§4. It now emits a small manifest
+// (CampaignFinanceIndex) plus one small detail file per candidate
+// committee (CampaignFinanceCandidateDetail), following the per-file
+// chunking convention public/legistar/*.json already uses for per-client
+// data. Provenance moved from being repeated on every one of ~48k
+// individual aggregate/named-contribution records to appearing once per
+// file (CampaignFinanceProvenance) — same facts, no per-record
+// duplication. This is a reshaping of output layout only; it does not
+// change which fields are ever populated, and it does not touch the
+// donor-privacy filter in campaignFinanceConfig.mjs.
+
+// Provenance record, AGENTS.md §2.2/§3.3. Appears once per emitted file
+// (the index and each per-candidate detail file) rather than once per
+// record.
+export interface CampaignFinanceProvenance {
+  primarySourceUrl: string;
+  sourceAgency: string;
+  documentType: string;
+  documentId: string | null;
+  issuedDate: string | null;
+  fetchedAt: string;
+  licence: string;
+  contentHash: string;
+}
 
 export interface ContributionSizeBand {
   label: string;
@@ -36,15 +65,6 @@ export interface ContributionAggregate {
   // *entire* representation of small individual donors on this site: a
   // count, in a band, with no name attached, ever.
   contributionCountsByBand: { band: ContributionSizeBand; count: number }[];
-  // Provenance, per AGENTS.md §2.2.
-  primarySourceUrl: string;
-  sourceAgency: string;
-  documentType: string;
-  documentId: string | null;
-  issuedDate: string | null;
-  fetchedAt: string;
-  licence: string;
-  contentHash: string;
 }
 
 export type NamedEntityDonorType =
@@ -68,20 +88,29 @@ export interface NamedEntityContribution {
   cycle: string;
   amountUsd: number;
   date: string; // ISO
-  // Provenance, per AGENTS.md §2.2.
-  primarySourceUrl: string;
-  sourceAgency: string;
-  documentType: string;
-  documentId: string | null;
-  issuedDate: string | null;
-  fetchedAt: string;
-  licence: string;
-  contentHash: string;
 }
 
-// The full emitted file shape for a jurisdiction/cycle run of the
-// campaign-finance importer.
-export interface CampaignFinanceExport {
+// One entry in the index's candidate list — cheap to load upfront
+// (AGENTS.md §0.7 "progressive precision"/§4 budget). Just enough to
+// render a candidate list/search and decide whether to fetch the detail
+// file.
+export interface CampaignFinanceCandidateSummary {
+  // Deterministic slug of recipientCommittee, stable across re-runs given
+  // the same input roster (AGENTS.md §2.2) — see slugifyCommitteeName() in
+  // the ingest script.
+  id: string;
+  recipientCommittee: string;
+  cycles: string[];
+  totalReceiptsUsdAllCycles: number;
+  // Path under public/ this candidate's detail file is served from,
+  // relative to the site root — fetched lazily only when a user opens
+  // this candidate's record, per AGENTS.md §0.7/§2.5's "nobody downloads
+  // the whole state to find one record" principle.
+  dataPath: string;
+}
+
+// public/campaign-finance/index.json — the one file loaded upfront.
+export interface CampaignFinanceIndex {
   schemaVersion: 1;
   generatedAt: string;
   // Mirrors ITEMIZATION_THRESHOLD_USD in campaignFinanceConfig.mjs at the
@@ -90,10 +119,22 @@ export interface CampaignFinanceExport {
   // threshold produced these bands without needing the ingest script.
   itemizationThresholdUsd: number;
   itemizationThresholdSourceUrl: string;
-  aggregates: ContributionAggregate[];
-  namedEntityContributions: NamedEntityContribution[];
+  provenance: CampaignFinanceProvenance;
+  cycles: string[];
+  candidates: CampaignFinanceCandidateSummary[];
   // Per AGENTS.md §3.3 Coverage Honesty — what this run structurally
   // couldn't see (e.g. county-level filings that are PDF-only per
   // FEATURES.md Phase 8).
   knownGaps: string[];
+}
+
+// public/campaign-finance/candidates/<id>.json — fetched lazily, one per
+// candidate committee, only when a user opens that candidate's record.
+export interface CampaignFinanceCandidateDetail {
+  schemaVersion: 1;
+  id: string;
+  recipientCommittee: string;
+  provenance: CampaignFinanceProvenance;
+  aggregates: ContributionAggregate[];
+  namedEntityContributions: NamedEntityContribution[];
 }
