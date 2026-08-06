@@ -1,3 +1,12 @@
+// CoverageTier (A/B/C) is defined once, in models.ts — the FEATURES.md
+// "Coverage tiers" concept applies project-wide, not per-file. Imported
+// here only for JurisdictionPlatformRecord's field type below (Phase 7);
+// consumers of CoverageTier itself should import it from "./models"
+// directly rather than through this re-export-free import, so it stays
+// obvious there's exactly one definition. See the 2026-08-06 note above
+// CoverageTier in models.ts.
+import type { CoverageTier } from "./models";
+
 export interface CandidateInfo {
   name: string;
   party: string;
@@ -167,37 +176,26 @@ export interface AddressIndex {
 // referencing cities.ts. A name found here but absent from cities.ts
 // resolves to an honest "not covered yet" outcome (AGENTS.md §3.3
 // Coverage Honesty) — never silence, and never a fabricated ward.
-// One person's tenure in one office on one Legistar body — the shared
-// output shape for Phase 4's Legistar jurisdictions (FEATURES.md:
-// St. Paul City Council, Hennepin County Board), sourced from that
-// client's own /officerecords, which FEATURES.md and Legistar's own docs
-// treat as authoritative for start/end dates on these jurisdictions (never
-// inferred from a roster or a vote record instead). Field names below
-// mirror the source rather than any city's own label customization, per
-// FEATURES.md's note that Legistar field names ignore per-jurisdiction
-// relabeling on the jurisdiction's own InSite site.
-//
-// No sibling `feature/data-model-phase1-state-legislature` branch exists
-// yet with a `holding` type of its own (checked at scaffold time) — this
-// is defined fresh here and is meant to be the reusable shape a future
-// state-legislature `holding` type could converge on, not a one-off.
-export interface Holding {
-  // Legistar's own PersonId/BodyId, stable within one client — not
-  // globally unique across clients, so anything joining across
-  // jurisdictions must key on (client, personId) / (client, bodyId), not
-  // personId alone.
-  client: string; // e.g. "stpaul" — Legistar's own path segment
-  personId: number;
-  personName: string;
-  bodyId: number;
-  bodyName: string;
-  jurisdiction: string; // e.g. "St. Paul City Council"
-  officeTitle: string | null; // OfficeRecordTitle, e.g. "Councilmember"
-  startDate: string | null; // OfficeRecordStartDate, ISO date — authoritative
-  endDate: string | null; // OfficeRecordEndDate, null = currently held
-  sourceUrl: string;
-  verifiedAt: string; // ISO date this record was fetched, per AGENTS.md §3.2
-}
+
+// NOTE (2026-08-06): a `Holding` interface used to live here — one
+// person's tenure in one office on one Legistar body, shaped after
+// Legistar's own /officerecords fields (client/personId/bodyId/
+// officeTitle/startDate/endDate). It was scaffolded by the Phase 4
+// (St. Paul/Hennepin Legistar) PR before src/lib/models.ts's canonical,
+// relational `Holding` existed, and turned out to have zero real
+// consumers — nothing ever imported it, only comments referenced it
+// aspirationally. Removed as a duplicate rather than reconciled: per
+// AGENTS.md §0.1/§2.1, a `holding` is a single project-wide concept, and
+// models.ts's `Holding` (id/office_id/person_id/term_start/term_end/…) is
+// the canonical shape everything should converge on. When the real
+// Legistar persons/bodies/officerecords → Holding[] ingest gets built
+// (see scripts/ingest/legistar.mjs), it should construct models.ts's
+// `Holding` directly — resolving Legistar's per-client
+// personId/bodyId into this repo's own `Office`/`Person` ids — not
+// reintroduce a Legistar-shaped type here. The raw
+// OfficeRecordStartDate/OfficeRecordEndDate field-name mapping notes
+// that used to live in this comment are preserved in that PR's
+// description and in LESSONS.md instead of duplicated here.
 
 export interface MnPlaces {
   schemaVersion: 1;
@@ -248,13 +246,18 @@ export interface MnPlaces {
 // human or a future adapter probe to have actually confirmed them.
 export type CivicPlatform = "legistar" | "civicplus" | "granicus" | "icompass" | "pdf-only" | "unknown";
 
-// Coverage tiers per FEATURES.md Phase 7's Data model section: A = full
-// votes + meetings + agendas (Legistar-class), B = meetings + agendas, no
-// structured votes (CivicPlus/Granicus adapter-class), C = roster +
-// contact info only. Every jurisdiction defaults to "C" until it's
-// promoted by an actual adapter or probe result — see
-// DEFAULT_COVERAGE_TIER in src/lib/jurisdictionPlatform.ts.
-export type CoverageTier = "A" | "B" | "C";
+// CoverageTier: A = full votes + meetings + agendas (Legistar-class), B =
+// meetings + agendas, no structured votes (CivicPlus/Granicus
+// adapter-class), C = roster + contact info only. Every jurisdiction
+// defaults to "C" until it's promoted by an actual adapter or probe
+// result — see DEFAULT_COVERAGE_TIER in src/lib/jurisdictionPlatform.ts.
+// Defined once in models.ts (imported at the top of this file) — this
+// used to be a second, independent "A"|"B"|"C" definition here, added by
+// the Phase 7 PR in parallel with (and blind to) the Phase 1 PR that
+// defined the canonical one. Structurally identical so TypeScript never
+// complained, but two names for one FEATURES.md concept is exactly the
+// kind of drift AGENTS.md §2.1's registry pattern exists to prevent —
+// consolidated 2026-08-06, see LESSONS.md.
 
 export interface JurisdictionPlatformRecord {
   // ocd-division/country:us/state:mn/place:{slug} — AGENTS.md §2.4. Not

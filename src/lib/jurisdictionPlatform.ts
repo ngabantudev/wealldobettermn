@@ -13,7 +13,13 @@
 // this inventory) has one place to import it from rather than
 // re-deriving it.
 
-import type { CivicPlatform, CoverageTier, JurisdictionPlatformRecord } from "./types";
+import type { CivicPlatform, JurisdictionPlatformRecord } from "./types";
+// CoverageTier is defined once, in models.ts (the FEATURES.md Phase 1
+// canonical entity model) — imported directly from there rather than via
+// types.ts's re-export-free import, so it's obvious at the call site
+// there's exactly one CoverageTier in the project. See models.ts and
+// LESSONS.md's 2026-08-06 entry.
+import type { CoverageTier } from "./models";
 
 // FEATURES.md Phase 7, "Coverage tiers": every jurisdiction starts at C
 // (roster + contact info only, achievable everywhere off the city's own
