@@ -78,6 +78,17 @@ export interface RepProperties {
   // first — doubles as "what have they been voting on" and as the raw
   // material partyUnityPercent above is computed from.
   recentVotes: BillVote[];
+  // AGENTS.md §3.2's per-record verification bookkeeping — "Every record
+  // carries verifiedAt and verifiedAgainst... The UI surfaces the
+  // verification date wherever a name or contact appears." Optional
+  // because only scripts/fetch-state-legislature.mjs sets these today;
+  // the other fetch-*.mjs scripts (mayors, wards, commissioners) don't
+  // yet emit them (a known gap, not fixed by this field's addition).
+  // Rendering a staleness notice from these in the UI is deferred — see
+  // src/lib/electionConfig.ts's isStale() for the check a future
+  // component would call.
+  verifiedAt?: string;
+  verifiedAgainst?: string;
 }
 
 // A pointer to one ward — the join key between the address/ZIP gazetteer
@@ -156,6 +167,38 @@ export interface AddressIndex {
 // referencing cities.ts. A name found here but absent from cities.ts
 // resolves to an honest "not covered yet" outcome (AGENTS.md §3.3
 // Coverage Honesty) — never silence, and never a fabricated ward.
+// One person's tenure in one office on one Legistar body — the shared
+// output shape for Phase 4's Legistar jurisdictions (FEATURES.md:
+// St. Paul City Council, Hennepin County Board), sourced from that
+// client's own /officerecords, which FEATURES.md and Legistar's own docs
+// treat as authoritative for start/end dates on these jurisdictions (never
+// inferred from a roster or a vote record instead). Field names below
+// mirror the source rather than any city's own label customization, per
+// FEATURES.md's note that Legistar field names ignore per-jurisdiction
+// relabeling on the jurisdiction's own InSite site.
+//
+// No sibling `feature/data-model-phase1-state-legislature` branch exists
+// yet with a `holding` type of its own (checked at scaffold time) — this
+// is defined fresh here and is meant to be the reusable shape a future
+// state-legislature `holding` type could converge on, not a one-off.
+export interface Holding {
+  // Legistar's own PersonId/BodyId, stable within one client — not
+  // globally unique across clients, so anything joining across
+  // jurisdictions must key on (client, personId) / (client, bodyId), not
+  // personId alone.
+  client: string; // e.g. "stpaul" — Legistar's own path segment
+  personId: number;
+  personName: string;
+  bodyId: number;
+  bodyName: string;
+  jurisdiction: string; // e.g. "St. Paul City Council"
+  officeTitle: string | null; // OfficeRecordTitle, e.g. "Councilmember"
+  startDate: string | null; // OfficeRecordStartDate, ISO date — authoritative
+  endDate: string | null; // OfficeRecordEndDate, null = currently held
+  sourceUrl: string;
+  verifiedAt: string; // ISO date this record was fetched, per AGENTS.md §3.2
+}
+
 export interface MnPlaces {
   schemaVersion: 1;
   generatedAt: string;
@@ -238,4 +281,98 @@ export interface JurisdictionPlatformInventory {
   schemaVersion: 1;
   generatedAt: string;
   jurisdictions: JurisdictionPlatformRecord[];
+}
+
+// --- Phase 6: meeting documents & agenda ingestion --------------------
+// (FEATURES.md's Phase 6 section.) scripts/ingest/agenda-documents.mjs
+// produces ArchivedDocument records; scripts/ingest/agenda-versions.mjs
+// builds and diffs AgendaItem version histories from AgendaItemSnapshots.
+// No fetch script populates these yet — this is scaffolding for the
+// Legistar/Granicus `/events`, `/matters` integration AGENTS.md §3.2
+// calls the project's highest-value integration, so these shapes are the
+// contract that work will emit into, not data that ships today.
+//
+// No `agenda_item` type existed in this file as of this addition (the
+// sibling state-legislature-schema PR that might define one hadn't
+// merged) — AgendaItem/AgendaItemSnapshot below are a minimal, from-
+// scratch definition, named to match this file's PascalCase-interface
+// convention rather than the snake_case FEATURES.md prose uses. If that
+// sibling PR lands its own agenda_item shape first, reconcile by renaming
+// rather than keeping two parallel types.
+
+// One source document (agenda packet, minutes, or meeting video) already
+// discovered by another ingest script's own upstream payload (e.g. a
+// Legistar `/events` response's `EventAgendaFile`) and mirrored under
+// public/documents/agendas/<contentHash>.<ext> by
+// scripts/ingest/agenda-documents.mjs's archiveDocument(). Implements
+// AGENTS.md §3.3 Document Retention.
+export interface ArchivedDocument {
+  sourceUrl: string;
+  documentType: "agenda" | "minutes" | "video" | "other";
+  sourceAgency: string | null;
+  fetchedAt: string; // ISO timestamp of the archive fetch — not the document's own issued date
+  contentHash: string; // sha256 hex of the exact bytes stored, per AGENTS.md §2.2's provenance record
+  storedPath: string; // relative to public/, e.g. "documents/agendas/<hash>.pdf"
+  byteLength: number;
+  contentType: string | null;
+  // Relative-to-public/ path to extracted plain text. Always null today —
+  // scripts/ingest/extract-text.mjs's extractText() is a stub pending a
+  // maintainer decision on a PDF-parsing dependency; see that file.
+  extractedTextRef: string | null;
+  extractionStatus: "pending" | "not_implemented" | "extracted" | "failed";
+}
+
+// One agenda item as it appeared in one specific agenda document.
+// Cities amend agendas after initial publication — an item added,
+// pulled, or reworded before the meeting — and FEATURES.md's Phase 6
+// note requires keeping *both* versions and diffing them rather than
+// overwriting. This is a snapshot, not a mutable record: a new
+// AgendaItemSnapshot is appended each time the same logical item
+// changes; existing snapshots are never edited in place. Mirrors
+// AGENTS.md §0.5 ("a map that silently overwrites its own history is
+// worse than no map").
+export interface AgendaItemSnapshot {
+  // Stable across amendments — identifies "this logical agenda item,"
+  // not "this printing of it." Caller-assigned (e.g. derived from the
+  // body's own matter/item id plus the meeting date).
+  agendaItemId: string;
+  version: number; // 1 for the first-seen printing, incrementing per amendment
+  // The version number this one supersedes, or null for the first
+  // version — chains back through history rather than a single "latest"
+  // pointer, so the full amendment trail stays walkable.
+  supersedesVersion: number | null;
+  title: string;
+  description: string | null;
+  // The archived document this snapshot's text/title came from — join
+  // key into ArchivedDocument.contentHash above. Null until the owning
+  // document has actually been archived.
+  documentHash: string | null;
+  extractedTextRef: string | null;
+  sourceUrl: string;
+  fetchedAt: string;
+}
+
+// All known snapshots of one logical agenda item, oldest first. Never
+// mutate `versions` in place — append via
+// scripts/ingest/agenda-versions.mjs's appendAgendaItemVersion() and
+// bump currentVersion instead.
+export interface AgendaItem {
+  agendaItemId: string;
+  currentVersion: number;
+  versions: AgendaItemSnapshot[];
+}
+
+// A field-level diff between two snapshots of the same agenda item —
+// "what changed when this got amended," not a general-purpose deep-diff.
+// Produced by scripts/ingest/agenda-versions.mjs's
+// diffAgendaItemSnapshots().
+export interface AgendaItemDiff {
+  agendaItemId: string;
+  fromVersion: number;
+  toVersion: number;
+  changedFields: Array<{
+    field: "title" | "description" | "documentHash";
+    before: string | null;
+    after: string | null;
+  }>;
 }

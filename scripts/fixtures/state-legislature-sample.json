@@ -1,0 +1,88 @@
+{
+  "synthetic": true,
+  "_comment": "NON-PRODUCTION FIXTURE. Used only by `node scripts/fetch-state-legislature.mjs --self-test` to exercise the script's transform logic (buildFeature, computePartyUnity, the verifiedAt/election-date checks) when the live Open States API is unavailable. Never read by `npm run build`, never written to public/, never presented as a real MN legislator or district. See AGENTS.md §3.1 — this is exactly the kind of synthetic record that must never leak into a real output path, hence the `synthetic: true` marker and the self-test's own check for it.",
+  "houseDistricts": [
+    {
+      "type": "Feature",
+      "properties": { "DISTRICT": "99Z" },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-93.27, 44.98],
+            [-93.26, 44.98],
+            [-93.26, 44.97],
+            [-93.27, 44.97],
+            [-93.27, 44.98]
+          ]
+        ]
+      }
+    }
+  ],
+  "senateDistricts": [
+    {
+      "type": "Feature",
+      "properties": { "DISTRICT": "50" },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-93.27, 44.98],
+            [-93.26, 44.98],
+            [-93.26, 44.97],
+            [-93.27, 44.97],
+            [-93.27, 44.98]
+          ]
+        ]
+      }
+    }
+  ],
+  "legislators": [
+    {
+      "id": "fixture-person-house-99z",
+      "name": "Fixture Test Legislator (House)",
+      "party": "Fixture Party",
+      "chamber": "house",
+      "current_role": { "district": "99Z" },
+      "image": null,
+      "email": null,
+      "created_at": "2023-01-09T00:00:00Z",
+      "openstates_url": "https://example.invalid/fixture-person-house-99z"
+    },
+    {
+      "id": "fixture-person-senate-50",
+      "name": "Fixture Test Legislator (Senate)",
+      "party": "Fixture Party",
+      "chamber": "senate",
+      "current_role": { "district": "50" },
+      "image": null,
+      "email": null,
+      "created_at": "2023-01-09T00:00:00Z",
+      "openstates_url": "https://example.invalid/fixture-person-senate-50"
+    }
+  ],
+  "voteEvents": [
+    {
+      "voteId": "fixture-vote-1",
+      "identifier": "FIXTURE HF 1",
+      "title": "A fixture bill used only for self-test scoring",
+      "date": "2026-01-01",
+      "result": "pass",
+      "openstatesUrl": "https://example.invalid/fixture-vote-1",
+      "votes": [
+        {
+          "option": "yes",
+          "voter": { "id": "fixture-person-house-99z", "party": "Fixture Party" }
+        },
+        {
+          "option": "yes",
+          "voter": { "id": "fixture-person-senate-50", "party": "Fixture Party" }
+        },
+        {
+          "option": "no",
+          "voter": { "id": "fixture-person-other", "party": "Other Fixture Party" }
+        }
+      ]
+    }
+  ]
+}
