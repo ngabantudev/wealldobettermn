@@ -71,7 +71,7 @@ const BBOX_PADDING_DEGREES = 0.015; // roughly 1-1.5km at this latitude
 // (the data is public with no auth). A fixed, non-random query string
 // sidesteps that without making the fetch non-deterministic.
 function withCacheBust(url) {
-  return `${url}?src=mn-civic-watch-etl`;
+  return `${url}?src=wealldobettermn-etl`;
 }
 
 async function fetchZip(url) {

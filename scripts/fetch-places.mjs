@@ -41,7 +41,7 @@ const PRIMARY_SOURCE_URL = "https://www.census.gov/geographies/reference-files/t
 const CITY_LSAD = "25";
 
 async function fetchZip(url) {
-  const res = await fetch(url, { headers: { "User-Agent": "mn-civic-map-etl/0.1 (github.com/mn-civic-watch)" } });
+  const res = await fetch(url, { headers: { "User-Agent": "wealldobettermn-etl/0.1 (github.com/ngabantudev/wealldobettermn)" } });
   if (!res.ok) throw new Error(`HTTP ${res.status} ${res.statusText} for ${url}`);
   const buffer = new Uint8Array(await res.arrayBuffer());
   // Belt-and-suspenders: confirm we actually got zip bytes (PK magic

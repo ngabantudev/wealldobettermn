@@ -1,7 +1,7 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "main": ".open-next/worker.js",
-  "name": "mn-civic-watch",
+  "name": "wealldobettermn",
   "compatibility_date": "2026-07-23",
   "compatibility_flags": [
     "nodejs_compat"
@@ -13,7 +13,7 @@
   "services": [
     {
       "binding": "WORKER_SELF_REFERENCE",
-      "service": "mn-civic-watch"
+      "service": "wealldobettermn"
     }
   ],
   "images": {
