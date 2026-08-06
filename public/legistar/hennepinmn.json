@@ -2,22 +2,22 @@
   "schemaVersion": 1,
   "client": "hennepinmn",
   "jurisdiction": "Hennepin County Board",
-  "generatedAt": "2026-08-06T08:21:01.953Z",
+  "generatedAt": "2026-08-06T16:32:00.131Z",
   "status": "probe_ok_pending_ingest",
-  "note": "Connectivity confirmed 2026-08-06T08:21:01.953Z; full ingest is a follow-up PR.",
+  "note": "Connectivity confirmed 2026-08-06T16:32:00.131Z; full ingest is a follow-up PR.",
   "provenance": {
     "primarySourceUrl": "https://webapi.legistar.com/v1/hennepinmn",
     "sourceAgency": "Hennepin County Board",
     "documentType": "Legistar Web API",
     "documentId": null,
     "issuedDate": null,
-    "fetchedAt": "2026-08-06T08:21:01.953Z",
+    "fetchedAt": "2026-08-06T16:32:00.131Z",
     "licence": "Public records served via Legistar InSite; no separate machine-reuse licence published by the host jurisdiction as of this writing.",
     "contentHash": null
   },
   "holdings": [],
   "knownGaps": [
     "Full persons/bodies/officerecords ingest not yet implemented — this file is a Phase 4 scaffold placeholder, not a coverage claim.",
-    "Connectivity confirmed 2026-08-06T08:21:01.953Z; full ingest is a follow-up PR."
+    "Connectivity confirmed 2026-08-06T16:32:00.131Z; full ingest is a follow-up PR."
   ]
 }
