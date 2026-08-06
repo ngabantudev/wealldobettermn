@@ -4,9 +4,9 @@
 // FEATURES.md Phase 3 — Minneapolis (LIMS API). Skeleton ingest for
 // lims.minneapolismn.gov's LIMS API v1: CouncilMembers, CouncilTerms,
 // MeetingBodies, voting records, and file items (agenda items), back to
-// 2014. This is the reference implementation for the `Holding`
-// churn/roster model (src/lib/types.ts) — see that file's comment for how
-// this script's output is meant to map onto it.
+// 2014. This is the reference implementation for the canonical `Holding`
+// entity (src/lib/models.ts) — see that file's comment for the shape
+// this script's output is meant to map onto.
 //
 // Dependency-free by design (AGENTS.md §0.8): only Node built-ins and the
 // global `fetch` (Node 18+), no npm packages. Deterministic and
@@ -145,19 +145,23 @@ async function fetchFileItemsForYear(apiKey, year) {
 
 /**
  * TODO: once real response shapes are confirmed, map raw LIMS
- * CouncilMembers + CouncilTerms rows onto src/lib/types.ts's `Holding`
- * shape (officeOcdId, personExternalId, name, officeHeld, jurisdiction,
- * termStart, termEnd, sourceUrl, verifiedAt) — this is the reference
- * implementation the churn/roster-diff model (AGENTS.md §2.1,
- * scripts/ingest/roster-diff.mjs on feature/phase5-roster-churn-detection)
- * is meant to consume. Left unimplemented here: no live response has
- * been seen yet to map against, and inventing a mapping from the field
- * *names* alone risks getting it wrong in a way nobody would catch until
- * a real key exists.
+ * CouncilMembers + CouncilTerms rows onto src/lib/models.ts's canonical
+ * `Holding` shape (id, office_id, person_id, term_start, term_end,
+ * source_url, first_seen, last_seen, verifiedAt, verifiedAgainst) — this
+ * is the reference implementation the churn/roster-diff model
+ * (AGENTS.md §2.1, scripts/ingest/roster-diff.mjs on
+ * feature/phase5-roster-churn-detection) is meant to consume. Left
+ * unimplemented here: no live response has been seen yet to map against,
+ * and inventing a mapping from the field *names* alone risks getting it
+ * wrong in a way nobody would catch until a real key exists. Note that
+ * `office_id`/`person_id` are foreign keys into models.ts's `Office`/
+ * `Person` tables, not raw LIMS ids directly — this implementation will
+ * need to resolve (or create) those rows too, not just reshape the LIMS
+ * response.
  *
  * @param {unknown} _rawCouncilMembers
  * @param {unknown} _rawCouncilTerms
- * @returns {import("../../src/lib/types.js").Holding[]}
+ * @returns {import("../../src/lib/models.js").Holding[]}
  */
 function toHoldings(_rawCouncilMembers, _rawCouncilTerms) {
   throw new Error(
