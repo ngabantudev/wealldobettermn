@@ -55,14 +55,39 @@
 //   cannot be built without a human manually downloading the CSV export
 //   through the browser and committing it — a separate, manual workflow,
 //   not something this script can do. `--backfill` below instead pages
-//   fully through the keyed /bills endpoint for one session (no
-//   `updated_since` bound), which is slower and heavier than a bulk file
-//   would be but is the only backfill mechanism actually available
-//   without credentials. Revisit if Open States ever publishes a keyed or
-//   public-bucket bulk path.
+//   through the keyed /bills endpoint, which is slower and heavier than a
+//   bulk file would be but is the only backfill mechanism actually
+//   available without credentials. Revisit if Open States ever publishes
+//   a keyed or public-bucket bulk path.
 //
-// Delta polling (no --backfill) uses `updated_since` against the same
-// keyed endpoint and is the intended path for a scheduled recurring run.
+// --- Caching / quota protection (added 2026-08-06, after the first live
+// run against a real free-tier key — 500 req/day, 1 req/sec — surfaced
+// that none of this existed) ---
+//
+// Neither mode makes an unbounded number of live requests. Both are
+// capped (MAX_BACKFILL_REQUESTS / MAX_DELTA_POLL_REQUESTS below) and a
+// capped run is recorded honestly in the written output's `knownGaps`,
+// never silently truncated. public/state-bills.json is merged into, not
+// overwritten (mergeById below) — a bill or vote event this run didn't
+// touch stays exactly as a prior run left it, so repeated cheap runs
+// actually accumulate coverage instead of replacing the same snapshot.
+//
+// Delta polling (no --backfill) persists `lastDeltaPollAt` in the output
+// and passes it as `updated_since` on the next run — genuinely
+// incremental, not just "fetch the top page again" — and still paginates
+// (capped) so an unusually large batch of same-day updates isn't silently
+// truncated to one page. The watermark only advances past a run's fetch
+// time when that run wasn't itself capped; a capped delta poll re-polls
+// from the same watermark next time rather than skipping bills it never
+// saw.
+//
+// `--backfill` uses Open States' `first_action_asc` sort (confirmed via
+// the API's own 422 enum-validation error, 2026-08-06 — the only stable
+// sort order among the six it documents: introduction order doesn't
+// reshuffle as bills get updated later, unlike `updated_desc`). A capped
+// backfill run persists `backfill.nextPage` in the output and resumes
+// from there on the next `--backfill` invocation, so a full session gets
+// covered across several safely-capped runs instead of one large one.
 
 import { writeFile, mkdir, readFile } from "node:fs/promises";
 import path from "node:path";
@@ -109,6 +134,25 @@ const LEGISCAN_BASE = "https://api.legiscan.com/";
 const MN_JURISDICTION = "Minnesota";
 const LICENCE = "Open States data is available under a CC BY-SA 4.0-equivalent open license; see https://docs.openstates.org/en/latest/api/index.html";
 
+// Confirmed live 2026-08-06 against Open States' own
+// GET /jurisdictions/ocd-jurisdiction/country:us/state:mn/government
+// ?include=legislative_sessions response: the identifier for MN's current
+// regular session. MUST be updated by hand each new biennium (next
+// expected: "2027-2028", ~January 2027) — same manual-maintenance posture
+// as electionConfig.ts's MN_STATE_GENERAL_ELECTION_DATE. Critical for
+// --backfill: without a session filter, `jurisdiction=Minnesota` alone
+// returns Open States' entire MN corpus back to at least 2009-2010 —
+// live-verified as 57,791 bills / 28,896 pages as of this writing.
+// first_action_asc-sorted, unscoped, that would spend the entire request
+// budget crawling forward from 2009 for hundreds of runs before ever
+// reaching a current bill. Also applied to delta polling for the same
+// correctness reason (in practice `updated_desc` alone already stayed
+// within the current session — verified against a live run — but scoping
+// explicitly removes the "in practice" caveat). Does not cover a
+// concurrent special session (e.g. "2025s1") — a real, intentional gap,
+// not silently expanded scope; see the knownGaps entry in main().
+const MN_CURRENT_SESSION = "2025-2026";
+
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 // Same retry-with-backoff shape as scripts/fetch-state-legislature.mjs's
@@ -149,15 +193,30 @@ function legiscanFetch(params) {
 // catching it.
 const BILL_INCLUDE_FIELDS = ["votes", "sponsorships", "actions", "sources"];
 
+// Hard request-count circuit breakers, so neither delta-poll nor
+// --backfill can silently consume a meaningful fraction of a free-tier
+// key's daily quota (500 req/day on Open States' default/new-user tier)
+// in a single run — see the module header's "Caching / quota protection"
+// note. Deliberately conservative, leaving headroom for same-day LegiScan
+// cross-check calls and manual re-runs. A capped run is not a failure:
+// it's recorded in the written output's knownGaps and the next run of the
+// same mode picks up where this one left off (mergeById below for delta
+// polling's accumulation, `backfill.nextPage` for backfill's resume
+// point).
+const MAX_BACKFILL_REQUESTS = 40; // 40 pages * 20/page = up to 800 bills/run
+const MAX_DELTA_POLL_REQUESTS = 5; // up to 100 bills/run — enough headroom for a normal update burst between polls, capped against an unusual one
+
 // Delta-polling entry point: Open States' /bills supports `updated_since`
 // so a scheduled run only pulls what changed rather than re-fetching a
 // whole session. `include=votes&include=sponsorships&...` resolves all
 // four inline in one call, per FEATURES.md's "votes/sponsorships resolved
-// inline."
-export function buildBillsQuery({ updatedSince, page, session }) {
+// inline." `sort` defaults to `updated_desc` (delta polling's natural
+// order) but --backfill passes `first_action_asc` instead — see the
+// module header note on why a stable sort matters for resumable paging.
+export function buildBillsQuery({ updatedSince, page, session, sort = "updated_desc" }) {
   const params = new URLSearchParams({
     jurisdiction: MN_JURISDICTION,
-    sort: "updated_desc",
+    sort,
     page: String(page),
     per_page: "20",
   });
@@ -167,20 +226,67 @@ export function buildBillsQuery({ updatedSince, page, session }) {
   return `/bills?${params.toString()}`;
 }
 
-// Full-session backfill: pages through every result with no
-// `updated_since` bound, for one session. See the module header's
-// investigation note — this is the fallback path in the absence of an
-// automatable bulk CSV download, not a full replacement for one.
-async function fetchAllBillPages({ session } = {}) {
+// Spacing between our own consecutive requests, on top of fetchJson's own
+// 429 backoff. Live-verified 2026-08-06: 500ms (2 req/sec) was well over
+// this key's actual "1 requests/sec" free-tier limit and triggered
+// repeated 429s that exhausted fetchJson's own retry budget outright; even
+// 1100ms (which is already >1 req/sec of margin measured request-start to
+// request-start) still hit 429 twice across a 40-request run. The real
+// enforcement appears tighter in practice than the stated limit — 1500ms
+// trades some run duration for meaningfully fewer wasted, failed requests
+// (a 429 still likely counts against the daily quota) without needing to
+// keep re-tuning this by trial and error.
+const REQUEST_SPACING_MS = 1500;
+
+// Shared paginator for both modes: starts at `startPage`, stops when
+// Open States reports no more pages (a genuinely completed pass —
+// `nextPage: null`), when `maxRequests` is hit first (a capped stop), or
+// when a request fails after exhausting fetchJson's own retries (treated
+// the same as a capped stop, not a lost run — see below). Either kind of
+// stop returns `nextPage` for the next call of this mode to resume from,
+// and is recorded in the returned `gaps`, never silently swallowed.
+async function fetchBillPages({ session, sort, updatedSince, startPage = 1, maxRequests, label }) {
   const results = [];
-  for (let page = 1; ; page++) {
-    if (page > 1) await sleep(500); // spread requests out, on top of fetchJson's own 429 backoff
-    const data = await openStatesFetch(buildBillsQuery({ page, session }));
+  const gaps = [];
+  let page = startPage;
+  let maxPage = null;
+
+  for (let requestCount = 0; ; requestCount++) {
+    if (requestCount >= maxRequests) {
+      gaps.push(
+        `${label}: stopped after ${requestCount} request(s) this run (page ${startPage}-${page - 1}, ${results.length} ` +
+          `bill(s) fetched) to stay within a good-citizen request budget (AGENTS.md §2.2) and protect the free-tier ` +
+          `daily quota.${maxPage ? ` ${maxPage - page + 1} page(s) remain.` : ""} Run again to continue — already-` +
+          "fetched bills are preserved (merged, not overwritten).",
+      );
+      return { results, nextPage: page, gaps };
+    }
+    if (requestCount > 0) await sleep(REQUEST_SPACING_MS);
+
+    let data;
+    try {
+      data = await openStatesFetch(buildBillsQuery({ page, session, sort, updatedSince }));
+    } catch (err) {
+      // A request failure mid-pagination (rate-limit retries exhausted,
+      // network blip) must not throw away everything already fetched this
+      // run — that would waste real API budget for nothing. Treated as a
+      // capped stop at the failed page: already-fetched pages are still
+      // returned (and get merged/persisted by main()), and the next run
+      // resumes here rather than redoing them or losing the cursor.
+      gaps.push(
+        `${label}: stopped at page ${page} after a request failure (${err.message}) — ${results.length} bill(s) ` +
+          `fetched and preserved this run (merged, not overwritten). Run again to resume from page ${page}.`,
+      );
+      return { results, nextPage: page, gaps };
+    }
+    maxPage = data.pagination?.max_page ?? null;
     results.push(...(data.results ?? []));
-    console.log(`[state-bills] backfill page ${page}/${data.pagination?.max_page ?? "?"}: ${data.results?.length ?? 0} bill(s)`);
-    if (!data.pagination || page >= data.pagination.max_page) break;
+    console.log(`[state-bills] ${label} page ${page}/${maxPage ?? "?"}: ${data.results?.length ?? 0} bill(s)`);
+    if (!data.pagination || page >= data.pagination.max_page) {
+      return { results, nextPage: null, gaps }; // full pass complete, not just capped
+    }
+    page += 1;
   }
-  return results;
 }
 
 // AGENTS.md §2.2 "Snapshot, Don't Overwrite" — raw upstream payloads are
@@ -206,6 +312,20 @@ async function snapshotRaw(name, payload) {
 // it themselves.
 export function hashSnapshot(rawPayload) {
   return createHash("sha256").update(JSON.stringify(rawPayload)).digest("hex");
+}
+
+// Upserts freshly-fetched records into the previously-committed set by
+// `id` — a record already in public/state-bills.json that this run didn't
+// touch is preserved exactly as-is; a record this run did fetch replaces
+// its prior version (the new fetch is definitionally more current, per
+// its own newer provenance.fetchedAt). This is what makes repeated,
+// individually-cheap delta-poll runs actually accumulate coverage instead
+// of each one replacing the last. Sorted by id on the way out so an
+// unchanged re-run produces a stable diff, not reordering noise.
+export function mergeById(existing, fresh) {
+  const byId = new Map(existing.map((item) => [item.id, item]));
+  for (const item of fresh) byId.set(item.id, item);
+  return [...byId.values()].sort((a, b) => (a.id < b.id ? -1 : a.id > b.id ? 1 : 0));
 }
 
 // TODO(phase2, tracked not silently worked around — see module header and
@@ -458,38 +578,142 @@ async function applyLegiscanCrossCheck(billIdentifier, voteEvents) {
   }
 }
 
+// Reads the previously-committed public/state-bills.json, if any — the
+// starting point for this run's merge, and the source of the delta-poll
+// watermark / backfill resume cursor. A missing or unparseable file means
+// this is the first run ever; that's a normal starting state, not an
+// error, so it returns the same empty shape a corrupt file would rather
+// than throwing.
+async function loadExistingOutput() {
+  try {
+    const raw = await readFile(OUTPUT_PATH, "utf8");
+    const parsed = JSON.parse(raw);
+    return {
+      lastDeltaPollAt: typeof parsed.lastDeltaPollAt === "string" ? parsed.lastDeltaPollAt : null,
+      backfillNextPage: typeof parsed.backfill?.nextPage === "number" ? parsed.backfill.nextPage : 1,
+      backfillLastCompletedAt: typeof parsed.backfill?.lastCompletedAt === "string" ? parsed.backfill.lastCompletedAt : null,
+      bills: Array.isArray(parsed.bills) ? parsed.bills : [],
+      voteEvents: Array.isArray(parsed.voteEvents) ? parsed.voteEvents : [],
+    };
+  } catch {
+    return { lastDeltaPollAt: null, backfillNextPage: 1, backfillLastCompletedAt: null, bills: [], voteEvents: [] };
+  }
+}
+
 async function main() {
   const fetchedAt = new Date().toISOString();
+  const existing = await loadExistingOutput();
+
   let rawBills;
+  let nextBackfillPage = existing.backfillNextPage;
+  let backfillCompletedThisRun = false;
+  let advanceLastDeltaPollAt = false;
+  const runGaps = [];
 
   if (BACKFILL) {
-    console.log("[state-bills] --backfill: paging the full current session from Open States v3 (see module header for why this isn't a bulk-file download)...");
-    rawBills = await fetchAllBillPages({});
+    console.log(
+      `[state-bills] --backfill: resuming from page ${existing.backfillNextPage} (stable sort: first_action_asc — ` +
+        "see module header for why this isn't a bulk-file download)...",
+    );
+    const { results, nextPage, gaps } = await fetchBillPages({
+      session: MN_CURRENT_SESSION,
+      sort: "first_action_asc",
+      startPage: existing.backfillNextPage,
+      maxRequests: MAX_BACKFILL_REQUESTS,
+      label: "backfill",
+    });
+    rawBills = results;
+    runGaps.push(...gaps);
+    runGaps.push(
+      `Scoped to session ${MN_CURRENT_SESSION} only — a concurrent special session (e.g. "2025s1") is not included. ` +
+        "See MN_CURRENT_SESSION's module comment.",
+    );
+    if (nextPage === null) {
+      // A completed pass restarts from page 1 next time (to pick up
+      // brand-new bills introduced since), and — since it just walked the
+      // entire session as of now — also advances the delta-poll watermark,
+      // the same as a non-capped delta poll would.
+      nextBackfillPage = 1;
+      backfillCompletedThisRun = true;
+      advanceLastDeltaPollAt = true;
+      console.log("[state-bills] backfill: full pass complete.");
+    } else {
+      nextBackfillPage = nextPage;
+    }
   } else {
-    console.log("[state-bills] delta poll: fetching first page of recently-updated MN bills from Open States v3...");
-    const page = await openStatesFetch(buildBillsQuery({ page: 1 }));
-    rawBills = page.results ?? [];
+    console.log(
+      existing.lastDeltaPollAt
+        ? `[state-bills] delta poll: fetching MN bills updated since ${existing.lastDeltaPollAt}...`
+        : "[state-bills] delta poll: no prior run recorded — fetching the most recently updated MN bills...",
+    );
+    const { results, nextPage, gaps } = await fetchBillPages({
+      session: MN_CURRENT_SESSION,
+      sort: "updated_desc",
+      updatedSince: existing.lastDeltaPollAt ?? undefined,
+      startPage: 1,
+      maxRequests: MAX_DELTA_POLL_REQUESTS,
+      label: "delta poll",
+    });
+    rawBills = results;
+    runGaps.push(...gaps);
+    // Only advance the watermark past this run's fetch time when the run
+    // actually saw everything up to now (nextPage === null). A capped
+    // delta poll may have missed bills beyond what it fetched this time,
+    // so the next run re-polls from the same watermark rather than
+    // skipping ahead past updates it never saw.
+    advanceLastDeltaPollAt = nextPage === null;
   }
 
   const snapshotPath = await snapshotRaw(BACKFILL ? "bills-backfill" : "bills-delta", rawBills);
   console.log(`[state-bills] snapshotted ${rawBills.length} raw bill record(s) to ${snapshotPath}`);
 
-  const bills = [];
-  const voteEvents = [];
+  const freshBills = [];
+  const freshVoteEvents = [];
   for (const rawBill of rawBills) {
     const { bill, voteEvents: mappedVoteEvents } = mapBillPage(rawBill, fetchedAt);
     await applyLegiscanCrossCheck(bill.identifier, mappedVoteEvents);
-    bills.push(bill);
-    voteEvents.push(...mappedVoteEvents);
+    freshBills.push(bill);
+    freshVoteEvents.push(...mappedVoteEvents);
   }
 
-  const disagreements = voteEvents.filter((v) => v.tallyDisagreement).length;
-  console.log(`[state-bills] parsed ${bills.length} bill(s), ${voteEvents.length} vote event(s), ${disagreements} tally disagreement(s).`);
+  const disagreements = freshVoteEvents.filter((v) => v.tallyDisagreement).length;
+  console.log(
+    `[state-bills] parsed ${freshBills.length} bill(s), ${freshVoteEvents.length} vote event(s) this run, ` +
+      `${disagreements} tally disagreement(s).`,
+  );
 
-  const output = { schemaVersion: 1, generatedAt: fetchedAt, bills, voteEvents };
+  const mergedBills = mergeById(existing.bills, freshBills);
+  const mergedVoteEvents = mergeById(existing.voteEvents, freshVoteEvents);
+
+  // Top-level output shape (no named TS interface — this file is the only
+  // writer, src/app/bills/page.tsx the only reader, and it only reads
+  // .bills — same "ad-hoc, not over-formalized" posture the previous
+  // {schemaVersion, generatedAt, bills, voteEvents} shape already had):
+  //   schemaVersion, generatedAt (this run's fetch time),
+  //   lastDeltaPollAt (delta-poll watermark — see module header),
+  //   backfill: { sort, nextPage, lastCompletedAt } (backfill resume
+  //   cursor), bills, voteEvents (both accumulated via mergeById, never
+  //   overwritten wholesale), knownGaps (this run's, not accumulated
+  //   across runs — a capped-run gap stops being true once resumed).
+  const output = {
+    schemaVersion: 1,
+    generatedAt: fetchedAt,
+    lastDeltaPollAt: advanceLastDeltaPollAt ? fetchedAt : existing.lastDeltaPollAt,
+    backfill: {
+      sort: "first_action_asc",
+      nextPage: nextBackfillPage,
+      lastCompletedAt: backfillCompletedThisRun ? fetchedAt : existing.backfillLastCompletedAt,
+    },
+    bills: mergedBills,
+    voteEvents: mergedVoteEvents,
+    knownGaps: runGaps,
+  };
   await mkdir(path.dirname(OUTPUT_PATH), { recursive: true });
   await writeFile(OUTPUT_PATH, JSON.stringify(output, null, 2));
-  console.log(`[done] wrote ${bills.length} bill(s) and ${voteEvents.length} vote event(s) to ${OUTPUT_PATH}`);
+  console.log(
+    `[done] wrote ${mergedBills.length} bill(s) total (${freshBills.length} new/updated this run) and ` +
+      `${mergedVoteEvents.length} vote event(s) total (${freshVoteEvents.length} new/updated this run) to ${OUTPUT_PATH}`,
+  );
 }
 
 // --self-test: exercises mapBillPage/mapVoteEvent/parseLegiscanRollCall/
