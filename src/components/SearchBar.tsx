@@ -244,11 +244,16 @@ export default function SearchBar({ index, allPlaces, onSelectWard, onSelectCity
 
   const activeOptionId = activeIndex >= 0 ? `${listboxId}-option-${activeIndex}` : undefined;
   const showMessage = outcome && outcome.status !== "ambiguous" && outcome.status !== "single";
-  // Only the listbox and the message panel below actually compete for the
-  // same space (see their own comments) — the loading notice only shows
-  // when neither of those has anything to say, so at most one of the three
-  // ever renders at a time.
-  const showLoadingNotice = !index && !isOpen && !showMessage;
+  // The address/ZIP gazetteer (index) is a few MB, fetched separately from
+  // everything else SearchBar can already do without it — city and county
+  // search work immediately regardless (see index's own prop comment).
+  // Rather than a separate "still loading" line taking up its own row
+  // underneath the input (which used to happen here, and is exactly the
+  // kind of extra height SiteHeader can't afford — see this component's
+  // own file comment on why it's a single fixed-height row now), the
+  // placeholder itself just says so until the fetch resolves, then reverts
+  // to the normal prompt. One line of text either way, never both.
+  const placeholder = index ? "Address, city, county, or ZIP" : "Loading address & ZIP search — city, county work now";
 
   return (
     // No more fixed `w-[min(90vw,24rem)]` — sized off its container
@@ -279,7 +284,7 @@ export default function SearchBar({ index, allPlaces, onSelectWard, onSelectCity
           aria-autocomplete="list"
           aria-activedescendant={activeOptionId}
           autoComplete="off"
-          placeholder="Address, city, county, or ZIP"
+          placeholder={placeholder}
           value={query}
           onChange={(e) => handleChange(e.target.value)}
           onKeyDown={handleKeyDown}
@@ -324,12 +329,6 @@ export default function SearchBar({ index, allPlaces, onSelectWard, onSelectCity
         {showMessage && (
           <p className={`well ${OVERLAY_POSITION_CLASSES} rounded-xl border px-2.5 py-1.5 text-ink-3 shadow-xl shadow-(color:--shadow-panel)`}>
             {outcome && "reason" in outcome ? outcome.reason : statusMessage}
-          </p>
-        )}
-
-        {showLoadingNotice && (
-          <p className={`well ${OVERLAY_POSITION_CLASSES} rounded-xl border px-2.5 py-1.5 text-xs text-ink-4 shadow-xl shadow-(color:--shadow-panel)`}>
-            Address &amp; ZIP search still loading — city and county work now.
           </p>
         )}
       </div>
