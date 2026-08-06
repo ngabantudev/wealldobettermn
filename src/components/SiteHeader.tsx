@@ -12,19 +12,18 @@ import MastheadSaying from "./MastheadSaying";
 // off this bar — floating over the map on desktop, folded into
 // MobileNav's bottom tabs on mobile.
 //
-// The masthead text *is* MastheadSaying: one of eight mottos from
-// Minnesota's Indigenous, Somali, Hmong, and Pan-African diaspora
-// communities (src/lib/mastheadSayings.ts), auto-rotating every hour,
-// rendered at the size/weight a static wordmark used to occupy here.
-// (That wordmark — "We All Do Better" / "when we all do better," a nod
-// to wealldobettermn.org's own domain and Paul Wellstone's line about
-// collective responsibility — is retired from this spot, not deleted
-// from the project; it belongs on /about if it needs a home there.) Same
-// non-negotiable that wordmark held: the saying's own text is always
-// visible, never hidden behind a hover. Only the *explanation* of what it
-// means is progressive disclosure, reachable by hover, focus, or tap (see
-// that component) — not the `title=`-attribute trick mndatacenter.org
-// uses for its own Dakota-name headline and this app has never adopted.
+// The masthead text *is* MastheadSaying: one of nine mottos — the site's
+// own English name plus eight from Minnesota's Indigenous, Somali, Hmong,
+// and Pan-African diaspora communities (src/lib/mastheadSayings.ts) —
+// auto-rotating every hour, rendered at the size/weight a static wordmark
+// used to occupy here. (That wordmark, "We All Do Better" / "when we all
+// do better," is itself now the first entry in that same rotation rather
+// than a fixed line — see mastheadSayings.ts.) Same non-negotiable that
+// wordmark held: the saying's own text is always visible, never hidden
+// behind a hover. Only the *explanation* of what it means is progressive
+// disclosure, reachable by hover, focus, or tap (see that component) —
+// not the `title=`-attribute trick mndatacenter.org uses for its own
+// Dakota-name headline and this app has never adopted.
 interface SiteHeaderProps {
   // The address-search combobox (SearchBar), pre-built by WardMap so this
   // component doesn't need to know about wards/index/callbacks — same
@@ -38,46 +37,42 @@ interface SiteHeaderProps {
 
 export default function SiteHeader({ search }: SiteHeaderProps) {
   return (
-    // `flex` below `sm` (just MastheadSaying, left-aligned — search isn't
-    // shown there at all, see the wrapping div below), `grid` at `sm`+
-    // with three tracks. That's not decorative: with the tagline gone,
-    // MastheadSaying is the only other thing in this bar, and a flex row
-    // with just those two children would center the search bar in the
-    // space *left over after the wordmark* — which, with nothing of equal
-    // weight on the right anymore, visibly skews it off the bar's true
-    // center. The empty third track is what balances it: two equal
-    // flexible tracks flank the search column, so it centers on the
-    // header itself, not on a remainder.
+    // `h-16`, a fixed height rather than one that grows with content: an
+    // earlier revision let a longer saying wrap onto two or three lines,
+    // which meant the whole topbar visibly grew and shrank as the
+    // rotation changed what was showing — jarring on its own, and it
+    // shoved the search bar up and down with it. MastheadSaying now
+    // renders its saying on a single `whitespace-nowrap` line and grows
+    // *sideways* instead (see that component); this fixed height is what
+    // makes that the only direction it's allowed to grow in.
     //
-    // The middle track is `minmax(0,28rem)`, not `auto`: SearchBar sizes
-    // itself with `w-full max-w-md` (max-w-md = 28rem), which needs a
-    // track that actually *offers* it up to 28rem to fill — an `auto`
-    // track sizes to its content's contribution instead, and a
-    // percentage-width child measured against a still-being-computed
-    // `auto` track contributes close to nothing, collapsing the whole
-    // search bar down to near its placeholder text's width. `minmax(0,…)`
-    // still shrinks below that on a cramped viewport, same as `auto`
-    // would, so this doesn't reintroduce an overflow risk.
-    <header className="band flex sm:grid sm:grid-cols-[1fr_minmax(0,28rem)_1fr] shrink-0 items-center gap-3 sm:gap-5 border-b border-hair bg-panel px-4 py-3.5 sm:px-6 sm:py-4">
-      {/* `min-w-0`, no explicit width: takes the grid's default stretch —
-          exactly the track's own resolved width, always, whether that's
-          ~90px on a cramped sm-width window or ~460px on a wide desktop.
-          This is what a bounding box needs to be to never overflow into
-          the search column. MastheadSaying sizes and truncates itself
-          independently inside it (it's `w-fit max-w-full` on its own
-          root, see that component) — this wrapper's only job is capping
-          how much room it's allowed, same as the old two-line wordmark
-          this replaced. */}
-      <div className="min-w-0">
-        <MastheadSaying />
-      </div>
+    // Plain `flex`, not the three-track grid an earlier revision used:
+    // that grid existed to keep the search bar centered on the header
+    // itself (not just on the leftover space after the wordmark) by
+    // flanking it with two *equal* tracks — which depended on the left
+    // track being a fixed share of the bar, not sized to its own content.
+    // MastheadSaying needs the opposite now: real room to grow into,
+    // without being capped at an equal-share track the way the old
+    // wordmark was. It carries `min-w-0 flex-1` on its own root (not a
+    // wrapping div here — its font-fit calculation needs to measure the
+    // exact box the flex layout hands it, see that component), and
+    // SearchBar's own wrapper is `flex-1` too, so the two split whatever
+    // room is left over after each takes what its content actually needs.
+    // One consequence: the search bar is no longer perfectly centered on
+    // the bar as a whole, only within whatever room MastheadSaying leaves
+    // it (`justify-center` on its own wrapper). That's the deliberate
+    // trade — showing every saying in full, on one line, at a fixed bar
+    // height, over exact search-bar centering that a variable-width
+    // sibling can't actually promise anyway.
+    <header className="band flex h-16 shrink-0 items-center gap-3 border-b border-hair bg-panel px-4 sm:gap-5 sm:px-6">
+      <MastheadSaying />
       {/* Desktop/laptop only. Below `sm`, MobileNav's Search tab is the
           reachable-in-one-tap equivalent — there's no width here to spare
           for an inline search box once the bottom nav takes over, and
           AGENTS.md Part 4 only asks that search stay one interaction away
           on every breakpoint, not that it live in the same place on all of
           them. */}
-      <div className="hidden min-w-0 sm:flex">{search}</div>
+      <div className="hidden min-w-0 flex-1 sm:flex sm:justify-center">{search}</div>
     </header>
   );
 }

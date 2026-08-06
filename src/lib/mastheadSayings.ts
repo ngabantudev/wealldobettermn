@@ -1,13 +1,19 @@
 // Data for MastheadSaying.tsx — the auto-rotating headline that replaced
-// the old static "We All Do Better" wordmark in SiteHeader. Eight mottos
-// from Minnesota's Indigenous, Somali, Hmong, and Pan-African diaspora
-// communities, each paired with the explanation shown when a visitor
-// opens it.
+// the old static "We All Do Better" wordmark in SiteHeader. Nine mottos:
+// the site's own English name/tagline, plus eight from Minnesota's
+// Indigenous, Somali, Hmong, and Pan-African diaspora communities, each
+// paired with the explanation shown when a visitor opens it.
 //
 // Deliberately separate from the component, same split as coverage.ts /
 // CoverageNotice.tsx: pure data, no JSX, so the rotation logic can't
 // quietly drift from what's actually in the list, and so this list is
 // the one place to edit to add, correct, or reorder a saying.
+//
+// No pre-broken `lines` field (an earlier revision had one, modeled on
+// "We All Do Better" / "when we all do better" being two lines) — the
+// header now holds a fixed height and lets MastheadSaying's own width
+// grow to fit a single line instead, so forcing a line break by hand no
+// longer applies. See that component for how it renders one line.
 //
 // Text reproduced as supplied by the maintainer, not independently
 // verified against a primary linguistic source — this is cultural
@@ -24,19 +30,8 @@ export interface MastheadSaying {
   id: string;
   /** Community or language this saying comes from, shown in the popover. */
   community: string;
-  /** The phrase itself, in its own language, as one string — used for the popover's aria-label. */
+  /** The phrase itself — this is what's always visible in the masthead, on one line. */
   quote: string;
-  /**
-   * The same phrase as `quote`, pre-broken into the lines MastheadSaying
-   * renders — same move as "We All Do Better" / "when we all do better"
-   * used to be, curated by hand rather than left to the browser's own
-   * wrap point, which (at the size this renders — the old wordmark's own
-   * text-2xl/font-black/uppercase) can land mid-word or badly unbalanced.
-   * `lines.join(" ")` must equal `quote` — keep them in sync by hand;
-   * there's no derivation between them worth the indirection for a list
-   * this size.
-   */
-  lines: readonly string[];
   /** Short literal translation, when the source gave one as a standalone phrase. */
   translation?: string;
   /** The fuller explanation of what the saying means and carries — shown on tap/hover/focus. */
@@ -45,10 +40,16 @@ export interface MastheadSaying {
 
 export const MASTHEAD_SAYINGS: readonly MastheadSaying[] = [
   {
+    id: "site-we-all-do-better",
+    community: "This site's own name",
+    quote: "We all do better when we all do better",
+    meaning:
+      "wealldobettermn.org's own domain, after the late U.S. Senator Paul Wellstone's line about collective responsibility. Formerly a fixed wordmark at the top of every page; now one voice in the same rotation as the mottos beside it.",
+  },
+  {
     id: "dakota-mitakuye-oyasin",
     community: "Dakota / Lakota",
     quote: "Mitakuye Oyás'iŋ",
-    lines: ["Mitakuye Oyás'iŋ"],
     translation: "All my relations / We are all related",
     meaning:
       "A foundational prayer and worldview acknowledging that everything in the universe — humans, animals, plants, rivers, and rocks — is interconnected. It instills a deep cultural responsibility to treat all living things with mutual respect and care.",
@@ -57,7 +58,6 @@ export const MASTHEAD_SAYINGS: readonly MastheadSaying[] = [
     id: "ojibwe-asemaa-akiing",
     community: "Ojibwe worldview",
     quote: "Asemaa / Akiing",
-    lines: ["Asemaa / Akiing"],
     meaning:
       "Not a single slogan, but Ojibwe philosophy heavily emphasizes Anishinaabe stewardship and community balance — viewing humans not as owners of the land, but as an inseparable part of a living ecosystem that depends entirely on mutual harmony to survive.",
   },
@@ -65,7 +65,6 @@ export const MASTHEAD_SAYINGS: readonly MastheadSaying[] = [
     id: "somali-ilko-wada-jir",
     community: "Somali proverb",
     quote: "Ilko wada jir bey wax ku gooyaan",
-    lines: ["Ilko wada jir bey", "wax ku gooyaan"],
     translation: "Together the teeth can cut",
     meaning: "Used to express that unity is power, and that collective strength achieves what an individual cannot.",
   },
@@ -73,7 +72,6 @@ export const MASTHEAD_SAYINGS: readonly MastheadSaying[] = [
     id: "somali-quraanyo-aruurtay",
     community: "Somali proverb",
     quote: "Quraanyo aruurtay bulac bay jiiddaa",
-    lines: ["Quraanyo aruurtay", "bulac bay jiiddaa"],
     translation: "Together, ants can pull a lizard",
     meaning: "A vivid metaphor for how small, fragmented efforts combine into massive collective power when a community works as one.",
   },
@@ -81,7 +79,6 @@ export const MASTHEAD_SAYINGS: readonly MastheadSaying[] = [
     id: "somali-calool-wada-jirto",
     community: "Somali proverb",
     quote: "Calool wada jirto waa lagu qoslaa",
-    lines: ["Calool wada jirto", "waa lagu qoslaa"],
     translation: "Those with a shared/united stomach laugh together",
     meaning: "A sentiment speaking to mutual hospitality, shared resources, and the deep social bond of eating and living together as a community.",
   },
@@ -89,7 +86,6 @@ export const MASTHEAD_SAYINGS: readonly MastheadSaying[] = [
     id: "hmong-ntoo-qaug",
     community: "Hmong proverb (paaj lug)",
     quote: "Ntoo qaug tes maab nrug",
-    lines: ["Ntoo qaug tes", "maab nrug"],
     translation: "When a tree falls, the vines go with it",
     meaning:
       "Illustrates deep interdependence — how individuals, families, and communities are structurally tethered to one another, so that when one falls or struggles, others are impacted and must provide support.",
@@ -98,7 +94,6 @@ export const MASTHEAD_SAYINGS: readonly MastheadSaying[] = [
     id: "hmong-ib-tug-neeg",
     community: "Hmong",
     quote: "Ib tug neeg lub neej nyob ntawm pab pawg",
-    lines: ["Ib tug neeg", "lub neej nyob", "ntawm pab pawg"],
     meaning:
       "A communal ethos reflecting that an individual's livelihood, safety, and survival are entirely dependent on the strength and cooperation of the collective group.",
   },
@@ -106,7 +101,6 @@ export const MASTHEAD_SAYINGS: readonly MastheadSaying[] = [
     id: "panafrican-umuntu-ngumuntu",
     community: "Pan-African diaspora (Southern African origin — Ubuntu)",
     quote: "Umuntu ngumuntu ngabantu",
-    lines: ["Umuntu ngumuntu", "ngabantu"],
     translation: "I am because we are",
     meaning:
       "Originating from Southern African traditions, this philosophy is widely invoked across African diaspora communities in Minnesota to emphasize that a person is human only through their recognition of, and connection to, other people.",
