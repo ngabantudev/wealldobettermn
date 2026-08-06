@@ -43,4 +43,4 @@ export const BILLS_INGEST_STATUS: BillsIngestStatus = "live";
 // CoverageNotice / any future bill-page empty state to render verbatim
 // rather than each writing its own version that can drift out of sync.
 export const BILLS_COVERAGE_NOTE =
-  "State bill text, sponsors, action history, and floor roll-call votes (Open States, cross-checked against LegiScan where a LEGISCAN_API_KEY is configured — none is yet, so tally cross-checks aren't running). Coverage is a recently-updated-bills delta poll, not a full-session backfill — most MN bills from this session aren't here yet.";
+  "State bill text, sponsors, action history, and floor roll-call votes (Open States, cross-checked against LegiScan where a LEGISCAN_API_KEY is configured — none is yet, so tally cross-checks aren't running). A capped, resumable backfill (scripts/ingest/state-bills.mjs --backfill) is in progress for the 2025-2026 session — most bills aren't ingested yet; run it again to continue from where it left off. Delta polling (no flag) picks up new changes incrementally once backfill catches up.";

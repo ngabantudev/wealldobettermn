@@ -24,6 +24,7 @@ import {
   crossCheckWithLegiscan,
   hashSnapshot,
   mapBillPage,
+  mergeById,
   parseLegiscanRollCall,
   resolveSponsorHolding,
   resolveVoterHolding,
@@ -66,6 +67,49 @@ test("buildBillsQuery sets updated_since and session only when provided", () => 
   );
   assert.equal(withBoth.get("updated_since"), "2026-01-01");
   assert.equal(withBoth.get("session"), "2025-2026");
+});
+
+test("buildBillsQuery defaults to updated_desc but accepts a stable sort for resumable backfill paging", () => {
+  const defaultSort = new URLSearchParams(buildBillsQuery({ page: 1 }).split("?")[1]);
+  assert.equal(defaultSort.get("sort"), "updated_desc");
+
+  // first_action_asc is live-verified (2026-08-06, via Open States' own
+  // sort= enum-validation error) as one of the six sort values the real
+  // API accepts, and the only stable one — introduction order doesn't
+  // reshuffle as bills get updated later, which is what makes
+  // backfill.nextPage a safe resume cursor across capped runs.
+  const stableSort = new URLSearchParams(buildBillsQuery({ page: 1, sort: "first_action_asc" }).split("?")[1]);
+  assert.equal(stableSort.get("sort"), "first_action_asc");
+});
+
+// Regression coverage for the caching/quota-protection gap found
+// 2026-08-06: before this, every run overwrote public/state-bills.json
+// with only that run's fetch, so repeated cheap delta-poll runs never
+// accumulated coverage — they just replaced the same snapshot.
+test("mergeById upserts by id, preserving existing records the fresh set doesn't touch", () => {
+  const existing = [
+    { id: "a", title: "old A" },
+    { id: "b", title: "B, untouched this run" },
+  ];
+  const fresh = [{ id: "a", title: "updated A" }, { id: "c", title: "new C" }];
+
+  const merged = mergeById(existing, fresh);
+
+  assert.deepEqual(
+    merged.map((r) => [r.id, r.title]),
+    [
+      ["a", "updated A"], // fresh version wins for a record both sets have
+      ["b", "B, untouched this run"], // preserved even though this run never fetched it
+      ["c", "new C"], // newly added
+    ],
+  );
+});
+
+test("mergeById produces a stable id-sorted order regardless of input order", () => {
+  const a = mergeById([{ id: "z" }, { id: "a" }], [{ id: "m" }]);
+  const b = mergeById([{ id: "a" }], [{ id: "m" }, { id: "z" }]);
+  assert.deepEqual(a.map((r) => r.id), ["a", "m", "z"]);
+  assert.deepEqual(b.map((r) => r.id), a.map((r) => r.id));
 });
 
 test("resolveSponsorHolding and resolveVoterHolding always return null — no Holding rows exist to resolve against", () => {
