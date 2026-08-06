@@ -1,0 +1,99 @@
+{
+  "synthetic": true,
+  "_comment": "NON-PRODUCTION FIXTURE. Used only by `node scripts/ingest/state-bills.mjs --self-test` (and scripts/ingest/state-bills.test.mjs) to exercise the script's pure transform logic (mapBill, mapVoteEvent, compareTallies, hashSnapshot) when the live Open States/LegiScan APIs are unavailable. Shaped like a real Open States v3 GET /bills?jurisdiction=Minnesota&include=votes,sponsorships,actions,sources response page (one page, two results). Never read by `npm run build`, never written to public/, never presented as a real MN bill or vote. See AGENTS.md §3.1.",
+  "openStatesBillsPage": {
+    "results": [
+      {
+        "id": "ocd-bill/00000000-0000-0000-0000-000000000001",
+        "identifier": "HF 4541",
+        "title": "A bill for an act relating to state government; appropriating money for the departments of a fixture.",
+        "classification": ["bill"],
+        "session": "94th Legislature, 2025-2026",
+        "jurisdiction": { "name": "Minnesota" },
+        "from_organization": { "classification": "lower" },
+        "openstates_url": "https://openstates.org/mn/bills/94th Legislature, 2025-2026/HF4541/",
+        "latest_action_description": "Signed into law",
+        "sponsorships": [
+          { "name": "Fixture Legislator One", "classification": "primary", "person": { "id": "ocd-person/00000000-0000-0000-0000-0000000000a1" } },
+          { "name": "Fixture Legislator Two", "classification": "cosponsor", "person": null }
+        ],
+        "actions": [
+          { "date": "2026-02-01", "description": "Introduction and first reading", "classification": ["introduction", "reading-1"] },
+          { "date": "2026-03-15", "description": "Signed by governor", "classification": ["executive-signature"] }
+        ],
+        "sources": [
+          { "url": "https://www.revisor.mn.gov/bills/text.php?number=HF4541&type=bill&version=0&session=ls94&session_year=2025", "note": "text" }
+        ],
+        "votes": [
+          {
+            "id": "ocd-vote/00000000-0000-0000-0000-0000000000v1",
+            "identifier": "Floor Vote 1",
+            "motion_text": "Passage",
+            "start_date": "2026-03-01",
+            "result": "pass",
+            "organization": { "classification": "lower" },
+            "counts": [
+              { "option": "yes", "value": 2 },
+              { "option": "no", "value": 1 },
+              { "option": "other", "value": 0 }
+            ],
+            "votes": [
+              { "option": "yes", "voter_name": "Fixture Legislator One", "voter": { "id": "ocd-person/00000000-0000-0000-0000-0000000000a1" } },
+              { "option": "yes", "voter_name": "Fixture Legislator Two", "voter": { "id": "ocd-person/00000000-0000-0000-0000-0000000000a2" } },
+              { "option": "no", "voter_name": "Fixture Legislator Three", "voter": { "id": "ocd-person/00000000-0000-0000-0000-0000000000a3" } }
+            ],
+            "sources": [
+              { "url": "https://www.house.leg.state.mn.us/votes/fixture-1", "note": "roll call" }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "ocd-bill/00000000-0000-0000-0000-000000000002",
+        "identifier": "SF 3210",
+        "title": "A bill for an act relating to a fixture committee study.",
+        "classification": ["bill"],
+        "session": "94th Legislature, 2025-2026",
+        "jurisdiction": { "name": "Minnesota" },
+        "from_organization": { "classification": "upper" },
+        "openstates_url": "https://openstates.org/mn/bills/94th Legislature, 2025-2026/SF3210/",
+        "latest_action_description": "In committee",
+        "sponsorships": [
+          { "name": "Fixture Senator One", "classification": "primary", "person": { "id": "ocd-person/00000000-0000-0000-0000-0000000000b1" } }
+        ],
+        "actions": [
+          { "date": "2026-01-20", "description": "Introduction and first reading", "classification": ["introduction", "reading-1"] },
+          { "date": "2026-01-22", "description": "Referred to Committee on Fixtures", "classification": ["referral-committee"] }
+        ],
+        "sources": [
+          { "url": "https://www.revisor.mn.gov/bills/text.php?number=SF3210&type=bill&version=0&session=ls94&session_year=2025", "note": "text" }
+        ],
+        "votes": []
+      },
+      {
+        "id": "ocd-bill/00000000-0000-0000-0000-000000000003",
+        "identifier": "HF 1000",
+        "title": "A bill for an act relating to a fixture bill with no sources.",
+        "classification": ["bill"],
+        "session": "94th Legislature, 2025-2026",
+        "jurisdiction": { "name": "Minnesota" },
+        "from_organization": { "classification": "lower" },
+        "openstates_url": null,
+        "latest_action_description": "Introduced",
+        "sponsorships": [],
+        "actions": [
+          { "date": "2026-02-10", "description": "Introduction and first reading", "classification": ["introduction", "reading-1"] }
+        ],
+        "sources": [],
+        "votes": []
+      }
+    ],
+    "pagination": { "page": 1, "max_page": 1, "total_items": 3 }
+  },
+  "legiscanRollCallAgree": {
+    "roll_call": { "yea": 2, "nay": 1, "nv": 0, "absent": 0, "total": 3, "date": "2026-03-01", "url": "https://legiscan.com/MN/rollcall/fixture-1" }
+  },
+  "legiscanRollCallDisagree": {
+    "roll_call": { "yea": 1, "nay": 2, "nv": 0, "absent": 0, "total": 3, "date": "2026-03-01", "url": "https://legiscan.com/MN/rollcall/fixture-1-disagree" }
+  }
+}
