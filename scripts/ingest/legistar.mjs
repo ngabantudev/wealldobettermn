@@ -45,6 +45,7 @@
 // synthesizes persons, votes, or dates that didn't come back from the API.
 
 import { writeFile, mkdir } from "node:fs/promises";
+import { createHash } from "node:crypto";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -308,23 +309,49 @@ export async function getVotesForMatterAction(client, matterId, bodyName, { toke
   return getEventItemVotes(client, actedRecord.MatterHistoryId, { token });
 }
 
+// --- Content hashing (AGENTS.md §2.2 provenance record) -------------------
+// Same sha256-hex-of-JSON convention as scripts/ingest/roster-diff.mjs's
+// hashRoster() — a fingerprint of the *raw upstream content* a run's
+// output was built from, so a later run can tell "upstream data actually
+// changed" apart from "we re-fetched and got the same thing." This hashes
+// the payload as received, never anything we derived from it.
+export function sha256Hex(value) {
+  return createHash("sha256").update(JSON.stringify(value)).digest("hex");
+}
+
+// A client's provenance.contentHash is one hash covering every raw
+// resource fetched for that run (bodies, persons, officerecords, and — if
+// the vote window ran — matters and histories/votes), not just the last
+// one. Combining by hashing the sorted {name, hash} list (rather than,
+// say, concatenating raw payloads) keeps this cheap even when the raw
+// payloads themselves are large, and sorting by name makes the combined
+// hash independent of fetch order — same "sort before hashing" approach
+// normalizeRoster() uses in roster-diff.mjs.
+export function combineSnapshotHashes(entries) {
+  const sorted = [...entries].sort((a, b) => (a.name < b.name ? -1 : a.name > b.name ? 1 : 0));
+  return sha256Hex(sorted);
+}
+
 // --- Snapshot, don't overwrite (AGENTS.md §2.2 / §0.5) --------------------
 // Raw upstream payloads are written to disk before any parsing, so a
 // schema change or a bug below never loses the original response. Same
 // convention as scripts/ingest/state-bills.mjs's snapshotRaw(): gitignored
 // (/data/snapshots), regenerated every run, dated by fetch time only.
+// Returns the snapshot's own content hash alongside its path so callers
+// can fold it into the run's combined provenance.contentHash (see
+// combineSnapshotHashes above) instead of hashing the payload twice.
 async function snapshotRaw(client, name, payload) {
   const dir = path.join(SNAPSHOT_DIR, client);
   await mkdir(dir, { recursive: true });
   const fetchedAt = new Date().toISOString().replace(/[:.]/g, "-");
   const snapshotPath = path.join(dir, `${name}-${fetchedAt}.json`);
   await writeFile(snapshotPath, JSON.stringify(payload, null, 2));
-  return snapshotPath;
+  return { snapshotPath, hash: sha256Hex(payload) };
 }
 
 // --- Small pure helpers -----------------------------------------------------
 
-function slugify(value) {
+export function slugify(value) {
   return String(value)
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, "-")
@@ -334,20 +361,20 @@ function slugify(value) {
 // Legistar dates come back as bare "YYYY-MM-DDTHH:mm:ss" with no timezone.
 // Slicing the date portion directly avoids any UTC-conversion shift that
 // `new Date(...).toISOString()` would introduce.
-function toIsoDate(value) {
+export function toIsoDate(value) {
   if (typeof value !== "string" || !value) return null;
   const match = value.match(/^(\d{4}-\d{2}-\d{2})/);
   return match ? match[1] : null;
 }
 
-function addDays(date, days) {
+export function addDays(date, days) {
   return new Date(date.getTime() + days * 86_400_000).toISOString().slice(0, 10);
 }
 
 // Strips internal bookkeeping fields (prefixed `_`) used to carry Legistar's
 // own numeric ids through the join steps below, before anything is written
 // to public/. Keeps the public schema exactly the shape models.ts declares.
-function stripInternal(obj) {
+export function stripInternal(obj) {
   const out = {};
   for (const [key, value] of Object.entries(obj)) {
     if (!key.startsWith("_")) out[key] = value;
@@ -355,7 +382,7 @@ function stripInternal(obj) {
   return out;
 }
 
-function mapVoteValue(voteValueName) {
+export function mapVoteValue(voteValueName) {
   if (!voteValueName) return null;
   return VOTE_VALUE_MAP[voteValueName.trim().toLowerCase()] ?? null;
 }
@@ -367,7 +394,7 @@ function mapVoteValue(voteValueName) {
 // officerecords rows — see the file-level filter above — so a person or
 // office with no attributed official act never gets a record (AGENTS.md
 // §1d).
-function buildOfficesPersonsHoldings(clientConfig, officeRecordsRaw, jurisdictionId, runIso, officeRecordsSourceUrl) {
+export function buildOfficesPersonsHoldings(clientConfig, officeRecordsRaw, jurisdictionId, runIso, officeRecordsSourceUrl) {
   const offices = new Map();
   const persons = new Map();
   const holdings = [];
@@ -455,7 +482,7 @@ function buildOfficesPersonsHoldings(clientConfig, officeRecordsRaw, jurisdictio
 // start date from the surviving holdings, to bound the votes window below.
 // "Current" = a holding on that body whose term_end is null or on/after the
 // run date.
-function determineVoteWindow(clientConfig, holdings, bodyMetaList, runDate) {
+export function determineVoteWindow(clientConfig, holdings, bodyMetaList, runDate) {
   const knownGaps = [];
   const runIso = runDate.toISOString().slice(0, 10);
   const primaryBody = bodyMetaList.find((b) => b.BodyTypeName === "Primary Legislative Body" && b.BodyActiveFlag === 1);
@@ -488,7 +515,7 @@ function determineVoteWindow(clientConfig, holdings, bodyMetaList, runDate) {
   return { primaryBodyId: primaryBody.BodyId, primaryBodyName: primaryBody.BodyName, windowStartIso, knownGaps };
 }
 
-function findHoldingForVote(holdings, legistarPersonId, bodyId, actionDateIso) {
+export function findHoldingForVote(holdings, legistarPersonId, bodyId, actionDateIso) {
   const candidates = holdings.filter(
     (h) =>
       h._legistarPersonId === legistarPersonId &&
@@ -511,8 +538,15 @@ const sleepBriefly = () => sleep(75); // light inter-request pacing, on top of l
 // carry what a minimal Meeting record needs).
 async function buildVotesForWindow(clientConfig, token, { primaryBodyId, primaryBodyName, windowStartIso, windowEndIso, holdings }) {
   const knownGaps = [];
+  const contentHashEntries = [];
   const matters = await getMatters(clientConfig.client, { token, startIsoDate: windowStartIso, endIsoDate: windowEndIso });
-  await snapshotRaw(clientConfig.client, "matters-window", { windowStartIso, windowEndIso, count: matters.length, matters });
+  const mattersSnapshot = await snapshotRaw(clientConfig.client, "matters-window", {
+    windowStartIso,
+    windowEndIso,
+    count: matters.length,
+    matters,
+  });
+  contentHashEntries.push({ name: "matters-window", hash: mattersSnapshot.hash });
 
   let workingMatters = matters;
   if (matters.length > MAX_MATTERS_PER_CLIENT) {
@@ -616,7 +650,8 @@ async function buildVotesForWindow(clientConfig, token, { primaryBodyId, primary
     }
   }
 
-  await snapshotRaw(clientConfig.client, "histories-and-votes-window", rawHistoriesAndVotes);
+  const historiesSnapshot = await snapshotRaw(clientConfig.client, "histories-and-votes-window", rawHistoriesAndVotes);
+  contentHashEntries.push({ name: "histories-and-votes-window", hash: historiesSnapshot.hash });
 
   if (unmappedVoteValues.size) {
     knownGaps.push(
@@ -640,6 +675,7 @@ async function buildVotesForWindow(clientConfig, token, { primaryBodyId, primary
     knownGaps,
     mattersFound: matters.length,
     mattersProcessed: workingMatters.length,
+    contentHashEntries,
   };
 }
 
@@ -668,9 +704,14 @@ async function ingestClient(clientConfig) {
   const bodiesRaw = await getBodies(clientConfig.client, { token });
   const personsRaw = await getPersons(clientConfig.client, { token });
   const officeRecordsRaw = await getOfficeRecords(clientConfig.client, { token });
-  await snapshotRaw(clientConfig.client, "bodies", bodiesRaw);
-  await snapshotRaw(clientConfig.client, "persons", personsRaw);
-  await snapshotRaw(clientConfig.client, "officerecords", officeRecordsRaw);
+  const bodiesSnapshot = await snapshotRaw(clientConfig.client, "bodies", bodiesRaw);
+  const personsSnapshot = await snapshotRaw(clientConfig.client, "persons", personsRaw);
+  const officeRecordsSnapshot = await snapshotRaw(clientConfig.client, "officerecords", officeRecordsRaw);
+  const contentHashEntries = [
+    { name: "bodies", hash: bodiesSnapshot.hash },
+    { name: "persons", hash: personsSnapshot.hash },
+    { name: "officerecords", hash: officeRecordsSnapshot.hash },
+  ];
 
   const officeRecordsSourceUrl = `${LEGISTAR_BASE}/${clientConfig.client}/officerecords`;
 
@@ -731,7 +772,16 @@ async function ingestClient(clientConfig) {
 
   const windowEndIso = addDays(runDate, 1); // dateRangeFilter's end bound is exclusive ('lt')
 
-  let voteResult = { meetings: [], agendaItems: [], voteEvents: [], votes: [], knownGaps: [], mattersFound: 0, mattersProcessed: 0 };
+  let voteResult = {
+    meetings: [],
+    agendaItems: [],
+    voteEvents: [],
+    votes: [],
+    knownGaps: [],
+    mattersFound: 0,
+    mattersProcessed: 0,
+    contentHashEntries: [],
+  };
   if (primaryBodyId && windowStartIso) {
     voteResult = await buildVotesForWindow(clientConfig, token, {
       primaryBodyId,
@@ -742,6 +792,7 @@ async function ingestClient(clientConfig) {
     });
   }
   knownGaps.push(...voteResult.knownGaps);
+  contentHashEntries.push(...voteResult.contentHashEntries);
 
   return {
     jurisdictionId: jurisdictionMeta.jurisdictionId,
@@ -761,6 +812,13 @@ async function ingestClient(clientConfig) {
       mattersFound: voteResult.mattersFound,
       mattersProcessed: voteResult.mattersProcessed,
     },
+    // One combined hash over every raw resource this run actually fetched
+    // (bodies/persons/officerecords always; matters-window and
+    // histories-and-votes-window too, when the vote walk ran) — see
+    // combineSnapshotHashes() above. Threaded into buildIngestedState()'s
+    // provenance.contentHash instead of the `null` placeholder it used to
+    // ship with even when real data had been ingested.
+    contentHash: combineSnapshotHashes(contentHashEntries),
   };
 }
 
@@ -787,7 +845,13 @@ function buildIngestedState(clientConfig, ingest) {
       fetchedAt: new Date().toISOString(),
       licence:
         "Public records served via Legistar InSite; no separate machine-reuse licence published by the host jurisdiction as of this writing.",
-      contentHash: null,
+      // sha256 over every raw resource this run fetched (bodies, persons,
+      // officerecords, and the votes-window resources when that ran) — see
+      // combineSnapshotHashes() / ingestClient() above. A later run
+      // producing the same hash means upstream hasn't actually changed;
+      // this is the one thing that lets that be verified without diffing
+      // full raw snapshots by hand.
+      contentHash: ingest.contentHash,
     },
     jurisdiction_id: ingest.jurisdictionId,
     // Body[] / Person[] / Office[] / Holding[] / Meeting[] / AgendaItem[] /
@@ -832,6 +896,10 @@ function buildEmptyState(clientConfig, { status, note, fetchedAt }) {
       fetchedAt,
       licence:
         "Public records served via Legistar InSite; no separate machine-reuse licence published by the host jurisdiction as of this writing.",
+      // Genuinely null here, not a gap: this is the probe/failure path
+      // (see buildIngestedState() for the success path's real hash) — a
+      // reachability probe or a failed run fetched no substantive raw
+      // content, so there's nothing honest to hash.
       contentHash: null,
     },
     // Holding[] — see src/lib/models.ts. Always empty until the follow-up
@@ -907,10 +975,20 @@ async function main() {
   process.exit(0);
 }
 
-main().catch((err) => {
-  // Should be unreachable — every expected failure mode is caught per
-  // client above — but if something truly unexpected happens, still don't
-  // take the build down with it.
-  console.error("[legistar] unexpected top-level error (not fabricating output):", err);
-  process.exit(0);
-});
+// Entry-point guard: only run the live ingest when this file is executed
+// directly (`node scripts/ingest/legistar.mjs`, i.e. `npm run data:legistar`),
+// never as a side effect of `import`ing it. Without this, legistar.test.mjs
+// importing the pure helpers below would trigger a full live run — hundreds
+// of paginated requests against the real Legistar API and an overwrite of
+// public/legistar/*.json — every time `node --test` runs, which is both bad
+// citizenship (AGENTS.md §2.2) toward an upstream API and not what a unit
+// test file should ever do as a side effect of importing its module.
+if (import.meta.url === `file://${process.argv[1]}`) {
+  main().catch((err) => {
+    // Should be unreachable — every expected failure mode is caught per
+    // client above — but if something truly unexpected happens, still don't
+    // take the build down with it.
+    console.error("[legistar] unexpected top-level error (not fabricating output):", err);
+    process.exit(0);
+  });
+}

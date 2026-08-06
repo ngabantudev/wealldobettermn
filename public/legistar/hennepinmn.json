@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "client": "hennepinmn",
   "jurisdiction": "Hennepin County Board",
-  "generatedAt": "2026-08-06T19:17:58.582Z",
+  "generatedAt": "2026-08-06T21:10:46.681Z",
   "status": "ingested",
   "note": "Full ingest: 156 holding(s) across 18 office(s) and 8 person(s), from officerecords. Votes windowed to 2026-06-07–2026-08-07 on \"Board of Hennepin County Commissioners\": 92/92 matter(s) processed, 54 vote event(s), 22 vote(s).",
   "provenance": {
@@ -11,9 +11,9 @@
     "documentType": "Legistar Web API",
     "documentId": null,
     "issuedDate": null,
-    "fetchedAt": "2026-08-06T19:17:58.582Z",
+    "fetchedAt": "2026-08-06T21:10:46.681Z",
     "licence": "Public records served via Legistar InSite; no separate machine-reuse licence published by the host jurisdiction as of this writing.",
-    "contentHash": null
+    "contentHash": "8abb1298945d62741ff3b34b6d7ce6ba6d94640a662d84a4c4902cbe36c32f8f"
   },
   "jurisdiction_id": "legistar-hennepinmn",
   "bodies": [
