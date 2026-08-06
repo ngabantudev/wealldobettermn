@@ -90,6 +90,20 @@ export default function MastheadSaying() {
 
   const saying = MASTHEAD_SAYINGS[index];
 
+  // TESTING ONLY: a click/tap also advances to the next saying, so all
+  // eight are reachable in a few taps instead of waiting for real hour
+  // boundaries or faking the clock. This overrides the hour-derived index
+  // in local state only — the effect above still re-syncs to the real
+  // `currentSayingIndex()` at the next hour boundary, so a manual click
+  // never permanently detaches this from the clock. Remove this override
+  // (leave the rest of the click handler — it still needs to open the
+  // popover for touch, which has no hover) once this has been reviewed
+  // across all eight and the demo need is gone.
+  const rotate = () => {
+    setIndex((i) => (i === null ? 0 : (i + 1) % MASTHEAD_SAYINGS.length));
+    setOpen(true);
+  };
+
   return (
     <div
       ref={rootRef}
@@ -102,7 +116,7 @@ export default function MastheadSaying() {
         aria-haspopup="true"
         aria-expanded={open}
         aria-controls={panelId}
-        onClick={() => setOpen(true)}
+        onClick={rotate}
         onFocus={() => setOpen(true)}
         onBlur={() => setOpen(false)}
         // `clamp(1.1rem, 4vw, 1.5rem)`, not a fixed `text-2xl`: 1.5rem is
