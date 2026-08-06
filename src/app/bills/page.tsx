@@ -1,8 +1,24 @@
-import { readFileSync } from "node:fs";
-import path from "node:path";
 import type { Metadata } from "next";
-import { BILLS_COVERAGE_NOTE, BILLS_DATA_PATH, BILLS_INGEST_STATUS } from "@/lib/billsRegistry";
+import { BILLS_COVERAGE_NOTE, BILLS_INGEST_STATUS } from "@/lib/billsRegistry";
 import type { Bill } from "@/lib/types";
+// A bundler-resolved JSON import, not readFileSync(process.cwd() + ...):
+// see next.config.ts / src/lib/stateLegislatureData.ts for the 2026-08-06
+// incident where the equivalent pattern for state-legislature.geojson —
+// a module-scope disk read that only works during `next build` — got
+// bundled into the deployed Cloudflare Worker and threw on every request
+// (public/ isn't a real filesystem there; assets are served via the
+// ASSETS binding). This route's own readFileSync was function-scoped
+// inside a try/catch rather than module-scope, so it degraded instead of
+// crashing, but it depended on the same unavailable-at-runtime disk
+// access and would have silently served the "no data" empty state in
+// place of real, live data had this module ever actually executed there.
+// A JSON import is resolved and inlined by the bundler at build time —
+// there is no disk read left for the Worker to fail (or silently
+// misbehave) on, in either case. Path mirrors BILLS_DATA_PATH in
+// billsRegistry.ts; a bundler import specifier must be a literal string,
+// so it can't be built from that constant — keep the two in sync by hand
+// if the output path ever moves.
+import billsFileData from "../../../public/state-bills.json";
 
 // FEATURES.md "Phase 2 — State bills & roll-call votes." Static route
 // (AGENTS.md §2.1 "a route that can be a static file should be a static
@@ -25,24 +41,19 @@ export const metadata: Metadata = {
   description: "Minnesota state bills, sponsors, and floor roll-call votes.",
 };
 
-const DATA_PATH = path.join(process.cwd(), "public", BILLS_DATA_PATH);
-
 function loadBills(): Bill[] {
-  // Read at build time, not request time — a missing file (a fresh
-  // checkout before anyone has run the ingest with a real key) is the
-  // normal "not live yet" path, not a build failure, so this catches
-  // ENOENT/parse errors and falls back to the honest empty state below
-  // rather than crashing `next build`. AGENTS.md §3.1: an empty array is
-  // never presented as more coverage than it is — isLive below also
-  // checks BILLS_INGEST_STATUS, so a stale "live" flag with no file still
-  // renders the empty state, never a silent zero-item "live" list.
-  try {
-    const raw = readFileSync(DATA_PATH, "utf-8");
-    const parsed = JSON.parse(raw) as { bills?: Bill[] };
-    return Array.isArray(parsed.bills) ? parsed.bills : [];
-  } catch {
-    return [];
-  }
+  // public/state-bills.json is committed to the repo (not gitignored —
+  // scripts/ingest/state-bills.mjs merges into it, never overwrites), so
+  // "the import target doesn't exist" isn't the normal state of a fresh
+  // checkout the way it was when this layer was scaffold-only; it's a
+  // genuine build error now, and the import above will fail the build
+  // loudly if it ever happens, same as a malformed-JSON parse error
+  // would. AGENTS.md §3.1: an empty array is never presented as more
+  // coverage than it is — isLive below also checks BILLS_INGEST_STATUS,
+  // so a stale "live" flag with a genuinely empty bills array still
+  // renders the honest empty state, never a zero-item "live" list.
+  const parsed = billsFileData as { bills?: Bill[] };
+  return Array.isArray(parsed.bills) ? parsed.bills : [];
 }
 
 export default function BillsPage() {
