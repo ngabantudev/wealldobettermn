@@ -18,6 +18,7 @@
     "data:seed-jurisdiction-platform-inventory": "node scripts/ingest/seed-jurisdiction-platform-inventory.mjs",
     "data:probe-legistar": "node scripts/ingest/probe-legistar.mjs",
     "data:minneapolis-lims": "node scripts/ingest/lims-minneapolis.mjs",
+    "data:campaign-finance": "node scripts/ingest/mn-campaign-finance.mjs",
     "data:all": "npm run data:wards && npm run data:addresses && npm run data:places && npm run data:mayors && npm run data:commissioners && npm run data:minneapolis-lims",
     "data:roster-review-queue": "node scripts/ingest/write-roster-review-queue.mjs",
     "test:ingest": "node --test scripts/ingest/*.test.mjs",

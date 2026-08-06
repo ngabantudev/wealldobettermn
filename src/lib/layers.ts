@@ -72,4 +72,38 @@ export const MINNEAPOLIS_MEETINGS_VOTES_LAYER: LayerRegistryEntry = {
   ],
 };
 
-export const LAYER_REGISTRY: readonly LayerRegistryEntry[] = [MINNEAPOLIS_MEETINGS_VOTES_LAYER];
+// FEATURES.md Phase 8 — MN Campaign Finance Board bulk data (candidate
+// committee receipts). AGENTS.md §1b: individual natural-person donors
+// are filtered out at ingest (scripts/ingest/mn-campaign-finance.mjs) and
+// never appear in this layer's output at any resolution; only per-cycle
+// aggregates and named-entity (PAC/party unit/lobbyist principal/
+// corporate/candidate-committee) contributions are published.
+//
+// publicDataPath points at the small upfront index; per-candidate detail
+// files live under /campaign-finance/candidates/<id>.json and are fetched
+// lazily by whatever UI opens a candidate's record, per AGENTS.md §0.7 —
+// this is the layer's chunked-output entry point, not its whole dataset.
+export const CAMPAIGN_FINANCE_LAYER: LayerRegistryEntry = {
+  id: "campaign-finance",
+  label: "Campaign Finance Receipts",
+  description:
+    "Candidate committee campaign contributions from the Minnesota Campaign Finance Board's bulk data. Individual small-donor names are never published — only per-cycle totals, contribution-size-band counts, and named PAC/party-unit/lobbyist-principal/corporate/candidate-committee contributions, per AGENTS.md §1b.",
+  ingestScript: "scripts/ingest/mn-campaign-finance.mjs",
+  publicDataPath: "/campaign-finance/index.json",
+  status: "partial",
+  coverage:
+    "State-level candidate committees only, itemized contributions over the MN CFB's $200-per-cycle threshold. No party-unit or PAC recipient filings yet (same schema, not yet ingested). No local (city/county) filings — those are largely PDF-only. No federal (OpenFEC) receipts. No individual small-donor names, ever, by design.",
+  primarySourceUrl: "https://cfb.mn.gov/reports-and-data/self-help/data-downloads/campaign-finance/",
+  sourceAgency: "Minnesota Campaign Finance and Public Disclosure Board",
+  knownGaps: [
+    "Local (city/county) candidate filings are largely PDF-only and are not covered by this importer yet — FEATURES.md Phase 8.",
+    "Federal receipts (OpenFEC) are not merged into this layer.",
+    "Only the 'Candidates' recipient-type bulk file is ingested — Party unit and PAC recipient files are not yet included.",
+    "'Self' (candidate self-funding) and 'Other' Contrib-type rows are counted in aggregates but never surfaced as named records — a deliberate fail-closed default pending a human policy call.",
+  ],
+};
+
+export const LAYER_REGISTRY: readonly LayerRegistryEntry[] = [
+  MINNEAPOLIS_MEETINGS_VOTES_LAYER,
+  CAMPAIGN_FINANCE_LAYER,
+];
