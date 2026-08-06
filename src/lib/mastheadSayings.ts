@@ -24,6 +24,14 @@
 // diacritics (the Dakota "ŋ" in particular is easy to mangle in transit),
 // and that the explanation doesn't flatten or mis-state the source
 // worldview. Treat a correction here as a normal edit, not a special case.
+//
+// Same standard applies to the Wellstone entry's biographical detail
+// (dates, the Carleton College and 1990-election facts, the crash) —
+// written from general knowledge, not checked against a primary source
+// the way an officeholder record elsewhere in this app would be. Verify
+// against something citable (a Senate biographical record, a
+// contemporaneous news account) before this ships, same as the rest of
+// this file.
 
 export interface MastheadSaying {
   /** Stable key — not shown, just for React lists / future linking. */
@@ -41,10 +49,10 @@ export interface MastheadSaying {
 export const MASTHEAD_SAYINGS: readonly MastheadSaying[] = [
   {
     id: "site-we-all-do-better",
-    community: "This site's own name",
+    community: "U.S. Senator Paul Wellstone (1944–2002)",
     quote: "We all do better when we all do better",
     meaning:
-      "wealldobettermn.org's own domain, after the late U.S. Senator Paul Wellstone's line about collective responsibility. Formerly a fixed wordmark at the top of every page; now one voice in the same rotation as the mottos beside it.",
+      "A political science professor at Carleton College before his election to the U.S. Senate in 1990, Wellstone spent twelve years championing healthcare access, workers' rights, and campaign finance reform on the belief that political life is a collective enterprise, not an individual one. He died in a plane crash near Eveleth, Minnesota, on October 25, 2002, eleven days before what would have been his third-term election. This site's own name, wealldobettermn.org, carries his line forward.",
   },
   {
     id: "dakota-mitakuye-oyasin",
