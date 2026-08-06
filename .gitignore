@@ -13,6 +13,10 @@
 # testing
 /coverage
 
+# raw ingest snapshots (AGENTS.md §2.2) — content, not code; regenerated
+# on every ingest run, never an input to the parsed/committed output
+/data/snapshots
+
 # next.js
 /.next/
 /out/

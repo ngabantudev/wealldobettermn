@@ -164,6 +164,18 @@ export interface AgendaItem {
   external_id: string | null;
 }
 
+// NOTE (2026-08-06): VoteEvent, Vote, and Bill below are normalized
+// relational stubs — like every entity in this file, part of the
+// FEATURES.md Phase 1 data model, meant to be joined via foreign keys.
+// They have zero real consumers as of this writing (nothing has ever
+// constructed one). src/lib/types.ts separately defines its own
+// VoteEvent/Vote/Bill — the flat, self-contained document shape
+// scripts/ingest/state-bills.mjs actually writes and src/app/bills/
+// page.tsx actually reads. This is the same intentional
+// flat-wire-vs-relational split this file's own header comment describes
+// for the schema generally (see also the Holding note above) — not an
+// accidental duplicate to consolidate. See types.ts's "Phase 2" section
+// for the fuller explanation.
 export interface VoteEvent {
   id: string;
   agenda_item_id: AgendaItem["id"];

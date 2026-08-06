@@ -19,6 +19,7 @@
 // scope it has to stay in sync with by hand.
 
 import { CITIES, type City } from "./cities";
+import { BILLS_COVERAGE_NOTE, BILLS_INGEST_STATUS } from "./billsRegistry";
 import { JURISDICTIONS } from "./jurisdictions";
 
 export const WARD_CITIES: readonly City[] = CITIES;
@@ -55,10 +56,14 @@ export const STATE_LEGISLATURE_NOTE =
 
 // Things this app has no data for on any layer, anywhere in the state —
 // listed here (rather than only in AGENTS.md prose) so CoverageNotice.tsx
-// can render it instead of a maintainer needing to remember to.
-export const NOT_COVERED_ANYWHERE = [
+// can render it instead of a maintainer needing to remember to. The bills
+// line is derived from billsRegistry.ts rather than hand-typed, so it
+// disappears from this list automatically once BILLS_INGEST_STATUS flips
+// to "live" instead of needing someone to remember to edit this array too.
+export const NOT_COVERED_ANYWHERE: readonly string[] = [
   "Every Minnesota city and county not listed above",
   "County attorney, sheriff, and school board races",
   "Campaign finance, lobbying, and economic-interest disclosures",
   "Meeting and hearing schedules",
-] as const;
+  ...(BILLS_INGEST_STATUS === "live" ? [] : [BILLS_COVERAGE_NOTE]),
+];
