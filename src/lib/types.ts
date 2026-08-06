@@ -167,6 +167,38 @@ export interface AddressIndex {
 // referencing cities.ts. A name found here but absent from cities.ts
 // resolves to an honest "not covered yet" outcome (AGENTS.md §3.3
 // Coverage Honesty) — never silence, and never a fabricated ward.
+// One person's tenure in one office on one Legistar body — the shared
+// output shape for Phase 4's Legistar jurisdictions (FEATURES.md:
+// St. Paul City Council, Hennepin County Board), sourced from that
+// client's own /officerecords, which FEATURES.md and Legistar's own docs
+// treat as authoritative for start/end dates on these jurisdictions (never
+// inferred from a roster or a vote record instead). Field names below
+// mirror the source rather than any city's own label customization, per
+// FEATURES.md's note that Legistar field names ignore per-jurisdiction
+// relabeling on the jurisdiction's own InSite site.
+//
+// No sibling `feature/data-model-phase1-state-legislature` branch exists
+// yet with a `holding` type of its own (checked at scaffold time) — this
+// is defined fresh here and is meant to be the reusable shape a future
+// state-legislature `holding` type could converge on, not a one-off.
+export interface Holding {
+  // Legistar's own PersonId/BodyId, stable within one client — not
+  // globally unique across clients, so anything joining across
+  // jurisdictions must key on (client, personId) / (client, bodyId), not
+  // personId alone.
+  client: string; // e.g. "stpaul" — Legistar's own path segment
+  personId: number;
+  personName: string;
+  bodyId: number;
+  bodyName: string;
+  jurisdiction: string; // e.g. "St. Paul City Council"
+  officeTitle: string | null; // OfficeRecordTitle, e.g. "Councilmember"
+  startDate: string | null; // OfficeRecordStartDate, ISO date — authoritative
+  endDate: string | null; // OfficeRecordEndDate, null = currently held
+  sourceUrl: string;
+  verifiedAt: string; // ISO date this record was fetched, per AGENTS.md §3.2
+}
+
 export interface MnPlaces {
   schemaVersion: 1;
   generatedAt: string;

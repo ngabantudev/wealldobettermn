@@ -14,6 +14,7 @@
     "data:state-legislature:selftest": "node scripts/fetch-state-legislature.mjs --self-test",
     "data:addresses": "node scripts/fetch-addresses.mjs",
     "data:places": "node scripts/fetch-places.mjs",
+    "data:legistar": "node scripts/ingest/legistar.mjs",
     "data:all": "npm run data:wards && npm run data:addresses && npm run data:places && npm run data:mayors && npm run data:commissioners",
     "data:roster-review-queue": "node scripts/ingest/write-roster-review-queue.mjs",
     "test:ingest": "node --test scripts/ingest/*.test.mjs",
