@@ -173,3 +173,97 @@ export interface MnPlaces {
   counties: string[];
   cities: string[];
 }
+
+// --- Phase 6: meeting documents & agenda ingestion --------------------
+// (FEATURES.md's Phase 6 section.) scripts/ingest/agenda-documents.mjs
+// produces ArchivedDocument records; scripts/ingest/agenda-versions.mjs
+// builds and diffs AgendaItem version histories from AgendaItemSnapshots.
+// No fetch script populates these yet — this is scaffolding for the
+// Legistar/Granicus `/events`, `/matters` integration AGENTS.md §3.2
+// calls the project's highest-value integration, so these shapes are the
+// contract that work will emit into, not data that ships today.
+//
+// No `agenda_item` type existed in this file as of this addition (the
+// sibling state-legislature-schema PR that might define one hadn't
+// merged) — AgendaItem/AgendaItemSnapshot below are a minimal, from-
+// scratch definition, named to match this file's PascalCase-interface
+// convention rather than the snake_case FEATURES.md prose uses. If that
+// sibling PR lands its own agenda_item shape first, reconcile by renaming
+// rather than keeping two parallel types.
+
+// One source document (agenda packet, minutes, or meeting video) already
+// discovered by another ingest script's own upstream payload (e.g. a
+// Legistar `/events` response's `EventAgendaFile`) and mirrored under
+// public/documents/agendas/<contentHash>.<ext> by
+// scripts/ingest/agenda-documents.mjs's archiveDocument(). Implements
+// AGENTS.md §3.3 Document Retention.
+export interface ArchivedDocument {
+  sourceUrl: string;
+  documentType: "agenda" | "minutes" | "video" | "other";
+  sourceAgency: string | null;
+  fetchedAt: string; // ISO timestamp of the archive fetch — not the document's own issued date
+  contentHash: string; // sha256 hex of the exact bytes stored, per AGENTS.md §2.2's provenance record
+  storedPath: string; // relative to public/, e.g. "documents/agendas/<hash>.pdf"
+  byteLength: number;
+  contentType: string | null;
+  // Relative-to-public/ path to extracted plain text. Always null today —
+  // scripts/ingest/extract-text.mjs's extractText() is a stub pending a
+  // maintainer decision on a PDF-parsing dependency; see that file.
+  extractedTextRef: string | null;
+  extractionStatus: "pending" | "not_implemented" | "extracted" | "failed";
+}
+
+// One agenda item as it appeared in one specific agenda document.
+// Cities amend agendas after initial publication — an item added,
+// pulled, or reworded before the meeting — and FEATURES.md's Phase 6
+// note requires keeping *both* versions and diffing them rather than
+// overwriting. This is a snapshot, not a mutable record: a new
+// AgendaItemSnapshot is appended each time the same logical item
+// changes; existing snapshots are never edited in place. Mirrors
+// AGENTS.md §0.5 ("a map that silently overwrites its own history is
+// worse than no map").
+export interface AgendaItemSnapshot {
+  // Stable across amendments — identifies "this logical agenda item,"
+  // not "this printing of it." Caller-assigned (e.g. derived from the
+  // body's own matter/item id plus the meeting date).
+  agendaItemId: string;
+  version: number; // 1 for the first-seen printing, incrementing per amendment
+  // The version number this one supersedes, or null for the first
+  // version — chains back through history rather than a single "latest"
+  // pointer, so the full amendment trail stays walkable.
+  supersedesVersion: number | null;
+  title: string;
+  description: string | null;
+  // The archived document this snapshot's text/title came from — join
+  // key into ArchivedDocument.contentHash above. Null until the owning
+  // document has actually been archived.
+  documentHash: string | null;
+  extractedTextRef: string | null;
+  sourceUrl: string;
+  fetchedAt: string;
+}
+
+// All known snapshots of one logical agenda item, oldest first. Never
+// mutate `versions` in place — append via
+// scripts/ingest/agenda-versions.mjs's appendAgendaItemVersion() and
+// bump currentVersion instead.
+export interface AgendaItem {
+  agendaItemId: string;
+  currentVersion: number;
+  versions: AgendaItemSnapshot[];
+}
+
+// A field-level diff between two snapshots of the same agenda item —
+// "what changed when this got amended," not a general-purpose deep-diff.
+// Produced by scripts/ingest/agenda-versions.mjs's
+// diffAgendaItemSnapshots().
+export interface AgendaItemDiff {
+  agendaItemId: string;
+  fromVersion: number;
+  toVersion: number;
+  changedFields: Array<{
+    field: "title" | "description" | "documentHash";
+    before: string | null;
+    after: string | null;
+  }>;
+}
