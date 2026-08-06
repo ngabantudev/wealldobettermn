@@ -19,6 +19,7 @@ import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import {
+  buildBillsQuery,
   compareTallies,
   crossCheckWithLegiscan,
   hashSnapshot,
@@ -36,6 +37,36 @@ async function loadFixture() {
   assert.equal(fixture.synthetic, true, "fixture must carry synthetic: true");
   return fixture;
 }
+
+// Regression test for a real bug caught only by an actual live run against
+// Open States v3 on 2026-08-06: a single `include=votes,sponsorships,
+// actions,sources` value 422s ("value is not a valid enumeration member")
+// because the API requires `include` repeated once per field, not
+// comma-joined. The fixture-driven self-test/other unit tests here only
+// ever exercised response *parsing* (mapBillPage etc.), never request
+// *construction* — nothing caught this until a live call did. This test
+// exists so query construction can't silently regress back to the broken
+// comma-joined form even though the rest of this suite runs offline.
+test("buildBillsQuery repeats include= once per field rather than comma-joining them", () => {
+  const url = buildBillsQuery({ page: 1 });
+  const params = new URLSearchParams(url.split("?")[1]);
+
+  assert.deepEqual(params.getAll("include"), ["votes", "sponsorships", "actions", "sources"]);
+  assert.equal(params.get("jurisdiction"), "Minnesota");
+  assert.equal(params.get("page"), "1");
+});
+
+test("buildBillsQuery sets updated_since and session only when provided", () => {
+  const bare = new URLSearchParams(buildBillsQuery({ page: 1 }).split("?")[1]);
+  assert.equal(bare.has("updated_since"), false);
+  assert.equal(bare.has("session"), false);
+
+  const withBoth = new URLSearchParams(
+    buildBillsQuery({ page: 2, updatedSince: "2026-01-01", session: "2025-2026" }).split("?")[1],
+  );
+  assert.equal(withBoth.get("updated_since"), "2026-01-01");
+  assert.equal(withBoth.get("session"), "2025-2026");
+});
 
 test("resolveSponsorHolding and resolveVoterHolding always return null — no Holding rows exist to resolve against", () => {
   assert.equal(resolveSponsorHolding({ name: "Someone", person: { id: "x" } }), null);

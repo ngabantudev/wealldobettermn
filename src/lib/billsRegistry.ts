@@ -29,10 +29,18 @@ export const BILLS_DATA_PATH = "/state-bills.json";
 // between ships to a reader.
 export type BillsIngestStatus = "scaffolded" | "live";
 
-export const BILLS_INGEST_STATUS: BillsIngestStatus = "scaffolded";
+// Flipped to "live" 2026-08-06 after a real run against a live
+// OPEN_STATES_API_KEY was reviewed (delta poll: 20 bills, 9 vote events,
+// real sponsors/tallies/sources, holding resolution correctly null — see
+// AGENTS.md §3.1). This is a delta poll, not a full-session backfill (see
+// state-bills.mjs's --backfill / module header) — coverage is "recently
+// updated bills," not "every bill this session," until a backfill run
+// (rate-limit budget permitting on a free-tier key) or a recurring
+// scheduled delta poll accumulates fuller coverage over time.
+export const BILLS_INGEST_STATUS: BillsIngestStatus = "live";
 
 // Plain-language description of this layer's current state, for
 // CoverageNotice / any future bill-page empty state to render verbatim
 // rather than each writing its own version that can drift out of sync.
 export const BILLS_COVERAGE_NOTE =
-  "State bill text, sponsors, action history, and floor roll-call votes (Open States, cross-checked against LegiScan). Ingest pipeline is scaffolded but has not yet been run against a live API key — no bill or vote data is published yet.";
+  "State bill text, sponsors, action history, and floor roll-call votes (Open States, cross-checked against LegiScan where a LEGISCAN_API_KEY is configured — none is yet, so tally cross-checks aren't running). Coverage is a recently-updated-bills delta poll, not a full-session backfill — most MN bills from this session aren't here yet.";

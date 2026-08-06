@@ -138,18 +138,30 @@ function legiscanFetch(params) {
   return fetchJson(`${LEGISCAN_BASE}?${qs.toString()}`);
 }
 
+// Open States v3's `include` param must appear once per field
+// (`include=votes&include=sponsorships&...`), not as one comma-joined
+// value — live-verified 2026-08-06: a single `include=votes,sponsorships,
+// actions,sources` value 422s ("value is not a valid enumeration member"),
+// because the API parses each `include` occurrence as one enum member, not
+// a delimited list. Caught by an actual live run against the real API; the
+// fixture-driven self-test/unit tests never exercised query construction,
+// only the response-parsing side, so this shipped without either test
+// catching it.
+const BILL_INCLUDE_FIELDS = ["votes", "sponsorships", "actions", "sources"];
+
 // Delta-polling entry point: Open States' /bills supports `updated_since`
 // so a scheduled run only pulls what changed rather than re-fetching a
-// whole session. `include=votes,sponsorships` resolves both inline in one
-// call, per FEATURES.md's "votes/sponsorships resolved inline."
-function buildBillsQuery({ updatedSince, page, session }) {
+// whole session. `include=votes&include=sponsorships&...` resolves all
+// four inline in one call, per FEATURES.md's "votes/sponsorships resolved
+// inline."
+export function buildBillsQuery({ updatedSince, page, session }) {
   const params = new URLSearchParams({
     jurisdiction: MN_JURISDICTION,
     sort: "updated_desc",
-    include: "votes,sponsorships,actions,sources",
     page: String(page),
     per_page: "20",
   });
+  for (const field of BILL_INCLUDE_FIELDS) params.append("include", field);
   if (updatedSince) params.set("updated_since", updatedSince);
   if (session) params.set("session", session);
   return `/bills?${params.toString()}`;
