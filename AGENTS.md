@@ -322,22 +322,29 @@ the design is constrained accordingly.
 
 ## Part 3: Data Provenance & Correctness
 
-### 3.1 Placeholder Data — Current Known Violation
+### 3.1 Placeholder Data — Standing Rule (Prior Violation Resolved)
 
-`src/lib/hearings.ts` generates mocked, deterministic hearing and meeting data per ward
-because no combined Minneapolis + St. Paul meetings feed is wired up yet.
+`src/lib/hearings.ts` used to generate mocked, deterministic hearing and meeting data per
+ward because no combined Minneapolis + St. Paul meetings feed was wired up yet. **That
+file was deleted** (`git log` — commit `2bd0d1a`, "Remove fabricated hearing/meeting
+data"; landed as PR `fix/remove-fabricated-hearings`) and the site now renders an honest
+empty state for meetings coverage instead. This section previously described that mock as
+a live, highest-priority violation — it no longer exists in the working tree or is
+reachable from any route. The rule below is kept in force as a standing constraint, not
+because the violation is current.
 
-**This is fabricated civic data on a civic transparency site, and it is the highest-
-priority correctness issue in the repository.** A resident who misses a real hearing
-because this site invented a fake one has been harmed by the project, and one such
-incident ends its credibility permanently. It also now propagates: downstream sites
-consuming this repo would inherit the fabrication.
+**Fabricated civic data on a civic transparency site is the worst class of correctness
+failure this project can ship.** A resident who misses a real hearing because this site
+invented a fake one has been harmed by the project, and one such incident ends its
+credibility permanently. It also propagates: downstream sites consuming this repo would
+inherit the fabrication. See §2.4.
 
-**Preferred resolution: delete the mock and render an honest empty state** — "no meetings
+**Default resolution for any missing feed: render an honest empty state** — "no meetings
 feed connected yet for this city," with a link to the city's own calendar. An empty state
 is a known gap; fake data is a lie the user cannot detect. Ship the empty state.
 
-If the mock must survive temporarily, all three are required:
+If a mock must ever exist temporarily (e.g. for a script's own self-test, per
+`scripts/fetch-state-legislature.mjs --self-test`'s fixture), all three are required:
 
 1. Every synthetic record carries `synthetic: true` in the type system — a field, not a
    comment, so the compiler enforces handling.
@@ -345,7 +352,7 @@ If the mock must survive temporarily, all three are required:
    footnote. Not a tooltip.
 3. Synthetic records never appear in exports, feeds, search results, counts, "upcoming"
    summaries, the public JSON contract in §2.4, or anything screenshot-able without the
-   label attached.
+   label attached — and never in `public/`, ever, regardless of label.
 
 Once a real feed is connected, delete the mock rather than leaving it as a fallback. A
 silent fallback to fabricated data is worse than an outage.
