@@ -8,15 +8,26 @@
 // per-city branches — a probe finding a third MN Legistar client means
 // adding one array entry, not new code.
 //
-// SCOPE: this is the Phase 4 scaffold. It implements the fetch/paging/
-// date-filter/token primitives and the two-hop vote-fetch path FEATURES.md
-// describes, and exports them for a follow-up ingest to drive. What it does
-// NOT yet do is walk every body's full persons/events/matters/votes history
-// and emit a populated dataset — see main() below. Until that lands, this
-// script's only job is: probe each client for reachability, and make sure
-// public/legistar/{client}.json always exists as an honest, non-fabricated
-// empty state (AGENTS.md §0.3, §3.1) rather than a placeholder pretending
-// to be a coverage claim.
+// SCOPE (updated — full ingest landed): this script now walks each
+// client's /bodies, /persons, and /officerecords into Body[]/Person[]/
+// Office[]/Holding[] (officerecords is authoritative for
+// holding.term_start/term_end per FEATURES.md), then walks a bounded,
+// recent window of /matters -> /matters/{id}/histories ->
+// /eventitems/{id}/votes for the primary legislative body (City Council /
+// County Board) into Meeting[]/AgendaItem[]/VoteEvent[]/Vote[] — see
+// ingestClient() below. Every officerecords row is filtered through
+// ROLE_TITLE_ALLOWLIST first (AGENTS.md §1b/§1d): only recognized
+// officeholder titles survive, so clerks, recording secretaries, and other
+// non-supervisory staff mixed into the same feed are dropped, never
+// published. The votes window is intentionally bounded (VOTE_WINDOW_DAYS,
+// MAX_MATTERS_PER_CLIENT below) rather than a full-term backfill in one
+// run — see the knownGaps entry determineVoteWindow() emits for why.
+//
+// If a client is unreachable, needs a token, or the officeholder filter
+// leaves nothing publishable, this falls back to the same honest,
+// non-fabricated empty state (AGENTS.md §0.3, §3.1) it always has —
+// ingestClient() throws on any failure and main()'s catch block writes
+// that fallback rather than a partial or fabricated result.
 //
 // Usage:
 //   node scripts/ingest/legistar.mjs
@@ -70,6 +81,80 @@ export const LEGISTAR_CLIENTS = [
 ];
 
 const PAGE_SIZE = 1000; // Legistar's own documented per-request cap.
+
+// --- Full-ingest configuration (Phase 4 follow-up) ------------------------
+//
+// Jurisdiction/OCD metadata per client. OCD ids follow the documented Open
+// Civic Data naming convention (AGENTS.md §2.4) but have not been
+// independently checked against OCD's own boundary service — flagged as a
+// knownGaps entry in the output rather than asserted as verified.
+const JURISDICTION_META = {
+  stpaul: {
+    jurisdictionId: "legistar-stpaul",
+    ocdId: "ocd-division/country:us/state:mn/place:st_paul",
+  },
+  hennepinmn: {
+    jurisdictionId: "legistar-hennepinmn",
+    ocdId: "ocd-division/country:us/state:mn/county:hennepin",
+  },
+};
+
+// AGENTS.md §1b/§1d structural filter: only officerecords rows whose
+// OfficeRecordTitle is a recognized officeholder role are kept. Everything
+// else — blank/"None" titles, "Recording Secretary", "Community Advisor",
+// and similar — is dropped, never published, per "when in doubt, leave it
+// out." Built from live-inspecting both known clients' full title
+// vocabularies on 2026-08-06; a future title neither allowed nor already
+// seen here is dropped by default (the safe direction) and surfaced via
+// knownGaps so a human can decide whether to allowlist it.
+const ROLE_TITLE_ALLOWLIST = new Set([
+  "Councilmember",
+  "City Council President",
+  "Commissioner",
+  "Chair",
+  "Co-chair",
+  "Chairperson",
+  "Vice Chair",
+  "Board Member",
+  "Ex-officio Member",
+  "Legislative Hearing Officer",
+  "Deputy Legislative Hearing Officer",
+  "Mayor",
+]);
+
+// Defense-in-depth per AGENTS.md §1b: bodies that are internal/clerical
+// machinery, not governing bodies, regardless of what title a row carries.
+const EXCLUDED_BODY_NAMES = new Set(["Clerk", "Clerk to the Board", "Do not use", "Council Secretary"]);
+
+// Legistar's own VoteValueName strings, normalized to models.ts's VoteValue
+// enum. An unrecognized value is dropped (never guessed) and reported via
+// knownGaps — see mapVoteValue().
+const VOTE_VALUE_MAP = {
+  yea: "yea",
+  yes: "yea",
+  nay: "nay",
+  no: "nay",
+  absent: "absent",
+  abstain: "abstain",
+  abstained: "abstain",
+};
+
+// Votes are ingested for a recent slice of the current term, not the full
+// term back to its start — a multi-year current term (e.g. St. Paul's
+// 2024-2028 council term) can carry thousands of matters, and walking all
+// of them in one run would mean thousands of extra requests against a
+// public, unauthenticated API in a single pass. That's not a good-citizen
+// request budget (AGENTS.md §2.2). Each scheduled run instead covers this
+// trailing window; running it on a recurring schedule accumulates full
+// term coverage over time. Documented as a knownGaps entry on every run.
+const VOTE_WINDOW_DAYS = 60;
+
+// Hard cap on matters processed for votes in a single run, independent of
+// the date window, so an unexpectedly high-volume window still can't turn
+// into an unbounded request burst.
+const MAX_MATTERS_PER_CLIENT = 250;
+
+const SNAPSHOT_DIR = path.join(__dirname, "../../data/snapshots/legistar");
 
 class LegistarAuthError extends Error {
   constructor(client, status) {
@@ -223,6 +308,505 @@ export async function getVotesForMatterAction(client, matterId, bodyName, { toke
   return getEventItemVotes(client, actedRecord.MatterHistoryId, { token });
 }
 
+// --- Snapshot, don't overwrite (AGENTS.md §2.2 / §0.5) --------------------
+// Raw upstream payloads are written to disk before any parsing, so a
+// schema change or a bug below never loses the original response. Same
+// convention as scripts/ingest/state-bills.mjs's snapshotRaw(): gitignored
+// (/data/snapshots), regenerated every run, dated by fetch time only.
+async function snapshotRaw(client, name, payload) {
+  const dir = path.join(SNAPSHOT_DIR, client);
+  await mkdir(dir, { recursive: true });
+  const fetchedAt = new Date().toISOString().replace(/[:.]/g, "-");
+  const snapshotPath = path.join(dir, `${name}-${fetchedAt}.json`);
+  await writeFile(snapshotPath, JSON.stringify(payload, null, 2));
+  return snapshotPath;
+}
+
+// --- Small pure helpers -----------------------------------------------------
+
+function slugify(value) {
+  return String(value)
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "") || "unknown";
+}
+
+// Legistar dates come back as bare "YYYY-MM-DDTHH:mm:ss" with no timezone.
+// Slicing the date portion directly avoids any UTC-conversion shift that
+// `new Date(...).toISOString()` would introduce.
+function toIsoDate(value) {
+  if (typeof value !== "string" || !value) return null;
+  const match = value.match(/^(\d{4}-\d{2}-\d{2})/);
+  return match ? match[1] : null;
+}
+
+function addDays(date, days) {
+  return new Date(date.getTime() + days * 86_400_000).toISOString().slice(0, 10);
+}
+
+// Strips internal bookkeeping fields (prefixed `_`) used to carry Legistar's
+// own numeric ids through the join steps below, before anything is written
+// to public/. Keeps the public schema exactly the shape models.ts declares.
+function stripInternal(obj) {
+  const out = {};
+  for (const [key, value] of Object.entries(obj)) {
+    if (!key.startsWith("_")) out[key] = value;
+  }
+  return out;
+}
+
+function mapVoteValue(voteValueName) {
+  if (!voteValueName) return null;
+  return VOTE_VALUE_MAP[voteValueName.trim().toLowerCase()] ?? null;
+}
+
+// --- Persons + Offices + Holdings from /officerecords ----------------------
+//
+// /officerecords is authoritative for holding.term_start/term_end per
+// FEATURES.md. Persons and Offices are both *derived* from the surviving
+// officerecords rows — see the file-level filter above — so a person or
+// office with no attributed official act never gets a record (AGENTS.md
+// §1d).
+function buildOfficesPersonsHoldings(clientConfig, officeRecordsRaw, jurisdictionId, runIso, officeRecordsSourceUrl) {
+  const offices = new Map();
+  const persons = new Map();
+  const holdings = [];
+  const droppedTitles = new Set();
+  const droppedBodies = new Set();
+  let droppedNoStartDate = 0;
+
+  for (const rec of officeRecordsRaw) {
+    const title = (rec.OfficeRecordTitle || "").trim();
+    const bodyName = (rec.OfficeRecordBodyName || "").trim();
+
+    if (EXCLUDED_BODY_NAMES.has(bodyName)) {
+      droppedBodies.add(bodyName || "(blank)");
+      continue;
+    }
+    if (!title || !ROLE_TITLE_ALLOWLIST.has(title)) {
+      droppedTitles.add(title || "(blank)");
+      continue;
+    }
+    if (!rec.OfficeRecordPersonId || !rec.OfficeRecordBodyId) continue;
+
+    const termStart = toIsoDate(rec.OfficeRecordStartDate);
+    if (!termStart) {
+      droppedNoStartDate += 1;
+      continue;
+    }
+    const termEnd = toIsoDate(rec.OfficeRecordEndDate);
+
+    const officeKey = `${rec.OfficeRecordBodyId}::${slugify(title)}`;
+    if (!offices.has(officeKey)) {
+      offices.set(officeKey, {
+        id: `legistar-${clientConfig.client}-office-${rec.OfficeRecordBodyId}-${slugify(title)}`,
+        jurisdiction_id: jurisdictionId,
+        name: `${bodyName} — ${title}`,
+        seat_label: title,
+        // Not a real per-seat OCD id (Legistar exposes body membership, not
+        // individual ward/district seats, for these two clients) — see the
+        // knownGaps entry emitted alongside this in ingestClient().
+        ocd_id: `ocd-division/country:us/legistar:${clientConfig.client}/body:${rec.OfficeRecordBodyId}/office:${slugify(title)}`,
+        _bodyId: rec.OfficeRecordBodyId,
+      });
+    }
+    const office = offices.get(officeKey);
+
+    const personId = `legistar-${clientConfig.client}-person-${rec.OfficeRecordPersonId}`;
+    if (!persons.has(personId)) {
+      const officialName =
+        rec.OfficeRecordFullName || `${rec.OfficeRecordFirstName || ""} ${rec.OfficeRecordLastName || ""}`.trim();
+      persons.set(personId, {
+        id: personId,
+        official_name: officialName,
+        slug: slugify(officialName || String(rec.OfficeRecordPersonId)),
+        photo_url: null,
+        _legistarPersonId: rec.OfficeRecordPersonId,
+      });
+    }
+
+    holdings.push({
+      id: `legistar-${clientConfig.client}-holding-${rec.OfficeRecordId}`,
+      office_id: office.id,
+      person_id: personId,
+      term_start: termStart,
+      term_end: termEnd, // null only if Legistar itself reports no end date
+      source_url: `${LEGISTAR_BASE}/${clientConfig.client}/officerecords/${rec.OfficeRecordId}`,
+      first_seen: runIso,
+      last_seen: runIso,
+      verifiedAt: runIso,
+      verifiedAgainst: officeRecordsSourceUrl,
+      _legistarPersonId: rec.OfficeRecordPersonId,
+      _bodyId: rec.OfficeRecordBodyId,
+    });
+  }
+
+  return {
+    offices: [...offices.values()],
+    persons: [...persons.values()],
+    holdings,
+    droppedTitles: [...droppedTitles],
+    droppedBodies: [...droppedBodies],
+    droppedNoStartDate,
+  };
+}
+
+// Finds the current council/board term's primary legislative body and its
+// start date from the surviving holdings, to bound the votes window below.
+// "Current" = a holding on that body whose term_end is null or on/after the
+// run date.
+function determineVoteWindow(clientConfig, holdings, bodyMetaList, runDate) {
+  const knownGaps = [];
+  const runIso = runDate.toISOString().slice(0, 10);
+  const primaryBody = bodyMetaList.find((b) => b.BodyTypeName === "Primary Legislative Body" && b.BodyActiveFlag === 1);
+
+  if (!primaryBody) {
+    knownGaps.push(
+      `No body with BodyTypeName "Primary Legislative Body" found for ${clientConfig.client}; vote ingest skipped for this run.`,
+    );
+    return { primaryBodyId: null, primaryBodyName: null, windowStartIso: null, knownGaps };
+  }
+
+  let termStart = null;
+  for (const h of holdings) {
+    if (h._bodyId !== primaryBody.BodyId) continue;
+    if (!(h.term_end === null || h.term_end >= runIso)) continue;
+    if (!termStart || h.term_start < termStart) termStart = h.term_start;
+  }
+
+  const windowStartIso = addDays(runDate, -VOTE_WINDOW_DAYS);
+  knownGaps.push(
+    termStart
+      ? `Votes ingested only for the most recent ${VOTE_WINDOW_DAYS} days (from ${windowStartIso}) — the current term on ` +
+        `${primaryBody.BodyName} began ${termStart}, but a full-term backfill was not run in this pass to stay within a ` +
+        `good-citizen request budget (AGENTS.md §2.2). Run this ingest on a recurring schedule to accumulate full-term ` +
+        `coverage incrementally.`
+      : `Votes ingested only for the most recent ${VOTE_WINDOW_DAYS} days (from ${windowStartIso}); could not determine a ` +
+        `current term start date for ${primaryBody.BodyName} from officerecords, so no wider bound was attempted.`,
+  );
+
+  return { primaryBodyId: primaryBody.BodyId, primaryBodyName: primaryBody.BodyName, windowStartIso, knownGaps };
+}
+
+function findHoldingForVote(holdings, legistarPersonId, bodyId, actionDateIso) {
+  const candidates = holdings.filter(
+    (h) =>
+      h._legistarPersonId === legistarPersonId &&
+      h._bodyId === bodyId &&
+      h.term_start <= actionDateIso &&
+      (h.term_end === null || h.term_end >= actionDateIso),
+  );
+  if (!candidates.length) return null;
+  candidates.sort((a, b) => (b.term_start < a.term_start ? -1 : 1));
+  return candidates[0];
+}
+
+const sleepBriefly = () => sleep(75); // light inter-request pacing, on top of legistarGet's own 429 backoff
+
+// The two-hop vote walk, bounded to one recent window on one body (the
+// primary legislative body — City Council / County Board), per
+// determineVoteWindow() above. Builds Meeting/AgendaItem/VoteEvent/Vote
+// records directly from Matters + MatterHistories, with no extra /events
+// calls needed (MatterHistoryActionDate and MatterHistoryEventId already
+// carry what a minimal Meeting record needs).
+async function buildVotesForWindow(clientConfig, token, { primaryBodyId, primaryBodyName, windowStartIso, windowEndIso, holdings }) {
+  const knownGaps = [];
+  const matters = await getMatters(clientConfig.client, { token, startIsoDate: windowStartIso, endIsoDate: windowEndIso });
+  await snapshotRaw(clientConfig.client, "matters-window", { windowStartIso, windowEndIso, count: matters.length, matters });
+
+  let workingMatters = matters;
+  if (matters.length > MAX_MATTERS_PER_CLIENT) {
+    workingMatters = [...matters]
+      .sort((a, b) => (b.MatterIntroDate || "").localeCompare(a.MatterIntroDate || ""))
+      .slice(0, MAX_MATTERS_PER_CLIENT);
+    knownGaps.push(
+      `${matters.length} matter(s) found in the ${windowStartIso}–${windowEndIso} window for ${clientConfig.client}; capped ` +
+        `to the most recent ${MAX_MATTERS_PER_CLIENT} to bound this run's request volume.`,
+    );
+  }
+
+  const meetings = new Map();
+  const agendaItems = [];
+  const voteEvents = [];
+  const votes = [];
+  const unmatchedVoters = new Set();
+  const unmappedVoteValues = new Set();
+  const rawHistoriesAndVotes = [];
+
+  for (const matter of workingMatters) {
+    let histories;
+    try {
+      histories = await getMatterHistories(clientConfig.client, matter.MatterId, { token });
+    } catch (err) {
+      knownGaps.push(`Failed to fetch histories for matter ${matter.MatterId} (${clientConfig.client}): ${err.message}`);
+      continue;
+    }
+    await sleepBriefly();
+
+    const actedRecord = histories.find(
+      (h) =>
+        h.MatterHistoryPassedFlag !== null &&
+        h.MatterHistoryPassedFlag !== undefined &&
+        h.MatterHistoryActionBodyName === primaryBodyName,
+    );
+    if (!actedRecord) continue;
+
+    let rawVotes;
+    try {
+      rawVotes = await getEventItemVotes(clientConfig.client, actedRecord.MatterHistoryId, { token });
+    } catch (err) {
+      knownGaps.push(
+        `Failed to fetch votes for matter ${matter.MatterId} history ${actedRecord.MatterHistoryId} (${clientConfig.client}): ${err.message}`,
+      );
+      continue;
+    }
+    await sleepBriefly();
+    rawHistoriesAndVotes.push({ matterId: matter.MatterId, history: actedRecord, votes: rawVotes });
+    if (!rawVotes.length) continue;
+
+    const actionDate = toIsoDate(actedRecord.MatterHistoryActionDate) ?? toIsoDate(matter.MatterIntroDate);
+    if (!actionDate) continue;
+
+    const meetingId = `legistar-${clientConfig.client}-meeting-${actedRecord.MatterHistoryEventId}`;
+    if (!meetings.has(meetingId)) {
+      meetings.set(meetingId, {
+        id: meetingId,
+        body_id: `legistar-${clientConfig.client}-body-${primaryBodyId}`,
+        date: actionDate,
+        agenda_url: null,
+        minutes_url: null,
+        video_url: null,
+      });
+    }
+
+    const agendaItemId = `legistar-${clientConfig.client}-agendaitem-${actedRecord.MatterHistoryId}`;
+    agendaItems.push({
+      id: agendaItemId,
+      meeting_id: meetingId,
+      title: matter.MatterTitle || matter.MatterName || matter.MatterFile || `Matter ${matter.MatterId}`,
+      file_number: matter.MatterFile || null,
+      external_id: String(matter.MatterId),
+    });
+
+    const voteEventId = `legistar-${clientConfig.client}-voteevent-${actedRecord.MatterHistoryId}`;
+    voteEvents.push({
+      id: voteEventId,
+      agenda_item_id: agendaItemId,
+      result: actedRecord.MatterHistoryPassedFlagName || String(actedRecord.MatterHistoryPassedFlag),
+      date: actionDate,
+    });
+
+    for (const v of rawVotes) {
+      const value = mapVoteValue(v.VoteValueName);
+      if (!value) {
+        unmappedVoteValues.add(v.VoteValueName ?? "(null)");
+        continue;
+      }
+      const holding = findHoldingForVote(holdings, v.VotePersonId, primaryBodyId, actionDate);
+      if (!holding) {
+        unmatchedVoters.add(`${v.VotePersonName} (Legistar PersonId ${v.VotePersonId})`);
+        continue;
+      }
+      votes.push({
+        id: `legistar-${clientConfig.client}-vote-${v.VoteId}`,
+        vote_event_id: voteEventId,
+        holding_id: holding.id,
+        value,
+      });
+    }
+  }
+
+  await snapshotRaw(clientConfig.client, "histories-and-votes-window", rawHistoriesAndVotes);
+
+  if (unmappedVoteValues.size) {
+    knownGaps.push(
+      `Unmapped Legistar VoteValueName value(s) dropped from Vote[] for ${clientConfig.client} (not counted toward any ` +
+        `tally): ${[...unmappedVoteValues].join(", ")}.`,
+    );
+  }
+  if (unmatchedVoters.size) {
+    knownGaps.push(
+      `${unmatchedVoters.size} distinct voter(s) on ${clientConfig.client} matters in this window could not be matched to ` +
+        `a current officerecords-derived holding on ${primaryBodyName} and were dropped from Vote[]: ` +
+        `${[...unmatchedVoters].slice(0, 10).join("; ")}${unmatchedVoters.size > 10 ? ", …" : ""}.`,
+    );
+  }
+
+  return {
+    meetings: [...meetings.values()],
+    agendaItems,
+    voteEvents,
+    votes,
+    knownGaps,
+    mattersFound: matters.length,
+    mattersProcessed: workingMatters.length,
+  };
+}
+
+// Full per-client ingest: bodies + persons/offices/holdings (from
+// officerecords) + a bounded votes window on the primary legislative body.
+// Throws on any failure — callers fall back to the honest empty-state
+// output per AGENTS.md §0.3/§3.1, never a partial or fabricated one.
+async function ingestClient(clientConfig) {
+  const token = resolveToken(clientConfig);
+  const runDate = new Date();
+  const runIso = runDate.toISOString().slice(0, 10);
+  const jurisdictionMeta = JURISDICTION_META[clientConfig.client] ?? {
+    jurisdictionId: `legistar-${clientConfig.client}`,
+    ocdId: null,
+  };
+  const knownGaps = [];
+  if (!jurisdictionMeta.ocdId) {
+    knownGaps.push(`No OCD division id on record for client "${clientConfig.client}" — jurisdiction_id is a repo-local key only.`);
+  } else {
+    knownGaps.push(
+      `jurisdiction ocd_id (${jurisdictionMeta.ocdId}) follows the documented OCD naming convention but has not been ` +
+        `independently checked against OCD's own boundary/division service.`,
+    );
+  }
+
+  const bodiesRaw = await getBodies(clientConfig.client, { token });
+  const personsRaw = await getPersons(clientConfig.client, { token });
+  const officeRecordsRaw = await getOfficeRecords(clientConfig.client, { token });
+  await snapshotRaw(clientConfig.client, "bodies", bodiesRaw);
+  await snapshotRaw(clientConfig.client, "persons", personsRaw);
+  await snapshotRaw(clientConfig.client, "officerecords", officeRecordsRaw);
+
+  const officeRecordsSourceUrl = `${LEGISTAR_BASE}/${clientConfig.client}/officerecords`;
+
+  const bodyMeta = bodiesRaw.map((b) => ({
+    BodyId: b.BodyId,
+    BodyName: b.BodyName,
+    BodyTypeName: b.BodyTypeName,
+    BodyActiveFlag: b.BodyActiveFlag,
+  }));
+
+  const bodies = bodiesRaw
+    .filter((b) => !EXCLUDED_BODY_NAMES.has((b.BodyName || "").trim()))
+    .map((b) => ({
+      id: `legistar-${clientConfig.client}-body-${b.BodyId}`,
+      jurisdiction_id: jurisdictionMeta.jurisdictionId,
+      name: b.BodyName,
+    }));
+
+  const { offices, persons, holdings, droppedTitles, droppedBodies, droppedNoStartDate } = buildOfficesPersonsHoldings(
+    clientConfig,
+    officeRecordsRaw,
+    jurisdictionMeta.jurisdictionId,
+    runIso,
+    officeRecordsSourceUrl,
+  );
+
+  if (droppedTitles.length) {
+    knownGaps.push(
+      `officerecords rows dropped for lacking a recognized officeholder title (staff/clerk/unclassified roles, per ` +
+        `AGENTS.md §1b) — titles seen and dropped: ${droppedTitles.join(", ")}.`,
+    );
+  }
+  if (droppedBodies.length) {
+    knownGaps.push(`officerecords rows dropped for belonging to a non-governing/internal body: ${droppedBodies.join(", ")}.`);
+  }
+  if (droppedNoStartDate > 0) {
+    knownGaps.push(`${droppedNoStartDate} officerecords row(s) dropped for missing a start date (no Holding without one).`);
+  }
+  knownGaps.push(
+    "Office here models 'membership in a Legistar body under a given title', not a per-seat/ward electoral district — " +
+      "these two clients' officerecords endpoint does not expose per-seat identifiers. See wards.geojson / " +
+      "commissioners.geojson for seat-level geography.",
+  );
+
+  if (!offices.length || !holdings.length) {
+    throw new Error(
+      `No holdings survived the officeholder filter for ${clientConfig.client} — refusing to write an output claiming coverage.`,
+    );
+  }
+
+  const { primaryBodyId, primaryBodyName, windowStartIso, knownGaps: windowGaps } = determineVoteWindow(
+    clientConfig,
+    holdings,
+    bodyMeta,
+    runDate,
+  );
+  knownGaps.push(...windowGaps);
+
+  const windowEndIso = addDays(runDate, 1); // dateRangeFilter's end bound is exclusive ('lt')
+
+  let voteResult = { meetings: [], agendaItems: [], voteEvents: [], votes: [], knownGaps: [], mattersFound: 0, mattersProcessed: 0 };
+  if (primaryBodyId && windowStartIso) {
+    voteResult = await buildVotesForWindow(clientConfig, token, {
+      primaryBodyId,
+      primaryBodyName,
+      windowStartIso,
+      windowEndIso,
+      holdings,
+    });
+  }
+  knownGaps.push(...voteResult.knownGaps);
+
+  return {
+    jurisdictionId: jurisdictionMeta.jurisdictionId,
+    bodies,
+    persons: persons.map(stripInternal),
+    offices: offices.map(stripInternal),
+    holdings: holdings.map(stripInternal),
+    meetings: voteResult.meetings,
+    agendaItems: voteResult.agendaItems,
+    voteEvents: voteResult.voteEvents,
+    votes: voteResult.votes,
+    knownGaps,
+    voteWindow: {
+      primaryBodyName,
+      windowStartIso,
+      windowEndIso,
+      mattersFound: voteResult.mattersFound,
+      mattersProcessed: voteResult.mattersProcessed,
+    },
+  };
+}
+
+function buildIngestedState(clientConfig, ingest) {
+  return {
+    schemaVersion: 1,
+    client: clientConfig.client,
+    jurisdiction: clientConfig.jurisdiction,
+    generatedAt: new Date().toISOString(),
+    status: "ingested",
+    note:
+      `Full ingest: ${ingest.holdings.length} holding(s) across ${ingest.offices.length} office(s) and ` +
+      `${ingest.persons.length} person(s), from officerecords. Votes windowed to ` +
+      `${ingest.voteWindow.windowStartIso}–${ingest.voteWindow.windowEndIso} on ` +
+      `"${ingest.voteWindow.primaryBodyName ?? "unknown body"}": ${ingest.voteWindow.mattersProcessed}/` +
+      `${ingest.voteWindow.mattersFound} matter(s) processed, ${ingest.voteEvents.length} vote event(s), ` +
+      `${ingest.votes.length} vote(s).`,
+    provenance: {
+      primarySourceUrl: `${LEGISTAR_BASE}/${clientConfig.client}`,
+      sourceAgency: clientConfig.jurisdiction,
+      documentType: "Legistar Web API",
+      documentId: null,
+      issuedDate: null,
+      fetchedAt: new Date().toISOString(),
+      licence:
+        "Public records served via Legistar InSite; no separate machine-reuse licence published by the host jurisdiction as of this writing.",
+      contentHash: null,
+    },
+    jurisdiction_id: ingest.jurisdictionId,
+    // Body[] / Person[] / Office[] / Holding[] / Meeting[] / AgendaItem[] /
+    // VoteEvent[] / Vote[] — see src/lib/models.ts. VoteEvent/Vote here
+    // follow models.ts's holding_id-attached shape (not types.ts's Phase 2
+    // HoldingRef-based shape) — see this file's own header and models.ts's
+    // "NOTE (2026-08-06)" comment for why the two aren't merged.
+    bodies: ingest.bodies,
+    persons: ingest.persons,
+    offices: ingest.offices,
+    holdings: ingest.holdings,
+    meetings: ingest.meetings,
+    agendaItems: ingest.agendaItems,
+    voteEvents: ingest.voteEvents,
+    votes: ingest.votes,
+    knownGaps: ingest.knownGaps,
+  };
+}
+
 // --- Empty-state output ----------------------------------------------------
 // Written for every configured client every run, whether or not that run's
 // probe succeeded. This is the file the registry entry
@@ -284,22 +868,23 @@ async function main() {
     console.log(`[legistar:${clientConfig.client}] probing ${clientConfig.jurisdiction}...`);
     try {
       const sampleCount = await probeClient(clientConfig);
-      console.log(`[legistar:${clientConfig.client}] reachable (sample bodies page returned ${sampleCount} row(s)).`);
-      const state = buildEmptyState(clientConfig, {
-        status: "probe_ok_pending_ingest",
-        note: `Connectivity confirmed ${new Date().toISOString()}; full ingest is a follow-up PR.`,
-        fetchedAt: new Date().toISOString(),
-      });
+      console.log(`[legistar:${clientConfig.client}] reachable (sample bodies page returned ${sampleCount} row(s)). Starting full ingest...`);
+
+      const ingest = await ingestClient(clientConfig);
+      const state = buildIngestedState(clientConfig, ingest);
       const outputPath = await writeClientOutput(clientConfig, state);
-      console.log(`[legistar:${clientConfig.client}] wrote empty-state scaffold to ${outputPath}`);
+      console.log(
+        `[legistar:${clientConfig.client}] ingested ${ingest.holdings.length} holding(s), ${ingest.voteEvents.length} ` +
+          `vote event(s), ${ingest.votes.length} vote(s). Wrote ${outputPath}`,
+      );
     } catch (err) {
       anyFailures = true;
       const isAuthError = err instanceof LegistarAuthError;
-      const reason = isAuthError ? "requires a token this run doesn't have" : "unreachable (network error or unexpected response)";
+      const reason = isAuthError ? "requires a token this run doesn't have" : "ingest failed (network error, unexpected response, or filter left nothing publishable)";
       console.error(`[legistar:${clientConfig.client}] ${reason}: ${err.message}`);
       const state = buildEmptyState(clientConfig, {
         status: isAuthError ? "auth_required" : "unreachable",
-        note: `Probe failed at ${new Date().toISOString()}: ${err.message}`,
+        note: `Full-ingest run failed at ${new Date().toISOString()}: ${err.message}`,
         fetchedAt: null,
       });
       const outputPath = await writeClientOutput(clientConfig, state);
@@ -309,16 +894,16 @@ async function main() {
 
   if (anyFailures) {
     console.log(
-      "[legistar] one or more clients were unreachable or need a token this run. " +
-        "That's a known gap, not a build failure — see the knownGaps entries written above. Exiting cleanly.",
+      "[legistar] one or more clients failed full ingest this run. " +
+        "That's a known gap, not a build failure — see the knownGaps/note fields written above. Exiting cleanly.",
     );
   } else {
-    console.log("[legistar] all configured clients reachable. Full ingest still pending a follow-up PR — see scaffold note above.");
+    console.log("[legistar] all configured clients ingested successfully.");
   }
 
-  // Always exit 0: per FEATURES.md's scaffolding scope, this script never
-  // fails `npm run build` or CI over an upstream API being unreachable —
-  // an API is a refresh mechanism, not a runtime dependency (AGENTS.md §3.2).
+  // Always exit 0: an upstream API being unreachable, rate-limited, or
+  // requiring a token this run doesn't have is a refresh-mechanism failure,
+  // never a build failure (AGENTS.md §0.8/§3.2).
   process.exit(0);
 }
 
