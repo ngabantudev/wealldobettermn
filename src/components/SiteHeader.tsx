@@ -7,10 +7,7 @@
 export default function SiteHeader() {
   return (
     <header className="band flex shrink-0 items-center justify-between gap-3 border-b border-hair bg-panel px-3.5 py-2.5 sm:px-4">
-      <div className="flex min-w-0 items-center gap-2">
-        <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-accent text-[11px] font-bold text-on-accent">
-          MN
-        </span>
+      <div className="flex min-w-0 items-center">
         <span className="truncate text-sm font-bold tracking-tight text-ink">MN Civic Watch</span>
       </div>
       <p className="hidden truncate text-xs text-ink-3 sm:block">

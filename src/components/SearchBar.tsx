@@ -278,10 +278,7 @@ export default function SearchBar({ index, allPlaces, onSelectWard, onSelectCity
       </p>
       {showMessage && <p className="px-1 pt-1.5 text-ink-3">{outcome && "reason" in outcome ? outcome.reason : statusMessage}</p>}
       <CoverageNotice />
-      <p className="px-1 pt-1.5 text-xs text-ink-4">
-        Nothing you type here is sent anywhere — this box works entirely on your device.
-        {!index && " (Address & ZIP search still loading — city and county work now.)"}
-      </p>
+      {!index && <p className="px-1 pt-1.5 text-xs text-ink-4">Address &amp; ZIP search still loading — city and county work now.</p>}
     </div>
   );
 }
