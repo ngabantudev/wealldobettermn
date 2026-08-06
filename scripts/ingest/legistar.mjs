@@ -250,7 +250,7 @@ function buildEmptyState(clientConfig, { status, note, fetchedAt }) {
         "Public records served via Legistar InSite; no separate machine-reuse licence published by the host jurisdiction as of this writing.",
       contentHash: null,
     },
-    // Holding[] — see src/lib/types.ts. Always empty until the follow-up
+    // Holding[] — see src/lib/models.ts. Always empty until the follow-up
     // ingest (persons + bodies + officerecords → Holding) lands.
     holdings: [],
     knownGaps: [

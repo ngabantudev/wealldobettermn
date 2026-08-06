@@ -52,6 +52,15 @@
 // This file does not read from, write to, or repurpose anything exported
 // by coverage.ts. The two are meant to be cross-referenced by a future
 // UI, never merged into one field.
+//
+// This is the single, canonical CoverageTier for the whole project —
+// src/lib/types.ts's JurisdictionPlatformRecord (Phase 7) imports this
+// same type rather than defining its own. It briefly didn't: the Phase 7
+// PR defined an identical, independent "A"|"B"|"C" type in types.ts in
+// parallel with this one, an accident of two branches scaffolded off the
+// same base without seeing each other's work. Consolidated 2026-08-06 —
+// see LESSONS.md's Process & Multi-PR Coordination section. If a third
+// place ever needs this concept, import it from here, don't redefine it.
 export type CoverageTier =
   // Full votes + meetings + agendas.
   | "A"
