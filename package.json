@@ -13,6 +13,7 @@
     "data:state-legislature": "node scripts/fetch-state-legislature.mjs",
     "data:addresses": "node scripts/fetch-addresses.mjs",
     "data:places": "node scripts/fetch-places.mjs",
+    "data:legistar": "node scripts/ingest/legistar.mjs",
     "data:all": "npm run data:wards && npm run data:addresses && npm run data:places && npm run data:mayors && npm run data:commissioners",
     "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
     "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
