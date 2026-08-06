@@ -17,8 +17,8 @@
 // the map, the right-hand tagline, and the domain.
 export default function SiteHeader() {
   return (
-    <header className="band flex shrink-0 items-center justify-between gap-3 border-b border-hair bg-panel px-3.5 py-2.5 sm:px-4">
-      <div className="flex min-w-0 flex-col justify-center">
+    <header className="band flex shrink-0 items-center justify-between gap-3 border-b border-hair bg-panel px-4 py-3.5 sm:px-6 sm:py-4">
+      <div className="flex min-w-0 flex-col justify-center gap-0.5">
         {/* text-2xl font-black uppercase tracking-tight leading-none — the
             exact class list mndatacenter.org's own masthead headline uses
             (its FilterHeader.astro, the h1 that crossfades "Minnesota"/"Mni
@@ -36,7 +36,7 @@ export default function SiteHeader() {
             to match the headline above it — nothing here sets a width
             directly, so it can't drift out of sync if the headline's
             text or size ever changes. */}
-        <span className="block truncate text-[11px] uppercase tracking-[0.2em] text-ink-3 text-justify [text-align-last:justify]">when we all do better</span>
+        <span className="block truncate text-[13px] uppercase tracking-[0.13em] text-ink-3 text-justify [text-align-last:justify]">when we all do better</span>
       </div>
       <p className="hidden truncate text-xs text-ink-3 sm:block">
         Who represents you, what they vote for, how to reach them.
