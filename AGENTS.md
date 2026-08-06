@@ -1,4 +1,4 @@
-# AGENTS.md — mn-civic-watch: Repository Architecture & AI Behavior Rules
+# AGENTS.md — wealldobettermn: Repository Architecture & AI Behavior Rules
 
 A map-first civic transparency platform for Minnesota local, county, and state politics.
 Next.js + TypeScript, MapLibre GL JS (OpenFreeMap "Liberty"), Tailwind CSS, deployed to
@@ -6,6 +6,7 @@ Cloudflare Workers via OpenNext. These rules govern all code generation, refacto
 data ingestion.
 
 `CLAUDE.md` is a pointer to this file. Edit here.
+`LESSONS.md` tracks operational gotchas across sessions. Read it alongside this file.
 
 ## What this project answers
 
@@ -105,6 +106,15 @@ The architecture ensures they don't: address resolution happens on-device, and n
 about it is transmitted, logged, or retained. See §2.5. This is the one principle a
 visitor can verify by opening the network tab, which makes it the one most worth getting
 right.
+
+**0.13 — AI-assisted, human-accountable.** Code, data pipelines, and prose in this
+project are developed with AI coding assistance (Claude Code / Anthropic). Every output
+is reviewed, edited, and owned by a human maintainer before it ships. AI tooling is a
+drafting aid; the ethical guardrails in this document — especially §0.10, §1b, and §1c —
+are not delegated to it. This file is the instruction set given to the AI; publishing it
+is itself a transparency act. Anyone auditing how this project was built should read it as
+such. Errors introduced by AI-assisted development are the maintainer's responsibility,
+not a caveat that limits that responsibility.
 
 ---
 
@@ -361,10 +371,10 @@ resident to contact someone who no longer holds the office. Move to APIs where t
 
 **Deprecated — do not use.** The Google Civic Information API's Representatives endpoint,
 long the default for address-to-official lookup, was announced for turndown in April 2025
-and was shut down as of April 30, 2025. Do not build
-against it or copy tutorials that assume it. Commercial replacements exist (Cicero,
-Ballotpedia, USgeocoder) but all require paid keys and fail §0.8; treat them as a last
-resort for coverage gaps, never as the backbone.
+and was shut down as of April 30, 2025. Do not build against it or copy tutorials that
+assume it. Commercial replacements exist (Cicero, Ballotpedia, USgeocoder) but all require
+paid keys and fail §0.8; treat them as a last resort for coverage gaps, never as the
+backbone.
 
 **Rules for any API-sourced roster:**
 
@@ -409,6 +419,23 @@ resort for coverage gaps, never as the backbone.
   sites inherit our gaps whether or not we document them.
 * **Upstream licences** must be checked and recorded with attribution text before a source
   is added.
+
+### 3.4 AI-Generated Content — Provenance & Review
+
+* **No AI-generated data ships as fact.** AI tooling may draft ingest scripts, schema
+  definitions, and UI copy. It does not produce source records. Every published data point
+  must trace to a Tier 1–3 source per §3.3 regardless of how the pipeline that fetches it
+  was written.
+* **AI-generated copy is human-reviewed before render.** Plain-language glossary entries,
+  empty-state messages, and "what this map can't see" descriptions may be drafted with AI
+  assistance. A human reads and approves every string that reaches a user.
+* **The AGENTS.md is the AI instruction record.** Substantive changes to how AI tooling is
+  used in this project are reflected here, not in commit messages or READMEs alone. The
+  file's git history is the audit trail.
+* **Public disclosure.** The project's `/about` page states plainly that the codebase was
+  developed with AI assistance, that all data and editorial decisions are human-reviewed,
+  and that errors can be reported via the issue tracker. The framing is capability, not
+  disclaimer — this is a human-led project that uses modern tools.
 
 ---
 
