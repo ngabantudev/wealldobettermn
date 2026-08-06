@@ -11,11 +11,20 @@
 // it's *about to write*, but nothing re-checked the file the app ships
 // once it's sitting in public/. A committed file can silently go stale
 // (or, as today, predate the verifiedAt field's own introduction) with
-// no build signal at all. This module is that signal: it is read once,
-// at module-evaluation time, by a server component (src/app/page.tsx),
-// so `next build`'s static prerender of the home page executes it and
-// fails loudly if the shipped data can't prove it was verified since
-// the last general election.
+// no build signal at all. This module is that signal.
+//
+// loadAndValidateStateLegislatureData() is called from next.config.ts's
+// production-build phase — deliberately NOT from a page or component
+// module. It briefly lived as a module-scope call at the top of
+// src/app/page.tsx instead, which worked for `next build`'s own static
+// prerender but also got bundled into the deployed Cloudflare Worker by
+// OpenNext, where the readFileSync below re-ran on every cold start
+// against a filesystem that doesn't have public/ on it — a 500 on every
+// request, site-wide (2026-08-06). next.config.ts is a genuinely
+// build-time-only execution context (real Node process, real disk, never
+// shipped to the Worker); that's where this belongs now. Do not call
+// this function, or add a new readFileSync-at-module-scope pattern like
+// it, from anything under src/app or src/components.
 //
 // A record with no `verifiedAt` field at all — the file's actual state
 // as of this writing (scripts/fetch-state-legislature.mjs gained the
