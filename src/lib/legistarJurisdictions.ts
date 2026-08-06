@@ -12,11 +12,17 @@
 // officerecords-sourced holdings from Legistar — that layer doesn't carry
 // and isn't a replacement for it (yet).
 //
-// `emptyStatePath` is what any future UI must read from until a follow-up
-// PR wires the full persons/bodies/officerecords → Holding[] ingest.
-// scripts/ingest/legistar.mjs writes an honest, always-present empty state
-// to each of these paths every run — never a placeholder that could be
-// mistaken for real coverage (AGENTS.md §0.3 / §3.1).
+// `emptyStatePath` is the public path scripts/ingest/legistar.mjs writes
+// to every run. As of the full-ingest run landed 2026-08-06, both clients
+// carry real Body[]/Person[]/Office[]/Holding[] (from /officerecords) and a
+// bounded recent-window Meeting[]/AgendaItem[]/VoteEvent[]/Vote[] (from
+// /matters + /matters/{id}/histories + /eventitems/{id}/votes) — not the
+// empty scaffold state. If a future run fails (network, token, or the
+// officeholder-title filter leaving nothing publishable), the script falls
+// back to the same honest, always-present empty state it always has —
+// never a placeholder that could be mistaken for real coverage (AGENTS.md
+// §0.3 / §3.1) — so `emptyStatePath` is still the correct field name and
+// still the path any future UI reads from either way.
 
 export interface LegistarJurisdiction {
   // Legistar's own client path segment (webapi.legistar.com/v1/{client}).
@@ -40,7 +46,11 @@ export const LEGISTAR_JURISDICTIONS: readonly LegistarJurisdiction[] = [
     tier: "A",
     emptyStatePath: "/legistar/stpaul.json",
     coverage:
-      "Scaffold only: connectivity to Legistar's public API is confirmed, but no persons, votes, or matters have been ingested yet.",
+      "Full officerecords-sourced roster (220 holdings across 26 council/committee offices, 41 people) live as of the " +
+      "2026-08-06 ingest, plus a rolling 60-day window of City Council votes (111 vote events, 777 individual votes) — " +
+      "not a full-term backfill; see the file's own knownGaps for the current term's actual start date and the per-run " +
+      "matter cap. No per-seat/ward identifiers: Legistar exposes body membership, not electoral districts, for this " +
+      "client — see wards.geojson for ward geography.",
   },
   {
     client: "hennepinmn",
@@ -48,8 +58,10 @@ export const LEGISTAR_JURISDICTIONS: readonly LegistarJurisdiction[] = [
     tier: "A",
     emptyStatePath: "/legistar/hennepinmn.json",
     coverage:
-      "Scaffold only: connectivity to Legistar's public API is confirmed, but no persons, votes, or matters have been ingested yet. " +
-      "Board district boundaries and a hand-transcribed roster already exist separately via public/commissioners.geojson — this entry is " +
-      "additive (structured votes/matters), not a replacement.",
+      "Full officerecords-sourced roster (156 holdings across 18 board/committee offices, 8 people) live as of the " +
+      "2026-08-06 ingest, plus a rolling 60-day window of County Board votes (54 vote events, 22 individual votes) — " +
+      "not a full-term backfill; see the file's own knownGaps for the current term's actual start date. Board district " +
+      "boundaries and a hand-transcribed roster already exist separately via public/commissioners.geojson — this entry " +
+      "is additive (structured votes/matters, officerecords term dates), not a replacement.",
   },
 ] as const;
