@@ -82,3 +82,40 @@ export function partyColor(party: string): string {
 export function partyColorSoft(party: string): string {
   return PARTY_COLOR_SOFT[party] ?? NEUTRAL_PARTY_COLOR_SOFT;
 }
+
+// mn.gov's own header treatment (mn.gov/portal/css/core.css:
+// .header_formatting{background:#003865;border-bottom:1px solid #9bcbeb}),
+// matched exactly rather than approximated — same navy the mn.gov masthead
+// itself uses. A fixed brand color, not a themed one — same reasoning as
+// CONTESTED_COLOR above: it should read the same in light and dark mode.
+// White text on this navy is a clean ~12.7:1 contrast — mn.gov's own
+// white-on-#003865 header text holds up fine here too. Shared by
+// WardModal's City/County/State tablist and WardMap's left-sidebar Level/
+// Chamber tabs, so the two sidebars read as one consistent tab language
+// rather than two independently-tuned looks (mn.gov also pairs this navy
+// with a light-blue #9bcbeb hairline, but that only clears WCAG's
+// non-text-contrast minimum against the navy itself — the active tab's
+// fill — so it isn't reused as a general-purpose border color; both
+// tablists use the app's own themed border-hair-strong instead).
+export const TIER_HEADER_BG = "#003865";
+export const TIER_HEADER_TEXT = "#FFFFFF";
+
+// The panel-level title bar color (WardModal's "Representatives for this
+// location" bar, and WardMap's matching left-sidebar "Map filters" bar),
+// in mn.gov's own accent green rather than its header navy — deliberately
+// a different color from the City/County/State tabs so the one panel
+// title reads as a distinct level from the tabs under it, not a fourth
+// tab. Same live-sourced value as the tier headers' original green
+// (mn.gov/portal/css/core.css's .btn-success/.label-success).
+//
+// Text color was picked by contrast ratio, not eyeballed: plain white
+// against this green is only ~2.3:1 (WCAG AA needs 4.5:1 for text this
+// size), plain black clears it at ~9.19:1 but reads flat/harsh against a
+// saturated brand color. This near-black, faintly green-tinted value
+// clears WCAG AAA (7:1, the stricter of the two standards) at ~7.9:1 while
+// still visually belonging to the same green rather than looking like an
+// unrelated black label dropped on top of it — the same "tint your dark
+// text toward the background hue instead of using pure black" move most
+// professional design systems make for text on a saturated color.
+export const PANEL_HEADER_BG = "#78BE21";
+export const PANEL_HEADER_TEXT = "#0B1A08";
