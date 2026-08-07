@@ -152,12 +152,19 @@ function nearestCity([lng, lat]) {
   return dMpls <= dStPaul ? "Minneapolis" : "St. Paul";
 }
 
-// House districts are alphanumeric ("47B") and already match Open States'
-// district field exactly. Senate districts are zero-padded ("01") in the
-// GIS data but not in Open States ("1") — normalize both to the same key.
+// Both chambers' GIS DISTRICT field zero-pads single-digit districts
+// ("02A", "01") where Open States doesn't ("2A", "1") — confirmed live
+// against both sources, not assumed. This only matters for districts 1-9;
+// 10 and up already match either way, which is exactly why the bug this
+// fixes went unnoticed under the old Twin Cities-only filter (every
+// metro district is numbered well above 9) and only surfaced once
+// district fetching went statewide: house districts 01A-09B were coming
+// back "Vacant" for 18 real, filled seats because the join key never
+// matched, not because anyone actually left office.
 function normalizeDistrictKey(raw, chamber) {
   const trimmed = String(raw).trim().toUpperCase();
-  return chamber === "senate" ? String(Number(trimmed)) : trimmed;
+  if (chamber === "senate") return String(Number(trimmed));
+  return trimmed.replace(/^0+(\d)/, "$1"); // "02A" -> "2A", "10A" untouched
 }
 
 async function fetchDistricts(url, chamber) {
