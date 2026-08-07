@@ -21,6 +21,18 @@ const TIER_HEADER_BG = "#003865";
 const TIER_HEADER_TEXT = "#FFFFFF";
 const TIER_HEADER_BORDER = "#9BCBEB";
 
+// The panel-level "Representatives for this location" bar (below), in
+// mn.gov's own accent green rather than its header navy — deliberately a
+// different color from the City/County/State bars above so the one panel
+// title reads as a distinct level from the three sections under it, not a
+// fourth one. Same live-sourced value as the tier headers' original green
+// (mn.gov/portal/css/core.css's .btn-success/.label-success), paired with
+// dark rather than white text: white-on-this-green is only ~2.3:1
+// contrast, well under WCAG AA's 4.5:1 — see the tier-header comment above
+// for the fuller math, unchanged by which element wears the color.
+const PANEL_HEADER_BG = "#78BE21";
+const PANEL_HEADER_TEXT = "#12290C";
+
 // AGENTS.md §3.2 soft staleness notice ("A record older than a
 // configured threshold renders a visible staleness notice"), scoped to
 // state legislators — the only role scripts/fetch-*.mjs currently emits
@@ -570,13 +582,16 @@ export default function WardModal({ officials, onClose, variant = "sheet" }: War
         <div className="h-1 w-9 rounded-full bg-hair-strong" />
       </div>
 
-      <div className="flex items-center justify-between gap-2 px-4 pt-2 pb-2 sm:pt-4 shrink-0 border-b border-hair">
-        <h2 className="text-sm font-semibold text-ink">Representatives for this location</h2>
+      <div
+        className="flex items-center justify-between gap-2 px-4 pt-2 pb-2 sm:pt-4 shrink-0"
+        style={{ backgroundColor: PANEL_HEADER_BG, color: PANEL_HEADER_TEXT }}
+      >
+        <h2 className="text-sm font-semibold">Representatives for this location</h2>
         <button
           type="button"
           onClick={onClose}
           aria-label="Close"
-          className="shrink-0 -mr-1 h-9 w-9 flex items-center justify-center rounded-full text-ink-4 hover:bg-hover hover:text-ink active:bg-hair-strong focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+          className="shrink-0 -mr-1 h-9 w-9 flex items-center justify-center rounded-full hover:bg-black/10 active:bg-black/15 focus:outline-none focus-visible:ring-2 focus-visible:ring-inset"
         >
           <svg viewBox="0 0 20 20" fill="none" className="h-4 w-4">
             <path d="m5 5 10 10M15 5 5 15" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" />
