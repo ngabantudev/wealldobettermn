@@ -24,6 +24,7 @@ import { writeFile, mkdir } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { iter } from "but-unzip";
+import { updateDataManifest } from "./lib/dataManifest.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const OUTPUT_PATH = path.join(__dirname, "../public/mn-places.json");
@@ -118,8 +119,10 @@ async function main() {
     cities,
   };
 
+  const written = JSON.stringify(output, null, 2) + "\n";
   await mkdir(path.dirname(OUTPUT_PATH), { recursive: true });
-  await writeFile(OUTPUT_PATH, JSON.stringify(output, null, 2) + "\n");
+  await writeFile(OUTPUT_PATH, written);
+  await updateDataManifest(path.basename(OUTPUT_PATH), written);
   console.log(`[done] wrote ${cities.length} cit(y/ies) and ${counties.length} count(y/ies) to ${OUTPUT_PATH}`);
 }
 

@@ -24,6 +24,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import shp from "shpjs";
 import { normalizeStreetName } from "../src/lib/streetNormalize.mjs";
+import { updateDataManifest } from "./lib/dataManifest.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const OUTPUT_PATH = path.join(__dirname, "../public/address-index.json");
@@ -307,8 +308,10 @@ async function main() {
     zips,
   };
 
+  const output = JSON.stringify(index);
   await mkdir(path.dirname(OUTPUT_PATH), { recursive: true });
-  await writeFile(OUTPUT_PATH, JSON.stringify(index));
+  await writeFile(OUTPUT_PATH, output);
+  await updateDataManifest(path.basename(OUTPUT_PATH), output);
   console.log(
     `[done] wrote ${Object.keys(streets).length} street name(s), ${Object.keys(zips).length} zip(s) to ${OUTPUT_PATH}`,
   );

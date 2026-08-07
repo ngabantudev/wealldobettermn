@@ -133,6 +133,43 @@ Workers edge cases surface. -->
 
 ---
 
+## Map & Client Performance
+
+<!-- Add entries when WardMap.tsx (or any other client-side data-heavy component)
+regresses on payload size, load sequencing, or cache behavior. -->
+
+- 2026-08-07 — **[geojson size]** — Raw ArcGIS/county GIS output ships 14+ decimal
+  places of coordinate precision (sub-millimeter) with zero simplification — nobody
+  upstream trims this before publishing it. Any new `fetch-*.mjs` script that writes a
+  Polygon/MultiPolygon layer to `public/` should route its output through
+  `scripts/lib/geoSimplify.mjs`'s `simplifyAndRound()` before `writeFile`, the same way
+  `fetch-wards.mjs`/`fetch-commissioners.mjs`/`fetch-state-legislature.mjs` do — it's an
+  80-90% byte reduction with no visible quality loss at this app's actual zoom range, and
+  it costs one import + one function call. Skip it only for a layer small enough already
+  that it isn't worth the pass (see `fetch-at-large-boundaries.mjs`'s own comment on
+  Woodbury's 848 coordinate pairs) — don't skip it by default.
+- 2026-08-07 — **[client fetch caching]** — `{ cache: "no-store" }` on a client-side
+  `fetch()` for a `public/*.json`/`*.geojson` file defeats the browser's HTTP cache
+  *entirely*, every page load, not just across deploys. If a stale cached response ever
+  crashing the component on a missing field is the actual worry, fix it with a
+  content-hash query param (see `WardMap.tsx`'s `dataUrl()` + `scripts/lib/
+  dataManifest.mjs`) instead — that gets a guaranteed cache miss on real content changes
+  *and* real caching everywhere else, rather than trading away the second to get the
+  first. `public/_headers` still needs a real `Cache-Control` for the plain (non-`?v=`)
+  path too, since a downstream consumer or the bulk-export link fetches that directly.
+- 2026-08-07 — **[background-fetch vs. hidden-feature data]** — Before deferring or
+  backgrounding a fetch for whichever LayerMode isn't currently visible, check whether
+  something *other* than the visible layer already depends on that data — `WardMap.tsx`'s
+  multi-tier hover/click panel (`src/lib/officials.ts`'s `resolveOfficialsAtPoint`)
+  resolves city+county+state on every hover regardless of which single LayerMode is on
+  screen, by design (PR #49). A naive "only fetch commissioners/state-legislature once
+  the user switches to that mode" would have silently broken that panel for anyone who
+  never switches modes — the fix that shipped instead (issue #67) still backgrounds the
+  fetch (sequenced after the primary wards/mayors fetch, not gated on a mode switch) so
+  the panel just fills in a moment later instead of going dark.
+
+---
+
 ## Data & Privacy
 
 - **[donor ingest]** — The §1b donor privacy rules must be enforced at ingest time, not

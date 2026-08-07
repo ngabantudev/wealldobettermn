@@ -2,3 +2,34 @@
 # https://opennext.js.org/cloudflare/caching#static-assets-caching
 /_next/static/*
   Cache-Control: public,max-age=31536000,immutable
+
+# The civic data layers WardMap.tsx fetches client-side (wards, mayors,
+# commissioners, state-legislature, at-large-boundaries, address-index,
+# mn-places — see scripts/fetch-*.mjs) — issue #67 Finding 3. Cloudflare's
+# own default for static assets is "public, max-age=0, must-revalidate"
+# (always a conditional GET), which is safe but still a network round
+# trip on every page load. WardMap.tsx used to override that with `cache:
+# "no-store"` (no HTTP caching at all) to guard against a stale cached
+# response missing a field the current component code expects — a much
+# bigger hammer than the problem needed.
+#
+# The real fix lives in WardMap.tsx's own dataUrl() helper: every fetch
+# is cache-busted with a content-hash query param sourced from
+# public/data-manifest.json, so a changed file is always a guaranteed
+# cache miss regardless of what's cached here. That means these paths
+# can now carry a real (moderate, not "immutable" — see below) max-age
+# without reintroducing the stale-field risk `no-store` was guarding
+# against.
+#
+# Deliberately NOT `immutable`/a year-long max-age like /_next/static/*
+# above: unlike a webpack chunk, the *same* bare path (no query string)
+# stays reachable and meaningful on its own — a downstream consumer
+# (AGENTS.md §2.4) or the site's own bulk-export link can fetch
+# `/wards.geojson` directly, with no `?v=` param, and that response
+# needs to go stale on a bounded, short clock rather than sit in a
+# browser/edge cache for a year after the next data refresh lands.
+/*.geojson
+  Cache-Control: public,max-age=600,must-revalidate
+
+/*.json
+  Cache-Control: public,max-age=600,must-revalidate
