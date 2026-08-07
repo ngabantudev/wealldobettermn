@@ -26,14 +26,19 @@ const TIER_HEADER_BORDER = "#9BCBEB";
 // different color from the City/County/State bars above so the one panel
 // title reads as a distinct level from the three sections under it, not a
 // fourth one. Same live-sourced value as the tier headers' original green
-// (mn.gov/portal/css/core.css's .btn-success/.label-success). Text is
-// white per explicit design direction, even though white-on-this-green is
-// only ~2.3:1 contrast — well under WCAG AA's 4.5:1 for text this size
-// (see the tier-header comment above for the fuller math). Flagging this
-// rather than quietly "fixing" it back to dark text: if this ever needs
-// to pass an accessibility audit, this is the pairing to revisit first.
+// (mn.gov/portal/css/core.css's .btn-success/.label-success).
+//
+// Text color was picked by contrast ratio, not eyeballed: plain white
+// against this green is only ~2.3:1 (WCAG AA needs 4.5:1 for text this
+// size), plain black clears it at ~9.19:1 but reads flat/harsh against a
+// saturated brand color. This near-black, faintly green-tinted value
+// clears WCAG AAA (7:1, the stricter of the two standards) at ~7.9:1 while
+// still visually belonging to the same green rather than looking like an
+// unrelated black label dropped on top of it — the same "tint your dark
+// text toward the background hue instead of using pure black" move most
+// professional design systems make for text on a saturated color.
 const PANEL_HEADER_BG = "#78BE21";
-const PANEL_HEADER_TEXT = "#FFFFFF";
+const PANEL_HEADER_TEXT = "#0B1A08";
 
 // AGENTS.md §3.2 soft staleness notice ("A record older than a
 // configured threshold renders a visible staleness notice"), scoped to
@@ -588,7 +593,7 @@ export default function WardModal({ officials, onClose, variant = "sheet" }: War
         className="flex items-center justify-between gap-2 px-4 pt-2 pb-2 sm:pt-4 shrink-0"
         style={{ backgroundColor: PANEL_HEADER_BG, color: PANEL_HEADER_TEXT }}
       >
-        <h2 className="text-sm font-semibold">Representatives for this location</h2>
+        <h2 className="text-sm font-bold">Representatives for this location</h2>
         <button
           type="button"
           onClick={onClose}
