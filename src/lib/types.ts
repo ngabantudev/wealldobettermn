@@ -27,7 +27,13 @@ export interface BillVote {
   option: string; // this legislator's own vote: "yes" | "no" | etc.
   result: string; // the roll call's outcome: "pass" | "fail"
   date: string; // ISO date the vote was taken
-  openstatesUrl: string | null;
+  // Link to the primary record for this specific roll call. Named
+  // source-agnostically (not openstatesUrl) since #57 added a second
+  // producer — scripts/lib/legistarRecentVotes.mjs — alongside
+  // fetch-state-legislature.mjs's Open States one. Null, never guessed,
+  // when the producing script doesn't have a confirmed working per-item
+  // URL (AGENTS.md §3.3 "Missing Sources").
+  sourceUrl: string | null;
 }
 
 export interface RepProperties {

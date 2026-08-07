@@ -2,7 +2,7 @@
 
 import { useRef, useState } from "react";
 import type { KeyboardEvent } from "react";
-import type { RepProperties } from "@/lib/types";
+import type { BillVote, RepProperties } from "@/lib/types";
 import type { AreaOfficials } from "@/lib/officials";
 import { officialIdentity } from "@/lib/officials";
 import { CITY_TIER_EMPTY_NOTE, COUNTY_TIER_EMPTY_NOTE, STATE_TIER_EMPTY_NOTE } from "@/lib/coverage";
@@ -30,6 +30,54 @@ import { isStale } from "@/lib/electionConfig";
 // the amber accent.
 const STALE_COLOR = "#B45309";
 const STALE_COLOR_SOFT = "#FEF3C7";
+
+// "Voted absent" used to render in the exact same red as "voted no" — the
+// badge only ever branched on option === "yes", so anything else (no,
+// absent, excused, not voting, other) fell into one shared red styling.
+// That's a real accuracy problem, not a cosmetic one: an absent or
+// excused member didn't oppose anything, they didn't participate, and a
+// red "no"-colored badge tells a resident the opposite of what happened.
+// This became a live, shipped case with #57's Legistar votes (St. Paul/
+// Hennepin genuinely record "Absent" on the roll) — fetch-state-
+// legislature.mjs's own recentVotes never carried anything but yes/no
+// (QUALIFYING_OPTIONS there), so the bug was latent until now.
+//
+// Plain-language labels/glosses per AGENTS.md §0.9 — spelled out for the
+// three options a resident could otherwise misread, not just recolored.
+// label: the badge text. gloss: shown only for the non-yes/no cases,
+// where the plain meaning genuinely isn't obvious from the word alone.
+const VOTE_OPTION_DISPLAY: Record<string, { label: string; color: string; colorSoft: string; gloss?: string }> = {
+  yes: { label: "Voted Yes", color: "#166534", colorSoft: "#DCFCE7" },
+  no: { label: "Voted No", color: "#991B1B", colorSoft: "#FEE2E2" },
+  absent: {
+    label: "Absent",
+    color: STALE_COLOR,
+    colorSoft: STALE_COLOR_SOFT,
+    gloss: "Wasn't recorded as present for this vote — didn't vote either way.",
+  },
+  excused: {
+    label: "Excused",
+    color: STALE_COLOR,
+    colorSoft: STALE_COLOR_SOFT,
+    gloss: "Formally excused from this vote — sometimes a conflict-of-interest recusal, sometimes a pre-approved absence.",
+  },
+  "not voting": {
+    label: "Present, No Vote",
+    color: STALE_COLOR,
+    colorSoft: STALE_COLOR_SOFT,
+    gloss: "Was present but didn't cast a vote either way.",
+  },
+};
+const DEFAULT_VOTE_OPTION_DISPLAY = {
+  label: "Other",
+  color: STALE_COLOR,
+  colorSoft: STALE_COLOR_SOFT,
+  gloss: "Recorded outside the usual yes/no options — see the source record for the specifics.",
+};
+
+function voteOptionDisplay(option: string) {
+  return VOTE_OPTION_DISPLAY[option] ?? DEFAULT_VOTE_OPTION_DISPLAY;
+}
 
 function isVerificationStale(rep: RepProperties): boolean {
   if (rep.chamber === null) return false; // only state legislature carries verifiedAt today
@@ -204,6 +252,67 @@ function IconExternal() {
   );
 }
 
+// One recent-votes row. The plain-language gloss for a non-yes/no option
+// (see VOTE_OPTION_DISPLAY) is real information, but printing it on every
+// row unconditionally reads as clutter once a card has 5 of these stacked
+// — most residents scanning the list already read "Absent" as "wasn't
+// there" without help. Hidden by default, revealed on hover (the badge's
+// native `title` tooltip, free) or tap/click/keyboard (this component's
+// own toggle, since touch has no hover state to fall back on) — same
+// "info available on demand, not forced on everyone" shape as the rest of
+// this file's disclosure patterns. yes/no rows have no gloss at all, so
+// they stay a plain, non-interactive span exactly as before.
+function VoteRow({ vote, accent }: { vote: BillVote; accent: string }) {
+  const display = voteOptionDisplay(vote.option);
+  const [showGloss, setShowGloss] = useState(false);
+  const glossId = display.gloss ? `vote-gloss-${vote.voteId}` : undefined;
+
+  return (
+    <li className="text-sm">
+      <div className="flex items-start justify-between gap-2">
+        <span className="font-medium text-ink">{vote.identifier}</span>
+        {display.gloss ? (
+          <button
+            type="button"
+            onClick={() => setShowGloss((shown) => !shown)}
+            aria-expanded={showGloss}
+            aria-describedby={glossId}
+            title={display.gloss}
+            className="text-[10px] font-semibold uppercase tracking-wide px-1.5 py-0.5 rounded shrink-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-inset"
+            style={{ color: display.color, backgroundColor: display.colorSoft }}
+          >
+            {display.label}
+          </button>
+        ) : (
+          <span
+            className="text-[10px] font-semibold uppercase tracking-wide px-1.5 py-0.5 rounded shrink-0"
+            style={{ color: display.color, backgroundColor: display.colorSoft }}
+          >
+            {display.label}
+          </span>
+        )}
+      </div>
+      {display.gloss && showGloss && (
+        <div id={glossId} className="text-xs italic text-ink-3">
+          {display.gloss}
+        </div>
+      )}
+      <div className="text-xs text-ink-3">{vote.title}</div>
+      {vote.sourceUrl && (
+        <a
+          href={vote.sourceUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-xs font-medium hover:underline"
+          style={{ color: accent }}
+        >
+          View bill
+        </a>
+      )}
+    </li>
+  );
+}
+
 // One officeholder's full profile — name, contact, committees, votes, the
 // works. Reused up to six times per panel (Mayor + Council Member for
 // City, County Commissioner for County, State Rep + State Senator for
@@ -339,14 +448,18 @@ function OfficialCard({ rep }: { rep: RepProperties }) {
       {/* Always renders, data or not — matching the Meetings section below
           rather than the old silent omission when recentVotes was empty.
           AGENTS.md §3.1: an absent feed is an honest gap to say out loud,
-          not a section that just quietly doesn't appear. Today only
-          scripts/fetch-state-legislature.mjs populates recentVotes (Open
-          States rollcalls); Council Member and County Commissioner seats
-          render the gap note below until a Legistar /votes ingest exists
-          (§3.2's "Highest-value integration" — tracked as a follow-up).
-          Skipped for Mayor: strong-mayor systems don't cast the kind of
-          roll-call vote this section models, and no upstream source scoped
-          here tracks mayoral tie-breaking votes as one. */}
+          not a section that just quietly doesn't appear.
+          scripts/fetch-state-legislature.mjs populates this from Open
+          States rollcalls; scripts/lib/legistarRecentVotes.mjs (#57) joins
+          it in for St. Paul Council Members and Hennepin County
+          Commissioners from public/legistar/{client}.json's already-
+          resolved holding→vote records. Every other Council Member/County
+          Commissioner seat (Minneapolis, Ramsey — neither is a Legistar
+          client) still renders the honest gap note below until a feed
+          exists for them. Skipped for Mayor: strong-mayor systems don't
+          cast the kind of roll-call vote this section models, and no
+          upstream source scoped here tracks mayoral tie-breaking votes as
+          one. */}
       {rep.role !== "Mayor" && (
         <div className="border-t border-hair px-4 py-3">
           <div className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-ink-3 mb-2.5">
@@ -356,33 +469,7 @@ function OfficialCard({ rep }: { rep: RepProperties }) {
           {recentVotes.length > 0 ? (
             <ul className="space-y-2.5">
               {recentVotes.map((vote) => (
-                <li key={vote.voteId} className="text-sm">
-                  <div className="flex items-start justify-between gap-2">
-                    <span className="font-medium text-ink">{vote.identifier}</span>
-                    <span
-                      className="text-[10px] font-semibold uppercase tracking-wide px-1.5 py-0.5 rounded shrink-0"
-                      style={
-                        vote.option === "yes"
-                          ? { color: "#166534", backgroundColor: "#DCFCE7" }
-                          : { color: "#991B1B", backgroundColor: "#FEE2E2" }
-                      }
-                    >
-                      Voted {vote.option}
-                    </span>
-                  </div>
-                  <div className="text-xs text-ink-3">{vote.title}</div>
-                  {vote.openstatesUrl && (
-                    <a
-                      href={vote.openstatesUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-xs font-medium hover:underline"
-                      style={{ color: accent }}
-                    >
-                      View bill
-                    </a>
-                  )}
-                </li>
+                <VoteRow key={vote.voteId} vote={vote} accent={accent} />
               ))}
             </ul>
           ) : (
