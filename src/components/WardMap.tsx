@@ -53,6 +53,13 @@ const WARDS_LABEL_LAYER_ID = "wards-label";
 // labelPointsFromFeatureCollection's comment for why the label can't just
 // stay on the polygon source alongside the fill/outline/pulse layers.
 const WARDS_LABEL_SOURCE_ID = "wards-label-source";
+// Dotted lines tracing the formation wardPinOffsets lays multiple
+// council-member pins out in, for wards that seat more than one member
+// off one shared polygon — see wardPinConnectorLines. Wards-only: mayors
+// and commissioners/state legislators are always one pin per polygon, so
+// there's never a second layer's worth of these to draw.
+const WARDS_PIN_LINKS_SOURCE_ID = "wards-pin-links-source";
+const WARDS_PIN_LINKS_LAYER_ID = "wards-pin-links";
 
 const COMMISSIONERS_SOURCE_ID = "commissioners-source";
 const COMMISSIONERS_FILL_LAYER_ID = "commissioners-fill";
@@ -223,19 +230,58 @@ interface PinMarker {
   // commissioners with commissioner districts — so visibility toggling can
   // tell the two groups of pins apart without a second ref/loop per type.
   mode: LayerMode;
+  // Set only for a council-member pin sharing its ward with other
+  // members — its formation position (see wardPinPixelOffsets) has to be
+  // recomputed on every zoom change, since it's defined in screen pixels
+  // relative to `center`, not a fixed lng/lat. Every other pin (mayors,
+  // commissioners, state legislators, single-member wards) is placed once
+  // and never moves, so this stays unset for them.
+  formation?: { center: maplibregl.LngLat; index: number; count: number };
 }
 
-// Pin diameter scales with how much ground the office actually covers: a
-// citywide executive (one mayor) reads as more prominent than one of
-// several countywide board seats, which in turn outranks a single ward.
-const PIN_DIAMETER_BY_ROLE: Partial<Record<RepProperties["role"], number>> = {
-  Mayor: 52,
-  "County Commissioner": 40,
-  "State Senator": 38,
-  "State Representative": 36,
-  "Council Member": 34,
+// Pin diameter scales along two axes at once: how much ground the office
+// actually covers (a citywide executive reads as more prominent than one
+// of several countywide board seats, which in turn outranks a single
+// ward — the min/max floor and ceiling below), and the current map zoom
+// (see diameterForZoom) — without the second axis, zooming out to see
+// the whole metro leaves every pin at its zoomed-in size, so wards close
+// enough together clump into an unreadable pile of overlapping photos.
+// Each role keeps a higher floor than the ones below it in the
+// hierarchy, so when pins do start crowding at a low zoom, the most
+// numerous/least individually consequential role (Council Member)
+// recedes first while state/county pins stay legible longest.
+const PIN_SIZE_RANGE_BY_ROLE: Partial<Record<RepProperties["role"], { min: number; max: number }>> = {
+  Mayor: { min: 30, max: 52 },
+  "County Commissioner": { min: 22, max: 40 },
+  "State Senator": { min: 20, max: 38 },
+  "State Representative": { min: 18, max: 36 },
+  "Council Member": { min: 14, max: 34 },
 };
-const DEFAULT_PIN_DIAMETER = 44;
+const DEFAULT_PIN_SIZE_RANGE = { min: 18, max: 44 };
+
+// The zoom range over which pin diameter interpolates — below MIN every
+// pin holds at its role's smallest size, above MAX at its largest.
+// Chosen around DEFAULT_ZOOM (10.4, the whole-metro starting view):
+// zoomed out further than that, pins are already shrinking toward
+// legible-but-small; zoomed in to a single neighborhood, they're at
+// full size.
+const PIN_ZOOM_MIN = 8;
+const PIN_ZOOM_MAX = 14;
+
+function clamp01(t: number): number {
+  return Math.min(1, Math.max(0, t));
+}
+
+// Pins are plain DOM markers, not a symbol layer (see createRepPinElement's
+// comment below) — there's no style-spec `icon-size` paint property to
+// hand a MapLibre `interpolate` expression to, so this is the by-hand
+// equivalent, called both when a pin is first created and again from the
+// "zoom" listener registered in the map-setup effect below.
+function diameterForZoom(role: RepProperties["role"], zoom: number): number {
+  const { min, max } = PIN_SIZE_RANGE_BY_ROLE[role] ?? DEFAULT_PIN_SIZE_RANGE;
+  const t = clamp01((zoom - PIN_ZOOM_MIN) / (PIN_ZOOM_MAX - PIN_ZOOM_MIN));
+  return min + t * (max - min);
+}
 
 // How far below its anchor point the ward/county/state text renders — an
 // `em`-based offset (text-offset is in units of the layer's own
@@ -309,6 +355,152 @@ function labelPointsFromFeatureCollection(data: FeatureCollection): FeatureColle
         properties: feature.properties,
       };
     });
+  return { type: "FeatureCollection", features };
+}
+
+// How far each pin in a multi-member formation sits from the ward's
+// shared bounds-center, as a multiple of that pin's own current diameter
+// — screen pixels, not degrees. Degrees would shrink to fewer and fewer
+// on-screen pixels as the map zooms out (eventually merging the group
+// back into one indistinguishable pile — the exact bug pin-diameter
+// zoom-scaling was added to fix in the first place) and balloon to
+// disproportionately many zoomed in. Tying spacing to diameter, which
+// already scales with zoom (see diameterForZoom), keeps the formation
+// reading as the same shape, at a size proportional to the pins
+// themselves, at every zoom level — recomputed live by the "zoom"
+// listener in the map-setup effect below, the same way pin size is.
+const WARD_PIN_CLUSTER_SPACING_FACTOR = 0.8;
+
+// Offsets (screen pixels, added to a ward's shared bounds-center's
+// projected position) for each pin in a group of `count` council members
+// seated off one shared polygon — a handful of wards today (Blaine's and
+// Brooklyn Park's among them), more likely after future redistricting.
+// Ordered so that connecting consecutive entries, wrapping the last back
+// to the first, traces the formation's outline; wardPinConnectorPoints
+// below relies on that ordering directly to draw a matching dotted line.
+// Two pins form a horizontal line, three a triangle, four a square —
+// beyond that (not seen in the data yet) falls back to an evenly spaced
+// ring rather than inventing a named shape for a case with no real
+// example to design against. Screen-pixel Y grows downward, so a
+// negative dy is "up" on screen regardless of the map's current bearing
+// — deliberate: this is a formation the *viewer* sees as a triangle or
+// square, not one fixed to compass north.
+function wardPinPixelOffsets(count: number, spacingPx: number): [number, number][] {
+  const d = spacingPx;
+  switch (count) {
+    case 0:
+    case 1:
+      return [[0, 0]];
+    case 2:
+      return [
+        [-d, 0],
+        [d, 0],
+      ];
+    case 3:
+      return [
+        [0, -d], // apex, screen-up
+        [d, d * 0.6], // bottom-right
+        [-d, d * 0.6], // bottom-left
+      ];
+    case 4:
+      return [
+        [-d, -d], // top-left
+        [d, -d], // top-right
+        [d, d], // bottom-right
+        [-d, d], // bottom-left
+      ]; // traced clockwise
+    default:
+      return Array.from({ length: count }, (_, i) => {
+        const angle = (2 * Math.PI * i) / count;
+        return [d * Math.cos(angle), d * Math.sin(angle)];
+      });
+  }
+}
+
+// Groups ward/council-member polygon features that share one ward key
+// (city+ward) in the same order addPins below iterates them, so a
+// group's Nth feature always lands at wardPinPixelOffsets(group.length)[N].
+// The one place this grouping happens, shared by pin placement and the
+// connector-line layer below, so the two can never drift out of sync
+// with each other.
+function groupWardFeaturesByWard(data: FeatureCollection): Map<string, Feature<Geometry>[]> {
+  const groups = new Map<string, Feature<Geometry>[]>();
+  for (const feature of data.features) {
+    if (feature.geometry.type !== "Polygon" && feature.geometry.type !== "MultiPolygon") continue;
+    const properties = feature.properties as RepProperties;
+    const wardKey = `${properties.city}-${properties.ward}`;
+    const group = groups.get(wardKey);
+    if (group) group.push(feature as Feature<Geometry>);
+    else groups.set(wardKey, [feature as Feature<Geometry>]);
+  }
+  return groups;
+}
+
+// Reprojects a ward's shared bounds-center plus one pixel-space formation
+// offset back to a real map coordinate — the one piece of math both a
+// formation pin's own placement (addPin) and its dotted connector-line
+// endpoint (wardPinConnectorPoints) build on, so the two can never
+// compute a different answer for "where does pin N of this group sit."
+function formationLngLat(map: maplibregl.Map, center: maplibregl.LngLat, dx: number, dy: number): maplibregl.LngLat {
+  const centerPx = map.project(center);
+  return map.unproject([centerPx.x + dx, centerPx.y + dy]);
+}
+
+// The dotted connector line's endpoints for one multi-member ward —
+// same formation math as the pins themselves (formationLngLat +
+// wardPinPixelOffsets), but shifted up by half the current pin diameter
+// so the line passes through each pin's visual center rather than its
+// "bottom"-anchored coordinate (see addPin's anchor comment: growing a
+// bottom-anchored pin never moves its anchor point, only its top edge,
+// so the line needs its own correction here rather than one applied to
+// the pins). Triangle/square formations close the loop back to their
+// first point so the line traces a full outline; a 2-point "line" is
+// already a single segment.
+function wardPinConnectorPoints(
+  map: maplibregl.Map,
+  center: maplibregl.LngLat,
+  count: number,
+  diameter: number,
+): [number, number][] {
+  const spacing = diameter * WARD_PIN_CLUSTER_SPACING_FACTOR;
+  const offsets = wardPinPixelOffsets(count, spacing);
+  const points = offsets.map(([dx, dy]) => {
+    const ll = formationLngLat(map, center, dx, dy - diameter / 2);
+    return [ll.lng, ll.lat] as [number, number];
+  });
+  if (points.length > 2) points.push(points[0]);
+  return points;
+}
+
+// One dotted LineString per multi-member ward, tracing the same
+// formation each pin in the group is laid out in — visually ties the
+// group together as "these people share one ward" the moment two or
+// more pins land close enough to read as related rather than
+// coincidental. Wards with exactly one member produce no line (nothing
+// to connect); a real style-layer source (unlike pins, which are DOM
+// markers — see createRepPinElement's comment), so this gets (re-)added
+// alongside the other wards-* layers in addSourcesAndLayers, and its
+// data refreshed on every zoom change by the listener in the map-setup
+// effect below, the same way pin positions are.
+function wardPinConnectorLines(map: maplibregl.Map, data: FeatureCollection): FeatureCollection {
+  const zoom = map.getZoom();
+  const features: Feature<Geometry>[] = [];
+  for (const group of groupWardFeaturesByWard(data).values()) {
+    if (group.length < 2) continue;
+    const center = boundsFromFeature(group[0]).getCenter();
+    const diameter = diameterForZoom("Council Member", zoom);
+    const points = wardPinConnectorPoints(map, center, group.length, diameter);
+    // Carries `city` through (every member of a group shares one, by
+    // construction of the wardKey grouping) so applyCityFilter can hide
+    // this line along with the rest of a deselected city's wards instead
+    // of it lingering onscreen with no visible pins attached to it.
+    const { city } = group[0].properties as RepProperties;
+    features.push({
+      type: "Feature",
+      geometry: { type: "LineString", coordinates: points },
+      properties: { city },
+    });
+  }
   return { type: "FeatureCollection", features };
 }
 
@@ -426,7 +618,7 @@ function isMobileViewport(): boolean {
 // same element, that overwrites Marker's translate and the pin jumps to
 // the map's untransformed top-left corner. Scaling the inner element
 // instead leaves Marker's own transform on the outer one alone.
-function createRepPinElement(rep: RepProperties, diameter: number = DEFAULT_PIN_DIAMETER): HTMLDivElement {
+function createRepPinElement(rep: RepProperties, diameter: number): HTMLDivElement {
   const accent = partyColor(rep.repParty);
   const outer = document.createElement("div");
   outer.setAttribute("role", "button");
@@ -445,6 +637,10 @@ function createRepPinElement(rep: RepProperties, diameter: number = DEFAULT_PIN_
   outer.style.cssText = `cursor: pointer; z-index: ${Math.round(diameter)};`;
 
   const inner = document.createElement("div");
+  // Classed (not just positioned by this element's own cssText) so the
+  // zoom-resize listener in the map-setup effect can find it without
+  // relying on DOM structure (outer.firstElementChild) staying stable.
+  inner.className = "rep-pin-inner";
   inner.style.cssText = `
     width: ${diameter}px; height: ${diameter}px; border-radius: 9999px;
     border: 3px solid ${accent}; box-shadow: 0 2px 8px rgba(0,0,0,0.35);
@@ -766,6 +962,7 @@ export default function WardMap() {
         WARDS_FILL_LAYER_ID,
         WARDS_OUTLINE_LAYER_ID,
         WARDS_LABEL_LAYER_ID,
+        WARDS_PIN_LINKS_LAYER_ID,
         COMMISSIONERS_FILL_LAYER_ID,
         COMMISSIONERS_OUTLINE_LAYER_ID,
         COMMISSIONERS_LABEL_LAYER_ID,
@@ -819,7 +1016,7 @@ export default function WardMap() {
     const map = mapRef.current;
     if (!map) return;
     const layerGroups: [LayerMode, string[]][] = [
-      ["wards", [WARDS_FILL_LAYER_ID, WARDS_OUTLINE_LAYER_ID, WARDS_PULSE_LAYER_ID, WARDS_LABEL_LAYER_ID]],
+      ["wards", [WARDS_FILL_LAYER_ID, WARDS_OUTLINE_LAYER_ID, WARDS_PULSE_LAYER_ID, WARDS_LABEL_LAYER_ID, WARDS_PIN_LINKS_LAYER_ID]],
       [
         "commissioners",
         [COMMISSIONERS_FILL_LAYER_ID, COMMISSIONERS_OUTLINE_LAYER_ID, COMMISSIONERS_PULSE_LAYER_ID, COMMISSIONERS_LABEL_LAYER_ID],
@@ -1077,6 +1274,56 @@ export default function WardMap() {
       console.error("[MapLibre ERROR]", e.error?.message ?? e);
     });
 
+    // Keeps every pin's on-screen size (and, for multi-member wards, its
+    // formation position) matching the current zoom as the resident
+    // zooms — pins are DOM markers (see createRepPinElement's comment),
+    // so nothing in MapLibre's own style pipeline resizes or repositions
+    // them the way an `interpolate` expression would for a symbol
+    // layer's icon-size; this is that behavior, applied by hand. "zoom"
+    // fires on every frame of a pinch/scroll/fitBounds animation, faster
+    // than layout needs to keep up with, so updates are coalesced to at
+    // most one per animation frame rather than applied on every event.
+    let pinResizeFrame: number | null = null;
+    const resizePinsForZoom = () => {
+      pinResizeFrame = null;
+      const zoom = map.getZoom();
+      for (const { marker, properties, formation } of pinMarkersRef.current) {
+        const diameter = diameterForZoom(properties.role, zoom);
+        const el = marker.getElement();
+        const inner = el.querySelector<HTMLElement>(".rep-pin-inner");
+        if (inner) {
+          inner.style.width = `${diameter}px`;
+          inner.style.height = `${diameter}px`;
+        }
+        // Keeps the bigger-role-renders-on-top rule (see
+        // createRepPinElement's z-index comment) correct at every zoom
+        // level, not just the one each pin happened to be created at.
+        el.style.zIndex = String(Math.round(diameter));
+        // Formation pins are positioned in screen pixels relative to
+        // their ward's fixed center (see wardPinPixelOffsets) — that
+        // has to be reprojected every time the pixel-to-lnglat mapping
+        // changes, not just resized, or the group visually drifts back
+        // together as the map zooms out.
+        if (formation) {
+          const spacing = diameter * WARD_PIN_CLUSTER_SPACING_FACTOR;
+          const [dx, dy] = wardPinPixelOffsets(formation.count, spacing)[formation.index];
+          marker.setLngLat(formationLngLat(map, formation.center, dx, dy));
+        }
+      }
+      // The dashed connector lines are a real style layer (not a DOM
+      // marker), sourced from a plain GeoJSON snapshot — refreshing it
+      // here keeps the lines tracking the same pins they're connecting
+      // instead of drifting out of sync with them as zoom changes.
+      const wardsSource = map.getSource(WARDS_PIN_LINKS_SOURCE_ID) as maplibregl.GeoJSONSource | undefined;
+      if (wardsSource && wardsDataRef.current) {
+        wardsSource.setData(wardPinConnectorLines(map, wardsDataRef.current));
+      }
+    };
+    map.on("zoom", () => {
+      if (pinResizeFrame !== null) return;
+      pinResizeFrame = requestAnimationFrame(resizePinsForZoom);
+    });
+
     // Pins are plain DOM markers (maplibregl.Marker), not part of the
     // MapLibre style — they survive a setStyle() basemap swap on their own,
     // so this only ever runs once, guarded by pinMarkersRef itself rather
@@ -1093,7 +1340,6 @@ export default function WardMap() {
       const addPin = (
         properties: RepProperties,
         coordinates: maplibregl.LngLatLike,
-        diameter: number = DEFAULT_PIN_DIAMETER,
         mode: LayerMode,
         zoomBounds: maplibregl.LngLatBounds,
         // "center" (the default) is right for mayors — a point with no
@@ -1102,15 +1348,43 @@ export default function WardMap() {
         // that DO share a coordinate with a text label pass "bottom"
         // instead, so the pin's own bottom edge (not its middle) sits at
         // that point — see LABEL_TEXT_OFFSET's comment for the other half
-        // of this.
+        // of this. That bottom edge is also why zoom-driven resizing (see
+        // the "zoom" listener below) never has to touch this offset: a
+        // "bottom"-anchored pin grows and shrinks upward, away from its
+        // label, so the anchor coordinate — and the gap below it — never
+        // moves regardless of diameter.
         anchor: maplibregl.PositionAnchor = "center",
+        // Set only for a council-member pin sharing its ward with other
+        // members — overrides `coordinates` with a live pixel-projected
+        // formation position (see wardPinPixelOffsets) instead of the
+        // raw ward bounds-center every member of the group would
+        // otherwise collide on. Stored on the PinMarker so the "zoom"
+        // listener below can keep recomputing it as the map moves.
+        formation?: { center: maplibregl.LngLat; index: number; count: number },
       ) => {
+        // Sized for the zoom the map is at right now; kept in sync as that
+        // changes by the "zoom" listener below, which walks pinMarkersRef
+        // the same way this function populates it.
+        const diameter = diameterForZoom(properties.role, map.getZoom());
+        const initialLngLat = formation
+          ? formationLngLat(
+              map,
+              formation.center,
+              ...wardPinPixelOffsets(formation.count, diameter * WARD_PIN_CLUSTER_SPACING_FACTOR)[formation.index],
+            )
+          : maplibregl.LngLat.convert(coordinates);
         const el = createRepPinElement(properties, diameter);
-        const marker = new maplibregl.Marker({ element: el, anchor }).setLngLat(coordinates).addTo(map);
+        const marker = new maplibregl.Marker({ element: el, anchor }).setLngLat(initialLngLat).addTo(map);
         // A pin's own coordinate always seeds `properties` into its own
         // tier (via resolveSelectionAtPoint's `known` param) — the other
         // two tiers still resolve by point-in-polygon at that same spot.
-        const point = toPoint(coordinates);
+        // Deliberately the *un-nudged* coordinate for a formation pin
+        // (formation.center, not initialLngLat) — the point-in-polygon
+        // test needs to land inside the actual ward polygon, and a
+        // formation offset large enough to ever risk stepping outside
+        // that polygon would already be too large to look like a tight
+        // group of pins.
+        const point = toPoint(formation ? formation.center : coordinates);
 
         el.addEventListener("mouseenter", () => {
           if (!isDesktopHover || selectedRef.current?.pinned) return;
@@ -1127,37 +1401,36 @@ export default function WardMap() {
           zoomToBounds(zoomBounds);
         });
 
-        pinMarkersRef.current.push({ marker, properties, mode });
+        pinMarkersRef.current.push({ marker, properties, mode, formation });
       };
 
       for (const feature of mayorsData.features) {
         if (feature.geometry.type !== "Point") continue;
         const properties = feature.properties as RepProperties;
         const [lng, lat] = feature.geometry.coordinates as [number, number];
-        addPin(properties, [lng, lat], PIN_DIAMETER_BY_ROLE.Mayor, "wards", boundsAroundPoint(lng, lat));
+        addPin(properties, [lng, lat], "wards", boundsAroundPoint(lng, lat));
       }
 
       // One pin per council member, centered on their ward — same
       // bounds-center-as-marker-position approach as commissioners below,
       // since (unlike mayors) there's no single office address to anchor to.
-      // A handful of wards (Blaine's, currently) seat two members off one
-      // shared polygon — bounds-center would place both pins on the exact
-      // same coordinate, so the second (and any further) occurrence of a
-      // given city+ward is nudged sideways to stay independently clickable.
-      // The polygon itself (fill/outline/zoom target) is untouched — only
-      // the pin marker's coordinate shifts.
-      const wardPinOccurrences = new Map<string, number>();
-      for (const feature of data.features) {
-        if (feature.geometry.type !== "Polygon" && feature.geometry.type !== "MultiPolygon") continue;
-        const properties = feature.properties as RepProperties;
-        const bounds = boundsFromFeature(feature as Feature<Geometry>);
-        const wardKey = `${properties.city}-${properties.ward}`;
-        const occurrence = wardPinOccurrences.get(wardKey) ?? 0;
-        wardPinOccurrences.set(wardKey, occurrence + 1);
-        const center = bounds.getCenter();
-        const coordinates: maplibregl.LngLatLike =
-          occurrence === 0 ? center : [center.lng + occurrence * 0.0015, center.lat];
-        addPin(properties, coordinates, PIN_DIAMETER_BY_ROLE["Council Member"], "wards", bounds, "bottom");
+      // A handful of wards (Blaine's and Brooklyn Park's, currently) seat
+      // two or more members off one shared polygon — bounds-center would
+      // place all of them on the exact same coordinate, so each group is
+      // laid out in the fixed formation wardPinPixelOffsets returns for
+      // its size (a line, a triangle, a square, ...) instead, via the
+      // `formation` passed to addPin. The polygon itself (fill/outline/
+      // zoom target) is untouched — only the pin marker's coordinate
+      // shifts. wardPinConnectorLines (added as its own layer in
+      // addSourcesAndLayers) draws a dotted outline of the same
+      // formation, so the grouping stays visually a group of pins.
+      for (const group of groupWardFeaturesByWard(data).values()) {
+        const center = boundsFromFeature(group[0]).getCenter();
+        group.forEach((feature, i) => {
+          const properties = feature.properties as RepProperties;
+          const bounds = boundsFromFeature(feature);
+          addPin(properties, center, "wards", bounds, "bottom", { center, index: i, count: group.length });
+        });
       }
 
       // One pin per commissioner, same interaction pattern as mayors, but
@@ -1168,7 +1441,7 @@ export default function WardMap() {
         if (feature.geometry.type !== "Polygon" && feature.geometry.type !== "MultiPolygon") continue;
         const properties = feature.properties as RepProperties;
         const bounds = boundsFromFeature(feature as Feature<Geometry>);
-        addPin(properties, bounds.getCenter(), PIN_DIAMETER_BY_ROLE["County Commissioner"], "commissioners", bounds, "bottom");
+        addPin(properties, bounds.getCenter(), "commissioners", bounds, "bottom");
       }
 
       // One pin per state legislator — role (and so pin size) varies
@@ -1178,7 +1451,7 @@ export default function WardMap() {
         if (feature.geometry.type !== "Polygon" && feature.geometry.type !== "MultiPolygon") continue;
         const properties = feature.properties as RepProperties;
         const bounds = boundsFromFeature(feature as Feature<Geometry>);
-        addPin(properties, bounds.getCenter(), PIN_DIAMETER_BY_ROLE[properties.role], "state-legislature", bounds, "bottom");
+        addPin(properties, bounds.getCenter(), "state-legislature", bounds, "bottom");
       }
     };
 
@@ -1213,6 +1486,10 @@ export default function WardMap() {
         data: labelPointsFromFeatureCollection(commissionersData),
       });
       map.addSource(STATE_LEG_LABEL_SOURCE_ID, { type: "geojson", data: labelPointsFromFeatureCollection(stateLegData) });
+      // See wardPinConnectorLines's comment — one dashed LineString per
+      // ward that seats more than one council member, tracing the same
+      // formation their pins are laid out in.
+      map.addSource(WARDS_PIN_LINKS_SOURCE_ID, { type: "geojson", data: wardPinConnectorLines(map, data) });
 
       map.addLayer({
         id: WARDS_FILL_LAYER_ID,
@@ -1256,6 +1533,16 @@ export default function WardMap() {
           "text-offset": LABEL_TEXT_OFFSET,
         },
         paint: labelPaint,
+      });
+      // Dashed rather than solid — a visual "these belong together" hint
+      // subordinate to the pins themselves (DOM markers, always rendered
+      // above this GL layer regardless of paint order), not a boundary or
+      // route implying anything about the underlying geography.
+      map.addLayer({
+        id: WARDS_PIN_LINKS_LAYER_ID,
+        type: "line",
+        source: WARDS_PIN_LINKS_SOURCE_ID,
+        paint: { "line-color": outlineColor, "line-width": 1.5, "line-dasharray": [2, 2], "line-opacity": 0.8 },
       });
 
       map.addLayer({
@@ -1566,6 +1853,7 @@ export default function WardMap() {
       navControl.onRemove();
       attribControl.onRemove();
       if (pulseAnimationFrameRef.current !== null) cancelAnimationFrame(pulseAnimationFrameRef.current);
+      if (pinResizeFrame !== null) cancelAnimationFrame(pinResizeFrame);
       for (const { marker } of pinMarkersRef.current) marker.remove();
       pinMarkersRef.current = [];
       map.remove();
