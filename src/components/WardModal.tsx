@@ -8,18 +8,18 @@ import { CITY_TIER_EMPTY_NOTE, COUNTY_TIER_EMPTY_NOTE, STATE_TIER_EMPTY_NOTE } f
 import { CONTESTED_COLOR, CONTESTED_COLOR_SOFT, partyColor, partyColorSoft } from "@/lib/cityTheme";
 import { isStale } from "@/lib/electionConfig";
 
-// Minnesota's own state-government "success"/accent green — matches
-// mn.gov's live stylesheet (mn.gov/portal/css/core.css: .btn-success,
-// footer's top border, .label-success all use this exact value) as of
-// this writing, not a guessed "state-flag green." A fixed brand color, not
-// a themed one — same reasoning as CONTESTED_COLOR/STALE_COLOR below: it
-// should read the same in light and dark mode. Paired with a dark (not
-// mn.gov's own white-on-green) label color: white text on this green is
-// only ~2.3:1 contrast, well under WCAG AA's 4.5:1 for text this size —
-// mn.gov's own header/button usage doesn't hold up to it either, and
-// AGENTS.md Part 4 rules that out here regardless of the reference site.
-const MN_GREEN = "#78BE21";
-const MN_GREEN_TEXT = "#12290C";
+// mn.gov's own header treatment (mn.gov/portal/css/core.css:
+// .header_formatting{background:#003865;border-bottom:1px solid #9bcbeb}),
+// matched exactly rather than approximated — same navy the mn.gov masthead
+// itself uses, with the same light-blue hairline it pairs underneath. A
+// fixed brand color, not a themed one — same reasoning as CONTESTED_COLOR/
+// STALE_COLOR below: it should read the same in light and dark mode.
+// Unlike the accent green this replaced, white text on this navy is a
+// clean ~12.7:1 contrast — mn.gov's own white-on-#003865 header text holds
+// up fine here, so no departure from the reference needed this time.
+const TIER_HEADER_BG = "#003865";
+const TIER_HEADER_TEXT = "#FFFFFF";
+const TIER_HEADER_BORDER = "#9BCBEB";
 
 // AGENTS.md §3.2 soft staleness notice ("A record older than a
 // configured threshold renders a visible staleness notice"), scoped to
@@ -604,7 +604,16 @@ export default function WardModal({ officials, onClose, variant = "sheet" }: War
                   aria-expanded={!isCollapsed}
                   aria-controls={contentId}
                   className="flex w-full items-center justify-between gap-2 px-4 py-2 text-left text-[11px] font-semibold uppercase tracking-wide focus:outline-none focus-visible:ring-2 focus-visible:ring-inset"
-                  style={{ backgroundColor: MN_GREEN, color: MN_GREEN_TEXT }}
+                  style={{
+                    backgroundColor: TIER_HEADER_BG,
+                    color: TIER_HEADER_TEXT,
+                    // Without this, three collapsed headers in a row are
+                    // one unbroken navy rectangle with no visible seam
+                    // between City/County/State — this border is what
+                    // still reads as three sections rather than one.
+                    borderTop: `1px solid ${TIER_HEADER_BORDER}`,
+                    borderBottom: `1px solid ${TIER_HEADER_BORDER}`,
+                  }}
                 >
                   <span id={headingId}>{label}</span>
                   <IconChevronDown className={isCollapsed ? "-rotate-90" : ""} />
