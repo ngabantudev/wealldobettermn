@@ -2,7 +2,7 @@
 
 import { useRef, useState } from "react";
 import type { KeyboardEvent } from "react";
-import type { RepProperties } from "@/lib/types";
+import type { BillVote, RepProperties } from "@/lib/types";
 import type { AreaOfficials } from "@/lib/officials";
 import { officialIdentity } from "@/lib/officials";
 import { CITY_TIER_EMPTY_NOTE, COUNTY_TIER_EMPTY_NOTE, STATE_TIER_EMPTY_NOTE } from "@/lib/coverage";
@@ -252,6 +252,67 @@ function IconExternal() {
   );
 }
 
+// One recent-votes row. The plain-language gloss for a non-yes/no option
+// (see VOTE_OPTION_DISPLAY) is real information, but printing it on every
+// row unconditionally reads as clutter once a card has 5 of these stacked
+// — most residents scanning the list already read "Absent" as "wasn't
+// there" without help. Hidden by default, revealed on hover (the badge's
+// native `title` tooltip, free) or tap/click/keyboard (this component's
+// own toggle, since touch has no hover state to fall back on) — same
+// "info available on demand, not forced on everyone" shape as the rest of
+// this file's disclosure patterns. yes/no rows have no gloss at all, so
+// they stay a plain, non-interactive span exactly as before.
+function VoteRow({ vote, accent }: { vote: BillVote; accent: string }) {
+  const display = voteOptionDisplay(vote.option);
+  const [showGloss, setShowGloss] = useState(false);
+  const glossId = display.gloss ? `vote-gloss-${vote.voteId}` : undefined;
+
+  return (
+    <li className="text-sm">
+      <div className="flex items-start justify-between gap-2">
+        <span className="font-medium text-ink">{vote.identifier}</span>
+        {display.gloss ? (
+          <button
+            type="button"
+            onClick={() => setShowGloss((shown) => !shown)}
+            aria-expanded={showGloss}
+            aria-describedby={glossId}
+            title={display.gloss}
+            className="text-[10px] font-semibold uppercase tracking-wide px-1.5 py-0.5 rounded shrink-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-inset"
+            style={{ color: display.color, backgroundColor: display.colorSoft }}
+          >
+            {display.label}
+          </button>
+        ) : (
+          <span
+            className="text-[10px] font-semibold uppercase tracking-wide px-1.5 py-0.5 rounded shrink-0"
+            style={{ color: display.color, backgroundColor: display.colorSoft }}
+          >
+            {display.label}
+          </span>
+        )}
+      </div>
+      {display.gloss && showGloss && (
+        <div id={glossId} className="text-xs italic text-ink-3">
+          {display.gloss}
+        </div>
+      )}
+      <div className="text-xs text-ink-3">{vote.title}</div>
+      {vote.sourceUrl && (
+        <a
+          href={vote.sourceUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-xs font-medium hover:underline"
+          style={{ color: accent }}
+        >
+          View bill
+        </a>
+      )}
+    </li>
+  );
+}
+
 // One officeholder's full profile — name, contact, committees, votes, the
 // works. Reused up to six times per panel (Mayor + Council Member for
 // City, County Commissioner for County, State Rep + State Senator for
@@ -407,36 +468,9 @@ function OfficialCard({ rep }: { rep: RepProperties }) {
           </div>
           {recentVotes.length > 0 ? (
             <ul className="space-y-2.5">
-              {recentVotes.map((vote) => {
-                const display = voteOptionDisplay(vote.option);
-                return (
-                  <li key={vote.voteId} className="text-sm">
-                    <div className="flex items-start justify-between gap-2">
-                      <span className="font-medium text-ink">{vote.identifier}</span>
-                      <span
-                        className="text-[10px] font-semibold uppercase tracking-wide px-1.5 py-0.5 rounded shrink-0"
-                        style={{ color: display.color, backgroundColor: display.colorSoft }}
-                        title={display.gloss}
-                      >
-                        {display.label}
-                      </span>
-                    </div>
-                    {display.gloss && <div className="text-xs italic text-ink-3">{display.gloss}</div>}
-                    <div className="text-xs text-ink-3">{vote.title}</div>
-                    {vote.sourceUrl && (
-                      <a
-                        href={vote.sourceUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-xs font-medium hover:underline"
-                        style={{ color: accent }}
-                      >
-                        View bill
-                      </a>
-                    )}
-                  </li>
-                );
-              })}
+              {recentVotes.map((vote) => (
+                <VoteRow key={vote.voteId} vote={vote} accent={accent} />
+              ))}
             </ul>
           ) : (
             <p className="text-sm text-ink-3">No voting record connected yet for {areaLabel(rep)}.</p>
