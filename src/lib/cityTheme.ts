@@ -15,32 +15,34 @@ export const CITY_ACCENT: Record<string, string> = {
   Blaine: "#78716C", // warm stone
   "Brooklyn Park": "#D97706", // brown/amber
   "Coon Rapids": "#475569", // cool slate
-  // Added Aug 2026 alongside this PR's coverage expansion. The wheel was
-  // already dense at 10 cities, so these were picked computationally, not
-  // eyeballed: swept hue/saturation/lightness candidates, simulated each
-  // against a linear protanopia/deuteranopia approximation, and kept only
-  // combinations whose minimum pairwise distance (normal vision + both
-  // simulations) cleared a real threshold against every existing city AND
-  // every reserved system color (PARTY_COLORS, CONTESTED_COLOR,
+  // Added Aug 2026 alongside the Champlin/Crystal/Robbinsdale/Fridley/
+  // Ramsey/Woodbury coverage expansion. The wheel was already dense at 10
+  // cities, so these were picked computationally, not eyeballed: swept
+  // hue/saturation/lightness candidates, simulated each against a linear
+  // protanopia/deuteranopia approximation, and kept only combinations
+  // whose minimum pairwise distance (normal vision + both simulations)
+  // cleared a real threshold against every existing city AND every
+  // reserved system color (PARTY_COLORS, CONTESTED_COLOR,
   // NEUTRAL_PARTY_COLOR, the mayor-ring gold in WardMap.tsx). One finding
   // worth recording: a saturated magenta/orchid tested here landed
   // suspiciously close to Blaine's warm-stone gray *under CVD simulation
   // only* (not in normal vision) — purple hues can collapse
   // unpredictably for red-green colorblindness, so it was dropped in
-  // favor of the muted/gray-family route for most of these five. That
+  // favor of the muted/gray-family route for most of these six. That
   // route itself follows this file's own existing precedent: Bloomington
   // and Blaine already sit at the *same* hue (25°) and are told apart
   // purely by saturation (95% vs 5%) — proof this codebase already
   // treats "same hue, different saturation" as sufficiently distinct,
-  // not something invented for this batch. (Woodbury, added in the
-  // sibling #66, uses the same methodology and its own entry lives
-  // there instead — this file's history has the full write-up either PR
-  // links back to.)
+  // not something invented for this batch.
   Champlin: "#228DB4", // cyan/teal-blue — the one new saturated hue
   Crystal: "#ABBE9D", // light olive-gray
   Robbinsdale: "#78A189", // sage-gray
   Fridley: "#433C53", // dark lavender-slate
   Ramsey: "#D2CEBC", // light khaki
+  // Woodbury has no ward palette (see CITY_PALETTES's comment) — this is
+  // its only color, used for the at-large city-boundary fill in
+  // WardMap.tsx instead of a ward-cycled shade.
+  Woodbury: "#78554A", // dark terracotta
 };
 
 // One hue family per city so adjoining areas land on visibly different
@@ -77,6 +79,10 @@ export const CITY_PALETTES: Record<string, string[]> = {
   Robbinsdale: ["#A5C0B0", "#96B6A3", "#87AB96", "#78A189"],
   Fridley: ["#675C7F", "#554C69", "#433C53"],
   Ramsey: ["#E7E4DA", "#E0DDD0", "#D9D5C6", "#D2CEBC"],
+  // No Woodbury entry — it has no wards to cycle a palette across (see
+  // CITY_ACCENT's comment); fillColorExpression's fallback below never
+  // fires for it either, since Woodbury contributes zero features to
+  // wards.geojson in the first place.
 };
 
 // A color distinct from every city and party hue, shared by the map's

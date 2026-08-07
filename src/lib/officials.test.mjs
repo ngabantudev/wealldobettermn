@@ -231,6 +231,62 @@ test("a ward electing two council members off one shared polygon surfaces both, 
   );
 });
 
+// --- atLargeBoundaries (a wardless, fully at-large city — Woodbury's shape) -
+
+// No wardHits are possible for this city by construction (it has zero
+// features in `wards` above) — the only way its officials ever resolve
+// for a point that isn't the pin itself is via atLargeBoundaries.
+const atLargeMayor = {
+  type: "Feature",
+  properties: rep({ role: "Mayor", city: "Wardlessville", repName: "At-Large Mayor" }),
+  geometry: { type: "Point", coordinates: [5, 5] },
+};
+const atLargeCouncilMember = {
+  type: "Feature",
+  properties: rep({ role: "Council Member", city: "Wardlessville", repName: "At-Large Council Member" }),
+  geometry: { type: "Point", coordinates: [5, 5] },
+};
+const atLargeBoundary = {
+  type: "Feature",
+  // Deliberately carries only `{ city }` — see fetch-at-large-boundaries.mjs
+  // and resolveOfficialsAtPoint's own comment on why this must never be
+  // treated as a RepProperties itself.
+  properties: { city: "Wardlessville" },
+  geometry: { type: "Polygon", coordinates: square(4, 4, 6, 6) },
+};
+const sourcesWithAtLarge = {
+  ...sources,
+  mayors: { type: "FeatureCollection", features: [mayor, atLargeMayor, atLargeCouncilMember] },
+  atLargeBoundaries: { type: "FeatureCollection", features: [atLargeBoundary] },
+};
+
+test("a point inside a wardless city's boundary resolves every mayors-sourced official for that city", () => {
+  const officials = resolveOfficialsAtPoint([5, 5], sourcesWithAtLarge);
+  assert.deepEqual(
+    officials.city.map((r) => r.repName).sort(),
+    ["At-Large Council Member", "At-Large Mayor"],
+  );
+  // Testville's own mayor must not leak in just because atLargeBoundaries
+  // matched a different city's polygon.
+  assert.ok(!officials.city.some((r) => r.repName === "The Mayor"));
+});
+
+test("a point outside every at-large boundary resolves none of that city's officials", () => {
+  const officials = resolveOfficialsAtPoint([50, 50], sourcesWithAtLarge);
+  assert.deepEqual(officials.city, []);
+});
+
+test("atLargeBoundaries is optional — omitting it entirely never throws, just resolves normally", () => {
+  const { atLargeBoundaries, ...sourcesWithout } = sourcesWithAtLarge;
+  void atLargeBoundaries;
+  assert.doesNotThrow(() => resolveOfficialsAtPoint([-0.5, 0], sourcesWithout));
+  const officials = resolveOfficialsAtPoint([-0.5, 0], sourcesWithout);
+  assert.deepEqual(
+    officials.city.map((r) => r.repName),
+    ["The Mayor", "Ward A Rep"],
+  );
+});
+
 // --- officialIdentity -------------------------------------------------
 
 test("officialIdentity distinguishes two seats sharing one ward, unlike role/district-only offices", () => {

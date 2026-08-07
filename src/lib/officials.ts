@@ -28,15 +28,20 @@ export interface AreaOfficials {
   state: RepProperties[]; // 0–2: State Representative + State Senator
 }
 
-// The four always-loaded FeatureCollections WardMap.tsx fetches in
-// fetchCivicData(). Mayors is a point layer (one feature per city, no
-// polygon of its own — see resolveOfficialsAtPoint's mayor-matching step
-// below); the other three are Polygon/MultiPolygon district layers.
+// The FeatureCollections WardMap.tsx fetches in fetchCivicData(). Mayors is
+// a point layer (one feature per official, no polygon of its own — see
+// resolveOfficialsAtPoint's mayor-matching step below); wards/commissioners/
+// stateLeg/atLargeBoundaries are Polygon/MultiPolygon layers.
+// atLargeBoundaries is optional (older callers/tests that only care about
+// ward-electing cities can omit it) — it exists purely to extend the same
+// city-name match mayors already gets, for a city with no ward polygon at
+// all to point-in-polygon against otherwise (see AreaOfficials.city below).
 export interface CivicGeometrySources {
   wards: FeatureCollection | null;
   mayors: FeatureCollection | null;
   commissioners: FeatureCollection | null;
   stateLeg: FeatureCollection | null;
+  atLargeBoundaries?: FeatureCollection | null;
 }
 
 // Display order within a tier — more senior/citywide office first. Ties
@@ -182,7 +187,24 @@ export function resolveOfficialsAtPoint(
   // src/lib/cities.ts (scripts/fetch-wards.mjs, scripts/fetch-mayors.mjs),
   // so "Minneapolis" can't spell itself two different ways between the two
   // files without both scripts being edited out of sync.
+  //
+  // atLargeBoundaries extends the same join for a wardless city (Woodbury):
+  // it has zero wardHits by construction (no ward polygon exists), so
+  // without this its mayor/council pins would only ever resolve when
+  // `known` was seeded by clicking the pin directly — clicking anywhere
+  // else inside the city (its own boundary fill, not a ward) would show
+  // nothing. Its features carry only `{ city }` (see
+  // fetch-at-large-boundaries.mjs), never enough to stand in as a
+  // RepProperties itself, so only the city name is pulled out of a hit
+  // here — the actual officials still come from mayorHits below, same as
+  // every other city.
   const cityNames = new Set(wardHits.map((rep) => rep.city));
+  for (const feature of sources.atLargeBoundaries?.features ?? []) {
+    if (!isPolygonal(feature.geometry)) continue;
+    if (booleanPointInPolygon(point, feature as Feature<Polygon | MultiPolygon>)) {
+      cityNames.add((feature.properties as { city: RepProperties["city"] }).city);
+    }
+  }
   if (known && (known.role === "Mayor" || known.role === "Council Member")) cityNames.add(known.city);
   const mayorHits = (sources.mayors?.features ?? [])
     .map((feature) => feature.properties as unknown as RepProperties)
