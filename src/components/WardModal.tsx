@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
+import type { KeyboardEvent } from "react";
 import type { RepProperties } from "@/lib/types";
 import type { AreaOfficials } from "@/lib/officials";
 import { officialIdentity } from "@/lib/officials";
@@ -222,24 +223,6 @@ function IconExternal() {
     <svg viewBox="0 0 20 20" fill="none" className="h-3.5 w-3.5 shrink-0">
       <path d="M8 5H5.5a1.5 1.5 0 0 0-1.5 1.5v7A1.5 1.5 0 0 0 5.5 15h7a1.5 1.5 0 0 0 1.5-1.5V11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
       <path d="M11 4h5v5M15.5 4.5 9 11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
-}
-
-// Points down when a section is expanded, rotated to point right (via the
-// caller's className) when collapsed — same single-glyph-plus-rotation
-// approach as WardMap's own IconChevron, kept local here rather than
-// imported since WardMap.tsx already imports *from* this file and a
-// reverse import would be circular.
-function IconChevronDown({ className = "" }: { className?: string }) {
-  return (
-    <svg
-      viewBox="0 0 20 20"
-      fill="none"
-      aria-hidden="true"
-      className={`h-3.5 w-3.5 shrink-0 transition-transform duration-200 motion-reduce:transition-none ${className}`}
-    >
-      <path d="M5 8l5 5 5-5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   );
 }
@@ -566,21 +549,40 @@ function panelHeading(officials: AreaOfficials): string {
 // happens in src/lib/officials.ts's resolveOfficialsAtPoint, independent
 // of what's currently drawn.
 export default function WardModal({ officials, onClose, variant = "sheet" }: WardModalProps) {
-  // Which tier headers the resident has collapsed, by tapping/clicking
-  // them — starts empty (every section expanded), matching the panel's
-  // original always-show-everything behavior. Lives here, not per-tier
-  // useState, since WardModal stays mounted across hover/click selection
-  // changes (only `officials` itself changes), so a collapse choice
-  // persists as the resident moves the cursor around the map instead of
-  // resetting on every new selection.
-  const [collapsedTiers, setCollapsedTiers] = useState<ReadonlySet<keyof AreaOfficials>>(() => new Set());
-  const toggleTier = (key: keyof AreaOfficials) => {
-    setCollapsedTiers((prev) => {
-      const next = new Set(prev);
-      if (next.has(key)) next.delete(key);
-      else next.add(key);
-      return next;
-    });
+  // Which single tier (City/County/State) is on screen right now — starts
+  // on City, matching the app's own "who represents me?" question order
+  // (AGENTS.md Part 0) and the panel's original top-to-bottom layout.
+  // Lives here, not per-tier useState, since WardModal stays mounted
+  // across hover/click selection changes (only `officials` itself
+  // changes), so the resident's chosen tab persists as they move the
+  // cursor around the map instead of resetting to City on every new
+  // selection.
+  const [activeTier, setActiveTier] = useState<keyof AreaOfficials>("city");
+  const activeIndex = TIER_SECTIONS.findIndex((tier) => tier.key === activeTier);
+  const tabRefs = useRef<Array<HTMLButtonElement | null>>([]);
+
+  // ARIA Authoring Practices "tabs with automatic activation" pattern:
+  // arrow keys both move focus AND select, so there's exactly one
+  // tabbable element in the tablist at a time (roving tabindex) instead
+  // of tabbing through all three headers like the old disclosure buttons
+  // did. Home/End jump to the first/last tab for keyboard completeness
+  // per AGENTS.md §4.
+  const handleTabKeyDown = (event: KeyboardEvent<HTMLButtonElement>) => {
+    let nextIndex: number | null = null;
+    if (event.key === "ArrowRight" || event.key === "ArrowDown") {
+      nextIndex = (activeIndex + 1) % TIER_SECTIONS.length;
+    } else if (event.key === "ArrowLeft" || event.key === "ArrowUp") {
+      nextIndex = (activeIndex - 1 + TIER_SECTIONS.length) % TIER_SECTIONS.length;
+    } else if (event.key === "Home") {
+      nextIndex = 0;
+    } else if (event.key === "End") {
+      nextIndex = TIER_SECTIONS.length - 1;
+    }
+    if (nextIndex === null) return;
+    event.preventDefault();
+    const nextKey = TIER_SECTIONS[nextIndex].key;
+    setActiveTier(nextKey);
+    tabRefs.current[nextIndex]?.focus();
   };
 
   const wrapperClass =
@@ -624,62 +626,79 @@ export default function WardModal({ officials, onClose, variant = "sheet" }: War
         </button>
       </div>
 
-      <div className="overflow-y-auto">
-        {TIER_SECTIONS.map(({ key, label, emptyNote }) => {
-          const reps = officials[key];
-          const headingId = `officials-tier-${key}`;
-          const contentId = `officials-tier-${key}-content`;
-          const isCollapsed = collapsedTiers.has(key);
+      {/* True ARIA tabs (role="tablist"/"tab"/"tabpanel") rather than the
+          previous three independent disclosure buttons — lets a resident
+          jump straight to County or State instead of scrolling past City's
+          full card stack first. Automatic-activation pattern per the ARIA
+          Authoring Practices: arrow keys move focus and select in one
+          step, with roving tabindex (only the active tab is in normal tab
+          order) so Tab itself moves straight from the tablist to the
+          panel content instead of through all three headers. */}
+      <div
+        role="tablist"
+        aria-label="Representative level"
+        className="flex shrink-0"
+        style={{ borderBottom: `1px solid ${TIER_HEADER_BORDER}` }}
+      >
+        {TIER_SECTIONS.map(({ key, label }, index) => {
+          const isActive = key === activeTier;
+          const tabId = `officials-tier-${key}-tab`;
+          const panelId = `officials-tier-${key}-panel`;
           return (
-            <section key={key} aria-labelledby={headingId}>
-              {/* h3 wraps the button (standard accessible-disclosure
-                  pattern) rather than being the clickable element itself,
-                  so the section still has a real heading in the
-                  accessibility tree regardless of expanded/collapsed
-                  state. */}
-              <h3>
-                <button
-                  type="button"
-                  onClick={() => toggleTier(key)}
-                  aria-expanded={!isCollapsed}
-                  aria-controls={contentId}
-                  className="flex w-full items-center justify-between gap-2 px-4 py-2 text-left text-[11px] font-semibold uppercase tracking-wide focus:outline-none focus-visible:ring-2 focus-visible:ring-inset"
-                  style={{
-                    backgroundColor: TIER_HEADER_BG,
-                    color: TIER_HEADER_TEXT,
-                    // Without this, three collapsed headers in a row are
-                    // one unbroken navy rectangle with no visible seam
-                    // between City/County/State — this border is what
-                    // still reads as three sections rather than one.
-                    borderTop: `1px solid ${TIER_HEADER_BORDER}`,
-                    borderBottom: `1px solid ${TIER_HEADER_BORDER}`,
-                  }}
-                >
-                  <span id={headingId}>{label}</span>
-                  <IconChevronDown className={isCollapsed ? "-rotate-90" : ""} />
-                </button>
-              </h3>
-              {/* Pure-CSS accordion (grid-template-rows 0fr/1fr + a
-                  height-0-capable overflow-hidden child) instead of a
-                  JS-measured max-height — animates open/closed without
-                  ever needing to read the content's actual height. */}
-              <div
-                id={contentId}
-                className="grid transition-[grid-template-rows] duration-300 ease-out motion-reduce:transition-none"
-                style={{ gridTemplateRows: isCollapsed ? "0fr" : "1fr" }}
-              >
-                <div className="overflow-hidden">
-                  {reps.length > 0 ? (
-                    <div className="divide-y divide-hair">
-                      {reps.map((rep) => (
-                        <OfficialCard key={officialIdentity(rep)} rep={rep} />
-                      ))}
-                    </div>
-                  ) : (
-                    <p className="px-4 py-3 text-sm text-ink-3">{emptyNote}</p>
-                  )}
+            <button
+              key={key}
+              ref={(el) => {
+                tabRefs.current[index] = el;
+              }}
+              type="button"
+              role="tab"
+              id={tabId}
+              aria-selected={isActive}
+              aria-controls={panelId}
+              tabIndex={isActive ? 0 : -1}
+              onClick={() => setActiveTier(key)}
+              onKeyDown={handleTabKeyDown}
+              className="flex-1 px-4 py-2.5 text-center text-[11px] font-semibold uppercase tracking-wide focus:outline-none focus-visible:ring-2 focus-visible:ring-inset"
+              style={{
+                backgroundColor: isActive ? TIER_HEADER_BG : "transparent",
+                color: isActive ? TIER_HEADER_TEXT : "inherit",
+                // Colour is never the only signal (AGENTS.md §4): the
+                // active tab also gets a solid underline so the selected
+                // state still reads under a colour-vision simulation.
+                boxShadow: isActive ? "none" : `inset 0 -2px 0 0 ${TIER_HEADER_BORDER}`,
+              }}
+            >
+              {label}
+            </button>
+          );
+        })}
+      </div>
+
+      <div className="overflow-y-auto">
+        {TIER_SECTIONS.map(({ key, emptyNote }) => {
+          const reps = officials[key];
+          const tabId = `officials-tier-${key}-tab`;
+          const panelId = `officials-tier-${key}-panel`;
+          const isActive = key === activeTier;
+          return (
+            // `hidden` (not the old CSS accordion) removes inactive
+            // panels from the accessibility tree entirely, matching the
+            // ARIA Authoring Practices tabs pattern — a screen-reader user
+            // tabbing from the tablist lands directly on the active
+            // panel's content, not on two other panels' worth of cards
+            // first. `aria-labelledby` ties this panel's accessible name
+            // back to its tab, so the DOM record stays in sync with what's
+            // drawn per AGENTS.md §4 without a redundant repeated label.
+            <section key={key} role="tabpanel" id={panelId} aria-labelledby={tabId} hidden={!isActive} tabIndex={0}>
+              {reps.length > 0 ? (
+                <div className="divide-y divide-hair">
+                  {reps.map((rep) => (
+                    <OfficialCard key={officialIdentity(rep)} rep={rep} />
+                  ))}
                 </div>
-              </div>
+              ) : (
+                <p className="px-4 py-3 text-sm text-ink-3">{emptyNote}</p>
+              )}
             </section>
           );
         })}
