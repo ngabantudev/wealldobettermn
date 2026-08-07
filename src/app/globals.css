@@ -20,6 +20,30 @@
   --map-controls-bottom: var(--map-ctrl-edge);
 }
 
+/* Pin the corner container at a known, fixed offset instead of trusting
+   MapLibre's default per-control margins (which stack unpredictably
+   depending on DOM insertion order) — same override mndatacenter.org
+   applies. WardMap.tsx adds the NavigationControl *then* the
+   AttributionControl, so the attribution badge is the last/corner-most
+   control; zeroing every control's own margin and giving only the
+   attribution control an explicit margin-top makes that one gap (zoom →
+   attribution) driven by the exact same --map-ctrl-gap variable that
+   MapThemeSelector.tsx's calc() uses for its own gap (attribution →
+   theme button) — so the two gaps are guaranteed equal, not just
+   coincidentally close. */
+.maplibregl-ctrl-bottom-right {
+  bottom: var(--map-controls-bottom) !important;
+  right: var(--map-ctrl-right) !important;
+}
+
+.maplibregl-ctrl-bottom-right .maplibregl-ctrl {
+  margin: 0 !important;
+}
+
+.maplibregl-ctrl-bottom-right .maplibregl-ctrl-attrib {
+  margin-top: var(--map-ctrl-gap) !important;
+}
+
 /* Design tokens — matched to mndatacenter.org (a sister Minnesota civic-
    transparency site, see AGENTS.md "Role in the wider project"), and
    cross-checked directly against that project's own source

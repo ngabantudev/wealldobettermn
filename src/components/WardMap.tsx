@@ -837,12 +837,53 @@ export default function WardMap() {
       style: getMapStyleUrlById(currentStyleId),
       center: TWIN_CITIES_CENTER,
       zoom: DEFAULT_ZOOM,
-      attributionControl: { compact: true },
+      // Built manually below, added *after* the NavigationControl, not
+      // via this option — the `attributionControl` option adds its
+      // control during the Map constructor, before any code here runs,
+      // which would make it the first (topmost) control in the
+      // bottom-right corner instead of the last (corner-most) one. See
+      // the addControl calls below and globals.css's
+      // `.maplibregl-ctrl-bottom-right` override, which both assume
+      // attribution is last.
+      attributionControl: false,
       cooperativeGestures: isMobileViewport(),
     });
     mapRef.current = map;
 
     map.addControl(new maplibregl.NavigationControl({ showCompass: false }), "bottom-right");
+
+    map.addControl(new maplibregl.AttributionControl({ compact: true }), "bottom-right");
+
+    // MapLibre's AttributionControl starts *expanded* the first time
+    // attributions populate, even with `compact: true` set — its own
+    // _updateCompact() adds `maplibregl-compact-show` unconditionally on
+    // first run and only collapses it later, in response to a `drag`
+    // event. Left alone, that means the attribution badge renders as a
+    // full text bar (not the small "i" badge globals.css's
+    // --map-ctrl-attrib-height assumes) for the first several seconds a
+    // resident sees the map — which is also what was still overlapping
+    // MapThemeSelector's toggle button above it. Queried from the DOM
+    // (rather than the control instance, which addControl doesn't
+    // return) right after adding it, so this is the exact element
+    // MapLibre attached. A MutationObserver, not a fixed timeout, catches
+    // the class the instant MapLibre adds it regardless of how long the
+    // style/sources take to load, and only fires once — after that, a
+    // resident's own click on the attribution badge toggles it normally.
+    const attribEl = mapContainerRef.current.querySelector<HTMLElement>(
+      ".maplibregl-ctrl-bottom-right .maplibregl-ctrl-attrib"
+    );
+    let attribObserver: MutationObserver | null = null;
+    if (attribEl) {
+      const collapseAttribOnce = () => {
+        if (!attribEl.classList.contains("maplibregl-compact-show")) return;
+        attribEl.classList.remove("maplibregl-compact-show");
+        attribEl.removeAttribute("open");
+        attribObserver?.disconnect();
+      };
+      attribObserver = new MutationObserver(collapseAttribOnce);
+      attribObserver.observe(attribEl, { attributes: true, attributeFilter: ["class"] });
+      collapseAttribOnce();
+    }
 
     const isDesktopHover = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
 
@@ -1273,6 +1314,7 @@ export default function WardMap() {
     return () => {
       window.removeEventListener("resize", handleResize);
       resizeObserver?.disconnect();
+      attribObserver?.disconnect();
       if (pulseAnimationFrameRef.current !== null) cancelAnimationFrame(pulseAnimationFrameRef.current);
       for (const { marker } of pinMarkersRef.current) marker.remove();
       pinMarkersRef.current = [];
