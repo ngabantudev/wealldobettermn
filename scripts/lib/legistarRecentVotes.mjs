@@ -123,11 +123,11 @@ function buildIndex(data) {
       option: mapLegistarVoteValue(vote.value),
       result: (voteEvent.result ?? "").toLowerCase(),
       date: voteEvent.date,
-      // No confirmed-working per-item Legistar public URL to link to —
-      // legistar.mjs's own knownGaps notes external_id isn't a public
-      // LegislationDetail.aspx id without a GUID this feed doesn't carry.
-      // Null, not a guessed URL (AGENTS.md §3.3 "Missing Sources").
-      sourceUrl: null,
+      // legistar.mjs resolves this per matter via its InSite Gateway.aspx
+      // redirect (see resolveLegislationUrl() there) — null only when
+      // that resolution itself failed for this specific matter (a
+      // per-matter knownGaps entry then explains why), never guessed.
+      sourceUrl: agendaItem.source_url ?? null,
     };
     if (!bySurname.has(surname)) bySurname.set(surname, []);
     bySurname.get(surname).push(billVote);

@@ -309,6 +309,37 @@ export async function getVotesForMatterAction(client, matterId, bodyName, { toke
   return getEventItemVotes(client, actedRecord.MatterHistoryId, { token });
 }
 
+// A matter's public InSite record page (what a resident actually lands on
+// when they click "View source" — the same page City staff and the local
+// press use, not an API response). Not under the webapi.legistar.com/v1
+// surface everything above talks to; this is the client's own InSite
+// website. There's no documented direct URL for a MatterId — InSite's
+// Gateway.aspx?M=L&ID={MatterId} redirect resolves it into the real
+// LegislationDetail.aspx?ID={id}&GUID={guid} URL, confirmed live against
+// both known MN clients while building #57 (a bare LegislationDetail.aspx
+// URL built from MatterId+MatterGuid returns "Invalid parameters!" — the
+// ID/GUID pair LegislationDetail.aspx actually wants is a different,
+// undocumented internal id the Gateway redirect exposes, not the MatterId/
+// MatterGuid pair /matters/{id} returns). Never guessed further than
+// this: any failure here (network, unexpected redirect shape, no match)
+// returns null rather than a URL that might not resolve — AGENTS.md §3.3
+// "Missing Sources: Never fabricate or infer."
+const LEGISLATION_DETAIL_PATTERN = /LegislationDetail\.aspx\?ID=(\d+)&(?:amp;)?GUID=([0-9A-Fa-f-]+)/;
+
+async function resolveLegislationUrl(client, matterId) {
+  try {
+    const gatewayUrl = `https://${client}.legistar.com/Gateway.aspx?M=L&ID=${matterId}`;
+    const res = await fetch(gatewayUrl, { headers: { "User-Agent": USER_AGENT } });
+    if (!res.ok) return null;
+    const html = await res.text();
+    const match = html.match(LEGISLATION_DETAIL_PATTERN);
+    if (!match) return null;
+    return `https://${client}.legistar.com/LegislationDetail.aspx?ID=${match[1]}&GUID=${match[2]}`;
+  } catch {
+    return null; // never let a permalink lookup fail the whole ingest run
+  }
+}
+
 // --- Content hashing (AGENTS.md §2.2 provenance record) -------------------
 // Same sha256-hex-of-JSON convention as scripts/ingest/roster-diff.mjs's
 // hashRoster() — a fingerprint of the *raw upstream content* a run's
@@ -565,6 +596,7 @@ async function buildVotesForWindow(clientConfig, token, { primaryBodyId, primary
   const votes = [];
   const unmatchedVoters = new Set();
   const unmappedVoteValues = new Set();
+  const unresolvedLegislationUrls = new Set();
   const rawHistoriesAndVotes = [];
 
   for (const matter of workingMatters) {
@@ -601,6 +633,13 @@ async function buildVotesForWindow(clientConfig, token, { primaryBodyId, primary
     const actionDate = toIsoDate(actedRecord.MatterHistoryActionDate) ?? toIsoDate(matter.MatterIntroDate);
     if (!actionDate) continue;
 
+    // Only resolved for matters that make it this far (a real recorded
+    // vote) — bounds the extra request volume to what's actually going to
+    // be cited, not every matter in the window.
+    const legislationUrl = await resolveLegislationUrl(clientConfig.client, matter.MatterId);
+    if (!legislationUrl) unresolvedLegislationUrls.add(String(matter.MatterId));
+    await sleepBriefly();
+
     const meetingId = `legistar-${clientConfig.client}-meeting-${actedRecord.MatterHistoryEventId}`;
     if (!meetings.has(meetingId)) {
       meetings.set(meetingId, {
@@ -620,6 +659,10 @@ async function buildVotesForWindow(clientConfig, token, { primaryBodyId, primary
       title: matter.MatterTitle || matter.MatterName || matter.MatterFile || `Matter ${matter.MatterId}`,
       file_number: matter.MatterFile || null,
       external_id: String(matter.MatterId),
+      // The public InSite record page for this matter — see
+      // resolveLegislationUrl() above. Null (never guessed) when
+      // resolution failed; see unresolvedLegislationUrls's knownGaps entry.
+      source_url: legislationUrl,
     });
 
     const voteEventId = `legistar-${clientConfig.client}-voteevent-${actedRecord.MatterHistoryId}`;
@@ -664,6 +707,13 @@ async function buildVotesForWindow(clientConfig, token, { primaryBodyId, primary
       `${unmatchedVoters.size} distinct voter(s) on ${clientConfig.client} matters in this window could not be matched to ` +
         `a current officerecords-derived holding on ${primaryBodyName} and were dropped from Vote[]: ` +
         `${[...unmatchedVoters].slice(0, 10).join("; ")}${unmatchedVoters.size > 10 ? ", …" : ""}.`,
+    );
+  }
+  if (unresolvedLegislationUrls.size) {
+    knownGaps.push(
+      `Could not resolve a public InSite source_url for ${unresolvedLegislationUrls.size} matter(s) on ${clientConfig.client} ` +
+        `(agendaItem.source_url is null for these — the record itself still ingested): ` +
+        `${[...unresolvedLegislationUrls].slice(0, 10).join(", ")}${unresolvedLegislationUrls.size > 10 ? ", …" : ""}.`,
     );
   }
 
