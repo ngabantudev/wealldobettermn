@@ -165,29 +165,20 @@ export default function MapThemeSelector({ siteTheme, mapStyleId, onSelectSiteTh
   }, [open]);
 
   return (
-    // Desktop/laptop only — bottom-right, stacked above MapLibre's own
-    // corner controls (mndatacenter.org's own layout: a single control
-    // stacked cleanly above everything MapLibre puts in that corner,
-    // sharing its right edge). That corner holds two MapLibre controls,
-    // not one: the AttributionControl (compact, collapsed to a small
-    // badge) sits *below* the NavigationControl (zoom in/out, no
-    // compass) — both were added via `map.addControl`/`attributionControl`
-    // in WardMap.tsx. `right` matches MapLibre's own control margin
-    // exactly; `bottom` is computed from the same --map-ctrl-* variables
-    // (globals.css) that describe both controls' real geometry, rather
-    // than a guessed Tailwind step — so it stays correct if either
-    // control's size ever changes. `hidden sm:block`: below `sm` this
-    // control doesn't render at all; MobileNav's Theme tab covers the
-    // same two settings there (see MapThemeOptions above).
-    <div
-      ref={rootRef}
-      className="hidden sm:block absolute z-20 font-sans"
-      style={{
-        right: "var(--map-ctrl-right)",
-        bottom:
-          "calc(var(--map-controls-bottom) + var(--map-ctrl-attrib-height) + var(--map-ctrl-gap) + var(--map-ctrl-group-height) + var(--map-ctrl-gap))",
-      }}
-    >
+    // Desktop/laptop only — a plain flex child of WardMap's
+    // #map-corner-controls wrapper now, not an independently
+    // absolutely-positioned element: that wrapper (not this component)
+    // owns the stack's position, order, and spacing relative to the
+    // NavigationControl and AttributionControl next to it. `relative`
+    // stays, though, so the popover panel below (`absolute bottom-full
+    // right-0`) still anchors to *this button* rather than drifting to
+    // whatever the wrapper's own positioned ancestor happens to be.
+    // `hidden sm:flex`: below `sm` this control doesn't render at all —
+    // MobileNav's Theme tab covers the same two settings there (see
+    // MapThemeOptions above) — and because it's `display:none` rather
+    // than just invisible, the wrapper's own `gap` correctly closes up
+    // around it instead of leaving a blank slot.
+    <div ref={rootRef} className="hidden sm:flex relative font-sans">
       <button
         type="button"
         aria-haspopup="true"

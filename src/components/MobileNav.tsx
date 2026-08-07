@@ -28,7 +28,7 @@
 // map legibility while indicating inactive state") and keeps "how do I get
 // back to the map" a single, predictable action everywhere — tap the
 // dimmed map, tap the open tab again, or hit Escape all do the same thing.
-import { useEffect, useId, type ReactNode } from "react";
+import { useEffect, useId, useRef, type ReactNode } from "react";
 
 export interface MobileNavTab {
   id: string;
@@ -74,6 +74,7 @@ export function IconSliders() {
 export default function MobileNav({ tabs, activeTab, onSelectTab, sheetContent, onDismiss }: MobileNavProps) {
   const open = sheetContent !== null;
   const sheetId = useId();
+  const navRef = useRef<HTMLElement | null>(null);
 
   // Same dismiss convention as every other dismissible surface in this app
   // (MapThemeSelector's popover) — only listening while something's
@@ -86,6 +87,34 @@ export default function MobileNav({ tabs, activeTab, onSelectTab, sheetContent, 
     document.addEventListener("keydown", onKeyDown);
     return () => document.removeEventListener("keydown", onKeyDown);
   }, [open, onDismiss]);
+
+  // Publishes this bar's real rendered height as a CSS variable so the
+  // map's own bottom-right control cluster (zoom, attribution, theme
+  // selector — see WardMap.tsx's #map-corner-controls) can sit *above*
+  // it instead of underneath it. This bar is `fixed` at the true screen
+  // bottom with a higher z-index than the map's controls, so without
+  // this it would simply cover them on a phone. Modeled on
+  // mndatacenter.org's own MobileToolbar.astro, which does the same
+  // measure-and-publish for the same reason. A ResizeObserver, not a
+  // one-time read, because the safe-area inset and tab count can both
+  // change (rotation, a taller/shorter notch) after mount. Above `sm`
+  // this element is `display:none` (see the root div's `sm:hidden`
+  // below), so it reports 0 and the variable falls back to 0 on its own
+  // — no breakpoint branching needed here.
+  useEffect(() => {
+    const el = navRef.current;
+    if (!el || typeof ResizeObserver === "undefined") return;
+    const publishHeight = () => {
+      document.documentElement.style.setProperty("--mobile-nav-height", `${el.offsetHeight}px`);
+    };
+    const observer = new ResizeObserver(publishHeight);
+    observer.observe(el);
+    publishHeight();
+    return () => {
+      observer.disconnect();
+      document.documentElement.style.setProperty("--mobile-nav-height", "0px");
+    };
+  }, []);
 
   return (
     <div className="sm:hidden">
@@ -122,6 +151,7 @@ export default function MobileNav({ tabs, activeTab, onSelectTab, sheetContent, 
             top and nav on bottom, in light mode; see globals.css's `.band`
             comment for why that's light-mode-only. */}
         <nav
+          ref={navRef}
           className="band bg-panel grid border-t border-hair shadow-[0_-2px_16px_rgba(0,0,0,0.12)] pb-[env(safe-area-inset-bottom)]"
           style={{ gridTemplateColumns: `repeat(${tabs.length}, minmax(0, 1fr))` }}
           aria-label="Map panels"

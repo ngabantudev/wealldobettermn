@@ -411,6 +411,13 @@ function IconChevron({ className = "" }: { className?: string }) {
 export default function WardMap() {
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
   const mapRef = useRef<maplibregl.Map | null>(null);
+  // Mount points for MapLibre's NavigationControl and AttributionControl
+  // — see the map-setup effect below for why they're mounted here by
+  // hand (control.onAdd(map)) instead of via map.addControl(), which
+  // would hand them to MapLibre's own bottom-right corner container
+  // instead of #map-corner-controls.
+  const navControlMountRef = useRef<HTMLDivElement | null>(null);
+  const attribControlMountRef = useRef<HTMLDivElement | null>(null);
   const wardsBoundsRef = useRef<maplibregl.LngLatBounds | null>(null);
   const commissionersBoundsRef = useRef<maplibregl.LngLatBounds | null>(null);
   const stateLegBoundsRef = useRef<maplibregl.LngLatBounds | null>(null);
@@ -837,53 +844,53 @@ export default function WardMap() {
       style: getMapStyleUrlById(currentStyleId),
       center: TWIN_CITIES_CENTER,
       zoom: DEFAULT_ZOOM,
-      // Built manually below, added *after* the NavigationControl, not
-      // via this option — the `attributionControl` option adds its
-      // control during the Map constructor, before any code here runs,
-      // which would make it the first (topmost) control in the
-      // bottom-right corner instead of the last (corner-most) one. See
-      // the addControl calls below and globals.css's
-      // `.maplibregl-ctrl-bottom-right` override, which both assume
-      // attribution is last.
+      // Built manually below and mounted into #map-corner-controls, not
+      // via this option or map.addControl() — both of those hand the
+      // control to MapLibre's own bottom-right corner container, which
+      // this app no longer uses (see the JSX for
+      // #map-corner-controls, the single flex wrapper that now owns the
+      // zoom, attribution, and theme-selector stack together).
       attributionControl: false,
       cooperativeGestures: isMobileViewport(),
     });
     mapRef.current = map;
 
-    map.addControl(new maplibregl.NavigationControl({ showCompass: false }), "bottom-right");
+    // Mounted by hand (control.onAdd(map) → append the returned element
+    // ourselves) rather than map.addControl(), so all three of zoom,
+    // attribution, and MapThemeSelector's toggle live as ordinary flex
+    // children of one div this component owns (#map-corner-controls,
+    // in the JSX below) instead of two of them being locked into
+    // MapLibre's own separately-positioned corner container. onRemove()
+    // is called explicitly in this effect's cleanup for the same
+    // reason: map.remove() only tears down controls it thinks it owns
+    // via its own _controls list, which these were deliberately kept
+    // out of.
+    const navControl = new maplibregl.NavigationControl({ showCompass: false });
+    if (navControlMountRef.current) navControlMountRef.current.appendChild(navControl.onAdd(map));
 
-    map.addControl(new maplibregl.AttributionControl({ compact: true }), "bottom-right");
+    const attribControl = new maplibregl.AttributionControl({ compact: true });
+    const attribEl = attribControl.onAdd(map);
+    if (attribControlMountRef.current) attribControlMountRef.current.appendChild(attribEl);
 
     // MapLibre's AttributionControl starts *expanded* the first time
     // attributions populate, even with `compact: true` set — its own
     // _updateCompact() adds `maplibregl-compact-show` unconditionally on
     // first run and only collapses it later, in response to a `drag`
-    // event. Left alone, that means the attribution badge renders as a
-    // full text bar (not the small "i" badge globals.css's
-    // --map-ctrl-attrib-height assumes) for the first several seconds a
-    // resident sees the map — which is also what was still overlapping
-    // MapThemeSelector's toggle button above it. Queried from the DOM
-    // (rather than the control instance, which addControl doesn't
-    // return) right after adding it, so this is the exact element
-    // MapLibre attached. A MutationObserver, not a fixed timeout, catches
+    // event. Left alone, that means the attribution badge briefly
+    // renders as a full text bar rather than the small "i" badge a
+    // resident expects. A MutationObserver, not a fixed timeout, catches
     // the class the instant MapLibre adds it regardless of how long the
     // style/sources take to load, and only fires once — after that, a
     // resident's own click on the attribution badge toggles it normally.
-    const attribEl = mapContainerRef.current.querySelector<HTMLElement>(
-      ".maplibregl-ctrl-bottom-right .maplibregl-ctrl-attrib"
-    );
-    let attribObserver: MutationObserver | null = null;
-    if (attribEl) {
-      const collapseAttribOnce = () => {
-        if (!attribEl.classList.contains("maplibregl-compact-show")) return;
-        attribEl.classList.remove("maplibregl-compact-show");
-        attribEl.removeAttribute("open");
-        attribObserver?.disconnect();
-      };
-      attribObserver = new MutationObserver(collapseAttribOnce);
-      attribObserver.observe(attribEl, { attributes: true, attributeFilter: ["class"] });
-      collapseAttribOnce();
-    }
+    const collapseAttribOnce = () => {
+      if (!attribEl.classList.contains("maplibregl-compact-show")) return;
+      attribEl.classList.remove("maplibregl-compact-show");
+      attribEl.removeAttribute("open");
+      attribObserver.disconnect();
+    };
+    const attribObserver = new MutationObserver(collapseAttribOnce);
+    attribObserver.observe(attribEl, { attributes: true, attributeFilter: ["class"] });
+    collapseAttribOnce();
 
     const isDesktopHover = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
 
@@ -1314,7 +1321,12 @@ export default function WardMap() {
     return () => {
       window.removeEventListener("resize", handleResize);
       resizeObserver?.disconnect();
-      attribObserver?.disconnect();
+      attribObserver.disconnect();
+      // Explicit onRemove() for both — map.remove() only tears down
+      // controls added via map.addControl(), and these were
+      // deliberately kept out of that list (see above).
+      navControl.onRemove();
+      attribControl.onRemove();
       if (pulseAnimationFrameRef.current !== null) cancelAnimationFrame(pulseAnimationFrameRef.current);
       for (const { marker } of pinMarkersRef.current) marker.remove();
       pinMarkersRef.current = [];
@@ -1709,16 +1721,43 @@ export default function WardMap() {
             <IconChevron className={leftFiltersCollapsed ? "rotate-180" : ""} />
           </button>
 
-          {/* Site theme + basemap popover — desktop/laptop only; the
-              component hides itself below sm (see MapThemeSelector's own
-              `hidden sm:block`), where MobileNav's Theme tab covers the
-              same two settings via mobileThemeOptions below instead. */}
-          <MapThemeSelector
-            siteTheme={siteTheme}
-            mapStyleId={mapStyleId}
-            onSelectSiteTheme={selectSiteTheme}
-            onSelectMapStyle={selectMapStyle}
-          />
+          {/* One wrapper for everything that lives in the map's
+              bottom-right corner — MapThemeSelector's toggle, MapLibre's
+              zoom buttons, and MapLibre's attribution badge — stacked as
+              plain flex children instead of three independently
+              positioned elements. `items-center` centers each on the
+              shared vertical axis regardless of how wide any one of
+              them actually is (the attribution badge is wider than the
+              29px zoom/theme buttons); `gap` gives every consecutive
+              pair the same spacing, so "equally spaced" is structural,
+              not three separately-tuned offsets that happen to agree.
+              `bottom` clears MobileNav's bar height on a phone
+              (--mobile-nav-height, published by that component's own
+              ResizeObserver) and falls back to just the edge margin
+              above `sm`, where that bar doesn't render. The zoom and
+              attribution controls themselves are mounted into the two
+              empty divs below by the map-setup effect (onAdd(map) →
+              appendChild), not rendered as JSX — MapLibre owns their
+              actual DOM/behavior, this wrapper only owns where they
+              sit. */}
+          <div
+            id="map-corner-controls"
+            className="absolute z-20 flex flex-col items-center"
+            style={{
+              right: "var(--map-ctrl-edge)",
+              bottom: "calc(var(--map-ctrl-edge) + var(--mobile-nav-height))",
+              gap: "var(--map-ctrl-gap)",
+            }}
+          >
+            <MapThemeSelector
+              siteTheme={siteTheme}
+              mapStyleId={mapStyleId}
+              onSelectSiteTheme={selectSiteTheme}
+              onSelectMapStyle={selectMapStyle}
+            />
+            <div ref={navControlMountRef} />
+            <div ref={attribControlMountRef} />
+          </div>
 
           {/* Right sidebar's pull-tab — mirrors the left one above, flush
               against this box's right edge instead. */}
