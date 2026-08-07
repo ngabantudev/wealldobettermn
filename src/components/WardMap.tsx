@@ -630,7 +630,7 @@ function isMobileViewport(): boolean {
 // mayors are nonpartisan-styled on this map regardless of party (see
 // createRepPinElement's own comment on PARTY_COLORS) and this is a
 // role-level override, not a party color.
-const MAYOR_RING_COLOR = "#d4af37";
+const MAYOR_RING_COLOR = "#ffd700";
 
 function createRepPinElement(rep: RepProperties, diameter: number): HTMLDivElement {
   const isMayor = rep.role === "Mayor";
@@ -657,18 +657,19 @@ function createRepPinElement(rep: RepProperties, diameter: number): HTMLDivEleme
   // relying on DOM structure (outer.firstElementChild) staying stable.
   inner.className = "rep-pin-inner";
   // Mayor glow is layered onto the same box-shadow property as the normal
-  // drop shadow (comma-separated), not a separate filter/outline — a
-  // second shadow ring keeps the glow soft and centered on the circle
-  // without expanding the element's own layout box.
+  // drop shadow (comma-separated), not a separate filter/outline — extra
+  // shadow rings keep the glow soft and centered on the circle without
+  // expanding the element's own layout box. Two glow layers (tight + wide)
+  // read as a brighter halo than one alone at the same total opacity.
   const boxShadow = isMayor
-    ? "0 2px 8px rgba(0,0,0,0.35), 0 0 10px 3px rgba(212,175,55,0.55)"
+    ? "0 2px 8px rgba(0,0,0,0.35), 0 0 8px 3px rgba(255,215,0,0.85), 0 0 18px 6px rgba(255,215,0,0.5)"
     : "0 2px 8px rgba(0,0,0,0.35)";
   inner.style.cssText = `
     width: ${diameter}px; height: ${diameter}px; border-radius: 9999px;
     border: 3px solid ${accent}; box-shadow: ${boxShadow};
-    background: ${isMayor ? "rgba(212,175,55,0.18)" : partyColorSoft(rep.repParty)}; overflow: hidden;
+    background: ${isMayor ? "rgba(255,215,0,0.22)" : partyColorSoft(rep.repParty)}; overflow: hidden;
     display: flex; align-items: center; justify-content: center;
-    transition: transform 0.15s ease; background-size: cover; background-position: center;
+    transition: transform 0.15s ease, box-shadow 0.15s ease; background-size: cover; background-position: center;
   `;
   outer.appendChild(inner);
 
