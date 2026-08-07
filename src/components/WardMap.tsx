@@ -8,7 +8,7 @@ import dataManifest from "../../public/data-manifest.json";
 import type { AddressIndex, MnPlaces, RepProperties, WardRef } from "@/lib/types";
 import type { AreaOfficials, CivicGeometrySources } from "@/lib/officials";
 import { officialIdentity, resolveOfficialsAtPoint } from "@/lib/officials";
-import { CITIES, type City } from "@/lib/cities";
+import { AT_LARGE_CITIES, CITIES, type City } from "@/lib/cities";
 import {
   CITY_ACCENT,
   CITY_PALETTES,
@@ -92,10 +92,16 @@ const WARDS_PIN_LINKS_SOURCE_ID = "wards-pin-links-source";
 const WARDS_PIN_LINKS_LAYER_ID = "wards-pin-links";
 
 // A city with no ward polygon at all (elects entirely at-large — Woodbury
-// is the first) gets its own outline filled instead, one feature per city
-// in public/at-large-boundaries.geojson (see fetch-at-large-boundaries.mjs
-// and that file's own comment on why this couldn't just be a pseudo-ward
-// feature in wards.geojson). Solid CITY_ACCENT fill, not a ward-cycled
+// is the first) gets its own outline filled instead, one feature per
+// AT_LARGE_CITIES entry (src/lib/cities.ts), derived client-side by
+// filtering the statewide public/city-boundaries.geojson backdrop down to
+// just those cities — see deriveAtLargeBoundaries's own comment. This used
+// to be its own fetch of public/at-large-boundaries.geojson (Washington
+// County's own GIS portal, one URL per at-large city — see git history for
+// scripts/fetch-at-large-boundaries.mjs, now removed); deriving it from
+// the already-fetched statewide feed instead avoids painting two
+// independently-sourced polygons for the same city that could silently
+// drift apart at the edges. Solid CITY_ACCENT fill, not a ward-cycled
 // shade — there's no ward number to cycle across, this polygon *is* the
 // whole city. Renders alongside wards-mode (same as mayors' pins already
 // do), never its own LayerMode.
@@ -615,14 +621,14 @@ function wardPinConnectorLines(map: maplibregl.Map, wardsData: FeatureCollection
 const EMPTY_FEATURE_COLLECTION: FeatureCollection = { type: "FeatureCollection", features: [] };
 
 // The two layers every resident needs regardless of which LayerMode
-// they're in: wards/mayors are the default "wards" mode itself, and
-// at-large-boundaries rides along with them (see that source's own
-// comment — it's wardless-city backdrop, shown alongside wards mode,
-// never its own mode).
+// they're in: wards/mayors are the default "wards" mode itself.
+// at-large-boundaries used to ride along with them as its own fetch; it's
+// now *derived* client-side from SecondaryCivicData's cityBoundaries once
+// that arrives — see AT_LARGE_BOUNDARIES_SOURCE_ID's own comment and
+// applySecondaryCivicData below for the tradeoff that follows from that.
 interface PrimaryCivicData {
   wards: FeatureCollection;
   mayors: FeatureCollection;
-  atLargeBoundaries: FeatureCollection;
 }
 
 // Commissioner districts and state legislative districts — by far the
@@ -637,42 +643,36 @@ interface PrimaryCivicData {
 // with PrimaryCivicData above: it's a backdrop, not something the default
 // "wards" view's search/pin flow depends on, so it's fine to arrive a
 // moment later — same reasoning that already applies to commissioners and
-// stateLeg (see this interface's own comment above).
+// stateLeg (see this interface's own comment above). The at-large-boundary
+// layer is derived from this field too — see AT_LARGE_BOUNDARIES_SOURCE_ID's
+// own comment.
 interface SecondaryCivicData {
   commissioners: FeatureCollection;
   stateLeg: FeatureCollection;
   cityBoundaries: FeatureCollection;
 }
 
-// Fetches wards/mayors/at-large-boundaries independently of the MapLibre
-// instance — previously this ran inside map.on("load"), which meant a
-// resident whose map never finishes loading (WebGL unavailable, tile
-// host down) could never get ward data either, silently breaking search
-// along with the map itself. AGENTS.md Part 4 requires search to work
-// "with the map absent, failed, or never loaded," so this now runs on
-// its own, and the map-setup effect below awaits the same promise
-// instead of fetching a second time. Never throws: a failed fetch
-// resolves null so the caller can degrade (empty map, search that
-// honestly has nothing to search) rather than crash.
+// Fetches wards/mayors independently of the MapLibre instance —
+// previously this ran inside map.on("load"), which meant a resident
+// whose map never finishes loading (WebGL unavailable, tile host down)
+// could never get ward data either, silently breaking search along with
+// the map itself. AGENTS.md Part 4 requires search to work "with the map
+// absent, failed, or never loaded," so this now runs on its own, and the
+// map-setup effect below awaits the same promise instead of fetching a
+// second time. Never throws: a failed fetch resolves null so the caller
+// can degrade (empty map, search that honestly has nothing to search)
+// rather than crash.
 //
 // See dataUrl()'s own comment for the cache-busted-URL/real-HTTP-caching
 // swap that replaced this file's old `{ cache: "no-store" }` on every
 // one of these fetches (issue #67 Finding 3).
 async function fetchPrimaryCivicData(): Promise<PrimaryCivicData | null> {
   try {
-    const [wardsRes, mayorsRes, atLargeBoundariesRes] = await Promise.all([
-      fetch(dataUrl("wards.geojson")),
-      fetch(dataUrl("mayors.geojson")),
-      fetch(dataUrl("at-large-boundaries.geojson")),
-    ]);
-    const [wards, mayors, atLargeBoundaries] = await Promise.all([
-      wardsRes.json(),
-      mayorsRes.json(),
-      atLargeBoundariesRes.json(),
-    ]);
-    return { wards, mayors, atLargeBoundaries };
+    const [wardsRes, mayorsRes] = await Promise.all([fetch(dataUrl("wards.geojson")), fetch(dataUrl("mayors.geojson"))]);
+    const [wards, mayors] = await Promise.all([wardsRes.json(), mayorsRes.json()]);
+    return { wards, mayors };
   } catch (err) {
-    console.error("[WardMap] failed to load primary civic data (wards/mayors/at-large boundaries)", err);
+    console.error("[WardMap] failed to load primary civic data (wards/mayors)", err);
     return null;
   }
 }
@@ -684,11 +684,12 @@ async function fetchPrimaryCivicData(): Promise<PrimaryCivicData | null> {
 // state-legislature.geojson (still the largest of the five layers even
 // after ingest-time simplification) at the same time as wards.geojson
 // would have the two compete for the same limited pipe, delaying the
-// file the default view actually needs. Waiting until wards/mayors/
-// at-large-boundaries are already in hand — search and the map's default
-// view usable — before even asking for these two means a resident never
-// waits on them for anything except the multi-tier hover panel's county/
-// state rows, which fill in a moment later once this resolves (see
+// file the default view actually needs. Waiting until wards/mayors are
+// already in hand — search and the map's default view usable — before
+// even asking for these two means a resident never waits on them for
+// anything except the multi-tier hover panel's county/state rows (and
+// now the at-large-boundary layer — see this file's own comment on that
+// tradeoff), which fill in a moment later once this resolves (see
 // resolveOfficialsAtPoint's own comment on why all three tiers are kept
 // independent of which LayerMode is visible). See issue #67 Finding 2.
 async function fetchSecondaryCivicData(): Promise<SecondaryCivicData | null> {
@@ -708,6 +709,33 @@ async function fetchSecondaryCivicData(): Promise<SecondaryCivicData | null> {
     console.error("[WardMap] failed to load secondary civic data (commissioners/state legislature)", err);
     return null;
   }
+}
+
+// Filters the statewide city-boundaries feed down to the handful of
+// wardless (at-large-elected) cities this app covers, re-shaping each
+// hit into the `{ city }`-only properties shape every existing
+// at-large-boundary consumer already expects (fill color expression,
+// click/hover identity, applyCityZoom/applyCountyZoom's `.city` filter,
+// officials.ts's join — see AT_LARGE_BOUNDARIES_SOURCE_ID's own comment).
+//
+// The join is a plain string match on `properties.name` (MnDOT/MnGeo's
+// spelling) against AT_LARGE_CITIES (this app's abbreviated spelling) —
+// it will silently drop a future at-large city whose full name differs
+// from its abbreviated form here (e.g. "Saint " vs "St. "), the same
+// caveat already documented on CITY_BOUNDARIES_LAYER's knownGaps in
+// src/lib/layers.ts.
+function deriveAtLargeBoundaries(cityBoundaries: FeatureCollection): FeatureCollection {
+  const atLargeCitySet = new Set<string>(AT_LARGE_CITIES);
+  return {
+    type: "FeatureCollection",
+    features: cityBoundaries.features
+      .filter((f) => typeof f.properties?.name === "string" && atLargeCitySet.has(f.properties.name))
+      .map((f) => ({
+        type: "Feature",
+        geometry: f.geometry,
+        properties: { city: f.properties?.name as string },
+      })),
+  };
 }
 
 // MapLibre tiles GeoJSON sources internally (even client-side ones), and
@@ -1048,17 +1076,26 @@ export default function WardMap() {
       if (!primary) return;
       wardsDataRef.current = primary.wards;
       mayorsDataRef.current = primary.mayors;
-      atLargeBoundariesDataRef.current = primary.atLargeBoundaries;
       const wardsBounds = boundsFromFeatureCollection(primary.wards);
       if (!wardsBounds.isEmpty()) wardsBoundsRef.current = wardsBounds;
 
-      // Only requested now that wards/mayors/at-large-boundaries are
-      // already in hand — see fetchSecondaryCivicData's own comment.
+      // Only requested now that wards/mayors are already in hand — see
+      // fetchSecondaryCivicData's own comment.
       fetchSecondaryCivicData().then((secondary) => {
         if (!secondary) return;
         commissionersDataRef.current = secondary.commissioners;
         stateLegDataRef.current = secondary.stateLeg;
         cityBoundariesDataRef.current = secondary.cityBoundaries;
+        // Deliberate, accepted regression: Woodbury's at-large boundary
+        // (and everything gated on atLargeBoundariesDataRef — the fill
+        // layer, applyCityZoom/applyCountyZoom's fallback, search) is now
+        // only available once this *secondary* fetch resolves, instead of
+        // immediately with primary wards/mayors data — a moment later on
+        // a slow connection, not on initial paint. Traded for removing
+        // the duplicate-geometry problem (two independently-sourced
+        // polygons for the same city drifting apart at the edges) — see
+        // deriveAtLargeBoundaries's own comment.
+        atLargeBoundariesDataRef.current = deriveAtLargeBoundaries(secondary.cityBoundaries);
         const commissionersBounds = boundsFromFeatureCollection(secondary.commissioners);
         const stateLegBounds = boundsFromFeatureCollection(secondary.stateLeg);
         if (!commissionersBounds.isEmpty()) commissionersBoundsRef.current = commissionersBounds;
@@ -1484,8 +1521,12 @@ export default function WardMap() {
     // A wardless (at-large) city — Woodbury today — has zero features in
     // wards.geojson by construction, so the check above always misses for
     // it; without this fallback, searching/selecting it used to silently
-    // zoom nowhere at all. Its boundary in at-large-boundaries.geojson is
-    // the only geometry standing in for "this city" instead.
+    // zoom nowhere at all. Its derived boundary (atLargeBoundariesDataRef —
+    // see deriveAtLargeBoundaries's own comment) is the only geometry
+    // standing in for "this city" instead. That derivation only exists
+    // once SecondaryCivicData has resolved, so this ref (like commissioners/
+    // stateLeg) can briefly be null/empty right after mount — the `?.`
+    // below already no-ops harmlessly in that window, same as it always has.
     const boundary = atLargeBoundariesDataRef.current?.features.filter((f) => f.properties?.city === city);
     if (!boundary || boundary.length === 0) return;
     setSelected(null);
@@ -1812,22 +1853,25 @@ export default function WardMap() {
     //
     // Reads straight from the *Ref.current values rather than taking a
     // parameter, so it always picks up whatever's actually available the
-    // moment it runs — including commissioners/stateLeg, which may or
-    // may not have arrived yet (SecondaryCivicData loads in the
-    // background, after wards/mayors/at-large-boundaries — see
-    // fetchSecondaryCivicData's own comment). Only ever called once
-    // wardsDataRef/mayorsDataRef/atLargeBoundariesDataRef are populated
-    // (both call sites below await primaryCivicDataPromiseRef first), so
-    // those three are asserted non-null; commissioners/stateLeg fall
-    // back to EMPTY_FEATURE_COLLECTION when not loaded yet — every layer
-    // built off them starts hidden by default anyway (layerMode defaults
-    // to "wards"), and applySecondaryCivicDataRef patches in the real
-    // data with setData() the moment it resolves.
+    // moment it runs — including commissioners/stateLeg/cityBoundaries/
+    // atLargeBoundaries, which may or may not have arrived yet
+    // (SecondaryCivicData loads in the background, after wards/mayors —
+    // see fetchSecondaryCivicData's own comment). Only ever called once
+    // wardsDataRef/mayorsDataRef are populated (both call sites below
+    // await primaryCivicDataPromiseRef first), so those two are asserted
+    // non-null; commissioners/stateLeg/cityBoundaries/atLargeBoundaries
+    // fall back to EMPTY_FEATURE_COLLECTION when not loaded/derived yet —
+    // every layer built off them starts hidden or empty by default anyway
+    // (layerMode defaults to "wards", and an empty at-large source just
+    // means Woodbury's accent fill hasn't appeared yet — see
+    // deriveAtLargeBoundaries's own comment on that tradeoff), and
+    // applySecondaryCivicDataRef patches in the real data with setData()
+    // the moment it resolves.
     const addSourcesAndLayers = () => {
       if (map.getSource(WARDS_SOURCE_ID)) return;
       const data = wardsDataRef.current!;
       const mayorsData = mayorsDataRef.current!;
-      const atLargeBoundariesData = atLargeBoundariesDataRef.current!;
+      const atLargeBoundariesData = atLargeBoundariesDataRef.current ?? EMPTY_FEATURE_COLLECTION;
       const commissionersData = commissionersDataRef.current ?? EMPTY_FEATURE_COLLECTION;
       const stateLegData = stateLegDataRef.current ?? EMPTY_FEATURE_COLLECTION;
       const cityBoundariesData = cityBoundariesDataRef.current ?? EMPTY_FEATURE_COLLECTION;
@@ -2134,6 +2178,13 @@ export default function WardMap() {
       commissionersSource.setData(secondary.commissioners);
       stateLegSource.setData(secondary.stateLeg);
       (map.getSource(CITY_BOUNDARIES_SOURCE_ID) as maplibregl.GeoJSONSource | undefined)?.setData(secondary.cityBoundaries);
+      // atLargeBoundariesDataRef.current was already derived and set by
+      // the mount effect's caller above, before this function ran — just
+      // push it onto the live source here. See deriveAtLargeBoundaries's
+      // own comment for the derivation and the tradeoff it accepts.
+      (map.getSource(AT_LARGE_BOUNDARIES_SOURCE_ID) as maplibregl.GeoJSONSource | undefined)?.setData(
+        atLargeBoundariesDataRef.current ?? EMPTY_FEATURE_COLLECTION,
+      );
       (map.getSource(COMMISSIONERS_LABEL_SOURCE_ID) as maplibregl.GeoJSONSource | undefined)?.setData(
         labelPointsFromFeatureCollection(secondary.commissioners),
       );
@@ -2189,11 +2240,12 @@ export default function WardMap() {
 
       // Awaits the *same* fetch the map-independent effect above kicked
       // off on mount, rather than fetching a second time — that effect
-      // is also what populates wardsDataRef/mayorsDataRef/
-      // atLargeBoundariesDataRef, so search can use them even if this
-      // "load" event never fires at all. Deliberately does NOT also wait
-      // on fetchSecondaryCivicData's promise — that would put
-      // commissioners/state-legislature.geojson back in the
+      // is also what populates wardsDataRef/mayorsDataRef (and, once
+      // SecondaryCivicData resolves, atLargeBoundariesDataRef — see
+      // deriveAtLargeBoundaries's own comment), so search can use them
+      // even if this "load" event never fires at all. Deliberately does
+      // NOT also wait on fetchSecondaryCivicData's promise — that would
+      // put commissioners/state-legislature.geojson back in the
       // initial-paint critical path, exactly what #67 Finding 2 moved
       // them out of. See that function's own comment.
       const primary = await primaryCivicDataPromiseRef.current;

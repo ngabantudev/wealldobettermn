@@ -193,11 +193,12 @@ export function resolveOfficialsAtPoint(
   // without this its mayor/council pins would only ever resolve when
   // `known` was seeded by clicking the pin directly — clicking anywhere
   // else inside the city (its own boundary fill, not a ward) would show
-  // nothing. Its features carry only `{ city }` (see
-  // fetch-at-large-boundaries.mjs), never enough to stand in as a
-  // RepProperties itself, so only the city name is pulled out of a hit
-  // here — the actual officials still come from mayorHits below, same as
-  // every other city.
+  // nothing. Its features carry only `{ city }` (derived client-side from
+  // the statewide city-boundaries feed — see WardMap.tsx's
+  // deriveAtLargeBoundaries), never enough to stand in as a RepProperties
+  // itself, so only the city name is pulled out of a hit here — the
+  // actual officials still come from mayorHits below, same as every other
+  // city.
   const cityNames = new Set(wardHits.map((rep) => rep.city));
   for (const feature of sources.atLargeBoundaries?.features ?? []) {
     if (!isPolygonal(feature.geometry)) continue;
