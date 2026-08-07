@@ -611,7 +611,7 @@ export default function WardModal({ officials, onClose, variant = "sheet" }: War
         className="flex items-center justify-between gap-2 px-4 pt-2 pb-2 sm:pt-4 shrink-0"
         style={{ backgroundColor: PANEL_HEADER_BG, color: PANEL_HEADER_TEXT }}
       >
-        <h2 className="text-lg font-extrabold">{panelHeading(officials)}</h2>
+        <h2 className="text-2xl font-extrabold">{panelHeading(officials)}</h2>
         <button
           type="button"
           onClick={onClose}
