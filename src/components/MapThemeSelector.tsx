@@ -166,18 +166,28 @@ export default function MapThemeSelector({ siteTheme, mapStyleId, onSelectSiteTh
 
   return (
     // Desktop/laptop only — bottom-right, stacked above MapLibre's own
-    // zoom buttons (mndatacenter.org's own layout: a single control
-    // stacked cleanly above the zoom stack, sharing its right edge).
-    // MapLibre's NavigationControl (zoom in/out, no compass) renders as a
-    // ~58px-tall .maplibregl-ctrl-group with its own 10px margin from the
-    // container's bottom-right corner, so it occupies roughly the bottom
-    // 68px of that corner — `right-2.5` (10px) matches its right margin
-    // exactly, and `bottom-28` (112px) clears its top edge with a real
-    // gap instead of the two controls' hit areas touching. `hidden
-    // sm:block`: below `sm` this control doesn't render at all;
-    // MobileNav's Theme tab covers the same two settings there (see
-    // MapThemeOptions above).
-    <div ref={rootRef} className="hidden sm:block absolute right-2.5 bottom-28 z-20 font-sans">
+    // corner controls (mndatacenter.org's own layout: a single control
+    // stacked cleanly above everything MapLibre puts in that corner,
+    // sharing its right edge). That corner holds two MapLibre controls,
+    // not one: the AttributionControl (compact, collapsed to a small
+    // badge) sits *below* the NavigationControl (zoom in/out, no
+    // compass) — both were added via `map.addControl`/`attributionControl`
+    // in WardMap.tsx. `right` matches MapLibre's own control margin
+    // exactly; `bottom` is computed from the same --map-ctrl-* variables
+    // (globals.css) that describe both controls' real geometry, rather
+    // than a guessed Tailwind step — so it stays correct if either
+    // control's size ever changes. `hidden sm:block`: below `sm` this
+    // control doesn't render at all; MobileNav's Theme tab covers the
+    // same two settings there (see MapThemeOptions above).
+    <div
+      ref={rootRef}
+      className="hidden sm:block absolute z-20 font-sans"
+      style={{
+        right: "var(--map-ctrl-right)",
+        bottom:
+          "calc(var(--map-controls-bottom) + var(--map-ctrl-attrib-height) + var(--map-ctrl-gap) + var(--map-ctrl-group-height) + var(--map-ctrl-gap))",
+      }}
+    >
       <button
         type="button"
         aria-haspopup="true"

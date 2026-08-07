@@ -1,5 +1,25 @@
 @import "tailwindcss";
 
+/* Map control geometry — cross-checked against mndatacenter.org's own
+   source (github.com/ngabantudev/mndatacenter, src/styles/global.css),
+   same provenance note as the palette below. MapThemeSelector.tsx's
+   toggle button is positioned from these variables via calc(), rather
+   than a guessed Tailwind spacing step, so it clears everything
+   MapLibre actually stacks in the bottom-right corner: the compact
+   AttributionControl (a 24px collapsed badge) sitting below the
+   NavigationControl (zoom in/out, no compass — a 59px-tall
+   .maplibregl-ctrl-group). The previous fix only cleared the
+   NavigationControl and missed the AttributionControl entirely —
+   that's what still overlapped. */
+:root {
+  --map-ctrl-edge: 10px; /* MapLibre's own default control margin */
+  --map-ctrl-gap: 10px;
+  --map-ctrl-group-height: 59px; /* NavigationControl, zoom in/out only */
+  --map-ctrl-attrib-height: 24px; /* AttributionControl, compact/collapsed */
+  --map-ctrl-right: var(--map-ctrl-edge);
+  --map-controls-bottom: var(--map-ctrl-edge);
+}
+
 /* Design tokens — matched to mndatacenter.org (a sister Minnesota civic-
    transparency site, see AGENTS.md "Role in the wider project"), and
    cross-checked directly against that project's own source
