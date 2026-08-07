@@ -810,6 +810,22 @@ function createRepPinElement(rep: RepProperties, diameter: number): HTMLDivEleme
 
   if (rep.repPhotoUrl) {
     const img = document.createElement("img");
+    // `loading="lazy"` matters far more here than on a typical below-the-
+    // fold image: every pin across every LayerMode is created up front
+    // (see addPrimaryPins/addSecondaryPins), including the ~200
+    // commissioner/state-legislature pins hidden (display: none) behind
+    // whichever mode isn't currently selected. Without this, assigning
+    // `src` still fires an immediate network fetch regardless of that
+    // display:none — a resident who never leaves the default "City" mode
+    // would otherwise pay for ~200 photo requests, to dozens of different
+    // city/county/state-hosted origins, that nothing on screen ever
+    // shows. A hidden `<img loading="lazy">` defers its fetch until the
+    // element actually becomes visible (mode switched to County/State),
+    // at which point the browser fetches it same as any other lazy
+    // image entering view. `decoding="async"` keeps decoding whichever
+    // photos DO load off the main thread, same reasoning at smaller scale.
+    img.loading = "lazy";
+    img.decoding = "async";
     img.src = rep.repPhotoUrl;
     img.alt = rep.repName ?? "Representative photo";
     img.style.cssText = "width: 100%; height: 100%; object-fit: cover;";
@@ -2030,6 +2046,19 @@ export default function WardMap() {
         labelPointsFromFeatureCollection(secondary.stateLeg),
       );
       addSecondaryPins(secondary);
+      // addSourcesAndLayers' own applyLayerMode() call (in the "load"
+      // handler, before this ever runs) already set every *existing*
+      // pin's display to match the current mode — but addSecondaryPins
+      // just pushed 200+ new commissioner/state-legislature markers into
+      // pinMarkersRef.current *after* that pass ran, and a freshly
+      // `.addTo(map)`-ed maplibregl.Marker defaults to visible. Without
+      // this, every county/state pin statewide renders on top of the
+      // default "wards" view the moment this background fetch resolves
+      // — the exact bug this line fixes (all reps across the state
+      // appearing and tanking render performance, regardless of which
+      // mode is actually selected). Re-running the same visibility pass
+      // now, after the new pins exist, is what actually hides them.
+      applyLayerMode(layerModeRef.current);
       maybeStartPulseAnimation();
     };
     applySecondaryCivicDataRef.current = applySecondaryCivicData;
@@ -2089,6 +2118,13 @@ export default function WardMap() {
       // places safe either way.
       if (commissionersDataRef.current && stateLegDataRef.current) {
         addSecondaryPins({ commissioners: commissionersDataRef.current, stateLeg: stateLegDataRef.current });
+        // addSourcesAndLayers() above already ran its own applyLayerMode()
+        // pass, but that was before the pins added just now existed —
+        // same reason applySecondaryCivicData re-runs it, see that
+        // function's own comment. Without this, this (rare — secondary
+        // data winning the race against "load") path ships the same
+        // all-pins-visible bug the far more common path fixes.
+        applyLayerMode(layerModeRef.current);
       }
       maybeStartPulseAnimation();
 
