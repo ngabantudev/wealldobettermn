@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
-import type { Feature, FeatureCollection, Geometry } from "geojson";
+import type { Feature, FeatureCollection, Geometry, Point } from "geojson";
 import type { AddressIndex, MnPlaces, RepProperties, WardRef } from "@/lib/types";
 import type { AreaOfficials, CivicGeometrySources } from "@/lib/officials";
 import { officialIdentity, resolveOfficialsAtPoint } from "@/lib/officials";
@@ -436,6 +436,26 @@ function groupWardFeaturesByWard(data: FeatureCollection): Map<string, Feature<G
     const group = groups.get(wardKey);
     if (group) group.push(feature as Feature<Geometry>);
     else groups.set(wardKey, [feature as Feature<Geometry>]);
+  }
+  return groups;
+}
+
+// mayors.geojson's equivalent of groupWardFeaturesByWard above — every
+// entry there sits at its city's City Hall coordinate, one feature per
+// office (Mayor, plus Council Member for an at-large city like Woodbury),
+// so "share a coordinate" reduces to "share a city" rather than needing
+// wardKey's city+ward compound key. Grouped even for the ordinary one-
+// feature-per-city case (every city except Woodbury today) so the same
+// formation math handles both — wardPinPixelOffsets(1, ...) is already
+// the identity [[0, 0]], so a lone mayor's pin position is unchanged.
+function groupFeaturesByCity(data: FeatureCollection): Map<string, Feature<Geometry>[]> {
+  const groups = new Map<string, Feature<Geometry>[]>();
+  for (const feature of data.features) {
+    if (feature.geometry.type !== "Point") continue;
+    const properties = feature.properties as RepProperties;
+    const group = groups.get(properties.city);
+    if (group) group.push(feature as Feature<Geometry>);
+    else groups.set(properties.city, [feature as Feature<Geometry>]);
   }
   return groups;
 }
@@ -1458,11 +1478,22 @@ export default function WardMap() {
         pinMarkersRef.current.push({ marker, properties, mode, formation });
       };
 
-      for (const feature of mayorsData.features) {
-        if (feature.geometry.type !== "Point") continue;
-        const properties = feature.properties as RepProperties;
-        const [lng, lat] = feature.geometry.coordinates as [number, number];
-        addPin(properties, [lng, lat], "wards", boundsAroundPoint(lng, lat));
+      // Grouped by city (see groupFeaturesByCity) rather than iterated
+      // directly, so Woodbury's mayor + 4 at-large council members —
+      // sharing one City Hall coordinate, unlike every other city's single
+      // mayor — fan out into a formation instead of stacking on one pixel,
+      // same mechanism the multi-member-ward loop below already uses.
+      for (const group of groupFeaturesByCity(mayorsData).values()) {
+        const [lng, lat] = (group[0].geometry as Point).coordinates as [number, number];
+        const center = maplibregl.LngLat.convert([lng, lat]);
+        group.forEach((feature, i) => {
+          const properties = feature.properties as RepProperties;
+          addPin(properties, [lng, lat], "wards", boundsAroundPoint(lng, lat), "bottom", {
+            center,
+            index: i,
+            count: group.length,
+          });
+        });
       }
 
       // One pin per council member, centered on their ward — same

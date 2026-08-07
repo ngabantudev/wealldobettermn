@@ -18,10 +18,17 @@ export const CITIES = [
   "Coon Rapids",
   "Fridley",
   "Ramsey",
+  // Woodbury elects its mayor and all 4 council seats entirely at-large
+  // (citywide) — no wards, confirmed against the city's own site. It
+  // carries no entry in wards.geojson at all; its officials live in
+  // mayors.geojson instead (role "Mayor"/"Council Member", Point geometry
+  // at City Hall) — see that script's own comment for why they share a
+  // file/source rather than needing a new one.
+  "Woodbury",
 ] as const;
 export type City = (typeof CITIES)[number];
 
-export const COUNTIES = ["Hennepin", "Ramsey", "Anoka"] as const;
+export const COUNTIES = ["Hennepin", "Ramsey", "Anoka", "Washington"] as const;
 export type County = (typeof COUNTIES)[number];
 
 // NOTE: the city "Ramsey" (Anoka County) and the county "Ramsey" (St.
@@ -50,4 +57,5 @@ export const COUNTY_CITIES: Record<County, City[]> = {
   ],
   Ramsey: ["St. Paul"],
   Anoka: ["Blaine", "Coon Rapids", "Fridley", "Ramsey"],
+  Washington: ["Woodbury"],
 };
