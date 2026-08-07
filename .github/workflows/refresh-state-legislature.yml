@@ -1,0 +1,129 @@
+name: Refresh MN state legislature data
+
+# Runs scripts/fetch-state-legislature.mjs on a schedule and opens (or
+# updates) a PR with whatever changed in public/state-legislature.geojson
+# — never auto-commits to main. AGENTS.md §0.5 "Snapshot, don't overwrite"
+# and §3.4 ("every published data point... human-reviewed") both apply
+# here: a roster/vote refresh is an event worth a human looking at the
+# diff before it ships, not a silent background overwrite.
+#
+# Cadence follows the MN Legislature's own calendar, not a flat interval:
+#   - Weekly (Mondays) Feb-May, when the Legislature is actually in
+#     session and roll-call votes are happening — recentVotes/
+#     partyUnityPercent are only worth refreshing when there's new
+#     session activity to catch.
+#   - Monthly (the 1st) June-Jan, off-session — this is pure insurance
+#     against a resignation/special-election roster change slipping past
+#     STALENESS_THRESHOLD_DAYS (180 days, see electionConfig.ts), not
+#     because anything session-related is happening.
+# Both schedules skip nothing around the Nov 2026 general election on
+# purpose — that one needs a deliberate manual run (see the script's own
+# header) plus a hand-edit of MN_STATE_GENERAL_ELECTION_DATE afterward,
+# not an unattended cron. Update these cron lines the day that constant
+# changes to a new date, same as everywhere else that date is hand-kept.
+on:
+  schedule:
+    - cron: "0 13 * 2,3,4,5 1" # every Monday 13:00 UTC, Feb-May (session)
+    - cron: "0 13 1 6,7,8,9,10,11,12,1 *" # 1st of month 13:00 UTC, Jun-Jan (off-session)
+  workflow_dispatch: {} # manual "run now" from the Actions tab
+
+# Only one refresh in flight at a time — a second run landing mid-diff
+# would just race the first one's push to the same automation branch.
+concurrency:
+  group: refresh-state-legislature
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  refresh:
+    name: Fetch latest roster/votes, open a review PR if anything changed
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: ".nvmrc"
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      # The script itself already fails loudly (exit 1) if the key is
+      # missing/invalid, or if any record's verifiedAt would predate the
+      # configured general election date — nothing extra to check here
+      # beyond letting that failure surface as a red workflow run.
+      - name: Fetch live MN House + Senate roster, votes, and boundaries
+        env:
+          OPEN_STATES_API_KEY: ${{ secrets.OPEN_STATES_API_KEY }}
+        run: npm run data:state-legislature
+
+      - name: Check whether the output actually changed
+        id: diff
+        run: |
+          if git diff --quiet -- public/state-legislature.geojson; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "No change in public/state-legislature.geojson — nothing to open a PR for."
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      # Sanity-check surfaced in the PR body, not a hard failure: MN
+      # essentially never has more than a handful of simultaneous
+      # legislative vacancies. A large count here is much more likely to
+      # be the district-key join bug fixed in b3501f2 (or a similar one)
+      # than 201 seats' worth of real vacancies — flagged for the human
+      # reviewer to eyeball, not auto-rejected, since a real small number
+      # of vacancies is entirely possible.
+      - name: Summarize the diff for the PR body
+        id: summary
+        if: steps.diff.outputs.changed == 'true'
+        run: |
+          node -e '
+            const fs = require("fs");
+            const data = JSON.parse(fs.readFileSync("public/state-legislature.geojson", "utf8"));
+            const feats = data.features;
+            const vacant = feats.filter((f) => f.properties.repParty === "Vacant").map((f) => f.properties.stateDistrict);
+            const scored = feats.filter((f) => f.properties.partyUnityPercent !== null).length;
+            const lines = [
+              `- ${feats.length} district(s) total (${feats.filter((f) => f.properties.chamber === "house").length} House, ${feats.filter((f) => f.properties.chamber === "senate").length} Senate)`,
+              `- ${scored} of ${feats.length} have a party-unity score from this run'\''s bill sample`,
+              vacant.length > 0
+                ? `- ⚠️ ${vacant.length} seat(s) show as Vacant: ${vacant.join(", ")} — verify these are real vacancies, not a district-key mismatch (see b3501f2)`
+                : "- 0 seats show as Vacant",
+            ];
+            fs.writeFileSync(process.env.GITHUB_OUTPUT, `summary<<EOF\n${lines.join("\n")}\nEOF\n`, { flag: "a" });
+          '
+
+      - name: Open or update the review PR
+        if: steps.diff.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          # Passed as an env var rather than interpolated straight into
+          # the script below (`${{ steps.summary.outputs.summary }}`
+          # inline) — keeps the shell script's own quoting immune to
+          # whatever characters ever end up in a future summary line.
+          PR_SUMMARY: ${{ steps.summary.outputs.summary }}
+        run: |
+          set -e
+          BRANCH="automation/refresh-state-legislature"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add public/state-legislature.geojson
+          git commit -m "chore(data): refresh MN state legislature roster/votes ($(date -u +%Y-%m-%d))"
+          git push --force origin "HEAD:refs/heads/$BRANCH"
+
+          BODY="Automated refresh via scripts/fetch-state-legislature.mjs (see .github/workflows/refresh-state-legislature.yml). Not auto-merged — review the geojson diff like any other data change (AGENTS.md §0.5).
+
+          $PR_SUMMARY"
+
+          if gh pr view "$BRANCH" --json state -q .state 2>/dev/null | grep -q OPEN; then
+            gh pr edit "$BRANCH" --body "$BODY"
+            echo "PR already open for $BRANCH — pushed the new commit and updated its description."
+          else
+            gh pr create --base main --head "$BRANCH" --title "chore(data): refresh MN state legislature roster/votes" --body "$BODY"
+          fi
