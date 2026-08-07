@@ -225,17 +225,49 @@ interface PinMarker {
   mode: LayerMode;
 }
 
-// Pin diameter scales with how much ground the office actually covers: a
-// citywide executive (one mayor) reads as more prominent than one of
-// several countywide board seats, which in turn outranks a single ward.
-const PIN_DIAMETER_BY_ROLE: Partial<Record<RepProperties["role"], number>> = {
-  Mayor: 52,
-  "County Commissioner": 40,
-  "State Senator": 38,
-  "State Representative": 36,
-  "Council Member": 34,
+// Pin diameter scales along two axes at once: how much ground the office
+// actually covers (a citywide executive reads as more prominent than one
+// of several countywide board seats, which in turn outranks a single
+// ward — the min/max floor and ceiling below), and the current map zoom
+// (see diameterForZoom) — without the second axis, zooming out to see
+// the whole metro leaves every pin at its zoomed-in size, so wards close
+// enough together clump into an unreadable pile of overlapping photos.
+// Each role keeps a higher floor than the ones below it in the
+// hierarchy, so when pins do start crowding at a low zoom, the most
+// numerous/least individually consequential role (Council Member)
+// recedes first while state/county pins stay legible longest.
+const PIN_SIZE_RANGE_BY_ROLE: Partial<Record<RepProperties["role"], { min: number; max: number }>> = {
+  Mayor: { min: 30, max: 52 },
+  "County Commissioner": { min: 22, max: 40 },
+  "State Senator": { min: 20, max: 38 },
+  "State Representative": { min: 18, max: 36 },
+  "Council Member": { min: 14, max: 34 },
 };
-const DEFAULT_PIN_DIAMETER = 44;
+const DEFAULT_PIN_SIZE_RANGE = { min: 18, max: 44 };
+
+// The zoom range over which pin diameter interpolates — below MIN every
+// pin holds at its role's smallest size, above MAX at its largest.
+// Chosen around DEFAULT_ZOOM (10.4, the whole-metro starting view):
+// zoomed out further than that, pins are already shrinking toward
+// legible-but-small; zoomed in to a single neighborhood, they're at
+// full size.
+const PIN_ZOOM_MIN = 8;
+const PIN_ZOOM_MAX = 14;
+
+function clamp01(t: number): number {
+  return Math.min(1, Math.max(0, t));
+}
+
+// Pins are plain DOM markers, not a symbol layer (see createRepPinElement's
+// comment below) — there's no style-spec `icon-size` paint property to
+// hand a MapLibre `interpolate` expression to, so this is the by-hand
+// equivalent, called both when a pin is first created and again from the
+// "zoom" listener registered in the map-setup effect below.
+function diameterForZoom(role: RepProperties["role"], zoom: number): number {
+  const { min, max } = PIN_SIZE_RANGE_BY_ROLE[role] ?? DEFAULT_PIN_SIZE_RANGE;
+  const t = clamp01((zoom - PIN_ZOOM_MIN) / (PIN_ZOOM_MAX - PIN_ZOOM_MIN));
+  return min + t * (max - min);
+}
 
 // How far below its anchor point the ward/county/state text renders — an
 // `em`-based offset (text-offset is in units of the layer's own
@@ -426,7 +458,7 @@ function isMobileViewport(): boolean {
 // same element, that overwrites Marker's translate and the pin jumps to
 // the map's untransformed top-left corner. Scaling the inner element
 // instead leaves Marker's own transform on the outer one alone.
-function createRepPinElement(rep: RepProperties, diameter: number = DEFAULT_PIN_DIAMETER): HTMLDivElement {
+function createRepPinElement(rep: RepProperties, diameter: number): HTMLDivElement {
   const accent = partyColor(rep.repParty);
   const outer = document.createElement("div");
   outer.setAttribute("role", "button");
@@ -445,6 +477,10 @@ function createRepPinElement(rep: RepProperties, diameter: number = DEFAULT_PIN_
   outer.style.cssText = `cursor: pointer; z-index: ${Math.round(diameter)};`;
 
   const inner = document.createElement("div");
+  // Classed (not just positioned by this element's own cssText) so the
+  // zoom-resize listener in the map-setup effect can find it without
+  // relying on DOM structure (outer.firstElementChild) staying stable.
+  inner.className = "rep-pin-inner";
   inner.style.cssText = `
     width: ${diameter}px; height: ${diameter}px; border-radius: 9999px;
     border: 3px solid ${accent}; box-shadow: 0 2px 8px rgba(0,0,0,0.35);
@@ -1077,6 +1113,37 @@ export default function WardMap() {
       console.error("[MapLibre ERROR]", e.error?.message ?? e);
     });
 
+    // Keeps every pin's on-screen size matching diameterForZoom as the
+    // resident zooms — pins are DOM markers (see createRepPinElement's
+    // comment), so nothing in MapLibre's own style pipeline resizes them
+    // the way an `interpolate` expression would for a symbol layer's
+    // icon-size; this is that behavior, applied by hand. "zoom" fires on
+    // every frame of a pinch/scroll/fitBounds animation, faster than
+    // layout needs to keep up with, so updates are coalesced to at most
+    // one per animation frame rather than applied on every event.
+    let pinResizeFrame: number | null = null;
+    const resizePinsForZoom = () => {
+      pinResizeFrame = null;
+      const zoom = map.getZoom();
+      for (const { marker, properties } of pinMarkersRef.current) {
+        const diameter = diameterForZoom(properties.role, zoom);
+        const el = marker.getElement();
+        const inner = el.querySelector<HTMLElement>(".rep-pin-inner");
+        if (inner) {
+          inner.style.width = `${diameter}px`;
+          inner.style.height = `${diameter}px`;
+        }
+        // Keeps the bigger-role-renders-on-top rule (see
+        // createRepPinElement's z-index comment) correct at every zoom
+        // level, not just the one each pin happened to be created at.
+        el.style.zIndex = String(Math.round(diameter));
+      }
+    };
+    map.on("zoom", () => {
+      if (pinResizeFrame !== null) return;
+      pinResizeFrame = requestAnimationFrame(resizePinsForZoom);
+    });
+
     // Pins are plain DOM markers (maplibregl.Marker), not part of the
     // MapLibre style — they survive a setStyle() basemap swap on their own,
     // so this only ever runs once, guarded by pinMarkersRef itself rather
@@ -1093,7 +1160,6 @@ export default function WardMap() {
       const addPin = (
         properties: RepProperties,
         coordinates: maplibregl.LngLatLike,
-        diameter: number = DEFAULT_PIN_DIAMETER,
         mode: LayerMode,
         zoomBounds: maplibregl.LngLatBounds,
         // "center" (the default) is right for mayors — a point with no
@@ -1102,9 +1168,17 @@ export default function WardMap() {
         // that DO share a coordinate with a text label pass "bottom"
         // instead, so the pin's own bottom edge (not its middle) sits at
         // that point — see LABEL_TEXT_OFFSET's comment for the other half
-        // of this.
+        // of this. That bottom edge is also why zoom-driven resizing (see
+        // the "zoom" listener below) never has to touch this offset: a
+        // "bottom"-anchored pin grows and shrinks upward, away from its
+        // label, so the anchor coordinate — and the gap below it — never
+        // moves regardless of diameter.
         anchor: maplibregl.PositionAnchor = "center",
       ) => {
+        // Sized for the zoom the map is at right now; kept in sync as that
+        // changes by the "zoom" listener below, which walks pinMarkersRef
+        // the same way this function populates it.
+        const diameter = diameterForZoom(properties.role, map.getZoom());
         const el = createRepPinElement(properties, diameter);
         const marker = new maplibregl.Marker({ element: el, anchor }).setLngLat(coordinates).addTo(map);
         // A pin's own coordinate always seeds `properties` into its own
@@ -1134,7 +1208,7 @@ export default function WardMap() {
         if (feature.geometry.type !== "Point") continue;
         const properties = feature.properties as RepProperties;
         const [lng, lat] = feature.geometry.coordinates as [number, number];
-        addPin(properties, [lng, lat], PIN_DIAMETER_BY_ROLE.Mayor, "wards", boundsAroundPoint(lng, lat));
+        addPin(properties, [lng, lat], "wards", boundsAroundPoint(lng, lat));
       }
 
       // One pin per council member, centered on their ward — same
@@ -1157,7 +1231,7 @@ export default function WardMap() {
         const center = bounds.getCenter();
         const coordinates: maplibregl.LngLatLike =
           occurrence === 0 ? center : [center.lng + occurrence * 0.0015, center.lat];
-        addPin(properties, coordinates, PIN_DIAMETER_BY_ROLE["Council Member"], "wards", bounds, "bottom");
+        addPin(properties, coordinates, "wards", bounds, "bottom");
       }
 
       // One pin per commissioner, same interaction pattern as mayors, but
@@ -1168,7 +1242,7 @@ export default function WardMap() {
         if (feature.geometry.type !== "Polygon" && feature.geometry.type !== "MultiPolygon") continue;
         const properties = feature.properties as RepProperties;
         const bounds = boundsFromFeature(feature as Feature<Geometry>);
-        addPin(properties, bounds.getCenter(), PIN_DIAMETER_BY_ROLE["County Commissioner"], "commissioners", bounds, "bottom");
+        addPin(properties, bounds.getCenter(), "commissioners", bounds, "bottom");
       }
 
       // One pin per state legislator — role (and so pin size) varies
@@ -1178,7 +1252,7 @@ export default function WardMap() {
         if (feature.geometry.type !== "Polygon" && feature.geometry.type !== "MultiPolygon") continue;
         const properties = feature.properties as RepProperties;
         const bounds = boundsFromFeature(feature as Feature<Geometry>);
-        addPin(properties, bounds.getCenter(), PIN_DIAMETER_BY_ROLE[properties.role], "state-legislature", bounds, "bottom");
+        addPin(properties, bounds.getCenter(), "state-legislature", bounds, "bottom");
       }
     };
 
@@ -1566,6 +1640,7 @@ export default function WardMap() {
       navControl.onRemove();
       attribControl.onRemove();
       if (pulseAnimationFrameRef.current !== null) cancelAnimationFrame(pulseAnimationFrameRef.current);
+      if (pinResizeFrame !== null) cancelAnimationFrame(pinResizeFrame);
       for (const { marker } of pinMarkersRef.current) marker.remove();
       pinMarkersRef.current = [];
       map.remove();
