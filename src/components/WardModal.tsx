@@ -12,15 +12,17 @@ import { isStale } from "@/lib/electionConfig";
 // mn.gov's own header treatment (mn.gov/portal/css/core.css:
 // .header_formatting{background:#003865;border-bottom:1px solid #9bcbeb}),
 // matched exactly rather than approximated — same navy the mn.gov masthead
-// itself uses, with the same light-blue hairline it pairs underneath. A
-// fixed brand color, not a themed one — same reasoning as CONTESTED_COLOR/
-// STALE_COLOR below: it should read the same in light and dark mode.
-// Unlike the accent green this replaced, white text on this navy is a
-// clean ~12.7:1 contrast — mn.gov's own white-on-#003865 header text holds
-// up fine here, so no departure from the reference needed this time.
+// itself uses. A fixed brand color, not a themed one — same reasoning as
+// CONTESTED_COLOR/STALE_COLOR below: it should read the same in light and
+// dark mode. Unlike the accent green this replaced, white text on this
+// navy is a clean ~12.7:1 contrast — mn.gov's own white-on-#003865 header
+// text holds up fine here, so no departure from the reference needed this
+// time. (mn.gov also pairs this navy with a light-blue #9bcbeb hairline,
+// but that only clears WCAG's non-text-contrast minimum against the navy
+// itself — the active tab's fill — so it isn't reused as a general-purpose
+// border color below; see the tablist's own border-hair-strong instead.)
 const TIER_HEADER_BG = "#003865";
 const TIER_HEADER_TEXT = "#FFFFFF";
-const TIER_HEADER_BORDER = "#9BCBEB";
 
 // The panel-level "Representatives for this location" bar (below), in
 // mn.gov's own accent green rather than its header navy — deliberately a
@@ -633,13 +635,17 @@ export default function WardModal({ officials, onClose, variant = "sheet" }: War
           Authoring Practices: arrow keys move focus and select in one
           step, with roving tabindex (only the active tab is in normal tab
           order) so Tab itself moves straight from the tablist to the
-          panel content instead of through all three headers. */}
-      <div
-        role="tablist"
-        aria-label="Representative level"
-        className="flex shrink-0"
-        style={{ borderBottom: `1px solid ${TIER_HEADER_BORDER}` }}
-      >
+          panel content instead of through all three headers.
+
+          border-hair-strong, not the brand TIER_HEADER_BORDER light blue:
+          that color only clears WCAG 1.4.11's 3:1 non-text-contrast
+          minimum against the navy header it was designed for — against
+          this row's own panel background (white in light theme) it
+          measures under 2:1. hair-strong is the app's own themed
+          structural-divider token, already tuned per theme, and matches
+          the border every other bordered chrome surface in the app
+          uses. */}
+      <div role="tablist" aria-label="Representative level" className="flex shrink-0 border-b border-hair-strong">
         {TIER_SECTIONS.map(({ key, label }, index) => {
           const isActive = key === activeTier;
           const tabId = `officials-tier-${key}-tab`;
@@ -658,21 +664,24 @@ export default function WardModal({ officials, onClose, variant = "sheet" }: War
               tabIndex={isActive ? 0 : -1}
               onClick={() => setActiveTier(key)}
               onKeyDown={handleTabKeyDown}
-              className={`flex-1 px-4 py-2.5 text-center text-xs font-semibold uppercase tracking-wide transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-inset ${
+              // min-h-11 (44px): Apple/Google's touch-target guidance for
+              // an interactive control on a mobile sheet — this row is
+              // rendered identically for the mobile bottom sheet
+              // (variant="sheet") and the desktop sidebar, so it needs to
+              // hold up as a thumb target, not just a mouse target. Well
+              // above WCAG 2.5.8's own 24x24px AA minimum.
+              className={`flex-1 min-h-11 px-3 py-2.5 text-center text-xs font-semibold uppercase tracking-wide transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-inset ${
                 // Same `--hover` token the left sidebar's city rows use
                 // (WardMap.tsx's filterListClass rows), applied only to
                 // the inactive tabs — the active tab already has its own
-                // solid fill and shouldn't visually flicker on hover.
+                // solid fill and shouldn't visually flicker on hover. Not
+                // set via the style prop below: an inline background-color
+                // has higher specificity than any Tailwind class,
+                // including this one's :hover variant, so it would
+                // silently block the hover fill from ever painting.
                 isActive ? "" : "hover:bg-hover"
               }`}
-              style={{
-                backgroundColor: isActive ? TIER_HEADER_BG : "transparent",
-                color: isActive ? TIER_HEADER_TEXT : "inherit",
-                // Colour is never the only signal (AGENTS.md §4): the
-                // active tab also gets a solid underline so the selected
-                // state still reads under a colour-vision simulation.
-                boxShadow: isActive ? "none" : `inset 0 -2px 0 0 ${TIER_HEADER_BORDER}`,
-              }}
+              style={isActive ? { backgroundColor: TIER_HEADER_BG, color: TIER_HEADER_TEXT } : undefined}
             >
               {label}
             </button>
