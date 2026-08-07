@@ -6,42 +6,17 @@ import type { RepProperties } from "@/lib/types";
 import type { AreaOfficials } from "@/lib/officials";
 import { officialIdentity } from "@/lib/officials";
 import { CITY_TIER_EMPTY_NOTE, COUNTY_TIER_EMPTY_NOTE, STATE_TIER_EMPTY_NOTE } from "@/lib/coverage";
-import { CONTESTED_COLOR, CONTESTED_COLOR_SOFT, partyColor, partyColorSoft } from "@/lib/cityTheme";
+import {
+  CONTESTED_COLOR,
+  CONTESTED_COLOR_SOFT,
+  partyColor,
+  partyColorSoft,
+  TIER_HEADER_BG,
+  TIER_HEADER_TEXT,
+  PANEL_HEADER_BG,
+  PANEL_HEADER_TEXT,
+} from "@/lib/cityTheme";
 import { isStale } from "@/lib/electionConfig";
-
-// mn.gov's own header treatment (mn.gov/portal/css/core.css:
-// .header_formatting{background:#003865;border-bottom:1px solid #9bcbeb}),
-// matched exactly rather than approximated — same navy the mn.gov masthead
-// itself uses. A fixed brand color, not a themed one — same reasoning as
-// CONTESTED_COLOR/STALE_COLOR below: it should read the same in light and
-// dark mode. Unlike the accent green this replaced, white text on this
-// navy is a clean ~12.7:1 contrast — mn.gov's own white-on-#003865 header
-// text holds up fine here, so no departure from the reference needed this
-// time. (mn.gov also pairs this navy with a light-blue #9bcbeb hairline,
-// but that only clears WCAG's non-text-contrast minimum against the navy
-// itself — the active tab's fill — so it isn't reused as a general-purpose
-// border color below; see the tablist's own border-hair-strong instead.)
-const TIER_HEADER_BG = "#003865";
-const TIER_HEADER_TEXT = "#FFFFFF";
-
-// The panel-level "Representatives for this location" bar (below), in
-// mn.gov's own accent green rather than its header navy — deliberately a
-// different color from the City/County/State bars above so the one panel
-// title reads as a distinct level from the three sections under it, not a
-// fourth one. Same live-sourced value as the tier headers' original green
-// (mn.gov/portal/css/core.css's .btn-success/.label-success).
-//
-// Text color was picked by contrast ratio, not eyeballed: plain white
-// against this green is only ~2.3:1 (WCAG AA needs 4.5:1 for text this
-// size), plain black clears it at ~9.19:1 but reads flat/harsh against a
-// saturated brand color. This near-black, faintly green-tinted value
-// clears WCAG AAA (7:1, the stricter of the two standards) at ~7.9:1 while
-// still visually belonging to the same green rather than looking like an
-// unrelated black label dropped on top of it — the same "tint your dark
-// text toward the background hue instead of using pure black" move most
-// professional design systems make for text on a saturated color.
-const PANEL_HEADER_BG = "#78BE21";
-const PANEL_HEADER_TEXT = "#0B1A08";
 
 // AGENTS.md §3.2 soft staleness notice ("A record older than a
 // configured threshold renders a visible staleness notice"), scoped to

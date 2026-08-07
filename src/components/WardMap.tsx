@@ -16,6 +16,10 @@ import {
   PARTY_COLORS,
   partyColor,
   partyColorSoft,
+  TIER_HEADER_BG,
+  TIER_HEADER_TEXT,
+  PANEL_HEADER_BG,
+  PANEL_HEADER_TEXT,
 } from "@/lib/cityTheme";
 import {
   clearStoredMapStyleId,
@@ -1076,6 +1080,37 @@ export default function WardMap() {
     });
   };
 
+  // Bulk sibling to toggleCity above, backing the "All"/"None" quick
+  // toggle next to the Areas shown checklist — sets every city currently
+  // offered by this mode (MODE_VISIBLE_CITIES[layerMode], not the full
+  // CITIES list) to the same visibility in one state update rather than
+  // firing toggleCity in a loop, which would otherwise re-run
+  // applyCityFilter and the selected-panel re-filter once per city.
+  // Mirrors toggleCity's own ref-sync and selected-panel re-filter/close
+  // logic for the same reason documented there.
+  const setCitiesVisible = (cities: readonly City[], visible: boolean) => {
+    setVisibleCities((prev) => {
+      const next = { ...prev };
+      for (const city of cities) next[city] = visible;
+      visibleCitiesRef.current = next;
+      applyCityFilter(next);
+      if (selectedRef.current) {
+        const current = selectedRef.current;
+        const filtered = filterHiddenCityOfficials(current.officials, next);
+        if (filtered !== current.officials) {
+          const allEmpty = filtered.city.length === 0 && filtered.county.length === 0 && filtered.state.length === 0;
+          if (allEmpty) {
+            deselect();
+          } else {
+            setSelected({ ...current, officials: filtered });
+            setAnnouncement(summarizeOfficials(filtered));
+          }
+        }
+      }
+      return next;
+    });
+  };
+
   const switchChamber = (next: Chamber) => {
     if (next === chamberRef.current) return;
     setChamber(next);
@@ -1883,27 +1918,17 @@ export default function WardMap() {
   //   "floating" — each group is its own translucent, blurred, shadowed
   //   card, because this is what MobileNav's Filters tab drops straight
   //   into its sheet slot, which sits directly over the dimmed map/scrim.
-  //   "sidebar" — the desktop left `<aside>` below already supplies a
-  //   solid panel background and its own border; a second card nested
-  //   inside that column would just be chrome inside chrome, so groups
-  //   render as plain bordered rows instead, each under a visible section
-  //   label (the aside has room a floating card over the map never did,
-  //   and a persistent column benefits from real headings rather than
-  //   relying on `aria-label` alone — AGENTS.md §4's "structure is
-  //   information," not just screen-reader plumbing).
+  //   "sidebar" — the desktop left `<aside>` below now mimics the right
+  //   detail sidebar's own panel chrome (title bar + navy-fill tablist —
+  //   see sidebarTabRowClass/sidebarTabButtonClass below) instead of a
+  //   bordered-row variant of the floating card, so this helper only
+  //   still has a "floating" shape to produce.
   // Desktop used to mount the "floating" flavor top-left, absolutely
   // positioned over the map, the same way MobileNav's sheet still does —
-  // see the left `<aside>` in the return below for where "sidebar" mounts
-  // now instead.
-  const filterGroupClass = (variant: "floating" | "sidebar") =>
-    variant === "floating"
-      ? "flex rounded-lg bg-panel-2/90 backdrop-blur-sm border border-hair shadow-lg shadow-(color:--shadow-panel) p-1 text-sm"
-      : // border-hair-strong, not the usual --hair: this row sits directly
-        // on the sidebar's own bg-panel-2, one step brighter than the
-        // floating card's semi-transparent version above, so the faint
-        // default hairline all but disappears against it. A little more
-        // contrast is the whole point of this pass.
-        "flex rounded-lg border border-hair-strong bg-panel-2 p-1 text-sm";
+  // see the left `<aside>` in the return below for where the sidebar
+  // flavor mounts now instead.
+  const filterGroupClass = () =>
+    "flex rounded-lg bg-panel-2/90 backdrop-blur-sm border border-hair shadow-lg shadow-(color:--shadow-panel) p-1 text-sm";
   const filterListClass = (variant: "floating" | "sidebar") =>
     variant === "floating"
       ? // Capped height + internal scroll: with all 10 cities checked this
@@ -1920,13 +1945,69 @@ export default function WardMap() {
   // marker, not just a color swap. AGENTS.md §4 "structure is
   // information": this is what tells a resident's eye "here's a new
   // group of controls" before they've read the words.
+  // No mb-* of its own — callers wrap this in their own margin-bottom
+  // container so a label sitting beside the All/None toggle (see
+  // areasAllNoneToggle) doesn't pick up a second, misaligning gap from a
+  // margin baked into the label itself.
   const filterSectionLabel = (variant: "floating" | "sidebar", text: string) =>
     variant === "sidebar" ? (
-      <h3 className="mb-1.5 flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wide text-ink-3">
+      <h3 className="flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wide text-ink-3">
         <span aria-hidden="true" className="h-2.5 w-1 shrink-0 rounded-full bg-sidebar-accent" />
         {text}
       </h3>
     ) : null;
+
+  // Quick bulk toggle sitting beside the "Areas shown" label in both
+  // flavors — with up to ten city checkboxes in the list below (CITIES),
+  // clearing or restoring them one at a time is the single most tedious
+  // interaction either sidebar offers. `cities` is always
+  // MODE_VISIBLE_CITIES[layerMode] at the call site: only the checkboxes
+  // actually on screen for the current mode toggle, never the full
+  // CITIES list, so this can't silently flip a city's visibility for a
+  // mode that isn't even showing it right now.
+  const areasAllNoneToggle = (variant: "floating" | "sidebar", cities: readonly City[]) => (
+    <div role="group" aria-label="Show or hide all areas" className="flex items-center gap-1 text-[11px] font-semibold uppercase tracking-wide">
+      <button
+        type="button"
+        onClick={() => setCitiesVisible(cities, true)}
+        className={`rounded px-1.5 py-1 text-ink-3 transition-colors hover:bg-hover hover:text-ink focus:outline-none focus-visible:ring-2 ${
+          variant === "sidebar" ? "focus-visible:ring-sidebar-accent" : "focus-visible:ring-accent"
+        }`}
+      >
+        All
+      </button>
+      <span aria-hidden="true" className="text-ink-3">
+        /
+      </span>
+      <button
+        type="button"
+        onClick={() => setCitiesVisible(cities, false)}
+        className={`rounded px-1.5 py-1 text-ink-3 transition-colors hover:bg-hover hover:text-ink focus:outline-none focus-visible:ring-2 ${
+          variant === "sidebar" ? "focus-visible:ring-sidebar-accent" : "focus-visible:ring-accent"
+        }`}
+      >
+        None
+      </button>
+    </div>
+  );
+
+  // Sidebar-only tab look for the Level (City/County/State) and Chamber
+  // groups, matching WardModal's City/County/State tablist (same
+  // TIER_HEADER_BG navy fill, uppercase text-xs tracking-wide, full-width
+  // flex-1 cells, min-h-11 touch target) rather than the pill-button
+  // style the floating/mobile flavor keeps — see the left `<aside>`'s own
+  // comment for why this sidebar now mimics the right sidebar's panel
+  // chrome instead of reading as a separate, ad hoc control cluster.
+  // Visual mimicry only: unlike WardModal's tabs these buttons don't
+  // control a same-panel tabpanel — picking a mode swaps map layers,
+  // zoom, and the section below, not just this row's own content — so
+  // they keep role="group" rather than the full roving-tabindex ARIA
+  // tabs pattern.
+  const sidebarTabRowClass = "flex overflow-hidden rounded-lg border border-hair-strong";
+  const sidebarTabButtonClass = (active: boolean) =>
+    `flex-1 min-h-11 px-2 py-2 text-center text-xs font-semibold uppercase tracking-wide transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-sidebar-accent ${
+      active ? "" : "text-ink-3 hover:bg-hover hover:text-ink"
+    }`;
 
   // filterControls (floating, for MobileNav's Filters tab) and
   // sidebarFilterControls (for the desktop left `<aside>` below) render
@@ -1942,7 +2023,7 @@ export default function WardMap() {
     <>
       <div>
         {filterSectionLabel("floating", "Level")}
-        <div role="group" aria-label="Choose map layer" className={filterGroupClass("floating")}>
+        <div role="group" aria-label="Choose map layer" className={filterGroupClass()}>
           {(["wards", "commissioners", "state-legislature"] as const).map((mode) => (
             <button
               key={mode}
@@ -1959,12 +2040,21 @@ export default function WardMap() {
       </div>
 
       <div>
-        {filterSectionLabel("floating", layerMode === "state-legislature" ? "Chamber" : "Areas shown")}
+        {layerMode === "state-legislature" ? (
+          filterSectionLabel("floating", "Chamber")
+        ) : (
+          // No visible "Areas shown" text on the floating flavor (see
+          // filterSectionLabel's own comment — it only renders a heading
+          // for "sidebar"), so the All/None toggle is the one thing on
+          // this row; its own aria-label carries the meaning for a
+          // screen-reader user with no heading text to anchor to.
+          <div className="flex items-center justify-end mb-1">{areasAllNoneToggle("floating", MODE_VISIBLE_CITIES[layerMode])}</div>
+        )}
         {layerMode === "state-legislature" ? (
           // A district doesn't cleanly belong to one Twin City, so this
           // level filters by chamber instead of the Minneapolis/St. Paul
           // checkboxes below — same toggle pattern as the mode switcher.
-          <div role="group" aria-label="Choose chamber" className={filterGroupClass("floating")}>
+          <div role="group" aria-label="Choose chamber" className={filterGroupClass()}>
             {CHAMBERS.map((c) => (
               <button
                 key={c}
@@ -2001,25 +2091,20 @@ export default function WardMap() {
   const sidebarFilterControls = (
     <>
       <div>
-        {filterSectionLabel("sidebar", "Level")}
-        <div role="group" aria-label="Choose map layer" className={filterGroupClass("sidebar")}>
+        <div className="mb-1.5">{filterSectionLabel("sidebar", "Level")}</div>
+        {/* Same navy-fill tab language as WardModal's City/County/State
+            tablist (TIER_HEADER_BG/TEXT, uppercase text-xs tracking-wide,
+            min-h-11 touch target) — see sidebarTabButtonClass's own
+            comment for why this stays role="group" rather than full ARIA
+            tabs. */}
+        <div role="group" aria-label="Choose map layer" className={sidebarTabRowClass}>
           {(["wards", "commissioners", "state-legislature"] as const).map((mode) => (
             <button
               key={mode}
               type="button"
               onClick={() => switchMode(mode)}
-              // bg-sidebar-accent, not the app's usual bg-accent: the
-              // sidebars' own flag accent (globals.css) — Water Blue
-              // paired with Night Sky Blue text, falling back to this
-              // theme's regular --accent in dark mode. The floating/
-              // mobile copy above keeps the ordinary accent on purpose;
-              // see filterGroupClass's own comment on why sidebar rows
-              // get the extra contrast the floating card didn't need.
-              className={`px-3 py-1.5 rounded-md font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-sidebar-accent ${
-                layerMode === mode
-                  ? "bg-sidebar-accent text-on-sidebar-accent"
-                  : "text-ink-3 hover:bg-hover hover:text-ink"
-              }`}
+              className={sidebarTabButtonClass(layerMode === mode)}
+              style={layerMode === mode ? { backgroundColor: TIER_HEADER_BG, color: TIER_HEADER_TEXT } : undefined}
             >
               {MODE_LABELS[mode]}
             </button>
@@ -2028,19 +2113,19 @@ export default function WardMap() {
       </div>
 
       <div>
-        {filterSectionLabel("sidebar", layerMode === "state-legislature" ? "Chamber" : "Areas shown")}
+        <div className="mb-1.5 flex items-center justify-between gap-2">
+          {filterSectionLabel("sidebar", layerMode === "state-legislature" ? "Chamber" : "Areas shown")}
+          {layerMode !== "state-legislature" && areasAllNoneToggle("sidebar", MODE_VISIBLE_CITIES[layerMode])}
+        </div>
         {layerMode === "state-legislature" ? (
-          <div role="group" aria-label="Choose chamber" className={filterGroupClass("sidebar")}>
+          <div role="group" aria-label="Choose chamber" className={sidebarTabRowClass}>
             {CHAMBERS.map((c) => (
               <button
                 key={c}
                 type="button"
                 onClick={() => switchChamber(c)}
-                className={`px-3 py-1.5 rounded-md font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-sidebar-accent ${
-                  chamber === c
-                    ? "bg-sidebar-accent text-on-sidebar-accent"
-                    : "text-ink-3 hover:bg-hover hover:text-ink"
-                }`}
+                className={sidebarTabButtonClass(chamber === c)}
+                style={chamber === c ? { backgroundColor: TIER_HEADER_BG, color: TIER_HEADER_TEXT } : undefined}
               >
                 {CHAMBER_LABELS[c]}
               </button>
@@ -2200,7 +2285,22 @@ export default function WardMap() {
                 "sm:w-64 lg:w-72 border-r border-r-hair-strong border-l-[3px] border-l-sidebar-edge-accent"
           }`}
         >
-          <div className="flex h-full w-64 shrink-0 flex-col gap-5 px-4 py-5 lg:w-72">{sidebarFilterControls}</div>
+          <div className="flex h-full w-64 shrink-0 flex-col lg:w-72">
+            {/* Mirrors WardModal's own title bar (PANEL_HEADER_BG/TEXT) —
+                same green fill, same size/weight heading — so the two
+                sidebars read as one consistent panel chrome instead of
+                this one being a bare stack of controls next to the right
+                sidebar's titled, tabbed one. No close button: unlike
+                WardModal this panel isn't dismissible, only collapsible
+                via the pull-tab outside it. */}
+            <div
+              className="flex items-center gap-2 px-4 pt-2 pb-2 sm:pt-4 shrink-0"
+              style={{ backgroundColor: PANEL_HEADER_BG, color: PANEL_HEADER_TEXT }}
+            >
+              <h2 className="text-2xl font-extrabold">Map filters</h2>
+            </div>
+            <div className="flex flex-1 flex-col gap-5 overflow-y-auto px-4 py-5">{sidebarFilterControls}</div>
+          </div>
         </aside>
 
         {/* Center: the map itself, plus whatever actually needs to float
