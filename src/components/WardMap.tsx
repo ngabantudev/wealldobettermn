@@ -1690,14 +1690,22 @@ export default function WardMap() {
               against the sidebar when it's expanded, and the viewport's
               own left edge once the sidebar has collapsed out from under
               it. No transform math needed to keep it there; it's just
-              always drawn at whatever this box's current left edge is. */}
+              always drawn at whatever this box's current left edge is.
+              No shadow: border-l-0 already drops the border on that seam
+              so the button reads as sprouting from the sidebar rather
+              than sitting apart from it, but a plain shadow-md casts on
+              all four sides regardless of which borders are present —
+              left it in and the shadow's own blur painted a soft vertical
+              line right across that seam anyway, undoing the point of
+              dropping the border there. The border on the other three
+              sides is enough definition against the live map. */}
           <button
             type="button"
             onClick={() => setLeftFiltersCollapsed(!leftFiltersCollapsed)}
             aria-expanded={!leftFiltersCollapsed}
             aria-controls="map-filters-sidebar"
             aria-label={leftFiltersCollapsed ? "Show map filters" : "Hide map filters"}
-            className="hidden sm:flex absolute left-0 top-1/2 z-20 h-12 w-6 -translate-y-1/2 items-center justify-center rounded-r-lg border border-l-0 border-hair-strong bg-panel-2 text-ink-3 shadow-md shadow-(color:--shadow-panel) transition-colors hover:bg-hover hover:text-ink focus:outline-none focus-visible:ring-2 focus-visible:ring-sidebar-accent"
+            className="hidden sm:flex absolute left-0 top-1/2 z-20 h-12 w-6 -translate-y-1/2 items-center justify-center rounded-r-lg border border-l-0 border-hair-strong bg-panel-2 text-ink-3 transition-colors hover:bg-hover hover:text-ink focus:outline-none focus-visible:ring-2 focus-visible:ring-sidebar-accent"
           >
             <IconChevron className={leftFiltersCollapsed ? "rotate-180" : ""} />
           </button>
@@ -1741,14 +1749,15 @@ export default function WardMap() {
           </div>
 
           {/* Right sidebar's pull-tab — mirrors the left one above, flush
-              against this box's right edge instead. */}
+              against this box's right edge instead, including dropping
+              the shadow for the same reason (see that comment). */}
           <button
             type="button"
             onClick={() => setRightDetailCollapsed(!rightDetailCollapsed)}
             aria-expanded={!rightDetailCollapsed}
             aria-controls="map-detail-sidebar"
             aria-label={rightDetailCollapsed ? "Show representative details" : "Hide representative details"}
-            className="hidden sm:flex absolute right-0 top-1/2 z-20 h-12 w-6 -translate-y-1/2 items-center justify-center rounded-l-lg border border-r-0 border-hair-strong bg-panel-2 text-ink-3 shadow-md shadow-(color:--shadow-panel) transition-colors hover:bg-hover hover:text-ink focus:outline-none focus-visible:ring-2 focus-visible:ring-sidebar-accent"
+            className="hidden sm:flex absolute right-0 top-1/2 z-20 h-12 w-6 -translate-y-1/2 items-center justify-center rounded-l-lg border border-r-0 border-hair-strong bg-panel-2 text-ink-3 transition-colors hover:bg-hover hover:text-ink focus:outline-none focus-visible:ring-2 focus-visible:ring-sidebar-accent"
           >
             <IconChevron className={rightDetailCollapsed ? "" : "rotate-180"} />
           </button>
