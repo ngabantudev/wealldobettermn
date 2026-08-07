@@ -53,6 +53,13 @@ const WARDS_LABEL_LAYER_ID = "wards-label";
 // labelPointsFromFeatureCollection's comment for why the label can't just
 // stay on the polygon source alongside the fill/outline/pulse layers.
 const WARDS_LABEL_SOURCE_ID = "wards-label-source";
+// Dotted lines tracing the formation wardPinOffsets lays multiple
+// council-member pins out in, for wards that seat more than one member
+// off one shared polygon — see wardPinConnectorLines. Wards-only: mayors
+// and commissioners/state legislators are always one pin per polygon, so
+// there's never a second layer's worth of these to draw.
+const WARDS_PIN_LINKS_SOURCE_ID = "wards-pin-links-source";
+const WARDS_PIN_LINKS_LAYER_ID = "wards-pin-links";
 
 const COMMISSIONERS_SOURCE_ID = "commissioners-source";
 const COMMISSIONERS_FILL_LAYER_ID = "commissioners-fill";
@@ -341,6 +348,107 @@ function labelPointsFromFeatureCollection(data: FeatureCollection): FeatureColle
         properties: feature.properties,
       };
     });
+  return { type: "FeatureCollection", features };
+}
+
+// How far off the ward's shared bounds-center (in degrees) each pin in a
+// multi-member formation sits — see wardPinOffsets.
+const WARD_PIN_CLUSTER_OFFSET_DEGREES = 0.0015;
+
+// Offsets (in degrees, added to a ward's shared bounds-center) for each
+// pin in a group of `count` council members seated off one shared
+// polygon — a handful of wards today (Blaine's among them), more likely
+// after future redistricting. Ordered so that connecting consecutive
+// entries, wrapping the last back to the first, traces the formation's
+// outline; wardPinConnectorLines below relies on that ordering directly
+// to draw a matching dotted line. Two pins form a horizontal line, three
+// a triangle, four a square — beyond that (not seen in the data yet)
+// falls back to an evenly spaced ring rather than inventing a named
+// shape for a case with no real example to design against.
+function wardPinOffsets(count: number): [number, number][] {
+  const d = WARD_PIN_CLUSTER_OFFSET_DEGREES;
+  switch (count) {
+    case 0:
+    case 1:
+      return [[0, 0]];
+    case 2:
+      return [
+        [-d, 0],
+        [d, 0],
+      ];
+    case 3:
+      return [
+        [0, d], // apex, north
+        [d, -d * 0.6], // bottom-right
+        [-d, -d * 0.6], // bottom-left
+      ];
+    case 4:
+      return [
+        [-d, d], // top-left
+        [d, d], // top-right
+        [d, -d], // bottom-right
+        [-d, -d], // bottom-left
+      ]; // traced clockwise
+    default:
+      return Array.from({ length: count }, (_, i) => {
+        const angle = (2 * Math.PI * i) / count;
+        return [d * Math.cos(angle), d * Math.sin(angle)];
+      });
+  }
+}
+
+// Groups ward/council-member polygon features that share one ward key
+// (city+ward) in the same order addPins below iterates them, so a
+// group's Nth feature always lands at wardPinOffsets(group.length)[N].
+// The one place this grouping happens, shared by pin placement and the
+// connector-line layer below, so the two can never drift out of sync
+// with each other.
+function groupWardFeaturesByWard(data: FeatureCollection): Map<string, Feature<Geometry>[]> {
+  const groups = new Map<string, Feature<Geometry>[]>();
+  for (const feature of data.features) {
+    if (feature.geometry.type !== "Polygon" && feature.geometry.type !== "MultiPolygon") continue;
+    const properties = feature.properties as RepProperties;
+    const wardKey = `${properties.city}-${properties.ward}`;
+    const group = groups.get(wardKey);
+    if (group) group.push(feature as Feature<Geometry>);
+    else groups.set(wardKey, [feature as Feature<Geometry>]);
+  }
+  return groups;
+}
+
+// One dotted LineString per multi-member ward, tracing the same
+// formation wardPinOffsets lays that ward's pins out in — visually ties
+// the group together as "these people share one ward" the moment two or
+// more pins land close enough to read as related rather than
+// coincidental. Wards with exactly one member produce no line (nothing
+// to connect); a real style-layer source (unlike pins, which are DOM
+// markers — see createRepPinElement's comment), so this gets added
+// alongside the other wards-* layers in addSourcesAndLayers.
+function wardPinConnectorLines(data: FeatureCollection): FeatureCollection {
+  const features: Feature<Geometry>[] = [];
+  for (const group of groupWardFeaturesByWard(data).values()) {
+    if (group.length < 2) continue;
+    const center = boundsFromFeature(group[0]).getCenter();
+    const offsets = wardPinOffsets(group.length);
+    const points = group.map((_, i) => {
+      const [dx, dy] = offsets[i];
+      return [center.lng + dx, center.lat + dy];
+    });
+    // Triangle/square: close the loop back to the first point so the
+    // line traces a full outline. A 2-point "line" is already a single
+    // segment — closing it would just redraw the same segment backward.
+    if (points.length > 2) points.push(points[0]);
+    // Carries `city` through (every member of a group shares one, by
+    // construction of the wardKey grouping) so applyCityFilter can hide
+    // this line along with the rest of a deselected city's wards instead
+    // of it lingering onscreen with no visible pins attached to it.
+    const { city } = group[0].properties as RepProperties;
+    features.push({
+      type: "Feature",
+      geometry: { type: "LineString", coordinates: points },
+      properties: { city },
+    });
+  }
   return { type: "FeatureCollection", features };
 }
 
@@ -802,6 +910,7 @@ export default function WardMap() {
         WARDS_FILL_LAYER_ID,
         WARDS_OUTLINE_LAYER_ID,
         WARDS_LABEL_LAYER_ID,
+        WARDS_PIN_LINKS_LAYER_ID,
         COMMISSIONERS_FILL_LAYER_ID,
         COMMISSIONERS_OUTLINE_LAYER_ID,
         COMMISSIONERS_LABEL_LAYER_ID,
@@ -855,7 +964,7 @@ export default function WardMap() {
     const map = mapRef.current;
     if (!map) return;
     const layerGroups: [LayerMode, string[]][] = [
-      ["wards", [WARDS_FILL_LAYER_ID, WARDS_OUTLINE_LAYER_ID, WARDS_PULSE_LAYER_ID, WARDS_LABEL_LAYER_ID]],
+      ["wards", [WARDS_FILL_LAYER_ID, WARDS_OUTLINE_LAYER_ID, WARDS_PULSE_LAYER_ID, WARDS_LABEL_LAYER_ID, WARDS_PIN_LINKS_LAYER_ID]],
       [
         "commissioners",
         [COMMISSIONERS_FILL_LAYER_ID, COMMISSIONERS_OUTLINE_LAYER_ID, COMMISSIONERS_PULSE_LAYER_ID, COMMISSIONERS_LABEL_LAYER_ID],
@@ -1214,24 +1323,25 @@ export default function WardMap() {
       // One pin per council member, centered on their ward — same
       // bounds-center-as-marker-position approach as commissioners below,
       // since (unlike mayors) there's no single office address to anchor to.
-      // A handful of wards (Blaine's, currently) seat two members off one
-      // shared polygon — bounds-center would place both pins on the exact
-      // same coordinate, so the second (and any further) occurrence of a
-      // given city+ward is nudged sideways to stay independently clickable.
-      // The polygon itself (fill/outline/zoom target) is untouched — only
-      // the pin marker's coordinate shifts.
-      const wardPinOccurrences = new Map<string, number>();
-      for (const feature of data.features) {
-        if (feature.geometry.type !== "Polygon" && feature.geometry.type !== "MultiPolygon") continue;
-        const properties = feature.properties as RepProperties;
-        const bounds = boundsFromFeature(feature as Feature<Geometry>);
-        const wardKey = `${properties.city}-${properties.ward}`;
-        const occurrence = wardPinOccurrences.get(wardKey) ?? 0;
-        wardPinOccurrences.set(wardKey, occurrence + 1);
-        const center = bounds.getCenter();
-        const coordinates: maplibregl.LngLatLike =
-          occurrence === 0 ? center : [center.lng + occurrence * 0.0015, center.lat];
-        addPin(properties, coordinates, "wards", bounds, "bottom");
+      // A handful of wards (Blaine's, currently) seat two or more members
+      // off one shared polygon — bounds-center would place all of them on
+      // the exact same coordinate, so each group is laid out in the fixed
+      // formation wardPinOffsets returns for its size (a line, a triangle,
+      // a square, ...) instead. The polygon itself (fill/outline/zoom
+      // target) is untouched — only the pin marker's coordinate shifts.
+      // wardPinConnectorLines (added as its own layer in
+      // addSourcesAndLayers) draws a dotted outline of the same formation,
+      // so the grouping stays visually a group of pins.
+      for (const group of groupWardFeaturesByWard(data).values()) {
+        const center = boundsFromFeature(group[0]).getCenter();
+        const offsets = wardPinOffsets(group.length);
+        group.forEach((feature, i) => {
+          const properties = feature.properties as RepProperties;
+          const bounds = boundsFromFeature(feature);
+          const [dx, dy] = offsets[i];
+          const coordinates: maplibregl.LngLatLike = [center.lng + dx, center.lat + dy];
+          addPin(properties, coordinates, "wards", bounds, "bottom");
+        });
       }
 
       // One pin per commissioner, same interaction pattern as mayors, but
@@ -1287,6 +1397,10 @@ export default function WardMap() {
         data: labelPointsFromFeatureCollection(commissionersData),
       });
       map.addSource(STATE_LEG_LABEL_SOURCE_ID, { type: "geojson", data: labelPointsFromFeatureCollection(stateLegData) });
+      // See wardPinConnectorLines's comment — one dashed LineString per
+      // ward that seats more than one council member, tracing the same
+      // formation their pins are laid out in.
+      map.addSource(WARDS_PIN_LINKS_SOURCE_ID, { type: "geojson", data: wardPinConnectorLines(data) });
 
       map.addLayer({
         id: WARDS_FILL_LAYER_ID,
@@ -1330,6 +1444,16 @@ export default function WardMap() {
           "text-offset": LABEL_TEXT_OFFSET,
         },
         paint: labelPaint,
+      });
+      // Dashed rather than solid — a visual "these belong together" hint
+      // subordinate to the pins themselves (DOM markers, always rendered
+      // above this GL layer regardless of paint order), not a boundary or
+      // route implying anything about the underlying geography.
+      map.addLayer({
+        id: WARDS_PIN_LINKS_LAYER_ID,
+        type: "line",
+        source: WARDS_PIN_LINKS_SOURCE_ID,
+        paint: { "line-color": outlineColor, "line-width": 1.5, "line-dasharray": [2, 2], "line-opacity": 0.8 },
       });
 
       map.addLayer({
