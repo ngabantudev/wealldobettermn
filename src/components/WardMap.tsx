@@ -2089,16 +2089,15 @@ export default function WardMap() {
       // over the canvas before the target layer has been added. Re-bound on
       // every call (including after a basemap swap) since setStyle() drops
       // these layer-scoped listeners along with the layers themselves.
-      // Registered before every other tier's own listeners below — MapLibre
-      // fires each layer-scoped delegate independently off the same
-      // physical mousemove event (it doesn't only fire the topmost), so
-      // registration order is what decides which one's setSelected() call
-      // wins when the cursor sits over both this backdrop and a real tier
-      // at once (every covered city's whole area, by construction).
-      // Registering city-boundaries first means it always runs first and
-      // gets overwritten by whichever real tier's own handler fires after
-      // it on the same event — see handleHoverMove's own CITY_BOUNDARIES
-      // branch for the other half of this.
+      // Registered before every other tier's own listeners below — order
+      // doesn't matter for correctness (handleHoverMove's own
+      // CITY_BOUNDARIES branch explicitly defers to a real tier via its
+      // own queryRenderedFeatures check, rather than relying on which
+      // delegate happens to fire first/last on a shared event), but this
+      // still reads naturally as "the backdrop, then each real tier" —
+      // see that branch's own comment for why MapLibre firing every
+      // matching layer-scoped delegate independently, not just the
+      // topmost, made a same-point-two-listeners guard necessary at all.
       map.on("mousemove", CITY_BOUNDARIES_FILL_LAYER_ID, handleHoverMove);
       map.on("mouseleave", CITY_BOUNDARIES_FILL_LAYER_ID, handleHoverLeave);
       map.on("mousemove", WARDS_FILL_LAYER_ID, handleHoverMove);
@@ -2312,15 +2311,35 @@ export default function WardMap() {
         setSelected({ officials: resolveSelectionAtPoint(point), pinned: false });
         return;
       }
-      // Same "no real RepProperties to seed `known` with" case as the
-      // at-large branch above — city-boundaries features carry only
-      // `{ name, county, population, gnisId }`, no office. resolveSelectionAtPoint
-      // still runs (with no `known`) so a covered city's ward/mayor tier
-      // resolves normally when this branch fires ahead of the real tier's
-      // own handler (see this listener's registration-order comment); an
-      // uncovered city correctly resolves to every tier empty, which is
-      // what surfaces WardModal's existing coverage.ts empty-state notes.
+      // city-boundaries features carry only `{ name, county, population,
+      // gnisId }`, no office — same "no known to seed with" shape as the
+      // at-large branch above. Unlike every other layer here, this one is
+      // *always* visible statewide, so its polygon sits underneath every
+      // real tier's own polygon everywhere that tier exists — MapLibre
+      // fires each layer-scoped mousemove delegate independently (not
+      // just the topmost), so without this guard, hovering anywhere
+      // inside a covered city fired THIS branch and the real tier's own
+      // branch on every single mousemove tick, each doing a full
+      // resolveSelectionAtPoint scan + setSelected/re-render, and (since
+      // both write the same lastHoverIdentityRef) permanently defeating
+      // the "skip unless the hovered feature changed" check below —
+      // twice the resolution cost and twice the re-renders on every
+      // event, for as long as the cursor sat over any of the 17 covered
+      // cities. Bailing out here whenever a real tier also has a feature
+      // at this exact point — letting that tier's own delegated listener
+      // own the hover state entirely, untouched — fixes both the
+      // performance regression and restores the single-resolution-per-
+      // identity-change behavior every other branch already has.
       if (feature.layer.id === CITY_BOUNDARIES_FILL_LAYER_ID) {
+        const realTierLayers = [
+          WARDS_FILL_LAYER_ID,
+          AT_LARGE_BOUNDARY_FILL_LAYER_ID,
+          COMMISSIONERS_FILL_LAYER_ID,
+          STATE_LEG_FILL_LAYER_ID,
+        ].filter((id) => map.getLayer(id));
+        if (realTierLayers.length > 0 && map.queryRenderedFeatures(e.point, { layers: realTierLayers }).length > 0) {
+          return;
+        }
         const hoverIdentity = `city-boundary:${feature.properties?.name}`;
         if (hoverIdentity === lastHoverIdentityRef.current) return;
         lastHoverIdentityRef.current = hoverIdentity;
