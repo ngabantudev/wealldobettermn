@@ -5,6 +5,8 @@ import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 import type { Feature, FeatureCollection, Geometry } from "geojson";
 import type { AddressIndex, MnPlaces, RepProperties, WardRef } from "@/lib/types";
+import type { AreaOfficials, CivicGeometrySources } from "@/lib/officials";
+import { officialIdentity, resolveOfficialsAtPoint } from "@/lib/officials";
 import { CITIES, type City } from "@/lib/cities";
 import {
   CITY_ACCENT,
@@ -196,8 +198,15 @@ const DEFAULT_ZOOM = 10.4;
 // there's no polygon to fitBounds to, so this fakes one.
 const POINT_ZOOM_PADDING_DEGREES = 0.01;
 
-interface SelectedRep {
-  properties: RepProperties;
+// Every applicable official across all three tiers for one map point,
+// resolved independently of which single LayerMode is currently visible on
+// the map — see src/lib/officials.ts's resolveOfficialsAtPoint. The anchor
+// point itself isn't kept here: nothing currently needs to re-resolve a
+// stale selection from it (toggleCity, the one place that touches an
+// existing selection after the fact, filters `officials` directly instead
+// — see its own comment).
+interface SelectedArea {
+  officials: AreaOfficials;
   pinned: boolean;
 }
 
@@ -221,6 +230,18 @@ const PIN_DIAMETER_BY_ROLE: Partial<Record<RepProperties["role"], number>> = {
   "Council Member": 34,
 };
 const DEFAULT_PIN_DIAMETER = 44;
+
+// Plain-language summary for the sr-only announcement above — see
+// `announcement` state's own comment for why this only ever fires from a
+// pinned selection, never a hover.
+function summarizeOfficials(officials: AreaOfficials): string {
+  const parts: string[] = [];
+  if (officials.city.length > 0) parts.push(`${officials.city.length} city`);
+  if (officials.county.length > 0) parts.push(`${officials.county.length} county`);
+  if (officials.state.length > 0) parts.push(`${officials.state.length} state`);
+  if (parts.length === 0) return "No representatives found for this location on any mapped layer.";
+  return `Showing representatives for this location: ${parts.join(", ")}.`;
+}
 
 function boundsFromFeature(feature: Feature<Geometry>): maplibregl.LngLatBounds {
   const bounds = new maplibregl.LngLatBounds();
@@ -324,6 +345,19 @@ function boundsAroundPoint(lng: number, lat: number): maplibregl.LngLatBounds {
     [lng - POINT_ZOOM_PADDING_DEGREES, lat - POINT_ZOOM_PADDING_DEGREES],
     [lng + POINT_ZOOM_PADDING_DEGREES, lat + POINT_ZOOM_PADDING_DEGREES],
   );
+}
+
+// Every resolveSelectionAtPoint call site starts from a different MapLibre
+// coordinate shape — a mousemove event's `e.lngLat`, a marker's own
+// `LngLatLike` (a raw `[lng, lat]` tuple in some places, a `LngLat` from
+// `bounds.getCenter()` in others), a search result's bounds center — one
+// place to normalize any of them into the `[lng, lat]` Position tuple
+// resolveOfficialsAtPoint expects (GeoJSON's own coordinate order),
+// instead of every call site repeating its own `.convert()`/destructure
+// and risking a transposed lat/lng on some future edit.
+function toPoint(lngLat: maplibregl.LngLatLike): [number, number] {
+  const converted = maplibregl.LngLat.convert(lngLat);
+  return [converted.lng, converted.lat];
 }
 
 function isMobileViewport(): boolean {
@@ -430,6 +464,7 @@ export default function WardMap() {
   // handler for why queryRenderedFeatures's own geometry isn't good
   // enough for that.
   const wardsDataRef = useRef<FeatureCollection | null>(null);
+  const mayorsDataRef = useRef<FeatureCollection | null>(null);
   const commissionersDataRef = useRef<FeatureCollection | null>(null);
   const stateLegDataRef = useRef<FeatureCollection | null>(null);
   // The in-flight/settled fetchCivicData() call — a ref (not state)
@@ -441,8 +476,24 @@ export default function WardMap() {
   const [mnPlaces, setMnPlaces] = useState<MnPlaces | null>(null);
   const pinMarkersRef = useRef<PinMarker[]>([]);
   const pulseAnimationFrameRef = useRef<number | null>(null);
-  const [selected, setSelected] = useState<SelectedRep | null>(null);
-  const selectedRef = useRef<SelectedRep | null>(null);
+  // The `officialIdentity` of whichever fill-layer feature the cursor was
+  // last resolved against — lets handleHoverMove below skip re-running
+  // resolveSelectionAtPoint (three point-in-polygon scans plus a React
+  // re-render of up to six OfficialCards) on every one of the many
+  // mousemove events fired while the cursor sits inside the SAME polygon,
+  // only paying that cost again when the hovered feature actually changes.
+  const lastHoverIdentityRef = useRef<string | null>(null);
+  const [selected, setSelected] = useState<SelectedArea | null>(null);
+  const selectedRef = useRef<SelectedArea | null>(null);
+  // Screen-reader announcement for the detail panel — set only from a
+  // pinned (click/tap/search-result) selection, never from hover, same
+  // "don't move focus, just announce" pattern as SearchBar's own
+  // aria-live region. The panel now holds up to six officials across
+  // three sections and repopulates on every hover; announcing that on
+  // every mousemove would be disruptive noise for anyone pairing a
+  // screen reader with a sighted mouse user panning the map, so hover
+  // updates `selected` (for sighted users) without ever touching this.
+  const [announcement, setAnnouncement] = useState("");
   // Mobile-only — which of MobileNav's three tabs (if any) currently has
   // its sheet raised. Doesn't need a ref alongside selectedRef: the map
   // effect below only ever *sets* this (clearing it back to null when a
@@ -526,6 +577,7 @@ export default function WardMap() {
     promise.then((data) => {
       if (!data) return;
       wardsDataRef.current = data.wards;
+      mayorsDataRef.current = data.mayors;
       commissionersDataRef.current = data.commissioners;
       stateLegDataRef.current = data.stateLeg;
       const wardsBounds = boundsFromFeatureCollection(data.wards);
@@ -600,7 +652,50 @@ export default function WardMap() {
 
   const deselect = () => {
     setSelected(null);
+    setAnnouncement("Representative panel closed.");
     zoomToDefault();
+  };
+
+  // City AND county tier officials are both grouped/keyed by rep.city — per
+  // RepProperties's own comment in types.ts, a Hennepin commissioner
+  // district groups with Minneapolis, Ramsey with St. Paul, even though
+  // "county" is the accurate display label — and applyCityFilter already
+  // hides both wards' AND commissioners' map layers/pins together for a
+  // hidden city (see its own body further down). A hidden city's officials
+  // are dropped from the resolved selection the same way, so
+  // hovering/clicking anywhere near a hidden city's ward or commissioner
+  // district never surfaces it in the panel either. State has no per-city
+  // visibility toggle at all, so it's untouched. Takes `visibility`
+  // explicitly (rather than reading visibleCitiesRef itself) so a caller
+  // that just computed a new map (toggleCity, below) can filter against
+  // that value before the ref itself catches up — see toggleCity's own
+  // comment on why the ref lags by one tick.
+  const filterHiddenCityOfficials = (officials: AreaOfficials, visibility: Record<City, boolean>): AreaOfficials => {
+    const isVisible = (rep: RepProperties) => visibility[rep.city as City] !== false;
+    const city = officials.city.filter(isVisible);
+    const county = officials.county.filter(isVisible);
+    if (city.length === officials.city.length && county.length === officials.county.length) return officials;
+    return { ...officials, city, county };
+  };
+
+  // The single entry point every hover/click/pin-interaction now goes
+  // through to populate the detail panel — resolves all three tiers
+  // (city/county/state) at once for a map point, independent of which
+  // single LayerMode is currently visible. See src/lib/officials.ts's
+  // resolveOfficialsAtPoint for why this is a plain on-device
+  // point-in-polygon lookup rather than a MapLibre queryRenderedFeatures
+  // call (which can't see a hidden layer's features at all). `known`, when
+  // the caller already has an exact RepProperties for one office (a
+  // clicked pin, a fill-layer click's own resolved feature), is force-
+  // included in its tier — see that function's own comment for why.
+  const resolveSelectionAtPoint = (point: [number, number], known?: RepProperties): AreaOfficials => {
+    const sources: CivicGeometrySources = {
+      wards: wardsDataRef.current,
+      mayors: mayorsDataRef.current,
+      commissioners: commissionersDataRef.current,
+      stateLeg: stateLegDataRef.current,
+    };
+    return filterHiddenCityOfficials(resolveOfficialsAtPoint(point, sources, known), visibleCitiesRef.current);
   };
 
   // The one path every click/tap/search-result selection runs through
@@ -610,8 +705,9 @@ export default function WardMap() {
   // had collapsed it — unlike a hover, which never reopens a sidebar
   // they've deliberately hidden; see the right toggle button's own
   // comment further down for why that asymmetry is deliberate.
-  const selectPinned = (properties: RepProperties) => {
-    setSelected({ properties, pinned: true });
+  const selectPinned = (officials: AreaOfficials) => {
+    setSelected({ officials, pinned: true });
+    setAnnouncement(summarizeOfficials(officials));
     if (rightDetailCollapsedRef.current) setRightDetailCollapsed(false);
   };
 
@@ -705,11 +801,33 @@ export default function WardMap() {
   const toggleCity = (city: City) => {
     setVisibleCities((prev) => {
       const next = { ...prev, [city]: !prev[city] };
+      // Mirrored onto the ref synchronously (not just via the effect that
+      // normally keeps it in sync, further up) — applySearchResult can call
+      // prepareWardsView, which can call this same toggleCity, and then
+      // immediately (same tick) call resolveSelectionAtPoint, which reads
+      // visibleCitiesRef.current. Without this, that read would still see
+      // the stale (hidden) value the effect hasn't caught up to yet, and a
+      // search result would un-hide a city on the map while the panel it
+      // opens still filters that city's own official back out.
+      visibleCitiesRef.current = next;
       applyCityFilter(next);
-      // If the pinned/hovered rep belongs to a city that just got hidden,
-      // clear it rather than leave a modal open for something invisible.
-      if (!next[city] && selectedRef.current?.properties.city === city) {
-        deselect();
+      // If hiding this city empties the panel's City (and County, which
+      // shares the same per-city visibility — see filterHiddenCityOfficials)
+      // section, re-filter what's shown. If that leaves every tier empty,
+      // close the panel outright rather than leaving it open, zoomed in, on
+      // three "not covered here" notes for content the user just hid.
+      if (!next[city] && selectedRef.current) {
+        const current = selectedRef.current;
+        const filtered = filterHiddenCityOfficials(current.officials, next);
+        if (filtered !== current.officials) {
+          const allEmpty = filtered.city.length === 0 && filtered.county.length === 0 && filtered.state.length === 0;
+          if (allEmpty) {
+            deselect();
+          } else {
+            setSelected({ ...current, officials: filtered });
+            setAnnouncement(summarizeOfficials(filtered));
+          }
+        }
       }
       return next;
     });
@@ -790,13 +908,24 @@ export default function WardMap() {
       (f) => f.properties?.city === ref.city && f.properties?.ward === ref.ward,
     );
     if (!feature) return; // wardsDataRef isn't ready yet, or the ref is stale
-    selectPinned(normalizeRepProperties(feature.properties));
+    const bounds = boundsFromFeature(feature as Feature<Geometry>);
+    // The ward itself is seeded via `known` regardless, so this anchor only
+    // has to be "somewhere inside the district" for County/State — same
+    // bounds-center approximation already used to place ward/commissioner/
+    // state-leg pins (see addPin's own callers below), not a new risk this
+    // introduces. For a concave or river-split ward the bbox center could
+    // in principle fall in a different county or district than the ward
+    // itself; accepted here for the same reason it's accepted for pin
+    // placement — there's no ward "office address" to anchor to instead.
+    const point = toPoint(bounds.getCenter());
+    const known = normalizeRepProperties(feature.properties);
+    selectPinned(resolveSelectionAtPoint(point, known));
     // Closes MobileNav's Search sheet on mobile so the ward modal (which
     // takes over the sheet slot the instant `selected` is non-null) isn't
     // left stacked behind it — a no-op on desktop, where nothing opened a
     // mobile sheet to begin with.
     setActiveMobileSheet(null);
-    zoomToBounds(boundsFromFeature(feature as Feature<Geometry>));
+    zoomToBounds(bounds);
   };
 
   const applyCityZoom = (city: City) => {
@@ -924,10 +1053,14 @@ export default function WardMap() {
       ) => {
         const el = createRepPinElement(properties, diameter);
         const marker = new maplibregl.Marker({ element: el, anchor: "center" }).setLngLat(coordinates).addTo(map);
+        // A pin's own coordinate always seeds `properties` into its own
+        // tier (via resolveSelectionAtPoint's `known` param) — the other
+        // two tiers still resolve by point-in-polygon at that same spot.
+        const point = toPoint(coordinates);
 
         el.addEventListener("mouseenter", () => {
           if (!isDesktopHover || selectedRef.current?.pinned) return;
-          setSelected({ properties, pinned: false });
+          setSelected({ officials: resolveSelectionAtPoint(point, properties), pinned: false });
         });
         el.addEventListener("mouseleave", () => {
           if (!isDesktopHover || selectedRef.current?.pinned) return;
@@ -935,7 +1068,7 @@ export default function WardMap() {
         });
         el.addEventListener("click", (e) => {
           e.stopPropagation();
-          selectPinned(properties);
+          selectPinned(resolveSelectionAtPoint(point, properties));
           setActiveMobileSheet(null); // see applySearchResult's comment on this same call
           zoomToBounds(zoomBounds);
         });
@@ -1247,10 +1380,24 @@ export default function WardMap() {
       map.getCanvas().style.cursor = "pointer";
       const feature = e.features?.[0];
       if (!feature) return;
-      setSelected({ properties: normalizeRepProperties(feature.properties), pinned: false });
+      // The hovered layer's own hit seeds its tier exactly (see
+      // resolveSelectionAtPoint's comment); the other two tiers — always
+      // hidden right now, since only one LayerMode is ever visible — still
+      // resolve via point-in-polygon at the same cursor position.
+      const known = normalizeRepProperties(feature.properties);
+      // mousemove fires continuously while the cursor sits inside one
+      // polygon, not just once on entry — skip the (real) cost of
+      // re-resolving all three tiers and re-rendering the panel unless the
+      // hovered feature has actually changed since the last event.
+      const hoverIdentity = officialIdentity(known);
+      if (hoverIdentity === lastHoverIdentityRef.current) return;
+      lastHoverIdentityRef.current = hoverIdentity;
+      const point = toPoint(e.lngLat);
+      setSelected({ officials: resolveSelectionAtPoint(point, known), pinned: false });
     };
     const handleHoverLeave = () => {
       if (!isDesktopHover) return;
+      lastHoverIdentityRef.current = null;
       map.getCanvas().style.cursor = "";
       if (selectedRef.current?.pinned) return;
       setSelected(null);
@@ -1278,15 +1425,15 @@ export default function WardMap() {
         return;
       }
       const hitProps = normalizeRepProperties(hit.properties);
-      selectPinned(hitProps);
-      setActiveMobileSheet(null); // see applySearchResult's comment on this same call
 
       // queryRenderedFeatures returns geometry clipped to whichever
       // internal tile the click landed in, not the feature's true full
       // shape — fitBounds on that would center on the click point rather
       // than the ward/district, especially for large areas near a tile
       // edge. Look the same feature up in the untiled source data fetched
-      // at load time for its real geometry instead.
+      // at load time for its real geometry instead. Its (untiled, exact)
+      // properties are also what seeds resolveSelectionAtPoint's `known`
+      // below, one step more accurate than hitProps for that purpose.
       let sourceData: FeatureCollection | null;
       let matchesHit: (f: Feature) => boolean;
       if (hit.layer.id === COMMISSIONERS_FILL_LAYER_ID) {
@@ -1300,6 +1447,20 @@ export default function WardMap() {
         matchesHit = (f) => f.properties?.city === hitProps.city && f.properties?.ward === hitProps.ward;
       }
       const fullFeature = sourceData?.features.find(matchesHit);
+      // normalizeRepProperties again here, even though fullFeature's
+      // properties never went through MapLibre's tiling (hitProps already
+      // did): fullFeature comes from a fetch()'d wards.geojson/etc.
+      // response that could, in principle, predate a field this component
+      // now expects (see normalizeRepProperties's own comment on the
+      // browser-cache scenario it guards against) — skipping it here would
+      // silently let an `undefined` field through as `known` instead of
+      // the `null` every other path guarantees.
+      const known = normalizeRepProperties(
+        (fullFeature?.properties as Record<string, unknown> | undefined) ?? (hitProps as unknown as Record<string, unknown>),
+      );
+      const point = toPoint(e.lngLat);
+      selectPinned(resolveSelectionAtPoint(point, known));
+      setActiveMobileSheet(null); // see applySearchResult's comment on this same call
       zoomToBounds(boundsFromFeature((fullFeature ?? hit) as Feature<Geometry>));
     });
 
@@ -1555,7 +1716,7 @@ export default function WardMap() {
   // the modal *and* opens that tab in the same gesture (handleMobileTabSelect
   // below), rather than leaving the first tap stranded doing nothing.
   const mobileSheetContent = selected ? (
-    <WardModal ward={selected.properties} pinned={selected.pinned} onClose={deselect} variant="sheet" />
+    <WardModal officials={selected.officials} onClose={deselect} variant="sheet" />
   ) : activeMobileSheet === "search" ? (
     searchBar
   ) : activeMobileSheet === "filters" ? (
@@ -1628,6 +1789,13 @@ export default function WardMap() {
   return (
     <div className="flex w-full h-dvh flex-col overflow-hidden bg-canvas">
       <SiteHeader search={searchBar} />
+      {/* Announces the detail panel's content only on an explicit
+          click/tap/search-result selection — see `announcement` state's
+          own comment for why hover (which repopulates the same panel on
+          every mousemove) never touches this. */}
+      <p aria-live="polite" className="sr-only">
+        {announcement}
+      </p>
       <div className="flex min-h-0 flex-1">
         {/* Left sidebar: mode switcher + city/chamber filter — desktop/
             laptop only (sm+), modeled on mndatacenter.org's own left
@@ -1795,7 +1963,7 @@ export default function WardMap() {
             instead — see mobileSheetContent above. */}
         <aside
           id="map-detail-sidebar"
-          aria-label="Selected representative"
+          aria-label="Representatives for this location"
           aria-hidden={rightDetailCollapsed}
           // Mirrors the left sidebar's contrast/edge/collapse treatment —
           // see its own comment above — with the flag-blue accent moved
@@ -1807,7 +1975,7 @@ export default function WardMap() {
         >
           <div className="flex h-full w-80 shrink-0 flex-col lg:w-96">
             {selected ? (
-              <WardModal ward={selected.properties} pinned={selected.pinned} onClose={deselect} variant="sidebar" />
+              <WardModal officials={selected.officials} onClose={deselect} variant="sidebar" />
             ) : (
               <div className="flex flex-1 flex-col items-center justify-center gap-3 px-6 py-10 text-center text-sm text-ink-3">
                 <svg viewBox="0 0 20 20" fill="none" aria-hidden="true" className="h-8 w-8 shrink-0 text-sidebar-accent">
