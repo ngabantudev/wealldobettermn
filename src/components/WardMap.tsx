@@ -1939,7 +1939,14 @@ export default function WardMap() {
       : // No height cap here — the sidebar `<aside>` itself scrolls (see
         // its own overflow-y-auto), so a second, nested scroll region
         // would just be confusing about which element actually moves.
-        "rounded-lg border border-hair-strong bg-panel-2 divide-y divide-hair-strong text-sm text-ink-2";
+        // No border: mndatacenter.org's own sidebar groups lean on a
+        // recessed fill (bg-panel-3, the app's existing "sub-rows, track
+        // backgrounds" token — see globals.css) and row dividers to read
+        // as one grouped list, not a boxed border. A border here on top
+        // of the sidebar's own edge border and the section card around it
+        // (see sidebarFilterControls below) was one border too many —
+        // flat and modern reads as fewer lines, not more of them.
+        "rounded-lg bg-panel-3 divide-y divide-hair text-sm text-ink-2";
   // Sidebar-only: a short Water Blue tick ahead of the label — the flag's
   // own accent (see globals.css's --sidebar-accent) used as a structural
   // marker, not just a color swap. AGENTS.md §4 "structure is
@@ -1992,25 +1999,27 @@ export default function WardMap() {
   );
 
   // Sidebar-only tab look for the Level (City/County/State) and Chamber
-  // groups, matching WardModal's City/County/State tablist exactly (same
-  // TIER_HEADER_BG navy fill, uppercase text-xs tracking-wide, full-width
-  // flex-1 cells, min-h-11 touch target, flat border-b divider — no
-  // rounding, no boxed border) rather than the pill-button style the
-  // floating/mobile flavor keeps. Level (below) renders this row directly
-  // under the sidebar's own header, outside the padded content column, so
-  // it runs the full width of the sidebar edge to edge exactly like
-  // WardModal's tablist runs edge to edge under its own header. Chamber
-  // reuses the same flat class inside the padded column instead — still
-  // unrounded/unboxed, just inset by that column's own padding rather
-  // than full-bleed, since only Level was asked to match the right
-  // sidebar's full width. Visual mimicry only: unlike WardModal's tabs
-  // these buttons don't control a same-panel tabpanel — picking a mode
-  // swaps map layers, zoom, and the section below, not just this row's
-  // own content — so they keep role="group" rather than the full
-  // roving-tabindex ARIA tabs pattern.
-  const sidebarTabRowClass = "flex border-b border-hair-strong";
+  // groups — a flat segmented control (rounded-lg track, rounded-md
+  // active cell), matching mndatacenter.org's own "moderate border-radius
+  // on interactive elements" rather than the flush, square, full-bleed
+  // strip this used to mimic from WardModal's tablist. No border on the
+  // track itself: bg-panel-3 (the same recessed token filterListClass's
+  // sidebar variant uses just above) supplies the grouping, and the
+  // active cell's own TIER_HEADER_BG fill supplies the selection state —
+  // between the two, a border line drew no information a resident
+  // couldn't already read from the fill contrast. WardModal's own
+  // City/County/State tablist picked up the matching rounded treatment in
+  // the same pass (see that file), so both sidebars still read as one
+  // consistent panel language, just a flatter one. Rounded corners also
+  // stop the focus ring from being clipped flush against a hard edge —
+  // ring-inset (no longer set here) existed only to keep the ring from
+  // bleeding past the old edge-to-edge row; a padded, rounded cell has
+  // room for a normal outer ring instead. Still role="group", not ARIA
+  // tabs: picking a mode swaps map layers, zoom, and the section below,
+  // not just this row's own tabpanel content.
+  const sidebarTabRowClass = "flex gap-1 rounded-lg bg-panel-3 p-1";
   const sidebarTabButtonClass = (active: boolean) =>
-    `flex-1 min-h-11 px-2 py-2 text-center text-xs font-semibold uppercase tracking-wide transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-sidebar-accent ${
+    `flex-1 min-h-11 rounded-md px-2 py-2 text-center text-xs font-semibold uppercase tracking-wide transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-sidebar-accent ${
       active ? "" : "text-ink-3 hover:bg-hover hover:text-ink"
     }`;
 
@@ -2093,10 +2102,12 @@ export default function WardMap() {
     </>
   );
 
-  // Rendered directly under the sidebar's header, outside the padded
-  // content column below (see the left `<aside>`'s own comment) — no
-  // "Level" heading text, same as WardModal's own tablist has no heading
-  // above it, just this group's aria-label.
+  // Rendered as the first item inside the padded content column below
+  // (see the left `<aside>`'s own comment) — inset with room for the
+  // segmented control's own rounded corners, rather than the old
+  // full-bleed placement flush against the header. No "Level" heading
+  // text, same as WardModal's own tablist has no heading above it, just
+  // this group's aria-label.
   const sidebarLevelTabs = (
     <div role="group" aria-label="Choose map layer" className={sidebarTabRowClass}>
       {(["wards", "commissioners", "state-legislature"] as const).map((mode) => (
@@ -2113,18 +2124,16 @@ export default function WardMap() {
     </div>
   );
 
-  // rounded-lg border border-hair-strong: wraps the whole labeled group —
-  // heading + All/None toggle + the tab row or checkbox list beneath it —
-  // in one contained card, mndatacenter.org-style, rather than leaving the
-  // heading and toggle floating loose above an otherwise-bordered list.
-  // "Slight" per the PR that added this: border-hair-strong is the app's
-  // existing structural-divider token (see filterListClass's own comment),
-  // not a new heavier weight — this just extends where it's drawn, so a
-  // resident's eye reads "one filter section" instead of "a label sitting
-  // near a box."
+  // No card border around this group (a prior pass tried boxing it in
+  // border-hair-strong; see git history) — mndatacenter.org's own filter
+  // groups read as "contained" from generous vertical spacing and the
+  // section label's accent tick (filterSectionLabel above) plus the
+  // recessed fill under the tab row/checkbox list, not from a drawn
+  // rectangle around the whole thing. The gap-5 on the padded content
+  // column below does that spacing job between sections.
   const sidebarFilterControls = (
     <>
-      <div className="rounded-lg border border-hair-strong bg-panel-2 p-3">
+      <div>
         <div className="mb-1.5 flex items-center justify-between gap-2">
           {filterSectionLabel("sidebar", layerMode === "state-legislature" ? "Chamber" : "Areas shown")}
           {layerMode !== "state-legislature" && areasAllNoneToggle("sidebar", MODE_VISIBLE_CITIES[layerMode])}
@@ -2304,29 +2313,27 @@ export default function WardMap() {
                 this one being a bare stack of controls next to the right
                 sidebar's titled, tabbed one. No close button: unlike
                 WardModal this panel isn't dismissible, only collapsible
-                via the pull-tab outside it. */}
-            {/* border-b border-black/10: a slight seam under the colored
-                header fill, matching WardModal's own header border (see
-                its comment) so the two sidebars' title bars read as
-                contained panel headers rather than a color change with no
-                edge. black/10 rather than border-hair-strong: hair-strong
-                is tuned for the app's neutral panel surfaces and all but
-                disappears against this header's solid green fill; a
-                translucent black line stays visible on top of any header
-                color/theme. */}
+                via the pull-tab outside it. No border under the fill
+                either (a prior pass added one; see git history) — the
+                color change from the green header to the sidebar's own
+                bg-panel-2 is already the seam; a drawn line on top of it
+                was one border mndatacenter.org's own flatter chrome
+                doesn't carry. */}
             <div
-              className="flex items-center gap-2 border-b border-black/10 px-4 pt-2 pb-2 sm:pt-4 shrink-0"
+              className="flex items-center gap-2 px-4 pt-2 pb-2 sm:pt-4 shrink-0"
               style={{ backgroundColor: PANEL_HEADER_BG, color: PANEL_HEADER_TEXT }}
             >
               <h2 className="text-2xl font-extrabold">Filters</h2>
             </div>
-            {/* Level (City/County/State) sits directly under the header,
-                outside the padded column below — full sidebar width, edge
-                to edge, no rounding — exactly where and how WardModal's
-                own City/County/State tablist sits under its header in the
-                right sidebar (see sidebarTabRowClass's own comment). */}
-            {sidebarLevelTabs}
-            <div className="flex flex-1 flex-col gap-5 overflow-y-auto px-4 py-5">{sidebarFilterControls}</div>
+            {/* Level (City/County/State) now sits inside the padded
+                content column as its own first item, rounded like the
+                segmented control it is, instead of the old full-bleed
+                square strip flush under the header (see
+                sidebarTabRowClass's own comment for why). */}
+            <div className="flex flex-1 flex-col gap-5 overflow-y-auto px-4 py-5">
+              {sidebarLevelTabs}
+              {sidebarFilterControls}
+            </div>
           </div>
         </aside>
 
