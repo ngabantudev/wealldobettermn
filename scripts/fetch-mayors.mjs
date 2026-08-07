@@ -1,11 +1,28 @@
 #!/usr/bin/env node
 // scripts/fetch-mayors.mjs
 //
-// Writes public/mayors.geojson — a two-point FeatureCollection (one per
-// city, at its City Hall) that WardMap renders as photo pins. Neither
-// city publishes a mayor API, so this is hand-transcribed from each city's
-// own mayor page (linked per-entry below) — re-check after a mayoral
+// Writes public/mayors.geojson — a Point FeatureCollection (one feature
+// per official, at their city's City Hall) that WardMap renders as photo
+// pins. No city publishes a mayor API, so this is hand-transcribed from
+// each city's own site (linked per-entry below) — re-check after an
 // election, since names, photos, and dates all change then.
+//
+// Despite the filename, this also carries at-large council members for
+// cities that elect their whole council citywide (no wards at all) —
+// Woodbury is the first, added alongside issue #65's "8 more cities"
+// batch once it turned out Woodbury has no ward polygon to source. That's
+// not a misuse of this file: src/lib/officials.ts's resolveOfficialsAtPoint
+// already special-cases "Mayor" *and* "Council Member" roles arriving
+// through sources.mayors (city-name-matched, not polygon-matched, since
+// neither role owns a polygon) — this file existed as the one already-
+// built place for "an official this app can't put on a ward" before
+// Woodbury needed it, so a new sibling file/source would have duplicated
+// working plumbing rather than added anything. `role` is per-entry (see
+// MAYORS below) and defaults to "Mayor" so every existing entry needed no
+// change. Multiple officials sharing one city's coordinates (Woodbury's
+// mayor + 4 council members, all at City Hall) fan out into a formation
+// the same way a multi-member ward already does — see WardMap.tsx's
+// groupFeaturesByCity.
 
 import { writeFile, mkdir } from "node:fs/promises";
 import path from "node:path";
@@ -163,6 +180,92 @@ const MAYORS = [
     neighborhoods: [],
     officeRoom: null,
     profileUrl: "https://www.coonrapidsmn.gov/Directory.aspx?EID=2",
+  },
+  // --- Woodbury (Washington County) — fully at-large, no wards ------------
+  //
+  // Mayor + all 4 council seats elected citywide (confirmed via the city's
+  // own site: woodburymn.gov/574/Mayor-and-City-Council), so all 5 sit
+  // here at the same City Hall coordinate rather than each getting a ward
+  // polygon in wards.geojson. None of the 5 individual profile pages
+  // publish a per-member email — the city directs contact through a
+  // general form instead — so repEmail stays null rather than
+  // substituting a shared inbox, same convention as Coon Rapids above.
+  // None state a term-start date either (only "Term expires"); every
+  // officeSince below is the same documented placeholder used elsewhere
+  // in this file for that exact gap.
+  {
+    city: "Woodbury",
+    coordinates: [-92.9391, 44.9201], // Woodbury City Hall, 8301 Valley Creek Rd
+    repName: "Anne Burt",
+    repParty: NONPARTISAN,
+    repPhotoUrl: "https://www.woodburymn.gov/ImageRepository/Document?documentID=4179",
+    repEmail: null,
+    repPhone: "651-714-3576",
+    officeSince: "2025-01-01",
+    committees: ["Mayor of Woodbury"],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://www.woodburymn.gov/m/directory/employee?eid=57",
+  },
+  {
+    city: "Woodbury",
+    coordinates: [-92.9391, 44.9201],
+    role: "Council Member",
+    repName: "Jennifer Santini",
+    repParty: NONPARTISAN,
+    repPhotoUrl: "https://www.woodburymn.gov/ImageRepository/Document?documentID=4181",
+    repEmail: null,
+    repPhone: "651-714-3578",
+    officeSince: "2025-01-01",
+    committees: ["Mayor Pro Tem"],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://www.woodburymn.gov/m/directory/employee?eid=60",
+  },
+  {
+    city: "Woodbury",
+    coordinates: [-92.9391, 44.9201],
+    role: "Council Member",
+    repName: "Steve Morris",
+    repParty: NONPARTISAN,
+    repPhotoUrl: "https://www.woodburymn.gov/ImageRepository/Document?documentID=4180",
+    repEmail: null,
+    repPhone: "651-714-3575",
+    officeSince: "2025-01-01",
+    committees: [],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://www.woodburymn.gov/m/directory/employee?eid=59",
+  },
+  {
+    city: "Woodbury",
+    coordinates: [-92.9391, 44.9201],
+    role: "Council Member",
+    repName: "Kim Wilson",
+    repParty: NONPARTISAN,
+    repPhotoUrl: "https://www.woodburymn.gov/ImageRepository/Document?documentID=4182",
+    repEmail: null,
+    repPhone: "651-714-3577",
+    officeSince: "2025-01-01",
+    committees: [],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://www.woodburymn.gov/m/directory/employee?eid=61",
+  },
+  {
+    city: "Woodbury",
+    coordinates: [-92.9391, 44.9201],
+    role: "Council Member",
+    repName: "Donna Stafford",
+    repParty: NONPARTISAN,
+    repPhotoUrl: "https://www.woodburymn.gov/ImageRepository/Document?documentID=4178",
+    repEmail: null,
+    repPhone: "651-714-3579",
+    officeSince: "2025-01-01",
+    committees: [],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://www.woodburymn.gov/m/directory/employee?eid=106",
   },
 ];
 

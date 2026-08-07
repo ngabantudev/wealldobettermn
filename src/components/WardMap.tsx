@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
-import type { Feature, FeatureCollection, Geometry } from "geojson";
+import type { Feature, FeatureCollection, Geometry, Point } from "geojson";
 import type { AddressIndex, MnPlaces, RepProperties, WardRef } from "@/lib/types";
 import type { AreaOfficials, CivicGeometrySources } from "@/lib/officials";
 import { officialIdentity, resolveOfficialsAtPoint } from "@/lib/officials";
@@ -57,13 +57,27 @@ const WARDS_LABEL_LAYER_ID = "wards-label";
 // labelPointsFromFeatureCollection's comment for why the label can't just
 // stay on the polygon source alongside the fill/outline/pulse layers.
 const WARDS_LABEL_SOURCE_ID = "wards-label-source";
-// Dotted lines tracing the formation wardPinOffsets lays multiple
-// council-member pins out in, for wards that seat more than one member
-// off one shared polygon — see wardPinConnectorLines. Wards-only: mayors
-// and commissioners/state legislators are always one pin per polygon, so
-// there's never a second layer's worth of these to draw.
+// Dotted lines tracing the formation wardPinOffsets lays multiple pins out
+// in — originally wards-only (a ward that seats more than one member off
+// one shared polygon), now also covers mayors.geojson's own multi-member
+// groups (an at-large city's mayor + council members, all sharing one City
+// Hall coordinate — Woodbury is the first). Commissioners/state legislators
+// are still always one pin per polygon, so they never need this. See
+// wardPinConnectorLines.
 const WARDS_PIN_LINKS_SOURCE_ID = "wards-pin-links-source";
 const WARDS_PIN_LINKS_LAYER_ID = "wards-pin-links";
+
+// A city with no ward polygon at all (elects entirely at-large — Woodbury
+// is the first) gets its own outline filled instead, one feature per city
+// in public/at-large-boundaries.geojson (see fetch-at-large-boundaries.mjs
+// and that file's own comment on why this couldn't just be a pseudo-ward
+// feature in wards.geojson). Solid CITY_ACCENT fill, not a ward-cycled
+// shade — there's no ward number to cycle across, this polygon *is* the
+// whole city. Renders alongside wards-mode (same as mayors' pins already
+// do), never its own LayerMode.
+const AT_LARGE_BOUNDARIES_SOURCE_ID = "at-large-boundaries-source";
+const AT_LARGE_BOUNDARY_FILL_LAYER_ID = "at-large-boundary-fill";
+const AT_LARGE_BOUNDARY_OUTLINE_LAYER_ID = "at-large-boundary-outline";
 
 const COMMISSIONERS_SOURCE_ID = "commissioners-source";
 const COMMISSIONERS_FILL_LAYER_ID = "commissioners-fill";
@@ -190,6 +204,19 @@ function fillColorExpression(numberField: string): maplibregl.ExpressionSpecific
 
 const WARD_FILL_COLOR_EXPRESSION = fillColorExpression("ward");
 const COMMISSIONER_FILL_COLOR_EXPRESSION = fillColorExpression("district");
+
+// At-large-boundaries.geojson features carry only `{ city }` — no ward
+// number to cycle a palette across (see this file's own comment), so this
+// is a flat CITY_ACCENT match rather than fillColorExpression's per-ward
+// cityMatchExpression. Data-driven over CITY_ACCENT for the same reason
+// fillColorExpression is data-driven over CITY_PALETTES — a new at-large
+// city only needs a cityTheme.ts entry, not a second edit here.
+const AT_LARGE_BOUNDARY_FILL_COLOR_EXPRESSION = [
+  "match",
+  ["get", "city"],
+  ...Object.entries(CITY_ACCENT).flatMap(([city, color]) => [city, color]),
+  "#e5e7eb",
+] as unknown as maplibregl.ExpressionSpecification;
 
 // State legislative districts don't belong to one city the way wards or
 // commissioner districts do, so the city-hue scheme above doesn't apply —
@@ -440,6 +467,26 @@ function groupWardFeaturesByWard(data: FeatureCollection): Map<string, Feature<G
   return groups;
 }
 
+// mayors.geojson's equivalent of groupWardFeaturesByWard above — every
+// entry there sits at its city's City Hall coordinate, one feature per
+// office (Mayor, plus Council Member for an at-large city like Woodbury),
+// so "share a coordinate" reduces to "share a city" rather than needing
+// wardKey's city+ward compound key. Grouped even for the ordinary one-
+// feature-per-city case (every city except Woodbury today) so the same
+// formation math handles both — wardPinPixelOffsets(1, ...) is already
+// the identity [[0, 0]], so a lone mayor's pin position is unchanged.
+function groupFeaturesByCity(data: FeatureCollection): Map<string, Feature<Geometry>[]> {
+  const groups = new Map<string, Feature<Geometry>[]>();
+  for (const feature of data.features) {
+    if (feature.geometry.type !== "Point") continue;
+    const properties = feature.properties as RepProperties;
+    const group = groups.get(properties.city);
+    if (group) group.push(feature as Feature<Geometry>);
+    else groups.set(properties.city, [feature as Feature<Geometry>]);
+  }
+  return groups;
+}
+
 // Reprojects a ward's shared bounds-center plus one pixel-space formation
 // offset back to a real map coordinate — the one piece of math both a
 // formation pin's own placement (addPin) and its dotted connector-line
@@ -486,25 +533,39 @@ function wardPinConnectorPoints(
 // alongside the other wards-* layers in addSourcesAndLayers, and its
 // data refreshed on every zoom change by the listener in the map-setup
 // effect below, the same way pin positions are.
-function wardPinConnectorLines(map: maplibregl.Map, data: FeatureCollection): FeatureCollection {
+// wardsData covers wards that seat 2+ members off one shared polygon
+// (Blaine, Brooklyn Park); mayorsData covers a city whose officials all
+// share one City Hall coordinate instead — an ordinary city (one mayor)
+// never produces a line here (group.length < 2), only an at-large one
+// (Woodbury: mayor + 4 council members) does. Both grouping strategies
+// feed the same output FeatureCollection/layer, since both use identical
+// formation math (wardPinConnectorPoints) and both need the exact same
+// `city`-keyed filtering applyCityFilter already applies.
+function wardPinConnectorLines(map: maplibregl.Map, wardsData: FeatureCollection, mayorsData: FeatureCollection): FeatureCollection {
   const zoom = map.getZoom();
   const features: Feature<Geometry>[] = [];
-  for (const group of groupWardFeaturesByWard(data).values()) {
-    if (group.length < 2) continue;
-    const center = boundsFromFeature(group[0]).getCenter();
-    const diameter = diameterForZoom("Council Member", zoom);
-    const points = wardPinConnectorPoints(map, center, group.length, diameter);
-    // Carries `city` through (every member of a group shares one, by
-    // construction of the wardKey grouping) so applyCityFilter can hide
-    // this line along with the rest of a deselected city's wards instead
-    // of it lingering onscreen with no visible pins attached to it.
-    const { city } = group[0].properties as RepProperties;
-    features.push({
-      type: "Feature",
-      geometry: { type: "LineString", coordinates: points },
-      properties: { city },
-    });
-  }
+  const pushLinesForGroups = (groups: Map<string, Feature<Geometry>[]>, centerOf: (f: Feature<Geometry>) => maplibregl.LngLat) => {
+    for (const group of groups.values()) {
+      if (group.length < 2) continue;
+      const center = centerOf(group[0]);
+      const diameter = diameterForZoom("Council Member", zoom);
+      const points = wardPinConnectorPoints(map, center, group.length, diameter);
+      // Carries `city` through (every member of a group shares one, by
+      // construction of both grouping functions) so applyCityFilter can
+      // hide this line along with the rest of a deselected city's wards
+      // instead of it lingering onscreen with no visible pins attached.
+      const { city } = group[0].properties as RepProperties;
+      features.push({
+        type: "Feature",
+        geometry: { type: "LineString", coordinates: points },
+        properties: { city },
+      });
+    }
+  };
+  pushLinesForGroups(groupWardFeaturesByWard(wardsData), (f) => boundsFromFeature(f).getCenter());
+  pushLinesForGroups(groupFeaturesByCity(mayorsData), (f) =>
+    maplibregl.LngLat.convert((f.geometry as Point).coordinates as [number, number]),
+  );
   return { type: "FeatureCollection", features };
 }
 
@@ -513,9 +574,10 @@ interface CivicData {
   mayors: FeatureCollection;
   commissioners: FeatureCollection;
   stateLeg: FeatureCollection;
+  atLargeBoundaries: FeatureCollection;
 }
 
-// Fetches the four public/*.geojson layers independently of the MapLibre
+// Fetches the five public/*.geojson layers independently of the MapLibre
 // instance — previously this ran inside map.on("load"), which meant a
 // resident whose map never finishes loading (WebGL unavailable, tile
 // host down) could never get ward data either, silently breaking search
@@ -531,19 +593,21 @@ async function fetchCivicData(): Promise<CivicData | null> {
     // scripts/fetch-*.mjs) — a browser-cached copy from before a field
     // got added crashes the modal on a field the current component code
     // expects to exist.
-    const [wardsRes, mayorsRes, commissionersRes, stateLegRes] = await Promise.all([
+    const [wardsRes, mayorsRes, commissionersRes, stateLegRes, atLargeBoundariesRes] = await Promise.all([
       fetch("/wards.geojson", { cache: "no-store" }),
       fetch("/mayors.geojson", { cache: "no-store" }),
       fetch("/commissioners.geojson", { cache: "no-store" }),
       fetch("/state-legislature.geojson", { cache: "no-store" }),
+      fetch("/at-large-boundaries.geojson", { cache: "no-store" }),
     ]);
-    const [wards, mayors, commissioners, stateLeg] = await Promise.all([
+    const [wards, mayors, commissioners, stateLeg, atLargeBoundaries] = await Promise.all([
       wardsRes.json(),
       mayorsRes.json(),
       commissionersRes.json(),
       stateLegRes.json(),
+      atLargeBoundariesRes.json(),
     ]);
-    return { wards, mayors, commissioners, stateLeg };
+    return { wards, mayors, commissioners, stateLeg, atLargeBoundaries };
   } catch (err) {
     console.error("[WardMap] failed to load civic data", err);
     return null;
@@ -732,6 +796,7 @@ export default function WardMap() {
   const mayorsDataRef = useRef<FeatureCollection | null>(null);
   const commissionersDataRef = useRef<FeatureCollection | null>(null);
   const stateLegDataRef = useRef<FeatureCollection | null>(null);
+  const atLargeBoundariesDataRef = useRef<FeatureCollection | null>(null);
   // The in-flight/settled fetchCivicData() call — a ref (not state)
   // because the map-setup effect below needs to `await` this exact
   // promise instance rather than re-fetch, and refs (unlike state) are
@@ -845,6 +910,7 @@ export default function WardMap() {
       mayorsDataRef.current = data.mayors;
       commissionersDataRef.current = data.commissioners;
       stateLegDataRef.current = data.stateLeg;
+      atLargeBoundariesDataRef.current = data.atLargeBoundaries;
       const wardsBounds = boundsFromFeatureCollection(data.wards);
       const commissionersBounds = boundsFromFeatureCollection(data.commissioners);
       const stateLegBounds = boundsFromFeatureCollection(data.stateLeg);
@@ -959,6 +1025,7 @@ export default function WardMap() {
       mayors: mayorsDataRef.current,
       commissioners: commissionersDataRef.current,
       stateLeg: stateLegDataRef.current,
+      atLargeBoundaries: atLargeBoundariesDataRef.current,
     };
     return filterHiddenCityOfficials(resolveOfficialsAtPoint(point, sources, known), visibleCitiesRef.current);
   };
@@ -986,6 +1053,8 @@ export default function WardMap() {
         WARDS_OUTLINE_LAYER_ID,
         WARDS_LABEL_LAYER_ID,
         WARDS_PIN_LINKS_LAYER_ID,
+        AT_LARGE_BOUNDARY_FILL_LAYER_ID,
+        AT_LARGE_BOUNDARY_OUTLINE_LAYER_ID,
         COMMISSIONERS_FILL_LAYER_ID,
         COMMISSIONERS_OUTLINE_LAYER_ID,
         COMMISSIONERS_LABEL_LAYER_ID,
@@ -1039,7 +1108,18 @@ export default function WardMap() {
     const map = mapRef.current;
     if (!map) return;
     const layerGroups: [LayerMode, string[]][] = [
-      ["wards", [WARDS_FILL_LAYER_ID, WARDS_OUTLINE_LAYER_ID, WARDS_PULSE_LAYER_ID, WARDS_LABEL_LAYER_ID, WARDS_PIN_LINKS_LAYER_ID]],
+      [
+        "wards",
+        [
+          WARDS_FILL_LAYER_ID,
+          WARDS_OUTLINE_LAYER_ID,
+          WARDS_PULSE_LAYER_ID,
+          WARDS_LABEL_LAYER_ID,
+          WARDS_PIN_LINKS_LAYER_ID,
+          AT_LARGE_BOUNDARY_FILL_LAYER_ID,
+          AT_LARGE_BOUNDARY_OUTLINE_LAYER_ID,
+        ],
+      ],
       [
         "commissioners",
         [COMMISSIONERS_FILL_LAYER_ID, COMMISSIONERS_OUTLINE_LAYER_ID, COMMISSIONERS_PULSE_LAYER_ID, COMMISSIONERS_LABEL_LAYER_ID],
@@ -1228,20 +1308,38 @@ export default function WardMap() {
   const applyCityZoom = (city: City) => {
     prepareWardsView(city);
     const cityWards = wardsDataRef.current?.features.filter((f) => f.properties?.city === city);
-    if (!cityWards || cityWards.length === 0) return;
+    if (cityWards && cityWards.length > 0) {
+      setSelected(null);
+      setActiveMobileSheet(null); // reveal the zoomed-to result instead of leaving the Search sheet up over it
+      zoomToBoundsNoModal(boundsFromFeatureCollection({ type: "FeatureCollection", features: cityWards }));
+      return;
+    }
+    // A wardless (at-large) city — Woodbury today — has zero features in
+    // wards.geojson by construction, so the check above always misses for
+    // it; without this fallback, searching/selecting it used to silently
+    // zoom nowhere at all. Its boundary in at-large-boundaries.geojson is
+    // the only geometry standing in for "this city" instead.
+    const boundary = atLargeBoundariesDataRef.current?.features.filter((f) => f.properties?.city === city);
+    if (!boundary || boundary.length === 0) return;
     setSelected(null);
-    setActiveMobileSheet(null); // reveal the zoomed-to result instead of leaving the Search sheet up over it
-    zoomToBoundsNoModal(boundsFromFeatureCollection({ type: "FeatureCollection", features: cityWards }));
+    setActiveMobileSheet(null);
+    zoomToBoundsNoModal(boundsFromFeatureCollection({ type: "FeatureCollection", features: boundary }));
   };
 
   const applyCountyZoom = (cities: City[]) => {
     for (const city of cities) prepareWardsView(city);
     const citySet = new Set<City>(cities);
     const countyWards = wardsDataRef.current?.features.filter((f) => citySet.has(f.properties?.city as City));
-    if (!countyWards || countyWards.length === 0) return;
+    // Same fallback as applyCityZoom, extended across every city in the
+    // county — a county whose cities are entirely (or partly) at-large
+    // (e.g. Washington, today just Woodbury) must not silently drop those
+    // cities' extent from the zoom just because they have no ward polygon.
+    const countyBoundaries = atLargeBoundariesDataRef.current?.features.filter((f) => citySet.has(f.properties?.city as City));
+    const combined = [...(countyWards ?? []), ...(countyBoundaries ?? [])];
+    if (combined.length === 0) return;
     setSelected(null);
     setActiveMobileSheet(null); // same as applyCityZoom above
-    zoomToBoundsNoModal(boundsFromFeatureCollection({ type: "FeatureCollection", features: countyWards }));
+    zoomToBoundsNoModal(boundsFromFeatureCollection({ type: "FeatureCollection", features: combined }));
   };
 
   useEffect(() => {
@@ -1369,8 +1467,8 @@ export default function WardMap() {
       // here keeps the lines tracking the same pins they're connecting
       // instead of drifting out of sync with them as zoom changes.
       const wardsSource = map.getSource(WARDS_PIN_LINKS_SOURCE_ID) as maplibregl.GeoJSONSource | undefined;
-      if (wardsSource && wardsDataRef.current) {
-        wardsSource.setData(wardPinConnectorLines(map, wardsDataRef.current));
+      if (wardsSource && wardsDataRef.current && mayorsDataRef.current) {
+        wardsSource.setData(wardPinConnectorLines(map, wardsDataRef.current, mayorsDataRef.current));
       }
     };
     map.on("zoom", () => {
@@ -1458,11 +1556,22 @@ export default function WardMap() {
         pinMarkersRef.current.push({ marker, properties, mode, formation });
       };
 
-      for (const feature of mayorsData.features) {
-        if (feature.geometry.type !== "Point") continue;
-        const properties = feature.properties as RepProperties;
-        const [lng, lat] = feature.geometry.coordinates as [number, number];
-        addPin(properties, [lng, lat], "wards", boundsAroundPoint(lng, lat));
+      // Grouped by city (see groupFeaturesByCity) rather than iterated
+      // directly, so Woodbury's mayor + 4 at-large council members —
+      // sharing one City Hall coordinate, unlike every other city's single
+      // mayor — fan out into a formation instead of stacking on one pixel,
+      // same mechanism the multi-member-ward loop below already uses.
+      for (const group of groupFeaturesByCity(mayorsData).values()) {
+        const [lng, lat] = (group[0].geometry as Point).coordinates as [number, number];
+        const center = maplibregl.LngLat.convert([lng, lat]);
+        group.forEach((feature, i) => {
+          const properties = feature.properties as RepProperties;
+          addPin(properties, [lng, lat], "wards", boundsAroundPoint(lng, lat), "bottom", {
+            center,
+            index: i,
+            count: group.length,
+          });
+        });
       }
 
       // One pin per council member, centered on their ward — same
@@ -1518,7 +1627,13 @@ export default function WardMap() {
     // genuinely has none of these sources yet.
     const addSourcesAndLayers = (civicData: CivicData) => {
       if (map.getSource(WARDS_SOURCE_ID)) return;
-      const { wards: data, commissioners: commissionersData, stateLeg: stateLegData } = civicData;
+      const {
+        wards: data,
+        mayors: mayorsData,
+        commissioners: commissionersData,
+        stateLeg: stateLegData,
+        atLargeBoundaries: atLargeBoundariesData,
+      } = civicData;
 
       // Tuned against the *current basemap's* own darkness — see
       // OUTLINE_COLOR/LABEL_PAINT's own comment — recomputed on every call
@@ -1531,6 +1646,7 @@ export default function WardMap() {
       map.addSource(WARDS_SOURCE_ID, { type: "geojson", data });
       map.addSource(COMMISSIONERS_SOURCE_ID, { type: "geojson", data: commissionersData });
       map.addSource(STATE_LEG_SOURCE_ID, { type: "geojson", data: stateLegData });
+      map.addSource(AT_LARGE_BOUNDARIES_SOURCE_ID, { type: "geojson", data: atLargeBoundariesData });
       // One point per polygon, at that polygon's own bounds-center — see
       // labelPointsFromFeatureCollection's comment. The three label layers
       // below source from these instead of the polygon sources themselves.
@@ -1543,7 +1659,7 @@ export default function WardMap() {
       // See wardPinConnectorLines's comment — one dashed LineString per
       // ward that seats more than one council member, tracing the same
       // formation their pins are laid out in.
-      map.addSource(WARDS_PIN_LINKS_SOURCE_ID, { type: "geojson", data: wardPinConnectorLines(map, data) });
+      map.addSource(WARDS_PIN_LINKS_SOURCE_ID, { type: "geojson", data: wardPinConnectorLines(map, data, mayorsData) });
 
       map.addLayer({
         id: WARDS_FILL_LAYER_ID,
@@ -1597,6 +1713,26 @@ export default function WardMap() {
         type: "line",
         source: WARDS_PIN_LINKS_SOURCE_ID,
         paint: { "line-color": outlineColor, "line-width": 1.5, "line-dasharray": [2, 2], "line-opacity": 0.8 },
+      });
+
+      // At-large city boundary fill — see AT_LARGE_BOUNDARIES_SOURCE_ID's
+      // own comment. Added after the ward layers above, so MapLibre paints
+      // it on top of them if the two ever geographically overlapped — they
+      // don't today (every at-large city is wardless by definition, so
+      // there's no ward polygon to sit under), but painting the boundary
+      // last means a future edge case fails safe (the boundary stays
+      // visible) rather than silently hidden under a ward fill.
+      map.addLayer({
+        id: AT_LARGE_BOUNDARY_FILL_LAYER_ID,
+        type: "fill",
+        source: AT_LARGE_BOUNDARIES_SOURCE_ID,
+        paint: { "fill-color": AT_LARGE_BOUNDARY_FILL_COLOR_EXPRESSION, "fill-opacity": 0.5 },
+      });
+      map.addLayer({
+        id: AT_LARGE_BOUNDARY_OUTLINE_LAYER_ID,
+        type: "line",
+        source: AT_LARGE_BOUNDARIES_SOURCE_ID,
+        paint: { "line-color": outlineColor, "line-width": 1.5 },
       });
 
       map.addLayer({
@@ -1688,6 +1824,8 @@ export default function WardMap() {
       // these layer-scoped listeners along with the layers themselves.
       map.on("mousemove", WARDS_FILL_LAYER_ID, handleHoverMove);
       map.on("mouseleave", WARDS_FILL_LAYER_ID, handleHoverLeave);
+      map.on("mousemove", AT_LARGE_BOUNDARY_FILL_LAYER_ID, handleHoverMove);
+      map.on("mouseleave", AT_LARGE_BOUNDARY_FILL_LAYER_ID, handleHoverLeave);
       map.on("mousemove", COMMISSIONERS_FILL_LAYER_ID, handleHoverMove);
       map.on("mouseleave", COMMISSIONERS_FILL_LAYER_ID, handleHoverLeave);
       map.on("mousemove", STATE_LEG_FILL_LAYER_ID, handleHoverMove);
@@ -1794,6 +1932,23 @@ export default function WardMap() {
       map.getCanvas().style.cursor = "pointer";
       const feature = e.features?.[0];
       if (!feature) return;
+      const point = toPoint(e.lngLat);
+      // The at-large boundary layer's features carry only `{ city }` — not
+      // a real official, so there's no RepProperties to seed `known` with
+      // (normalizeRepProperties would happily fabricate one anyway, since
+      // it only fills in null defaults rather than validating required
+      // fields — that half-formed record would then get inserted directly
+      // into a tier by resolveOfficialsAtPoint's own `known` handling,
+      // which is exactly the bug this branch avoids). officials.ts's own
+      // atLargeBoundaries point-in-polygon check already finds every real
+      // official for this city with no `known` needed at all.
+      if (feature.layer.id === AT_LARGE_BOUNDARY_FILL_LAYER_ID) {
+        const hoverIdentity = `at-large:${feature.properties?.city}`;
+        if (hoverIdentity === lastHoverIdentityRef.current) return;
+        lastHoverIdentityRef.current = hoverIdentity;
+        setSelected({ officials: resolveSelectionAtPoint(point), pinned: false });
+        return;
+      }
       // The hovered layer's own hit seeds its tier exactly (see
       // resolveSelectionAtPoint's comment); the other two tiers — always
       // hidden right now, since only one LayerMode is ever visible — still
@@ -1806,7 +1961,6 @@ export default function WardMap() {
       const hoverIdentity = officialIdentity(known);
       if (hoverIdentity === lastHoverIdentityRef.current) return;
       lastHoverIdentityRef.current = hoverIdentity;
-      const point = toPoint(e.lngLat);
       setSelected({ officials: resolveSelectionAtPoint(point, known), pinned: false });
     };
     const handleHoverLeave = () => {
@@ -1826,9 +1980,12 @@ export default function WardMap() {
       // Guard against a click landing before the async load handler has
       // finished adding both fill layers — queryRenderedFeatures throws if
       // any listed layer ID doesn't exist yet, instead of just ignoring it.
-      const queryableLayers = [WARDS_FILL_LAYER_ID, COMMISSIONERS_FILL_LAYER_ID, STATE_LEG_FILL_LAYER_ID].filter(
-        (id) => map.getLayer(id),
-      );
+      const queryableLayers = [
+        WARDS_FILL_LAYER_ID,
+        AT_LARGE_BOUNDARY_FILL_LAYER_ID,
+        COMMISSIONERS_FILL_LAYER_ID,
+        STATE_LEG_FILL_LAYER_ID,
+      ].filter((id) => map.getLayer(id));
       if (queryableLayers.length === 0) return;
       const features = map.queryRenderedFeatures(e.point, {
         layers: queryableLayers,
@@ -1836,6 +1993,22 @@ export default function WardMap() {
       const hit = features[0];
       if (!hit) {
         if (selectedRef.current?.pinned) deselect();
+        return;
+      }
+      // Same "no real RepProperties to seed `known` with" case as
+      // handleHoverMove above — resolved entirely through
+      // officials.ts's atLargeBoundaries point-in-polygon check instead.
+      // Bounds come from the untiled source feature (same reason every
+      // other branch below re-looks-up its hit — see the comment past
+      // this early return), not the tile-clipped `hit` geometry directly.
+      if (hit.layer.id === AT_LARGE_BOUNDARY_FILL_LAYER_ID) {
+        const point = toPoint(e.lngLat);
+        selectPinned(resolveSelectionAtPoint(point));
+        setActiveMobileSheet(null);
+        const boundaryFeature = atLargeBoundariesDataRef.current?.features.find(
+          (f) => f.properties?.city === hit.properties?.city,
+        );
+        zoomToBounds(boundsFromFeature((boundaryFeature ?? hit) as Feature<Geometry>));
         return;
       }
       const hitProps = normalizeRepProperties(hit.properties);
