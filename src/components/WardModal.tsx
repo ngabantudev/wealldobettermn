@@ -1,11 +1,25 @@
 "use client";
 
+import { useState } from "react";
 import type { RepProperties } from "@/lib/types";
 import type { AreaOfficials } from "@/lib/officials";
 import { officialIdentity } from "@/lib/officials";
 import { CITY_TIER_EMPTY_NOTE, COUNTY_TIER_EMPTY_NOTE, STATE_TIER_EMPTY_NOTE } from "@/lib/coverage";
 import { CONTESTED_COLOR, CONTESTED_COLOR_SOFT, partyColor, partyColorSoft } from "@/lib/cityTheme";
 import { isStale } from "@/lib/electionConfig";
+
+// Minnesota's own state-government "success"/accent green — matches
+// mn.gov's live stylesheet (mn.gov/portal/css/core.css: .btn-success,
+// footer's top border, .label-success all use this exact value) as of
+// this writing, not a guessed "state-flag green." A fixed brand color, not
+// a themed one — same reasoning as CONTESTED_COLOR/STALE_COLOR below: it
+// should read the same in light and dark mode. Paired with a dark (not
+// mn.gov's own white-on-green) label color: white text on this green is
+// only ~2.3:1 contrast, well under WCAG AA's 4.5:1 for text this size —
+// mn.gov's own header/button usage doesn't hold up to it either, and
+// AGENTS.md Part 4 rules that out here regardless of the reference site.
+const MN_GREEN = "#78BE21";
+const MN_GREEN_TEXT = "#12290C";
 
 // AGENTS.md §3.2 soft staleness notice ("A record older than a
 // configured threshold renders a visible staleness notice"), scoped to
@@ -189,6 +203,24 @@ function IconExternal() {
     <svg viewBox="0 0 20 20" fill="none" className="h-3.5 w-3.5 shrink-0">
       <path d="M8 5H5.5a1.5 1.5 0 0 0-1.5 1.5v7A1.5 1.5 0 0 0 5.5 15h7a1.5 1.5 0 0 0 1.5-1.5V11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
       <path d="M11 4h5v5M15.5 4.5 9 11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+// Points down when a section is expanded, rotated to point right (via the
+// caller's className) when collapsed — same single-glyph-plus-rotation
+// approach as WardMap's own IconChevron, kept local here rather than
+// imported since WardMap.tsx already imports *from* this file and a
+// reverse import would be circular.
+function IconChevronDown({ className = "" }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 20 20"
+      fill="none"
+      aria-hidden="true"
+      className={`h-3.5 w-3.5 shrink-0 transition-transform duration-200 motion-reduce:transition-none ${className}`}
+    >
+      <path d="M5 8l5 5 5-5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   );
 }
@@ -497,6 +529,23 @@ export interface WardModalProps {
 // happens in src/lib/officials.ts's resolveOfficialsAtPoint, independent
 // of what's currently drawn.
 export default function WardModal({ officials, onClose, variant = "sheet" }: WardModalProps) {
+  // Which tier headers the resident has collapsed, by tapping/clicking
+  // them — starts empty (every section expanded), matching the panel's
+  // original always-show-everything behavior. Lives here, not per-tier
+  // useState, since WardModal stays mounted across hover/click selection
+  // changes (only `officials` itself changes), so a collapse choice
+  // persists as the resident moves the cursor around the map instead of
+  // resetting on every new selection.
+  const [collapsedTiers, setCollapsedTiers] = useState<ReadonlySet<keyof AreaOfficials>>(() => new Set());
+  const toggleTier = (key: keyof AreaOfficials) => {
+    setCollapsedTiers((prev) => {
+      const next = new Set(prev);
+      if (next.has(key)) next.delete(key);
+      else next.add(key);
+      return next;
+    });
+  };
+
   const wrapperClass =
     variant === "sidebar"
       ? "pointer-events-auto flex h-full w-full flex-col overflow-y-auto"
@@ -535,24 +584,53 @@ export default function WardModal({ officials, onClose, variant = "sheet" }: War
         </button>
       </div>
 
-      <div className="overflow-y-auto divide-y divide-hair">
+      <div className="overflow-y-auto">
         {TIER_SECTIONS.map(({ key, label, emptyNote }) => {
           const reps = officials[key];
           const headingId = `officials-tier-${key}`;
+          const contentId = `officials-tier-${key}-content`;
+          const isCollapsed = collapsedTiers.has(key);
           return (
             <section key={key} aria-labelledby={headingId}>
-              <h3 id={headingId} className="px-4 pt-3 pb-1 text-[11px] font-semibold uppercase tracking-wide text-ink-3">
-                {label}
+              {/* h3 wraps the button (standard accessible-disclosure
+                  pattern) rather than being the clickable element itself,
+                  so the section still has a real heading in the
+                  accessibility tree regardless of expanded/collapsed
+                  state. */}
+              <h3>
+                <button
+                  type="button"
+                  onClick={() => toggleTier(key)}
+                  aria-expanded={!isCollapsed}
+                  aria-controls={contentId}
+                  className="flex w-full items-center justify-between gap-2 px-4 py-2 text-left text-[11px] font-semibold uppercase tracking-wide focus:outline-none focus-visible:ring-2 focus-visible:ring-inset"
+                  style={{ backgroundColor: MN_GREEN, color: MN_GREEN_TEXT }}
+                >
+                  <span id={headingId}>{label}</span>
+                  <IconChevronDown className={isCollapsed ? "-rotate-90" : ""} />
+                </button>
               </h3>
-              {reps.length > 0 ? (
-                <div className="divide-y divide-hair">
-                  {reps.map((rep) => (
-                    <OfficialCard key={officialIdentity(rep)} rep={rep} />
-                  ))}
+              {/* Pure-CSS accordion (grid-template-rows 0fr/1fr + a
+                  height-0-capable overflow-hidden child) instead of a
+                  JS-measured max-height — animates open/closed without
+                  ever needing to read the content's actual height. */}
+              <div
+                id={contentId}
+                className="grid transition-[grid-template-rows] duration-300 ease-out motion-reduce:transition-none"
+                style={{ gridTemplateRows: isCollapsed ? "0fr" : "1fr" }}
+              >
+                <div className="overflow-hidden">
+                  {reps.length > 0 ? (
+                    <div className="divide-y divide-hair">
+                      {reps.map((rep) => (
+                        <OfficialCard key={officialIdentity(rep)} rep={rep} />
+                      ))}
+                    </div>
+                  ) : (
+                    <p className="px-4 py-3 text-sm text-ink-3">{emptyNote}</p>
+                  )}
                 </div>
-              ) : (
-                <p className="px-4 pb-3 text-sm text-ink-3">{emptyNote}</p>
-              )}
+              </div>
             </section>
           );
         })}
