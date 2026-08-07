@@ -586,8 +586,16 @@ export default function WardModal({ officials, onClose, variant = "sheet" }: War
         <div className="h-1 w-9 rounded-full bg-hair-strong" />
       </div>
 
+      {/* border-b border-black/10: a slight seam under the header fill so
+          it reads as a contained title bar rather than a color block with
+          no edge — same treatment WardMap.tsx's left "Filters" sidebar
+          header now uses, so both sidebars' chrome stays visually
+          matched. black/10 (not border-hair-strong): hair-strong is tuned
+          against the app's neutral panel surfaces and nearly vanishes on
+          top of this header's solid fill; a translucent black line stays
+          visible regardless of header color or theme. */}
       <div
-        className="flex items-center justify-between gap-2 px-4 pt-2 pb-2 sm:pt-4 shrink-0"
+        className="flex items-center justify-between gap-2 border-b border-black/10 px-4 pt-2 pb-2 sm:pt-4 shrink-0"
         style={{ backgroundColor: PANEL_HEADER_BG, color: PANEL_HEADER_TEXT }}
       >
         <h2 className="text-2xl font-extrabold">{panelHeading(officials)}</h2>

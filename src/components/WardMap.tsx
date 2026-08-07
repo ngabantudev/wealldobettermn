@@ -2113,9 +2113,18 @@ export default function WardMap() {
     </div>
   );
 
+  // rounded-lg border border-hair-strong: wraps the whole labeled group —
+  // heading + All/None toggle + the tab row or checkbox list beneath it —
+  // in one contained card, mndatacenter.org-style, rather than leaving the
+  // heading and toggle floating loose above an otherwise-bordered list.
+  // "Slight" per the PR that added this: border-hair-strong is the app's
+  // existing structural-divider token (see filterListClass's own comment),
+  // not a new heavier weight — this just extends where it's drawn, so a
+  // resident's eye reads "one filter section" instead of "a label sitting
+  // near a box."
   const sidebarFilterControls = (
     <>
-      <div>
+      <div className="rounded-lg border border-hair-strong bg-panel-2 p-3">
         <div className="mb-1.5 flex items-center justify-between gap-2">
           {filterSectionLabel("sidebar", layerMode === "state-legislature" ? "Chamber" : "Areas shown")}
           {layerMode !== "state-legislature" && areasAllNoneToggle("sidebar", MODE_VISIBLE_CITIES[layerMode])}
@@ -2296,8 +2305,17 @@ export default function WardMap() {
                 sidebar's titled, tabbed one. No close button: unlike
                 WardModal this panel isn't dismissible, only collapsible
                 via the pull-tab outside it. */}
+            {/* border-b border-black/10: a slight seam under the colored
+                header fill, matching WardModal's own header border (see
+                its comment) so the two sidebars' title bars read as
+                contained panel headers rather than a color change with no
+                edge. black/10 rather than border-hair-strong: hair-strong
+                is tuned for the app's neutral panel surfaces and all but
+                disappears against this header's solid green fill; a
+                translucent black line stays visible on top of any header
+                color/theme. */}
             <div
-              className="flex items-center gap-2 px-4 pt-2 pb-2 sm:pt-4 shrink-0"
+              className="flex items-center gap-2 border-b border-black/10 px-4 pt-2 pb-2 sm:pt-4 shrink-0"
               style={{ backgroundColor: PANEL_HEADER_BG, color: PANEL_HEADER_TEXT }}
             >
               <h2 className="text-2xl font-extrabold">Filters</h2>
