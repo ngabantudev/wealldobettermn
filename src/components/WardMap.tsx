@@ -247,7 +247,7 @@ const DEFAULT_PIN_DIAMETER = 44;
 // the polygon's bounding-box center while MapLibre placed the label
 // wherever its own placement algorithm found room inside the polygon, two
 // independent points that could land anywhere relative to each other.
-const LABEL_TEXT_OFFSET: [number, number] = [0, 1];
+const LABEL_TEXT_OFFSET: [number, number] = [0, 0.4];
 
 // Plain-language summary for the sr-only announcement above — see
 // `announcement` state's own comment for why this only ever fires from a
