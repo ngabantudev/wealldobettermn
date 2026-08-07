@@ -25,18 +25,22 @@ import {
 } from "@/lib/mapStyles";
 import { getActiveTheme, setTheme, type SiteTheme } from "@/lib/siteTheme";
 import { readStored, writeStored } from "@/lib/storage";
-import MapThemeSelector, { IconLayers, MapThemeOptions } from "./MapThemeSelector";
+import MapThemeSelector from "./MapThemeSelector";
 import MobileNav, { IconSearch, IconSliders, type MobileNavTab } from "./MobileNav";
 import SearchBar from "./SearchBar";
 import SiteHeader from "./SiteHeader";
 import WardModal, { areaLabel, roleLabel } from "./WardModal";
 
-// The three destinations MobileNav's bottom bar offers — everything the
-// desktop chrome spreads across the header's search box, the top-left
-// mode/filter stack, and the bottom-right theme popover, folded into one
-// tab bar below `sm`. See MobileNav's own comment for why a tab's sheet
-// and the priority ward modal never compete for the same slot.
-type MobileSheetId = "search" | "filters" | "theme";
+// The two destinations MobileNav's bottom bar offers — everything the
+// desktop chrome spreads across the header's search box and the top-left
+// mode/filter stack, folded into one tab bar below `sm`. The theme/basemap
+// popover isn't a third destination here: MapThemeSelector renders at the
+// same map corner on every breakpoint (see #map-corner-controls below)
+// rather than being tucked into a mobile-only tab, so there's nothing
+// mobile-specific left for this type to name for it. See MobileNav's own
+// comment for why a tab's sheet and the priority ward modal never compete
+// for the same slot.
+type MobileSheetId = "search" | "filters";
 
 const WARDS_SOURCE_ID = "wards-source";
 const WARDS_FILL_LAYER_ID = "wards-fill";
@@ -1540,30 +1544,9 @@ export default function WardMap() {
     </>
   );
 
-  // Site theme + map style radios, wrapped in the same `well` card chrome
-  // MapThemeSelector's own popover uses — MobileNav's Theme tab drops this
-  // straight into its sheet slot, same split as filterControls above.
-  // Picking a map style also lowers the sheet (setActiveMobileSheet(null)),
-  // mirroring MapThemeSelector's own popover-closes-on-pick behavior;
-  // picking a site theme doesn't, matching that same asymmetry.
-  const mobileThemeOptions = (
-    <div className="well rounded-xl border border-hair bg-panel-2 shadow-xl shadow-(color:--shadow-panel) p-1.5 flex flex-col gap-0.5">
-      <MapThemeOptions
-        siteTheme={siteTheme}
-        mapStyleId={mapStyleId}
-        onSelectSiteTheme={selectSiteTheme}
-        onSelectMapStyle={(styleId) => {
-          selectMapStyle(styleId);
-          setActiveMobileSheet(null);
-        }}
-      />
-    </div>
-  );
-
   const mobileTabs: MobileNavTab[] = [
     { id: "search", label: "Search", icon: <IconSearch /> },
     { id: "filters", label: "Filters", icon: <IconSliders /> },
-    { id: "theme", label: "Theme", icon: <IconLayers /> },
   ];
 
   // The pinned ward/rep modal outranks any open tab — same priority
@@ -1577,8 +1560,6 @@ export default function WardMap() {
     searchBar
   ) : activeMobileSheet === "filters" ? (
     filterControls
-  ) : activeMobileSheet === "theme" ? (
-    mobileThemeOptions
   ) : null;
 
   const closeMobileSheet = () => {
@@ -1772,9 +1753,11 @@ export default function WardMap() {
             <IconChevron className={rightDetailCollapsed ? "" : "rotate-180"} />
           </button>
 
-          {/* Mobile (below sm): one bottom tab bar for Search/Filters/
-              Theme, plus whatever sheet is currently raised — a tab's own
-              content, or (taking priority) the pinned ward modal. See
+          {/* Mobile (below sm): one bottom tab bar for Search/Filters,
+              plus whatever sheet is currently raised — a tab's own
+              content, or (taking priority) the pinned ward modal. Theme
+              isn't a tab here — MapThemeSelector above renders at the
+              same map corner on every breakpoint instead. See
               MobileNav's own comment for the full reasoning; WardMap only
               decides *what* goes in the sheet slot (mobileSheetContent
               above), not how it's shown. */}

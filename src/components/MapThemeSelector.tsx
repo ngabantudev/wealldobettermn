@@ -9,10 +9,14 @@
 // resident's head, even though it touches both (see WardMap.tsx's
 // selectSiteTheme, which picks a paired basemap automatically).
 //
-// Desktop/laptop only (see the `hidden sm:block` on the root below) — on
-// mobile these same two settings live in MobileNav's Theme tab instead,
-// via MapThemeOptions (exported further down) rendered directly into that
-// tab's sheet rather than behind a second popover-inside-a-popover.
+// Renders at every breakpoint, in the same map corner, as one of
+// #map-corner-controls' flex children (see WardMap.tsx) — there's no
+// mobile-specific version of this control. It used to hide itself below
+// `sm` in favor of a duplicate copy of these same options living in
+// MobileNav's own tab bar; that duplication (two different places to find
+// "change the map's look," a phone visitor's only path in one of them)
+// wasn't worth avoiding a single popover click on a small screen, so the
+// mobile-only path was removed rather than kept in sync.
 
 import { useEffect, useId, useRef, useState } from "react";
 import { MAP_STYLE_OPTIONS } from "@/lib/mapStyles";
@@ -30,12 +34,7 @@ const SITE_THEMES: { id: SiteTheme; label: string }[] = [
   { id: "dark", label: "Dark" },
 ];
 
-// Exported for MobileNav's Theme tab, which needs the same two option
-// groups without the popover/toggle-button chrome around them — see that
-// component's own usage. Kept here rather than a third file since it's
-// tightly coupled to SITE_THEMES/MAP_STYLE_OPTIONS above and only has the
-// one other caller.
-export function IconLayers() {
+function IconLayers() {
   return (
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" className="shrink-0">
       <path d="M12 2 2 7l10 5 10-5-10-5Z" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" />
@@ -81,14 +80,12 @@ function IconCheck() {
 }
 
 // The two option groups themselves — Site Theme radiogroup, then Map Theme
-// list — with no surrounding popover chrome, so a caller can drop them
-// into whatever container fits its own context (MapThemeSelector's `well`
-// popover below, or MobileNav's Theme tab sheet). `onSelectMapStyle` here
-// is exactly the callback the caller passed in; if picking a style should
-// also close whatever's showing this (the popover, the mobile sheet),
-// that's the caller's own onSelectMapStyle composing in the close — this
-// component doesn't know or care which context it's in.
-export function MapThemeOptions({ siteTheme, mapStyleId, onSelectSiteTheme, onSelectMapStyle }: MapThemeSelectorProps) {
+// list — split out from the popover chrome around them mostly for
+// readability at this point (the popover below is its only caller now
+// that MobileNav no longer has a Theme tab of its own). `onSelectMapStyle`
+// here is exactly the callback the caller passed in; the popover composes
+// its own close-on-pick behavior into it below.
+function MapThemeOptions({ siteTheme, mapStyleId, onSelectSiteTheme, onSelectMapStyle }: MapThemeSelectorProps) {
   return (
     <>
       <span className="px-2 py-1 text-[9px] font-bold uppercase tracking-wider text-ink-4">Site Theme</span>
@@ -165,20 +162,15 @@ export default function MapThemeSelector({ siteTheme, mapStyleId, onSelectSiteTh
   }, [open]);
 
   return (
-    // Desktop/laptop only — a plain flex child of WardMap's
-    // #map-corner-controls wrapper now, not an independently
+    // Every breakpoint, same map corner — a plain flex child of WardMap's
+    // #map-corner-controls wrapper, not an independently
     // absolutely-positioned element: that wrapper (not this component)
     // owns the stack's position, order, and spacing relative to the
     // NavigationControl and AttributionControl next to it. `relative`
-    // stays, though, so the popover panel below (`absolute bottom-full
-    // right-0`) still anchors to *this button* rather than drifting to
-    // whatever the wrapper's own positioned ancestor happens to be.
-    // `hidden sm:flex`: below `sm` this control doesn't render at all —
-    // MobileNav's Theme tab covers the same two settings there (see
-    // MapThemeOptions above) — and because it's `display:none` rather
-    // than just invisible, the wrapper's own `gap` correctly closes up
-    // around it instead of leaving a blank slot.
-    <div ref={rootRef} className="hidden sm:flex relative font-sans">
+    // stays so the popover panel below (`absolute bottom-full right-0`)
+    // anchors to *this button* rather than drifting to whatever the
+    // wrapper's own positioned ancestor happens to be.
+    <div ref={rootRef} className="flex relative font-sans">
       <button
         type="button"
         aria-haspopup="true"

@@ -1,17 +1,19 @@
 "use client";
 
-// The mobile equivalent of everything the desktop chrome spreads across
-// several separate floating surfaces (mode switcher, area filter, theme
-// popover) plus the header's own search box — modeled directly on
+// The mobile equivalent of the desktop chrome's mode switcher and area
+// filter, plus the header's own search box — modeled directly on
 // mndatacenter.org's own mobile pattern (src/components/mobile/
 // MobileToolbar.astro), the sister site this project's chrome is already
-// visually matched to (see SiteHeader.tsx, MapThemeSelector.tsx). A fixed
-// bottom tab bar with three destinations; tapping one raises a sheet
-// directly above the bar, tapping the same tab again (or the scrim, or
-// Escape) lowers it. Nothing floats independently on this breakpoint
-// anymore — one bar, one sheet slot, always in the same place, which is
-// what keeps a short phone screen from ever needing more than one open
-// surface at a time.
+// visually matched to (see SiteHeader.tsx). A fixed bottom tab bar with
+// two destinations (Search, Filters); tapping one raises a sheet directly
+// above the bar, tapping the same tab again (or the scrim, or Escape)
+// lowers it. The site/map theme popover isn't a third destination here —
+// unlike the rest of this chrome, MapThemeSelector renders at the same
+// map corner on every breakpoint rather than folding into this bar; see
+// its own file comment for why. Nothing floats independently at this
+// breakpoint besides that one control — one bar, one sheet slot, always
+// in the same place otherwise, which is what keeps a short phone screen
+// from ever needing more than one open surface at a time.
 //
 // WardMap decides *what* fills the sheet slot (a tab's own controls, or —
 // taking priority over any tab, same as mndatacenter's own facility sheet
