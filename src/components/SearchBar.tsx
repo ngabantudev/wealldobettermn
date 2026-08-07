@@ -151,6 +151,17 @@ export default function SearchBar({ index, allPlaces, onSelectWard, onSelectCity
     if (outcome?.status === "ambiguous") {
       return outcome.wards.map((ref) => ({ label: wardLabel(ref), muted: false, commit: () => commitWard(ref) }));
     }
+    if (outcome?.status === "ambiguous-name") {
+      const { city, county } = outcome;
+      return [
+        { label: `${city} (city)`, muted: false, commit: () => applyOutcome({ status: "city", city }) },
+        {
+          label: `${county} County`,
+          muted: false,
+          commit: () => applyOutcome({ status: "county", county, cities: COUNTY_CITIES[county] }),
+        },
+      ];
+    }
     // "muted" is a style hint only (dimmer text for a real MN place this
     // app doesn't map) — the "(not mapped yet)" text baked into the label
     // itself is what actually carries the meaning, per AGENTS.md's "color
@@ -180,6 +191,10 @@ export default function SearchBar({ index, allPlaces, onSelectWard, onSelectCity
         setStatusMessage(`Zoomed to ${next.county} County's mapped cities.`);
         setOutcome(null);
         break;
+      case "ambiguous-name":
+        setOutcome(next);
+        setStatusMessage(`"${next.city}" is both a city and a county here — pick which one you meant.`);
+        break;
       case "not-covered":
       case "not-found":
         setOutcome(next);
@@ -190,7 +205,7 @@ export default function SearchBar({ index, allPlaces, onSelectWard, onSelectCity
         setStatusMessage("Type a street address, ZIP code, city, or county name.");
         break;
     }
-    setIsOpen(next.status === "ambiguous");
+    setIsOpen(next.status === "ambiguous" || next.status === "ambiguous-name");
     setActiveIndex(-1);
   }
 
@@ -243,7 +258,7 @@ export default function SearchBar({ index, allPlaces, onSelectWard, onSelectCity
   }
 
   const activeOptionId = activeIndex >= 0 ? `${listboxId}-option-${activeIndex}` : undefined;
-  const showMessage = outcome && outcome.status !== "ambiguous" && outcome.status !== "single";
+  const showMessage = outcome && outcome.status !== "ambiguous" && outcome.status !== "ambiguous-name" && outcome.status !== "single";
   // The address/ZIP gazetteer (index) is a few MB, fetched separately from
   // everything else SearchBar can already do without it — city and county
   // search work immediately regardless (see index's own prop comment).

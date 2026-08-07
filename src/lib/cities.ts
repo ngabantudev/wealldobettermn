@@ -10,14 +10,29 @@ export const CITIES = [
   "Minnetonka",
   "St. Louis Park",
   "Richfield",
+  "Champlin",
+  "Crystal",
+  "Robbinsdale",
   "Blaine",
   "Brooklyn Park",
   "Coon Rapids",
+  "Fridley",
+  "Ramsey",
 ] as const;
 export type City = (typeof CITIES)[number];
 
 export const COUNTIES = ["Hennepin", "Ramsey", "Anoka"] as const;
 export type County = (typeof COUNTIES)[number];
+
+// NOTE: the city "Ramsey" (Anoka County) and the county "Ramsey" (St.
+// Paul's county) are two different, unrelated things that happen to share
+// a name — Ramsey County is not this Ramsey's county; see COUNTY_CITIES
+// below, which correctly files city-Ramsey under Anoka. A bare search for
+// "Ramsey" is genuinely ambiguous between the two; addressSearch.ts's
+// "ambiguous-name" ParsedQuery/SearchOutcome kind exists specifically to
+// surface that choice instead of silently picking one (AGENTS.md §2.5 —
+// same "never silently resolve ambiguity" rule ward lookups already
+// follow, applied one level up to place names).
 
 // wards.geojson carries no county field at all (every feature's `county`
 // is null — county only ever shows up on the separate commissioners
@@ -29,7 +44,10 @@ export type County = (typeof COUNTIES)[number];
 // — this table only decides which county *name* search surfaces a city,
 // never which ward an address resolves to, so the sliver doesn't matter.
 export const COUNTY_CITIES: Record<County, City[]> = {
-  Hennepin: ["Minneapolis", "Bloomington", "Plymouth", "Minnetonka", "St. Louis Park", "Richfield", "Brooklyn Park"],
+  Hennepin: [
+    "Minneapolis", "Bloomington", "Plymouth", "Minnetonka", "St. Louis Park", "Richfield", "Champlin", "Crystal",
+    "Robbinsdale", "Brooklyn Park",
+  ],
   Ramsey: ["St. Paul"],
-  Anoka: ["Blaine", "Coon Rapids"],
+  Anoka: ["Blaine", "Coon Rapids", "Fridley", "Ramsey"],
 };

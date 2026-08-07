@@ -234,6 +234,64 @@ const RICHFIELD_ROSTER = {
   3: { name: "Rori A. Coleman-Woods", email: "RColeman-Woods@RichfieldMN.gov", phone: "612-490-2776", photo: "https://www.richfieldmn.gov/ImageRepository/Document?documentID=904", officeSince: "2025-01-01", profileUrl: "https://www.richfieldmn.gov/directory.aspx?eid=64" },
 };
 
+// Added Aug 2026 alongside Crystal/Robbinsdale/Fridley/Ramsey — this
+// county layer already carried boundaries for all three (see fetch-
+// commissioners.mjs-style coverage-expansion research) even before this
+// app queried them; the shortfall was only ever a missing roster/city
+// entry, never a missing GIS source. Champlin's own directory pages state
+// "Term Expires" but never a start date, except where noted per-seat below
+// — unstated seats fall back to fetchHennepinSuburbWards()'s own default
+// ("2025-01-01", same convention as every other city on that helper).
+const CHAMPLIN_ROSTER = {
+  1: { name: "Jessica Tesdall", email: "jtesdall@champlinmn.gov", phone: "763-421-8100 ext. 237", photo: "https://www.champlinmn.gov/ImageRepository/Document?documentID=2082", profileUrl: "https://www.champlinmn.gov/directory.aspx?EID=34" },
+  2: { name: "Tom Moe", email: "tmoe@champlinmn.gov", phone: "763-421-8100 ext. 228", photo: "https://www.champlinmn.gov/ImageRepository/Document?documentID=2084", profileUrl: "https://www.champlinmn.gov/directory.aspx?EID=35" },
+  // No phone published on her own bio page (unlike the other three
+  // members, who each list a personal extension) — not substituting the
+  // general council line, same as Coon Rapids's missing-email convention
+  // above. Won a May 12, 2026 special election (canvassed May 18) per the
+  // city's own Special Election page; no oath date is stated on her bio,
+  // so May 18 (the canvass date, a real dated event on a primary source)
+  // is used rather than the generic fallback, which would understate how
+  // recently she took office.
+  3: { name: "Rachel Wales", email: "RWales@champlinmn.gov", phone: null, photo: "https://www.champlinmn.gov/ImageRepository/Document?documentID=5657", profileUrl: "https://www.champlinmn.gov/directory.aspx?EID=36", officeSince: "2026-05-18" },
+  // Interim appointee — sworn in April 27, 2026 (explicitly stated on her
+  // bio page) to serve through the Nov 3, 2026 special election for the
+  // remainder of this term.
+  4: { name: "Lorraine Coan", email: "lcoan@champlinmn.gov", phone: "763-421-8100 ext. 239", photo: "https://www.champlinmn.gov/ImageRepository/Document?documentID=5543", profileUrl: "https://www.champlinmn.gov/directory.aspx?EID=90", officeSince: "2026-04-27" },
+};
+
+// One shared council-roster page, no individual bio URLs per member
+// (verified: no per-member anchor or sub-page exists) — CRYSTAL_PROFILE_URL
+// is used for every ward via fetchHennepinSuburbWards's shared-profileUrl
+// fallback. All four emails are direct/individually-addressed, confirmed
+// against the city's own page (not a shared inbox).
+const CRYSTAL_PROFILE_URL = "https://www.crystalmn.gov/how_do_i____/contact/city_council_members";
+// No term-start date stated on the city's page for any of the four —
+// falls back to fetchHennepinSuburbWards()'s own default ("2025-01-01").
+const CRYSTAL_ROSTER = {
+  1: { name: "Therese Kiser", email: "therese.kiser@crystalmn.gov", phone: "763-458-0030", photo: "https://www.crystalmn.gov/UserFiles/Servers/Server_10879634/Image/Government/City%20Council/Kiser%20web.jpg" },
+  2: { name: "Traci Kamish", email: "traci.kamish@crystalmn.gov", phone: "763-220-0670", photo: "https://www.crystalmn.gov/UserFiles/Servers/Server_10879634/Image/Government/City%20Council/Kamish-web.jpg" },
+  3: { name: "John Budziszewski", email: "john.budziszewski@crystalmn.gov", phone: "612-207-3704", photo: "https://www.crystalmn.gov/UserFiles/Servers/Server_10879634/Image/Government/City%20Council/Budziszewski,-John-web.jpg" },
+  4: { name: "David Cummings", email: "david.cummings@crystalmn.gov", phone: "952-479-0816", photo: "https://www.crystalmn.gov/UserFiles/Servers/Server_10879634/Image/Government/City%20Council/Cummingsweb.jpg" },
+};
+
+// Unlike Bloomington/Plymouth, each ward has its own profile page — same
+// shape as Minnetonka above. Emails are published via client-side JS
+// concatenation on each bio page rather than plain HTML (reconstructed
+// from the page's own script variables, cross-checked against the
+// City-Council overview page's independent plaintext listing of the same
+// addresses) — a rendering-technique quirk, not a sourcing gap.
+const ROBBINSDALE_ROSTER = {
+  1: { name: "Raymond Blackledge", email: "rblackledge@robbinsdalemn.gov", phone: "612-501-0201", photo: "https://www.robbinsdalemn.gov/ImageRepository/Document?documentID=1547", officeSince: "2025-01-07", profileUrl: "https://www.robbinsdalemn.gov/directory.aspx?eid=7" },
+  2: { name: "Jason Greenberg", email: "jgreenberg@robbinsdalemn.gov", phone: "612-567-3905", photo: "https://www.robbinsdalemn.gov/ImageRepository/Document?documentID=1545", officeSince: "2024-08-20", profileUrl: "https://www.robbinsdalemn.gov/directory.aspx?eid=8" },
+  // Bio page states "has represented Ward 3 since 2023" with no month/day
+  // — Jan 1 stands in for the unstated day within that stated year, not a
+  // guess at the year itself.
+  3: { name: "Mia Parisian", email: "mparisian@robbinsdalemn.gov", phone: "612-501-9499", photo: "https://www.robbinsdalemn.gov/ImageRepository/Document?documentID=1546", officeSince: "2023-01-01", profileUrl: "https://www.robbinsdalemn.gov/directory.aspx?eid=9" },
+  // Sworn in to fill a vacated seat, per his bio page.
+  4: { name: "Alejandro Caceres Aranda", email: "acaceresaranda@robbinsdalemn.gov", phone: "612-701-2250", photo: "https://www.robbinsdalemn.gov/ImageRepository/Document?documentID=1968", officeSince: "2026-02-04", profileUrl: "https://www.robbinsdalemn.gov/directory.aspx?eid=10" },
+};
+
 // --- Blaine (Anoka County) --------------------------------------------------
 //
 // The one suburb here outside Hennepin County, and the only one with two
@@ -524,16 +582,21 @@ async function fetchBrooklynParkWards() {
   return features;
 }
 
-// --- Coon Rapids (Anoka County) ---------------------------------------------
+// --- Anoka County suburbs (Coon Rapids, Fridley, Ramsey) --------------------
 //
-// Unlike every city above, Coon Rapids has no dedicated ward-boundary GIS
-// layer at all (its own GIS server's redistricting endpoints are
-// token-walled, and its public "Ward Map" is a static PDF). What Anoka
-// County does publish is a countywide *precinct* layer with a WARD
-// attribute — several precincts per ward, not one polygon per ward — so
-// each ward here is assembled by dissolving (geometrically unioning) its
+// None of these cities has a dedicated ward-boundary GIS layer of its own
+// (Coon Rapids's own GIS server's redistricting endpoints are token-walled
+// and its public "Ward Map" is a static PDF; Fridley and Ramsey don't
+// publish one either, per a check of each city's own open-data listings).
+// What Anoka County does publish is a countywide *precinct* layer with a
+// WARD attribute — several precincts per ward, not one polygon per ward —
+// so each ward here is assembled by dissolving (geometrically unioning) its
 // precincts into a single polygon, rather than queried as one feature like
-// every other city's source.
+// the Hennepin suburbs' shared layer above. Originally written for just
+// Coon Rapids; generalized by city name the same way
+// fetchHennepinSuburbWards() already is, once Fridley and Ramsey turned out
+// to share the exact same county source (see coverage-expansion research,
+// Aug 2026).
 const ANOKA_PRECINCTS_URL = "https://gisservices.co.anoka.mn.us/anoka_gis/rest/services/OpenData_Political/FeatureServer/3/query";
 
 const COON_RAPIDS_ROSTER = {
@@ -550,10 +613,54 @@ const COON_RAPIDS_ROSTER = {
 // profile page) — same best-effort fallback convention as Blaine's.
 const COON_RAPIDS_OFFICE_SINCE_FALLBACK = "2025-01-01";
 
-async function fetchCoonRapidsWards() {
-  console.log("[wards] fetching Coon Rapids...");
+// fridleymn.gov returns HTTP 403 to every automated fetch (Cloudflare/Akamai
+// bot protection) — confirmed both via WebFetch and curl with a browser
+// User-Agent, not routed around per AGENTS.md §2.2 ("no block evasion").
+// Phone/email below come from search-engine-indexed citations of the city's
+// own resident welcome packet PDF and Meet-Your-Council pages (corroborated
+// across multiple independent snippets, internally consistent), not a
+// direct render of the live page — same "corroborated, not primary-read"
+// tier as the Hennepin suburbs' officeSince dates above. Photos are
+// genuinely unconfirmed (left null, not guessed) since there's no way to
+// extract an <img> src without rendering the blocked page. Re-verify
+// against fridleymn.gov directly (a real browser, not this pipeline) before
+// this data ages past AGENTS.md §3.2's staleness window.
+const FRIDLEY_PROFILE_URLS = {
+  1: "https://www.fridleymn.gov/Your-Government/City-Council-Commissions/Meet-Your-Council/Luke-Cardona",
+  2: "https://www.fridleymn.gov/Your-Government/City-Council-Commissions/Meet-Your-Council/Ryan-Evanson",
+  3: "https://www.fridleymn.gov/Your-Government/City-Council-Commissions/Meet-Your-Council/Ann-Bolkcom",
+};
+const FRIDLEY_ROSTER = {
+  // Appointed to fill Tom Tillberry's vacancy, sworn in March 4, 2025, per
+  // Anoka County ABC Newspapers/hometownsource.com — third-party sourced
+  // (the city's own site doesn't state a term-start date for him), flagged
+  // the same as every other "reported, not confirmed" date in this file.
+  1: { name: "Luke Cardona", phone: "763-334-2810", email: "Luke.Cardona@FridleyMN.gov", officeSince: "2025-03-04" },
+  2: { name: "Ryan Evanson", phone: "612-325-1329", email: "Ryan.Evanson@FridleyMN.gov" },
+  3: { name: "Ann Bolkcom", phone: "612-308-2096", email: "Ann.Bolkcom@FridleyMN.gov" },
+};
+const FRIDLEY_OFFICE_SINCE_FALLBACK = "2025-01-01";
+
+// cityoframseymn.gov's "Elected Officials" page lists all 7 members (Mayor +
+// 2 at-large + 4 ward) on one shared page with no individual profile URLs —
+// same shared-page shape as Crystal below. Per-member phone/email ARE
+// direct (not a shared inbox), confirmed in the page's raw HTML. No
+// term-start date is published anywhere (only "Term Expires"); back-
+// calculating one from a 4-year-term assumption would be a guess, not a
+// sourced fact, so every seat uses the same documented fallback instead.
+const RAMSEY_PROFILE_URL = "https://www.cityoframseymn.gov/city-hall/council/elected-officials/";
+const RAMSEY_ROSTER = {
+  1: { name: "Michael Olson", phone: "763-576-4363", email: "molson@cityoframsey.com", photo: "https://www.cityoframseymn.gov/media/lgummcou/document.jpg" },
+  2: { name: "Eric Peters", phone: "763-576-4366", email: "epeters@cityoframsey.com", photo: "https://www.cityoframseymn.gov/media/555abt5i/document.jpg" },
+  3: { name: "Dan Specht", phone: "763-576-4361", email: "dspecht@cityoframsey.com", photo: "https://www.cityoframseymn.gov/media/nsad02sm/document.jpg" },
+  4: { name: "Shanna Stewart", phone: "763-576-4360", email: "sstewart@cityoframsey.com", photo: "https://www.cityoframseymn.gov/media/twijfk1e/document.jpg" },
+};
+const RAMSEY_OFFICE_SINCE_FALLBACK = "2025-01-01";
+
+async function fetchAnokaSuburbWards(cityName, roster, officeSinceFallback, profileUrls) {
+  console.log(`[wards] fetching ${cityName}...`);
   const url = new URL(ANOKA_PRECINCTS_URL);
-  url.searchParams.set("where", "CITY='Coon Rapids'");
+  url.searchParams.set("where", `CITY='${cityName}'`);
   url.searchParams.set("outFields", "WARD,CITY");
   url.searchParams.set("f", "geojson");
   const geojson = await fetchJson(url.toString());
@@ -569,16 +676,16 @@ async function fetchCoonRapidsWards() {
   for (const [wardNum, precincts] of precinctsByWard) {
     const dissolved = precincts.length === 1 ? precincts[0] : union(featureCollection(precincts));
     if (!dissolved) {
-      console.warn(`[wards] Coon Rapids ward ${wardNum}: union() returned null, skipping`);
+      console.warn(`[wards] ${cityName} ward ${wardNum}: union() returned null, skipping`);
       continue;
     }
-    const info = COON_RAPIDS_ROSTER[wardNum];
+    const info = roster[wardNum];
     features.push({
       type: "Feature",
       geometry: dissolved.geometry,
       properties: {
         role: "Council Member",
-        city: "Coon Rapids",
+        city: cityName,
         county: null,
         ward: wardNum,
         wardName: null,
@@ -590,11 +697,14 @@ async function fetchCoonRapidsWards() {
         repPhotoUrl: info?.photo ?? null,
         repEmail: info?.email ?? null,
         repPhone: info?.phone ?? null,
-        officeSince: COON_RAPIDS_OFFICE_SINCE_FALLBACK,
+        officeSince: info?.officeSince ?? officeSinceFallback,
         committees: [],
         neighborhoods: [],
         officeRoom: null,
-        profileUrl: info?.profileUrl ?? null,
+        // Three shapes in use: embedded per-ward on the roster entry itself
+        // (Coon Rapids), a separate per-ward map (Fridley), or one shared
+        // page for the whole council (Ramsey) — checked in that order.
+        profileUrl: info?.profileUrl ?? profileUrls?.[wardNum] ?? profileUrls ?? null,
         candidates: [],
         isContested: false,
         partyUnityPercent: null,
@@ -602,12 +712,15 @@ async function fetchCoonRapidsWards() {
       },
     });
   }
-  console.log(`[wards] Coon Rapids: ${features.length} ward(s)`);
+  console.log(`[wards] ${cityName}: ${features.length} ward(s)`);
   return features;
 }
 
 async function main() {
-  const [mpls, stPaul, bloomington, plymouth, minnetonka, stLouisPark, richfield, blaine, brooklynPark, coonRapids] = await Promise.all([
+  const [
+    mpls, stPaul, bloomington, plymouth, minnetonka, stLouisPark, richfield, champlin, crystal, robbinsdale,
+    blaine, brooklynPark, coonRapids, fridley, ramsey,
+  ] = await Promise.all([
     fetchMinneapolisWards(),
     fetchStPaulWards(),
     fetchHennepinSuburbWards("Bloomington", BLOOMINGTON_ROSTER, BLOOMINGTON_PROFILE_URL),
@@ -615,9 +728,14 @@ async function main() {
     fetchHennepinSuburbWards("Minnetonka", MINNETONKA_ROSTER),
     fetchHennepinSuburbWards("St. Louis Park", ST_LOUIS_PARK_ROSTER),
     fetchHennepinSuburbWards("Richfield", RICHFIELD_ROSTER),
+    fetchHennepinSuburbWards("Champlin", CHAMPLIN_ROSTER),
+    fetchHennepinSuburbWards("Crystal", CRYSTAL_ROSTER, CRYSTAL_PROFILE_URL),
+    fetchHennepinSuburbWards("Robbinsdale", ROBBINSDALE_ROSTER),
     fetchBlaineWards(),
     fetchBrooklynParkWards(),
-    fetchCoonRapidsWards(),
+    fetchAnokaSuburbWards("Coon Rapids", COON_RAPIDS_ROSTER, COON_RAPIDS_OFFICE_SINCE_FALLBACK),
+    fetchAnokaSuburbWards("Fridley", FRIDLEY_ROSTER, FRIDLEY_OFFICE_SINCE_FALLBACK, FRIDLEY_PROFILE_URLS),
+    fetchAnokaSuburbWards("Ramsey", RAMSEY_ROSTER, RAMSEY_OFFICE_SINCE_FALLBACK, RAMSEY_PROFILE_URL),
   ]);
   // Named outputCollection, not featureCollection — shadowing the
   // @turf/helpers import of the same name would still work correctly here
@@ -626,8 +744,8 @@ async function main() {
   const outputCollection = {
     type: "FeatureCollection",
     features: [
-      ...mpls, ...stPaul, ...bloomington, ...plymouth, ...minnetonka, ...stLouisPark, ...richfield, ...blaine,
-      ...brooklynPark, ...coonRapids,
+      ...mpls, ...stPaul, ...bloomington, ...plymouth, ...minnetonka, ...stLouisPark, ...richfield, ...champlin,
+      ...crystal, ...robbinsdale, ...blaine, ...brooklynPark, ...coonRapids, ...fridley, ...ramsey,
     ],
   };
 

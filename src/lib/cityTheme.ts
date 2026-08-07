@@ -15,6 +15,32 @@ export const CITY_ACCENT: Record<string, string> = {
   Blaine: "#78716C", // warm stone
   "Brooklyn Park": "#D97706", // brown/amber
   "Coon Rapids": "#475569", // cool slate
+  // Added Aug 2026 alongside this PR's coverage expansion. The wheel was
+  // already dense at 10 cities, so these were picked computationally, not
+  // eyeballed: swept hue/saturation/lightness candidates, simulated each
+  // against a linear protanopia/deuteranopia approximation, and kept only
+  // combinations whose minimum pairwise distance (normal vision + both
+  // simulations) cleared a real threshold against every existing city AND
+  // every reserved system color (PARTY_COLORS, CONTESTED_COLOR,
+  // NEUTRAL_PARTY_COLOR, the mayor-ring gold in WardMap.tsx). One finding
+  // worth recording: a saturated magenta/orchid tested here landed
+  // suspiciously close to Blaine's warm-stone gray *under CVD simulation
+  // only* (not in normal vision) — purple hues can collapse
+  // unpredictably for red-green colorblindness, so it was dropped in
+  // favor of the muted/gray-family route for most of these five. That
+  // route itself follows this file's own existing precedent: Bloomington
+  // and Blaine already sit at the *same* hue (25°) and are told apart
+  // purely by saturation (95% vs 5%) — proof this codebase already
+  // treats "same hue, different saturation" as sufficiently distinct,
+  // not something invented for this batch. (Woodbury, added in the
+  // sibling #66, uses the same methodology and its own entry lives
+  // there instead — this file's history has the full write-up either PR
+  // links back to.)
+  Champlin: "#228DB4", // cyan/teal-blue — the one new saturated hue
+  Crystal: "#ABBE9D", // light olive-gray
+  Robbinsdale: "#78A189", // sage-gray
+  Fridley: "#433C53", // dark lavender-slate
+  Ramsey: "#D2CEBC", // light khaki
 };
 
 // One hue family per city so adjoining areas land on visibly different
@@ -41,6 +67,16 @@ export const CITY_PALETTES: Record<string, string[]> = {
   "Brooklyn Park": ["#FDE68A", "#FCD34D", "#D97706"],
   // Skips slate-500 — that's NEUTRAL_PARTY_COLOR, reserved for pin rings.
   "Coon Rapids": ["#F8FAFC", "#E2E8F0", "#CBD5E1", "#94A3B8", "#475569"],
+  // Generated (not hand-picked) from each CITY_ACCENT entry above: same
+  // hue/saturation, lightness stepped from accent+headroom down to the
+  // accent itself (last entry, matching every palette above), headroom
+  // capped so no shade washes out past L88 or crushes past L8 — see the
+  // methodology note on CITY_ACCENT. Sized to each city's real ward count.
+  Champlin: ["#47B4DC", "#31ABD8", "#269EC9", "#228DB4"],
+  Crystal: ["#D2DCCB", "#C5D2BC", "#B8C8AC", "#ABBE9D"],
+  Robbinsdale: ["#A5C0B0", "#96B6A3", "#87AB96", "#78A189"],
+  Fridley: ["#675C7F", "#554C69", "#433C53"],
+  Ramsey: ["#E7E4DA", "#E0DDD0", "#D9D5C6", "#D2CEBC"],
 };
 
 // A color distinct from every city and party hue, shared by the map's

@@ -12,7 +12,7 @@
 // one candidate is on the table.
 
 import type { AddressEdge, AddressIndex, MnPlaces, WardRef } from "./types";
-import { CITIES, COUNTIES, COUNTY_CITIES, type City, type County } from "./cities";
+import { CITIES, COUNTIES, COUNTY_CITIES, type City, type County } from "./cities.ts";
 import { normalizeStreetName } from "./streetNormalize.mjs";
 
 export { normalizeStreetName };
@@ -21,6 +21,15 @@ export type ParsedQuery =
   | { kind: "zip"; zip: string }
   | { kind: "city"; city: City }
   | { kind: "county"; county: County }
+  // A bare name that's exactly both a covered city's name AND a covered
+  // county's name — first arose when the city of Ramsey (Anoka County) was
+  // added alongside the already-covered Ramsey County (St. Paul's county).
+  // Per this file's own rule ("nothing here ever silently picks one ward
+  // when more than one candidate is on the table"), the same applies one
+  // level up: picking city-over-county by fixed priority would silently
+  // guess for whichever resident actually meant the other one, with no way
+  // for them to notice. Surfaced instead, same spirit as "ambiguous" wards.
+  | { kind: "ambiguous-name"; city: City; county: County }
   // A real Minnesota city or county name (from public/mn-places.json) that
   // isn't one of the ones this app has ward/commissioner data for — see
   // the "not-covered" SearchOutcome this maps to in resolve() below.
@@ -40,6 +49,9 @@ export type SearchOutcome =
   // against live ward data, since addressSearch.ts never touches that.
   | { status: "city"; city: City }
   | { status: "county"; county: County; cities: City[] }
+  // See ParsedQuery's "ambiguous-name" kind above — the caller must show
+  // both options, never auto-pick.
+  | { status: "ambiguous-name"; city: City; county: County }
   // Parsed as a real street/ZIP shape, and that street/ZIP exists in the
   // data, but every match falls outside every ward this app covers. Also
   // covers a real MN city/county name this app just doesn't map yet.
@@ -105,6 +117,14 @@ export function parseQuery(raw: string, allPlaces?: MnPlaces | null): ParsedQuer
 
   let cityHint: City | null = null;
   for (const [folded, city] of FOLDED_CITIES) {
+    // A bare city name (the whole query, not a trailing ", City" on an
+    // address) isn't a hint to strip here — stripping it would leave `s`
+    // empty and the query would fall through to "unparseable" instead of
+    // reaching the exact-match city/county branch below, where a bare name
+    // actually belongs. Pre-existing bug (predates the ambiguous-name work
+    // this comment sits next to): every bare city search was broken this
+    // way, not just newly-added ones — caught by addressSearch.test.mjs.
+    if (fold(s) === folded) continue;
     const re = new RegExp(`,?\\s*${folded}\\s*$`, "i");
     if (fold(s).endsWith(folded) && re.test(s)) {
       cityHint = city;
@@ -124,6 +144,12 @@ export function parseQuery(raw: string, allPlaces?: MnPlaces | null): ParsedQuer
   if (/^\d{5}$/.test(s)) return { kind: "zip", zip: s };
 
   const foldedWhole = fold(s);
+  // Checked together, before either wins individually: a bare name that's
+  // both a covered city and a covered county (e.g. "Ramsey") must not be
+  // silently decided by which check happens to run first.
+  if (FOLDED_CITIES.has(foldedWhole) && FOLDED_COUNTIES.has(foldedWhole)) {
+    return { kind: "ambiguous-name", city: FOLDED_CITIES.get(foldedWhole)!, county: FOLDED_COUNTIES.get(foldedWhole)! };
+  }
   if (FOLDED_CITIES.has(foldedWhole)) return { kind: "city", city: FOLDED_CITIES.get(foldedWhole)! };
   const foldedCounty = foldedWhole.replace(/\bCOUNTY\b/, "").trim();
   if (FOLDED_COUNTIES.has(foldedCounty)) return { kind: "county", county: FOLDED_COUNTIES.get(foldedCounty)! };
@@ -333,6 +359,8 @@ export function resolve(index: AddressIndex | null, parsed: ParsedQuery): Search
       return { status: "city", city: parsed.city };
     case "county":
       return { status: "county", county: parsed.county, cities: COUNTY_CITIES[parsed.county] };
+    case "ambiguous-name":
+      return { status: "ambiguous-name", city: parsed.city, county: parsed.county };
     case "uncovered-place": {
       const label = parsed.placeType === "county" ? `${parsed.name} County` : parsed.name;
       const kindWord = parsed.placeType === "county" ? "county" : "city";
