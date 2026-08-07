@@ -43,16 +43,19 @@ export const JURISDICTION_COVERAGE_TIERS = JURISDICTIONS.map((j) => ({
 // layer at all). Update this if that script's county list ever changes.
 export const COMMISSIONER_COUNTIES = ["Hennepin", "Ramsey"] as const;
 
-// Mirrors scripts/fetch-state-legislature.mjs's own TWIN_CITIES_BOUNDS: a
-// bounding box roughly covering Hennepin + Ramsey (with a buffer), used to
-// keep only the House/Senate districts that reach Minneapolis or St. Paul
-// out of Minnesota's full, statewide set of districts. It's a display
-// filter, not an administrative boundary — some districts included this
-// way extend into neighboring counties, and there's no guarantee every
-// address in, say, Anoka or Dakota County falls inside a kept district.
-// Update this if that script's bounding box ever changes.
+// scripts/fetch-state-legislature.mjs used to filter its output down to a
+// Twin Cities bounding box (TWIN_CITIES_BOUNDS, removed as part of #15's
+// follow-up); it now emits every MN House and Senate district statewide.
+// This note is kept even though the geographic caveat is gone, since
+// party-unity scores and recent votes still come from a sample of
+// recently-updated bills (BILL_PAGES_TO_SAMPLE in that script), not a
+// full roll-call archive — some legislators won't have a score yet purely
+// because none of their recent votes landed in the sample. WardModal
+// handles that per-record (partyUnityPercent/recentVotes render nothing
+// when absent, rather than a fabricated zero), so this is disclosure, not
+// a blocker.
 export const STATE_LEGISLATURE_NOTE =
-  "MN House & Senate districts reaching the Twin Cities core — not every Minnesota district, and not a guarantee every address nearby is included.";
+  "MN House & Senate districts statewide. Party-unity scores and recent votes come from a sample of recent roll calls, so not every legislator has one yet.";
 
 // Empty-state copy for WardModal's multi-tier (city/county/state) panel —
 // what to say when resolveOfficialsAtPoint (src/lib/officials.ts) comes
