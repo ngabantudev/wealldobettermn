@@ -1,5 +1,41 @@
 @import "tailwindcss";
 
+/* Map control geometry. WardMap.tsx no longer hands the zoom/attribution
+   controls to MapLibre's own bottom-right corner container — it mounts
+   both, plus MapThemeSelector's toggle, as ordinary flex children inside
+   one wrapper div (#map-corner-controls) it owns, so `gap` alone keeps
+   the three evenly and equally spaced regardless of any one control's
+   actual rendered size. That replaced an earlier version of this file
+   that tried to recreate equal spacing by calc()-ing against MapLibre's
+   *default* corner layout instead — accurate only as long as nothing
+   about that default layout changed, which is exactly the kind of
+   fragility a real flex container removes. --map-ctrl-edge is the only
+   piece still worth naming: the wrapper's own distance from the map's
+   true corner, matching MapLibre's own historical default control
+   margin so this doesn't look like a new, arbitrary number.
+   --mobile-nav-height is published by MobileNav.tsx itself (a
+   ResizeObserver on its bar), so the wrapper can clear that bar on a
+   phone instead of being covered by it — see that component's own
+   comment. */
+:root {
+  --map-ctrl-edge: 10px;
+  --map-ctrl-gap: 10px;
+  --mobile-nav-height: 0px;
+}
+
+/* MapLibre's compact AttributionControl carries its own unconditional
+   margin:10px (maplibre-gl.css's .maplibregl-ctrl-attrib.maplibregl-compact
+   rule — not scoped to a corner container, so moving the control out of
+   MapLibre's own corner container per above doesn't drop it). Left in
+   place, that widens the badge's flex item asymmetrically wider than the
+   29px zoom/theme buttons next to it, which throws off
+   #map-corner-controls' `items-center` alignment. Zeroed here so the
+   badge's actual size is all #map-corner-controls sees — spacing is
+   `gap` alone, same as its siblings. */
+#map-corner-controls .maplibregl-ctrl-attrib {
+  margin: 0 !important;
+}
+
 /* Design tokens — matched to mndatacenter.org (a sister Minnesota civic-
    transparency site, see AGENTS.md "Role in the wider project"), and
    cross-checked directly against that project's own source
