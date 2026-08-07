@@ -68,7 +68,7 @@
       "title": "A fixture bill used only for self-test scoring",
       "date": "2026-01-01",
       "result": "pass",
-      "openstatesUrl": "https://example.invalid/fixture-vote-1",
+      "sourceUrl": "https://example.invalid/fixture-vote-1",
       "votes": [
         {
           "option": "yes",

@@ -339,14 +339,18 @@ function OfficialCard({ rep }: { rep: RepProperties }) {
       {/* Always renders, data or not — matching the Meetings section below
           rather than the old silent omission when recentVotes was empty.
           AGENTS.md §3.1: an absent feed is an honest gap to say out loud,
-          not a section that just quietly doesn't appear. Today only
-          scripts/fetch-state-legislature.mjs populates recentVotes (Open
-          States rollcalls); Council Member and County Commissioner seats
-          render the gap note below until a Legistar /votes ingest exists
-          (§3.2's "Highest-value integration" — tracked as a follow-up).
-          Skipped for Mayor: strong-mayor systems don't cast the kind of
-          roll-call vote this section models, and no upstream source scoped
-          here tracks mayoral tie-breaking votes as one. */}
+          not a section that just quietly doesn't appear.
+          scripts/fetch-state-legislature.mjs populates this from Open
+          States rollcalls; scripts/lib/legistarRecentVotes.mjs (#57) joins
+          it in for St. Paul Council Members and Hennepin County
+          Commissioners from public/legistar/{client}.json's already-
+          resolved holding→vote records. Every other Council Member/County
+          Commissioner seat (Minneapolis, Ramsey — neither is a Legistar
+          client) still renders the honest gap note below until a feed
+          exists for them. Skipped for Mayor: strong-mayor systems don't
+          cast the kind of roll-call vote this section models, and no
+          upstream source scoped here tracks mayoral tie-breaking votes as
+          one. */}
       {rep.role !== "Mayor" && (
         <div className="border-t border-hair px-4 py-3">
           <div className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-ink-3 mb-2.5">
@@ -371,9 +375,9 @@ function OfficialCard({ rep }: { rep: RepProperties }) {
                     </span>
                   </div>
                   <div className="text-xs text-ink-3">{vote.title}</div>
-                  {vote.openstatesUrl && (
+                  {vote.sourceUrl && (
                     <a
-                      href={vote.openstatesUrl}
+                      href={vote.sourceUrl}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-xs font-medium hover:underline"

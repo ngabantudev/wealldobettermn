@@ -12,6 +12,7 @@
 import { writeFile, mkdir } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { recentVotesFromLegistar } from "./lib/legistarRecentVotes.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const OUTPUT_PATH = path.join(__dirname, "../public/commissioners.geojson");
@@ -192,7 +193,13 @@ async function fetchHennepinDistricts() {
         candidates: [],
         isContested: false,
         partyUnityPercent: null,
-        recentVotes: [],
+        // Hennepin is a known Legistar client (webapi.legistar.com/v1/
+        // hennepinmn) — see #57. Surname-matched against public/legistar/
+        // hennepinmn.json's own already-resolved holding→vote records; []
+        // (the honest gap note, not an error) for a name that doesn't
+        // resolve. Ramsey County (below) has no known Legistar client, so
+        // it isn't wired up here — stays on the same honest gap note.
+        recentVotes: info ? recentVotesFromLegistar("hennepinmn", info.name) : [],
       },
     };
   });

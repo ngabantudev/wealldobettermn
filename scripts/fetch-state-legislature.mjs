@@ -206,7 +206,7 @@ async function fetchRecentVoteEvents() {
           title: bill.title,
           date: voteEvent.start_date,
           result: voteEvent.result,
-          openstatesUrl: bill.openstates_url ?? null,
+          sourceUrl: bill.openstates_url ?? null,
           votes: voteEvent.votes,
         });
       }
@@ -256,7 +256,7 @@ function computePartyUnity(voteEvents) {
           option: v.option,
           result: event.result,
           date: event.date,
-          openstatesUrl: event.openstatesUrl,
+          sourceUrl: event.sourceUrl,
         });
       }
       if (!isPartyVote || !QUALIFYING_OPTIONS.has(v.option) || !person.party) continue;

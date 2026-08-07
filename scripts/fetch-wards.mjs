@@ -13,6 +13,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { union } from "@turf/union";
 import { featureCollection } from "@turf/helpers";
+import { recentVotesFromLegistar } from "./lib/legistarRecentVotes.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const OUTPUT_PATH = path.join(__dirname, "../public/wards.geojson");
@@ -367,7 +368,12 @@ async function fetchStPaulWards() {
         candidates: [],
         isContested: false,
         partyUnityPercent: null,
-        recentVotes: [],
+        // St. Paul is a known Legistar client (webapi.legistar.com/v1/
+        // stpaul) — see #57. Surname-matched against public/legistar/
+        // stpaul.json's own already-resolved holding→vote records; []
+        // (the honest gap note, not an error) for a name that doesn't
+        // resolve.
+        recentVotes: recentVotesFromLegistar("stpaul", props.name),
       },
     };
   });
