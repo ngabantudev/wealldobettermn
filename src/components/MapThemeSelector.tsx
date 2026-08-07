@@ -186,12 +186,13 @@ export default function MapThemeSelector({ siteTheme, mapStyleId, onSelectSiteTh
         aria-controls={panelId}
         aria-label="Change map layer"
         onClick={() => setOpen((o) => !o)}
-        // 29x29 to match MapLibre's own NavigationControl button size
-        // exactly (.maplibregl-ctrl-group button — 29px, see
-        // maplibre-gl.css) rather than this app's usual h-9/h-10 icon
-        // button, so the two controls read as one family stacked
-        // together instead of two differently-sized things.
-        className="flex h-7.25 w-7.25 items-center justify-center rounded-xl bg-panel-2/90 backdrop-blur-sm border border-hair shadow-lg shadow-(color:--shadow-panel) text-ink-3 hover:bg-hover hover:text-ink transition focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+        // 29x29 with a 4px corner radius to match MapLibre's own
+        // NavigationControl button exactly (.maplibregl-ctrl-group —
+        // 29px buttons, border-radius:4px, see maplibre-gl.css) rather
+        // than this app's usual h-9/h-10 rounded-xl icon button, so the
+        // two controls read as one uniform family stacked together
+        // instead of two different shapes.
+        className="flex h-7.25 w-7.25 items-center justify-center rounded bg-panel-2/90 backdrop-blur-sm border border-hair shadow-lg shadow-(color:--shadow-panel) text-ink-3 hover:bg-hover hover:text-ink transition focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
       >
         <IconLayers />
       </button>
