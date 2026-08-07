@@ -336,43 +336,58 @@ function OfficialCard({ rep }: { rep: RepProperties }) {
         </div>
       )}
 
-      {recentVotes.length > 0 && (
+      {/* Always renders, data or not — matching the Meetings section below
+          rather than the old silent omission when recentVotes was empty.
+          AGENTS.md §3.1: an absent feed is an honest gap to say out loud,
+          not a section that just quietly doesn't appear. Today only
+          scripts/fetch-state-legislature.mjs populates recentVotes (Open
+          States rollcalls); Council Member and County Commissioner seats
+          render the gap note below until a Legistar /votes ingest exists
+          (§3.2's "Highest-value integration" — tracked as a follow-up).
+          Skipped for Mayor: strong-mayor systems don't cast the kind of
+          roll-call vote this section models, and no upstream source scoped
+          here tracks mayoral tie-breaking votes as one. */}
+      {rep.role !== "Mayor" && (
         <div className="border-t border-hair px-4 py-3">
           <div className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-ink-3 mb-2.5">
             <IconBallot />
             Recent votes
           </div>
-          <ul className="space-y-2.5">
-            {recentVotes.map((vote) => (
-              <li key={vote.voteId} className="text-sm">
-                <div className="flex items-start justify-between gap-2">
-                  <span className="font-medium text-ink">{vote.identifier}</span>
-                  <span
-                    className="text-[10px] font-semibold uppercase tracking-wide px-1.5 py-0.5 rounded shrink-0"
-                    style={
-                      vote.option === "yes"
-                        ? { color: "#166534", backgroundColor: "#DCFCE7" }
-                        : { color: "#991B1B", backgroundColor: "#FEE2E2" }
-                    }
-                  >
-                    Voted {vote.option}
-                  </span>
-                </div>
-                <div className="text-xs text-ink-3">{vote.title}</div>
-                {vote.openstatesUrl && (
-                  <a
-                    href={vote.openstatesUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-xs font-medium hover:underline"
-                    style={{ color: accent }}
-                  >
-                    View bill
-                  </a>
-                )}
-              </li>
-            ))}
-          </ul>
+          {recentVotes.length > 0 ? (
+            <ul className="space-y-2.5">
+              {recentVotes.map((vote) => (
+                <li key={vote.voteId} className="text-sm">
+                  <div className="flex items-start justify-between gap-2">
+                    <span className="font-medium text-ink">{vote.identifier}</span>
+                    <span
+                      className="text-[10px] font-semibold uppercase tracking-wide px-1.5 py-0.5 rounded shrink-0"
+                      style={
+                        vote.option === "yes"
+                          ? { color: "#166534", backgroundColor: "#DCFCE7" }
+                          : { color: "#991B1B", backgroundColor: "#FEE2E2" }
+                      }
+                    >
+                      Voted {vote.option}
+                    </span>
+                  </div>
+                  <div className="text-xs text-ink-3">{vote.title}</div>
+                  {vote.openstatesUrl && (
+                    <a
+                      href={vote.openstatesUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-xs font-medium hover:underline"
+                      style={{ color: accent }}
+                    >
+                      View bill
+                    </a>
+                  )}
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className="text-sm text-ink-3">No voting record connected yet for {areaLabel(rep)}.</p>
+          )}
         </div>
       )}
 
