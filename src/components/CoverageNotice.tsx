@@ -82,8 +82,8 @@ export default function CoverageNotice() {
           className="well absolute right-0 bottom-full z-20 mb-2 w-72 space-y-2 rounded-xl border p-3 text-xs text-ink-3 shadow-xl shadow-(color:--shadow-panel) sm:bottom-auto sm:top-full sm:mb-0 sm:mt-2"
         >
           <p>
-            Full rep data covers <strong className="font-semibold text-ink-2">{WARD_CITIES.length} Twin Cities-area cities</strong>{" "}
-            — not the whole metro, and not the rest of Minnesota.
+            City and county rep data covers <strong className="font-semibold text-ink-2">{WARD_CITIES.length} Twin Cities-area cities</strong>{" "}
+            — not the whole metro. State legislature coverage is statewide; see below for what&apos;s still missing there.
           </p>
           <div className="space-y-1.5 border-t border-hair pt-2">
             <p>

@@ -1,12 +1,22 @@
 #!/usr/bin/env node
 // scripts/fetch-state-legislature.mjs
 //
-// Writes public/state-legislature.geojson — MN House + Senate districts
-// covering the Twin Cities area, each joined to its current legislator
-// (Open States) and a party-unity score computed from a sample of recent
-// roll-call votes: the share of party-line votes where the legislator
-// voted with their own party's majority. See computePartyUnity() below
-// for the exact method.
+// Writes public/state-legislature.geojson — every MN House + Senate
+// district statewide, each joined to its current legislator (Open States)
+// and a party-unity score computed from a sample of recent roll-call
+// votes: the share of party-line votes where the legislator voted with
+// their own party's majority. See computePartyUnity() below for the
+// exact method.
+//
+// Statewide since #15's follow-up: this script used to filter districts
+// down to a Twin Cities bounding box (TWIN_CITIES_BOUNDS/
+// boundsContainPoint, now removed) even though fetchLegislators() and
+// fetchRecentVoteEvents() below were already querying Open States for
+// all of Minnesota, unfiltered — the geographic filter only ever
+// discarded districts after they'd already been fetched. Removing it
+// costs no extra API calls; see src/lib/coverage.ts's
+// STATE_LEGISLATURE_NOTE, which used to describe this same bounding box
+// and has been updated to match.
 //
 // Unlike every other layer in this app, state legislature data needs a
 // free Open States API key (https://open.pluralpolicy.com/accounts/signup/)
@@ -78,14 +88,6 @@ const HOUSE_DISTRICTS_URL =
 const SENATE_DISTRICTS_URL =
   "https://services2.arcgis.com/BLy9fHcJU1W8LU8M/arcgis/rest/services/senate2022/FeatureServer/0/query?where=1%3D1&outFields=*&f=geojson";
 
-// House and Senate districts cover the whole state; this app only covers
-// the Twin Cities. Rather than a precise polygon intersection, a bounding
-// box roughly matching Hennepin + Ramsey counties (with a little buffer)
-// is enough to keep only the districts that actually reach Minneapolis or
-// St. Paul, the same "close enough for a display filter, not a legal
-// determination" tradeoff used for the commissioner-pin centroids.
-const TWIN_CITIES_BOUNDS = { minLng: -93.95, minLat: 44.7, maxLng: -92.85, maxLat: 45.25 };
-
 const MINNEAPOLIS_CITY_HALL = [-93.2650683, 44.9773133];
 const ST_PAUL_CITY_HALL = [-93.093173, 44.9439666];
 
@@ -135,30 +137,41 @@ function centroidOfFeature(feature) {
   return [sumLng / count, sumLat / count];
 }
 
-function boundsContainPoint(bounds, [lng, lat]) {
-  return lng >= bounds.minLng && lng <= bounds.maxLng && lat >= bounds.minLat && lat <= bounds.maxLat;
-}
-
+// RepProperties.city (src/lib/types.ts) is a required string on every
+// role, but nothing downstream actually reads it for state legislature
+// records — WardMap.tsx filters/colors this layer by chamber and party,
+// never city (see areaLabel() in WardModal.tsx, which reports "MN
+// House"/"MN Senate" from `chamber` before it would ever fall back to
+// this field). Now that districts are statewide, "nearest of Minneapolis
+// or St. Paul" is a meaningless label for, say, a Duluth or Rochester
+// seat — kept only to satisfy the shared type, not presented as a real
+// geographic claim anywhere in the UI.
 function nearestCity([lng, lat]) {
   const dMpls = Math.hypot(lng - MINNEAPOLIS_CITY_HALL[0], lat - MINNEAPOLIS_CITY_HALL[1]);
   const dStPaul = Math.hypot(lng - ST_PAUL_CITY_HALL[0], lat - ST_PAUL_CITY_HALL[1]);
   return dMpls <= dStPaul ? "Minneapolis" : "St. Paul";
 }
 
-// House districts are alphanumeric ("47B") and already match Open States'
-// district field exactly. Senate districts are zero-padded ("01") in the
-// GIS data but not in Open States ("1") — normalize both to the same key.
+// Both chambers' GIS DISTRICT field zero-pads single-digit districts
+// ("02A", "01") where Open States doesn't ("2A", "1") — confirmed live
+// against both sources, not assumed. This only matters for districts 1-9;
+// 10 and up already match either way, which is exactly why the bug this
+// fixes went unnoticed under the old Twin Cities-only filter (every
+// metro district is numbered well above 9) and only surfaced once
+// district fetching went statewide: house districts 01A-09B were coming
+// back "Vacant" for 18 real, filled seats because the join key never
+// matched, not because anyone actually left office.
 function normalizeDistrictKey(raw, chamber) {
   const trimmed = String(raw).trim().toUpperCase();
-  return chamber === "senate" ? String(Number(trimmed)) : trimmed;
+  if (chamber === "senate") return String(Number(trimmed));
+  return trimmed.replace(/^0+(\d)/, "$1"); // "02A" -> "2A", "10A" untouched
 }
 
 async function fetchDistricts(url, chamber) {
   console.log(`[state-legislature] fetching MN ${chamber} districts...`);
   const geojson = await fetchJson(url);
-  const inTwinCities = geojson.features.filter((f) => boundsContainPoint(TWIN_CITIES_BOUNDS, centroidOfFeature(f)));
-  console.log(`[state-legislature] MN ${chamber}: ${inTwinCities.length} of ${geojson.features.length} districts are in the Twin Cities area`);
-  return inTwinCities;
+  console.log(`[state-legislature] MN ${chamber}: ${geojson.features.length} district(s) statewide`);
+  return geojson.features;
 }
 
 async function fetchLegislators(chamber) {
