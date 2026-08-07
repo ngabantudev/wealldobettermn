@@ -622,8 +622,19 @@ function isMobileViewport(): boolean {
 // same element, that overwrites Marker's translate and the pin jumps to
 // the map's untransformed top-left corner. Scaling the inner element
 // instead leaves Marker's own transform on the outer one alone.
+// Mayors are the only office with citywide (rather than ward/district)
+// authority, so their pin gets a distinct treatment instead of just the
+// largest size in PIN_SIZE_RANGE_BY_ROLE — a golden ring with a soft glow,
+// standing in for the "chief executive" emblem without literally drawing
+// one. Kept as a single constant rather than folding into partyColor since
+// mayors are nonpartisan-styled on this map regardless of party (see
+// createRepPinElement's own comment on PARTY_COLORS) and this is a
+// role-level override, not a party color.
+const MAYOR_RING_COLOR = "#d4af37";
+
 function createRepPinElement(rep: RepProperties, diameter: number): HTMLDivElement {
-  const accent = partyColor(rep.repParty);
+  const isMayor = rep.role === "Mayor";
+  const accent = isMayor ? MAYOR_RING_COLOR : partyColor(rep.repParty);
   const outer = document.createElement("div");
   outer.setAttribute("role", "button");
   outer.setAttribute("aria-label", `${areaLabel(rep)} ${roleLabel(rep)}${rep.repName ? ` ${rep.repName}` : ""}`);
@@ -645,10 +656,17 @@ function createRepPinElement(rep: RepProperties, diameter: number): HTMLDivEleme
   // zoom-resize listener in the map-setup effect can find it without
   // relying on DOM structure (outer.firstElementChild) staying stable.
   inner.className = "rep-pin-inner";
+  // Mayor glow is layered onto the same box-shadow property as the normal
+  // drop shadow (comma-separated), not a separate filter/outline — a
+  // second shadow ring keeps the glow soft and centered on the circle
+  // without expanding the element's own layout box.
+  const boxShadow = isMayor
+    ? "0 2px 8px rgba(0,0,0,0.35), 0 0 10px 3px rgba(212,175,55,0.55)"
+    : "0 2px 8px rgba(0,0,0,0.35)";
   inner.style.cssText = `
     width: ${diameter}px; height: ${diameter}px; border-radius: 9999px;
-    border: 3px solid ${accent}; box-shadow: 0 2px 8px rgba(0,0,0,0.35);
-    background: ${partyColorSoft(rep.repParty)}; overflow: hidden;
+    border: 3px solid ${accent}; box-shadow: ${boxShadow};
+    background: ${isMayor ? "rgba(212,175,55,0.18)" : partyColorSoft(rep.repParty)}; overflow: hidden;
     display: flex; align-items: center; justify-content: center;
     transition: transform 0.15s ease; background-size: cover; background-position: center;
   `;
