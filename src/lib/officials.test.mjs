@@ -119,6 +119,27 @@ const sources = {
   stateLeg: { type: "FeatureCollection", features: [houseDistrict, senateDistrict] },
 };
 
+// A ward that elects two council members off one shared polygon — Blaine's
+// and Brooklyn Park's wards do this in the real data, each as two separate
+// Feature entries with identical geometry and different repName. Regression
+// coverage for the bug where dedupeByIdentity collapsed both hits into one
+// because officialIdentity didn't distinguish same-ward seats — see its
+// own comment.
+const wardCTwinA = {
+  type: "Feature",
+  properties: rep({ role: "Council Member", city: "Testville", ward: 3, repName: "Ward C Rep One" }),
+  geometry: { type: "Polygon", coordinates: square(-2, -1, -1, 1) },
+};
+const wardCTwinB = {
+  type: "Feature",
+  properties: rep({ role: "Council Member", city: "Testville", ward: 3, repName: "Ward C Rep Two" }),
+  geometry: { type: "Polygon", coordinates: square(-2, -1, -1, 1) },
+};
+const sourcesWithTwinWard = {
+  ...sources,
+  wards: { type: "FeatureCollection", features: [wardA, wardB, wardCTwinA, wardCTwinB] },
+};
+
 // --- resolveOfficialsAtPoint ----------------------------------------------
 
 test("resolves all three tiers for a point inside ward A", () => {
@@ -202,7 +223,21 @@ test("mayor is matched by city even when known (not PIP) is what puts the point 
   );
 });
 
+test("a ward electing two council members off one shared polygon surfaces both, not just one", () => {
+  const officials = resolveOfficialsAtPoint([-1.5, 0], sourcesWithTwinWard);
+  assert.deepEqual(
+    officials.city.map((r) => r.repName).sort(),
+    ["The Mayor", "Ward C Rep One", "Ward C Rep Two"].sort(),
+  );
+});
+
 // --- officialIdentity -------------------------------------------------
+
+test("officialIdentity distinguishes two seats sharing one ward, unlike role/district-only offices", () => {
+  const a = officialIdentity(rep({ role: "Council Member", city: "Testville", ward: 3, repName: "Ward C Rep One" }));
+  const b = officialIdentity(rep({ role: "Council Member", city: "Testville", ward: 3, repName: "Ward C Rep Two" }));
+  assert.notEqual(a, b);
+});
 
 test("officialIdentity distinguishes offices sharing a role but different locators", () => {
   const a = officialIdentity(rep({ role: "Council Member", city: "X", ward: 1 }));

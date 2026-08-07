@@ -23,7 +23,7 @@ import type { Feature, FeatureCollection, Geometry, MultiPolygon, Polygon, Posit
 import type { RepProperties } from "./types";
 
 export interface AreaOfficials {
-  city: RepProperties[]; // 0–2: Mayor + Council Member
+  city: RepProperties[]; // 0–N: Mayor + one Council Member per seat a ward elects (usually 1, sometimes 2+ — see officialIdentity)
   county: RepProperties[]; // 0–1: County Commissioner
   state: RepProperties[]; // 0–2: State Representative + State Senator
 }
@@ -69,7 +69,20 @@ export function officialIdentity(rep: RepProperties): string {
   switch (rep.role) {
     case "Mayor":
     case "Council Member":
-      return `${rep.role}:${rep.city}:${rep.ward ?? "at-large"}`;
+      // A ward's locator alone (city+ward) doesn't uniquely identify a
+      // *seat* — Blaine's and Brooklyn Park's wards each currently elect
+      // two council members off one shared ward polygon, with no seat
+      // number of their own in the source data. repName is the only
+      // field that tells those two seats apart. This deliberately
+      // differs from the County Commissioner/State Senator/State
+      // Representative cases below, where identity ignores name on
+      // purpose (one seat per district, so a name change there means
+      // "same office, new occupant" — see the "stable regardless of
+      // name" test in officials.test.mjs). Here, a ward with two
+      // same-named vacancies would still collide; that's the same
+      // "name isn't guaranteed unique" caveat this file already
+      // documents elsewhere, not a new risk.
+      return `${rep.role}:${rep.city}:${rep.ward ?? "at-large"}:${rep.repName ?? "vacant"}`;
     case "County Commissioner":
       return `${rep.role}:${rep.county ?? rep.city}:${rep.district ?? ""}`;
     case "State Representative":
