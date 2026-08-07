@@ -1213,7 +1213,12 @@ export default function WardMap() {
   const filterGroupClass = (variant: "floating" | "sidebar") =>
     variant === "floating"
       ? "flex rounded-lg bg-panel-2/90 backdrop-blur-sm border border-hair shadow-lg shadow-(color:--shadow-panel) p-1 text-sm"
-      : "flex rounded-lg border border-hair bg-panel-2 p-1 text-sm";
+      : // border-hair-strong, not the usual --hair: this row sits directly
+        // on the sidebar's own bg-panel-2, one step brighter than the
+        // floating card's semi-transparent version above, so the faint
+        // default hairline all but disappears against it. A little more
+        // contrast is the whole point of this pass.
+        "flex rounded-lg border border-hair-strong bg-panel-2 p-1 text-sm";
   const filterListClass = (variant: "floating" | "sidebar") =>
     variant === "floating"
       ? // Capped height + internal scroll: with all 10 cities checked this
@@ -1224,10 +1229,18 @@ export default function WardMap() {
       : // No height cap here — the sidebar `<aside>` itself scrolls (see
         // its own overflow-y-auto), so a second, nested scroll region
         // would just be confusing about which element actually moves.
-        "rounded-lg border border-hair bg-panel-2 divide-y divide-hair text-sm text-ink-2";
+        "rounded-lg border border-hair-strong bg-panel-2 divide-y divide-hair-strong text-sm text-ink-2";
+  // Sidebar-only: a short Water Blue tick ahead of the label — the flag's
+  // own accent (see globals.css's --sidebar-accent) used as a structural
+  // marker, not just a color swap. AGENTS.md §4 "structure is
+  // information": this is what tells a resident's eye "here's a new
+  // group of controls" before they've read the words.
   const filterSectionLabel = (variant: "floating" | "sidebar", text: string) =>
     variant === "sidebar" ? (
-      <h3 className="mb-1.5 text-[11px] font-semibold uppercase tracking-wide text-ink-3">{text}</h3>
+      <h3 className="mb-1.5 flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wide text-ink-3">
+        <span aria-hidden="true" className="h-2.5 w-1 shrink-0 rounded-full bg-sidebar-accent" />
+        {text}
+      </h3>
     ) : null;
 
   // filterControls (floating, for MobileNav's Filters tab) and
@@ -1250,7 +1263,7 @@ export default function WardMap() {
               key={mode}
               type="button"
               onClick={() => switchMode(mode)}
-              className={`px-3 py-1.5 rounded-md font-medium transition-colors ${
+              className={`px-3 py-1.5 rounded-md font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-accent ${
                 layerMode === mode ? "bg-accent text-on-accent" : "text-ink-3 hover:bg-hover hover:text-ink"
               }`}
             >
@@ -1272,7 +1285,7 @@ export default function WardMap() {
                 key={c}
                 type="button"
                 onClick={() => switchChamber(c)}
-                className={`px-3 py-1.5 rounded-md font-medium transition-colors ${
+                className={`px-3 py-1.5 rounded-md font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-accent ${
                   chamber === c ? "bg-accent text-on-accent" : "text-ink-3 hover:bg-hover hover:text-ink"
                 }`}
               >
@@ -1310,8 +1323,17 @@ export default function WardMap() {
               key={mode}
               type="button"
               onClick={() => switchMode(mode)}
-              className={`px-3 py-1.5 rounded-md font-medium transition-colors ${
-                layerMode === mode ? "bg-accent text-on-accent" : "text-ink-3 hover:bg-hover hover:text-ink"
+              // bg-sidebar-accent, not the app's usual bg-accent: the
+              // sidebars' own flag accent (globals.css) — Water Blue
+              // paired with Night Sky Blue text, falling back to this
+              // theme's regular --accent in dark mode. The floating/
+              // mobile copy above keeps the ordinary accent on purpose;
+              // see filterGroupClass's own comment on why sidebar rows
+              // get the extra contrast the floating card didn't need.
+              className={`px-3 py-1.5 rounded-md font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-sidebar-accent ${
+                layerMode === mode
+                  ? "bg-sidebar-accent text-on-sidebar-accent"
+                  : "text-ink-3 hover:bg-hover hover:text-ink"
               }`}
             >
               {MODE_LABELS[mode]}
@@ -1329,8 +1351,10 @@ export default function WardMap() {
                 key={c}
                 type="button"
                 onClick={() => switchChamber(c)}
-                className={`px-3 py-1.5 rounded-md font-medium transition-colors ${
-                  chamber === c ? "bg-accent text-on-accent" : "text-ink-3 hover:bg-hover hover:text-ink"
+                className={`px-3 py-1.5 rounded-md font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-sidebar-accent ${
+                  chamber === c
+                    ? "bg-sidebar-accent text-on-sidebar-accent"
+                    : "text-ink-3 hover:bg-hover hover:text-ink"
                 }`}
               >
                 {CHAMBER_LABELS[c]}
@@ -1473,7 +1497,17 @@ export default function WardMap() {
             bottom-sheet pattern rather than squeezing this in too. */}
         <aside
           aria-label="Map filters"
-          className="hidden sm:flex sm:w-64 lg:w-72 shrink-0 flex-col gap-5 overflow-y-auto border-r border-hair bg-panel px-4 py-5 font-sans"
+          // bg-panel-2 (not the workspace's usual --panel): a full step
+          // whiter than --canvas/--panel, so the sidebar reads as its own
+          // surface against the map rather than nearly the same gray.
+          // border-r-hair-strong does the same job on the inner edge (the
+          // seam against the map); border-l-sidebar-edge-accent puts a
+          // thin Night Sky Blue frame on the *outer* edge instead — the
+          // viewport's own left edge, where nothing else was competing
+          // for attention. See globals.css's --sidebar-edge-accent
+          // comment for why that's light-mode only (falls back to a
+          // plain --hair-strong sliver in dark mode).
+          className="hidden sm:flex sm:w-64 lg:w-72 shrink-0 flex-col gap-5 overflow-y-auto border-r border-r-hair-strong border-l-[3px] border-l-sidebar-edge-accent bg-panel-2 px-4 py-5 font-sans"
         >
           {sidebarFilterControls}
         </aside>
@@ -1523,12 +1557,24 @@ export default function WardMap() {
             mobileSheetContent above. */}
         <aside
           aria-label="Selected representative"
-          className="hidden sm:flex sm:w-80 lg:w-96 shrink-0 flex-col border-l border-hair bg-panel overflow-y-auto font-sans"
+          // Mirrors the left sidebar's contrast/edge treatment — see its
+          // own comment above — with the flag-blue accent moved to *this*
+          // sidebar's outer edge (the viewport's right edge) instead.
+          className="hidden sm:flex sm:w-80 lg:w-96 shrink-0 flex-col border-l border-l-hair-strong border-r-[3px] border-r-sidebar-edge-accent bg-panel-2 overflow-y-auto font-sans"
         >
           {selected ? (
             <WardModal ward={selected.properties} pinned={selected.pinned} onClose={deselect} variant="sidebar" />
           ) : (
-            <div className="flex flex-1 items-center justify-center px-6 py-10 text-center text-sm text-ink-3">
+            <div className="flex flex-1 flex-col items-center justify-center gap-3 px-6 py-10 text-center text-sm text-ink-3">
+              <svg viewBox="0 0 20 20" fill="none" aria-hidden="true" className="h-8 w-8 shrink-0 text-sidebar-accent">
+                <path
+                  d="M10 18s6-5.2 6-9.6A6 6 0 0 0 4 8.4C4 12.8 10 18 10 18Z"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  strokeLinejoin="round"
+                />
+                <circle cx="10" cy="8.2" r="2" stroke="currentColor" strokeWidth="1.5" />
+              </svg>
               <p>
                 Hover or select a ward, mayor, or district on the map to see who represents it, how they&rsquo;ve
                 voted, and how to reach them.

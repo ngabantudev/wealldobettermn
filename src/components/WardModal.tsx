@@ -311,7 +311,7 @@ export default function WardModal({ ward: rep, pinned, onClose, variant = "sheet
             type="button"
             onClick={onClose}
             aria-label="Close"
-            className="shrink-0 -mr-1 -mt-1 h-10 w-10 flex items-center justify-center rounded-full text-ink-4 hover:bg-hover hover:text-ink active:bg-hair-strong"
+            className="shrink-0 -mr-1 -mt-1 h-10 w-10 flex items-center justify-center rounded-full text-ink-4 hover:bg-hover hover:text-ink active:bg-hair-strong focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
           >
             <svg viewBox="0 0 20 20" fill="none" className="h-4 w-4">
               <path d="m5 5 10 10M15 5 5 15" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" />

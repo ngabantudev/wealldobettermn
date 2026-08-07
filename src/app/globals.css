@@ -77,6 +77,25 @@
      `-2xl`, which keeps each element's existing elevation (blur/spread)
      and only recolors it. */
   --shadow-panel: rgba(0, 45, 93, 0.18);
+
+  /* The flag's own two blues, named once so anything reaching for them
+     (below, and `.band` further down) references what the color *is*
+     rather than repeating a raw hex — same reasoning as every other
+     semantic name in this file. Theme-invariant: the flag doesn't have a
+     light/dark variant, only whether it's *used* as chrome does. */
+  --flag-night-sky: #002d5d; /* Pantone 648 — the flag's field */
+  --flag-water-blue: #52c9e8; /* Pantone 305 */
+
+  /* A light, single-purpose accent for the two persistent map sidebars
+     (WardMap.tsx's left filters / right rep-detail `<aside>`s) — Water
+     Blue paired with Night Sky Blue for readable text/icons on top of
+     it, the same pairing `.band` below uses for its own Water-Blue
+     accent. --sidebar-edge-accent is Night Sky Blue alone, for the
+     sidebars' outer (viewport-facing) edge — a thin echo of the header's
+     own flag band, framing the map on three sides instead of one. */
+  --sidebar-accent: var(--flag-water-blue);
+  --on-sidebar-accent: var(--flag-night-sky);
+  --sidebar-edge-accent: var(--flag-night-sky);
 }
 
 .dark {
@@ -107,6 +126,18 @@
     inset 0 1px 0 #ffffff0a,
     0 1px 2px #0006;
   --shadow-panel: rgba(0, 0, 0, 0.6);
+
+  /* The sidebar accent falls back to this theme's own --accent/--on-accent
+     (emerald) rather than the flag's blue in dark mode — the dark theme
+     already has its own accent identity, and a second, unrelated blue
+     showing up only here would compete with it instead of complementing
+     it. Same "light-theme affordance" reasoning `.band` below documents
+     for the header's full flag treatment. --sidebar-edge-accent falls
+     back to --hair-strong: a Night Sky Blue sliver would have almost no
+     contrast against this theme's own near-black canvas anyway. */
+  --sidebar-accent: var(--accent);
+  --on-sidebar-accent: var(--on-accent);
+  --sidebar-edge-accent: var(--hair-strong);
 }
 
 /* The "band" — the site's identity bar (SiteHeader) — is the flag itself,
@@ -191,6 +222,11 @@
   --color-on-positive: var(--on-positive);
   --color-well: var(--well);
   --color-well-hair: var(--well-hair);
+  --color-flag-night-sky: var(--flag-night-sky);
+  --color-flag-water-blue: var(--flag-water-blue);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-on-sidebar-accent: var(--on-sidebar-accent);
+  --color-sidebar-edge-accent: var(--sidebar-edge-accent);
 
   /* System font stack, no webfont — matches mndatacenter.org and keeps
      every render (including a five-year-old phone on 3G, AGENTS.md §4)
