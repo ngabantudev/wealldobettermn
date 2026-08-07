@@ -93,6 +93,18 @@
   --hair: #e5e5e5; /* hairline borders */
   --hair-strong: #d9d9d9; /* emphasized borders, input borders */
   --hover: #e6e6e6; /* hover background for interactive rows */
+  /* A stronger hover fill, scoped to the two persistent map sidebars
+     (WardMap.tsx's left filters / right rep-detail `<aside>`s, plus
+     WardModal — the right sidebar's own content). --hover above reads as
+     essentially invisible there: it's tuned against a plain white row,
+     but the sidebar redesign moved most of its interactive rows (filter
+     checkboxes, Level/Chamber/City/County/State tabs) onto --panel-3
+     (#e9e9e9), only 3 shades off --hover itself. --sidebar-hover is
+     picked to clear WCAG 1.4.11's 3:1 non-text-contrast minimum against
+     *both* --panel-2 (white) and --panel-3, not just whichever one looks
+     fine in isolation, so a hover state is never the thing this app
+     shipped that fails 1.4.11 in either direction. */
+  --sidebar-hover: #828282;
   --accent: #0062b2; /* links, active state, focus rings */
   --accent-hover: #002d5d;
   --accent-soft: #0062b21a; /* accent at low opacity, for badges/fills */
@@ -149,6 +161,13 @@
   --hair: #ffffff1a;
   --hair-strong: #ffffff29;
   --hover: #ffffff0d;
+  /* Same 3:1-against-both-surfaces target as the light --sidebar-hover
+     above, worked out against this theme's near-black --panel-2/--panel-3
+     (both ~#09090b) instead — a 40% white overlay, not a hex gray, so it
+     still reads as "lighter," matching how --hover/--hair-strong are
+     already expressed as white-alpha overlays in this block rather than
+     solid grays. */
+  --sidebar-hover: #ffffff66;
   --accent: #34d399;
   --accent-hover: #6ee7b7;
   --accent-soft: #34d3991a;
@@ -249,6 +268,7 @@
   --color-hair: var(--hair);
   --color-hair-strong: var(--hair-strong);
   --color-hover: var(--hover);
+  --color-sidebar-hover: var(--sidebar-hover);
   --color-accent: var(--accent);
   --color-accent-hover: var(--accent-hover);
   --color-accent-soft: var(--accent-soft);

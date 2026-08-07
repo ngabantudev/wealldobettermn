@@ -1977,8 +1977,13 @@ export default function WardMap() {
       <button
         type="button"
         onClick={() => setCitiesVisible(cities, true)}
-        className={`rounded px-1.5 py-1 text-ink-3 transition-colors hover:bg-hover hover:text-ink focus:outline-none focus-visible:ring-2 ${
-          variant === "sidebar" ? "focus-visible:ring-sidebar-accent" : "focus-visible:ring-accent"
+        className={`rounded px-1.5 py-1 text-ink-3 transition-colors hover:text-ink focus:outline-none focus-visible:ring-2 ${
+          // hover:bg-sidebar-hover, not the generic hover:bg-hover: this
+          // button sits on the sidebar's own panel-2 fill, where --hover
+          // reads as nearly invisible (see that token's own comment in
+          // globals.css) — same fix applied everywhere else in this
+          // sidebar's interactive rows/tabs below.
+          variant === "sidebar" ? "hover:bg-sidebar-hover focus-visible:ring-sidebar-accent" : "hover:bg-hover focus-visible:ring-accent"
         }`}
       >
         All
@@ -1989,8 +1994,8 @@ export default function WardMap() {
       <button
         type="button"
         onClick={() => setCitiesVisible(cities, false)}
-        className={`rounded px-1.5 py-1 text-ink-3 transition-colors hover:bg-hover hover:text-ink focus:outline-none focus-visible:ring-2 ${
-          variant === "sidebar" ? "focus-visible:ring-sidebar-accent" : "focus-visible:ring-accent"
+        className={`rounded px-1.5 py-1 text-ink-3 transition-colors hover:text-ink focus:outline-none focus-visible:ring-2 ${
+          variant === "sidebar" ? "hover:bg-sidebar-hover focus-visible:ring-sidebar-accent" : "hover:bg-hover focus-visible:ring-accent"
         }`}
       >
         None
@@ -2018,9 +2023,12 @@ export default function WardMap() {
   // tabs: picking a mode swaps map layers, zoom, and the section below,
   // not just this row's own tabpanel content.
   const sidebarTabRowClass = "flex gap-1 rounded-lg bg-panel-3 p-1";
+  // hover:bg-sidebar-hover, not hover:bg-hover: this track's own bg-panel-3
+  // fill is only 3 shades off --hover, so the generic token was nearly
+  // invisible here — see --sidebar-hover's own comment in globals.css.
   const sidebarTabButtonClass = (active: boolean) =>
     `flex-1 min-h-11 rounded-md px-2 py-2 text-center text-xs font-semibold uppercase tracking-wide transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-sidebar-accent ${
-      active ? "" : "text-ink-3 hover:bg-hover hover:text-ink"
+      active ? "" : "text-ink-3 hover:bg-sidebar-hover hover:text-ink"
     }`;
 
   // filterControls (floating, for MobileNav's Filters tab) and
@@ -2155,7 +2163,12 @@ export default function WardMap() {
         ) : (
           <div role="group" aria-label="Filter by area" className={filterListClass("sidebar")}>
             {MODE_VISIBLE_CITIES[layerMode].map((city) => (
-              <label key={city} className="flex items-center gap-2 px-3 py-2.5 sm:py-2 cursor-pointer select-none hover:bg-hover">
+              // hover:bg-sidebar-hover here (not hover:bg-hover, which the
+              // floating variant just above keeps) — this row sits on
+              // filterListClass("sidebar")'s bg-panel-3 fill, where
+              // --hover reads as nearly invisible. See that token's own
+              // comment in globals.css.
+              <label key={city} className="flex items-center gap-2 px-3 py-2.5 sm:py-2 cursor-pointer select-none hover:bg-sidebar-hover">
                 <input
                   type="checkbox"
                   checked={visibleCities[city]}
@@ -2368,7 +2381,12 @@ export default function WardMap() {
             aria-expanded={!leftFiltersCollapsed}
             aria-controls="map-filters-sidebar"
             aria-label={leftFiltersCollapsed ? "Show map filters" : "Hide map filters"}
-            className="hidden sm:flex absolute left-0 top-1/2 z-20 h-12 w-6 -translate-y-1/2 items-center justify-center rounded-r-lg border border-l-0 border-hair-strong bg-panel-2 text-ink-3 transition-colors hover:bg-hover hover:text-ink focus:outline-none focus-visible:ring-2 focus-visible:ring-sidebar-accent"
+            // hover:bg-sidebar-hover: this pull-tab sprouts visually from
+            // the left sidebar (see the comment above), so it gets the
+            // same stronger hover the sidebar's own rows/tabs use rather
+            // than the generic --hover, which barely shows against its
+            // bg-panel-2 fill.
+            className="hidden sm:flex absolute left-0 top-1/2 z-20 h-12 w-6 -translate-y-1/2 items-center justify-center rounded-r-lg border border-l-0 border-hair-strong bg-panel-2 text-ink-3 transition-colors hover:bg-sidebar-hover hover:text-ink focus:outline-none focus-visible:ring-2 focus-visible:ring-sidebar-accent"
           >
             <IconChevron className={leftFiltersCollapsed ? "rotate-180" : ""} />
           </button>
@@ -2420,7 +2438,9 @@ export default function WardMap() {
             aria-expanded={!rightDetailCollapsed}
             aria-controls="map-detail-sidebar"
             aria-label={rightDetailCollapsed ? "Show representative details" : "Hide representative details"}
-            className="hidden sm:flex absolute right-0 top-1/2 z-20 h-12 w-6 -translate-y-1/2 items-center justify-center rounded-l-lg border border-r-0 border-hair-strong bg-panel-2 text-ink-3 transition-colors hover:bg-hover hover:text-ink focus:outline-none focus-visible:ring-2 focus-visible:ring-sidebar-accent"
+            // hover:bg-sidebar-hover — same reasoning as the left pull-tab
+            // above.
+            className="hidden sm:flex absolute right-0 top-1/2 z-20 h-12 w-6 -translate-y-1/2 items-center justify-center rounded-l-lg border border-r-0 border-hair-strong bg-panel-2 text-ink-3 transition-colors hover:bg-sidebar-hover hover:text-ink focus:outline-none focus-visible:ring-2 focus-visible:ring-sidebar-accent"
           >
             <IconChevron className={rightDetailCollapsed ? "" : "rotate-180"} />
           </button>

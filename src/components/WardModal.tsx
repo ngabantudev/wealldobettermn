@@ -381,7 +381,12 @@ function OfficialCard({ rep }: { rep: RepProperties }) {
           {rep.repEmail && (
             <a
               href={`mailto:${rep.repEmail}`}
-              className="flex items-center gap-1.5 text-xs font-medium text-ink-2 border border-hair rounded-full px-3 py-1.5 hover:bg-hover active:bg-hair-strong"
+              // hover:bg-sidebar-hover, not hover:bg-hover: this chip is
+              // one of the sidebar's own interactive rows (this card
+              // renders inside WardMap's right `<aside>` in the
+              // "sidebar" variant) — see --sidebar-hover's comment in
+              // globals.css for why the generic token barely shows.
+              className="flex items-center gap-1.5 text-xs font-medium text-ink-2 border border-hair rounded-full px-3 py-1.5 hover:bg-sidebar-hover active:bg-hair-strong"
             >
               <IconMail />
               Email
@@ -390,7 +395,7 @@ function OfficialCard({ rep }: { rep: RepProperties }) {
           {rep.repPhone && (
             <a
               href={`tel:${rep.repPhone.replace(/[^\d+]/g, "")}`}
-              className="flex items-center gap-1.5 text-xs font-medium text-ink-2 border border-hair rounded-full px-3 py-1.5 hover:bg-hover active:bg-hair-strong"
+              className="flex items-center gap-1.5 text-xs font-medium text-ink-2 border border-hair rounded-full px-3 py-1.5 hover:bg-sidebar-hover active:bg-hair-strong"
             >
               <IconPhone />
               {rep.repPhone}
@@ -657,15 +662,19 @@ export default function WardModal({ officials, onClose, variant = "sheet" }: War
                 // hold up as a thumb target, not just a mouse target. Well
                 // above WCAG 2.5.8's own 24x24px AA minimum.
                 className={`flex-1 min-h-11 rounded-md px-3 py-2.5 text-center text-xs font-semibold uppercase tracking-wide transition-colors focus:outline-none focus-visible:ring-2 ${
-                  // Same `--hover` token the left sidebar's city rows use
-                  // (WardMap.tsx's filterListClass rows), applied only to
-                  // the inactive tabs — the active tab already has its own
-                  // solid fill and shouldn't visually flicker on hover. Not
-                  // set via the style prop below: an inline background-color
-                  // has higher specificity than any Tailwind class,
-                  // including this one's :hover variant, so it would
-                  // silently block the hover fill from ever painting.
-                  isActive ? "" : "hover:bg-hover"
+                  // Same `--sidebar-hover` token the left sidebar's city
+                  // rows and tabs use (WardMap.tsx's filterListClass rows,
+                  // sidebarTabButtonClass) — not the generic `--hover`,
+                  // which barely shows against this track's own bg-panel-3
+                  // fill (see that token's comment in globals.css).
+                  // Applied only to the inactive tabs — the active tab
+                  // already has its own solid fill and shouldn't visually
+                  // flicker on hover. Not set via the style prop below: an
+                  // inline background-color has higher specificity than
+                  // any Tailwind class, including this one's :hover
+                  // variant, so it would silently block the hover fill
+                  // from ever painting.
+                  isActive ? "" : "hover:bg-sidebar-hover"
                 }`}
                 style={isActive ? { backgroundColor: TIER_HEADER_BG, color: TIER_HEADER_TEXT } : undefined}
               >
