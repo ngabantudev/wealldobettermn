@@ -24,6 +24,7 @@ import {
   storeMapStyleId,
 } from "@/lib/mapStyles";
 import { getActiveTheme, setTheme, type SiteTheme } from "@/lib/siteTheme";
+import { readStored, writeStored } from "@/lib/storage";
 import MapThemeSelector, { IconLayers, MapThemeOptions } from "./MapThemeSelector";
 import MobileNav, { IconSearch, IconSliders, type MobileNavTab } from "./MobileNav";
 import SearchBar from "./SearchBar";
@@ -58,6 +59,26 @@ const STATE_LEG_LABEL_LAYER_ID = "state-legislature-label";
 const CHAMBERS = ["house", "senate"] as const;
 type Chamber = (typeof CHAMBERS)[number];
 const CHAMBER_LABELS: Record<Chamber, string> = { house: "MN House", senate: "MN Senate" };
+
+// Desktop-only (sm+) — whether the left filters / right rep-detail
+// sidebar is collapsed to reclaim map width, modeled on mndatacenter.org's
+// own pull-tab sidebar toggle. "0"/"1" rather than JSON: a plain flag is
+// the only shape either key ever holds, same convention siteTheme.ts uses
+// for the chrome theme. Persisted (not just component state) so a
+// resident who collapses the filters to see more map keeps that choice
+// across visits, same as their basemap/theme pick.
+const LEFT_FILTERS_COLLAPSED_KEY = "mapFiltersCollapsed";
+const RIGHT_DETAIL_COLLAPSED_KEY = "mapDetailCollapsed";
+
+function isCollapsedFlag(value: string): value is "0" | "1" {
+  return value === "0" || value === "1";
+}
+function readCollapsedFlag(key: string): boolean {
+  return readStored(key, isCollapsedFlag, "0") === "1";
+}
+function writeCollapsedFlag(key: string, collapsed: boolean): void {
+  writeStored(key, collapsed ? "1" : "0");
+}
 
 // Wards, commissioner districts, and state legislative districts are three
 // different government layers covering different areas — showing more
@@ -369,6 +390,24 @@ function createRepPinElement(rep: RepProperties, diameter: number = DEFAULT_PIN_
   return outer;
 }
 
+// The two sidebar collapse toggles' chevron — one glyph, pointed left by
+// default, rotated 180° by the caller when it should point right instead
+// of a second mirrored SVG path. `className` carries the rotation (and
+// nothing else caller-specific), so both toggle buttons below can share
+// this one definition.
+function IconChevron({ className = "" }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      aria-hidden="true"
+      className={`h-3.5 w-3.5 shrink-0 transition-transform duration-300 ease-out ${className}`}
+    >
+      <path d="M15 18l-6-6 6-6" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
 export default function WardMap() {
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
   const mapRef = useRef<maplibregl.Map | null>(null);
@@ -408,6 +447,19 @@ export default function WardMap() {
   const visibleCitiesRef = useRef(visibleCities);
   const [chamber, setChamber] = useState<Chamber>("house");
   const chamberRef = useRef(chamber);
+  // Sidebar collapse state — see LEFT_FILTERS_COLLAPSED_KEY's own comment.
+  // Both default to false (expanded) here rather than reading storage in
+  // the initializer, same SSR-safety reasoning as mapStyleId/siteTheme
+  // below: corrected once, after mount, in its own effect further down.
+  const [leftFiltersCollapsed, setLeftFiltersCollapsedState] = useState(false);
+  const [rightDetailCollapsed, setRightDetailCollapsedState] = useState(false);
+  // Read by selectPinned, which runs from click handlers registered once
+  // inside the map-construction effect below — without a ref, that
+  // closure would keep whatever value was current at mount forever, the
+  // same staleness every other frequently-changing piece of state in this
+  // component (layerMode, visibleCities, chamber) already guards against
+  // the same way.
+  const rightDetailCollapsedRef = useRef(rightDetailCollapsed);
   // MapThemeSelector's own display state — which basemap/chrome-theme is
   // currently active, for its checkmarks. Placeholder defaults (matching
   // DEFAULT_SITE_THEME/its paired basemap) that get corrected to the real
@@ -440,6 +492,19 @@ export default function WardMap() {
   useEffect(() => {
     layerModeRef.current = layerMode;
   }, [layerMode]);
+
+  useEffect(() => {
+    rightDetailCollapsedRef.current = rightDetailCollapsed;
+  }, [rightDetailCollapsed]);
+
+  const setLeftFiltersCollapsed = (collapsed: boolean) => {
+    setLeftFiltersCollapsedState(collapsed);
+    writeCollapsedFlag(LEFT_FILTERS_COLLAPSED_KEY, collapsed);
+  };
+  const setRightDetailCollapsed = (collapsed: boolean) => {
+    setRightDetailCollapsedState(collapsed);
+    writeCollapsedFlag(RIGHT_DETAIL_COLLAPSED_KEY, collapsed);
+  };
 
   // Map-independent: runs regardless of whether MapLibre ever
   // successfully constructs. See fetchCivicData's comment for why this
@@ -525,6 +590,18 @@ export default function WardMap() {
   const deselect = () => {
     setSelected(null);
     zoomToDefault();
+  };
+
+  // The one path every click/tap/search-result selection runs through
+  // (as opposed to a hover, which sets `selected` directly — see
+  // handleHoverMove below). An explicit selection always means "show the
+  // detail panel," so this force-expands the right sidebar if a resident
+  // had collapsed it — unlike a hover, which never reopens a sidebar
+  // they've deliberately hidden; see the right toggle button's own
+  // comment further down for why that asymmetry is deliberate.
+  const selectPinned = (properties: RepProperties) => {
+    setSelected({ properties, pinned: true });
+    if (rightDetailCollapsedRef.current) setRightDetailCollapsed(false);
   };
 
   const applyCityFilter = (cities: Record<City, boolean>) => {
@@ -702,7 +779,7 @@ export default function WardMap() {
       (f) => f.properties?.city === ref.city && f.properties?.ward === ref.ward,
     );
     if (!feature) return; // wardsDataRef isn't ready yet, or the ref is stale
-    setSelected({ properties: normalizeRepProperties(feature.properties), pinned: true });
+    selectPinned(normalizeRepProperties(feature.properties));
     // Closes MobileNav's Search sheet on mobile so the ward modal (which
     // takes over the sheet slot the instant `selected` is non-null) isn't
     // left stacked behind it — a no-op on desktop, where nothing opened a
@@ -743,6 +820,17 @@ export default function WardMap() {
     let currentStyleId = getInitialMapStyleId();
     setMapStyleId(currentStyleId);
     setSiteThemeState(getActiveTheme());
+    // Same correction-after-mount as the two calls above, same reason
+    // (reading localStorage during the useState initializer would
+    // mismatch server- vs. client-rendered markup) — folded into this
+    // effect rather than a dedicated one of their own so the correction
+    // is one render, not two: a lone effect whose only job is a setState
+    // correction is the exact "don't use an effect for this" case
+    // react-hooks/set-state-in-effect flags, and rightly so on its own,
+    // but this effect already has to run on mount to construct the map
+    // regardless, so piggybacking the correction here costs nothing extra.
+    setLeftFiltersCollapsedState(readCollapsedFlag(LEFT_FILTERS_COLLAPSED_KEY));
+    setRightDetailCollapsedState(readCollapsedFlag(RIGHT_DETAIL_COLLAPSED_KEY));
 
     const map = new maplibregl.Map({
       container: mapContainerRef.current,
@@ -795,7 +883,7 @@ export default function WardMap() {
         });
         el.addEventListener("click", (e) => {
           e.stopPropagation();
-          setSelected({ properties, pinned: true });
+          selectPinned(properties);
           setActiveMobileSheet(null); // see applySearchResult's comment on this same call
           zoomToBounds(zoomBounds);
         });
@@ -1138,7 +1226,7 @@ export default function WardMap() {
         return;
       }
       const hitProps = normalizeRepProperties(hit.properties);
-      setSelected({ properties: hitProps, pinned: true });
+      selectPinned(hitProps);
       setActiveMobileSheet(null); // see applySearchResult's comment on this same call
 
       // queryRenderedFeatures returns geometry clipped to whichever
@@ -1166,8 +1254,25 @@ export default function WardMap() {
     const handleResize = () => map.resize();
     window.addEventListener("resize", handleResize);
 
+    // window's own "resize" only fires on a *viewport* size change — it
+    // never fires when the map's own box changes shape for some other
+    // reason, which the sidebar collapse toggles now do (their width
+    // transition genuinely reflows the map's flex sibling, unlike a hover
+    // preview swapping a sidebar's content — see selectPinned's comment
+    // on that distinction). A ResizeObserver on the map's own container
+    // catches that case too, and is a strict superset of the window
+    // listener above — but that listener stays, both because a plain
+    // browser resize is the common case, and because ResizeObserver was
+    // late enough to Safari that a visitor on an old-but-supported
+    // browser deserves the fallback rather than a map that's stuck at its
+    // initial size forever.
+    const resizeObserver =
+      typeof ResizeObserver !== "undefined" ? new ResizeObserver(() => map.resize()) : null;
+    if (resizeObserver && mapContainerRef.current) resizeObserver.observe(mapContainerRef.current);
+
     return () => {
       window.removeEventListener("resize", handleResize);
+      resizeObserver?.disconnect();
       if (pulseAnimationFrameRef.current !== null) cancelAnimationFrame(pulseAnimationFrameRef.current);
       for (const { marker } of pinMarkersRef.current) marker.remove();
       pinMarkersRef.current = [];
@@ -1453,10 +1558,12 @@ export default function WardMap() {
   //        winning, painting map pins over controls floating above the
   //        map. `isolate` forces the map div to own a stacking context,
   //        so "highest z-index" pins only ever mean "highest among pins."
-  //   20 — desktop-only (sm+) persistent control floating over the map
-  //        itself: the bottom-right theme popover. Search doesn't need a
-  //        rung here — it lives in SiteHeader, outside this scale (see
-  //        below) — and neither do the sidebars, for the same reason.
+  //   20 — desktop-only (sm+) persistent controls floating over the map
+  //        itself: the bottom-right theme popover, and the two sidebar
+  //        collapse toggles (one pinned to each edge of the map's own
+  //        box — see the return below). Search doesn't need a rung here —
+  //        it lives in SiteHeader, outside this scale (see below) — and
+  //        neither do the sidebars themselves, for the same reason.
   //   30 — mobile-only (below sm) scrim: a dimmed overlay behind whatever
   //        MobileNav has open (a tab's sheet, or the priority ward modal),
   //        blocking map interaction underneath it. See MobileNav's own
@@ -1489,27 +1596,47 @@ export default function WardMap() {
       <div className="flex min-h-0 flex-1">
         {/* Left sidebar: mode switcher + city/chamber filter — desktop/
             laptop only (sm+), modeled on mndatacenter.org's own left
-            filter sidebar (see AGENTS.md "Role in the wider project" for
-            why this app's chrome already tracks that sister site). Below
-            sm, the same controls (filterControls, defined above) live in
-            MobileNav's Filters tab instead — a fixed sidebar column
-            doesn't fit a phone-width screen, so mobile keeps its own
-            bottom-sheet pattern rather than squeezing this in too. */}
+            filter sidebar, collapse toggle included (see AGENTS.md "Role
+            in the wider project" for why this app's chrome already
+            tracks that sister site). Below sm, the same controls
+            (filterControls, defined above) live in MobileNav's Filters
+            tab instead — a fixed sidebar column doesn't fit a phone-width
+            screen, so mobile keeps its own bottom-sheet pattern rather
+            than squeezing this in too.
+
+            Stays mounted (and its width transitions, rather than the
+            element unmounting/remounting) whether collapsed or not, so
+            the transition has something to animate and the filter state
+            underneath survives a collapse — width alone can't reach 0
+            with a border still attached, so the border classes drop out
+            entirely in the collapsed branch below (see the comment on
+            the expanded branch for what they'd otherwise draw). The
+            inner div's fixed width keeps the filter groups from
+            reflowing/wrapping mid-transition — it just gets
+            progressively clipped by the shrinking overflow-x-hidden
+            outer box, reading as a slide rather than a squish. */}
         <aside
+          id="map-filters-sidebar"
           aria-label="Map filters"
-          // bg-panel-2 (not the workspace's usual --panel): a full step
-          // whiter than --canvas/--panel, so the sidebar reads as its own
-          // surface against the map rather than nearly the same gray.
-          // border-r-hair-strong does the same job on the inner edge (the
-          // seam against the map); border-l-sidebar-edge-accent puts a
-          // thin Night Sky Blue frame on the *outer* edge instead — the
-          // viewport's own left edge, where nothing else was competing
-          // for attention. See globals.css's --sidebar-edge-accent
-          // comment for why that's light-mode only (falls back to a
-          // plain --hair-strong sliver in dark mode).
-          className="hidden sm:flex sm:w-64 lg:w-72 shrink-0 flex-col gap-5 overflow-y-auto border-r border-r-hair-strong border-l-[3px] border-l-sidebar-edge-accent bg-panel-2 px-4 py-5 font-sans"
+          aria-hidden={leftFiltersCollapsed}
+          className={`hidden sm:flex shrink-0 flex-col overflow-x-hidden overflow-y-auto bg-panel-2 font-sans transition-[width] duration-300 ease-out ${
+            leftFiltersCollapsed
+              ? "sm:w-0"
+              : // bg-panel-2 (not the workspace's usual --panel): a full
+                // step whiter than --canvas/--panel, so the sidebar reads
+                // as its own surface against the map rather than nearly
+                // the same gray. border-r-hair-strong does the same job
+                // on the inner edge (the seam against the map);
+                // border-l-sidebar-edge-accent puts a thin Night Sky Blue
+                // frame on the *outer* edge instead — the viewport's own
+                // left edge, where nothing else was competing for
+                // attention. See globals.css's --sidebar-edge-accent
+                // comment for why that's light-mode only (falls back to
+                // a plain --hair-strong sliver in dark mode).
+                "sm:w-64 lg:w-72 border-r border-r-hair-strong border-l-[3px] border-l-sidebar-edge-accent"
+          }`}
         >
-          {sidebarFilterControls}
+          <div className="flex h-full w-64 shrink-0 flex-col gap-5 px-4 py-5 lg:w-72">{sidebarFilterControls}</div>
         </aside>
 
         {/* Center: the map itself, plus whatever actually needs to float
@@ -1518,6 +1645,27 @@ export default function WardMap() {
             instead of overlays. */}
         <div className="relative min-h-0 flex-1">
           <div ref={mapContainerRef} className="absolute inset-0 w-full h-full isolate z-0" />
+
+          {/* Left sidebar's pull-tab — mndatacenter.org's own mechanism
+              (a small tab stuck to the panel's edge, chevron flips
+              direction on toggle), adapted for a real flex sidebar rather
+              than their absolutely-positioned one: this button lives in
+              the map's own wrapper, not the sidebar, positioned flush
+              against *this box's* left edge — which is exactly the seam
+              against the sidebar when it's expanded, and the viewport's
+              own left edge once the sidebar has collapsed out from under
+              it. No transform math needed to keep it there; it's just
+              always drawn at whatever this box's current left edge is. */}
+          <button
+            type="button"
+            onClick={() => setLeftFiltersCollapsed(!leftFiltersCollapsed)}
+            aria-expanded={!leftFiltersCollapsed}
+            aria-controls="map-filters-sidebar"
+            aria-label={leftFiltersCollapsed ? "Show map filters" : "Hide map filters"}
+            className="hidden sm:flex absolute left-0 top-1/2 z-20 h-12 w-6 -translate-y-1/2 items-center justify-center rounded-r-lg border border-l-0 border-hair-strong bg-panel-2 text-ink-3 shadow-md shadow-(color:--shadow-panel) transition-colors hover:bg-hover hover:text-ink focus:outline-none focus-visible:ring-2 focus-visible:ring-sidebar-accent"
+          >
+            <IconChevron className={leftFiltersCollapsed ? "rotate-180" : ""} />
+          </button>
 
           {/* Site theme + basemap popover — desktop/laptop only; the
               component hides itself below sm (see MapThemeSelector's own
@@ -1529,6 +1677,19 @@ export default function WardMap() {
             onSelectSiteTheme={selectSiteTheme}
             onSelectMapStyle={selectMapStyle}
           />
+
+          {/* Right sidebar's pull-tab — mirrors the left one above, flush
+              against this box's right edge instead. */}
+          <button
+            type="button"
+            onClick={() => setRightDetailCollapsed(!rightDetailCollapsed)}
+            aria-expanded={!rightDetailCollapsed}
+            aria-controls="map-detail-sidebar"
+            aria-label={rightDetailCollapsed ? "Show representative details" : "Hide representative details"}
+            className="hidden sm:flex absolute right-0 top-1/2 z-20 h-12 w-6 -translate-y-1/2 items-center justify-center rounded-l-lg border border-r-0 border-hair-strong bg-panel-2 text-ink-3 shadow-md shadow-(color:--shadow-panel) transition-colors hover:bg-hover hover:text-ink focus:outline-none focus-visible:ring-2 focus-visible:ring-sidebar-accent"
+          >
+            <IconChevron className={rightDetailCollapsed ? "" : "rotate-180"} />
+          </button>
 
           {/* Mobile (below sm): one bottom tab bar for Search/Filters/
               Theme, plus whatever sheet is currently raised — a tab's own
@@ -1547,40 +1708,51 @@ export default function WardMap() {
 
         {/* Right sidebar: the hovered/selected rep's detail panel —
             desktop/laptop only, modeled on mndatacenter.org's own right
-            detail panel. Persistent — mounted (and reserving its width)
-            whether or not anything's currently selected, rather than only
-            appearing on selection: a hover preview swapping this column's
-            *content* never reflows the map next to it, where a
-            conditionally-mounted column would resize the map underneath
-            the cursor on every hover. Below sm, the same content
-            (WardModal) lives in MobileNav's sheet slot instead — see
-            mobileSheetContent above. */}
+            detail panel. Persistent when not manually collapsed —
+            mounted (and reserving its width) whether or not anything's
+            currently selected, rather than only appearing on selection:
+            a hover preview swapping this column's *content* never
+            reflows the map next to it, where a conditionally-mounted
+            column would resize the map underneath the cursor on every
+            hover. Collapsing it is a deliberate click on the toggle
+            above, not a passive hover, so that reflow is expected there
+            — see selectPinned's comment on why an explicit selection
+            (unlike a hover) force-expands it back out. Below sm, the
+            same content (WardModal) lives in MobileNav's sheet slot
+            instead — see mobileSheetContent above. */}
         <aside
+          id="map-detail-sidebar"
           aria-label="Selected representative"
-          // Mirrors the left sidebar's contrast/edge treatment — see its
-          // own comment above — with the flag-blue accent moved to *this*
-          // sidebar's outer edge (the viewport's right edge) instead.
-          className="hidden sm:flex sm:w-80 lg:w-96 shrink-0 flex-col border-l border-l-hair-strong border-r-[3px] border-r-sidebar-edge-accent bg-panel-2 overflow-y-auto font-sans"
+          aria-hidden={rightDetailCollapsed}
+          // Mirrors the left sidebar's contrast/edge/collapse treatment —
+          // see its own comment above — with the flag-blue accent moved
+          // to *this* sidebar's outer edge (the viewport's right edge)
+          // instead.
+          className={`hidden sm:flex shrink-0 flex-col overflow-x-hidden overflow-y-auto bg-panel-2 font-sans transition-[width] duration-300 ease-out ${
+            rightDetailCollapsed ? "sm:w-0" : "sm:w-80 lg:w-96 border-l border-l-hair-strong border-r-[3px] border-r-sidebar-edge-accent"
+          }`}
         >
-          {selected ? (
-            <WardModal ward={selected.properties} pinned={selected.pinned} onClose={deselect} variant="sidebar" />
-          ) : (
-            <div className="flex flex-1 flex-col items-center justify-center gap-3 px-6 py-10 text-center text-sm text-ink-3">
-              <svg viewBox="0 0 20 20" fill="none" aria-hidden="true" className="h-8 w-8 shrink-0 text-sidebar-accent">
-                <path
-                  d="M10 18s6-5.2 6-9.6A6 6 0 0 0 4 8.4C4 12.8 10 18 10 18Z"
-                  stroke="currentColor"
-                  strokeWidth="1.5"
-                  strokeLinejoin="round"
-                />
-                <circle cx="10" cy="8.2" r="2" stroke="currentColor" strokeWidth="1.5" />
-              </svg>
-              <p>
-                Hover or select a ward, mayor, or district on the map to see who represents it, how they&rsquo;ve
-                voted, and how to reach them.
-              </p>
-            </div>
-          )}
+          <div className="flex h-full w-80 shrink-0 flex-col lg:w-96">
+            {selected ? (
+              <WardModal ward={selected.properties} pinned={selected.pinned} onClose={deselect} variant="sidebar" />
+            ) : (
+              <div className="flex flex-1 flex-col items-center justify-center gap-3 px-6 py-10 text-center text-sm text-ink-3">
+                <svg viewBox="0 0 20 20" fill="none" aria-hidden="true" className="h-8 w-8 shrink-0 text-sidebar-accent">
+                  <path
+                    d="M10 18s6-5.2 6-9.6A6 6 0 0 0 4 8.4C4 12.8 10 18 10 18Z"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    strokeLinejoin="round"
+                  />
+                  <circle cx="10" cy="8.2" r="2" stroke="currentColor" strokeWidth="1.5" />
+                </svg>
+                <p>
+                  Hover or select a ward, mayor, or district on the map to see who represents it, how they&rsquo;ve
+                  voted, and how to reach them.
+                </p>
+              </div>
+            )}
+          </div>
         </aside>
       </div>
     </div>
