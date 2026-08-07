@@ -539,6 +539,24 @@ export interface WardModalProps {
   variant?: "sheet" | "sidebar";
 }
 
+// The panel's visible heading, per-location instead of a fixed string —
+// "{City} - Ward {n}" (or "{City} - {wardName} District" for the handful of
+// cities that name rather than number their districts, same as roleLabel
+// above) so a resident scanning a panel that stays mounted across
+// hover/click can tell at a glance which location it's now showing,
+// without reading down into the City section's OfficialCards. Falls back
+// to just the city name for a Mayor-only match (city-wide, no ward), and
+// to the previous static copy when the point falls outside every mapped
+// city (§3.3 coverage honesty — no city officials resolved is not an
+// error, just nothing to name).
+function panelHeading(officials: AreaOfficials): string {
+  const wardRep = officials.city.find((rep) => rep.role === "Council Member");
+  if (wardRep) return `${wardRep.city} - ${roleLabel(wardRep)}`;
+  const cityRep = officials.city[0];
+  if (cityRep) return cityRep.city;
+  return "Representatives for this location";
+}
+
 // The panel-level container: owns the one close button, the mobile
 // drag-handle, and the outer scroll/height for the whole panel — none of
 // which belong to any single official now that a panel can hold up to six
@@ -593,7 +611,7 @@ export default function WardModal({ officials, onClose, variant = "sheet" }: War
         className="flex items-center justify-between gap-2 px-4 pt-2 pb-2 sm:pt-4 shrink-0"
         style={{ backgroundColor: PANEL_HEADER_BG, color: PANEL_HEADER_TEXT }}
       >
-        <h2 className="text-sm font-bold">Representatives for this location</h2>
+        <h2 className="text-2xl font-extrabold">{panelHeading(officials)}</h2>
         <button
           type="button"
           onClick={onClose}
