@@ -23,7 +23,7 @@
 
 import { Info } from "lucide-react";
 import { useEffect, useId, useRef, useState } from "react";
-import { COMMISSIONER_COUNTIES, NOT_COVERED_ANYWHERE, STATE_LEGISLATURE_NOTE, WARD_CITIES } from "@/lib/coverage";
+import { CITY_BOUNDARIES_NOTE, COMMISSIONER_COUNTIES, NOT_COVERED_ANYWHERE, STATE_LEGISLATURE_NOTE, WARD_CITIES } from "@/lib/coverage";
 
 export default function CoverageNotice() {
   const [open, setOpen] = useState(false);
@@ -86,6 +86,9 @@ export default function CoverageNotice() {
             — not the whole metro. State legislature coverage is statewide; see below for what&apos;s still missing there.
           </p>
           <div className="space-y-1.5 border-t border-hair pt-2">
+            <p>
+              <span className="font-medium text-ink-2">City limits</span> — {CITY_BOUNDARIES_NOTE}
+            </p>
             <p>
               <span className="font-medium text-ink-2">City council &amp; mayor</span> — {WARD_CITIES.join(", ")}.
             </p>

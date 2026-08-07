@@ -103,7 +103,34 @@ export const CAMPAIGN_FINANCE_LAYER: LayerRegistryEntry = {
   ],
 };
 
+// Statewide city-limits backdrop — every incorporated Minnesota city's
+// corporate boundary, sourced from MnDOT/MnGeo's weekly-published CTU
+// dataset. Purely boundary geometry, not an officeholder record: no
+// per-feature verifiedAt/verifiedAgainst (AGENTS.md §3.2's staleness rule
+// is scoped to officeholder-joined records) and no roster data of its own
+// — WardMap.tsx renders it as a low-opacity fill underneath every other
+// tier so a resident outside this app's covered cities still sees their
+// city's own outline instead of nothing. See AGENTS.md §0.1 and §3.3.
+export const CITY_BOUNDARIES_LAYER: LayerRegistryEntry = {
+  id: "city-boundaries",
+  label: "City Limits (statewide)",
+  description:
+    "Corporate boundary of every incorporated Minnesota city, statewide — a plain outline backdrop, not a roster. Rendered under every other tier so a city with no ward/council data mapped here still shows on the map.",
+  ingestScript: "scripts/fetch-city-boundaries.mjs",
+  publicDataPath: "/city-boundaries.geojson",
+  status: "live",
+  coverage:
+    "Every incorporated Minnesota city's corporate boundary, statewide. Boundary only — no roster, vote, or contact data of its own. Only the cities in src/lib/cities.ts's CITIES have ward/mayor data layered on top of this backdrop.",
+  primarySourceUrl: "https://gisdata.mn.gov/dataset/bdry-mn-city-township-unorg",
+  sourceAgency: "Minnesota Department of Transportation / MnGeo",
+  knownGaps: [
+    "Townships and unorganized territory are intentionally excluded (CTU_CLASS='CITY' filter only) — this layer is incorporated cities only.",
+    "This dataset spells city names out in full (e.g. \"Saint Paul\", \"Saint Louis Park\") — it is not cross-referenced against src/lib/cities.ts's abbreviated forms (\"St. Paul\", \"St. Louis Park\"), so a covered city's ward data and its city-boundaries backdrop are not visually distinguished from an uncovered city's outline.",
+  ],
+};
+
 export const LAYER_REGISTRY: readonly LayerRegistryEntry[] = [
   MINNEAPOLIS_MEETINGS_VOTES_LAYER,
   CAMPAIGN_FINANCE_LAYER,
+  CITY_BOUNDARIES_LAYER,
 ];

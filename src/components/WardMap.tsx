@@ -103,6 +103,20 @@ const AT_LARGE_BOUNDARIES_SOURCE_ID = "at-large-boundaries-source";
 const AT_LARGE_BOUNDARY_FILL_LAYER_ID = "at-large-boundary-fill";
 const AT_LARGE_BOUNDARY_OUTLINE_LAYER_ID = "at-large-boundary-outline";
 
+// Statewide "city limits" backdrop — every incorporated MN city's own
+// corporate boundary (public/city-boundaries.geojson, see
+// fetch-city-boundaries.mjs), not just the cities.ts cities this app has
+// ward/mayor data for. Always available regardless of LayerMode (a
+// resident should see it whichever of the three tiers they're viewing),
+// so it's toggled by its own independent checkbox rather than folded into
+// LayerMode — see cityBoundariesVisibleRef/toggleCityBoundaries below.
+// Added to the map FIRST, before WARDS_SOURCE_ID/every other tier, so
+// z-order alone (this file never passes `beforeId` to addLayer) keeps it
+// painted underneath every real data layer.
+const CITY_BOUNDARIES_SOURCE_ID = "city-boundaries-source";
+const CITY_BOUNDARIES_FILL_LAYER_ID = "city-boundaries-fill";
+const CITY_BOUNDARIES_OUTLINE_LAYER_ID = "city-boundaries-outline";
+
 const COMMISSIONERS_SOURCE_ID = "commissioners-source";
 const COMMISSIONERS_FILL_LAYER_ID = "commissioners-fill";
 const COMMISSIONERS_OUTLINE_LAYER_ID = "commissioners-outline";
@@ -619,9 +633,15 @@ interface PrimaryCivicData {
 // fetchSecondaryCivicData's own comment for why these are fetched
 // separately, and afterward, rather than in the same Promise.all as
 // PrimaryCivicData above.
+// cityBoundaries rides along with commissioners/stateLeg here rather than
+// with PrimaryCivicData above: it's a backdrop, not something the default
+// "wards" view's search/pin flow depends on, so it's fine to arrive a
+// moment later — same reasoning that already applies to commissioners and
+// stateLeg (see this interface's own comment above).
 interface SecondaryCivicData {
   commissioners: FeatureCollection;
   stateLeg: FeatureCollection;
+  cityBoundaries: FeatureCollection;
 }
 
 // Fetches wards/mayors/at-large-boundaries independently of the MapLibre
@@ -673,12 +693,17 @@ async function fetchPrimaryCivicData(): Promise<PrimaryCivicData | null> {
 // independent of which LayerMode is visible). See issue #67 Finding 2.
 async function fetchSecondaryCivicData(): Promise<SecondaryCivicData | null> {
   try {
-    const [commissionersRes, stateLegRes] = await Promise.all([
+    const [commissionersRes, stateLegRes, cityBoundariesRes] = await Promise.all([
       fetch(dataUrl("commissioners.geojson")),
       fetch(dataUrl("state-legislature.geojson")),
+      fetch(dataUrl("city-boundaries.geojson")),
     ]);
-    const [commissioners, stateLeg] = await Promise.all([commissionersRes.json(), stateLegRes.json()]);
-    return { commissioners, stateLeg };
+    const [commissioners, stateLeg, cityBoundaries] = await Promise.all([
+      commissionersRes.json(),
+      stateLegRes.json(),
+      cityBoundariesRes.json(),
+    ]);
+    return { commissioners, stateLeg, cityBoundaries };
   } catch (err) {
     console.error("[WardMap] failed to load secondary civic data (commissioners/state legislature)", err);
     return null;
@@ -884,6 +909,7 @@ export default function WardMap() {
   const commissionersDataRef = useRef<FeatureCollection | null>(null);
   const stateLegDataRef = useRef<FeatureCollection | null>(null);
   const atLargeBoundariesDataRef = useRef<FeatureCollection | null>(null);
+  const cityBoundariesDataRef = useRef<FeatureCollection | null>(null);
   // The in-flight/settled fetchPrimaryCivicData() call — a ref (not
   // state) because the map-setup effect below needs to `await` this
   // exact promise instance rather than re-fetch, and refs (unlike state)
@@ -932,6 +958,13 @@ export default function WardMap() {
   const visibleCitiesRef = useRef(visibleCities);
   const [chamber, setChamber] = useState<Chamber>("house");
   const chamberRef = useRef(chamber);
+  // City limits backdrop — on by default, independent of layerMode (see
+  // CITY_BOUNDARIES_SOURCE_ID's own comment). A ref alongside the state
+  // for the same reason visibleCitiesRef/chamberRef exist: toggleCityBoundaries
+  // needs the current value synchronously, before the effect below would
+  // otherwise sync it.
+  const [cityBoundariesVisible, setCityBoundariesVisible] = useState(true);
+  const cityBoundariesVisibleRef = useRef(cityBoundariesVisible);
   // Sidebar collapse state — see LEFT_FILTERS_COLLAPSED_KEY's own comment.
   // Both default to false (expanded) here rather than reading storage in
   // the initializer, same SSR-safety reasoning as mapStyleId/siteTheme
@@ -989,6 +1022,10 @@ export default function WardMap() {
   }, [layerMode]);
 
   useEffect(() => {
+    cityBoundariesVisibleRef.current = cityBoundariesVisible;
+  }, [cityBoundariesVisible]);
+
+  useEffect(() => {
     rightDetailCollapsedRef.current = rightDetailCollapsed;
   }, [rightDetailCollapsed]);
 
@@ -1021,6 +1058,7 @@ export default function WardMap() {
         if (!secondary) return;
         commissionersDataRef.current = secondary.commissioners;
         stateLegDataRef.current = secondary.stateLeg;
+        cityBoundariesDataRef.current = secondary.cityBoundaries;
         const commissionersBounds = boundsFromFeatureCollection(secondary.commissioners);
         const stateLegBounds = boundsFromFeatureCollection(secondary.stateLeg);
         if (!commissionersBounds.isEmpty()) commissionersBoundsRef.current = commissionersBounds;
@@ -1335,6 +1373,23 @@ export default function WardMap() {
     setSelected(null);
     applyLayerMode(mode);
     zoomToDefault(mode);
+  };
+
+  // Independent of switchMode above — the city-limits backdrop shows
+  // alongside every LayerMode (see CITY_BOUNDARIES_SOURCE_ID's own
+  // comment), so this just flips its own layout visibility rather than
+  // going through applyLayerMode's per-mode layer groups.
+  const toggleCityBoundaries = () => {
+    const next = !cityBoundariesVisibleRef.current;
+    cityBoundariesVisibleRef.current = next;
+    setCityBoundariesVisible(next);
+    const map = mapRef.current;
+    if (map) {
+      const visibility = next ? "visible" : "none";
+      for (const layerId of [CITY_BOUNDARIES_FILL_LAYER_ID, CITY_BOUNDARIES_OUTLINE_LAYER_ID]) {
+        if (map.getLayer(layerId)) map.setLayoutProperty(layerId, "visibility", visibility);
+      }
+    }
   };
 
   // A resident picking a basemap by hand makes it sticky (storeMapStyleId) —
@@ -1720,7 +1775,7 @@ export default function WardMap() {
     };
 
     let secondaryPinsAdded = false;
-    const addSecondaryPins = (secondary: SecondaryCivicData) => {
+    const addSecondaryPins = (secondary: Pick<SecondaryCivicData, "commissioners" | "stateLeg">) => {
       if (secondaryPinsAdded) return;
       secondaryPinsAdded = true;
       const { commissioners: commissionersData, stateLeg: stateLegData } = secondary;
@@ -1775,6 +1830,7 @@ export default function WardMap() {
       const atLargeBoundariesData = atLargeBoundariesDataRef.current!;
       const commissionersData = commissionersDataRef.current ?? EMPTY_FEATURE_COLLECTION;
       const stateLegData = stateLegDataRef.current ?? EMPTY_FEATURE_COLLECTION;
+      const cityBoundariesData = cityBoundariesDataRef.current ?? EMPTY_FEATURE_COLLECTION;
 
       // Tuned against the *current basemap's* own darkness — see
       // OUTLINE_COLOR/LABEL_PAINT's own comment — recomputed on every call
@@ -1783,6 +1839,32 @@ export default function WardMap() {
       const dark = isMapStyleDark(currentStyleId);
       const outlineColor = dark ? OUTLINE_COLOR.dark : OUTLINE_COLOR.light;
       const labelPaint = dark ? LABEL_PAINT.dark : LABEL_PAINT.light;
+
+      // Statewide city-limits backdrop — added first, before every other
+      // source/layer below, so z-order alone (no `beforeId` is ever passed
+      // to addLayer in this file) keeps it painted underneath every real
+      // data tier. See CITY_BOUNDARIES_SOURCE_ID's own comment. Low flat
+      // opacity, one neutral color (not the per-city palette wards use —
+      // this is backdrop, not a data-carrying fill), reusing OUTLINE_COLOR
+      // for basemap-dark/light contrast the same way every outline here
+      // already does. Starts at cityBoundariesVisibleRef's current value
+      // (default visible) so a basemap swap — which calls this function
+      // again — doesn't silently re-show a layer the user just hid.
+      map.addSource(CITY_BOUNDARIES_SOURCE_ID, { type: "geojson", data: cityBoundariesData });
+      map.addLayer({
+        id: CITY_BOUNDARIES_FILL_LAYER_ID,
+        type: "fill",
+        source: CITY_BOUNDARIES_SOURCE_ID,
+        layout: { visibility: cityBoundariesVisibleRef.current ? "visible" : "none" },
+        paint: { "fill-color": outlineColor, "fill-opacity": 0.08 },
+      });
+      map.addLayer({
+        id: CITY_BOUNDARIES_OUTLINE_LAYER_ID,
+        type: "line",
+        source: CITY_BOUNDARIES_SOURCE_ID,
+        layout: { visibility: cityBoundariesVisibleRef.current ? "visible" : "none" },
+        paint: { "line-color": outlineColor, "line-width": 0.5, "line-opacity": 0.5 },
+      });
 
       map.addSource(WARDS_SOURCE_ID, { type: "geojson", data });
       map.addSource(COMMISSIONERS_SOURCE_ID, { type: "geojson", data: commissionersData });
@@ -1963,6 +2045,18 @@ export default function WardMap() {
       // over the canvas before the target layer has been added. Re-bound on
       // every call (including after a basemap swap) since setStyle() drops
       // these layer-scoped listeners along with the layers themselves.
+      // Registered before every other tier's own listeners below — MapLibre
+      // fires each layer-scoped delegate independently off the same
+      // physical mousemove event (it doesn't only fire the topmost), so
+      // registration order is what decides which one's setSelected() call
+      // wins when the cursor sits over both this backdrop and a real tier
+      // at once (every covered city's whole area, by construction).
+      // Registering city-boundaries first means it always runs first and
+      // gets overwritten by whichever real tier's own handler fires after
+      // it on the same event — see handleHoverMove's own CITY_BOUNDARIES
+      // branch for the other half of this.
+      map.on("mousemove", CITY_BOUNDARIES_FILL_LAYER_ID, handleHoverMove);
+      map.on("mouseleave", CITY_BOUNDARIES_FILL_LAYER_ID, handleHoverLeave);
       map.on("mousemove", WARDS_FILL_LAYER_ID, handleHoverMove);
       map.on("mouseleave", WARDS_FILL_LAYER_ID, handleHoverLeave);
       map.on("mousemove", AT_LARGE_BOUNDARY_FILL_LAYER_ID, handleHoverMove);
@@ -2039,6 +2133,7 @@ export default function WardMap() {
       if (!commissionersSource || !stateLegSource) return;
       commissionersSource.setData(secondary.commissioners);
       stateLegSource.setData(secondary.stateLeg);
+      (map.getSource(CITY_BOUNDARIES_SOURCE_ID) as maplibregl.GeoJSONSource | undefined)?.setData(secondary.cityBoundaries);
       (map.getSource(COMMISSIONERS_LABEL_SOURCE_ID) as maplibregl.GeoJSONSource | undefined)?.setData(
         labelPointsFromFeatureCollection(secondary.commissioners),
       );
@@ -2165,6 +2260,21 @@ export default function WardMap() {
         setSelected({ officials: resolveSelectionAtPoint(point), pinned: false });
         return;
       }
+      // Same "no real RepProperties to seed `known` with" case as the
+      // at-large branch above — city-boundaries features carry only
+      // `{ name, county, population, gnisId }`, no office. resolveSelectionAtPoint
+      // still runs (with no `known`) so a covered city's ward/mayor tier
+      // resolves normally when this branch fires ahead of the real tier's
+      // own handler (see this listener's registration-order comment); an
+      // uncovered city correctly resolves to every tier empty, which is
+      // what surfaces WardModal's existing coverage.ts empty-state notes.
+      if (feature.layer.id === CITY_BOUNDARIES_FILL_LAYER_ID) {
+        const hoverIdentity = `city-boundary:${feature.properties?.name}`;
+        if (hoverIdentity === lastHoverIdentityRef.current) return;
+        lastHoverIdentityRef.current = hoverIdentity;
+        setSelected({ officials: resolveSelectionAtPoint(point), pinned: false });
+        return;
+      }
       // The hovered layer's own hit seeds its tier exactly (see
       // resolveSelectionAtPoint's comment); the other two tiers — always
       // hidden right now, since only one LayerMode is ever visible — still
@@ -2196,11 +2306,18 @@ export default function WardMap() {
       // Guard against a click landing before the async load handler has
       // finished adding both fill layers — queryRenderedFeatures throws if
       // any listed layer ID doesn't exist yet, instead of just ignoring it.
+      // City-boundaries listed last — it's painted underneath every other
+      // tier (added first, see CITY_BOUNDARIES_SOURCE_ID's own comment), so
+      // queryRenderedFeatures's topmost-first ordering already makes wards/
+      // at-large/commissioners/state-legislature win a click inside a
+      // covered city regardless of this array's own order; listed last
+      // purely to read consistently with that z-order.
       const queryableLayers = [
         WARDS_FILL_LAYER_ID,
         AT_LARGE_BOUNDARY_FILL_LAYER_ID,
         COMMISSIONERS_FILL_LAYER_ID,
         STATE_LEG_FILL_LAYER_ID,
+        CITY_BOUNDARIES_FILL_LAYER_ID,
       ].filter((id) => map.getLayer(id));
       if (queryableLayers.length === 0) return;
       const features = map.queryRenderedFeatures(e.point, {
@@ -2223,6 +2340,24 @@ export default function WardMap() {
         setActiveMobileSheet(null);
         const boundaryFeature = atLargeBoundariesDataRef.current?.features.find(
           (f) => f.properties?.city === hit.properties?.city,
+        );
+        zoomToBounds(boundsFromFeature((boundaryFeature ?? hit) as Feature<Geometry>));
+        return;
+      }
+      // Same "no real RepProperties to seed `known` with" case as the
+      // at-large branch above. Only ever reached for a city with no ward,
+      // at-large, commissioner, or state-legislature polygon under the
+      // click (those all paint on top of this backdrop and win the
+      // queryRenderedFeatures tie first) — resolveSelectionAtPoint(point)
+      // with no `known` then resolves to every tier empty, surfacing
+      // WardModal's existing "outside every city this map has ward data
+      // for" empty state (coverage.ts's CITY_TIER_EMPTY_NOTE).
+      if (hit.layer.id === CITY_BOUNDARIES_FILL_LAYER_ID) {
+        const point = toPoint(e.lngLat);
+        selectPinned(resolveSelectionAtPoint(point));
+        setActiveMobileSheet(null);
+        const boundaryFeature = cityBoundariesDataRef.current?.features.find(
+          (f) => f.properties?.name === hit.properties?.name,
         );
         zoomToBounds(boundsFromFeature((boundaryFeature ?? hit) as Feature<Geometry>));
         return;
@@ -2470,6 +2605,21 @@ export default function WardMap() {
       </div>
 
       <div>
+        {/* Independent of the Level toggle above — an always-available
+            backdrop, not a 4th mutually-exclusive tier. See
+            toggleCityBoundaries's own comment. */}
+        <label className="flex items-center gap-2 px-3 py-2.5 sm:py-2 cursor-pointer select-none hover:bg-hover">
+          <input
+            type="checkbox"
+            checked={cityBoundariesVisible}
+            onChange={toggleCityBoundaries}
+            className="cursor-pointer accent-accent"
+          />
+          City limits
+        </label>
+      </div>
+
+      <div>
         {layerMode === "state-legislature" ? (
           filterSectionLabel("floating", "Chamber")
         ) : (
@@ -2549,6 +2699,20 @@ export default function WardMap() {
   // column below does that spacing job between sections.
   const sidebarFilterControls = (
     <>
+      <div>
+        {/* Independent of the Level tabs above it — an always-available
+            backdrop, not a 4th mutually-exclusive tier. See
+            toggleCityBoundaries's own comment. */}
+        <label className="flex items-center gap-2 px-3 py-2.5 sm:py-2 cursor-pointer select-none hover:bg-sidebar-hover">
+          <input
+            type="checkbox"
+            checked={cityBoundariesVisible}
+            onChange={toggleCityBoundaries}
+            className="cursor-pointer accent-accent"
+          />
+          City limits
+        </label>
+      </div>
       <div>
         <div className="mb-1.5 flex items-center justify-between gap-2">
           {filterSectionLabel("sidebar", layerMode === "state-legislature" ? "Chamber" : "Areas shown")}

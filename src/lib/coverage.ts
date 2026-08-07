@@ -57,6 +57,13 @@ export const COMMISSIONER_COUNTIES = ["Hennepin", "Ramsey"] as const;
 export const STATE_LEGISLATURE_NOTE =
   "MN House & Senate districts statewide. Party-unity scores and recent votes come from a sample of recent roll calls, so not every legislator has one yet.";
 
+// Mirrors src/lib/layers.ts's CITY_BOUNDARIES_LAYER coverage field — that
+// registry entry is the ground truth this note has to stay in sync with by
+// hand, same relationship COMMISSIONER_COUNTIES/STATE_LEGISLATURE_NOTE
+// above have with their own fetch scripts. WARD_CITIES.length (not a
+// hand-typed "17") so this drifts along with cities.ts automatically.
+export const CITY_BOUNDARIES_NOTE = `All incorporated Minnesota cities are outlined on the map; only ${WARD_CITIES.length} have ward or council data mapped on top.`;
+
 // Empty-state copy for WardModal's multi-tier (city/county/state) panel —
 // what to say when resolveOfficialsAtPoint (src/lib/officials.ts) comes
 // back with no hit for a given tier at the point the user hovered, clicked,
