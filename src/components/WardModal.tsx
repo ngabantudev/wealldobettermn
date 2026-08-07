@@ -658,7 +658,13 @@ export default function WardModal({ officials, onClose, variant = "sheet" }: War
               tabIndex={isActive ? 0 : -1}
               onClick={() => setActiveTier(key)}
               onKeyDown={handleTabKeyDown}
-              className="flex-1 px-4 py-2.5 text-center text-[11px] font-semibold uppercase tracking-wide focus:outline-none focus-visible:ring-2 focus-visible:ring-inset"
+              className={`flex-1 px-4 py-2.5 text-center text-xs font-semibold uppercase tracking-wide transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-inset ${
+                // Same `--hover` token the left sidebar's city rows use
+                // (WardMap.tsx's filterListClass rows), applied only to
+                // the inactive tabs — the active tab already has its own
+                // solid fill and shouldn't visually flicker on hover.
+                isActive ? "" : "hover:bg-hover"
+              }`}
               style={{
                 backgroundColor: isActive ? TIER_HEADER_BG : "transparent",
                 color: isActive ? TIER_HEADER_TEXT : "inherit",
