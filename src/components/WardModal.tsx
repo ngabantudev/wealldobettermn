@@ -194,9 +194,20 @@ export interface WardModalProps {
   ward: RepProperties;
   pinned: boolean;
   onClose: () => void;
+  // "sheet" (the default): this component owns its own card chrome — a
+  // rounded, bordered, shadowed surface meant to float over the map or
+  // MapLibre's dimmed scrim. That's mobile's bottom sheet and (previously)
+  // desktop's own floating bottom-left card.
+  // "sidebar": this component is mounted inside WardMap's persistent right
+  // `<aside>` instead, which already supplies the panel background, the
+  // left border, and the scrolling — a second card nested inside that
+  // column would just double up borders/shadows around content that's
+  // already framed by the sidebar itself. Content (the pinned-vs-hover
+  // branch below) is identical either way; only the outer wrapper changes.
+  variant?: "sheet" | "sidebar";
 }
 
-export default function WardModal({ ward: rep, pinned, onClose }: WardModalProps) {
+export default function WardModal({ ward: rep, pinned, onClose, variant = "sheet" }: WardModalProps) {
   const repName = displayName(rep.repName);
   const accent = partyColor(rep.repParty);
   const accentSoft = partyColorSoft(rep.repParty);
@@ -236,12 +247,12 @@ export default function WardModal({ ward: rep, pinned, onClose }: WardModalProps
   // there's room to say so plainly rather than implying a check that
   // never happened.
   if (!pinned) {
+    const wrapperClass =
+      variant === "sidebar"
+        ? "pointer-events-auto w-full"
+        : "pointer-events-auto w-72 rounded-xl border border-hair bg-panel-2 shadow-xl shadow-(color:--shadow-panel) overflow-hidden";
     return (
-      <div
-        className="pointer-events-auto w-72 rounded-xl border border-hair bg-panel-2 shadow-xl shadow-(color:--shadow-panel) overflow-hidden"
-        role="dialog"
-        aria-label={`${areaLabel(rep)} ${roleLabel(rep)} preview`}
-      >
+      <div className={wrapperClass} role="dialog" aria-label={`${areaLabel(rep)} ${roleLabel(rep)} preview`}>
         <div className="flex items-center gap-3 p-3">
           <div className="h-11 w-11 text-base">{avatar}</div>
           <div className="min-w-0 flex-1">
@@ -267,12 +278,13 @@ export default function WardModal({ ward: rep, pinned, onClose }: WardModalProps
     );
   }
 
+  const pinnedWrapperClass =
+    variant === "sidebar"
+      ? "pointer-events-auto flex h-full w-full flex-col overflow-y-auto"
+      : "pointer-events-auto w-full sm:w-[380px] max-h-[75vh] sm:max-h-[80vh] flex flex-col rounded-t-2xl sm:rounded-2xl border border-hair bg-panel-2 shadow-2xl shadow-(color:--shadow-panel) overflow-hidden";
+
   return (
-    <div
-      className="pointer-events-auto w-full sm:w-[380px] max-h-[75vh] sm:max-h-[80vh] flex flex-col rounded-t-2xl sm:rounded-2xl border border-hair bg-panel-2 shadow-2xl shadow-(color:--shadow-panel) overflow-hidden"
-      role="dialog"
-      aria-label={`${areaLabel(rep)} ${roleLabel(rep)} info`}
-    >
+    <div className={pinnedWrapperClass} role="dialog" aria-label={`${areaLabel(rep)} ${roleLabel(rep)} info`}>
       {/* Drag-handle affordance — bottom-sheet convention, mobile only */}
       <div className="sm:hidden flex justify-center pt-2 pb-1 shrink-0">
         <div className="h-1 w-9 rounded-full bg-hair-strong" />
