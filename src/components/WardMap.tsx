@@ -1660,17 +1660,15 @@ export default function WardMap() {
               : // bg-panel-2 (not the workspace's usual --panel): a full
                 // step whiter than --canvas/--panel, so the sidebar reads
                 // as its own surface against the map rather than nearly
-                // the same gray. No border on the inner edge (the seam
-                // against the map) — that seam is also where the pull-tab
-                // toggle button sits, and a plain hairline there just
-                // doubled up against the button's own border. Only
-                // border-l-sidebar-edge-accent remains, a thin Night Sky
-                // Blue frame on the *outer* edge — the viewport's own left
-                // edge, where nothing else was competing for attention.
-                // See globals.css's --sidebar-edge-accent comment for why
-                // that's light-mode only (falls back to a plain
-                // --hair-strong sliver in dark mode).
-                "sm:w-64 lg:w-72 border-l-[3px] border-l-sidebar-edge-accent"
+                // the same gray. border-r-hair-strong does the same job
+                // on the inner edge (the seam against the map);
+                // border-l-sidebar-edge-accent puts a thin Night Sky Blue
+                // frame on the *outer* edge instead — the viewport's own
+                // left edge, where nothing else was competing for
+                // attention. See globals.css's --sidebar-edge-accent
+                // comment for why that's light-mode only (falls back to
+                // a plain --hair-strong sliver in dark mode).
+                "sm:w-64 lg:w-72 border-r border-r-hair-strong border-l-[3px] border-l-sidebar-edge-accent"
           }`}
         >
           <div className="flex h-full w-64 shrink-0 flex-col gap-5 px-4 py-5 lg:w-72">{sidebarFilterControls}</div>
@@ -1791,12 +1789,11 @@ export default function WardMap() {
           aria-label="Selected representative"
           aria-hidden={rightDetailCollapsed}
           // Mirrors the left sidebar's contrast/edge/collapse treatment —
-          // see its own comment above, including dropping the inner-edge
-          // hairline that used to double up against the pull-tab button
-          // there — with the flag-blue accent moved to *this* sidebar's
-          // outer edge (the viewport's right edge) instead.
+          // see its own comment above — with the flag-blue accent moved
+          // to *this* sidebar's outer edge (the viewport's right edge)
+          // instead.
           className={`hidden sm:flex shrink-0 flex-col overflow-x-hidden overflow-y-auto bg-panel-2 font-sans transition-[width] duration-300 ease-out ${
-            rightDetailCollapsed ? "sm:w-0" : "sm:w-80 lg:w-96 border-r-[3px] border-r-sidebar-edge-accent"
+            rightDetailCollapsed ? "sm:w-0" : "sm:w-80 lg:w-96 border-l border-l-hair-strong border-r-[3px] border-r-sidebar-edge-accent"
           }`}
         >
           <div className="flex h-full w-80 shrink-0 flex-col lg:w-96">
