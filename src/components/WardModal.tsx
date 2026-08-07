@@ -26,12 +26,14 @@ const TIER_HEADER_BORDER = "#9BCBEB";
 // different color from the City/County/State bars above so the one panel
 // title reads as a distinct level from the three sections under it, not a
 // fourth one. Same live-sourced value as the tier headers' original green
-// (mn.gov/portal/css/core.css's .btn-success/.label-success), paired with
-// dark rather than white text: white-on-this-green is only ~2.3:1
-// contrast, well under WCAG AA's 4.5:1 — see the tier-header comment above
-// for the fuller math, unchanged by which element wears the color.
+// (mn.gov/portal/css/core.css's .btn-success/.label-success). Text is
+// white per explicit design direction, even though white-on-this-green is
+// only ~2.3:1 contrast — well under WCAG AA's 4.5:1 for text this size
+// (see the tier-header comment above for the fuller math). Flagging this
+// rather than quietly "fixing" it back to dark text: if this ever needs
+// to pass an accessibility audit, this is the pairing to revisit first.
 const PANEL_HEADER_BG = "#78BE21";
-const PANEL_HEADER_TEXT = "#12290C";
+const PANEL_HEADER_TEXT = "#FFFFFF";
 
 // AGENTS.md §3.2 soft staleness notice ("A record older than a
 // configured threshold renders a visible staleness notice"), scoped to
