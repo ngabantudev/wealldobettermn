@@ -202,7 +202,10 @@ export default function MapThemeSelector({ siteTheme, mapStyleId, onSelectSiteTh
           id={panelId}
           role="menu"
           // Opens upward — the toggle sits at the bottom of the screen.
-          className="well absolute right-0 bottom-full mb-2 w-44 rounded-xl border border-hair bg-panel-2 shadow-xl shadow-(color:--shadow-panel) p-1.5 flex flex-col gap-0.5"
+          // w-48 (not w-44): the longest option label, "Liberty (Google
+          // Maps)", wrapped to two lines at w-44 — w-48 is also what
+          // mndatacenter.org's own panel uses, for the same reason.
+          className="well absolute right-0 bottom-full mb-2 w-48 rounded-xl border border-hair bg-panel-2 shadow-xl shadow-(color:--shadow-panel) p-1.5 flex flex-col gap-0.5"
         >
           <MapThemeOptions
             siteTheme={siteTheme}
