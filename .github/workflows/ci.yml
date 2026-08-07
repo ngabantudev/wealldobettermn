@@ -29,6 +29,7 @@ jobs:
   build-and-smoke-test:
     name: Build, lint, and Workers-runtime smoke test
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
 
@@ -50,6 +51,16 @@ jobs:
 
       - name: Lint
         run: npm run lint
+
+      # Correctness-critical logic (upsert/merge semantics, roll-call vote
+      # mapping, the AGENTS.md §3.2 staleness gate) lives here, not in the
+      # build or the smoke test below — neither would notice a regression
+      # in this layer as long as the *shape* of the output still builds
+      # and the routes still return 200.
+      - name: Unit tests (ingest + lib)
+        run: |
+          npm run test:ingest
+          npm run test:lib
 
       - name: next build (also runs the build-time data-freshness checks in next.config.ts)
         run: npm run build
@@ -80,7 +91,7 @@ jobs:
           # runner load, and a fixed sleep either wastes time or flakes.
           READY=0
           for i in $(seq 1 30); do
-            if curl -s -o /dev/null http://127.0.0.1:8788/; then
+            if curl -s --max-time 5 -o /dev/null http://127.0.0.1:8788/; then
               READY=1
               break
             fi
@@ -92,16 +103,27 @@ jobs:
             exit 1
           fi
 
+          # `set -e` is intentionally off from here down: a connection-level
+          # curl failure (e.g. the worker crashing mid-loop) must fall
+          # through to the diagnostics below, not abort the script silently
+          # before they print. --max-time/--connect-timeout bound how long
+          # a single hung request can block the job.
+          set +e
           FAILED=0
           for route in / /bills; do
-            code=$(curl -s -o /tmp/route-body.html -w "%{http_code}" "http://127.0.0.1:8788${route}")
-            if [ "$code" != "200" ]; then
+            code=$(curl -s --connect-timeout 5 --max-time 10 -o /dev/null -w "%{http_code}" "http://127.0.0.1:8788${route}")
+            curl_status=$?
+            if [ "$curl_status" -ne 0 ]; then
+              echo "::error::${route} — curl failed (exit ${curl_status}), worker likely crashed"
+              FAILED=1
+            elif [ "$code" != "200" ]; then
               echo "::error::${route} returned HTTP ${code}, expected 200"
               FAILED=1
             else
               echo "${route} -> HTTP ${code}"
             fi
           done
+          set -e
 
           if [ "$FAILED" -ne 0 ]; then
             echo "--- wrangler dev log ---"
