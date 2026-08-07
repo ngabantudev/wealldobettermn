@@ -31,6 +31,54 @@ import { isStale } from "@/lib/electionConfig";
 const STALE_COLOR = "#B45309";
 const STALE_COLOR_SOFT = "#FEF3C7";
 
+// "Voted absent" used to render in the exact same red as "voted no" — the
+// badge only ever branched on option === "yes", so anything else (no,
+// absent, excused, not voting, other) fell into one shared red styling.
+// That's a real accuracy problem, not a cosmetic one: an absent or
+// excused member didn't oppose anything, they didn't participate, and a
+// red "no"-colored badge tells a resident the opposite of what happened.
+// This became a live, shipped case with #57's Legistar votes (St. Paul/
+// Hennepin genuinely record "Absent" on the roll) — fetch-state-
+// legislature.mjs's own recentVotes never carried anything but yes/no
+// (QUALIFYING_OPTIONS there), so the bug was latent until now.
+//
+// Plain-language labels/glosses per AGENTS.md §0.9 — spelled out for the
+// three options a resident could otherwise misread, not just recolored.
+// label: the badge text. gloss: shown only for the non-yes/no cases,
+// where the plain meaning genuinely isn't obvious from the word alone.
+const VOTE_OPTION_DISPLAY: Record<string, { label: string; color: string; colorSoft: string; gloss?: string }> = {
+  yes: { label: "Voted Yes", color: "#166534", colorSoft: "#DCFCE7" },
+  no: { label: "Voted No", color: "#991B1B", colorSoft: "#FEE2E2" },
+  absent: {
+    label: "Absent",
+    color: STALE_COLOR,
+    colorSoft: STALE_COLOR_SOFT,
+    gloss: "Wasn't recorded as present for this vote — didn't vote either way.",
+  },
+  excused: {
+    label: "Excused",
+    color: STALE_COLOR,
+    colorSoft: STALE_COLOR_SOFT,
+    gloss: "Formally excused from this vote — sometimes a conflict-of-interest recusal, sometimes a pre-approved absence.",
+  },
+  "not voting": {
+    label: "Present, No Vote",
+    color: STALE_COLOR,
+    colorSoft: STALE_COLOR_SOFT,
+    gloss: "Was present but didn't cast a vote either way.",
+  },
+};
+const DEFAULT_VOTE_OPTION_DISPLAY = {
+  label: "Other",
+  color: STALE_COLOR,
+  colorSoft: STALE_COLOR_SOFT,
+  gloss: "Recorded outside the usual yes/no options — see the source record for the specifics.",
+};
+
+function voteOptionDisplay(option: string) {
+  return VOTE_OPTION_DISPLAY[option] ?? DEFAULT_VOTE_OPTION_DISPLAY;
+}
+
 function isVerificationStale(rep: RepProperties): boolean {
   if (rep.chamber === null) return false; // only state legislature carries verifiedAt today
   if (!rep.verifiedAt) return true; // missing verifiedAt fails the check, same as a stale one
@@ -359,35 +407,36 @@ function OfficialCard({ rep }: { rep: RepProperties }) {
           </div>
           {recentVotes.length > 0 ? (
             <ul className="space-y-2.5">
-              {recentVotes.map((vote) => (
-                <li key={vote.voteId} className="text-sm">
-                  <div className="flex items-start justify-between gap-2">
-                    <span className="font-medium text-ink">{vote.identifier}</span>
-                    <span
-                      className="text-[10px] font-semibold uppercase tracking-wide px-1.5 py-0.5 rounded shrink-0"
-                      style={
-                        vote.option === "yes"
-                          ? { color: "#166534", backgroundColor: "#DCFCE7" }
-                          : { color: "#991B1B", backgroundColor: "#FEE2E2" }
-                      }
-                    >
-                      Voted {vote.option}
-                    </span>
-                  </div>
-                  <div className="text-xs text-ink-3">{vote.title}</div>
-                  {vote.sourceUrl && (
-                    <a
-                      href={vote.sourceUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-xs font-medium hover:underline"
-                      style={{ color: accent }}
-                    >
-                      View bill
-                    </a>
-                  )}
-                </li>
-              ))}
+              {recentVotes.map((vote) => {
+                const display = voteOptionDisplay(vote.option);
+                return (
+                  <li key={vote.voteId} className="text-sm">
+                    <div className="flex items-start justify-between gap-2">
+                      <span className="font-medium text-ink">{vote.identifier}</span>
+                      <span
+                        className="text-[10px] font-semibold uppercase tracking-wide px-1.5 py-0.5 rounded shrink-0"
+                        style={{ color: display.color, backgroundColor: display.colorSoft }}
+                        title={display.gloss}
+                      >
+                        {display.label}
+                      </span>
+                    </div>
+                    {display.gloss && <div className="text-xs italic text-ink-3">{display.gloss}</div>}
+                    <div className="text-xs text-ink-3">{vote.title}</div>
+                    {vote.sourceUrl && (
+                      <a
+                        href={vote.sourceUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-xs font-medium hover:underline"
+                        style={{ color: accent }}
+                      >
+                        View bill
+                      </a>
+                    )}
+                  </li>
+                );
+              })}
             </ul>
           ) : (
             <p className="text-sm text-ink-3">No voting record connected yet for {areaLabel(rep)}.</p>
