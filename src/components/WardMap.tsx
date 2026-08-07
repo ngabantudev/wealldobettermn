@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 import type { Feature, FeatureCollection, Geometry, Point } from "geojson";
+import dataManifest from "../../public/data-manifest.json";
 import type { AddressIndex, MnPlaces, RepProperties, WardRef } from "@/lib/types";
 import type { AreaOfficials, CivicGeometrySources } from "@/lib/officials";
 import { officialIdentity, resolveOfficialsAtPoint } from "@/lib/officials";
@@ -36,6 +37,29 @@ import MobileNav, { IconSearch, IconSliders, type MobileNavTab } from "./MobileN
 import SearchBar from "./SearchBar";
 import SiteHeader from "./SiteHeader";
 import WardModal, { areaLabel, roleLabel } from "./WardModal";
+
+// Builds a cache-busted URL for one of the public/*.geojson or public/
+// *.json files scripts/fetch-*.mjs writes — `?v=<content hash>`, sourced
+// from public/data-manifest.json (see scripts/lib/dataManifest.mjs).
+// Every one of these fetches used to pass `{ cache: "no-store" }`,
+// which defeats the browser's HTTP cache entirely on every load — see
+// issue #67 Finding 3. The fix is this file's content hash baked into
+// the URL instead: a re-ingest that actually changes the file changes
+// its hash, which changes the URL, which is a guaranteed cache miss (no
+// risk of a stale response missing a field the current component code
+// expects); an unchanged file keeps the same URL across reloads and even
+// across deploys, so the browser (and Cloudflare's edge) can actually
+// cache it — see public/_headers' Cache-Control rule for these paths.
+// `dataManifest` is a plain JSON import, bundled into this component's
+// own JS at build time, so a fresh deploy always ships the current
+// hashes without a second runtime fetch to look them up. Falls back to
+// the bare filename (no query param) if a file is somehow missing from
+// the manifest, rather than throwing — an unfingerprinted fetch of the
+// current file is a fine degrade, and a source of noisy failures is not.
+function dataUrl(filename: keyof typeof dataManifest): string {
+  const hash = dataManifest[filename];
+  return hash ? `/${filename}?v=${hash}` : `/${filename}`;
+}
 
 // The two destinations MobileNav's bottom bar offers — everything the
 // desktop chrome spreads across the header's search box and the top-left
@@ -569,15 +593,38 @@ function wardPinConnectorLines(map: maplibregl.Map, wardsData: FeatureCollection
   return { type: "FeatureCollection", features };
 }
 
-interface CivicData {
+// Stands in for commissioners/stateLeg's real data everywhere a MapLibre
+// source or label-point computation needs a real (non-null)
+// FeatureCollection but SecondaryCivicData hasn't resolved yet — see
+// addSourcesAndLayers below. Never mutated; every consumer either reads
+// it directly or spreads it into a new object.
+const EMPTY_FEATURE_COLLECTION: FeatureCollection = { type: "FeatureCollection", features: [] };
+
+// The two layers every resident needs regardless of which LayerMode
+// they're in: wards/mayors are the default "wards" mode itself, and
+// at-large-boundaries rides along with them (see that source's own
+// comment — it's wardless-city backdrop, shown alongside wards mode,
+// never its own mode).
+interface PrimaryCivicData {
   wards: FeatureCollection;
   mayors: FeatureCollection;
-  commissioners: FeatureCollection;
-  stateLeg: FeatureCollection;
   atLargeBoundaries: FeatureCollection;
 }
 
-// Fetches the five public/*.geojson layers independently of the MapLibre
+// Commissioner districts and state legislative districts — by far the
+// larger two of the five layers (state-legislature.geojson especially,
+// even after ingest-time simplification — see scripts/lib/geoSimplify.mjs)
+// and the only two most residents never explicitly ask for, since they
+// default into "wards" mode and often never switch. See
+// fetchSecondaryCivicData's own comment for why these are fetched
+// separately, and afterward, rather than in the same Promise.all as
+// PrimaryCivicData above.
+interface SecondaryCivicData {
+  commissioners: FeatureCollection;
+  stateLeg: FeatureCollection;
+}
+
+// Fetches wards/mayors/at-large-boundaries independently of the MapLibre
 // instance — previously this ran inside map.on("load"), which meant a
 // resident whose map never finishes loading (WebGL unavailable, tile
 // host down) could never get ward data either, silently breaking search
@@ -587,29 +634,53 @@ interface CivicData {
 // instead of fetching a second time. Never throws: a failed fetch
 // resolves null so the caller can degrade (empty map, search that
 // honestly has nothing to search) rather than crash.
-async function fetchCivicData(): Promise<CivicData | null> {
+//
+// See dataUrl()'s own comment for the cache-busted-URL/real-HTTP-caching
+// swap that replaced this file's old `{ cache: "no-store" }` on every
+// one of these fetches (issue #67 Finding 3).
+async function fetchPrimaryCivicData(): Promise<PrimaryCivicData | null> {
   try {
-    // no-store: this is static JSON re-fetched every election cycle (see
-    // scripts/fetch-*.mjs) — a browser-cached copy from before a field
-    // got added crashes the modal on a field the current component code
-    // expects to exist.
-    const [wardsRes, mayorsRes, commissionersRes, stateLegRes, atLargeBoundariesRes] = await Promise.all([
-      fetch("/wards.geojson", { cache: "no-store" }),
-      fetch("/mayors.geojson", { cache: "no-store" }),
-      fetch("/commissioners.geojson", { cache: "no-store" }),
-      fetch("/state-legislature.geojson", { cache: "no-store" }),
-      fetch("/at-large-boundaries.geojson", { cache: "no-store" }),
+    const [wardsRes, mayorsRes, atLargeBoundariesRes] = await Promise.all([
+      fetch(dataUrl("wards.geojson")),
+      fetch(dataUrl("mayors.geojson")),
+      fetch(dataUrl("at-large-boundaries.geojson")),
     ]);
-    const [wards, mayors, commissioners, stateLeg, atLargeBoundaries] = await Promise.all([
+    const [wards, mayors, atLargeBoundaries] = await Promise.all([
       wardsRes.json(),
       mayorsRes.json(),
-      commissionersRes.json(),
-      stateLegRes.json(),
       atLargeBoundariesRes.json(),
     ]);
-    return { wards, mayors, commissioners, stateLeg, atLargeBoundaries };
+    return { wards, mayors, atLargeBoundaries };
   } catch (err) {
-    console.error("[WardMap] failed to load civic data", err);
+    console.error("[WardMap] failed to load primary civic data (wards/mayors/at-large boundaries)", err);
+    return null;
+  }
+}
+
+// Fetched only once fetchPrimaryCivicData above has resolved — see the
+// mount effect further down, which is what actually sequences the two
+// rather than this function being called late on its own. Not just a
+// JS-level nicety: on AGENTS.md §4's throttled-3G budget, requesting
+// state-legislature.geojson (still the largest of the five layers even
+// after ingest-time simplification) at the same time as wards.geojson
+// would have the two compete for the same limited pipe, delaying the
+// file the default view actually needs. Waiting until wards/mayors/
+// at-large-boundaries are already in hand — search and the map's default
+// view usable — before even asking for these two means a resident never
+// waits on them for anything except the multi-tier hover panel's county/
+// state rows, which fill in a moment later once this resolves (see
+// resolveOfficialsAtPoint's own comment on why all three tiers are kept
+// independent of which LayerMode is visible). See issue #67 Finding 2.
+async function fetchSecondaryCivicData(): Promise<SecondaryCivicData | null> {
+  try {
+    const [commissionersRes, stateLegRes] = await Promise.all([
+      fetch(dataUrl("commissioners.geojson")),
+      fetch(dataUrl("state-legislature.geojson")),
+    ]);
+    const [commissioners, stateLeg] = await Promise.all([commissionersRes.json(), stateLegRes.json()]);
+    return { commissioners, stateLeg };
+  } catch (err) {
+    console.error("[WardMap] failed to load secondary civic data (commissioners/state legislature)", err);
     return null;
   }
 }
@@ -739,6 +810,22 @@ function createRepPinElement(rep: RepProperties, diameter: number): HTMLDivEleme
 
   if (rep.repPhotoUrl) {
     const img = document.createElement("img");
+    // `loading="lazy"` matters far more here than on a typical below-the-
+    // fold image: every pin across every LayerMode is created up front
+    // (see addPrimaryPins/addSecondaryPins), including the ~200
+    // commissioner/state-legislature pins hidden (display: none) behind
+    // whichever mode isn't currently selected. Without this, assigning
+    // `src` still fires an immediate network fetch regardless of that
+    // display:none — a resident who never leaves the default "City" mode
+    // would otherwise pay for ~200 photo requests, to dozens of different
+    // city/county/state-hosted origins, that nothing on screen ever
+    // shows. A hidden `<img loading="lazy">` defers its fetch until the
+    // element actually becomes visible (mode switched to County/State),
+    // at which point the browser fetches it same as any other lazy
+    // image entering view. `decoding="async"` keeps decoding whichever
+    // photos DO load off the main thread, same reasoning at smaller scale.
+    img.loading = "lazy";
+    img.decoding = "async";
     img.src = rep.repPhotoUrl;
     img.alt = rep.repName ?? "Representative photo";
     img.style.cssText = "width: 100%; height: 100%; object-fit: cover;";
@@ -797,11 +884,17 @@ export default function WardMap() {
   const commissionersDataRef = useRef<FeatureCollection | null>(null);
   const stateLegDataRef = useRef<FeatureCollection | null>(null);
   const atLargeBoundariesDataRef = useRef<FeatureCollection | null>(null);
-  // The in-flight/settled fetchCivicData() call — a ref (not state)
-  // because the map-setup effect below needs to `await` this exact
-  // promise instance rather than re-fetch, and refs (unlike state) are
-  // readable synchronously the moment the effect that set them has run.
-  const civicDataPromiseRef = useRef<Promise<CivicData | null> | null>(null);
+  // The in-flight/settled fetchPrimaryCivicData() call — a ref (not
+  // state) because the map-setup effect below needs to `await` this
+  // exact promise instance rather than re-fetch, and refs (unlike state)
+  // are readable synchronously the moment the effect that set them has
+  // run. There's no equivalent ref for fetchSecondaryCivicData: nothing
+  // needs to await that promise specifically — its own .then() (in the
+  // mount effect below) is what updates commissionersDataRef/
+  // stateLegDataRef and calls applySecondaryCivicDataRef directly, and
+  // every other reader of those two refs already tolerates them being
+  // temporarily null (see addSourcesAndLayers/maybeStartPulseAnimation).
+  const primaryCivicDataPromiseRef = useRef<Promise<PrimaryCivicData | null> | null>(null);
   const [addressIndex, setAddressIndex] = useState<AddressIndex | null>(null);
   const [mnPlaces, setMnPlaces] = useState<MnPlaces | null>(null);
   const pinMarkersRef = useRef<PinMarker[]>([]);
@@ -868,6 +961,16 @@ export default function WardMap() {
   // `map` and the hover handlers — same pattern as mapRef/wardsDataRef
   // already bridge that effect's internals out to the rest of the component.
   const switchBasemapRef = useRef<(styleId: string) => void>(() => {});
+  // Same bridging pattern as switchBasemapRef above — patches the
+  // just-resolved SecondaryCivicData into the live map (setData on the
+  // commissioners/state-legislature sources, adds their pins), from the
+  // mount effect below, once fetchSecondaryCivicData resolves. Has to
+  // live inside the map-construction effect (reaches `map` and the
+  // addPin helper's closures); stays a no-op if the map never
+  // constructed (WebGL unavailable) or hasn't reached "load" yet, in
+  // which case addSourcesAndLayers picks up the same data on its own —
+  // see that function's own comment.
+  const applySecondaryCivicDataRef = useRef<(data: SecondaryCivicData) => void>(() => {});
 
   useEffect(() => {
     selectedRef.current = selected;
@@ -899,24 +1002,33 @@ export default function WardMap() {
   };
 
   // Map-independent: runs regardless of whether MapLibre ever
-  // successfully constructs. See fetchCivicData's comment for why this
-  // is its own effect rather than living inside map.on("load").
+  // successfully constructs. See fetchPrimaryCivicData's comment for why
+  // this is its own effect rather than living inside map.on("load").
   useEffect(() => {
-    const promise = fetchCivicData();
-    civicDataPromiseRef.current = promise;
-    promise.then((data) => {
-      if (!data) return;
-      wardsDataRef.current = data.wards;
-      mayorsDataRef.current = data.mayors;
-      commissionersDataRef.current = data.commissioners;
-      stateLegDataRef.current = data.stateLeg;
-      atLargeBoundariesDataRef.current = data.atLargeBoundaries;
-      const wardsBounds = boundsFromFeatureCollection(data.wards);
-      const commissionersBounds = boundsFromFeatureCollection(data.commissioners);
-      const stateLegBounds = boundsFromFeatureCollection(data.stateLeg);
+    const primaryPromise = fetchPrimaryCivicData();
+    primaryCivicDataPromiseRef.current = primaryPromise;
+    primaryPromise.then((primary) => {
+      if (!primary) return;
+      wardsDataRef.current = primary.wards;
+      mayorsDataRef.current = primary.mayors;
+      atLargeBoundariesDataRef.current = primary.atLargeBoundaries;
+      const wardsBounds = boundsFromFeatureCollection(primary.wards);
       if (!wardsBounds.isEmpty()) wardsBoundsRef.current = wardsBounds;
-      if (!commissionersBounds.isEmpty()) commissionersBoundsRef.current = commissionersBounds;
-      if (!stateLegBounds.isEmpty()) stateLegBoundsRef.current = stateLegBounds;
+
+      // Only requested now that wards/mayors/at-large-boundaries are
+      // already in hand — see fetchSecondaryCivicData's own comment.
+      fetchSecondaryCivicData().then((secondary) => {
+        if (!secondary) return;
+        commissionersDataRef.current = secondary.commissioners;
+        stateLegDataRef.current = secondary.stateLeg;
+        const commissionersBounds = boundsFromFeatureCollection(secondary.commissioners);
+        const stateLegBounds = boundsFromFeatureCollection(secondary.stateLeg);
+        if (!commissionersBounds.isEmpty()) commissionersBoundsRef.current = commissionersBounds;
+        if (!stateLegBounds.isEmpty()) stateLegBoundsRef.current = stateLegBounds;
+        // No-ops if the map hasn't reached "load" yet — see
+        // applySecondaryCivicDataRef's own comment for why that's fine.
+        applySecondaryCivicDataRef.current(secondary);
+      });
     });
   }, []);
 
@@ -927,7 +1039,7 @@ export default function WardMap() {
   // don't need to wait on this at all.
   useEffect(() => {
     let cancelled = false;
-    fetch("/address-index.json", { cache: "no-store" })
+    fetch(dataUrl("address-index.json"))
       .then((res) => res.json())
       .then((data: AddressIndex) => {
         if (!cancelled) setAddressIndex(data);
@@ -946,7 +1058,7 @@ export default function WardMap() {
   // concern, and covered-city/-county search already works without it.
   useEffect(() => {
     let cancelled = false;
-    fetch("/mn-places.json", { cache: "no-store" })
+    fetch(dataUrl("mn-places.json"))
       .then((res) => res.json())
       .then((data: MnPlaces) => {
         if (!cancelled) setMnPlaces(data);
@@ -1478,83 +1590,93 @@ export default function WardMap() {
 
     // Pins are plain DOM markers (maplibregl.Marker), not part of the
     // MapLibre style — they survive a setStyle() basemap swap on their own,
-    // so this only ever runs once, guarded by pinMarkersRef itself rather
-    // than being re-invoked from switchBasemap below the way
-    // addSourcesAndLayers is.
-    const addPins = (civicData: CivicData) => {
-      if (pinMarkersRef.current.length > 0) return;
-      const { wards: data, mayors: mayorsData, commissioners: commissionersData, stateLeg: stateLegData } = civicData;
+    // so each of addPrimaryPins/addSecondaryPins below only ever runs
+    // once, guarded by its own flag rather than being re-invoked from
+    // switchBasemap the way addSourcesAndLayers is. Split into two
+    // (rather than one addPins, like before #67's background-fetch
+    // split) so commissioner/state-legislature pins can be added later,
+    // whenever SecondaryCivicData actually resolves, without waiting on
+    // — or re-adding — the wards/mayors pins primary already placed. See
+    // fetchSecondaryCivicData's own comment.
+    //
+    // Shared by every pin type (mayors, council members, commissioners,
+    // state legislators): creates the marker, wires up the same
+    // hover/click behavior, and registers it for the mode/city
+    // visibility toggles. One place to get this right instead of a
+    // near-identical loop body per role — hoisted above both
+    // addPrimaryPins/addSecondaryPins so they can share it.
+    const addPin = (
+      properties: RepProperties,
+      coordinates: maplibregl.LngLatLike,
+      mode: LayerMode,
+      zoomBounds: maplibregl.LngLatBounds,
+      // "center" (the default) is right for mayors — a point with no
+      // ward/county/state label competing for the same spot, so the pin
+      // should sit exactly on its own coordinate. The three roles below
+      // that DO share a coordinate with a text label pass "bottom"
+      // instead, so the pin's own bottom edge (not its middle) sits at
+      // that point — see LABEL_TEXT_OFFSET's comment for the other half
+      // of this. That bottom edge is also why zoom-driven resizing (see
+      // the "zoom" listener below) never has to touch this offset: a
+      // "bottom"-anchored pin grows and shrinks upward, away from its
+      // label, so the anchor coordinate — and the gap below it — never
+      // moves regardless of diameter.
+      anchor: maplibregl.PositionAnchor = "center",
+      // Set only for a council-member pin sharing its ward with other
+      // members — overrides `coordinates` with a live pixel-projected
+      // formation position (see wardPinPixelOffsets) instead of the
+      // raw ward bounds-center every member of the group would
+      // otherwise collide on. Stored on the PinMarker so the "zoom"
+      // listener below can keep recomputing it as the map moves.
+      formation?: { center: maplibregl.LngLat; index: number; count: number },
+    ) => {
+      // Sized for the zoom the map is at right now; kept in sync as that
+      // changes by the "zoom" listener below, which walks pinMarkersRef
+      // the same way this function populates it.
+      const diameter = diameterForZoom(properties.role, map.getZoom());
+      const initialLngLat = formation
+        ? formationLngLat(
+            map,
+            formation.center,
+            ...wardPinPixelOffsets(formation.count, diameter * WARD_PIN_CLUSTER_SPACING_FACTOR)[formation.index],
+          )
+        : maplibregl.LngLat.convert(coordinates);
+      const el = createRepPinElement(properties, diameter);
+      const marker = new maplibregl.Marker({ element: el, anchor }).setLngLat(initialLngLat).addTo(map);
+      // A pin's own coordinate always seeds `properties` into its own
+      // tier (via resolveSelectionAtPoint's `known` param) — the other
+      // two tiers still resolve by point-in-polygon at that same spot.
+      // Deliberately the *un-nudged* coordinate for a formation pin
+      // (formation.center, not initialLngLat) — the point-in-polygon
+      // test needs to land inside the actual ward polygon, and a
+      // formation offset large enough to ever risk stepping outside
+      // that polygon would already be too large to look like a tight
+      // group of pins.
+      const point = toPoint(formation ? formation.center : coordinates);
 
-      // Shared by every pin type (mayors, council members, commissioners):
-      // creates the marker, wires up the same hover/click behavior, and
-      // registers it for the mode/city visibility toggles. One place to
-      // get this right instead of a near-identical loop body per role.
-      const addPin = (
-        properties: RepProperties,
-        coordinates: maplibregl.LngLatLike,
-        mode: LayerMode,
-        zoomBounds: maplibregl.LngLatBounds,
-        // "center" (the default) is right for mayors — a point with no
-        // ward/county/state label competing for the same spot, so the pin
-        // should sit exactly on its own coordinate. The three roles below
-        // that DO share a coordinate with a text label pass "bottom"
-        // instead, so the pin's own bottom edge (not its middle) sits at
-        // that point — see LABEL_TEXT_OFFSET's comment for the other half
-        // of this. That bottom edge is also why zoom-driven resizing (see
-        // the "zoom" listener below) never has to touch this offset: a
-        // "bottom"-anchored pin grows and shrinks upward, away from its
-        // label, so the anchor coordinate — and the gap below it — never
-        // moves regardless of diameter.
-        anchor: maplibregl.PositionAnchor = "center",
-        // Set only for a council-member pin sharing its ward with other
-        // members — overrides `coordinates` with a live pixel-projected
-        // formation position (see wardPinPixelOffsets) instead of the
-        // raw ward bounds-center every member of the group would
-        // otherwise collide on. Stored on the PinMarker so the "zoom"
-        // listener below can keep recomputing it as the map moves.
-        formation?: { center: maplibregl.LngLat; index: number; count: number },
-      ) => {
-        // Sized for the zoom the map is at right now; kept in sync as that
-        // changes by the "zoom" listener below, which walks pinMarkersRef
-        // the same way this function populates it.
-        const diameter = diameterForZoom(properties.role, map.getZoom());
-        const initialLngLat = formation
-          ? formationLngLat(
-              map,
-              formation.center,
-              ...wardPinPixelOffsets(formation.count, diameter * WARD_PIN_CLUSTER_SPACING_FACTOR)[formation.index],
-            )
-          : maplibregl.LngLat.convert(coordinates);
-        const el = createRepPinElement(properties, diameter);
-        const marker = new maplibregl.Marker({ element: el, anchor }).setLngLat(initialLngLat).addTo(map);
-        // A pin's own coordinate always seeds `properties` into its own
-        // tier (via resolveSelectionAtPoint's `known` param) — the other
-        // two tiers still resolve by point-in-polygon at that same spot.
-        // Deliberately the *un-nudged* coordinate for a formation pin
-        // (formation.center, not initialLngLat) — the point-in-polygon
-        // test needs to land inside the actual ward polygon, and a
-        // formation offset large enough to ever risk stepping outside
-        // that polygon would already be too large to look like a tight
-        // group of pins.
-        const point = toPoint(formation ? formation.center : coordinates);
+      el.addEventListener("mouseenter", () => {
+        if (!isDesktopHover || selectedRef.current?.pinned) return;
+        setSelected({ officials: resolveSelectionAtPoint(point, properties), pinned: false });
+      });
+      el.addEventListener("mouseleave", () => {
+        if (!isDesktopHover || selectedRef.current?.pinned) return;
+        setSelected(null);
+      });
+      el.addEventListener("click", (e) => {
+        e.stopPropagation();
+        selectPinned(resolveSelectionAtPoint(point, properties));
+        setActiveMobileSheet(null); // see applySearchResult's comment on this same call
+        zoomToBounds(zoomBounds);
+      });
 
-        el.addEventListener("mouseenter", () => {
-          if (!isDesktopHover || selectedRef.current?.pinned) return;
-          setSelected({ officials: resolveSelectionAtPoint(point, properties), pinned: false });
-        });
-        el.addEventListener("mouseleave", () => {
-          if (!isDesktopHover || selectedRef.current?.pinned) return;
-          setSelected(null);
-        });
-        el.addEventListener("click", (e) => {
-          e.stopPropagation();
-          selectPinned(resolveSelectionAtPoint(point, properties));
-          setActiveMobileSheet(null); // see applySearchResult's comment on this same call
-          zoomToBounds(zoomBounds);
-        });
+      pinMarkersRef.current.push({ marker, properties, mode, formation });
+    };
 
-        pinMarkersRef.current.push({ marker, properties, mode, formation });
-      };
+    let primaryPinsAdded = false;
+    const addPrimaryPins = (primary: PrimaryCivicData) => {
+      if (primaryPinsAdded) return;
+      primaryPinsAdded = true;
+      const { wards: data, mayors: mayorsData } = primary;
 
       // Grouped by city (see groupFeaturesByCity) rather than iterated
       // directly, so Woodbury's mayor + 4 at-large council members —
@@ -1595,6 +1717,13 @@ export default function WardMap() {
           addPin(properties, center, "wards", bounds, "bottom", { center, index: i, count: group.length });
         });
       }
+    };
+
+    let secondaryPinsAdded = false;
+    const addSecondaryPins = (secondary: SecondaryCivicData) => {
+      if (secondaryPinsAdded) return;
+      secondaryPinsAdded = true;
+      const { commissioners: commissionersData, stateLeg: stateLegData } = secondary;
 
       // One pin per commissioner, same interaction pattern as mayors, but
       // there's no office address to anchor to — a district's bounds
@@ -1608,7 +1737,7 @@ export default function WardMap() {
       }
 
       // One pin per state legislator — role (and so pin size) varies
-      // feature-to-feature here, unlike the loops above, since a single
+      // feature-to-feature here, unlike the loop above, since a single
       // source covers both House and Senate districts.
       for (const feature of stateLegData.features) {
         if (feature.geometry.type !== "Polygon" && feature.geometry.type !== "MultiPolygon") continue;
@@ -1625,15 +1754,27 @@ export default function WardMap() {
     // "load" below and from switchBasemap's "style.load" after every
     // subsequent swap — the guard passes either way, since a fresh style
     // genuinely has none of these sources yet.
-    const addSourcesAndLayers = (civicData: CivicData) => {
+    //
+    // Reads straight from the *Ref.current values rather than taking a
+    // parameter, so it always picks up whatever's actually available the
+    // moment it runs — including commissioners/stateLeg, which may or
+    // may not have arrived yet (SecondaryCivicData loads in the
+    // background, after wards/mayors/at-large-boundaries — see
+    // fetchSecondaryCivicData's own comment). Only ever called once
+    // wardsDataRef/mayorsDataRef/atLargeBoundariesDataRef are populated
+    // (both call sites below await primaryCivicDataPromiseRef first), so
+    // those three are asserted non-null; commissioners/stateLeg fall
+    // back to EMPTY_FEATURE_COLLECTION when not loaded yet — every layer
+    // built off them starts hidden by default anyway (layerMode defaults
+    // to "wards"), and applySecondaryCivicDataRef patches in the real
+    // data with setData() the moment it resolves.
+    const addSourcesAndLayers = () => {
       if (map.getSource(WARDS_SOURCE_ID)) return;
-      const {
-        wards: data,
-        mayors: mayorsData,
-        commissioners: commissionersData,
-        stateLeg: stateLegData,
-        atLargeBoundaries: atLargeBoundariesData,
-      } = civicData;
+      const data = wardsDataRef.current!;
+      const mayorsData = mayorsDataRef.current!;
+      const atLargeBoundariesData = atLargeBoundariesDataRef.current!;
+      const commissionersData = commissionersDataRef.current ?? EMPTY_FEATURE_COLLECTION;
+      const stateLegData = stateLegDataRef.current ?? EMPTY_FEATURE_COLLECTION;
 
       // Tuned against the *current basemap's* own darkness — see
       // OUTLINE_COLOR/LABEL_PAINT's own comment — recomputed on every call
@@ -1843,6 +1984,85 @@ export default function WardMap() {
       applyChamberFilter(chamberRef.current);
     };
 
+    // Only animate if something's actually contested — with today's data
+    // that's never true (see the isContested comment in types.ts), so
+    // this costs nothing until real candidate-filing data changes that.
+    // Guarded by its own flag so it's safe to call from both "load" and
+    // applySecondaryCivicData below (commissioners/stateLeg's contested
+    // status isn't knowable until whichever of them resolves) without
+    // starting a second overlapping animation loop. Never re-checked
+    // after that first true reading — a contested race that later
+    // resolves during the same page view is not a case this needs to
+    // handle live. Never restarted from switchBasemap either: the
+    // animation loop's own `if (map.getLayer(layerId))` guards make it
+    // self-healing across a basemap swap (it just skips paint-property
+    // writes for the few frames the pulse layers don't exist yet,
+    // between setStyle() and addSourcesAndLayers re-adding them).
+    let pulseAnimationStarted = false;
+    const maybeStartPulseAnimation = () => {
+      if (pulseAnimationStarted) return;
+      const anyContested =
+        (wardsDataRef.current?.features ?? []).some((f) => f.properties?.isContested) ||
+        (commissionersDataRef.current?.features ?? []).some((f) => f.properties?.isContested) ||
+        (stateLegDataRef.current?.features ?? []).some((f) => f.properties?.isContested);
+      if (!anyContested) return;
+      pulseAnimationStarted = true;
+      const animatePulse = (timestamp: number) => {
+        // ~2.6s period, slow and steady rather than an alarm-like strobe.
+        const t = (Math.sin(timestamp / 420) + 1) / 2; // 0..1
+        const width = 2.5 + t * 2.5;
+        const opacity = 0.5 + t * 0.5;
+        for (const layerId of [WARDS_PULSE_LAYER_ID, COMMISSIONERS_PULSE_LAYER_ID, STATE_LEG_PULSE_LAYER_ID]) {
+          if (map.getLayer(layerId)) {
+            map.setPaintProperty(layerId, "line-width", width);
+            map.setPaintProperty(layerId, "line-opacity", opacity);
+          }
+        }
+        pulseAnimationFrameRef.current = requestAnimationFrame(animatePulse);
+      };
+      pulseAnimationFrameRef.current = requestAnimationFrame(animatePulse);
+    };
+
+    // Patches a just-resolved SecondaryCivicData into the live map —
+    // called from the mount effect above once fetchSecondaryCivicData
+    // resolves. If the map hasn't reached "load" yet (sources don't
+    // exist), this is a no-op: addSourcesAndLayers reads straight from
+    // commissionersDataRef/stateLegDataRef (already updated by the
+    // caller before this runs) rather than a stale snapshot, so it picks
+    // up the real data on its own the moment it does run — nothing here
+    // needs to force that. Assigned to applySecondaryCivicDataRef so the
+    // mount effect (outside this one) can reach it, same bridging
+    // pattern as switchBasemapRef below.
+    const applySecondaryCivicData = (secondary: SecondaryCivicData) => {
+      const commissionersSource = map.getSource(COMMISSIONERS_SOURCE_ID) as maplibregl.GeoJSONSource | undefined;
+      const stateLegSource = map.getSource(STATE_LEG_SOURCE_ID) as maplibregl.GeoJSONSource | undefined;
+      if (!commissionersSource || !stateLegSource) return;
+      commissionersSource.setData(secondary.commissioners);
+      stateLegSource.setData(secondary.stateLeg);
+      (map.getSource(COMMISSIONERS_LABEL_SOURCE_ID) as maplibregl.GeoJSONSource | undefined)?.setData(
+        labelPointsFromFeatureCollection(secondary.commissioners),
+      );
+      (map.getSource(STATE_LEG_LABEL_SOURCE_ID) as maplibregl.GeoJSONSource | undefined)?.setData(
+        labelPointsFromFeatureCollection(secondary.stateLeg),
+      );
+      addSecondaryPins(secondary);
+      // addSourcesAndLayers' own applyLayerMode() call (in the "load"
+      // handler, before this ever runs) already set every *existing*
+      // pin's display to match the current mode — but addSecondaryPins
+      // just pushed 200+ new commissioner/state-legislature markers into
+      // pinMarkersRef.current *after* that pass ran, and a freshly
+      // `.addTo(map)`-ed maplibregl.Marker defaults to visible. Without
+      // this, every county/state pin statewide renders on top of the
+      // default "wards" view the moment this background fetch resolves
+      // — the exact bug this line fixes (all reps across the state
+      // appearing and tanking render performance, regardless of which
+      // mode is actually selected). Re-running the same visibility pass
+      // now, after the new pins exist, is what actually hides them.
+      applyLayerMode(layerModeRef.current);
+      maybeStartPulseAnimation();
+    };
+    applySecondaryCivicDataRef.current = applySecondaryCivicData;
+
     // Swaps the basemap: persists nothing itself (see selectMapStyle vs.
     // selectSiteTheme above for who does), just applies `styleId` visually
     // and re-adds the layers setStyle() is about to throw away. Assigned to
@@ -1857,9 +2077,9 @@ export default function WardMap() {
       // between here and "style.load" — they belong to the style being
       // replaced. Pins are untouched: they're not part of the style.
       map.once("style.load", async () => {
-        const civicData = await civicDataPromiseRef.current;
-        if (!civicData) return;
-        addSourcesAndLayers(civicData);
+        const primary = await primaryCivicDataPromiseRef.current;
+        if (!primary) return;
+        addSourcesAndLayers();
       });
     };
     switchBasemapRef.current = switchBasemap;
@@ -1874,53 +2094,49 @@ export default function WardMap() {
 
       // Awaits the *same* fetch the map-independent effect above kicked
       // off on mount, rather than fetching a second time — that effect
-      // is also what populates wardsDataRef/commissionersDataRef/
-      // stateLegDataRef, so search can use them even if this "load"
-      // event never fires at all.
-      const civicData = await civicDataPromiseRef.current;
-      if (!civicData) return; // fetch failed — nothing to draw; already logged in fetchCivicData
+      // is also what populates wardsDataRef/mayorsDataRef/
+      // atLargeBoundariesDataRef, so search can use them even if this
+      // "load" event never fires at all. Deliberately does NOT also wait
+      // on fetchSecondaryCivicData's promise — that would put
+      // commissioners/state-legislature.geojson back in the
+      // initial-paint critical path, exactly what #67 Finding 2 moved
+      // them out of. See that function's own comment.
+      const primary = await primaryCivicDataPromiseRef.current;
+      if (!primary) return; // fetch failed — nothing to draw; already logged in fetchPrimaryCivicData
 
-      addPins(civicData);
-      addSourcesAndLayers(civicData);
-
-      // Only animate if something's actually contested — with today's data
-      // that's never true (see the isContested comment in types.ts), so
-      // this costs nothing until real candidate-filing data changes that.
-      // Started once, here, never from switchBasemap: the animation loop's
-      // own `if (map.getLayer(layerId))` guards make it self-healing across
-      // a basemap swap (it just skips paint-property writes for the few
-      // frames the pulse layers don't exist yet, between setStyle() and
-      // addSourcesAndLayers re-adding them) — no second loop needed.
-      const anyContested =
-        civicData.wards.features.some((f) => f.properties?.isContested) ||
-        civicData.commissioners.features.some((f) => f.properties?.isContested) ||
-        civicData.stateLeg.features.some((f) => f.properties?.isContested);
-      if (anyContested) {
-        const animatePulse = (timestamp: number) => {
-          // ~2.6s period, slow and steady rather than an alarm-like strobe.
-          const t = (Math.sin(timestamp / 420) + 1) / 2; // 0..1
-          const width = 2.5 + t * 2.5;
-          const opacity = 0.5 + t * 0.5;
-          for (const layerId of [WARDS_PULSE_LAYER_ID, COMMISSIONERS_PULSE_LAYER_ID, STATE_LEG_PULSE_LAYER_ID]) {
-            if (map.getLayer(layerId)) {
-              map.setPaintProperty(layerId, "line-width", width);
-              map.setPaintProperty(layerId, "line-opacity", opacity);
-            }
-          }
-          pulseAnimationFrameRef.current = requestAnimationFrame(animatePulse);
-        };
-        pulseAnimationFrameRef.current = requestAnimationFrame(animatePulse);
+      addPrimaryPins(primary);
+      addSourcesAndLayers();
+      // Secondary data may already have arrived by now — fetched right
+      // after primary resolved, which could easily be before this "load"
+      // event fires on a slow WebGL/style init. addSourcesAndLayers()
+      // above already seeded the commissioners/state-legislature sources
+      // with real data in that case (it reads straight from the refs);
+      // pins are the one thing it doesn't cover, so add them now if so.
+      // The far more common case — secondary still in flight — is
+      // handled by applySecondaryCivicData above instead, once it
+      // resolves; addSecondaryPins' own guard makes calling it from both
+      // places safe either way.
+      if (commissionersDataRef.current && stateLegDataRef.current) {
+        addSecondaryPins({ commissioners: commissionersDataRef.current, stateLeg: stateLegDataRef.current });
+        // addSourcesAndLayers() above already ran its own applyLayerMode()
+        // pass, but that was before the pins added just now existed —
+        // same reason applySecondaryCivicData re-runs it, see that
+        // function's own comment. Without this, this (rare — secondary
+        // data winning the race against "load") path ships the same
+        // all-pins-visible bug the far more common path fixes.
+        applyLayerMode(layerModeRef.current);
       }
+      maybeStartPulseAnimation();
 
-      // Initial camera fit only — wardsBoundsRef/commissionersBoundsRef/
-      // stateLegBoundsRef (used by zoomToDefault) are already populated
-      // by the map-independent effect above, from the same data. Fit to
-      // each layer's actual extent rather than a hardcoded bounding box,
-      // so this keeps working if boundaries shift. Deliberately not
-      // repeated on a basemap swap — switchBasemap has no call to this,
-      // so picking a new basemap never snaps the camera back to this
-      // default extent out from under whatever the resident was looking at.
-      const wardsBounds = boundsFromFeatureCollection(civicData.wards);
+      // Initial camera fit only — wardsBoundsRef (used by zoomToDefault)
+      // is already populated by the map-independent effect above, from
+      // the same data. Fit to the layer's actual extent rather than a
+      // hardcoded bounding box, so this keeps working if boundaries
+      // shift. Deliberately not repeated on a basemap swap — switchBasemap
+      // has no call to this, so picking a new basemap never snaps the
+      // camera back to this default extent out from under whatever the
+      // resident was looking at.
+      const wardsBounds = boundsFromFeatureCollection(primary.wards);
       if (!wardsBounds.isEmpty()) map.fitBounds(wardsBounds, { padding: 40, duration: 0 });
     });
 

@@ -17,6 +17,7 @@
 import { writeFile, mkdir } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { updateDataManifest } from "./lib/dataManifest.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const OUTPUT_PATH = path.join(__dirname, "../public/at-large-boundaries.geojson");
@@ -63,8 +64,10 @@ async function main() {
   }
 
   const featureCollection = { type: "FeatureCollection", features };
+  const output = JSON.stringify(featureCollection);
   await mkdir(path.dirname(OUTPUT_PATH), { recursive: true });
-  await writeFile(OUTPUT_PATH, JSON.stringify(featureCollection));
+  await writeFile(OUTPUT_PATH, output);
+  await updateDataManifest(path.basename(OUTPUT_PATH), output);
   console.log(`[done] wrote ${featureCollection.features.length} at-large city boundary feature(s) to ${OUTPUT_PATH}`);
 }
 

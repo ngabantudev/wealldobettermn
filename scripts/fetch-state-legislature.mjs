@@ -53,6 +53,8 @@ import {
   MN_STATE_GENERAL_ELECTION_DATE,
   assertVerifiedSinceLastGeneralElection,
 } from "../src/lib/electionConfig.ts";
+import { simplifyAndRound, SIMPLIFY_TOLERANCE } from "./lib/geoSimplify.mjs";
+import { updateDataManifest } from "./lib/dataManifest.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const OUTPUT_PATH = path.join(__dirname, "../public/state-legislature.geojson");
@@ -354,9 +356,20 @@ async function main() {
   const scored = featureCollection.features.filter((f) => f.properties.partyUnityPercent !== null).length;
   console.log(`[state-legislature] ${scored} of ${featureCollection.features.length} district(s) got a party-unity score from this sample`);
 
+  // Ingest-time geometry simplification — see scripts/lib/geoSimplify.mjs.
+  // This is the layer issue #67 Finding 1 was actually filed over: raw
+  // statewide ArcGIS output ran 15.2MB/5.4MB gzipped after #61 dropped the
+  // old Twin Cities bounding-box filter, with zero simplification applied.
+  const simplified = simplifyAndRound(featureCollection, {
+    tolerance: SIMPLIFY_TOLERANCE.stateLegislature,
+    label: "state-legislature",
+  });
+  const output = JSON.stringify(simplified);
+
   await mkdir(path.dirname(OUTPUT_PATH), { recursive: true });
-  await writeFile(OUTPUT_PATH, JSON.stringify(featureCollection));
-  console.log(`[done] wrote ${featureCollection.features.length} state legislature district feature(s) to ${OUTPUT_PATH}`);
+  await writeFile(OUTPUT_PATH, output);
+  await updateDataManifest(path.basename(OUTPUT_PATH), output);
+  console.log(`[done] wrote ${simplified.features.length} state legislature district feature(s) to ${OUTPUT_PATH}`);
 }
 
 // Shared between the live run and --self-test so both exercise the exact

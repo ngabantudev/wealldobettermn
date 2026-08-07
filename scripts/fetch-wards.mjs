@@ -14,6 +14,8 @@ import { fileURLToPath } from "node:url";
 import { union } from "@turf/union";
 import { featureCollection } from "@turf/helpers";
 import { recentVotesFromLegistar } from "./lib/legistarRecentVotes.mjs";
+import { simplifyAndRound, SIMPLIFY_TOLERANCE } from "./lib/geoSimplify.mjs";
+import { updateDataManifest } from "./lib/dataManifest.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const OUTPUT_PATH = path.join(__dirname, "../public/wards.geojson");
@@ -749,9 +751,18 @@ async function main() {
     ],
   };
 
+  // Ingest-time geometry simplification — see scripts/lib/geoSimplify.mjs
+  // and issue #67 Finding 1. Runs after union() above, not before: a
+  // precinct-dissolve needs its full input precision to merge cleanly at
+  // shared edges, and simplifying each precinct separately first would
+  // just leave harder-to-dissolve seams.
+  const simplified = simplifyAndRound(outputCollection, { tolerance: SIMPLIFY_TOLERANCE.wards, label: "wards" });
+  const output = JSON.stringify(simplified);
+
   await mkdir(path.dirname(OUTPUT_PATH), { recursive: true });
-  await writeFile(OUTPUT_PATH, JSON.stringify(outputCollection));
-  console.log(`[done] wrote ${outputCollection.features.length} ward feature(s) to ${OUTPUT_PATH}`);
+  await writeFile(OUTPUT_PATH, output);
+  await updateDataManifest(path.basename(OUTPUT_PATH), output);
+  console.log(`[done] wrote ${simplified.features.length} ward feature(s) to ${OUTPUT_PATH}`);
 }
 
 main().catch((err) => {
