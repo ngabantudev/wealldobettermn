@@ -54,6 +54,19 @@ export const COMMISSIONER_COUNTIES = ["Hennepin", "Ramsey"] as const;
 export const STATE_LEGISLATURE_NOTE =
   "MN House & Senate districts reaching the Twin Cities core — not every Minnesota district, and not a guarantee every address nearby is included.";
 
+// Empty-state copy for WardModal's multi-tier (city/county/state) panel —
+// what to say when resolveOfficialsAtPoint (src/lib/officials.ts) comes
+// back with no hit for a given tier at the point the user hovered, clicked,
+// or tapped. Composed from the same ground-truth values above rather than
+// separately hand-typed, so this copy can't drift from what the map layers
+// actually cover (AGENTS.md §3.3 Coverage Honesty). Human-reviewed strings
+// per AGENTS.md §3.4 — this is user-facing copy, drafted with AI assistance.
+export const CITY_TIER_EMPTY_NOTE = `This location is outside every city this map has ward data for (${WARD_CITIES.join(", ")}).`;
+
+export const COUNTY_TIER_EMPTY_NOTE = `County commissioner districts are only mapped for ${COMMISSIONER_COUNTIES.join(" and ")} County.`;
+
+export const STATE_TIER_EMPTY_NOTE = `No state legislative district mapped here. ${STATE_LEGISLATURE_NOTE}`;
+
 // Things this app has no data for on any layer, anywhere in the state —
 // listed here (rather than only in AGENTS.md prose) so CoverageNotice.tsx
 // can render it instead of a maintainer needing to remember to. The bills

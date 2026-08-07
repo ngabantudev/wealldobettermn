@@ -1,0 +1,228 @@
+#!/usr/bin/env node
+// src/lib/officials.test.mjs
+//
+// Tests for resolveOfficialsAtPoint's point-in-polygon resolution. Uses
+// Node's built-in test runner (`node --test`), same convention as
+// electionConfig.test.mjs.
+//
+// Run directly: node src/lib/officials.test.mjs
+// Or via: npm run test:lib
+
+import assert from "node:assert/strict";
+import test from "node:test";
+import { officialIdentity, resolveOfficialsAtPoint } from "./officials.ts";
+
+// --- fixtures -------------------------------------------------------------
+// Two adjacent, non-overlapping square wards sharing an edge at lng=0, a
+// commissioner district covering both, and a house+senate pair covering
+// only ward A — enough to exercise "inside one," "inside none," "inside
+// all three tiers," and "on a shared boundary" without real map data.
+
+function square(swLng, swLat, neLng, neLat) {
+  return [
+    [
+      [swLng, swLat],
+      [neLng, swLat],
+      [neLng, neLat],
+      [swLng, neLat],
+      [swLng, swLat],
+    ],
+  ];
+}
+
+function rep(overrides) {
+  return {
+    role: "Council Member",
+    city: "Testville",
+    county: null,
+    ward: null,
+    wardName: null,
+    district: null,
+    stateDistrict: null,
+    chamber: null,
+    repName: null,
+    repParty: "Nonpartisan",
+    repPhotoUrl: null,
+    repEmail: null,
+    repPhone: null,
+    officeSince: "2020-01-01",
+    committees: [],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: null,
+    candidates: [],
+    isContested: false,
+    partyUnityPercent: null,
+    recentVotes: [],
+    ...overrides,
+  };
+}
+
+const wardA = {
+  type: "Feature",
+  properties: rep({ role: "Council Member", city: "Testville", ward: 1, repName: "Ward A Rep" }),
+  geometry: { type: "Polygon", coordinates: square(-1, -1, 0, 1) },
+};
+
+const wardB = {
+  type: "Feature",
+  properties: rep({ role: "Council Member", city: "Testville", ward: 2, repName: "Ward B Rep" }),
+  geometry: { type: "Polygon", coordinates: square(0, -1, 1, 1) },
+};
+
+const mayor = {
+  type: "Feature",
+  properties: rep({ role: "Mayor", city: "Testville", ward: null, repName: "The Mayor" }),
+  geometry: { type: "Point", coordinates: [-0.5, 0] },
+};
+
+const commissioner = {
+  type: "Feature",
+  properties: rep({
+    role: "County Commissioner",
+    city: "Testville",
+    county: "Test County",
+    district: 9,
+    repName: "The Commissioner",
+  }),
+  geometry: { type: "Polygon", coordinates: square(-1, -1, 1, 1) },
+};
+
+const houseDistrict = {
+  type: "Feature",
+  properties: rep({
+    role: "State Representative",
+    city: "Testville",
+    stateDistrict: "1A",
+    chamber: "house",
+    repName: "The Rep",
+  }),
+  geometry: { type: "Polygon", coordinates: square(-1, -1, 0, 1) },
+};
+
+const senateDistrict = {
+  type: "Feature",
+  properties: rep({
+    role: "State Senator",
+    city: "Testville",
+    stateDistrict: "1",
+    chamber: "senate",
+    repName: "The Senator",
+  }),
+  geometry: { type: "Polygon", coordinates: square(-1, -1, 0, 1) },
+};
+
+const sources = {
+  wards: { type: "FeatureCollection", features: [wardA, wardB] },
+  mayors: { type: "FeatureCollection", features: [mayor] },
+  commissioners: { type: "FeatureCollection", features: [commissioner] },
+  stateLeg: { type: "FeatureCollection", features: [houseDistrict, senateDistrict] },
+};
+
+// --- resolveOfficialsAtPoint ----------------------------------------------
+
+test("resolves all three tiers for a point inside ward A", () => {
+  const officials = resolveOfficialsAtPoint([-0.5, 0], sources);
+  assert.deepEqual(
+    officials.city.map((r) => r.repName),
+    ["The Mayor", "Ward A Rep"],
+  );
+  assert.deepEqual(
+    officials.county.map((r) => r.repName),
+    ["The Commissioner"],
+  );
+  assert.deepEqual(
+    officials.state.map((r) => r.repName),
+    ["The Senator", "The Rep"],
+  );
+});
+
+test("resolves ward B with no state-leg coverage (outside house/senate polygons)", () => {
+  const officials = resolveOfficialsAtPoint([0.5, 0], sources);
+  assert.deepEqual(
+    officials.city.map((r) => r.repName),
+    ["The Mayor", "Ward B Rep"],
+  );
+  assert.deepEqual(
+    officials.county.map((r) => r.repName),
+    ["The Commissioner"],
+  );
+  assert.deepEqual(officials.state, []);
+});
+
+test("a point outside every polygon resolves all three tiers empty", () => {
+  const officials = resolveOfficialsAtPoint([10, 10], sources);
+  assert.deepEqual(officials, { city: [], county: [], state: [] });
+});
+
+test("a point on the shared boundary between ward A and ward B resolves both (turf's inclusive-boundary convention)", () => {
+  const officials = resolveOfficialsAtPoint([0, 0], sources);
+  assert.deepEqual(
+    officials.city.map((r) => r.repName).sort(),
+    ["Ward A Rep", "Ward B Rep", "The Mayor"].sort(),
+  );
+});
+
+test("known seeds its own tier and is never dropped, even off its own polygon", () => {
+  // Point [10, 10] is outside every polygon, so PIP alone finds nothing —
+  // but the mayor still resolves too, matched by `known`'s own city (the
+  // same boundary-precision reasoning `known` exists for generally).
+  const knownRep = rep({ role: "Council Member", city: "Testville", ward: 1, repName: "Ward A Rep" });
+  const officials = resolveOfficialsAtPoint([10, 10], sources, knownRep);
+  assert.deepEqual(
+    officials.city.map((r) => r.repName).sort(),
+    ["Ward A Rep", "The Mayor"].sort(),
+  );
+  assert.deepEqual(officials.county, []);
+  assert.deepEqual(officials.state, []);
+});
+
+test("known does not produce a duplicate when PIP independently finds the same office", () => {
+  const knownWardA = wardA.properties;
+  const officials = resolveOfficialsAtPoint([-0.5, 0], sources, knownWardA);
+  assert.equal(officials.city.filter((r) => r.repName === "Ward A Rep").length, 1);
+});
+
+test("known fills the sibling slot in its own tier via PIP — seeding the House rep still surfaces the Senator", () => {
+  const knownHouse = houseDistrict.properties;
+  const officials = resolveOfficialsAtPoint([-0.5, 0], sources, knownHouse);
+  assert.deepEqual(
+    officials.state.map((r) => r.repName).sort(),
+    ["The Rep", "The Senator"],
+  );
+});
+
+test("mayor is matched by city even when known (not PIP) is what puts the point in that city", () => {
+  const sourcesNoWards = { ...sources, wards: { type: "FeatureCollection", features: [] } };
+  const knownCouncilMember = wardA.properties;
+  const officials = resolveOfficialsAtPoint([-0.5, 0], sourcesNoWards, knownCouncilMember);
+  assert.deepEqual(
+    officials.city.map((r) => r.repName).sort(),
+    ["The Mayor", "Ward A Rep"],
+  );
+});
+
+// --- officialIdentity -------------------------------------------------
+
+test("officialIdentity distinguishes offices sharing a role but different locators", () => {
+  const a = officialIdentity(rep({ role: "Council Member", city: "X", ward: 1 }));
+  const b = officialIdentity(rep({ role: "Council Member", city: "X", ward: 2 }));
+  assert.notEqual(a, b);
+});
+
+test("officialIdentity is stable for the same office regardless of name/contact fields", () => {
+  const a = officialIdentity(rep({ role: "State Senator", chamber: "senate", stateDistrict: "1", repName: "A" }));
+  const b = officialIdentity(rep({ role: "State Senator", chamber: "senate", stateDistrict: "1", repName: "B" }));
+  assert.equal(a, b);
+});
+
+test("officialIdentity falls back to a composite key (not a collision) for an unrecognized role", () => {
+  // `role` comes from fetched JSON, not a runtime-validated schema — this
+  // exercises the `default` branch a malformed/future upstream record
+  // would hit, which TypeScript's exhaustive switch can't prevent at
+  // runtime. Two different malformed records must not collide onto one
+  // identity (that would silently drop one from the panel).
+  const a = officialIdentity(rep({ role: "County Attorney", city: "X", repName: "A" }));
+  const b = officialIdentity(rep({ role: "County Attorney", city: "X", repName: "B" }));
+  assert.notEqual(a, b);
+});

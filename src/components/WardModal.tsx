@@ -1,6 +1,9 @@
 "use client";
 
 import type { RepProperties } from "@/lib/types";
+import type { AreaOfficials } from "@/lib/officials";
+import { officialIdentity } from "@/lib/officials";
+import { CITY_TIER_EMPTY_NOTE, COUNTY_TIER_EMPTY_NOTE, STATE_TIER_EMPTY_NOTE } from "@/lib/coverage";
 import { CONTESTED_COLOR, CONTESTED_COLOR_SOFT, partyColor, partyColorSoft } from "@/lib/cityTheme";
 import { isStale } from "@/lib/electionConfig";
 
@@ -190,24 +193,17 @@ function IconExternal() {
   );
 }
 
-export interface WardModalProps {
-  ward: RepProperties;
-  pinned: boolean;
-  onClose: () => void;
-  // "sheet" (the default): this component owns its own card chrome — a
-  // rounded, bordered, shadowed surface meant to float over the map or
-  // MapLibre's dimmed scrim. That's mobile's bottom sheet and (previously)
-  // desktop's own floating bottom-left card.
-  // "sidebar": this component is mounted inside WardMap's persistent right
-  // `<aside>` instead, which already supplies the panel background, the
-  // left border, and the scrolling — a second card nested inside that
-  // column would just double up borders/shadows around content that's
-  // already framed by the sidebar itself. Content (the pinned-vs-hover
-  // branch below) is identical either way; only the outer wrapper changes.
-  variant?: "sheet" | "sidebar";
-}
-
-export default function WardModal({ ward: rep, pinned, onClose, variant = "sheet" }: WardModalProps) {
+// One officeholder's full profile — name, contact, committees, votes, the
+// works. Reused up to six times per panel (Mayor + Council Member for
+// City, County Commissioner for County, State Rep + State Senator for
+// State), so nothing here owns the close button or the panel's own
+// scroll/height — those are WardModal's job now, not each card's. No
+// `role="dialog"` here: per-card dialog semantics made sense when this was
+// the whole panel's content, but stamping it onto every one of up to six
+// cards in one panel is an accessibility anti-pattern (nested dialogs).
+// The panel-level `<section>`/heading structure below carries the
+// landmark navigation instead.
+function OfficialCard({ rep }: { rep: RepProperties }) {
   const repName = displayName(rep.repName);
   const accent = partyColor(rep.repParty);
   const accentSoft = partyColorSoft(rep.repParty);
@@ -236,285 +232,330 @@ export default function WardModal({ ward: rep, pinned, onClose, variant = "sheet
     </div>
   );
 
-  // Hover-only preview (desktop, unpinned): a light glance — who, and
-  // where — not the full profile. Modeled on map "place card" hover
-  // states rather than dumping every field into a fleeting mouseover.
-  // No meetings teaser here (there used to be one) — see the pinned
-  // modal's "Meetings" section below for why: this app has no real
-  // per-ward meetings feed connected, so there's nothing honest to
-  // preview in a two-line hover card. The full context (and a link to
-  // the city's own calendar) only belongs in the pinned modal, where
-  // there's room to say so plainly rather than implying a check that
-  // never happened.
-  if (!pinned) {
-    const wrapperClass =
-      variant === "sidebar"
-        ? "pointer-events-auto w-full"
-        : "pointer-events-auto w-72 rounded-xl border border-hair bg-panel-2 shadow-xl shadow-(color:--shadow-panel) overflow-hidden";
-    return (
-      <div className={wrapperClass} role="dialog" aria-label={`${areaLabel(rep)} ${roleLabel(rep)} preview`}>
-        <div className="flex items-center gap-3 p-3">
-          <div className="h-11 w-11 text-base">{avatar}</div>
-          <div className="min-w-0 flex-1">
-            <div className="text-[11px] font-semibold uppercase tracking-wide" style={{ color: accent }}>
-              {areaLabel(rep)} &middot; {roleLabel(rep)}
-            </div>
-            <div className="text-sm font-semibold text-ink truncate">{repName ?? "Vacant / TBD"}</div>
+  return (
+    <div>
+      <div className="flex items-start gap-3 px-4 pt-3 pb-3">
+        <div className="h-16 w-16 text-xl">{avatar}</div>
+        <div className="min-w-0 flex-1 pt-0.5">
+          <div
+            className="inline-block text-[11px] font-semibold uppercase tracking-wide px-2 py-0.5 rounded-full mb-1"
+            style={{ color: accent, backgroundColor: accentSoft }}
+          >
+            {areaLabel(rep)} &middot; {roleLabel(rep)}
+          </div>
+          <h4 className="text-lg font-bold text-ink leading-tight truncate">{repName ?? "Vacant / TBD"}</h4>
+          <div className="text-xs text-ink-3 mt-0.5">
+            {rep.repParty} &middot; in office since {formatOfficeSince(rep.officeSince)}
           </div>
         </div>
-        {isContested(rep) && (
-          <div className="px-3 pb-2 -mt-1 flex items-center gap-1.5 text-xs font-medium" style={{ color: CONTESTED_COLOR }}>
-            <IconBallot />
-            <span>Contested &middot; {candidates.length} candidates</span>
-          </div>
-        )}
-        {isVerificationStale(rep) && (
-          <div className="px-3 pb-2 -mt-1 flex items-center gap-1.5 text-xs font-medium" style={{ color: STALE_COLOR }}>
-            <IconWarning />
-            <span>Verification may be out of date</span>
-          </div>
-        )}
       </div>
-    );
-  }
 
-  const pinnedWrapperClass =
+      {isVerificationStale(rep) && (
+        <div
+          className="border-t border-hair px-4 py-2.5 flex items-center gap-1.5 text-xs font-semibold"
+          style={{ color: STALE_COLOR, backgroundColor: STALE_COLOR_SOFT }}
+        >
+          <IconWarning />
+          <span>
+            {rep.verifiedAt
+              ? `Not re-verified since ${formatOfficeSince(rep.verifiedAt)} — may be out of date.`
+              : "No verification date on record for this seat — may be out of date."}
+          </span>
+        </div>
+      )}
+
+      {isContested(rep) && (
+        <div className="border-t border-hair px-4 py-3" style={{ backgroundColor: CONTESTED_COLOR_SOFT }}>
+          <div
+            className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide mb-2.5"
+            style={{ color: CONTESTED_COLOR }}
+          >
+            <IconBallot />
+            Contested seat &middot; {candidates.length} on the ballot
+          </div>
+          <ul className="space-y-2">
+            {candidates.map((candidate) => (
+              <li key={candidate.name} className="text-sm">
+                <div className="flex items-center gap-1.5 flex-wrap">
+                  <span className="font-medium text-ink">{candidate.name}</span>
+                  {candidate.isIncumbent && (
+                    <span className="text-[10px] font-semibold uppercase tracking-wide text-ink-3 bg-panel-2/70 px-1.5 py-0.5 rounded">
+                      Incumbent
+                    </span>
+                  )}
+                </div>
+                <div className="text-xs text-ink-3">{candidate.party}</div>
+                {candidate.endorsements.length > 0 && (
+                  <div className="text-xs text-ink-3">Endorsed by {candidate.endorsements.join(", ")}</div>
+                )}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      {committees.length > 0 && (
+        <div className="px-4 pb-3 flex flex-wrap gap-1.5">
+          {committees.map((role) => (
+            <span
+              key={role}
+              className="text-[11px] font-medium px-2 py-1 rounded-full border"
+              style={{ color: accent, borderColor: accentSoft, backgroundColor: accentSoft }}
+            >
+              {role}
+            </span>
+          ))}
+        </div>
+      )}
+
+      {rep.partyUnityPercent !== null && (
+        <div className="px-4 pb-3">
+          <div className="flex items-center justify-between text-xs text-ink-3 mb-1">
+            <span>Votes with own party</span>
+            <span className="font-semibold" style={{ color: partyColor(rep.repParty) }}>
+              {rep.partyUnityPercent}%
+            </span>
+          </div>
+          <div className="h-2 rounded-full bg-panel-3 overflow-hidden">
+            <div
+              className="h-full rounded-full"
+              style={{ width: `${rep.partyUnityPercent}%`, backgroundColor: partyColor(rep.repParty) }}
+            />
+          </div>
+        </div>
+      )}
+
+      {recentVotes.length > 0 && (
+        <div className="border-t border-hair px-4 py-3">
+          <div className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-ink-3 mb-2.5">
+            <IconBallot />
+            Recent votes
+          </div>
+          <ul className="space-y-2.5">
+            {recentVotes.map((vote) => (
+              <li key={vote.voteId} className="text-sm">
+                <div className="flex items-start justify-between gap-2">
+                  <span className="font-medium text-ink">{vote.identifier}</span>
+                  <span
+                    className="text-[10px] font-semibold uppercase tracking-wide px-1.5 py-0.5 rounded shrink-0"
+                    style={
+                      vote.option === "yes"
+                        ? { color: "#166534", backgroundColor: "#DCFCE7" }
+                        : { color: "#991B1B", backgroundColor: "#FEE2E2" }
+                    }
+                  >
+                    Voted {vote.option}
+                  </span>
+                </div>
+                <div className="text-xs text-ink-3">{vote.title}</div>
+                {vote.openstatesUrl && (
+                  <a
+                    href={vote.openstatesUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-xs font-medium hover:underline"
+                    style={{ color: accent }}
+                  >
+                    View bill
+                  </a>
+                )}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      {(rep.repEmail || rep.repPhone) && (
+        <div className="px-4 pb-3 flex items-center gap-2">
+          {rep.repEmail && (
+            <a
+              href={`mailto:${rep.repEmail}`}
+              className="flex items-center gap-1.5 text-xs font-medium text-ink-2 border border-hair rounded-full px-3 py-1.5 hover:bg-hover active:bg-hair-strong"
+            >
+              <IconMail />
+              Email
+            </a>
+          )}
+          {rep.repPhone && (
+            <a
+              href={`tel:${rep.repPhone.replace(/[^\d+]/g, "")}`}
+              className="flex items-center gap-1.5 text-xs font-medium text-ink-2 border border-hair rounded-full px-3 py-1.5 hover:bg-hover active:bg-hair-strong"
+            >
+              <IconPhone />
+              {rep.repPhone}
+            </a>
+          )}
+        </div>
+      )}
+
+      {/* This used to be a per-ward hearing/meeting schedule — deleted
+          outright (not hidden behind a flag, not left as a fallback)
+          per AGENTS.md §3.1: it was fabricated, deterministic mock
+          data, and a resident who missed a real hearing because this
+          site invented a fake one would have been actively harmed.
+          An honest "we don't have this yet" with a real link to the
+          city's own calendar is the correct replacement, not a fake
+          feed relabeled as real. The mayor's office doesn't get this
+          section at all (isWard) — there's no ward-level "meetings
+          feed" concept to honestly say we lack for a citywide role. */}
+      {isWard && (
+        <div className="border-t border-hair px-4 py-3">
+          <div className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-ink-3 mb-2.5">
+            <IconCalendar />
+            Meetings
+          </div>
+          <p className="text-sm text-ink-3">No meetings feed connected yet for {rep.city}.</p>
+          {CITY_MEETINGS_URL[rep.city] ? (
+            <a
+              href={CITY_MEETINGS_URL[rep.city]}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1 text-sm font-medium hover:underline mt-1"
+              style={{ color: accent }}
+            >
+              See {rep.city}&rsquo;s own meeting calendar
+              <IconExternal />
+            </a>
+          ) : (
+            <p className="text-xs text-ink-4 mt-1">Check {rep.city}&rsquo;s official website for upcoming meetings.</p>
+          )}
+        </div>
+      )}
+
+      {(rep.officeRoom || neighborhoods.length > 0 || rep.profileUrl) && (
+        <div className="border-t border-hair px-4 py-3 space-y-1.5 text-xs text-ink-3">
+          {rep.officeRoom && (
+            <div className="flex items-start gap-1.5">
+              <span className="mt-0.5">
+                <IconBuilding />
+              </span>
+              <span>{rep.officeRoom}</span>
+            </div>
+          )}
+          {neighborhoods.length > 0 && (
+            <div className="flex items-start gap-1.5">
+              <span className="mt-0.5">
+                <IconPin />
+              </span>
+              <span>{neighborhoods.join(", ")}</span>
+            </div>
+          )}
+          {rep.profileUrl && (
+            <a
+              href={rep.profileUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1 font-medium hover:underline pt-0.5"
+              style={{ color: accent }}
+            >
+              View official profile
+              <IconExternal />
+            </a>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
+
+interface TierSection {
+  key: keyof AreaOfficials;
+  label: string;
+  emptyNote: string;
+}
+
+// Order matches the app's own "who represents me?" question order (AGENTS.md
+// Part 0): city first, then county, then state.
+const TIER_SECTIONS: TierSection[] = [
+  { key: "city", label: "City", emptyNote: CITY_TIER_EMPTY_NOTE },
+  { key: "county", label: "County", emptyNote: COUNTY_TIER_EMPTY_NOTE },
+  { key: "state", label: "State", emptyNote: STATE_TIER_EMPTY_NOTE },
+];
+
+export interface WardModalProps {
+  officials: AreaOfficials;
+  onClose: () => void;
+  // "sheet" (the default): this component owns its own card chrome — a
+  // rounded, bordered, shadowed surface meant to float over the map or
+  // MapLibre's dimmed scrim. That's mobile's bottom sheet and (previously)
+  // desktop's own floating bottom-left card.
+  // "sidebar": this component is mounted inside WardMap's persistent right
+  // `<aside>` instead, which already supplies the panel background, the
+  // left border, and the scrolling — a second card nested inside that
+  // column would just double up borders/shadows around content that's
+  // already framed by the sidebar itself. Content is identical either way;
+  // only the outer wrapper changes.
+  variant?: "sheet" | "sidebar";
+}
+
+// The panel-level container: owns the one close button, the mobile
+// drag-handle, and the outer scroll/height for the whole panel — none of
+// which belong to any single official now that a panel can hold up to six
+// of them. Always renders all three tiers (City/County/State), each either
+// its official(s) or an honest "not covered here" note (AGENTS.md §3.3),
+// regardless of which single LayerMode is toggled on the map: resolution
+// happens in src/lib/officials.ts's resolveOfficialsAtPoint, independent
+// of what's currently drawn.
+export default function WardModal({ officials, onClose, variant = "sheet" }: WardModalProps) {
+  const wrapperClass =
     variant === "sidebar"
       ? "pointer-events-auto flex h-full w-full flex-col overflow-y-auto"
       : "pointer-events-auto w-full sm:w-[380px] max-h-[75vh] sm:max-h-[80vh] flex flex-col rounded-t-2xl sm:rounded-2xl border border-hair bg-panel-2 shadow-2xl shadow-(color:--shadow-panel) overflow-hidden";
 
+  // "sidebar": no role here — it's mounted inside WardMap's own persistent
+  // `<aside aria-label="Representatives for this location">`, which already
+  // carries the landmark naming; a second one on this inner div would be
+  // redundant. "sheet": this variant IS the floating, dismissible overlay
+  // (mobile bottom sheet), closer to true dialog semantics than the
+  // sidebar's persistent column — unlike the removed per-OfficialCard
+  // `role="dialog"` (an anti-pattern to repeat up to six times in one
+  // panel), there's exactly one of these per panel, so it's the correct
+  // place for it.
+  const dialogProps =
+    variant === "sheet" ? { role: "dialog" as const, "aria-label": "Representatives for this location" } : {};
+
   return (
-    <div className={pinnedWrapperClass} role="dialog" aria-label={`${areaLabel(rep)} ${roleLabel(rep)} info`}>
+    <div className={wrapperClass} {...dialogProps}>
       {/* Drag-handle affordance — bottom-sheet convention, mobile only */}
       <div className="sm:hidden flex justify-center pt-2 pb-1 shrink-0">
         <div className="h-1 w-9 rounded-full bg-hair-strong" />
       </div>
 
-      <div className="overflow-y-auto">
-        <div className="flex items-start gap-3 px-4 pt-2 pb-3 sm:pt-4">
-          <div className="h-16 w-16 text-xl">{avatar}</div>
-          <div className="min-w-0 flex-1 pt-0.5">
-            <div
-              className="inline-block text-[11px] font-semibold uppercase tracking-wide px-2 py-0.5 rounded-full mb-1"
-              style={{ color: accent, backgroundColor: accentSoft }}
-            >
-              {areaLabel(rep)} &middot; {roleLabel(rep)}
-            </div>
-            <div className="text-lg font-bold text-ink leading-tight truncate">
-              {repName ?? "Vacant / TBD"}
-            </div>
-            <div className="text-xs text-ink-3 mt-0.5">
-              {rep.repParty} &middot; in office since {formatOfficeSince(rep.officeSince)}
-            </div>
-          </div>
-          <button
-            type="button"
-            onClick={onClose}
-            aria-label="Close"
-            className="shrink-0 -mr-1 -mt-1 h-10 w-10 flex items-center justify-center rounded-full text-ink-4 hover:bg-hover hover:text-ink active:bg-hair-strong focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
-          >
-            <svg viewBox="0 0 20 20" fill="none" className="h-4 w-4">
-              <path d="m5 5 10 10M15 5 5 15" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" />
-            </svg>
-          </button>
-        </div>
+      <div className="flex items-center justify-between gap-2 px-4 pt-2 pb-2 sm:pt-4 shrink-0 border-b border-hair">
+        <h2 className="text-sm font-semibold text-ink">Representatives for this location</h2>
+        <button
+          type="button"
+          onClick={onClose}
+          aria-label="Close"
+          className="shrink-0 -mr-1 h-9 w-9 flex items-center justify-center rounded-full text-ink-4 hover:bg-hover hover:text-ink active:bg-hair-strong focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+        >
+          <svg viewBox="0 0 20 20" fill="none" className="h-4 w-4">
+            <path d="m5 5 10 10M15 5 5 15" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" />
+          </svg>
+        </button>
+      </div>
 
-        {isVerificationStale(rep) && (
-          <div className="border-t border-hair px-4 py-2.5 flex items-center gap-1.5 text-xs font-semibold" style={{ color: STALE_COLOR, backgroundColor: STALE_COLOR_SOFT }}>
-            <IconWarning />
-            <span>
-              {rep.verifiedAt
-                ? `Not re-verified since ${formatOfficeSince(rep.verifiedAt)} — may be out of date.`
-                : "No verification date on record for this seat — may be out of date."}
-            </span>
-          </div>
-        )}
-
-        {isContested(rep) && (
-          <div className="border-t border-hair px-4 py-3" style={{ backgroundColor: CONTESTED_COLOR_SOFT }}>
-            <div className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide mb-2.5" style={{ color: CONTESTED_COLOR }}>
-              <IconBallot />
-              Contested seat &middot; {candidates.length} on the ballot
-            </div>
-            <ul className="space-y-2">
-              {candidates.map((candidate) => (
-                <li key={candidate.name} className="text-sm">
-                  <div className="flex items-center gap-1.5 flex-wrap">
-                    <span className="font-medium text-ink">{candidate.name}</span>
-                    {candidate.isIncumbent && (
-                      <span className="text-[10px] font-semibold uppercase tracking-wide text-ink-3 bg-panel-2/70 px-1.5 py-0.5 rounded">
-                        Incumbent
-                      </span>
-                    )}
-                  </div>
-                  <div className="text-xs text-ink-3">{candidate.party}</div>
-                  {candidate.endorsements.length > 0 && (
-                    <div className="text-xs text-ink-3">Endorsed by {candidate.endorsements.join(", ")}</div>
-                  )}
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
-
-        {committees.length > 0 && (
-          <div className="px-4 pb-3 flex flex-wrap gap-1.5">
-            {committees.map((role) => (
-              <span
-                key={role}
-                className="text-[11px] font-medium px-2 py-1 rounded-full border"
-                style={{ color: accent, borderColor: accentSoft, backgroundColor: accentSoft }}
-              >
-                {role}
-              </span>
-            ))}
-          </div>
-        )}
-
-        {rep.partyUnityPercent !== null && (
-          <div className="px-4 pb-3">
-            <div className="flex items-center justify-between text-xs text-ink-3 mb-1">
-              <span>Votes with own party</span>
-              <span className="font-semibold" style={{ color: partyColor(rep.repParty) }}>
-                {rep.partyUnityPercent}%
-              </span>
-            </div>
-            <div className="h-2 rounded-full bg-panel-3 overflow-hidden">
-              <div
-                className="h-full rounded-full"
-                style={{ width: `${rep.partyUnityPercent}%`, backgroundColor: partyColor(rep.repParty) }}
-              />
-            </div>
-          </div>
-        )}
-
-        {recentVotes.length > 0 && (
-          <div className="border-t border-hair px-4 py-3">
-            <div className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-ink-3 mb-2.5">
-              <IconBallot />
-              Recent votes
-            </div>
-            <ul className="space-y-2.5">
-              {recentVotes.map((vote) => (
-                <li key={vote.voteId} className="text-sm">
-                  <div className="flex items-start justify-between gap-2">
-                    <span className="font-medium text-ink">{vote.identifier}</span>
-                    <span
-                      className="text-[10px] font-semibold uppercase tracking-wide px-1.5 py-0.5 rounded shrink-0"
-                      style={
-                        vote.option === "yes"
-                          ? { color: "#166534", backgroundColor: "#DCFCE7" }
-                          : { color: "#991B1B", backgroundColor: "#FEE2E2" }
-                      }
-                    >
-                      Voted {vote.option}
-                    </span>
-                  </div>
-                  <div className="text-xs text-ink-3">{vote.title}</div>
-                  {vote.openstatesUrl && (
-                    <a
-                      href={vote.openstatesUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-xs font-medium hover:underline"
-                      style={{ color: accent }}
-                    >
-                      View bill
-                    </a>
-                  )}
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
-
-        {(rep.repEmail || rep.repPhone) && (
-          <div className="px-4 pb-3 flex items-center gap-2">
-            {rep.repEmail && (
-              <a
-                href={`mailto:${rep.repEmail}`}
-                className="flex items-center gap-1.5 text-xs font-medium text-ink-2 border border-hair rounded-full px-3 py-1.5 hover:bg-hover active:bg-hair-strong"
-              >
-                <IconMail />
-                Email
-              </a>
-            )}
-            {rep.repPhone && (
-              <a
-                href={`tel:${rep.repPhone.replace(/[^\d+]/g, "")}`}
-                className="flex items-center gap-1.5 text-xs font-medium text-ink-2 border border-hair rounded-full px-3 py-1.5 hover:bg-hover active:bg-hair-strong"
-              >
-                <IconPhone />
-                {rep.repPhone}
-              </a>
-            )}
-          </div>
-        )}
-
-        {/* This used to be a per-ward hearing/meeting schedule — deleted
-            outright (not hidden behind a flag, not left as a fallback)
-            per AGENTS.md §3.1: it was fabricated, deterministic mock
-            data, and a resident who missed a real hearing because this
-            site invented a fake one would have been actively harmed.
-            An honest "we don't have this yet" with a real link to the
-            city's own calendar is the correct replacement, not a fake
-            feed relabeled as real. The mayor's office doesn't get this
-            section at all (isWard) — there's no ward-level "meetings
-            feed" concept to honestly say we lack for a citywide role. */}
-        {isWard && (
-          <div className="border-t border-hair px-4 py-3">
-            <div className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-ink-3 mb-2.5">
-              <IconCalendar />
-              Meetings
-            </div>
-            <p className="text-sm text-ink-3">
-              No meetings feed connected yet for {rep.city}.
-            </p>
-            {CITY_MEETINGS_URL[rep.city] ? (
-              <a
-                href={CITY_MEETINGS_URL[rep.city]}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1 text-sm font-medium hover:underline mt-1"
-                style={{ color: accent }}
-              >
-                See {rep.city}&rsquo;s own meeting calendar
-                <IconExternal />
-              </a>
-            ) : (
-              <p className="text-xs text-ink-4 mt-1">Check {rep.city}&rsquo;s official website for upcoming meetings.</p>
-            )}
-          </div>
-        )}
-
-        {(rep.officeRoom || neighborhoods.length > 0 || rep.profileUrl) && (
-          <div className="border-t border-hair px-4 py-3 space-y-1.5 text-xs text-ink-3">
-            {rep.officeRoom && (
-              <div className="flex items-start gap-1.5">
-                <span className="mt-0.5"><IconBuilding /></span>
-                <span>{rep.officeRoom}</span>
-              </div>
-            )}
-            {neighborhoods.length > 0 && (
-              <div className="flex items-start gap-1.5">
-                <span className="mt-0.5"><IconPin /></span>
-                <span>{neighborhoods.join(", ")}</span>
-              </div>
-            )}
-            {rep.profileUrl && (
-              <a
-                href={rep.profileUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1 font-medium hover:underline pt-0.5"
-                style={{ color: accent }}
-              >
-                View official profile
-                <IconExternal />
-              </a>
-            )}
-          </div>
-        )}
+      <div className="overflow-y-auto divide-y divide-hair">
+        {TIER_SECTIONS.map(({ key, label, emptyNote }) => {
+          const reps = officials[key];
+          const headingId = `officials-tier-${key}`;
+          return (
+            <section key={key} aria-labelledby={headingId}>
+              <h3 id={headingId} className="px-4 pt-3 pb-1 text-[11px] font-semibold uppercase tracking-wide text-ink-3">
+                {label}
+              </h3>
+              {reps.length > 0 ? (
+                <div className="divide-y divide-hair">
+                  {reps.map((rep) => (
+                    <OfficialCard key={officialIdentity(rep)} rep={rep} />
+                  ))}
+                </div>
+              ) : (
+                <p className="px-4 pb-3 text-sm text-ink-3">{emptyNote}</p>
+              )}
+            </section>
+          );
+        })}
       </div>
     </div>
   );
