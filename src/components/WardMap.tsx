@@ -1939,7 +1939,14 @@ export default function WardMap() {
       : // No height cap here — the sidebar `<aside>` itself scrolls (see
         // its own overflow-y-auto), so a second, nested scroll region
         // would just be confusing about which element actually moves.
-        "rounded-lg border border-hair-strong bg-panel-2 divide-y divide-hair-strong text-sm text-ink-2";
+        // No border: mndatacenter.org's own sidebar groups lean on a
+        // recessed fill (bg-panel-3, the app's existing "sub-rows, track
+        // backgrounds" token — see globals.css) and row dividers to read
+        // as one grouped list, not a boxed border. A border here on top
+        // of the sidebar's own edge border and the section card around it
+        // (see sidebarFilterControls below) was one border too many —
+        // flat and modern reads as fewer lines, not more of them.
+        "rounded-lg bg-panel-3 divide-y divide-hair text-sm text-ink-2";
   // Sidebar-only: a short Water Blue tick ahead of the label — the flag's
   // own accent (see globals.css's --sidebar-accent) used as a structural
   // marker, not just a color swap. AGENTS.md §4 "structure is
@@ -1970,8 +1977,13 @@ export default function WardMap() {
       <button
         type="button"
         onClick={() => setCitiesVisible(cities, true)}
-        className={`rounded px-1.5 py-1 text-ink-3 transition-colors hover:bg-hover hover:text-ink focus:outline-none focus-visible:ring-2 ${
-          variant === "sidebar" ? "focus-visible:ring-sidebar-accent" : "focus-visible:ring-accent"
+        className={`rounded px-1.5 py-1 text-ink-3 transition-colors hover:text-ink focus:outline-none focus-visible:ring-2 ${
+          // hover:bg-sidebar-hover, not the generic hover:bg-hover: this
+          // button sits on the sidebar's own panel-2 fill, where --hover
+          // reads as nearly invisible (see that token's own comment in
+          // globals.css) — same fix applied everywhere else in this
+          // sidebar's interactive rows/tabs below.
+          variant === "sidebar" ? "hover:bg-sidebar-hover focus-visible:ring-sidebar-accent" : "hover:bg-hover focus-visible:ring-accent"
         }`}
       >
         All
@@ -1982,8 +1994,8 @@ export default function WardMap() {
       <button
         type="button"
         onClick={() => setCitiesVisible(cities, false)}
-        className={`rounded px-1.5 py-1 text-ink-3 transition-colors hover:bg-hover hover:text-ink focus:outline-none focus-visible:ring-2 ${
-          variant === "sidebar" ? "focus-visible:ring-sidebar-accent" : "focus-visible:ring-accent"
+        className={`rounded px-1.5 py-1 text-ink-3 transition-colors hover:text-ink focus:outline-none focus-visible:ring-2 ${
+          variant === "sidebar" ? "hover:bg-sidebar-hover focus-visible:ring-sidebar-accent" : "hover:bg-hover focus-visible:ring-accent"
         }`}
       >
         None
@@ -1992,26 +2004,31 @@ export default function WardMap() {
   );
 
   // Sidebar-only tab look for the Level (City/County/State) and Chamber
-  // groups, matching WardModal's City/County/State tablist exactly (same
-  // TIER_HEADER_BG navy fill, uppercase text-xs tracking-wide, full-width
-  // flex-1 cells, min-h-11 touch target, flat border-b divider — no
-  // rounding, no boxed border) rather than the pill-button style the
-  // floating/mobile flavor keeps. Level (below) renders this row directly
-  // under the sidebar's own header, outside the padded content column, so
-  // it runs the full width of the sidebar edge to edge exactly like
-  // WardModal's tablist runs edge to edge under its own header. Chamber
-  // reuses the same flat class inside the padded column instead — still
-  // unrounded/unboxed, just inset by that column's own padding rather
-  // than full-bleed, since only Level was asked to match the right
-  // sidebar's full width. Visual mimicry only: unlike WardModal's tabs
-  // these buttons don't control a same-panel tabpanel — picking a mode
-  // swaps map layers, zoom, and the section below, not just this row's
-  // own content — so they keep role="group" rather than the full
-  // roving-tabindex ARIA tabs pattern.
-  const sidebarTabRowClass = "flex border-b border-hair-strong";
+  // groups — a flat segmented control (rounded-lg track, rounded-md
+  // active cell), matching mndatacenter.org's own "moderate border-radius
+  // on interactive elements" rather than the flush, square, full-bleed
+  // strip this used to mimic from WardModal's tablist. No border on the
+  // track itself: bg-panel-3 (the same recessed token filterListClass's
+  // sidebar variant uses just above) supplies the grouping, and the
+  // active cell's own TIER_HEADER_BG fill supplies the selection state —
+  // between the two, a border line drew no information a resident
+  // couldn't already read from the fill contrast. WardModal's own
+  // City/County/State tablist picked up the matching rounded treatment in
+  // the same pass (see that file), so both sidebars still read as one
+  // consistent panel language, just a flatter one. Rounded corners also
+  // stop the focus ring from being clipped flush against a hard edge —
+  // ring-inset (no longer set here) existed only to keep the ring from
+  // bleeding past the old edge-to-edge row; a padded, rounded cell has
+  // room for a normal outer ring instead. Still role="group", not ARIA
+  // tabs: picking a mode swaps map layers, zoom, and the section below,
+  // not just this row's own tabpanel content.
+  const sidebarTabRowClass = "flex gap-1 rounded-lg bg-panel-3 p-1";
+  // hover:bg-sidebar-hover, not hover:bg-hover: this track's own bg-panel-3
+  // fill is only 3 shades off --hover, so the generic token was nearly
+  // invisible here — see --sidebar-hover's own comment in globals.css.
   const sidebarTabButtonClass = (active: boolean) =>
-    `flex-1 min-h-11 px-2 py-2 text-center text-xs font-semibold uppercase tracking-wide transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-sidebar-accent ${
-      active ? "" : "text-ink-3 hover:bg-hover hover:text-ink"
+    `flex-1 min-h-11 rounded-md px-2 py-2 text-center text-xs font-semibold uppercase tracking-wide transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-sidebar-accent ${
+      active ? "" : "text-ink-3 hover:bg-sidebar-hover hover:text-ink"
     }`;
 
   // filterControls (floating, for MobileNav's Filters tab) and
@@ -2093,10 +2110,12 @@ export default function WardMap() {
     </>
   );
 
-  // Rendered directly under the sidebar's header, outside the padded
-  // content column below (see the left `<aside>`'s own comment) — no
-  // "Level" heading text, same as WardModal's own tablist has no heading
-  // above it, just this group's aria-label.
+  // Rendered as the first item inside the padded content column below
+  // (see the left `<aside>`'s own comment) — inset with room for the
+  // segmented control's own rounded corners, rather than the old
+  // full-bleed placement flush against the header. No "Level" heading
+  // text, same as WardModal's own tablist has no heading above it, just
+  // this group's aria-label.
   const sidebarLevelTabs = (
     <div role="group" aria-label="Choose map layer" className={sidebarTabRowClass}>
       {(["wards", "commissioners", "state-legislature"] as const).map((mode) => (
@@ -2113,6 +2132,13 @@ export default function WardMap() {
     </div>
   );
 
+  // No card border around this group (a prior pass tried boxing it in
+  // border-hair-strong; see git history) — mndatacenter.org's own filter
+  // groups read as "contained" from generous vertical spacing and the
+  // section label's accent tick (filterSectionLabel above) plus the
+  // recessed fill under the tab row/checkbox list, not from a drawn
+  // rectangle around the whole thing. The gap-5 on the padded content
+  // column below does that spacing job between sections.
   const sidebarFilterControls = (
     <>
       <div>
@@ -2137,7 +2163,12 @@ export default function WardMap() {
         ) : (
           <div role="group" aria-label="Filter by area" className={filterListClass("sidebar")}>
             {MODE_VISIBLE_CITIES[layerMode].map((city) => (
-              <label key={city} className="flex items-center gap-2 px-3 py-2.5 sm:py-2 cursor-pointer select-none hover:bg-hover">
+              // hover:bg-sidebar-hover here (not hover:bg-hover, which the
+              // floating variant just above keeps) — this row sits on
+              // filterListClass("sidebar")'s bg-panel-3 fill, where
+              // --hover reads as nearly invisible. See that token's own
+              // comment in globals.css.
+              <label key={city} className="flex items-center gap-2 px-3 py-2.5 sm:py-2 cursor-pointer select-none hover:bg-sidebar-hover">
                 <input
                   type="checkbox"
                   checked={visibleCities[city]}
@@ -2295,20 +2326,27 @@ export default function WardMap() {
                 this one being a bare stack of controls next to the right
                 sidebar's titled, tabbed one. No close button: unlike
                 WardModal this panel isn't dismissible, only collapsible
-                via the pull-tab outside it. */}
+                via the pull-tab outside it. No border under the fill
+                either (a prior pass added one; see git history) — the
+                color change from the green header to the sidebar's own
+                bg-panel-2 is already the seam; a drawn line on top of it
+                was one border mndatacenter.org's own flatter chrome
+                doesn't carry. */}
             <div
               className="flex items-center gap-2 px-4 pt-2 pb-2 sm:pt-4 shrink-0"
               style={{ backgroundColor: PANEL_HEADER_BG, color: PANEL_HEADER_TEXT }}
             >
               <h2 className="text-2xl font-extrabold">Filters</h2>
             </div>
-            {/* Level (City/County/State) sits directly under the header,
-                outside the padded column below — full sidebar width, edge
-                to edge, no rounding — exactly where and how WardModal's
-                own City/County/State tablist sits under its header in the
-                right sidebar (see sidebarTabRowClass's own comment). */}
-            {sidebarLevelTabs}
-            <div className="flex flex-1 flex-col gap-5 overflow-y-auto px-4 py-5">{sidebarFilterControls}</div>
+            {/* Level (City/County/State) now sits inside the padded
+                content column as its own first item, rounded like the
+                segmented control it is, instead of the old full-bleed
+                square strip flush under the header (see
+                sidebarTabRowClass's own comment for why). */}
+            <div className="flex flex-1 flex-col gap-5 overflow-y-auto px-4 py-5">
+              {sidebarLevelTabs}
+              {sidebarFilterControls}
+            </div>
           </div>
         </aside>
 
@@ -2343,7 +2381,12 @@ export default function WardMap() {
             aria-expanded={!leftFiltersCollapsed}
             aria-controls="map-filters-sidebar"
             aria-label={leftFiltersCollapsed ? "Show map filters" : "Hide map filters"}
-            className="hidden sm:flex absolute left-0 top-1/2 z-20 h-12 w-6 -translate-y-1/2 items-center justify-center rounded-r-lg border border-l-0 border-hair-strong bg-panel-2 text-ink-3 transition-colors hover:bg-hover hover:text-ink focus:outline-none focus-visible:ring-2 focus-visible:ring-sidebar-accent"
+            // hover:bg-sidebar-hover: this pull-tab sprouts visually from
+            // the left sidebar (see the comment above), so it gets the
+            // same stronger hover the sidebar's own rows/tabs use rather
+            // than the generic --hover, which barely shows against its
+            // bg-panel-2 fill.
+            className="hidden sm:flex absolute left-0 top-1/2 z-20 h-12 w-6 -translate-y-1/2 items-center justify-center rounded-r-lg border border-l-0 border-hair-strong bg-panel-2 text-ink-3 transition-colors hover:bg-sidebar-hover hover:text-ink focus:outline-none focus-visible:ring-2 focus-visible:ring-sidebar-accent"
           >
             <IconChevron className={leftFiltersCollapsed ? "rotate-180" : ""} />
           </button>
@@ -2395,7 +2438,9 @@ export default function WardMap() {
             aria-expanded={!rightDetailCollapsed}
             aria-controls="map-detail-sidebar"
             aria-label={rightDetailCollapsed ? "Show representative details" : "Hide representative details"}
-            className="hidden sm:flex absolute right-0 top-1/2 z-20 h-12 w-6 -translate-y-1/2 items-center justify-center rounded-l-lg border border-r-0 border-hair-strong bg-panel-2 text-ink-3 transition-colors hover:bg-hover hover:text-ink focus:outline-none focus-visible:ring-2 focus-visible:ring-sidebar-accent"
+            // hover:bg-sidebar-hover — same reasoning as the left pull-tab
+            // above.
+            className="hidden sm:flex absolute right-0 top-1/2 z-20 h-12 w-6 -translate-y-1/2 items-center justify-center rounded-l-lg border border-r-0 border-hair-strong bg-panel-2 text-ink-3 transition-colors hover:bg-sidebar-hover hover:text-ink focus:outline-none focus-visible:ring-2 focus-visible:ring-sidebar-accent"
           >
             <IconChevron className={rightDetailCollapsed ? "" : "rotate-180"} />
           </button>

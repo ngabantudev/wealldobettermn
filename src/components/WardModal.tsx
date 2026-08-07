@@ -381,7 +381,12 @@ function OfficialCard({ rep }: { rep: RepProperties }) {
           {rep.repEmail && (
             <a
               href={`mailto:${rep.repEmail}`}
-              className="flex items-center gap-1.5 text-xs font-medium text-ink-2 border border-hair rounded-full px-3 py-1.5 hover:bg-hover active:bg-hair-strong"
+              // hover:bg-sidebar-hover, not hover:bg-hover: this chip is
+              // one of the sidebar's own interactive rows (this card
+              // renders inside WardMap's right `<aside>` in the
+              // "sidebar" variant) — see --sidebar-hover's comment in
+              // globals.css for why the generic token barely shows.
+              className="flex items-center gap-1.5 text-xs font-medium text-ink-2 border border-hair rounded-full px-3 py-1.5 hover:bg-sidebar-hover active:bg-hair-strong"
             >
               <IconMail />
               Email
@@ -390,7 +395,7 @@ function OfficialCard({ rep }: { rep: RepProperties }) {
           {rep.repPhone && (
             <a
               href={`tel:${rep.repPhone.replace(/[^\d+]/g, "")}`}
-              className="flex items-center gap-1.5 text-xs font-medium text-ink-2 border border-hair rounded-full px-3 py-1.5 hover:bg-hover active:bg-hair-strong"
+              className="flex items-center gap-1.5 text-xs font-medium text-ink-2 border border-hair rounded-full px-3 py-1.5 hover:bg-sidebar-hover active:bg-hair-strong"
             >
               <IconPhone />
               {rep.repPhone}
@@ -586,6 +591,12 @@ export default function WardModal({ officials, onClose, variant = "sheet" }: War
         <div className="h-1 w-9 rounded-full bg-hair-strong" />
       </div>
 
+      {/* No border under the header fill (a prior pass added one; see git
+          history) — the color change from PANEL_HEADER_BG down to the
+          panel's own background is already the seam, matching
+          mndatacenter.org's flatter chrome and WardMap.tsx's left
+          "Filters" sidebar header, which dropped the same line for the
+          same reason. */}
       <div
         className="flex items-center justify-between gap-2 px-4 pt-2 pb-2 sm:pt-4 shrink-0"
         style={{ backgroundColor: PANEL_HEADER_BG, color: PANEL_HEADER_TEXT }}
@@ -612,56 +623,66 @@ export default function WardModal({ officials, onClose, variant = "sheet" }: War
           order) so Tab itself moves straight from the tablist to the
           panel content instead of through all three headers.
 
-          border-hair-strong, not the brand TIER_HEADER_BORDER light blue:
-          that color only clears WCAG 1.4.11's 3:1 non-text-contrast
-          minimum against the navy header it was designed for — against
-          this row's own panel background (white in light theme) it
-          measures under 2:1. hair-strong is the app's own themed
-          structural-divider token, already tuned per theme, and matches
-          the border every other bordered chrome surface in the app
-          uses. */}
-      <div role="tablist" aria-label="Representative level" className="flex shrink-0 border-b border-hair-strong">
-        {TIER_SECTIONS.map(({ key, label }, index) => {
-          const isActive = key === activeTier;
-          const tabId = `officials-tier-${key}-tab`;
-          const panelId = `officials-tier-${key}-panel`;
-          return (
-            <button
-              key={key}
-              ref={(el) => {
-                tabRefs.current[index] = el;
-              }}
-              type="button"
-              role="tab"
-              id={tabId}
-              aria-selected={isActive}
-              aria-controls={panelId}
-              tabIndex={isActive ? 0 : -1}
-              onClick={() => setActiveTier(key)}
-              onKeyDown={handleTabKeyDown}
-              // min-h-11 (44px): Apple/Google's touch-target guidance for
-              // an interactive control on a mobile sheet — this row is
-              // rendered identically for the mobile bottom sheet
-              // (variant="sheet") and the desktop sidebar, so it needs to
-              // hold up as a thumb target, not just a mouse target. Well
-              // above WCAG 2.5.8's own 24x24px AA minimum.
-              className={`flex-1 min-h-11 px-3 py-2.5 text-center text-xs font-semibold uppercase tracking-wide transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-inset ${
-                // Same `--hover` token the left sidebar's city rows use
-                // (WardMap.tsx's filterListClass rows), applied only to
-                // the inactive tabs — the active tab already has its own
-                // solid fill and shouldn't visually flicker on hover. Not
-                // set via the style prop below: an inline background-color
-                // has higher specificity than any Tailwind class,
-                // including this one's :hover variant, so it would
-                // silently block the hover fill from ever painting.
-                isActive ? "" : "hover:bg-hover"
-              }`}
-              style={isActive ? { backgroundColor: TIER_HEADER_BG, color: TIER_HEADER_TEXT } : undefined}
-            >
-              {label}
-            </button>
-          );
-        })}
+          Flat segmented control (rounded-lg track on bg-panel-3, rounded-md
+          active cell) instead of the old flush, square, full-bleed strip
+          with a border-hair-strong divider underneath — mndatacenter.org's
+          own "moderate border-radius on interactive elements" look, and
+          matches the same treatment WardMap.tsx's left sidebar tablist
+          (sidebarTabRowClass) now uses, so both sidebars read as one
+          language. No border: bg-panel-3 (the recessed-surface token) and
+          the active cell's own TIER_HEADER_BG fill carry the grouping and
+          selection state between them, so a drawn line added no
+          information. Inset in its own padded wrapper rather than
+          full-bleed, since a rounded track needs room on all sides for its
+          own corners. */}
+      <div className="px-4 pt-4 pb-1 shrink-0">
+        <div role="tablist" aria-label="Representative level" className="flex gap-1 rounded-lg bg-panel-3 p-1">
+          {TIER_SECTIONS.map(({ key, label }, index) => {
+            const isActive = key === activeTier;
+            const tabId = `officials-tier-${key}-tab`;
+            const panelId = `officials-tier-${key}-panel`;
+            return (
+              <button
+                key={key}
+                ref={(el) => {
+                  tabRefs.current[index] = el;
+                }}
+                type="button"
+                role="tab"
+                id={tabId}
+                aria-selected={isActive}
+                aria-controls={panelId}
+                tabIndex={isActive ? 0 : -1}
+                onClick={() => setActiveTier(key)}
+                onKeyDown={handleTabKeyDown}
+                // min-h-11 (44px): Apple/Google's touch-target guidance for
+                // an interactive control on a mobile sheet — this row is
+                // rendered identically for the mobile bottom sheet
+                // (variant="sheet") and the desktop sidebar, so it needs to
+                // hold up as a thumb target, not just a mouse target. Well
+                // above WCAG 2.5.8's own 24x24px AA minimum.
+                className={`flex-1 min-h-11 rounded-md px-3 py-2.5 text-center text-xs font-semibold uppercase tracking-wide transition-colors focus:outline-none focus-visible:ring-2 ${
+                  // Same `--sidebar-hover` token the left sidebar's city
+                  // rows and tabs use (WardMap.tsx's filterListClass rows,
+                  // sidebarTabButtonClass) — not the generic `--hover`,
+                  // which barely shows against this track's own bg-panel-3
+                  // fill (see that token's comment in globals.css).
+                  // Applied only to the inactive tabs — the active tab
+                  // already has its own solid fill and shouldn't visually
+                  // flicker on hover. Not set via the style prop below: an
+                  // inline background-color has higher specificity than
+                  // any Tailwind class, including this one's :hover
+                  // variant, so it would silently block the hover fill
+                  // from ever painting.
+                  isActive ? "" : "hover:bg-sidebar-hover"
+                }`}
+                style={isActive ? { backgroundColor: TIER_HEADER_BG, color: TIER_HEADER_TEXT } : undefined}
+              >
+                {label}
+              </button>
+            );
+          })}
+        </div>
       </div>
 
       <div className="overflow-y-auto">
