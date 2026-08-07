@@ -1992,18 +1992,23 @@ export default function WardMap() {
   );
 
   // Sidebar-only tab look for the Level (City/County/State) and Chamber
-  // groups, matching WardModal's City/County/State tablist (same
+  // groups, matching WardModal's City/County/State tablist exactly (same
   // TIER_HEADER_BG navy fill, uppercase text-xs tracking-wide, full-width
-  // flex-1 cells, min-h-11 touch target) rather than the pill-button
-  // style the floating/mobile flavor keeps — see the left `<aside>`'s own
-  // comment for why this sidebar now mimics the right sidebar's panel
-  // chrome instead of reading as a separate, ad hoc control cluster.
-  // Visual mimicry only: unlike WardModal's tabs these buttons don't
-  // control a same-panel tabpanel — picking a mode swaps map layers,
-  // zoom, and the section below, not just this row's own content — so
-  // they keep role="group" rather than the full roving-tabindex ARIA
-  // tabs pattern.
-  const sidebarTabRowClass = "flex overflow-hidden rounded-lg border border-hair-strong";
+  // flex-1 cells, min-h-11 touch target, flat border-b divider — no
+  // rounding, no boxed border) rather than the pill-button style the
+  // floating/mobile flavor keeps. Level (below) renders this row directly
+  // under the sidebar's own header, outside the padded content column, so
+  // it runs the full width of the sidebar edge to edge exactly like
+  // WardModal's tablist runs edge to edge under its own header. Chamber
+  // reuses the same flat class inside the padded column instead — still
+  // unrounded/unboxed, just inset by that column's own padding rather
+  // than full-bleed, since only Level was asked to match the right
+  // sidebar's full width. Visual mimicry only: unlike WardModal's tabs
+  // these buttons don't control a same-panel tabpanel — picking a mode
+  // swaps map layers, zoom, and the section below, not just this row's
+  // own content — so they keep role="group" rather than the full
+  // roving-tabindex ARIA tabs pattern.
+  const sidebarTabRowClass = "flex border-b border-hair-strong";
   const sidebarTabButtonClass = (active: boolean) =>
     `flex-1 min-h-11 px-2 py-2 text-center text-xs font-semibold uppercase tracking-wide transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-sidebar-accent ${
       active ? "" : "text-ink-3 hover:bg-hover hover:text-ink"
@@ -2088,30 +2093,28 @@ export default function WardMap() {
     </>
   );
 
+  // Rendered directly under the sidebar's header, outside the padded
+  // content column below (see the left `<aside>`'s own comment) — no
+  // "Level" heading text, same as WardModal's own tablist has no heading
+  // above it, just this group's aria-label.
+  const sidebarLevelTabs = (
+    <div role="group" aria-label="Choose map layer" className={sidebarTabRowClass}>
+      {(["wards", "commissioners", "state-legislature"] as const).map((mode) => (
+        <button
+          key={mode}
+          type="button"
+          onClick={() => switchMode(mode)}
+          className={sidebarTabButtonClass(layerMode === mode)}
+          style={layerMode === mode ? { backgroundColor: TIER_HEADER_BG, color: TIER_HEADER_TEXT } : undefined}
+        >
+          {MODE_LABELS[mode]}
+        </button>
+      ))}
+    </div>
+  );
+
   const sidebarFilterControls = (
     <>
-      <div>
-        <div className="mb-1.5">{filterSectionLabel("sidebar", "Level")}</div>
-        {/* Same navy-fill tab language as WardModal's City/County/State
-            tablist (TIER_HEADER_BG/TEXT, uppercase text-xs tracking-wide,
-            min-h-11 touch target) — see sidebarTabButtonClass's own
-            comment for why this stays role="group" rather than full ARIA
-            tabs. */}
-        <div role="group" aria-label="Choose map layer" className={sidebarTabRowClass}>
-          {(["wards", "commissioners", "state-legislature"] as const).map((mode) => (
-            <button
-              key={mode}
-              type="button"
-              onClick={() => switchMode(mode)}
-              className={sidebarTabButtonClass(layerMode === mode)}
-              style={layerMode === mode ? { backgroundColor: TIER_HEADER_BG, color: TIER_HEADER_TEXT } : undefined}
-            >
-              {MODE_LABELS[mode]}
-            </button>
-          ))}
-        </div>
-      </div>
-
       <div>
         <div className="mb-1.5 flex items-center justify-between gap-2">
           {filterSectionLabel("sidebar", layerMode === "state-legislature" ? "Chamber" : "Areas shown")}
@@ -2297,8 +2300,14 @@ export default function WardMap() {
               className="flex items-center gap-2 px-4 pt-2 pb-2 sm:pt-4 shrink-0"
               style={{ backgroundColor: PANEL_HEADER_BG, color: PANEL_HEADER_TEXT }}
             >
-              <h2 className="text-2xl font-extrabold">Map filters</h2>
+              <h2 className="text-2xl font-extrabold">Filters</h2>
             </div>
+            {/* Level (City/County/State) sits directly under the header,
+                outside the padded column below — full sidebar width, edge
+                to edge, no rounding — exactly where and how WardModal's
+                own City/County/State tablist sits under its header in the
+                right sidebar (see sidebarTabRowClass's own comment). */}
+            {sidebarLevelTabs}
             <div className="flex flex-1 flex-col gap-5 overflow-y-auto px-4 py-5">{sidebarFilterControls}</div>
           </div>
         </aside>
