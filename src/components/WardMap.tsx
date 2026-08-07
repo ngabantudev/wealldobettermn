@@ -49,18 +49,24 @@ const WARDS_FILL_LAYER_ID = "wards-fill";
 const WARDS_OUTLINE_LAYER_ID = "wards-outline";
 const WARDS_PULSE_LAYER_ID = "wards-pulse";
 const WARDS_LABEL_LAYER_ID = "wards-label";
+// A separate point source for the "Ward N" text only — see
+// labelPointsFromFeatureCollection's comment for why the label can't just
+// stay on the polygon source alongside the fill/outline/pulse layers.
+const WARDS_LABEL_SOURCE_ID = "wards-label-source";
 
 const COMMISSIONERS_SOURCE_ID = "commissioners-source";
 const COMMISSIONERS_FILL_LAYER_ID = "commissioners-fill";
 const COMMISSIONERS_OUTLINE_LAYER_ID = "commissioners-outline";
 const COMMISSIONERS_PULSE_LAYER_ID = "commissioners-pulse";
 const COMMISSIONERS_LABEL_LAYER_ID = "commissioners-label";
+const COMMISSIONERS_LABEL_SOURCE_ID = "commissioners-label-source";
 
 const STATE_LEG_SOURCE_ID = "state-legislature-source";
 const STATE_LEG_FILL_LAYER_ID = "state-legislature-fill";
 const STATE_LEG_OUTLINE_LAYER_ID = "state-legislature-outline";
 const STATE_LEG_PULSE_LAYER_ID = "state-legislature-pulse";
 const STATE_LEG_LABEL_LAYER_ID = "state-legislature-label";
+const STATE_LEG_LABEL_SOURCE_ID = "state-legislature-label-source";
 
 const CHAMBERS = ["house", "senate"] as const;
 type Chamber = (typeof CHAMBERS)[number];
@@ -231,6 +237,18 @@ const PIN_DIAMETER_BY_ROLE: Partial<Record<RepProperties["role"], number>> = {
 };
 const DEFAULT_PIN_DIAMETER = 44;
 
+// How far below its anchor point the ward/county/state text renders — an
+// `em`-based offset (text-offset is in units of the layer's own
+// text-size), paired with anchoring the matching pin "bottom" at that same
+// point (see addPin below) rather than "center". Anchoring both the pin
+// and its label to one shared coordinate, on opposite sides of it, is what
+// makes "pin above text" hold for every rep regardless of how oddly the
+// underlying ward/district polygon is shaped — before this, the pin sat at
+// the polygon's bounding-box center while MapLibre placed the label
+// wherever its own placement algorithm found room inside the polygon, two
+// independent points that could land anywhere relative to each other.
+const LABEL_TEXT_OFFSET: [number, number] = [0, 0.4];
+
 // Plain-language summary for the sr-only announcement above — see
 // `announcement` state's own comment for why this only ever fires from a
 // pinned selection, never a hover.
@@ -264,6 +282,34 @@ function boundsFromFeatureCollection(data: FeatureCollection): maplibregl.LngLat
     bounds.extend(boundsFromFeature(feature as Feature<Geometry>));
   }
   return bounds;
+}
+
+// Reduces a polygon FeatureCollection (wards, commissioner districts, state
+// legislative districts) to one Point per feature, at that feature's own
+// bounds.getCenter() — the exact same coordinate addPins uses to place that
+// feature's rep pin. The ward/county/state text label layers source from
+// this instead of the original polygon collection so the label and its
+// pin always share one anchor: without it, MapLibre's own polygon-label
+// placement (which can land anywhere inside an irregularly-shaped ward)
+// and the pin's bounds-center position were two independent points, so a
+// pin could render on top of, below, or nowhere near its own label
+// depending on the polygon's shape — "sometimes above, sometimes not" is
+// exactly the inconsistency this PR is fixing. Properties pass through
+// unchanged: every filter and text-field expression on the label layers
+// (city, chamber, ward, wardName, district, stateDistrict) reads from
+// feature.properties either way.
+function labelPointsFromFeatureCollection(data: FeatureCollection): FeatureCollection {
+  const features = data.features
+    .filter((feature) => feature.geometry.type === "Polygon" || feature.geometry.type === "MultiPolygon")
+    .map((feature) => {
+      const { lng, lat } = boundsFromFeature(feature as Feature<Geometry>).getCenter();
+      return {
+        type: "Feature" as const,
+        geometry: { type: "Point" as const, coordinates: [lng, lat] },
+        properties: feature.properties,
+      };
+    });
+  return { type: "FeatureCollection", features };
 }
 
 interface CivicData {
@@ -1050,9 +1096,17 @@ export default function WardMap() {
         diameter: number = DEFAULT_PIN_DIAMETER,
         mode: LayerMode,
         zoomBounds: maplibregl.LngLatBounds,
+        // "center" (the default) is right for mayors — a point with no
+        // ward/county/state label competing for the same spot, so the pin
+        // should sit exactly on its own coordinate. The three roles below
+        // that DO share a coordinate with a text label pass "bottom"
+        // instead, so the pin's own bottom edge (not its middle) sits at
+        // that point — see LABEL_TEXT_OFFSET's comment for the other half
+        // of this.
+        anchor: maplibregl.PositionAnchor = "center",
       ) => {
         const el = createRepPinElement(properties, diameter);
-        const marker = new maplibregl.Marker({ element: el, anchor: "center" }).setLngLat(coordinates).addTo(map);
+        const marker = new maplibregl.Marker({ element: el, anchor }).setLngLat(coordinates).addTo(map);
         // A pin's own coordinate always seeds `properties` into its own
         // tier (via resolveSelectionAtPoint's `known` param) — the other
         // two tiers still resolve by point-in-polygon at that same spot.
@@ -1103,7 +1157,7 @@ export default function WardMap() {
         const center = bounds.getCenter();
         const coordinates: maplibregl.LngLatLike =
           occurrence === 0 ? center : [center.lng + occurrence * 0.0015, center.lat];
-        addPin(properties, coordinates, PIN_DIAMETER_BY_ROLE["Council Member"], "wards", bounds);
+        addPin(properties, coordinates, PIN_DIAMETER_BY_ROLE["Council Member"], "wards", bounds, "bottom");
       }
 
       // One pin per commissioner, same interaction pattern as mayors, but
@@ -1114,7 +1168,7 @@ export default function WardMap() {
         if (feature.geometry.type !== "Polygon" && feature.geometry.type !== "MultiPolygon") continue;
         const properties = feature.properties as RepProperties;
         const bounds = boundsFromFeature(feature as Feature<Geometry>);
-        addPin(properties, bounds.getCenter(), PIN_DIAMETER_BY_ROLE["County Commissioner"], "commissioners", bounds);
+        addPin(properties, bounds.getCenter(), PIN_DIAMETER_BY_ROLE["County Commissioner"], "commissioners", bounds, "bottom");
       }
 
       // One pin per state legislator — role (and so pin size) varies
@@ -1124,7 +1178,7 @@ export default function WardMap() {
         if (feature.geometry.type !== "Polygon" && feature.geometry.type !== "MultiPolygon") continue;
         const properties = feature.properties as RepProperties;
         const bounds = boundsFromFeature(feature as Feature<Geometry>);
-        addPin(properties, bounds.getCenter(), PIN_DIAMETER_BY_ROLE[properties.role], "state-legislature", bounds);
+        addPin(properties, bounds.getCenter(), PIN_DIAMETER_BY_ROLE[properties.role], "state-legislature", bounds, "bottom");
       }
     };
 
@@ -1150,6 +1204,15 @@ export default function WardMap() {
       map.addSource(WARDS_SOURCE_ID, { type: "geojson", data });
       map.addSource(COMMISSIONERS_SOURCE_ID, { type: "geojson", data: commissionersData });
       map.addSource(STATE_LEG_SOURCE_ID, { type: "geojson", data: stateLegData });
+      // One point per polygon, at that polygon's own bounds-center — see
+      // labelPointsFromFeatureCollection's comment. The three label layers
+      // below source from these instead of the polygon sources themselves.
+      map.addSource(WARDS_LABEL_SOURCE_ID, { type: "geojson", data: labelPointsFromFeatureCollection(data) });
+      map.addSource(COMMISSIONERS_LABEL_SOURCE_ID, {
+        type: "geojson",
+        data: labelPointsFromFeatureCollection(commissionersData),
+      });
+      map.addSource(STATE_LEG_LABEL_SOURCE_ID, { type: "geojson", data: labelPointsFromFeatureCollection(stateLegData) });
 
       map.addLayer({
         id: WARDS_FILL_LAYER_ID,
@@ -1177,7 +1240,11 @@ export default function WardMap() {
       map.addLayer({
         id: WARDS_LABEL_LAYER_ID,
         type: "symbol",
-        source: WARDS_SOURCE_ID,
+        // Sources from the bounds-center point collection, not WARDS_SOURCE_ID
+        // itself — see LABEL_TEXT_OFFSET's comment. "text-anchor: top" +
+        // the downward text-offset render this text below that shared
+        // point, opposite the council-member pin's "bottom" anchor above it.
+        source: WARDS_LABEL_SOURCE_ID,
         layout: {
           // Falls back to "Ward N" only when there's no city-given name for
           // the area (Brooklyn Park's Central/East/West districts carry a
@@ -1185,6 +1252,8 @@ export default function WardMap() {
           "text-field": ["coalesce", ["get", "wardName"], ["concat", "Ward ", ["to-string", ["get", "ward"]]]],
           "text-font": ["Noto Sans Bold"],
           "text-size": 12,
+          "text-anchor": "top",
+          "text-offset": LABEL_TEXT_OFFSET,
         },
         paint: labelPaint,
       });
@@ -1214,11 +1283,13 @@ export default function WardMap() {
       map.addLayer({
         id: COMMISSIONERS_LABEL_LAYER_ID,
         type: "symbol",
-        source: COMMISSIONERS_SOURCE_ID,
+        source: COMMISSIONERS_LABEL_SOURCE_ID,
         layout: {
           "text-field": ["concat", "District ", ["to-string", ["get", "district"]]],
           "text-font": ["Noto Sans Bold"],
           "text-size": 12,
+          "text-anchor": "top",
+          "text-offset": LABEL_TEXT_OFFSET,
           visibility: "none",
         },
         paint: labelPaint,
@@ -1254,11 +1325,13 @@ export default function WardMap() {
       map.addLayer({
         id: STATE_LEG_LABEL_LAYER_ID,
         type: "symbol",
-        source: STATE_LEG_SOURCE_ID,
+        source: STATE_LEG_LABEL_SOURCE_ID,
         layout: {
           "text-field": ["concat", "District ", ["get", "stateDistrict"]],
           "text-font": ["Noto Sans Bold"],
           "text-size": 12,
+          "text-anchor": "top",
+          "text-offset": LABEL_TEXT_OFFSET,
           visibility: "none",
         },
         filter: defaultChamberFilter,
