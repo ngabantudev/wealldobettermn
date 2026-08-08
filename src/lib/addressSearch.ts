@@ -42,7 +42,13 @@ export type ParsedQuery =
 
 export type SearchOutcome =
   // Exactly one ward — the caller auto-selects it, same as a real click.
-  | { status: "single"; wards: [WardRef]; point: [number, number] | null }
+  // `formattedAddress` is the canonical "HOUSE NUMBER STREET" form (see
+  // formatConfirmedAddress below) — set only when this
+  // came from an actual house-number match (mirrors `point`: both are
+  // null together, both non-null together), never for a ZIP-only match
+  // or a ward picked off an ambiguous list, which have no single address
+  // behind them to format.
+  | { status: "single"; wards: [WardRef]; point: [number, number] | null; formattedAddress: string | null }
   // 2+ candidate wards — never auto-picked; the caller must show all of them.
   | { status: "ambiguous"; wards: WardRef[]; reason: string }
   // Resolves to a whole city (not one ward) — the caller expands this
@@ -262,6 +268,18 @@ function matchingSideFraction(houseNumber: number, edge: AddressEdge): number | 
   return null;
 }
 
+// The canonical display/copy/clipboard form: "931 BIRMINGHAM ST" — house
+// number and street only. `street` is already USPS-abbreviated uppercase
+// (see normalizeStreetName above — both index-build and query time run
+// the same normalizer, so this never has to re-abbreviate anything). City,
+// state, and ZIP are deliberately left off: they're resolution metadata
+// (ward disambiguation, polling-place lookup), not part of what the
+// resident typed, and keeping the copied/displayed string to just the
+// street address is what the resident actually asked to confirm.
+function formatConfirmedAddress(houseNumber: number, street: string): string {
+  return `${houseNumber} ${street}`;
+}
+
 function dedupeWardRefs(refs: WardRef[]): WardRef[] {
   const map = new Map(refs.map((r) => [`${r.city}|${r.ward}`, r]));
   return [...map.values()];
@@ -320,7 +338,8 @@ function resolveAddress(
   if (wards.length === 1) {
     const best = narrowed.find((m) => m.edge.wardCandidates.some((w) => w.city === wards[0].city && w.ward === wards[0].ward));
     const point = best ? interpolateAlongLine(best.edge.coords, best.fraction) : null;
-    return { status: "single", wards: [wards[0]], point };
+    const formattedAddress = formatConfirmedAddress(houseNumber, street);
+    return { status: "single", wards: [wards[0]], point, formattedAddress };
   }
   return {
     status: "ambiguous",
@@ -334,7 +353,7 @@ function resolveZip(index: AddressIndex, zip: string): SearchOutcome {
   if (!wards || wards.length === 0) {
     return { status: "not-covered", reason: `ZIP ${zip} isn't in the cities this map covers.` };
   }
-  if (wards.length === 1) return { status: "single", wards: [wards[0]], point: null };
+  if (wards.length === 1) return { status: "single", wards: [wards[0]], point: null, formattedAddress: null };
   return {
     status: "ambiguous",
     wards,

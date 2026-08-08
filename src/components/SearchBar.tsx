@@ -1,6 +1,6 @@
 "use client";
 
-import { Search } from "lucide-react";
+import { Check, Copy, Search, Vote } from "lucide-react";
 import { useId, useMemo, useState } from "react";
 import type { AddressIndex, MnPlaces, WardRef } from "@/lib/types";
 import { CITIES, COUNTIES, COUNTY_CITIES, type City, type County } from "@/lib/cities";
@@ -20,7 +20,12 @@ interface SearchBarProps {
   // the rest of the state (AGENTS.md §3.3 Coverage Honesty; see
   // addressSearch.ts's "uncovered-place" kind).
   allPlaces: MnPlaces | null;
-  onSelectWard: (ref: WardRef) => void;
+  // `point` is the on-device-interpolated address location (see
+  // addressSearch.ts's `interpolateAlongLine`) when the search resolved
+  // from a house number, or null for a bare ward pick — WardMap falls
+  // back to the ward's own bounds-center in that case, same as it always
+  // has for pin placement elsewhere in this file.
+  onSelectWard: (ref: WardRef, point: [number, number] | null) => void;
   onSelectCity: (city: City) => void;
   onSelectCounty: (county: County, cities: City[]) => void;
 }
@@ -119,6 +124,21 @@ function wardLabel(ref: WardRef): string {
   return `${ref.city} Ward ${ref.ward}`;
 }
 
+// Where "find your polling place" actually points. There is no bulk,
+// build-time-fetchable, primary-source dataset of MN polling-place
+// locations this app could ingest and pin itself — the Secretary of
+// State's own list is a paid, manually-ordered, per-election PDF/text
+// extract (not a script-fetchable API or bulk file), and polling places
+// aren't a stable year-round fact the way ward boundaries are (they move
+// per election cycle, and MN statute allows one to sit outside its own
+// precinct). Per AGENTS.md §3.1 ("no placeholder data ships as fact"),
+// this links out to the Secretary of State's own live lookup tool instead
+// of fabricating or hand-scraping a location — same treatment the deleted
+// hearings mock got. The user's resolved address is never appended to
+// this URL or sent anywhere by this app; they re-enter it on the SoS's own
+// site if they choose to click through, same as any other outbound link.
+const POLLING_PLACE_FINDER_URL = "https://pollfinder.sos.mn.gov/";
+
 // Shared by every overlay panel below the input (the suggestions listbox,
 // the outcome message, the loading notice) — opens upward by default,
 // downward at sm+. This input only ever sits at the top of the screen
@@ -139,6 +159,22 @@ export default function SearchBar({ index, allPlaces, onSelectWard, onSelectCity
   // null since the map/modal already shows the result.
   const [outcome, setOutcome] = useState<SearchOutcome | null>(null);
   const [statusMessage, setStatusMessage] = useState("");
+  // True only right after a *real address* resolves — a "single" outcome
+  // whose SearchOutcome carries a non-null interpolated point (see
+  // addressSearch.ts). Never set for a bare ward pick off the ambiguous
+  // list (commitWard always passes point: null — there was no house
+  // number to interpolate from) or for a city/county/ZIP-level result:
+  // per this feature's own spec, the polling-place link is only for a
+  // searchable, valid address, not any search that happens to resolve to
+  // a ward. Cleared on every other outcome and on any further typing.
+  const [showPollingPlaceLink, setShowPollingPlaceLink] = useState(false);
+  // True for a couple seconds right after a successful copy — swaps the
+  // copy icon for a checkmark and shows the "Copied!" pop, then reverts on
+  // its own. Not tied to showPollingPlaceLink/outcome state at all: typing
+  // further after a copy shouldn't yank the confirmation away mid-read the
+  // way it clears the polling-place link (a stale confirmation that a
+  // *previous* address got copied is harmless; it just times out).
+  const [justCopied, setJustCopied] = useState(false);
   const listboxId = useId();
 
   const suggestions = useMemo(() => buildSuggestions(query, index, allPlaces), [query, index, allPlaces]);
@@ -171,22 +207,62 @@ export default function SearchBar({ index, allPlaces, onSelectWard, onSelectCity
   }, [outcome, suggestions]);
 
   function applyOutcome(next: SearchOutcome) {
+    // Reset here, not per-branch — every branch below except a
+    // point-bearing "single" result should end with this false, and
+    // putting the one true-setting line inside its own branch instead of
+    // repeating `setShowPollingPlaceLink(false)` in the other six is what
+    // actually guarantees that.
+    setShowPollingPlaceLink(false);
     switch (next.status) {
-      case "single":
-        onSelectWard(next.wards[0]);
-        setStatusMessage(`Zoomed to ${wardLabel(next.wards[0])}.`);
+      case "single": {
+        // A real address match (house-number resolution) carries its own
+        // canonical `formattedAddress` — "931 BIRMINGHAM ST" (see
+        // addressSearch.ts's formatConfirmedAddress) — built from the
+        // matched street/house-number data itself, not from
+        // whatever casing or shorthand the resident happened to type. That
+        // keeps showing/copying/announcing exactly the same string no
+        // matter whether they typed the full address, a partial one, or
+        // clicked a suggestion. A ward picked off the ambiguous list, or a
+        // ZIP-only match, has no single address behind it (point and
+        // formattedAddress are null together, always), so those fall back
+        // to the ward's own canonical label instead, same as before.
+        const isRealAddress = next.point !== null && next.formattedAddress !== null;
+        const displayText = isRealAddress ? next.formattedAddress! : wardLabel(next.wards[0]);
+        setQuery(displayText);
+        onSelectWard(next.wards[0], next.point);
         setOutcome(null);
+        // Only a real interpolated address point counts as "the user
+        // entered a searchable, valid address" — see this state's own
+        // comment above.
+        setShowPollingPlaceLink(isRealAddress);
+        if (isRealAddress) {
+          // Copying happens right here, synchronously inside this commit
+          // handler (a real Enter keypress or suggestion click) rather
+          // than from some later effect — the Clipboard API only grants a
+          // write without its own permission prompt when called inside a
+          // genuine user-activation event, and this is that event. Nothing
+          // is written on mere typing, only on an actual confirmed
+          // address, same gate as everywhere else this file uses
+          // showPollingPlaceLink/isRealAddress.
+          copyToClipboard(displayText);
+          setStatusMessage(`Zoomed to ${wardLabel(next.wards[0])}. Address copied to clipboard.`);
+        } else {
+          setStatusMessage(`Zoomed to ${wardLabel(next.wards[0])}.`);
+        }
         break;
+      }
       case "ambiguous":
         setOutcome(next);
         setStatusMessage(next.reason);
         break;
       case "city":
+        setQuery(next.city);
         onSelectCity(next.city);
         setStatusMessage(`Zoomed to ${next.city}'s wards — choose one on the map.`);
         setOutcome(null);
         break;
       case "county":
+        setQuery(`${next.county} County`);
         onSelectCounty(next.county, next.cities);
         setStatusMessage(`Zoomed to ${next.county} County's mapped cities.`);
         setOutcome(null);
@@ -210,7 +286,7 @@ export default function SearchBar({ index, allPlaces, onSelectWard, onSelectCity
   }
 
   function commitWard(ref: WardRef) {
-    applyOutcome({ status: "single", wards: [ref], point: null });
+    applyOutcome({ status: "single", wards: [ref], point: null, formattedAddress: null });
   }
 
   function commitSuggestion(s: Suggestion) {
@@ -230,6 +306,7 @@ export default function SearchBar({ index, allPlaces, onSelectWard, onSelectCity
   function handleChange(value: string) {
     setQuery(value);
     setOutcome(null); // stale relative to the new text — start over
+    setShowPollingPlaceLink(false); // same reasoning — last result's address no longer matches what's in the box
     setActiveIndex(-1);
     setIsOpen(value.trim().length > 0);
     if (!value.trim()) setStatusMessage("");
@@ -255,6 +332,36 @@ export default function SearchBar({ index, allPlaces, onSelectWard, onSelectCity
       setIsOpen(false);
       setActiveIndex(-1);
     }
+  }
+
+  // Shared by the automatic copy-on-confirm (applyOutcome's "single"
+  // branch above) and the manual copy button below — one place that
+  // actually writes to the clipboard, so both call sites stay identical in
+  // behavior (same success/failure handling, same "Copied!" pop). This is
+  // the only thing that ever leaves this component for a searched address,
+  // and it only ever writes to the user's own local clipboard — nothing is
+  // logged, stored, or put in a URL, same as every other rule this file
+  // already follows for the query string.
+  async function copyToClipboard(text: string) {
+    try {
+      await navigator.clipboard.writeText(text);
+      setJustCopied(true);
+      window.setTimeout(() => setJustCopied(false), 1800);
+    } catch {
+      // Clipboard permission denied, or the API isn't available in this
+      // browser/context — no crash, and no false "Copied!" claim either;
+      // justCopied simply never flips true.
+    }
+  }
+
+  // The manual button's own handler — guarded on showPollingPlaceLink,
+  // same gate the automatic copy above uses: both only make sense once
+  // there's a real, confirmed address in the box. Mostly useful for
+  // re-copying after the automatic pop has already timed out, or after
+  // navigating back to an already-resolved search.
+  function handleCopyAddress() {
+    if (!showPollingPlaceLink) return;
+    copyToClipboard(query);
   }
 
   const activeOptionId = activeIndex >= 0 ? `${listboxId}-option-${activeIndex}` : undefined;
@@ -288,64 +395,150 @@ export default function SearchBar({ index, allPlaces, onSelectWard, onSelectCity
       <label htmlFor={`${listboxId}-input`} className="sr-only">
         Find your ward
       </label>
-      <div className="well relative flex items-center gap-1.5 rounded-xl border px-2.5 py-1.5">
-        <Search aria-hidden="true" className="h-4 w-4 shrink-0 text-ink-3" strokeWidth={1.75} />
-        <input
-          id={`${listboxId}-input`}
-          type="text"
-          role="combobox"
-          aria-expanded={isOpen}
-          aria-controls={listboxId}
-          aria-autocomplete="list"
-          aria-activedescendant={activeOptionId}
-          autoComplete="off"
-          placeholder={placeholder}
-          value={query}
-          onChange={(e) => handleChange(e.target.value)}
-          onKeyDown={handleKeyDown}
-          onFocus={() => setIsOpen(query.trim().length > 0)}
-          className="min-w-0 flex-1 bg-transparent text-ink placeholder:text-ink-4 focus:outline-none"
-        />
-        {/* The "what this map can't see" disclosure — its own icon/popover
-            now, see CoverageNotice's file comment for why. */}
-        <CoverageNotice />
+      {/* The recessed input ("well") plus its two icon-button companions
+          (copy address, coverage disclosure) as one row — split out of a
+          single `well` wrapper so those two buttons sit *outside* the
+          recessed surface rather than inside it, but still on the same
+          fixed-height line SiteHeader depends on (see this file's own
+          earlier comment on why nothing here is allowed to add height). */}
+      <div className="flex items-center gap-1.5">
+        <div className="well relative flex flex-1 items-center gap-1.5 rounded-xl border px-2.5 py-1.5">
+          <Search aria-hidden="true" className="h-4 w-4 shrink-0 text-ink-3" strokeWidth={1.75} />
+          <input
+            id={`${listboxId}-input`}
+            type="text"
+            role="combobox"
+            aria-expanded={isOpen}
+            aria-controls={listboxId}
+            aria-autocomplete="list"
+            aria-activedescendant={activeOptionId}
+            autoComplete="off"
+            placeholder={placeholder}
+            value={query}
+            onChange={(e) => handleChange(e.target.value)}
+            onKeyDown={handleKeyDown}
+            onFocus={() => setIsOpen(query.trim().length > 0)}
+            className="min-w-0 flex-1 bg-transparent text-ink placeholder:text-ink-4 focus:outline-none"
+          />
 
-        {isOpen && options.length > 0 && (
-          <ul
-            id={listboxId}
-            role="listbox"
-            className={`well ${OVERLAY_POSITION_CLASSES} max-h-64 overflow-y-auto rounded-xl border shadow-xl shadow-(color:--shadow-panel)`}
-          >
-            {options.map((opt, i) => (
-              <li
-                key={`${opt.label}-${i}`}
-                id={`${listboxId}-option-${i}`}
-                role="option"
-                aria-selected={i === activeIndex}
-                onMouseDown={(e) => e.preventDefault()} // keep input focus so the click doesn't blur-then-lose the value
-                onClick={() => opt.commit()}
-                className={`cursor-pointer px-2.5 py-1.5 ${
-                  i === activeIndex ? "bg-accent text-on-accent" : opt.muted ? "text-ink-4 hover:bg-hover" : "text-ink-2 hover:bg-hover"
-                }`}
+          {/* Polling-place finder — an icon inside the search bar itself,
+              not a separate overlay panel, so it reads as one of this
+              row's own controls. Only rendered at all once a real address
+              is confirmed (see showPollingPlaceLink's own comment) — per
+              this feature's own spec, it must not appear otherwise, so
+              this is a conditional render, not a disabled state the way
+              the copy button below uses. `group`/`focus-within` reveal the
+              tooltip on hover *or* keyboard focus, no click needed to see
+              what it is; the link itself still needs an explicit click/
+              Enter to actually navigate. Links out to the Secretary of
+              State's own tool rather than a pin on this map's own layer —
+              see POLLING_PLACE_FINDER_URL's comment for why there's no
+              first-party data to place a pin from. */}
+          {showPollingPlaceLink && (
+            <div className="group relative shrink-0">
+              <a
+                href={POLLING_PLACE_FINDER_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Find your polling place — Minnesota Secretary of State"
+                className="flex h-6 w-6 items-center justify-center rounded-full text-accent transition hover:bg-hover focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
               >
-                {opt.label}
-              </li>
-            ))}
-          </ul>
-        )}
+                <Vote aria-hidden="true" className="h-4 w-4" strokeWidth={1.75} />
+              </a>
+              <span
+                role="tooltip"
+                className="well pointer-events-none absolute right-0 bottom-full z-20 mb-2 hidden w-44 rounded-lg border px-2.5 py-1.5 text-xs text-ink-2 shadow-xl shadow-(color:--shadow-panel) group-hover:block group-focus-within:block sm:bottom-auto sm:top-full sm:mb-0 sm:mt-2"
+              >
+                Find your polling place — Minnesota Secretary of State
+              </span>
+            </div>
+          )}
 
-        {/* Outcome message (not-covered / not-found / unparseable) — an
-            overlay below the input rather than a line of normal-flow text
-            underneath it, same reasoning as the listbox above: nothing
-            here should be able to change this row's own height, which is
-            what lets SiteHeader treat the search bar as a fixed-height
-            toolbar control instead of one that can grow the whole topbar
-            taller mid-search. */}
-        {showMessage && (
-          <p className={`well ${OVERLAY_POSITION_CLASSES} rounded-xl border px-2.5 py-1.5 text-ink-3 shadow-xl shadow-(color:--shadow-panel)`}>
-            {outcome && "reason" in outcome ? outcome.reason : statusMessage}
-          </p>
-        )}
+          {isOpen && options.length > 0 && (
+            <ul
+              id={listboxId}
+              role="listbox"
+              className={`well ${OVERLAY_POSITION_CLASSES} max-h-64 overflow-y-auto rounded-xl border shadow-xl shadow-(color:--shadow-panel)`}
+            >
+              {options.map((opt, i) => (
+                <li
+                  key={`${opt.label}-${i}`}
+                  id={`${listboxId}-option-${i}`}
+                  role="option"
+                  aria-selected={i === activeIndex}
+                  onMouseDown={(e) => e.preventDefault()} // keep input focus so the click doesn't blur-then-lose the value
+                  onClick={() => opt.commit()}
+                  className={`cursor-pointer px-2.5 py-1.5 ${
+                    i === activeIndex ? "bg-accent text-on-accent" : opt.muted ? "text-ink-4 hover:bg-hover" : "text-ink-2 hover:bg-hover"
+                  }`}
+                >
+                  {opt.label}
+                </li>
+              ))}
+            </ul>
+          )}
+
+          {/* Outcome message (not-covered / not-found / unparseable) — an
+              overlay below the input rather than a line of normal-flow text
+              underneath it, same reasoning as the listbox above: nothing
+              here should be able to change this row's own height, which is
+              what lets SiteHeader treat the search bar as a fixed-height
+              toolbar control instead of one that can grow the whole topbar
+              taller mid-search. */}
+          {showMessage && (
+            <p className={`well ${OVERLAY_POSITION_CLASSES} rounded-xl border px-2.5 py-1.5 text-ink-3 shadow-xl shadow-(color:--shadow-panel)`}>
+              {outcome && "reason" in outcome ? outcome.reason : statusMessage}
+            </p>
+          )}
+
+        </div>
+
+        {/* Copy-the-confirmed-address button — sits in the row slot the
+            coverage-info icon used to occupy alone; that icon now lives
+            just to the right of this one instead of being removed (see
+            CoverageNotice's own file comment on why AGENTS.md §3.3 needs
+            it reachable everywhere this search bar renders). Disabled
+            (not hidden) when there's nothing confirmed to copy yet, so the
+            row's width never jumps as a search resolves. */}
+        <div className="relative shrink-0">
+          <button
+            type="button"
+            disabled={!showPollingPlaceLink}
+            aria-label={justCopied ? "Address copied to clipboard" : "Copy confirmed address"}
+            onClick={handleCopyAddress}
+            className={`flex h-6 w-6 items-center justify-center rounded-full transition focus:outline-none focus-visible:ring-2 focus-visible:ring-accent ${
+              showPollingPlaceLink
+                ? "text-ink-3 hover:bg-hover hover:text-ink"
+                : "cursor-not-allowed text-ink-4 opacity-50"
+            }`}
+          >
+            {justCopied ? (
+              <Check aria-hidden="true" className="h-4 w-4 text-positive" strokeWidth={2} />
+            ) : (
+              <Copy aria-hidden="true" className="h-4 w-4" strokeWidth={1.75} />
+            )}
+          </button>
+          {/* The "pop" itself — to the right of the icon, vertically
+              centered on it, rather than above: this button sits right at
+              the top of the screen in the desktop header, so an
+              above-opening pop had nowhere to go and got clipped by the
+              viewport edge. Auto-dismisses via justCopied's own timeout
+              above, no click-away handling needed since nothing about it
+              is interactive. */}
+          {justCopied && (
+            <span
+              role="status"
+              className="well absolute left-full top-1/2 z-20 ml-2 -translate-y-1/2 whitespace-nowrap rounded-md border border-positive/40 bg-positive px-2 py-1 text-xs font-medium text-on-accent shadow-lg"
+            >
+              Copied!
+            </span>
+          )}
+        </div>
+
+        {/* The "what this map can't see" disclosure — see CoverageNotice's
+            own file comment for why it's icon/popover-only, not an
+            always-visible sentence. */}
+        <CoverageNotice />
       </div>
       {/* Announces the outcome without moving focus out of the input —
           the standard, less-disorienting combobox convention. Nothing
