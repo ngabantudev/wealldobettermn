@@ -42,7 +42,7 @@ export function isMapStyleDark(id: string): boolean {
  * time they change theme (see clearStoredMapStyleId's callers).
  */
 export const THEME_BASEMAP: Record<SiteTheme, string> = {
-  light: "liberty",
+  light: "positron",
   dark: "dark",
 };
 

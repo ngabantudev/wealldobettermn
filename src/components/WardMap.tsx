@@ -112,10 +112,17 @@ const AT_LARGE_BOUNDARY_OUTLINE_LAYER_ID = "at-large-boundary-outline";
 // Statewide "city limits" backdrop — every incorporated MN city's own
 // corporate boundary (public/city-boundaries.geojson, see
 // fetch-city-boundaries.mjs), not just the cities.ts cities this app has
-// ward/mayor data for. Always available regardless of LayerMode (a
-// resident should see it whichever of the three tiers they're viewing),
-// so it's toggled by its own independent checkbox rather than folded into
-// LayerMode — see cityBoundariesVisibleRef/toggleCityBoundaries below.
+// ward/mayor data for. Visible in "wards" and "commissioners" modes, hidden
+// in "state-legislature" — see applyLayerMode's own comment on why this
+// isn't just a third entry in that function's per-mode layerGroups (it
+// needs to be visible under *two* modes, not exactly one) and why state
+// mode is the one it's suppressed in (state-legislature.geojson is already
+// statewide — full coverage regardless — so this would be pure redundant
+// clutter there, unlike commissioners.geojson's 2-of-87-county coverage,
+// where it's the only thing on the map for most of the state). No manual
+// toggle — the two-mode/one-mode split above already puts it exactly where
+// it's load-bearing and nowhere it's just noise, so a control to hide it
+// further would have nothing left to usefully do.
 // Added to the map FIRST, before WARDS_SOURCE_ID/every other tier, so
 // z-order alone (this file never passes `beforeId` to addLayer) keeps it
 // painted underneath every real data layer.
@@ -986,13 +993,6 @@ export default function WardMap() {
   const visibleCitiesRef = useRef(visibleCities);
   const [chamber, setChamber] = useState<Chamber>("house");
   const chamberRef = useRef(chamber);
-  // City limits backdrop — on by default, independent of layerMode (see
-  // CITY_BOUNDARIES_SOURCE_ID's own comment). A ref alongside the state
-  // for the same reason visibleCitiesRef/chamberRef exist: toggleCityBoundaries
-  // needs the current value synchronously, before the effect below would
-  // otherwise sync it.
-  const [cityBoundariesVisible, setCityBoundariesVisible] = useState(true);
-  const cityBoundariesVisibleRef = useRef(cityBoundariesVisible);
   // Sidebar collapse state — see LEFT_FILTERS_COLLAPSED_KEY's own comment.
   // Both default to false (expanded) here rather than reading storage in
   // the initializer, same SSR-safety reasoning as mapStyleId/siteTheme
@@ -1048,10 +1048,6 @@ export default function WardMap() {
   useEffect(() => {
     layerModeRef.current = layerMode;
   }, [layerMode]);
-
-  useEffect(() => {
-    cityBoundariesVisibleRef.current = cityBoundariesVisible;
-  }, [cityBoundariesVisible]);
 
   useEffect(() => {
     rightDetailCollapsedRef.current = rightDetailCollapsed;
@@ -1321,6 +1317,17 @@ export default function WardMap() {
         if (map.getLayer(layerId)) map.setLayoutProperty(layerId, "visibility", groupMode === mode ? "visible" : "none");
       }
     }
+    // City-limits backdrop doesn't fit layerGroups above — that array is a
+    // strict one-mode-owns-this-layer mapping, but this layer needs to be
+    // visible under *two* of the three modes (wards and commissioners),
+    // hidden only in the third (state-legislature, where
+    // state-legislature.geojson's own statewide coverage already makes it
+    // redundant — see CITY_BOUNDARIES_SOURCE_ID's own comment for the full
+    // reasoning). Handled as its own rule rather than a second layerGroups
+    // entry, which could only ever express "owned by exactly one mode."
+    for (const layerId of [CITY_BOUNDARIES_FILL_LAYER_ID, CITY_BOUNDARIES_OUTLINE_LAYER_ID]) {
+      if (map.getLayer(layerId)) map.setLayoutProperty(layerId, "visibility", mode === "state-legislature" ? "none" : "visible");
+    }
     for (const { marker, properties, mode: pinMode } of pinMarkersRef.current) {
       const visible =
         pinMode === mode &&
@@ -1410,23 +1417,6 @@ export default function WardMap() {
     setSelected(null);
     applyLayerMode(mode);
     zoomToDefault(mode);
-  };
-
-  // Independent of switchMode above — the city-limits backdrop shows
-  // alongside every LayerMode (see CITY_BOUNDARIES_SOURCE_ID's own
-  // comment), so this just flips its own layout visibility rather than
-  // going through applyLayerMode's per-mode layer groups.
-  const toggleCityBoundaries = () => {
-    const next = !cityBoundariesVisibleRef.current;
-    cityBoundariesVisibleRef.current = next;
-    setCityBoundariesVisible(next);
-    const map = mapRef.current;
-    if (map) {
-      const visibility = next ? "visible" : "none";
-      for (const layerId of [CITY_BOUNDARIES_FILL_LAYER_ID, CITY_BOUNDARIES_OUTLINE_LAYER_ID]) {
-        if (map.getLayer(layerId)) map.setLayoutProperty(layerId, "visibility", visibility);
-      }
-    }
   };
 
   // A resident picking a basemap by hand makes it sticky (storeMapStyleId) —
@@ -1891,22 +1881,25 @@ export default function WardMap() {
       // opacity, one neutral color (not the per-city palette wards use —
       // this is backdrop, not a data-carrying fill), reusing OUTLINE_COLOR
       // for basemap-dark/light contrast the same way every outline here
-      // already does. Starts at cityBoundariesVisibleRef's current value
-      // (default visible) so a basemap swap — which calls this function
-      // again — doesn't silently re-show a layer the user just hid.
+      // already does. Initial visibility keys off layerModeRef.current
+      // (hidden only in state-legislature mode), matching commissioners/
+      // state-legislature's own already-established pattern of setting the
+      // correct starting visibility here rather than leaving a flash of
+      // the wrong state before applyLayerMode's own call — further down
+      // this same "load"/basemap-swap path — corrects it a moment later.
       map.addSource(CITY_BOUNDARIES_SOURCE_ID, { type: "geojson", data: cityBoundariesData });
       map.addLayer({
         id: CITY_BOUNDARIES_FILL_LAYER_ID,
         type: "fill",
         source: CITY_BOUNDARIES_SOURCE_ID,
-        layout: { visibility: cityBoundariesVisibleRef.current ? "visible" : "none" },
+        layout: { visibility: layerModeRef.current === "state-legislature" ? "none" : "visible" },
         paint: { "fill-color": outlineColor, "fill-opacity": 0.08 },
       });
       map.addLayer({
         id: CITY_BOUNDARIES_OUTLINE_LAYER_ID,
         type: "line",
         source: CITY_BOUNDARIES_SOURCE_ID,
-        layout: { visibility: cityBoundariesVisibleRef.current ? "visible" : "none" },
+        layout: { visibility: layerModeRef.current === "state-legislature" ? "none" : "visible" },
         paint: { "line-color": outlineColor, "line-width": 0.5, "line-opacity": 0.5 },
       });
 
@@ -2676,21 +2669,6 @@ export default function WardMap() {
       </div>
 
       <div>
-        {/* Independent of the Level toggle above — an always-available
-            backdrop, not a 4th mutually-exclusive tier. See
-            toggleCityBoundaries's own comment. */}
-        <label className="flex items-center gap-2 px-3 py-2.5 sm:py-2 cursor-pointer select-none hover:bg-hover">
-          <input
-            type="checkbox"
-            checked={cityBoundariesVisible}
-            onChange={toggleCityBoundaries}
-            className="cursor-pointer accent-accent"
-          />
-          City limits
-        </label>
-      </div>
-
-      <div>
         {layerMode === "state-legislature" ? (
           filterSectionLabel("floating", "Chamber")
         ) : (
@@ -2770,20 +2748,6 @@ export default function WardMap() {
   // column below does that spacing job between sections.
   const sidebarFilterControls = (
     <>
-      <div>
-        {/* Independent of the Level tabs above it — an always-available
-            backdrop, not a 4th mutually-exclusive tier. See
-            toggleCityBoundaries's own comment. */}
-        <label className="flex items-center gap-2 px-3 py-2.5 sm:py-2 cursor-pointer select-none hover:bg-sidebar-hover">
-          <input
-            type="checkbox"
-            checked={cityBoundariesVisible}
-            onChange={toggleCityBoundaries}
-            className="cursor-pointer accent-accent"
-          />
-          City limits
-        </label>
-      </div>
       <div>
         <div className="mb-1.5 flex items-center justify-between gap-2">
           {filterSectionLabel("sidebar", layerMode === "state-legislature" ? "Chamber" : "Areas shown")}
