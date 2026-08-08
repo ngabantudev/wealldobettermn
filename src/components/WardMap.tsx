@@ -952,6 +952,46 @@ function createRepPinElement(rep: RepProperties, diameter: number): HTMLDivEleme
   return outer;
 }
 
+// The search-result pin's own diameter and color — deliberately not one of
+// createRepPinElement's party/role colors (those identify an officeholder;
+// this identifies "where you searched"), and deliberately not a photo, so
+// the two kinds of pin are never confusable at a glance. `--accent` is the
+// same themed blue/green the search bar's own focus ring and active states
+// already use, so this reads as "the search bar, but on the map" rather
+// than a new color vocabulary.
+const SEARCH_PIN_DIAMETER = 22;
+
+// A plain dot-in-ring marker for the current search result — see
+// applySearchResult/applyCityZoom/applyCountyZoom's shared setSearchPin
+// below for the "exactly one at a time" invariant this exists to render.
+// Same outer/inner two-div split as createRepPinElement, and the same
+// reasoning: MapLibre's Marker writes its own `transform: translate(...)`
+// onto the outer element, so any additional transform (here, none — no
+// hover state on this one) has to live on the inner element instead to
+// avoid fighting it.
+function createSearchPinElement(): HTMLDivElement {
+  const outer = document.createElement("div");
+  outer.setAttribute("role", "img");
+  outer.setAttribute("aria-label", "Searched address");
+  // Above every rep pin's own z-index (see createRepPinElement's comment —
+  // those top out around 52) so the pin the user just searched for is
+  // never buried under an officeholder pin it happens to land near.
+  outer.style.cssText = "z-index: 1000;";
+
+  const inner = document.createElement("div");
+  inner.style.cssText = `
+    width: ${SEARCH_PIN_DIAMETER}px; height: ${SEARCH_PIN_DIAMETER}px; border-radius: 9999px;
+    border: 3px solid var(--accent); box-shadow: 0 2px 8px rgba(0,0,0,0.35), 0 0 0 4px var(--accent-soft);
+    background: var(--on-accent);
+    display: flex; align-items: center; justify-content: center;
+  `;
+  const dot = document.createElement("div");
+  dot.style.cssText = "width: 8px; height: 8px; border-radius: 9999px; background: var(--accent);";
+  inner.appendChild(dot);
+  outer.appendChild(inner);
+  return outer;
+}
+
 // The two sidebar collapse toggles' chevron — one glyph, pointed left by
 // default, rotated 180° by the caller when it should point right instead
 // of a second mirrored SVG path. `className` carries the rotation (and
@@ -1007,6 +1047,14 @@ export default function WardMap() {
   const [addressIndex, setAddressIndex] = useState<AddressIndex | null>(null);
   const [mnPlaces, setMnPlaces] = useState<MnPlaces | null>(null);
   const pinMarkersRef = useRef<PinMarker[]>([]);
+  // The single "you searched here" pin — a plain ref rather than a slot in
+  // pinMarkersRef, since it isn't a LayerMode-scoped officeholder pin and
+  // doesn't participate in that array's visibility-toggling loops. Exactly
+  // one Marker instance ever lives here at a time: setSearchPin (below)
+  // always reuses/relocates it instead of creating a second one, which is
+  // what actually guarantees "at most one pin" rather than a convention
+  // callers have to remember to uphold.
+  const searchPinMarkerRef = useRef<maplibregl.Marker | null>(null);
   const pulseAnimationFrameRef = useRef<number | null>(null);
   // The `officialIdentity` of whichever fill-layer feature the cursor was
   // last resolved against — lets handleHoverMove below skip re-running
@@ -1592,13 +1640,36 @@ export default function WardMap() {
     if (!visibleCitiesRef.current[city]) toggleCity(city, { flyTo: false });
   };
 
+  // Drops (or relocates) the one search-result pin. Reusing the existing
+  // Marker instance via setLngLat — rather than remove()-then-recreate on
+  // every search — is what makes "one pin, max" true by construction: there
+  // is never a moment with two Markers alive, and repeat searches for the
+  // same or a different address both just move the same DOM element. `null`
+  // clears it (city/county zooms, which have no single point to anchor to).
+  const setSearchPin = (lngLat: [number, number] | null) => {
+    const map = mapRef.current;
+    if (!map) return;
+    if (!lngLat) {
+      searchPinMarkerRef.current?.remove();
+      searchPinMarkerRef.current = null;
+      return;
+    }
+    if (searchPinMarkerRef.current) {
+      searchPinMarkerRef.current.setLngLat(lngLat);
+      return;
+    }
+    searchPinMarkerRef.current = new maplibregl.Marker({ element: createSearchPinElement(), anchor: "center" })
+      .setLngLat(lngLat)
+      .addTo(map);
+  };
+
   // The three SearchBar outcomes that resolve to a map action — see
   // SearchOutcome in src/lib/addressSearch.ts. Ward identity itself was
   // already decided on-device (by scripts/fetch-addresses.mjs at build
   // time for addresses/ZIPs, or is a direct property lookup for city/
   // county); these just replay the same select-and-zoom steps a real
   // click on the polygon would produce.
-  const applySearchResult = (ref: WardRef) => {
+  const applySearchResult = (ref: WardRef, point: [number, number] | null) => {
     prepareWardsView(ref.city as City);
     const feature = wardsDataRef.current?.features.find(
       (f) => f.properties?.city === ref.city && f.properties?.ward === ref.ward,
@@ -1613,13 +1684,25 @@ export default function WardMap() {
     // in principle fall in a different county or district than the ward
     // itself; accepted here for the same reason it's accepted for pin
     // placement — there's no ward "office address" to anchor to instead.
-    const point = toPoint(bounds.getCenter());
+    // Kept separate from the `point` param (the actual interpolated address,
+    // when SearchBar had one) since resolving officials against a point
+    // right on a ward boundary is a bigger downside than the visual pin
+    // landing a few hundred feet from the literal address — the officials
+    // panel keeps using this proven anchor regardless of what the visual
+    // pin below does.
+    const wardCenterPoint = toPoint(bounds.getCenter());
     const known = normalizeRepProperties(feature.properties);
     // Always selects (never toggles off) — a search result is a fresh,
     // deliberate "go here" action every time, including when it happens to
     // repeat the last one, so it must never read as a second click on an
     // already-selected area and close the panel instead of showing it.
-    selectPinned(resolveSelectionAtPoint(point, known), officialIdentity(known));
+    selectPinned(resolveSelectionAtPoint(wardCenterPoint, known), officialIdentity(known));
+    // The visual "you searched here" pin prefers the actual interpolated
+    // address point when SearchBar resolved one (a house-number match);
+    // falls back to the same ward-center anchor used for official
+    // resolution above for city/ZIP-level or ambiguous-free ward picks that
+    // never had a precise point to begin with.
+    setSearchPin(point ?? wardCenterPoint);
     // Closes MobileNav's Search sheet on mobile so the ward modal (which
     // takes over the sheet slot the instant `selected` is non-null) isn't
     // left stacked behind it — a no-op on desktop, where nothing opened a
@@ -1654,6 +1737,10 @@ export default function WardMap() {
     const bounds = boundsForCity(city);
     if (!bounds) return;
     setSelected(null);
+    // A city search zooms to an area, not a point — no single address to
+    // anchor a pin to, so any pin left over from a previous address search
+    // is cleared rather than shown floating somewhere inside the new view.
+    setSearchPin(null);
     setActiveMobileSheet(null); // reveal the zoomed-to result instead of leaving the Search sheet up over it
     zoomToBoundsNoModal(bounds);
   };
@@ -1689,6 +1776,7 @@ export default function WardMap() {
     const combined = [...(countyWards ?? []), ...(countyBoundaries ?? [])];
     if (combined.length === 0) return;
     setSelected(null);
+    setSearchPin(null); // same as applyCityZoom above — a county search has no single point to anchor to
     setActiveMobileSheet(null); // same as applyCityZoom above
     zoomToBoundsNoModal(boundsFromFeatureCollection({ type: "FeatureCollection", features: combined }));
   };
@@ -2681,6 +2769,8 @@ export default function WardMap() {
       if (pinResizeFrame !== null) cancelAnimationFrame(pinResizeFrame);
       for (const { marker } of pinMarkersRef.current) marker.remove();
       pinMarkersRef.current = [];
+      searchPinMarkerRef.current?.remove();
+      searchPinMarkerRef.current = null;
       map.remove();
       mapRef.current = null;
     };

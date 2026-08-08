@@ -20,7 +20,12 @@ interface SearchBarProps {
   // the rest of the state (AGENTS.md §3.3 Coverage Honesty; see
   // addressSearch.ts's "uncovered-place" kind).
   allPlaces: MnPlaces | null;
-  onSelectWard: (ref: WardRef) => void;
+  // `point` is the on-device-interpolated address location (see
+  // addressSearch.ts's `interpolateAlongLine`) when the search resolved
+  // from a house number, or null for a bare ward pick — WardMap falls
+  // back to the ward's own bounds-center in that case, same as it always
+  // has for pin placement elsewhere in this file.
+  onSelectWard: (ref: WardRef, point: [number, number] | null) => void;
   onSelectCity: (city: City) => void;
   onSelectCounty: (county: County, cities: City[]) => void;
 }
@@ -173,7 +178,12 @@ export default function SearchBar({ index, allPlaces, onSelectWard, onSelectCity
   function applyOutcome(next: SearchOutcome) {
     switch (next.status) {
       case "single":
-        onSelectWard(next.wards[0]);
+        // Fill the input with the canonical resolved label — a confirmed
+        // search (Enter or a suggestion click) should leave the box
+        // showing what was actually found, not whatever partial text the
+        // user happened to have typed when they committed it.
+        setQuery(wardLabel(next.wards[0]));
+        onSelectWard(next.wards[0], next.point);
         setStatusMessage(`Zoomed to ${wardLabel(next.wards[0])}.`);
         setOutcome(null);
         break;
@@ -182,11 +192,13 @@ export default function SearchBar({ index, allPlaces, onSelectWard, onSelectCity
         setStatusMessage(next.reason);
         break;
       case "city":
+        setQuery(next.city);
         onSelectCity(next.city);
         setStatusMessage(`Zoomed to ${next.city}'s wards — choose one on the map.`);
         setOutcome(null);
         break;
       case "county":
+        setQuery(`${next.county} County`);
         onSelectCounty(next.county, next.cities);
         setStatusMessage(`Zoomed to ${next.county} County's mapped cities.`);
         setOutcome(null);
