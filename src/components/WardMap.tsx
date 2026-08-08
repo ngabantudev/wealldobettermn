@@ -342,12 +342,18 @@ interface PinMarker {
 // hierarchy, so when pins do start crowding at a low zoom, the most
 // numerous/least individually consequential role (Council Member)
 // recedes first while state/county pins stay legible longest.
+// Non-Mayor floors/ceilings raised from their original 14–22/34–40 range —
+// small enough at the old sizes (14px for Council Member, the most common
+// pin on the map) that an official's photo was an unreadable smudge rather
+// than a recognizable face. Still strictly below Mayor at every tier, so
+// the hierarchy this file's own comment above describes is unchanged —
+// just shifted up as a block for legibility.
 const PIN_SIZE_RANGE_BY_ROLE: Partial<Record<RepProperties["role"], { min: number; max: number }>> = {
   Mayor: { min: 30, max: 52 },
-  "County Commissioner": { min: 22, max: 40 },
-  "State Senator": { min: 20, max: 38 },
-  "State Representative": { min: 18, max: 36 },
-  "Council Member": { min: 14, max: 34 },
+  "County Commissioner": { min: 26, max: 46 },
+  "State Senator": { min: 24, max: 44 },
+  "State Representative": { min: 22, max: 42 },
+  "Council Member": { min: 20, max: 40 },
 };
 const DEFAULT_PIN_SIZE_RANGE = { min: 18, max: 44 };
 
