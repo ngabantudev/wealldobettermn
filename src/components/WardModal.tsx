@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import type { BillVote, RepProperties } from "@/lib/types";
 import type { AreaOfficials } from "@/lib/officials";
-import { officialIdentity } from "@/lib/officials";
+import { officialIdentity, officialSlug } from "@/lib/officials";
 import { useFocusTrap } from "@/hooks/useFocusTrap";
 import { CITY_TIER_EMPTY_NOTE, COUNTY_TIER_EMPTY_NOTE, STATE_TIER_EMPTY_NOTE } from "@/lib/coverage";
 import {
@@ -588,15 +588,50 @@ function OfficialCard({ rep }: { rep: RepProperties }) {
               </span>
               <IconChevron />
             </summary>
-            <div className="px-4 pb-3">
+            <div className="px-4 pb-3 space-y-3">
+              {/* "Next scheduled vote" per #57's own reference shape
+                  ("My Rep" view). Deliberately always the honest-gap
+                  copy below, never a real date: neither Legistar producer
+                  wired in here (scripts/lib/legistarRecentVotes.mjs) nor
+                  the Open States roll-call feed
+                  (scripts/fetch-state-legislature.mjs) exposes a
+                  scheduled-but-not-yet-voted agenda item — every record
+                  either source carries is a completed roll call. Adding a
+                  "next vote" field that always renders empty would still
+                  be a lie if it ever silently guessed instead; per
+                  AGENTS.md §3.1 this stays a plain, explicit gap note
+                  until a real upcoming-agenda feed exists to back it. */}
+              <p className="text-xs text-ink-3">
+                <span className="font-semibold text-ink-2">Next scheduled vote: </span>
+                not tracked yet — no source connected here publishes scheduled-but-unvoted
+                agenda items.
+              </p>
               {recentVotes.length > 0 ? (
-                <ul className="space-y-2.5">
-                  {recentVotes.map((vote) => (
-                    <VoteRow key={vote.voteId} vote={vote} accent={accent} />
-                  ))}
-                </ul>
+                <>
+                  <ul className="space-y-2.5">
+                    {recentVotes.map((vote) => (
+                      <VoteRow key={vote.voteId} vote={vote} accent={accent} />
+                    ))}
+                  </ul>
+                  {/* Per #57: a link out to a full per-official history,
+                      not built as its own page in this PR — that page is
+                      deliberately deferred until this recent-slice tab
+                      itself proves the list needs one (AGENTS.md §0.8 —
+                      build the thing that's needed, not ahead of need).
+                      /officials/[slug] doesn't exist yet, so this 404s by
+                      design; see officialSlug()'s own comment in
+                      src/lib/officials.ts. */}
+                  <a
+                    href={`/officials/${officialSlug(rep)}/votes`}
+                    className="inline-flex items-center gap-1 text-sm font-medium hover:underline"
+                    style={{ color: accent }}
+                  >
+                    View full voting record
+                    <IconExternal />
+                  </a>
+                </>
               ) : (
-                <p className="text-sm text-ink-3">No voting record connected yet for {areaLabel(rep)}.</p>
+                <p className="text-sm text-ink-3">No recorded votes on file yet for {areaLabel(rep)}.</p>
               )}
             </div>
           </details>

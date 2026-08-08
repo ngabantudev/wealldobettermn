@@ -105,6 +105,22 @@ export function officialIdentity(rep: RepProperties): string {
   }
 }
 
+// A URL-safe per-official slug for WardModal's "View full voting record"
+// link (#57). Deliberately reuses officialIdentity's own field choices per
+// role (same uniqueness properties, same "name isn't guaranteed unique"
+// caveat) rather than inventing a second identity scheme — just lowercased
+// and stripped of characters that aren't safe in a path segment. There is
+// no /officials/[slug] route yet: per #57's own scope, the full per-official
+// voting-history page is explicitly deferred until the recent-votes slice
+// this links from actually needs it, so this link 404s today by design
+// (AGENTS.md §3.1 — an honest "not built yet" 404 beats a fabricated page).
+export function officialSlug(rep: RepProperties): string {
+  return officialIdentity(rep)
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
 function dedupeByIdentity(reps: RepProperties[]): RepProperties[] {
   const seen = new Set<string>();
   const out: RepProperties[] = [];
