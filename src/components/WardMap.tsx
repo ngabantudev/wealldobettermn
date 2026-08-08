@@ -344,6 +344,38 @@ interface SelectedArea {
   // single city applies (a county or state-legislature district hover,
   // which can straddle city lines or none at all).
   hoveredCityName?: string | null;
+  // Which of WardModal's three stacked tier sections corresponds to
+  // whatever the cursor/click is actually over right now — set alongside
+  // `officials` at every hover/click/search-result site below so
+  // WardModal can auto-scroll that tier's card into view rather than
+  // leaving a resident's own "who represents me?" answer wherever the
+  // panel happened to be scrolled to already. null only for the two
+  // officeless boundary layers with no tier of their own to prefer (city-
+  // boundaries/at-large resolve into `officials.city` anyway, so those
+  // pass "city" explicitly instead — see their own setSelected calls).
+  jumpToTier: keyof AreaOfficials | null;
+  // The same identity string each call site below already computes for
+  // its own reasons (an officialIdentity() result, or the
+  // "at-large:<city>"/"city-boundary:<name>" shape the two officeless
+  // layers use — see selectedIdentityRef's own comment) — carried here
+  // too so WardModal's auto-scroll effect can tell "the cursor moved to
+  // a genuinely different ward/district" apart from "the same ward's
+  // officials object was rebuilt for an unrelated reason" (toggleCity's
+  // filtering, for one — see its own setSelected calls, which spread the
+  // existing SelectedArea and so preserve this field unchanged on
+  // purpose). Two different city wards share the same jumpToTier
+  // ("city"), so jumpToTier alone can't tell them apart; this can.
+  selectionKey: string | null;
+}
+
+// city/county/state — same three keys AreaOfficials and WardModal's own
+// TIER_SECTIONS already use, derived here from whichever RepProperties
+// role actually triggered the hover/click so every call site below can
+// stay a one-liner instead of re-deriving this mapping locally.
+function tierForRole(role: RepProperties["role"]): keyof AreaOfficials {
+  if (role === "County Commissioner") return "county";
+  if (role === "State Representative" || role === "State Senator") return "state";
+  return "city"; // Mayor, Council Member
 }
 
 interface PinMarker {
@@ -1400,8 +1432,13 @@ export default function WardMap() {
   // of their own to offer; those simply can't ever toggle off by re-
   // selection (existing "tap away"/re-click-the-panel-close-button paths
   // still work regardless).
-  const selectPinned = (officials: AreaOfficials, identity: string | null = null, hoveredCityName: string | null = null) => {
-    setSelected({ officials, pinned: true, hoveredCityName });
+  const selectPinned = (
+    officials: AreaOfficials,
+    identity: string | null = null,
+    hoveredCityName: string | null = null,
+    jumpToTier: keyof AreaOfficials | null = null,
+  ) => {
+    setSelected({ officials, pinned: true, hoveredCityName, jumpToTier, selectionKey: identity });
     selectedIdentityRef.current = identity;
     setAnnouncement(summarizeOfficials(officials));
     if (rightDetailCollapsedRef.current) setRightDetailCollapsed(false);
@@ -1760,7 +1797,7 @@ export default function WardMap() {
     // deliberate "go here" action every time, including when it happens to
     // repeat the last one, so it must never read as a second click on an
     // already-selected area and close the panel instead of showing it.
-    selectPinned(resolveSelectionAtPoint(wardCenterPoint, known), officialIdentity(known));
+    selectPinned(resolveSelectionAtPoint(wardCenterPoint, known), officialIdentity(known), null, tierForRole(known.role));
     // The visual "you searched here" pin prefers the actual interpolated
     // address point when SearchBar resolved one (a house-number match);
     // falls back to the same ward-center anchor used for official
@@ -2056,7 +2093,13 @@ export default function WardMap() {
         // comment for why this is safe to call on every hover despite the
         // extra query.
         setHighlight(highlightTargetForRep(properties));
-        setSelected({ officials: resolveSelectionAtPoint(point, properties), pinned: false, hoveredCityName: properties.city });
+        setSelected({
+          officials: resolveSelectionAtPoint(point, properties),
+          pinned: false,
+          hoveredCityName: properties.city,
+          jumpToTier: tierForRole(properties.role),
+          selectionKey: officialIdentity(properties),
+        });
       });
       el.addEventListener("mouseleave", () => {
         if (!isDesktopHover || selectedRef.current?.pinned) return;
@@ -2077,7 +2120,7 @@ export default function WardMap() {
           deselect();
           return;
         }
-        selectPinned(resolveSelectionAtPoint(point, properties), identity, properties.city);
+        selectPinned(resolveSelectionAtPoint(point, properties), identity, properties.city, tierForRole(properties.role));
         setHighlight(highlightTargetForRep(properties));
         setActiveMobileSheet(null); // see applySearchResult's comment on this same call
         zoomToBounds(zoomBounds);
@@ -2734,7 +2777,13 @@ export default function WardMap() {
         if (hoverIdentity === lastHoverIdentityRef.current) return;
         lastHoverIdentityRef.current = hoverIdentity;
         setHighlight(feature.id != null ? { source: feature.source, id: feature.id } : null);
-        setSelected({ officials: resolveSelectionAtPoint(point), pinned: false, hoveredCityName: feature.properties?.city ?? null });
+        setSelected({
+          officials: resolveSelectionAtPoint(point),
+          pinned: false,
+          hoveredCityName: feature.properties?.city ?? null,
+          jumpToTier: "city",
+          selectionKey: hoverIdentity,
+        });
         return;
       }
       // city-boundaries features carry only `{ name, county, population,
@@ -2770,7 +2819,13 @@ export default function WardMap() {
         if (hoverIdentity === lastHoverIdentityRef.current) return;
         lastHoverIdentityRef.current = hoverIdentity;
         setHighlight(feature.id != null ? { source: feature.source, id: feature.id } : null);
-        setSelected({ officials: resolveSelectionAtPoint(point), pinned: false, hoveredCityName: feature.properties?.name ?? null });
+        setSelected({
+          officials: resolveSelectionAtPoint(point),
+          pinned: false,
+          hoveredCityName: feature.properties?.name ?? null,
+          jumpToTier: "city",
+          selectionKey: hoverIdentity,
+        });
         return;
       }
       // The hovered layer's own hit seeds its tier exactly (see
@@ -2786,7 +2841,13 @@ export default function WardMap() {
       if (hoverIdentity === lastHoverIdentityRef.current) return;
       lastHoverIdentityRef.current = hoverIdentity;
       setHighlight(feature.id != null ? { source: feature.source, id: feature.id } : null);
-      setSelected({ officials: resolveSelectionAtPoint(point, known), pinned: false, hoveredCityName: known.city });
+      setSelected({
+        officials: resolveSelectionAtPoint(point, known),
+        pinned: false,
+        hoveredCityName: known.city,
+        jumpToTier: tierForRole(known.role),
+        selectionKey: hoverIdentity,
+      });
     };
     const handleHoverLeave = () => {
       if (!isDesktopHover) return;
@@ -2843,7 +2904,7 @@ export default function WardMap() {
           return;
         }
         const point = toPoint(e.lngLat);
-        selectPinned(resolveSelectionAtPoint(point), identity, (hit.properties?.city as string | undefined) ?? null);
+        selectPinned(resolveSelectionAtPoint(point), identity, (hit.properties?.city as string | undefined) ?? null, "city");
         setHighlight(hit.id != null ? { source: hit.source, id: hit.id } : null);
         setActiveMobileSheet(null);
         const boundaryFeature = atLargeBoundariesDataRef.current?.features.find(
@@ -2869,7 +2930,7 @@ export default function WardMap() {
           return;
         }
         const point = toPoint(e.lngLat);
-        selectPinned(resolveSelectionAtPoint(point), identity, (hit.properties?.name as string | undefined) ?? null);
+        selectPinned(resolveSelectionAtPoint(point), identity, (hit.properties?.name as string | undefined) ?? null, "city");
         setHighlight(hit.id != null ? { source: hit.source, id: hit.id } : null);
         setActiveMobileSheet(null);
         const boundaryFeature = cityBoundariesDataRef.current?.features.find(
@@ -2925,7 +2986,7 @@ export default function WardMap() {
         return;
       }
       const point = toPoint(e.lngLat);
-      selectPinned(resolveSelectionAtPoint(point, known), identity, known.city);
+      selectPinned(resolveSelectionAtPoint(point, known), identity, known.city, tierForRole(known.role));
       setHighlight(hit.id != null ? { source: hit.source, id: hit.id } : null);
       setActiveMobileSheet(null); // see applySearchResult's comment on this same call
       zoomToBounds(boundsFromFeature((fullFeature ?? hit) as Feature<Geometry>));
@@ -3278,7 +3339,7 @@ export default function WardMap() {
   // the modal *and* opens that tab in the same gesture (handleMobileTabSelect
   // below), rather than leaving the first tap stranded doing nothing.
   const mobileSheetContent = selected ? (
-    <WardModal officials={selected.officials} onClose={deselect} hoveredCityName={selected.hoveredCityName} variant="sheet" />
+    <WardModal officials={selected.officials} onClose={deselect} hoveredCityName={selected.hoveredCityName} jumpToTier={selected.jumpToTier} selectionKey={selected.selectionKey} variant="sheet" />
   ) : activeMobileSheet === "search" ? (
     searchBar
   ) : activeMobileSheet === "filters" ? (
@@ -3571,7 +3632,7 @@ export default function WardMap() {
         >
           <div className="flex h-full w-80 shrink-0 flex-col lg:w-96">
             {selected ? (
-              <WardModal officials={selected.officials} onClose={deselect} hoveredCityName={selected.hoveredCityName} variant="sidebar" />
+              <WardModal officials={selected.officials} onClose={deselect} hoveredCityName={selected.hoveredCityName} jumpToTier={selected.jumpToTier} selectionKey={selected.selectionKey} variant="sidebar" />
             ) : (
               <div className="flex flex-1 flex-col items-center justify-center gap-3 px-6 py-10 text-center text-sm text-ink-3">
                 <svg viewBox="0 0 20 20" fill="none" aria-hidden="true" className="h-8 w-8 shrink-0 text-sidebar-accent">

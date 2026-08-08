@@ -767,7 +767,38 @@ function useTierStack() {
     if (index === TIER_SECTIONS.length - 1) lastContentRef.current = el;
   };
 
-  return { scrollRootRef, onHeaderRef, onContentRef, headerHeight, spacerHeight };
+  // Scrolls so tier `index`'s header sits exactly at its own dock line
+  // (index * headerHeight — see this hook's file comment) with its
+  // content right below, i.e. "reveal this tier," not just "this tier's
+  // header is somewhere on screen." Deliberately not
+  // `header.scrollIntoView()`: that aligns the header's *current* (often
+  // already-sticky-shifted) rect flush with the scroll container's own
+  // top edge, which would scroll past the dock offset every
+  // still-stacked header above it is entitled to and bury them under the
+  // target section instead of leaving them stacked above it.
+  //
+  // Reads the header's parent `<section>` rect, not the `<h2>` itself,
+  // for the "natural," not-yet-stuck position: `position: sticky` only
+  // ever repositions the sticky element's own painted box, never its
+  // non-sticky parent's — the section's top edge is exactly where its
+  // header would sit if it weren't sticky at all, and stays that way
+  // whether or not the header is currently docked.
+  const scrollToTier = (index: number) => {
+    const scrollRoot = scrollRootRef.current;
+    const header = headerRefs.current[index];
+    const section = header?.parentElement;
+    if (!scrollRoot || !section) return;
+    const targetTop =
+      section.getBoundingClientRect().top - scrollRoot.getBoundingClientRect().top + scrollRoot.scrollTop - index * headerHeight;
+    const maxScrollTop = scrollRoot.scrollHeight - scrollRoot.clientHeight;
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    scrollRoot.scrollTo({
+      top: Math.min(Math.max(0, targetTop), Math.max(0, maxScrollTop)),
+      behavior: prefersReducedMotion ? "auto" : "smooth",
+    });
+  };
+
+  return { scrollRootRef, onHeaderRef, onContentRef, headerHeight, spacerHeight, scrollToTier };
 }
 
 interface TierNodeProps {
@@ -841,6 +872,25 @@ export interface WardModalProps {
   // Only ever consulted by panelHeading, and only when `officials.city`
   // came back empty.
   hoveredCityName?: string | null;
+  // Which tier (per WardMap's SelectedArea.jumpToTier, same "city" |
+  // "county" | "state" keys as AreaOfficials/TIER_SECTIONS) the
+  // cursor/click currently over the map actually corresponds to. When
+  // this changes, the panel auto-scrolls that tier's section into view —
+  // so hovering a state legislative district while the panel is still
+  // scrolled to a previously-hovered ward's City section jumps straight
+  // to the State card, rather than leaving a resident to notice the
+  // header changed and scroll down themselves. null when nothing on the
+  // map is currently hovered/selected (nothing to jump to).
+  jumpToTier?: keyof AreaOfficials | null;
+  // Per WardMap's SelectedArea.selectionKey — the same officialIdentity()
+  // (or "at-large:<city>"/"city-boundary:<name>") string that call site
+  // already computes for its own reasons. jumpToTier alone can't tell
+  // "hovered a new ward" apart from "hovered a different ward in the same
+  // city tier" (both are just "city"), so the auto-scroll effect below
+  // keys on this instead — it changes on every genuinely new hover/click,
+  // even within the same tier, and stays put when `officials` is rebuilt
+  // for an unrelated reason (WardMap's toggleCity filtering, for one).
+  selectionKey?: string | null;
   // "sheet" (the default): this component owns its own card chrome — a
   // rounded, bordered, shadowed surface meant to float over the map or
   // MapLibre's dimmed scrim. That's mobile's bottom sheet and (previously)
@@ -901,8 +951,42 @@ function panelHeading(officials: AreaOfficials, hoveredCityName?: string | null)
 // and this panel are answering two different questions ("what's drawn on
 // the map" vs. "who represents this specific point"), not the same one
 // twice.
-export default function WardModal({ officials, onClose, hoveredCityName = null, variant = "sheet" }: WardModalProps) {
-  const { scrollRootRef, onHeaderRef, onContentRef, headerHeight, spacerHeight } = useTierStack();
+export default function WardModal({
+  officials,
+  onClose,
+  hoveredCityName = null,
+  jumpToTier = null,
+  selectionKey = null,
+  variant = "sheet",
+}: WardModalProps) {
+  const { scrollRootRef, onHeaderRef, onContentRef, headerHeight, spacerHeight, scrollToTier } = useTierStack();
+
+  // Auto-scrolls to whichever tier the map's own hover/click just
+  // resolved to (see WardModalProps.jumpToTier's own comment). Keyed on
+  // selectionKey, not jumpToTier: two different wards both resolve to the
+  // same jumpToTier ("city"), so keying on jumpToTier alone would only
+  // ever fire when a hover crosses a *tier* boundary, not every time the
+  // hovered feature actually changes within the same tier — selectionKey
+  // is the one value that changes on every genuinely new hover/click (see
+  // its own comment on WardModalProps). Skipped while headerHeight is
+  // still 0 (not yet measured on first mount) since scrollToTier's math
+  // needs it; the header-measuring effect in useTierStack re-renders once
+  // it resolves, which re-runs this one too for a selection that arrived
+  // before that first measurement landed.
+  useEffect(() => {
+    if (!jumpToTier || !selectionKey || !headerHeight) return;
+    const index = TIER_SECTIONS.findIndex((tier) => tier.key === jumpToTier);
+    if (index === -1) return;
+    scrollToTier(index);
+    // scrollToTier and jumpToTier are read for their current values, not
+    // to decide *whether* to re-run — selectionKey alone already
+    // uniquely identifies "the hover/click target changed," and
+    // including the other two would either re-run this on every render
+    // (scrollToTier is a fresh closure each time) or fire it twice for
+    // one selection change (jumpToTier and selectionKey always update
+    // together, from the same setSelected/selectPinned call).
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectionKey, headerHeight]);
 
   // Both variants now scroll from the same div (the tier list below) rather
   // than sidebar additionally scrolling its own outer wrapper — sticky
