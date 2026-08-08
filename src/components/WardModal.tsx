@@ -251,6 +251,27 @@ function IconExternal() {
   );
 }
 
+function IconChevron() {
+  return (
+    <svg viewBox="0 0 20 20" fill="none" className="h-3.5 w-3.5 shrink-0 transition-transform duration-150 group-open:rotate-180">
+      <path d="m5.5 7.5 4.5 5 4.5-5" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+// A card's committees/party-unity/recent-votes/meetings/office-details
+// block starts expanded when there isn't much in it yet (today's reality
+// for almost every seat — most feeds carry a handful of votes at most)
+// and starts collapsed once it's grown past a skim-friendly length, so a
+// resident scanning up to six stacked cards for "who represents me" isn't
+// forced to scroll past a wall of roll-call history for every single one.
+// Threshold is on recentVotes specifically — the section §3.2's Legistar/
+// Open States integrations are actively growing over time (see #57, #60),
+// not on committees or the static office-details fields, which don't grow
+// on their own. Nothing here is ever permanently hidden: it's a starting
+// state a resident can always open, never a removed feature.
+const DEFAULT_OPEN_VOTE_THRESHOLD = 3;
+
 // One recent-votes row. The plain-language gloss for a non-yes/no option
 // (see VOTE_OPTION_DISPLAY) is real information, but printing it on every
 // row unconditionally reads as clutter once a card has 5 of these stacked
@@ -383,100 +404,11 @@ function OfficialCard({ rep }: { rep: RepProperties }) {
         </div>
       )}
 
-      {isContested(rep) && (
-        <div className="border-t border-hair px-4 py-3" style={{ backgroundColor: CONTESTED_COLOR_SOFT }}>
-          <div
-            className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide mb-2.5"
-            style={{ color: CONTESTED_COLOR }}
-          >
-            <IconBallot />
-            Contested seat &middot; {candidates.length} on the ballot
-          </div>
-          <ul className="space-y-2">
-            {candidates.map((candidate) => (
-              <li key={candidate.name} className="text-sm">
-                <div className="flex items-center gap-1.5 flex-wrap">
-                  <span className="font-medium text-ink">{candidate.name}</span>
-                  {candidate.isIncumbent && (
-                    <span className="text-[10px] font-semibold uppercase tracking-wide text-ink-3 bg-panel-2/70 px-1.5 py-0.5 rounded">
-                      Incumbent
-                    </span>
-                  )}
-                </div>
-                <div className="text-xs text-ink-3">{candidate.party}</div>
-                {candidate.endorsements.length > 0 && (
-                  <div className="text-xs text-ink-3">Endorsed by {candidate.endorsements.join(", ")}</div>
-                )}
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
-
-      {committees.length > 0 && (
-        <div className="px-4 pb-3 flex flex-wrap gap-1.5">
-          {committees.map((role) => (
-            <span
-              key={role}
-              className="text-[11px] font-medium px-2 py-1 rounded-full border"
-              style={{ color: accent, borderColor: accentSoft, backgroundColor: accentSoft }}
-            >
-              {role}
-            </span>
-          ))}
-        </div>
-      )}
-
-      {rep.partyUnityPercent !== null && (
-        <div className="px-4 pb-3">
-          <div className="flex items-center justify-between text-xs text-ink-3 mb-1">
-            <span>Votes with own party</span>
-            <span className="font-semibold" style={{ color: partyColor(rep.repParty) }}>
-              {rep.partyUnityPercent}%
-            </span>
-          </div>
-          <div className="h-2 rounded-full bg-panel-3 overflow-hidden">
-            <div
-              className="h-full rounded-full"
-              style={{ width: `${rep.partyUnityPercent}%`, backgroundColor: partyColor(rep.repParty) }}
-            />
-          </div>
-        </div>
-      )}
-
-      {/* Always renders, data or not — matching the Meetings section below
-          rather than the old silent omission when recentVotes was empty.
-          AGENTS.md §3.1: an absent feed is an honest gap to say out loud,
-          not a section that just quietly doesn't appear.
-          scripts/fetch-state-legislature.mjs populates this from Open
-          States rollcalls; scripts/lib/legistarRecentVotes.mjs (#57) joins
-          it in for St. Paul Council Members and Hennepin County
-          Commissioners from public/legistar/{client}.json's already-
-          resolved holding→vote records. Every other Council Member/County
-          Commissioner seat (Minneapolis, Ramsey — neither is a Legistar
-          client) still renders the honest gap note below until a feed
-          exists for them. Skipped for Mayor: strong-mayor systems don't
-          cast the kind of roll-call vote this section models, and no
-          upstream source scoped here tracks mayoral tie-breaking votes as
-          one. */}
-      {rep.role !== "Mayor" && (
-        <div className="border-t border-hair px-4 py-3">
-          <div className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-ink-3 mb-2.5">
-            <IconBallot />
-            Recent votes
-          </div>
-          {recentVotes.length > 0 ? (
-            <ul className="space-y-2.5">
-              {recentVotes.map((vote) => (
-                <VoteRow key={vote.voteId} vote={vote} accent={accent} />
-              ))}
-            </ul>
-          ) : (
-            <p className="text-sm text-ink-3">No voting record connected yet for {areaLabel(rep)}.</p>
-          )}
-        </div>
-      )}
-
+      {/* Contact stays outside the collapsible block below, along with the
+          header and the staleness banner above — per AGENTS.md §0.6
+          ("every record ends in an action"), how to reach this person has
+          to survive collapsing the card down to its shortest state, not
+          live inside the "more detail" a resident might never open. */}
       {(rep.repEmail || rep.repPhone) && (
         <div className="px-4 pb-3 flex items-center gap-2">
           {rep.repEmail && (
@@ -505,72 +437,189 @@ function OfficialCard({ rep }: { rep: RepProperties }) {
         </div>
       )}
 
-      {/* This used to be a per-ward hearing/meeting schedule — deleted
-          outright (not hidden behind a flag, not left as a fallback)
-          per AGENTS.md §3.1: it was fabricated, deterministic mock
-          data, and a resident who missed a real hearing because this
-          site invented a fake one would have been actively harmed.
-          An honest "we don't have this yet" with a real link to the
-          city's own calendar is the correct replacement, not a fake
-          feed relabeled as real. The mayor's office doesn't get this
-          section at all (isWard) — there's no ward-level "meetings
-          feed" concept to honestly say we lack for a citywide role. */}
-      {isWard && (
-        <div className="border-t border-hair px-4 py-3">
-          <div className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-ink-3 mb-2.5">
-            <IconCalendar />
-            Meetings
-          </div>
-          <p className="text-sm text-ink-3">No meetings feed connected yet for {rep.city}.</p>
-          {CITY_MEETINGS_URL[rep.city] ? (
-            <a
-              href={CITY_MEETINGS_URL[rep.city]}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 text-sm font-medium hover:underline mt-1"
-              style={{ color: accent }}
-            >
-              See {rep.city}&rsquo;s own meeting calendar
-              <IconExternal />
-            </a>
-          ) : (
-            <p className="text-xs text-ink-4 mt-1">Check {rep.city}&rsquo;s official website for upcoming meetings.</p>
-          )}
-        </div>
-      )}
+      {/* Everything below — contested-race candidates, committees, party
+          unity, recent votes, meetings, office/profile links — is the
+          "go deeper" material, collapsed behind a single native
+          <details>/<summary> disclosure rather than each having its own
+          always-rendered block. Unlike the City/County/State tiers this
+          replaced tabs for, hiding this doesn't hide *who represents you*
+          — name, role, party, and how to reach them are all already
+          visible above, unconditionally. This only compresses the
+          receipts a resident can choose to go read, per AGENTS.md §0.2 —
+          they're still one click away, not removed.
+          Starts open when there's not much here yet (DEFAULT_OPEN_VOTE_
+          THRESHOLD, see that constant's own comment) so today's sparse
+          feeds cost zero extra clicks; starts closed once a seat's vote
+          history has actually grown enough to be worth collapsing. */}
+      <details open={recentVotes.length <= DEFAULT_OPEN_VOTE_THRESHOLD} className="group border-t border-hair">
+        <summary
+          className="flex list-none items-center justify-between gap-2 px-4 py-2.5 text-xs font-semibold uppercase tracking-wide text-ink-3 cursor-pointer select-none hover:bg-sidebar-hover [&::-webkit-details-marker]:hidden"
+        >
+          More details
+          <IconChevron />
+        </summary>
 
-      {(rep.officeRoom || neighborhoods.length > 0 || rep.profileUrl) && (
-        <div className="border-t border-hair px-4 py-3 space-y-1.5 text-xs text-ink-3">
-          {rep.officeRoom && (
-            <div className="flex items-start gap-1.5">
-              <span className="mt-0.5">
-                <IconBuilding />
-              </span>
-              <span>{rep.officeRoom}</span>
-            </div>
-          )}
-          {neighborhoods.length > 0 && (
-            <div className="flex items-start gap-1.5">
-              <span className="mt-0.5">
-                <IconPin />
-              </span>
-              <span>{neighborhoods.join(", ")}</span>
-            </div>
-          )}
-          {rep.profileUrl && (
-            <a
-              href={rep.profileUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 font-medium hover:underline pt-0.5"
-              style={{ color: accent }}
+        {isContested(rep) && (
+          <div className="border-t border-hair px-4 py-3" style={{ backgroundColor: CONTESTED_COLOR_SOFT }}>
+            <div
+              className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide mb-2.5"
+              style={{ color: CONTESTED_COLOR }}
             >
-              View official profile
-              <IconExternal />
-            </a>
-          )}
-        </div>
-      )}
+              <IconBallot />
+              Contested seat &middot; {candidates.length} on the ballot
+            </div>
+            <ul className="space-y-2">
+              {candidates.map((candidate) => (
+                <li key={candidate.name} className="text-sm">
+                  <div className="flex items-center gap-1.5 flex-wrap">
+                    <span className="font-medium text-ink">{candidate.name}</span>
+                    {candidate.isIncumbent && (
+                      <span className="text-[10px] font-semibold uppercase tracking-wide text-ink-3 bg-panel-2/70 px-1.5 py-0.5 rounded">
+                        Incumbent
+                      </span>
+                    )}
+                  </div>
+                  <div className="text-xs text-ink-3">{candidate.party}</div>
+                  {candidate.endorsements.length > 0 && (
+                    <div className="text-xs text-ink-3">Endorsed by {candidate.endorsements.join(", ")}</div>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        {committees.length > 0 && (
+          <div className="border-t border-hair px-4 py-3 flex flex-wrap gap-1.5">
+            {committees.map((role) => (
+              <span
+                key={role}
+                className="text-[11px] font-medium px-2 py-1 rounded-full border"
+                style={{ color: accent, borderColor: accentSoft, backgroundColor: accentSoft }}
+              >
+                {role}
+              </span>
+            ))}
+          </div>
+        )}
+
+        {rep.partyUnityPercent !== null && (
+          <div className="border-t border-hair px-4 py-3">
+            <div className="flex items-center justify-between text-xs text-ink-3 mb-1">
+              <span>Votes with own party</span>
+              <span className="font-semibold" style={{ color: partyColor(rep.repParty) }}>
+                {rep.partyUnityPercent}%
+              </span>
+            </div>
+            <div className="h-2 rounded-full bg-panel-3 overflow-hidden">
+              <div
+                className="h-full rounded-full"
+                style={{ width: `${rep.partyUnityPercent}%`, backgroundColor: partyColor(rep.repParty) }}
+              />
+            </div>
+          </div>
+        )}
+
+        {/* Always renders, data or not — matching the Meetings section
+            below rather than the old silent omission when recentVotes was
+            empty. AGENTS.md §3.1: an absent feed is an honest gap to say
+            out loud, not a section that just quietly doesn't appear.
+            scripts/fetch-state-legislature.mjs populates this from Open
+            States rollcalls; scripts/lib/legistarRecentVotes.mjs (#57)
+            joins it in for St. Paul Council Members and Hennepin County
+            Commissioners from public/legistar/{client}.json's already-
+            resolved holding→vote records. Every other Council Member/
+            County Commissioner seat (Minneapolis, Ramsey — neither is a
+            Legistar client) still renders the honest gap note below until
+            a feed exists for them. Skipped for Mayor: strong-mayor
+            systems don't cast the kind of roll-call vote this section
+            models, and no upstream source scoped here tracks mayoral
+            tie-breaking votes as one. */}
+        {rep.role !== "Mayor" && (
+          <div className="border-t border-hair px-4 py-3">
+            <div className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-ink-3 mb-2.5">
+              <IconBallot />
+              Recent votes
+            </div>
+            {recentVotes.length > 0 ? (
+              <ul className="space-y-2.5">
+                {recentVotes.map((vote) => (
+                  <VoteRow key={vote.voteId} vote={vote} accent={accent} />
+                ))}
+              </ul>
+            ) : (
+              <p className="text-sm text-ink-3">No voting record connected yet for {areaLabel(rep)}.</p>
+            )}
+          </div>
+        )}
+
+        {/* This used to be a per-ward hearing/meeting schedule — deleted
+            outright (not hidden behind a flag, not left as a fallback)
+            per AGENTS.md §3.1: it was fabricated, deterministic mock
+            data, and a resident who missed a real hearing because this
+            site invented a fake one would have been actively harmed.
+            An honest "we don't have this yet" with a real link to the
+            city's own calendar is the correct replacement, not a fake
+            feed relabeled as real. The mayor's office doesn't get this
+            section at all (isWard) — there's no ward-level "meetings
+            feed" concept to honestly say we lack for a citywide role. */}
+        {isWard && (
+          <div className="border-t border-hair px-4 py-3">
+            <div className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-ink-3 mb-2.5">
+              <IconCalendar />
+              Meetings
+            </div>
+            <p className="text-sm text-ink-3">No meetings feed connected yet for {rep.city}.</p>
+            {CITY_MEETINGS_URL[rep.city] ? (
+              <a
+                href={CITY_MEETINGS_URL[rep.city]}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1 text-sm font-medium hover:underline mt-1"
+                style={{ color: accent }}
+              >
+                See {rep.city}&rsquo;s own meeting calendar
+                <IconExternal />
+              </a>
+            ) : (
+              <p className="text-xs text-ink-4 mt-1">Check {rep.city}&rsquo;s official website for upcoming meetings.</p>
+            )}
+          </div>
+        )}
+
+        {(rep.officeRoom || neighborhoods.length > 0 || rep.profileUrl) && (
+          <div className="border-t border-hair px-4 py-3 space-y-1.5 text-xs text-ink-3">
+            {rep.officeRoom && (
+              <div className="flex items-start gap-1.5">
+                <span className="mt-0.5">
+                  <IconBuilding />
+                </span>
+                <span>{rep.officeRoom}</span>
+              </div>
+            )}
+            {neighborhoods.length > 0 && (
+              <div className="flex items-start gap-1.5">
+                <span className="mt-0.5">
+                  <IconPin />
+                </span>
+                <span>{neighborhoods.join(", ")}</span>
+              </div>
+            )}
+            {rep.profileUrl && (
+              <a
+                href={rep.profileUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1 font-medium hover:underline pt-0.5"
+                style={{ color: accent }}
+              >
+                View official profile
+                <IconExternal />
+              </a>
+            )}
+          </div>
+        )}
+      </details>
     </div>
   );
 }
@@ -700,20 +749,27 @@ export default function WardModal({ officials, onClose, variant = "sheet" }: War
           tablist chased, without #53's tradeoff of hiding two-thirds of a
           resident's own representation behind a click. No `role`/`hidden`
           bookkeeping needed: every section renders all the time, so
-          there's no active/inactive state to keep in sync. */}
+          there's no active/inactive state to keep in sync.
+
+          Full-width navy band (the old active-tab fill, repurposed) rather
+          than an inline pill: a resident scrolling through up to six
+          stacked cards needs the City→County→State boundary to register
+          at a glance, the same way the tab row's selected cell used to
+          jump out — a small rounded badge sitting in open whitespace did
+          that job far more weakly once there was no longer a tab strip
+          drawing the eye to this row in the first place. */}
       <div className="overflow-y-auto">
         {TIER_SECTIONS.map(({ key, label, emptyNote }) => {
           const reps = officials[key];
           const headingId = `officials-tier-${key}-heading`;
           return (
             <section key={key} aria-labelledby={headingId}>
-              <h2 id={headingId} className="px-4 pt-4 pb-2 text-xs font-semibold uppercase tracking-wide">
-                <span
-                  className="inline-block rounded-full px-2.5 py-1"
-                  style={{ backgroundColor: TIER_HEADER_BG, color: TIER_HEADER_TEXT }}
-                >
-                  {label}
-                </span>
+              <h2
+                id={headingId}
+                className="px-4 py-2 text-xs font-semibold uppercase tracking-wide"
+                style={{ backgroundColor: TIER_HEADER_BG, color: TIER_HEADER_TEXT }}
+              >
+                {label}
               </h2>
               {reps.length > 0 ? (
                 <div className="divide-y divide-hair">
