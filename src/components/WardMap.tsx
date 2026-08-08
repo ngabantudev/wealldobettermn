@@ -1017,6 +1017,16 @@ export default function WardMap() {
   const lastHoverIdentityRef = useRef<string | null>(null);
   const [selected, setSelected] = useState<SelectedArea | null>(null);
   const selectedRef = useRef<SelectedArea | null>(null);
+  // Identity of whichever ward/at-large/commissioner/state-leg area (or
+  // pin) is currently *pinned* — as opposed to `selected` itself, which
+  // also holds transient hover state and can't be compared directly
+  // (hover overwrites it constantly, with no identity of its own). Lets
+  // the click handlers below tell "clicking the thing that's already
+  // selected" apart from "clicking something new": same identity twice in
+  // a row means toggle it off (deselect, camera back to the mode's
+  // default extent) rather than re-selecting and re-zooming to the exact
+  // same target. Cleared by deselect(), set by selectPinned() — see both.
+  const selectedIdentityRef = useRef<string | null>(null);
   // Screen-reader announcement for the detail panel — set only from a
   // pinned (click/tap/search-result) selection, never from hover, same
   // "don't move focus, just announce" pattern as SearchBar's own
@@ -1214,6 +1224,7 @@ export default function WardMap() {
 
   const deselect = () => {
     setSelected(null);
+    selectedIdentityRef.current = null;
     setAnnouncement("Representative panel closed.");
     zoomToDefault();
   };
@@ -1268,8 +1279,18 @@ export default function WardMap() {
   // had collapsed it — unlike a hover, which never reopens a sidebar
   // they've deliberately hidden; see the right toggle button's own
   // comment further down for why that asymmetry is deliberate.
-  const selectPinned = (officials: AreaOfficials) => {
+  // `identity` is whatever the caller used to decide this was worth
+  // selecting in the first place (an officialIdentity() string for a real
+  // office, or the same "at-large:<city>"/"city-boundary:<name>" shape
+  // handleHoverMove already uses for the two officeless layers) — stashed
+  // so a second click on the same area can be told apart from a click on
+  // something new. Optional only for call sites with no natural identity
+  // of their own to offer; those simply can't ever toggle off by re-
+  // selection (existing "tap away"/re-click-the-panel-close-button paths
+  // still work regardless).
+  const selectPinned = (officials: AreaOfficials, identity: string | null = null) => {
     setSelected({ officials, pinned: true });
+    selectedIdentityRef.current = identity;
     setAnnouncement(summarizeOfficials(officials));
     if (rightDetailCollapsedRef.current) setRightDetailCollapsed(false);
   };
@@ -1598,7 +1619,11 @@ export default function WardMap() {
     // placement — there's no ward "office address" to anchor to instead.
     const point = toPoint(bounds.getCenter());
     const known = normalizeRepProperties(feature.properties);
-    selectPinned(resolveSelectionAtPoint(point, known));
+    // Always selects (never toggles off) — a search result is a fresh,
+    // deliberate "go here" action every time, including when it happens to
+    // repeat the last one, so it must never read as a second click on an
+    // already-selected area and close the panel instead of showing it.
+    selectPinned(resolveSelectionAtPoint(point, known), officialIdentity(known));
     // Closes MobileNav's Search sheet on mobile so the ward modal (which
     // takes over the sheet slot the instant `selected` is non-null) isn't
     // left stacked behind it — a no-op on desktop, where nothing opened a
@@ -1855,7 +1880,19 @@ export default function WardMap() {
       });
       el.addEventListener("click", (e) => {
         e.stopPropagation();
-        selectPinned(resolveSelectionAtPoint(point, properties));
+        // Clicking the same pin that's already pinned toggles it back off
+        // — same "re-selecting the current area closes it and returns the
+        // camera to where it was before" behavior the fill-layer click
+        // handler gives wards/counties/state districts, see its own
+        // comment. identity here is the pin's own office, so this also
+        // catches clicking a ward's polygon and then that same ward's pin
+        // (or vice versa) as "the same selection," not two different ones.
+        const identity = officialIdentity(properties);
+        if (selectedRef.current?.pinned && selectedIdentityRef.current === identity) {
+          deselect();
+          return;
+        }
+        selectPinned(resolveSelectionAtPoint(point, properties), identity);
         setActiveMobileSheet(null); // see applySearchResult's comment on this same call
         zoomToBounds(zoomBounds);
       });
@@ -2520,8 +2557,15 @@ export default function WardMap() {
       // other branch below re-looks-up its hit — see the comment past
       // this early return), not the tile-clipped `hit` geometry directly.
       if (hit.layer.id === AT_LARGE_BOUNDARY_FILL_LAYER_ID) {
+        // Same shape handleHoverMove already uses for this layer's hover
+        // identity — reused here so a second click toggles the area off.
+        const identity = `at-large:${hit.properties?.city}`;
+        if (selectedRef.current?.pinned && selectedIdentityRef.current === identity) {
+          deselect();
+          return;
+        }
         const point = toPoint(e.lngLat);
-        selectPinned(resolveSelectionAtPoint(point));
+        selectPinned(resolveSelectionAtPoint(point), identity);
         setActiveMobileSheet(null);
         const boundaryFeature = atLargeBoundariesDataRef.current?.features.find(
           (f) => f.properties?.city === hit.properties?.city,
@@ -2538,8 +2582,15 @@ export default function WardMap() {
       // WardModal's existing "outside every city this map has ward data
       // for" empty state (coverage.ts's CITY_TIER_EMPTY_NOTE).
       if (hit.layer.id === CITY_BOUNDARIES_FILL_LAYER_ID) {
+        // Same shape handleHoverMove already uses for this layer's hover
+        // identity — reused here so a second click toggles the area off.
+        const identity = `city-boundary:${hit.properties?.name}`;
+        if (selectedRef.current?.pinned && selectedIdentityRef.current === identity) {
+          deselect();
+          return;
+        }
         const point = toPoint(e.lngLat);
-        selectPinned(resolveSelectionAtPoint(point));
+        selectPinned(resolveSelectionAtPoint(point), identity);
         setActiveMobileSheet(null);
         const boundaryFeature = cityBoundariesDataRef.current?.features.find(
           (f) => f.properties?.name === hit.properties?.name,
@@ -2581,8 +2632,20 @@ export default function WardMap() {
       const known = normalizeRepProperties(
         (fullFeature?.properties as Record<string, unknown> | undefined) ?? (hitProps as unknown as Record<string, unknown>),
       );
+      // Clicking the same ward/county/state district that's already
+      // pinned toggles it back off instead of re-selecting (and
+      // re-zooming to the exact same bounds) — same identity comparison
+      // addPin's own click listener uses, see its comment. identity here
+      // is the tier's own office at this point, so clicking a ward's
+      // polygon and then that same ward's council-member pin (or vice
+      // versa) both read as "the same selection."
+      const identity = officialIdentity(known);
+      if (selectedRef.current?.pinned && selectedIdentityRef.current === identity) {
+        deselect();
+        return;
+      }
       const point = toPoint(e.lngLat);
-      selectPinned(resolveSelectionAtPoint(point, known));
+      selectPinned(resolveSelectionAtPoint(point, known), identity);
       setActiveMobileSheet(null); // see applySearchResult's comment on this same call
       zoomToBounds(boundsFromFeature((fullFeature ?? hit) as Feature<Geometry>));
     });
