@@ -684,8 +684,23 @@ async function buildVotesForWindow(clientConfig, token, { primaryBodyId, primary
         unmatchedVoters.add(`${v.VotePersonName} (Legistar PersonId ${v.VotePersonId})`);
         continue;
       }
+      // Composite id, not bare v.VoteId (issue #77): confirmed live against
+      // webapi.legistar.com that St. Paul's `/EventItems/{id}/Votes` can
+      // resolve several distinct MatterHistoryIds to the *same* underlying
+      // roll call — e.g. a block of separate liquor-license resolutions
+      // passed together on one consent-agenda vote all come back pointing
+      // at one shared VoteEventItemId, so every person's VoteId (and the
+      // yea/nay value) is identical across those calls. That's a real
+      // upstream quirk, not a loop/variable-reuse bug here: rawVotes is
+      // freshly fetched per matter, and the yea/nay values are correct —
+      // the member genuinely cast one vote covering all of those matters.
+      // VoteId is therefore unique per underlying roll call, not per
+      // (person, matter) as this code used to assume. actedRecord's own
+      // MatterHistoryId (which voteEventId is already derived from) *is*
+      // unique per matter, so folding it into the id makes each Vote
+      // record unique per matter without touching the (correct) value.
       votes.push({
-        id: `legistar-${clientConfig.client}-vote-${v.VoteId}`,
+        id: `legistar-${clientConfig.client}-vote-${actedRecord.MatterHistoryId}-${v.VoteId}`,
         vote_event_id: voteEventId,
         holding_id: holding.id,
         value,
