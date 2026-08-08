@@ -1,0 +1,1737 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-08T20:49:58.780Z",
+  "note": "Tier 4 (AGENTS.md §3.3) leads only — never published as fact. Each entry needs human verification against a Tier 1/2 source (county canvass, MN Stat 412.02 Subd. 2 for statutory cities, or the city's own charter for charter cities) before any date here is entered into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs.",
+  "leads": [
+    {
+      "repName": "Jacob Frey",
+      "city": "Minneapolis",
+      "county": null,
+      "role": "Mayor",
+      "missingFields": [
+        "termEnd"
+      ],
+      "citySeatingRule": "charter",
+      "wikipediaUrl": "https://en.wikipedia.org/wiki/Jacob_Frey",
+      "wikipediaExtractSnippet": "Jacob Lawrence Frey is an American politician and attorney who has served since 2018 as the 48th mayor of Minneapolis. A member of the Minnesota Democratic–Farmer–Labor Party, he served on the Minneapolis City Council from 2014 to 2018 and was elected mayor of Minneapolis in 2017. He was reelected in 2021 and 2025.",
+      "candidateElectionYear": 2018,
+      "verificationGuidance": "Minneapolis is a home rule charter city (per the existing header comment in fetch-mayors.mjs/fetch-wards.mjs). The MN Stat. § 412.02 Subd. 2 shortcut does NOT apply — research Minneapolis's own charter for its seating-date provision. This is a Tier 4 lead (AGENTS.md §3.3) — verify against a Tier 1/2 primary source before entering any date into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs."
+    },
+    {
+      "repName": "Kaohly Her",
+      "city": "St. Paul",
+      "county": null,
+      "role": "Mayor",
+      "missingFields": [
+        "termEnd"
+      ],
+      "citySeatingRule": "charter",
+      "wikipediaUrl": "https://en.wikipedia.org/wiki/Kaohly_Her",
+      "wikipediaExtractSnippet": "Kaohly Vang Her is an American politician serving since 2026 as the 56th mayor of Saint Paul. She is the first woman and first Asian American to hold this position.",
+      "candidateElectionYear": 2026,
+      "verificationGuidance": "St. Paul is a home rule charter city (per the existing header comment in fetch-mayors.mjs/fetch-wards.mjs). The MN Stat. § 412.02 Subd. 2 shortcut does NOT apply — research St. Paul's own charter for its seating-date provision. This is a Tier 4 lead (AGENTS.md §3.3) — verify against a Tier 1/2 primary source before entering any date into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs."
+    },
+    {
+      "repName": "Tim Busse",
+      "city": "Bloomington",
+      "county": null,
+      "role": "Mayor",
+      "missingFields": [
+        "termStart",
+        "termEnd"
+      ],
+      "citySeatingRule": "unknown",
+      "wikipediaUrl": "https://en.wikipedia.org/wiki/Tim_Busse",
+      "wikipediaExtractSnippet": "Timothy Busse is a U.S. politician from the State of Minnesota. He has been mayor of Bloomington, Minnesota since 2020.",
+      "candidateElectionYear": 2020,
+      "verificationGuidance": "Bloomington's statutory-vs-charter status is not stated in fetch-mayors.mjs/fetch-wards.mjs's existing header comments — confirm this first (a Minnesota city-classification lookup or the city's own charter page) before deciding whether the MN Stat. § 412.02 Subd. 2 shortcut (https://www.revisor.mn.gov/statutes/cite/412.02) applies. This is a Tier 4 lead (AGENTS.md §3.3) — verify against a Tier 1/2 primary source before entering any date into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs."
+    },
+    {
+      "repName": "Jeff Wosje",
+      "city": "Plymouth",
+      "county": null,
+      "role": "Mayor",
+      "missingFields": [
+        "termStart",
+        "termEnd"
+      ],
+      "citySeatingRule": "unknown",
+      "wikipediaUrl": "https://en.wikipedia.org/wiki/Plymouth%2C_Minnesota",
+      "wikipediaExtractSnippet": "Plymouth is a city in Hennepin County in the U.S. state of Minnesota. A suburb in the Minneapolis–Saint Paul metropolitan area, the city is about 10 miles (16 km) west of downtown Minneapolis. The population was 81,026 at the 2020 census, making it Minnesota's 7th-largest city.",
+      "candidateElectionYear": null,
+      "verificationGuidance": "Plymouth's statutory-vs-charter status is not stated in fetch-mayors.mjs/fetch-wards.mjs's existing header comments — confirm this first (a Minnesota city-classification lookup or the city's own charter page) before deciding whether the MN Stat. § 412.02 Subd. 2 shortcut (https://www.revisor.mn.gov/statutes/cite/412.02) applies. This is a Tier 4 lead (AGENTS.md §3.3) — verify against a Tier 1/2 primary source before entering any date into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs."
+    },
+    {
+      "repName": "Rebecca Schack",
+      "city": "Minnetonka",
+      "county": null,
+      "role": "Mayor",
+      "missingFields": [
+        "termStart",
+        "termEnd"
+      ],
+      "citySeatingRule": "unknown",
+      "wikipediaUrl": "https://en.wikipedia.org/wiki/Minnetonka%2C_Minnesota",
+      "wikipediaExtractSnippet": "Minnetonka is a city in Hennepin County, Minnesota, United States. A western suburb of the Twin Cities, Minnetonka is located about 10 miles (16 km) west of Minneapolis. At the 2024 census, the city's population was 52,651.",
+      "candidateElectionYear": null,
+      "verificationGuidance": "Minnetonka's statutory-vs-charter status is not stated in fetch-mayors.mjs/fetch-wards.mjs's existing header comments — confirm this first (a Minnesota city-classification lookup or the city's own charter page) before deciding whether the MN Stat. § 412.02 Subd. 2 shortcut (https://www.revisor.mn.gov/statutes/cite/412.02) applies. This is a Tier 4 lead (AGENTS.md §3.3) — verify against a Tier 1/2 primary source before entering any date into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs."
+    },
+    {
+      "repName": "Nadia Mohamed",
+      "city": "St. Louis Park",
+      "county": null,
+      "role": "Mayor",
+      "missingFields": [
+        "termStart",
+        "termEnd"
+      ],
+      "citySeatingRule": "unknown",
+      "wikipediaUrl": "https://en.wikipedia.org/wiki/Nadia_Mohamed",
+      "wikipediaExtractSnippet": "Nadia Mohamed is an American politician serving since 2023 as the mayor of St. Louis Park, Minnesota. Mohamed is the first Somali American to be elected mayor of a U.S. city.",
+      "candidateElectionYear": 2023,
+      "verificationGuidance": "St. Louis Park's statutory-vs-charter status is not stated in fetch-mayors.mjs/fetch-wards.mjs's existing header comments — confirm this first (a Minnesota city-classification lookup or the city's own charter page) before deciding whether the MN Stat. § 412.02 Subd. 2 shortcut (https://www.revisor.mn.gov/statutes/cite/412.02) applies. This is a Tier 4 lead (AGENTS.md §3.3) — verify against a Tier 1/2 primary source before entering any date into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs."
+    },
+    {
+      "repName": "Mary Supple",
+      "city": "Richfield",
+      "county": null,
+      "role": "Mayor",
+      "missingFields": [
+        "termStart",
+        "termEnd"
+      ],
+      "citySeatingRule": "unknown",
+      "wikipediaUrl": "https://en.wikipedia.org/wiki/Richfield%2C_Minnesota",
+      "wikipediaExtractSnippet": "Richfield is a city in Hennepin County, Minnesota. An inner-ring suburb of Minneapolis, Richfield is bordered by Minneapolis to the north, Minneapolis–Saint Paul International Airport and Fort Snelling to the east, Bloomington to the south, and Edina to the west. The population was 36,994 at the 2020 census.",
+      "candidateElectionYear": null,
+      "verificationGuidance": "Richfield's statutory-vs-charter status is not stated in fetch-mayors.mjs/fetch-wards.mjs's existing header comments — confirm this first (a Minnesota city-classification lookup or the city's own charter page) before deciding whether the MN Stat. § 412.02 Subd. 2 shortcut (https://www.revisor.mn.gov/statutes/cite/412.02) applies. This is a Tier 4 lead (AGENTS.md §3.3) — verify against a Tier 1/2 primary source before entering any date into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs."
+    },
+    {
+      "repName": "Tim Sanders",
+      "city": "Blaine",
+      "county": "Anoka County",
+      "role": "Mayor",
+      "missingFields": [
+        "termStart",
+        "termEnd"
+      ],
+      "citySeatingRule": "unknown",
+      "wikipediaUrl": "https://en.wikipedia.org/wiki/Tim_Sanders_(politician)",
+      "wikipediaExtractSnippet": "Timothy A. Sanders is an American politician serving as the mayor of Blaine, Minnesota, since 2021 and a former member of the Minnesota House of Representatives. A member of the Republican Party of Minnesota, he represented District 37B, which included parts of Anoka County, in the northern part of the Twin Cities metropolitan area, from 2009 to 2017, having decided not to seek reelection in 2016.",
+      "candidateElectionYear": 2021,
+      "verificationGuidance": "Blaine's statutory-vs-charter status is not stated in fetch-mayors.mjs/fetch-wards.mjs's existing header comments — confirm this first (a Minnesota city-classification lookup or the city's own charter page) before deciding whether the MN Stat. § 412.02 Subd. 2 shortcut (https://www.revisor.mn.gov/statutes/cite/412.02) applies. This is a Tier 4 lead (AGENTS.md §3.3) — verify against a Tier 1/2 primary source before entering any date into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs."
+    },
+    {
+      "repName": "Hollies J. Winston",
+      "city": "Brooklyn Park",
+      "county": "Hennepin County",
+      "role": "Mayor",
+      "missingFields": [
+        "termEnd"
+      ],
+      "citySeatingRule": "unknown",
+      "wikipediaUrl": null,
+      "wikipediaExtractSnippet": null,
+      "candidateElectionYear": null,
+      "verificationGuidance": "Brooklyn Park's statutory-vs-charter status is not stated in fetch-mayors.mjs/fetch-wards.mjs's existing header comments — confirm this first (a Minnesota city-classification lookup or the city's own charter page) before deciding whether the MN Stat. § 412.02 Subd. 2 shortcut (https://www.revisor.mn.gov/statutes/cite/412.02) applies. This is a Tier 4 lead (AGENTS.md §3.3) — verify against a Tier 1/2 primary source before entering any date into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs."
+    },
+    {
+      "repName": "Jerry Koch",
+      "city": "Coon Rapids",
+      "county": "Anoka County",
+      "role": "Mayor",
+      "missingFields": [
+        "termStart",
+        "termEnd"
+      ],
+      "citySeatingRule": "unknown",
+      "wikipediaUrl": "https://en.wikipedia.org/wiki/84th_Minnesota_Legislature",
+      "wikipediaExtractSnippet": "The eighty-fourth Minnesota Legislature first convened on January 4, 2005. The 67 members of the Minnesota Senate were elected during the General Election on November 5, 2002, while the 134 members of the Minnesota House of Representatives were elected during the General Election on November 2, 2004.",
+      "candidateElectionYear": 2002,
+      "verificationGuidance": "Coon Rapids's statutory-vs-charter status is not stated in fetch-mayors.mjs/fetch-wards.mjs's existing header comments — confirm this first (a Minnesota city-classification lookup or the city's own charter page) before deciding whether the MN Stat. § 412.02 Subd. 2 shortcut (https://www.revisor.mn.gov/statutes/cite/412.02) applies. This is a Tier 4 lead (AGENTS.md §3.3) — verify against a Tier 1/2 primary source before entering any date into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs."
+    },
+    {
+      "repName": "Anne Burt",
+      "city": "Woodbury",
+      "county": "Washington County",
+      "role": "Mayor",
+      "missingFields": [
+        "termStart",
+        "termEnd"
+      ],
+      "citySeatingRule": "unknown",
+      "wikipediaUrl": "https://en.wikipedia.org/wiki/Mary_Giuliani_Stephens",
+      "wikipediaExtractSnippet": "Mary Giuliani Stephens is an American attorney and the former mayor of Woodbury, Minnesota. She previously served on the Woodbury City Council.",
+      "candidateElectionYear": null,
+      "verificationGuidance": "Woodbury's statutory-vs-charter status is not stated in fetch-mayors.mjs/fetch-wards.mjs's existing header comments — confirm this first (a Minnesota city-classification lookup or the city's own charter page) before deciding whether the MN Stat. § 412.02 Subd. 2 shortcut (https://www.revisor.mn.gov/statutes/cite/412.02) applies. This is a Tier 4 lead (AGENTS.md §3.3) — verify against a Tier 1/2 primary source before entering any date into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs."
+    },
+    {
+      "repName": "Jennifer Santini",
+      "city": "Woodbury",
+      "county": "Washington County",
+      "role": "Council Member",
+      "missingFields": [
+        "termStart",
+        "termEnd"
+      ],
+      "citySeatingRule": "unknown",
+      "wikipediaUrl": null,
+      "wikipediaExtractSnippet": null,
+      "candidateElectionYear": null,
+      "verificationGuidance": "Woodbury's statutory-vs-charter status is not stated in fetch-mayors.mjs/fetch-wards.mjs's existing header comments — confirm this first (a Minnesota city-classification lookup or the city's own charter page) before deciding whether the MN Stat. § 412.02 Subd. 2 shortcut (https://www.revisor.mn.gov/statutes/cite/412.02) applies. This is a Tier 4 lead (AGENTS.md §3.3) — verify against a Tier 1/2 primary source before entering any date into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs."
+    },
+    {
+      "repName": "Steve Morris",
+      "city": "Woodbury",
+      "county": "Washington County",
+      "role": "Council Member",
+      "missingFields": [
+        "termStart",
+        "termEnd"
+      ],
+      "citySeatingRule": "unknown",
+      "wikipediaUrl": "https://en.wikipedia.org/wiki/2018_Minnesota_gubernatorial_election",
+      "wikipediaExtractSnippet": "The 2018 Minnesota gubernatorial election took place on November 6, to elect the 41st governor of Minnesota, as incumbent Democratic (DFL) Governor Mark Dayton chose not to run for re-election for a third term. The Democratic nominee was U.S. Representative Tim Walz from Minnesota's 1st congressional district, while the Republican Party nominated Hennepin County commissioner Jeff Johnson for a second consecutive time. The Independence Party of Minnesota did not field a candidate for the first time since 1994. Going into the election polls showed Walz ahead; the race was characterized as lean or likely DFL.",
+      "candidateElectionYear": 1994,
+      "verificationGuidance": "Woodbury's statutory-vs-charter status is not stated in fetch-mayors.mjs/fetch-wards.mjs's existing header comments — confirm this first (a Minnesota city-classification lookup or the city's own charter page) before deciding whether the MN Stat. § 412.02 Subd. 2 shortcut (https://www.revisor.mn.gov/statutes/cite/412.02) applies. This is a Tier 4 lead (AGENTS.md §3.3) — verify against a Tier 1/2 primary source before entering any date into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs."
+    },
+    {
+      "repName": "Kim Wilson",
+      "city": "Woodbury",
+      "county": "Washington County",
+      "role": "Council Member",
+      "missingFields": [
+        "termStart",
+        "termEnd"
+      ],
+      "citySeatingRule": "unknown",
+      "wikipediaUrl": "https://en.wikipedia.org/wiki/2024_Minnesota_House_of_Representatives_election",
+      "wikipediaExtractSnippet": "The 2024 Minnesota House of Representatives election was held in the U.S. state of Minnesota on November 5, 2024, to elect members to the House of Representatives of the 94th Minnesota Legislature. Primaries took place on August 13, 2024.",
+      "candidateElectionYear": null,
+      "verificationGuidance": "Woodbury's statutory-vs-charter status is not stated in fetch-mayors.mjs/fetch-wards.mjs's existing header comments — confirm this first (a Minnesota city-classification lookup or the city's own charter page) before deciding whether the MN Stat. § 412.02 Subd. 2 shortcut (https://www.revisor.mn.gov/statutes/cite/412.02) applies. This is a Tier 4 lead (AGENTS.md §3.3) — verify against a Tier 1/2 primary source before entering any date into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs."
+    },
+    {
+      "repName": "Donna Stafford",
+      "city": "Woodbury",
+      "county": "Washington County",
+      "role": "Council Member",
+      "missingFields": [
+        "termStart",
+        "termEnd"
+      ],
+      "citySeatingRule": "unknown",
+      "wikipediaUrl": null,
+      "wikipediaExtractSnippet": null,
+      "candidateElectionYear": null,
+      "verificationGuidance": "Woodbury's statutory-vs-charter status is not stated in fetch-mayors.mjs/fetch-wards.mjs's existing header comments — confirm this first (a Minnesota city-classification lookup or the city's own charter page) before deciding whether the MN Stat. § 412.02 Subd. 2 shortcut (https://www.revisor.mn.gov/statutes/cite/412.02) applies. This is a Tier 4 lead (AGENTS.md §3.3) — verify against a Tier 1/2 primary source before entering any date into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs."
+    },
+    {
+      "repName": "Mike Maguire",
+      "city": "Eagan",
+      "county": "Dakota County",
+      "role": "Mayor",
+      "missingFields": [
+        "termEnd"
+      ],
+      "citySeatingRule": "unknown",
+      "wikipediaUrl": "https://en.wikipedia.org/wiki/2018_Minnesota_gubernatorial_election",
+      "wikipediaExtractSnippet": "The 2018 Minnesota gubernatorial election took place on November 6, to elect the 41st governor of Minnesota, as incumbent Democratic (DFL) Governor Mark Dayton chose not to run for re-election for a third term. The Democratic nominee was U.S. Representative Tim Walz from Minnesota's 1st congressional district, while the Republican Party nominated Hennepin County commissioner Jeff Johnson for a second consecutive time. The Independence Party of Minnesota did not field a candidate for the first time since 1994. Going into the election polls showed Walz ahead; the race was characterized as lean or likely DFL.",
+      "candidateElectionYear": 1994,
+      "verificationGuidance": "Eagan's statutory-vs-charter status is not stated in fetch-mayors.mjs/fetch-wards.mjs's existing header comments — confirm this first (a Minnesota city-classification lookup or the city's own charter page) before deciding whether the MN Stat. § 412.02 Subd. 2 shortcut (https://www.revisor.mn.gov/statutes/cite/412.02) applies. This is a Tier 4 lead (AGENTS.md §3.3) — verify against a Tier 1/2 primary source before entering any date into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs."
+    },
+    {
+      "repName": "Paul Bakken",
+      "city": "Eagan",
+      "county": "Dakota County",
+      "role": "Council Member",
+      "missingFields": [
+        "termEnd"
+      ],
+      "citySeatingRule": "unknown",
+      "wikipediaUrl": "https://en.wikipedia.org/wiki/Minneapolis%E2%80%93Saint_Paul",
+      "wikipediaExtractSnippet": "Minneapolis–Saint Paul is a major metropolitan area built around the confluence of the Mississippi, Minnesota, and St. Croix rivers in east central Minnesota. The area is commonly known as the Twin Cities after its two largest cities, Minneapolis, the state's most populous city, and its neighbor to the east, Saint Paul, the capital. Minnesotans often refer to the two together as \"the Cities.\" It is the third-largest metropolitan area in the Midwest and the 16th-largest metropolitan statistical area in the U.S.",
+      "candidateElectionYear": null,
+      "verificationGuidance": "Eagan's statutory-vs-charter status is not stated in fetch-mayors.mjs/fetch-wards.mjs's existing header comments — confirm this first (a Minnesota city-classification lookup or the city's own charter page) before deciding whether the MN Stat. § 412.02 Subd. 2 shortcut (https://www.revisor.mn.gov/statutes/cite/412.02) applies. This is a Tier 4 lead (AGENTS.md §3.3) — verify against a Tier 1/2 primary source before entering any date into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs."
+    },
+    {
+      "repName": "Cyndee Fields",
+      "city": "Eagan",
+      "county": "Dakota County",
+      "role": "Council Member",
+      "missingFields": [
+        "termEnd"
+      ],
+      "citySeatingRule": "unknown",
+      "wikipediaUrl": null,
+      "wikipediaExtractSnippet": null,
+      "candidateElectionYear": null,
+      "verificationGuidance": "Eagan's statutory-vs-charter status is not stated in fetch-mayors.mjs/fetch-wards.mjs's existing header comments — confirm this first (a Minnesota city-classification lookup or the city's own charter page) before deciding whether the MN Stat. § 412.02 Subd. 2 shortcut (https://www.revisor.mn.gov/statutes/cite/412.02) applies. This is a Tier 4 lead (AGENTS.md §3.3) — verify against a Tier 1/2 primary source before entering any date into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs."
+    },
+    {
+      "repName": "Gary Hansen",
+      "city": "Eagan",
+      "county": "Dakota County",
+      "role": "Council Member",
+      "missingFields": [
+        "termEnd"
+      ],
+      "citySeatingRule": "unknown",
+      "wikipediaUrl": "https://en.wikipedia.org/wiki/2024_Minnesota_House_of_Representatives_election",
+      "wikipediaExtractSnippet": "The 2024 Minnesota House of Representatives election was held in the U.S. state of Minnesota on November 5, 2024, to elect members to the House of Representatives of the 94th Minnesota Legislature. Primaries took place on August 13, 2024.",
+      "candidateElectionYear": null,
+      "verificationGuidance": "Eagan's statutory-vs-charter status is not stated in fetch-mayors.mjs/fetch-wards.mjs's existing header comments — confirm this first (a Minnesota city-classification lookup or the city's own charter page) before deciding whether the MN Stat. § 412.02 Subd. 2 shortcut (https://www.revisor.mn.gov/statutes/cite/412.02) applies. This is a Tier 4 lead (AGENTS.md §3.3) — verify against a Tier 1/2 primary source before entering any date into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs."
+    },
+    {
+      "repName": "Mike Supina",
+      "city": "Eagan",
+      "county": "Dakota County",
+      "role": "Council Member",
+      "missingFields": [
+        "termEnd"
+      ],
+      "citySeatingRule": "unknown",
+      "wikipediaUrl": null,
+      "wikipediaExtractSnippet": null,
+      "candidateElectionYear": null,
+      "verificationGuidance": "Eagan's statutory-vs-charter status is not stated in fetch-mayors.mjs/fetch-wards.mjs's existing header comments — confirm this first (a Minnesota city-classification lookup or the city's own charter page) before deciding whether the MN Stat. § 412.02 Subd. 2 shortcut (https://www.revisor.mn.gov/statutes/cite/412.02) applies. This is a Tier 4 lead (AGENTS.md §3.3) — verify against a Tier 1/2 primary source before entering any date into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs."
+    },
+    {
+      "repName": "Luke Hellier",
+      "city": "Lakeville",
+      "county": "Dakota County",
+      "role": "Mayor",
+      "missingFields": [
+        "termEnd"
+      ],
+      "citySeatingRule": "unknown",
+      "wikipediaUrl": "https://en.wikipedia.org/wiki/Lakeville%2C_Minnesota",
+      "wikipediaExtractSnippet": "Lakeville is the largest city in Dakota County, Minnesota, United States. An exurb in the Minneapolis–Saint Paul metropolitan area, it is about 20 miles (32 km) south of both downtown Minneapolis and downtown St. Paul along Interstate 35. The population was 69,490 at the 2020 census, making it the ninth-most populous city in Minnesota.",
+      "candidateElectionYear": null,
+      "verificationGuidance": "Lakeville's statutory-vs-charter status is not stated in fetch-mayors.mjs/fetch-wards.mjs's existing header comments — confirm this first (a Minnesota city-classification lookup or the city's own charter page) before deciding whether the MN Stat. § 412.02 Subd. 2 shortcut (https://www.revisor.mn.gov/statutes/cite/412.02) applies. This is a Tier 4 lead (AGENTS.md §3.3) — verify against a Tier 1/2 primary source before entering any date into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs."
+    },
+    {
+      "repName": "John Bermel",
+      "city": "Lakeville",
+      "county": "Dakota County",
+      "role": "Council Member",
+      "missingFields": [
+        "termEnd"
+      ],
+      "citySeatingRule": "unknown",
+      "wikipediaUrl": null,
+      "wikipediaExtractSnippet": null,
+      "candidateElectionYear": null,
+      "verificationGuidance": "Lakeville's statutory-vs-charter status is not stated in fetch-mayors.mjs/fetch-wards.mjs's existing header comments — confirm this first (a Minnesota city-classification lookup or the city's own charter page) before deciding whether the MN Stat. § 412.02 Subd. 2 shortcut (https://www.revisor.mn.gov/statutes/cite/412.02) applies. This is a Tier 4 lead (AGENTS.md §3.3) — verify against a Tier 1/2 primary source before entering any date into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs."
+    },
+    {
+      "repName": "Joshua Lee",
+      "city": "Lakeville",
+      "county": "Dakota County",
+      "role": "Council Member",
+      "missingFields": [
+        "termEnd"
+      ],
+      "citySeatingRule": "unknown",
+      "wikipediaUrl": "https://en.wikipedia.org/wiki/2024_Minnesota_House_of_Representatives_election",
+      "wikipediaExtractSnippet": "The 2024 Minnesota House of Representatives election was held in the U.S. state of Minnesota on November 5, 2024, to elect members to the House of Representatives of the 94th Minnesota Legislature. Primaries took place on August 13, 2024.",
+      "candidateElectionYear": null,
+      "verificationGuidance": "Lakeville's statutory-vs-charter status is not stated in fetch-mayors.mjs/fetch-wards.mjs's existing header comments — confirm this first (a Minnesota city-classification lookup or the city's own charter page) before deciding whether the MN Stat. § 412.02 Subd. 2 shortcut (https://www.revisor.mn.gov/statutes/cite/412.02) applies. This is a Tier 4 lead (AGENTS.md §3.3) — verify against a Tier 1/2 primary source before entering any date into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs."
+    },
+    {
+      "repName": "Michelle Volk",
+      "city": "Lakeville",
+      "county": "Dakota County",
+      "role": "Council Member",
+      "missingFields": [
+        "termEnd"
+      ],
+      "citySeatingRule": "unknown",
+      "wikipediaUrl": null,
+      "wikipediaExtractSnippet": null,
+      "candidateElectionYear": null,
+      "verificationGuidance": "Lakeville's statutory-vs-charter status is not stated in fetch-mayors.mjs/fetch-wards.mjs's existing header comments — confirm this first (a Minnesota city-classification lookup or the city's own charter page) before deciding whether the MN Stat. § 412.02 Subd. 2 shortcut (https://www.revisor.mn.gov/statutes/cite/412.02) applies. This is a Tier 4 lead (AGENTS.md §3.3) — verify against a Tier 1/2 primary source before entering any date into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs."
+    },
+    {
+      "repName": "Dan Wolter",
+      "city": "Lakeville",
+      "county": "Dakota County",
+      "role": "Council Member",
+      "missingFields": [
+        "termEnd"
+      ],
+      "citySeatingRule": "unknown",
+      "wikipediaUrl": "https://en.wikipedia.org/wiki/2024_Minnesota_House_of_Representatives_election",
+      "wikipediaExtractSnippet": "The 2024 Minnesota House of Representatives election was held in the U.S. state of Minnesota on November 5, 2024, to elect members to the House of Representatives of the 94th Minnesota Legislature. Primaries took place on August 13, 2024.",
+      "candidateElectionYear": null,
+      "verificationGuidance": "Lakeville's statutory-vs-charter status is not stated in fetch-mayors.mjs/fetch-wards.mjs's existing header comments — confirm this first (a Minnesota city-classification lookup or the city's own charter page) before deciding whether the MN Stat. § 412.02 Subd. 2 shortcut (https://www.revisor.mn.gov/statutes/cite/412.02) applies. This is a Tier 4 lead (AGENTS.md §3.3) — verify against a Tier 1/2 primary source before entering any date into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs."
+    },
+    {
+      "repName": "Mark Steffenson",
+      "city": "Maple Grove",
+      "county": "Hennepin County",
+      "role": "Mayor",
+      "missingFields": [
+        "termStart",
+        "termEnd"
+      ],
+      "citySeatingRule": "unknown",
+      "wikipediaUrl": "https://en.wikipedia.org/wiki/2022_Hennepin_County_Attorney_election",
+      "wikipediaExtractSnippet": "The 2022 Hennepin County Attorney election was held on November 8, 2022, to elect the county attorney of Hennepin County, Minnesota. On September 1, 2021, incumbent county attorney Michael O. Freeman announced that he would retire at the end of his term after 24 years in the role. Former Hennepin County Chief Public Defender Mary Moriarty defeated former Hennepin County judge Martha Holton Dimick and became the first openly LGBTQ woman elected as Hennepin County Attorney.",
+      "candidateElectionYear": null,
+      "verificationGuidance": "Maple Grove's statutory-vs-charter status is not stated in fetch-mayors.mjs/fetch-wards.mjs's existing header comments — confirm this first (a Minnesota city-classification lookup or the city's own charter page) before deciding whether the MN Stat. § 412.02 Subd. 2 shortcut (https://www.revisor.mn.gov/statutes/cite/412.02) applies. This is a Tier 4 lead (AGENTS.md §3.3) — verify against a Tier 1/2 primary source before entering any date into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs."
+    },
+    {
+      "repName": "Rachelle Johnson",
+      "city": "Maple Grove",
+      "county": "Hennepin County",
+      "role": "Council Member",
+      "missingFields": [
+        "termEnd"
+      ],
+      "citySeatingRule": "unknown",
+      "wikipediaUrl": null,
+      "wikipediaExtractSnippet": null,
+      "candidateElectionYear": null,
+      "verificationGuidance": "Maple Grove's statutory-vs-charter status is not stated in fetch-mayors.mjs/fetch-wards.mjs's existing header comments — confirm this first (a Minnesota city-classification lookup or the city's own charter page) before deciding whether the MN Stat. § 412.02 Subd. 2 shortcut (https://www.revisor.mn.gov/statutes/cite/412.02) applies. This is a Tier 4 lead (AGENTS.md §3.3) — verify against a Tier 1/2 primary source before entering any date into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs."
+    },
+    {
+      "repName": "Kristy Janigo",
+      "city": "Maple Grove",
+      "county": "Hennepin County",
+      "role": "Council Member",
+      "missingFields": [
+        "termEnd"
+      ],
+      "citySeatingRule": "unknown",
+      "wikipediaUrl": "https://en.wikipedia.org/wiki/Maple_Grove%2C_Minnesota",
+      "wikipediaExtractSnippet": "Maple Grove is a suburban city in Hennepin County, Minnesota, United States. The population was 70,253 at the 2020 census. making it Minnesota's 11th most populous city.",
+      "candidateElectionYear": null,
+      "verificationGuidance": "Maple Grove's statutory-vs-charter status is not stated in fetch-mayors.mjs/fetch-wards.mjs's existing header comments — confirm this first (a Minnesota city-classification lookup or the city's own charter page) before deciding whether the MN Stat. § 412.02 Subd. 2 shortcut (https://www.revisor.mn.gov/statutes/cite/412.02) applies. This is a Tier 4 lead (AGENTS.md §3.3) — verify against a Tier 1/2 primary source before entering any date into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs."
+    },
+    {
+      "repName": "Mike Ostaffe",
+      "city": "Maple Grove",
+      "county": "Hennepin County",
+      "role": "Council Member",
+      "missingFields": [
+        "termEnd"
+      ],
+      "citySeatingRule": "unknown",
+      "wikipediaUrl": "https://en.wikipedia.org/wiki/Maple_Grove%2C_Minnesota",
+      "wikipediaExtractSnippet": "Maple Grove is a suburban city in Hennepin County, Minnesota, United States. The population was 70,253 at the 2020 census. making it Minnesota's 11th most populous city.",
+      "candidateElectionYear": null,
+      "verificationGuidance": "Maple Grove's statutory-vs-charter status is not stated in fetch-mayors.mjs/fetch-wards.mjs's existing header comments — confirm this first (a Minnesota city-classification lookup or the city's own charter page) before deciding whether the MN Stat. § 412.02 Subd. 2 shortcut (https://www.revisor.mn.gov/statutes/cite/412.02) applies. This is a Tier 4 lead (AGENTS.md §3.3) — verify against a Tier 1/2 primary source before entering any date into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs."
+    },
+    {
+      "repName": "Jon McCullough",
+      "city": "Maple Grove",
+      "county": "Hennepin County",
+      "role": "Council Member",
+      "missingFields": [
+        "termEnd"
+      ],
+      "citySeatingRule": "unknown",
+      "wikipediaUrl": null,
+      "wikipediaExtractSnippet": null,
+      "candidateElectionYear": null,
+      "verificationGuidance": "Maple Grove's statutory-vs-charter status is not stated in fetch-mayors.mjs/fetch-wards.mjs's existing header comments — confirm this first (a Minnesota city-classification lookup or the city's own charter page) before deciding whether the MN Stat. § 412.02 Subd. 2 shortcut (https://www.revisor.mn.gov/statutes/cite/412.02) applies. This is a Tier 4 lead (AGENTS.md §3.3) — verify against a Tier 1/2 primary source before entering any date into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs."
+    },
+    {
+      "repName": "Clint Hooppaw",
+      "city": "Apple Valley",
+      "county": "Dakota County",
+      "role": "Mayor",
+      "missingFields": [
+        "termEnd"
+      ],
+      "citySeatingRule": "unknown",
+      "wikipediaUrl": "https://en.wikipedia.org/wiki/Apple_Valley%2C_Minnesota",
+      "wikipediaExtractSnippet": "Apple Valley is a city in northwestern Dakota County, Minnesota, and a suburb of the Twin Cities. The population was 56,374 at the 2020 census, making it the 17th most populous city in Minnesota.",
+      "candidateElectionYear": null,
+      "verificationGuidance": "Apple Valley's statutory-vs-charter status is not stated in fetch-mayors.mjs/fetch-wards.mjs's existing header comments — confirm this first (a Minnesota city-classification lookup or the city's own charter page) before deciding whether the MN Stat. § 412.02 Subd. 2 shortcut (https://www.revisor.mn.gov/statutes/cite/412.02) applies. This is a Tier 4 lead (AGENTS.md §3.3) — verify against a Tier 1/2 primary source before entering any date into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs."
+    },
+    {
+      "repName": "John Bergman",
+      "city": "Apple Valley",
+      "county": "Dakota County",
+      "role": "Council Member",
+      "missingFields": [
+        "termEnd"
+      ],
+      "citySeatingRule": "unknown",
+      "wikipediaUrl": null,
+      "wikipediaExtractSnippet": null,
+      "candidateElectionYear": null,
+      "verificationGuidance": "Apple Valley's statutory-vs-charter status is not stated in fetch-mayors.mjs/fetch-wards.mjs's existing header comments — confirm this first (a Minnesota city-classification lookup or the city's own charter page) before deciding whether the MN Stat. § 412.02 Subd. 2 shortcut (https://www.revisor.mn.gov/statutes/cite/412.02) applies. This is a Tier 4 lead (AGENTS.md §3.3) — verify against a Tier 1/2 primary source before entering any date into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs."
+    },
+    {
+      "repName": "Ruth Grendahl",
+      "city": "Apple Valley",
+      "county": "Dakota County",
+      "role": "Council Member",
+      "missingFields": [
+        "termEnd"
+      ],
+      "citySeatingRule": "unknown",
+      "wikipediaUrl": null,
+      "wikipediaExtractSnippet": null,
+      "candidateElectionYear": null,
+      "verificationGuidance": "Apple Valley's statutory-vs-charter status is not stated in fetch-mayors.mjs/fetch-wards.mjs's existing header comments — confirm this first (a Minnesota city-classification lookup or the city's own charter page) before deciding whether the MN Stat. § 412.02 Subd. 2 shortcut (https://www.revisor.mn.gov/statutes/cite/412.02) applies. This is a Tier 4 lead (AGENTS.md §3.3) — verify against a Tier 1/2 primary source before entering any date into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs."
+    },
+    {
+      "repName": "Lisa Hiebert",
+      "city": "Apple Valley",
+      "county": "Dakota County",
+      "role": "Council Member",
+      "missingFields": [
+        "termEnd"
+      ],
+      "citySeatingRule": "unknown",
+      "wikipediaUrl": null,
+      "wikipediaExtractSnippet": null,
+      "candidateElectionYear": null,
+      "verificationGuidance": "Apple Valley's statutory-vs-charter status is not stated in fetch-mayors.mjs/fetch-wards.mjs's existing header comments — confirm this first (a Minnesota city-classification lookup or the city's own charter page) before deciding whether the MN Stat. § 412.02 Subd. 2 shortcut (https://www.revisor.mn.gov/statutes/cite/412.02) applies. This is a Tier 4 lead (AGENTS.md §3.3) — verify against a Tier 1/2 primary source before entering any date into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs."
+    },
+    {
+      "repName": "Tom Melander",
+      "city": "Apple Valley",
+      "county": "Dakota County",
+      "role": "Council Member",
+      "missingFields": [
+        "termEnd"
+      ],
+      "citySeatingRule": "unknown",
+      "wikipediaUrl": null,
+      "wikipediaExtractSnippet": null,
+      "candidateElectionYear": null,
+      "verificationGuidance": "Apple Valley's statutory-vs-charter status is not stated in fetch-mayors.mjs/fetch-wards.mjs's existing header comments — confirm this first (a Minnesota city-classification lookup or the city's own charter page) before deciding whether the MN Stat. § 412.02 Subd. 2 shortcut (https://www.revisor.mn.gov/statutes/cite/412.02) applies. This is a Tier 4 lead (AGENTS.md §3.3) — verify against a Tier 1/2 primary source before entering any date into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs."
+    },
+    {
+      "repName": "Elizabeth Kautz",
+      "city": "Burnsville",
+      "county": "Dakota County",
+      "role": "Mayor",
+      "missingFields": [
+        "termStart",
+        "termEnd"
+      ],
+      "citySeatingRule": "statutory",
+      "wikipediaUrl": "https://en.wikipedia.org/wiki/Elizabeth_Kautz",
+      "wikipediaExtractSnippet": "Elizabeth Kautz is an American politician currently serving as mayor of Burnsville, Minnesota since 1995. A Republican, she has been re-elected to her office eight times.",
+      "candidateElectionYear": 1995,
+      "verificationGuidance": "Burnsville is a statutory city (per the existing header comment in fetch-mayors.mjs/fetch-wards.mjs). Confirm the certified election date via a county canvass, then apply MN Stat. § 412.02 Subd. 2 (https://www.revisor.mn.gov/statutes/cite/412.02) — terms commence the first Monday in January following the election — to derive the seating date. This is a Tier 4 lead (AGENTS.md §3.3) — verify against a Tier 1/2 primary source before entering any date into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs."
+    },
+    {
+      "repName": "Vince Workman",
+      "city": "Burnsville",
+      "county": "Dakota County",
+      "role": "Council Member",
+      "missingFields": [
+        "termStart",
+        "termEnd"
+      ],
+      "citySeatingRule": "statutory",
+      "wikipediaUrl": "https://en.wikipedia.org/wiki/Burnsville_High_School",
+      "wikipediaExtractSnippet": "Burnsville High School (BHS) is a four-year public high school in Burnsville, Minnesota, United States. Burnsville is a southern suburb about 15 miles south of Minneapolis. The school is part of Burnsville-Eagan-Savage School District 191, which covers most of Burnsville, as well as parts of the surrounding cities Savage and Eagan, and small parts of Shakopee and Apple Valley. Most of the incoming freshmen come from Eagle Ridge and Nicollet Middle Schools. The school mascot is Sparky, a humanoid with a fireball for a head. Burnsville High School athletics are a part of the South Suburban Conference.",
+      "candidateElectionYear": null,
+      "verificationGuidance": "Burnsville is a statutory city (per the existing header comment in fetch-mayors.mjs/fetch-wards.mjs). Confirm the certified election date via a county canvass, then apply MN Stat. § 412.02 Subd. 2 (https://www.revisor.mn.gov/statutes/cite/412.02) — terms commence the first Monday in January following the election — to derive the seating date. This is a Tier 4 lead (AGENTS.md §3.3) — verify against a Tier 1/2 primary source before entering any date into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs."
+    },
+    {
+      "repName": "Dan Kealey",
+      "city": "Burnsville",
+      "county": "Dakota County",
+      "role": "Council Member",
+      "missingFields": [
+        "termStart",
+        "termEnd"
+      ],
+      "citySeatingRule": "statutory",
+      "wikipediaUrl": null,
+      "wikipediaExtractSnippet": null,
+      "candidateElectionYear": null,
+      "verificationGuidance": "Burnsville is a statutory city (per the existing header comment in fetch-mayors.mjs/fetch-wards.mjs). Confirm the certified election date via a county canvass, then apply MN Stat. § 412.02 Subd. 2 (https://www.revisor.mn.gov/statutes/cite/412.02) — terms commence the first Monday in January following the election — to derive the seating date. This is a Tier 4 lead (AGENTS.md §3.3) — verify against a Tier 1/2 primary source before entering any date into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs."
+    },
+    {
+      "repName": "Dan Gustafson",
+      "city": "Burnsville",
+      "county": "Dakota County",
+      "role": "Council Member",
+      "missingFields": [
+        "termStart",
+        "termEnd"
+      ],
+      "citySeatingRule": "statutory",
+      "wikipediaUrl": "https://en.wikipedia.org/wiki/Elizabeth_Kautz",
+      "wikipediaExtractSnippet": "Elizabeth Kautz is an American politician currently serving as mayor of Burnsville, Minnesota since 1995. A Republican, she has been re-elected to her office eight times.",
+      "candidateElectionYear": 1995,
+      "verificationGuidance": "Burnsville is a statutory city (per the existing header comment in fetch-mayors.mjs/fetch-wards.mjs). Confirm the certified election date via a county canvass, then apply MN Stat. § 412.02 Subd. 2 (https://www.revisor.mn.gov/statutes/cite/412.02) — terms commence the first Monday in January following the election — to derive the seating date. This is a Tier 4 lead (AGENTS.md §3.3) — verify against a Tier 1/2 primary source before entering any date into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs."
+    },
+    {
+      "repName": "Cara Schulz",
+      "city": "Burnsville",
+      "county": "Dakota County",
+      "role": "Council Member",
+      "missingFields": [
+        "termStart",
+        "termEnd"
+      ],
+      "citySeatingRule": "statutory",
+      "wikipediaUrl": "https://en.wikipedia.org/wiki/Elizabeth_Kautz",
+      "wikipediaExtractSnippet": "Elizabeth Kautz is an American politician currently serving as mayor of Burnsville, Minnesota since 1995. A Republican, she has been re-elected to her office eight times.",
+      "candidateElectionYear": 1995,
+      "verificationGuidance": "Burnsville is a statutory city (per the existing header comment in fetch-mayors.mjs/fetch-wards.mjs). Confirm the certified election date via a county canvass, then apply MN Stat. § 412.02 Subd. 2 (https://www.revisor.mn.gov/statutes/cite/412.02) — terms commence the first Monday in January following the election — to derive the seating date. This is a Tier 4 lead (AGENTS.md §3.3) — verify against a Tier 1/2 primary source before entering any date into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs."
+    },
+    {
+      "repName": "James Hovland",
+      "city": "Edina",
+      "county": "Hennepin County",
+      "role": "Mayor",
+      "missingFields": [
+        "termStart",
+        "termEnd"
+      ],
+      "citySeatingRule": "unknown",
+      "wikipediaUrl": "https://en.wikipedia.org/wiki/2018_Minnesota_gubernatorial_election",
+      "wikipediaExtractSnippet": "The 2018 Minnesota gubernatorial election took place on November 6, to elect the 41st governor of Minnesota, as incumbent Democratic (DFL) Governor Mark Dayton chose not to run for re-election for a third term. The Democratic nominee was U.S. Representative Tim Walz from Minnesota's 1st congressional district, while the Republican Party nominated Hennepin County commissioner Jeff Johnson for a second consecutive time. The Independence Party of Minnesota did not field a candidate for the first time since 1994. Going into the election polls showed Walz ahead; the race was characterized as lean or likely DFL.",
+      "candidateElectionYear": 1994,
+      "verificationGuidance": "Edina's statutory-vs-charter status is not stated in fetch-mayors.mjs/fetch-wards.mjs's existing header comments — confirm this first (a Minnesota city-classification lookup or the city's own charter page) before deciding whether the MN Stat. § 412.02 Subd. 2 shortcut (https://www.revisor.mn.gov/statutes/cite/412.02) applies. This is a Tier 4 lead (AGENTS.md §3.3) — verify against a Tier 1/2 primary source before entering any date into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs."
+    },
+    {
+      "repName": "Kate Agnew",
+      "city": "Edina",
+      "county": "Hennepin County",
+      "role": "Council Member",
+      "missingFields": [
+        "termStart",
+        "termEnd"
+      ],
+      "citySeatingRule": "unknown",
+      "wikipediaUrl": null,
+      "wikipediaExtractSnippet": null,
+      "candidateElectionYear": null,
+      "verificationGuidance": "Edina's statutory-vs-charter status is not stated in fetch-mayors.mjs/fetch-wards.mjs's existing header comments — confirm this first (a Minnesota city-classification lookup or the city's own charter page) before deciding whether the MN Stat. § 412.02 Subd. 2 shortcut (https://www.revisor.mn.gov/statutes/cite/412.02) applies. This is a Tier 4 lead (AGENTS.md §3.3) — verify against a Tier 1/2 primary source before entering any date into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs."
+    },
+    {
+      "repName": "Carolyn Jackson",
+      "city": "Edina",
+      "county": "Hennepin County",
+      "role": "Council Member",
+      "missingFields": [
+        "termStart",
+        "termEnd"
+      ],
+      "citySeatingRule": "unknown",
+      "wikipediaUrl": "https://en.wikipedia.org/wiki/2018_Minnesota_gubernatorial_election",
+      "wikipediaExtractSnippet": "The 2018 Minnesota gubernatorial election took place on November 6, to elect the 41st governor of Minnesota, as incumbent Democratic (DFL) Governor Mark Dayton chose not to run for re-election for a third term. The Democratic nominee was U.S. Representative Tim Walz from Minnesota's 1st congressional district, while the Republican Party nominated Hennepin County commissioner Jeff Johnson for a second consecutive time. The Independence Party of Minnesota did not field a candidate for the first time since 1994. Going into the election polls showed Walz ahead; the race was characterized as lean or likely DFL.",
+      "candidateElectionYear": 1994,
+      "verificationGuidance": "Edina's statutory-vs-charter status is not stated in fetch-mayors.mjs/fetch-wards.mjs's existing header comments — confirm this first (a Minnesota city-classification lookup or the city's own charter page) before deciding whether the MN Stat. § 412.02 Subd. 2 shortcut (https://www.revisor.mn.gov/statutes/cite/412.02) applies. This is a Tier 4 lead (AGENTS.md §3.3) — verify against a Tier 1/2 primary source before entering any date into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs."
+    },
+    {
+      "repName": "James Pierce",
+      "city": "Edina",
+      "county": "Hennepin County",
+      "role": "Council Member",
+      "missingFields": [
+        "termStart",
+        "termEnd"
+      ],
+      "citySeatingRule": "unknown",
+      "wikipediaUrl": null,
+      "wikipediaExtractSnippet": null,
+      "candidateElectionYear": null,
+      "verificationGuidance": "Edina's statutory-vs-charter status is not stated in fetch-mayors.mjs/fetch-wards.mjs's existing header comments — confirm this first (a Minnesota city-classification lookup or the city's own charter page) before deciding whether the MN Stat. § 412.02 Subd. 2 shortcut (https://www.revisor.mn.gov/statutes/cite/412.02) applies. This is a Tier 4 lead (AGENTS.md §3.3) — verify against a Tier 1/2 primary source before entering any date into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs."
+    },
+    {
+      "repName": "Julie Risser",
+      "city": "Edina",
+      "county": "Hennepin County",
+      "role": "Council Member",
+      "missingFields": [
+        "termStart",
+        "termEnd"
+      ],
+      "citySeatingRule": "unknown",
+      "wikipediaUrl": null,
+      "wikipediaExtractSnippet": null,
+      "candidateElectionYear": null,
+      "verificationGuidance": "Edina's statutory-vs-charter status is not stated in fetch-mayors.mjs/fetch-wards.mjs's existing header comments — confirm this first (a Minnesota city-classification lookup or the city's own charter page) before deciding whether the MN Stat. § 412.02 Subd. 2 shortcut (https://www.revisor.mn.gov/statutes/cite/412.02) applies. This is a Tier 4 lead (AGENTS.md §3.3) — verify against a Tier 1/2 primary source before entering any date into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs."
+    },
+    {
+      "repName": "Ron Case",
+      "city": "Eden Prairie",
+      "county": "Hennepin County",
+      "role": "Mayor",
+      "missingFields": [
+        "termStart",
+        "termEnd"
+      ],
+      "citySeatingRule": "unknown",
+      "wikipediaUrl": "https://en.wikipedia.org/wiki/2026_United_States_Senate_election_in_Minnesota",
+      "wikipediaExtractSnippet": "The 2026 United States Senate election in Minnesota will be held on November 3, 2026, to elect a member of the United States Senate to represent the state of Minnesota. Primary elections will be held on August 11, 2026. Democratic incumbent Tina Smith is not seeking reelection to a second full term.",
+      "candidateElectionYear": null,
+      "verificationGuidance": "Eden Prairie's statutory-vs-charter status is not stated in fetch-mayors.mjs/fetch-wards.mjs's existing header comments — confirm this first (a Minnesota city-classification lookup or the city's own charter page) before deciding whether the MN Stat. § 412.02 Subd. 2 shortcut (https://www.revisor.mn.gov/statutes/cite/412.02) applies. This is a Tier 4 lead (AGENTS.md §3.3) — verify against a Tier 1/2 primary source before entering any date into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs."
+    },
+    {
+      "repName": "Mark Freiberg",
+      "city": "Eden Prairie",
+      "county": "Hennepin County",
+      "role": "Council Member",
+      "missingFields": [
+        "termStart",
+        "termEnd"
+      ],
+      "citySeatingRule": "unknown",
+      "wikipediaUrl": "https://en.wikipedia.org/wiki/2024_Minnesota_House_of_Representatives_election",
+      "wikipediaExtractSnippet": "The 2024 Minnesota House of Representatives election was held in the U.S. state of Minnesota on November 5, 2024, to elect members to the House of Representatives of the 94th Minnesota Legislature. Primaries took place on August 13, 2024.",
+      "candidateElectionYear": null,
+      "verificationGuidance": "Eden Prairie's statutory-vs-charter status is not stated in fetch-mayors.mjs/fetch-wards.mjs's existing header comments — confirm this first (a Minnesota city-classification lookup or the city's own charter page) before deciding whether the MN Stat. § 412.02 Subd. 2 shortcut (https://www.revisor.mn.gov/statutes/cite/412.02) applies. This is a Tier 4 lead (AGENTS.md §3.3) — verify against a Tier 1/2 primary source before entering any date into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs."
+    },
+    {
+      "repName": "PG Narayanan",
+      "city": "Eden Prairie",
+      "county": "Hennepin County",
+      "role": "Council Member",
+      "missingFields": [
+        "termStart",
+        "termEnd"
+      ],
+      "citySeatingRule": "unknown",
+      "wikipediaUrl": "https://en.wikipedia.org/wiki/Eden_Prairie%2C_Minnesota",
+      "wikipediaExtractSnippet": "Eden Prairie is a city in Hennepin County, Minnesota, United States. It had a population of 64,198 at the 2020 census, making it the 16th-largest city in the state. The city is adjacent to the north bank of the Minnesota River, upstream from its confluence with the Mississippi River, about 12 miles (19 km) southwest of downtown Minneapolis.",
+      "candidateElectionYear": null,
+      "verificationGuidance": "Eden Prairie's statutory-vs-charter status is not stated in fetch-mayors.mjs/fetch-wards.mjs's existing header comments — confirm this first (a Minnesota city-classification lookup or the city's own charter page) before deciding whether the MN Stat. § 412.02 Subd. 2 shortcut (https://www.revisor.mn.gov/statutes/cite/412.02) applies. This is a Tier 4 lead (AGENTS.md §3.3) — verify against a Tier 1/2 primary source before entering any date into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs."
+    },
+    {
+      "repName": "Kathy Nelson",
+      "city": "Eden Prairie",
+      "county": "Hennepin County",
+      "role": "Council Member",
+      "missingFields": [
+        "termStart",
+        "termEnd"
+      ],
+      "citySeatingRule": "unknown",
+      "wikipediaUrl": "https://en.wikipedia.org/wiki/2024_Minnesota_House_of_Representatives_election",
+      "wikipediaExtractSnippet": "The 2024 Minnesota House of Representatives election was held in the U.S. state of Minnesota on November 5, 2024, to elect members to the House of Representatives of the 94th Minnesota Legislature. Primaries took place on August 13, 2024.",
+      "candidateElectionYear": null,
+      "verificationGuidance": "Eden Prairie's statutory-vs-charter status is not stated in fetch-mayors.mjs/fetch-wards.mjs's existing header comments — confirm this first (a Minnesota city-classification lookup or the city's own charter page) before deciding whether the MN Stat. § 412.02 Subd. 2 shortcut (https://www.revisor.mn.gov/statutes/cite/412.02) applies. This is a Tier 4 lead (AGENTS.md §3.3) — verify against a Tier 1/2 primary source before entering any date into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs."
+    },
+    {
+      "repName": "Lisa Toomey",
+      "city": "Eden Prairie",
+      "county": "Hennepin County",
+      "role": "Council Member",
+      "missingFields": [
+        "termStart",
+        "termEnd"
+      ],
+      "citySeatingRule": "unknown",
+      "wikipediaUrl": "https://en.wikipedia.org/wiki/Eden_Prairie%2C_Minnesota",
+      "wikipediaExtractSnippet": "Eden Prairie is a city in Hennepin County, Minnesota, United States. It had a population of 64,198 at the 2020 census, making it the 16th-largest city in the state. The city is adjacent to the north bank of the Minnesota River, upstream from its confluence with the Mississippi River, about 12 miles (19 km) southwest of downtown Minneapolis.",
+      "candidateElectionYear": null,
+      "verificationGuidance": "Eden Prairie's statutory-vs-charter status is not stated in fetch-mayors.mjs/fetch-wards.mjs's existing header comments — confirm this first (a Minnesota city-classification lookup or the city's own charter page) before deciding whether the MN Stat. § 412.02 Subd. 2 shortcut (https://www.revisor.mn.gov/statutes/cite/412.02) applies. This is a Tier 4 lead (AGENTS.md §3.3) — verify against a Tier 1/2 primary source before entering any date into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs."
+    },
+    {
+      "repName": "Elliott Payne",
+      "city": "Minneapolis",
+      "county": null,
+      "role": "Council Member",
+      "missingFields": [
+        "termEnd"
+      ],
+      "citySeatingRule": "charter",
+      "wikipediaUrl": "https://en.wikipedia.org/wiki/Elliott_Payne",
+      "wikipediaExtractSnippet": "Elliott Payne is an American politician and consultant serving since 2022 as president of the Minneapolis City Council. A member of the DFL, he is the first Black council member to represent Ward 1, and the first Black man to serve as council president.",
+      "candidateElectionYear": 2022,
+      "verificationGuidance": "Minneapolis is a home rule charter city (per the existing header comment in fetch-mayors.mjs/fetch-wards.mjs). The MN Stat. § 412.02 Subd. 2 shortcut does NOT apply — research Minneapolis's own charter for its seating-date provision. This is a Tier 4 lead (AGENTS.md §3.3) — verify against a Tier 1/2 primary source before entering any date into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs."
+    },
+    {
+      "repName": "Robin Wonsley",
+      "city": "Minneapolis",
+      "county": null,
+      "role": "Council Member",
+      "missingFields": [
+        "termStart",
+        "termEnd"
+      ],
+      "citySeatingRule": "charter",
+      "wikipediaUrl": "https://en.wikipedia.org/wiki/Robin_Wonsley",
+      "wikipediaExtractSnippet": "Robin Worlobah Wonsley is an American activist and politician who has been a member of the Minneapolis City Council from the 2nd Ward since 2021. Since 2026, she has also held the title of Minority Leader.",
+      "candidateElectionYear": 2021,
+      "verificationGuidance": "Minneapolis is a home rule charter city (per the existing header comment in fetch-mayors.mjs/fetch-wards.mjs). The MN Stat. § 412.02 Subd. 2 shortcut does NOT apply — research Minneapolis's own charter for its seating-date provision. This is a Tier 4 lead (AGENTS.md §3.3) — verify against a Tier 1/2 primary source before entering any date into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs."
+    },
+    {
+      "repName": "Michael Rainville",
+      "city": "Minneapolis",
+      "county": null,
+      "role": "Council Member",
+      "missingFields": [
+        "termEnd"
+      ],
+      "citySeatingRule": "charter",
+      "wikipediaUrl": "https://en.wikipedia.org/wiki/Minneapolis_City_Council",
+      "wikipediaExtractSnippet": "The Minneapolis City Council is the legislative branch of the city of Minneapolis in Minnesota, United States. Comprising 13 members, the council holds the authority to create and modify laws, policies, and ordinances that govern the city. Each member represents one of the 13 wards in Minneapolis, elected for a four-year term. The current council structure has been in place since the 1950s.",
+      "candidateElectionYear": null,
+      "verificationGuidance": "Minneapolis is a home rule charter city (per the existing header comment in fetch-mayors.mjs/fetch-wards.mjs). The MN Stat. § 412.02 Subd. 2 shortcut does NOT apply — research Minneapolis's own charter for its seating-date provision. This is a Tier 4 lead (AGENTS.md §3.3) — verify against a Tier 1/2 primary source before entering any date into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs."
+    },
+    {
+      "repName": "LaTrisha Vetaw",
+      "city": "Minneapolis",
+      "county": null,
+      "role": "Council Member",
+      "missingFields": [
+        "termStart",
+        "termEnd"
+      ],
+      "citySeatingRule": "charter",
+      "wikipediaUrl": "https://en.wikipedia.org/wiki/Minneapolis_City_Council",
+      "wikipediaExtractSnippet": "The Minneapolis City Council is the legislative branch of the city of Minneapolis in Minnesota, United States. Comprising 13 members, the council holds the authority to create and modify laws, policies, and ordinances that govern the city. Each member represents one of the 13 wards in Minneapolis, elected for a four-year term. The current council structure has been in place since the 1950s.",
+      "candidateElectionYear": null,
+      "verificationGuidance": "Minneapolis is a home rule charter city (per the existing header comment in fetch-mayors.mjs/fetch-wards.mjs). The MN Stat. § 412.02 Subd. 2 shortcut does NOT apply — research Minneapolis's own charter for its seating-date provision. This is a Tier 4 lead (AGENTS.md §3.3) — verify against a Tier 1/2 primary source before entering any date into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs."
+    },
+    {
+      "repName": "Pearll Warren",
+      "city": "Minneapolis",
+      "county": null,
+      "role": "Council Member",
+      "missingFields": [
+        "termStart",
+        "termEnd"
+      ],
+      "citySeatingRule": "charter",
+      "wikipediaUrl": "https://en.wikipedia.org/wiki/Minneapolis_City_Council",
+      "wikipediaExtractSnippet": "The Minneapolis City Council is the legislative branch of the city of Minneapolis in Minnesota, United States. Comprising 13 members, the council holds the authority to create and modify laws, policies, and ordinances that govern the city. Each member represents one of the 13 wards in Minneapolis, elected for a four-year term. The current council structure has been in place since the 1950s.",
+      "candidateElectionYear": null,
+      "verificationGuidance": "Minneapolis is a home rule charter city (per the existing header comment in fetch-mayors.mjs/fetch-wards.mjs). The MN Stat. § 412.02 Subd. 2 shortcut does NOT apply — research Minneapolis's own charter for its seating-date provision. This is a Tier 4 lead (AGENTS.md §3.3) — verify against a Tier 1/2 primary source before entering any date into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs."
+    },
+    {
+      "repName": "Jamal Osman",
+      "city": "Minneapolis",
+      "county": null,
+      "role": "Council Member",
+      "missingFields": [
+        "termStart",
+        "termEnd"
+      ],
+      "citySeatingRule": "charter",
+      "wikipediaUrl": "https://en.wikipedia.org/wiki/Minneapolis_City_Council",
+      "wikipediaExtractSnippet": "The Minneapolis City Council is the legislative branch of the city of Minneapolis in Minnesota, United States. Comprising 13 members, the council holds the authority to create and modify laws, policies, and ordinances that govern the city. Each member represents one of the 13 wards in Minneapolis, elected for a four-year term. The current council structure has been in place since the 1950s.",
+      "candidateElectionYear": null,
+      "verificationGuidance": "Minneapolis is a home rule charter city (per the existing header comment in fetch-mayors.mjs/fetch-wards.mjs). The MN Stat. § 412.02 Subd. 2 shortcut does NOT apply — research Minneapolis's own charter for its seating-date provision. This is a Tier 4 lead (AGENTS.md §3.3) — verify against a Tier 1/2 primary source before entering any date into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs."
+    },
+    {
+      "repName": "Elizabeth Shaffer",
+      "city": "Minneapolis",
+      "county": null,
+      "role": "Council Member",
+      "missingFields": [
+        "termStart",
+        "termEnd"
+      ],
+      "citySeatingRule": "charter",
+      "wikipediaUrl": "https://en.wikipedia.org/wiki/Minneapolis",
+      "wikipediaExtractSnippet": "Minneapolis is a city in Hennepin County, Minnesota, United States, and its county seat. With a population of 429,954 as of the 2020 census, it is the state's most populous city. Located in the state's center near the eastern border, it occupies both banks of the Upper Mississippi River and adjoins Saint Paul, the state capital of Minnesota. Minneapolis, Saint Paul, and the surrounding area are collectively known as the Twin Cities, a metropolitan area with 3.69 million residents. Minneapolis is built on an artesian aquifer on relatively flat terrain and is known for cold, snowy winters and hot, humid summers. Nicknamed the \"City of Lakes\", Minneapolis is abundant in water, with thirteen lakes, wetlands, the Mississippi River, creeks, and waterfalls. The city's public park system is connected by the Grand Rounds National Scenic Byway.",
+      "candidateElectionYear": null,
+      "verificationGuidance": "Minneapolis is a home rule charter city (per the existing header comment in fetch-mayors.mjs/fetch-wards.mjs). The MN Stat. § 412.02 Subd. 2 shortcut does NOT apply — research Minneapolis's own charter for its seating-date provision. This is a Tier 4 lead (AGENTS.md §3.3) — verify against a Tier 1/2 primary source before entering any date into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs."
+    },
+    {
+      "repName": "Soren Stevenson",
+      "city": "Minneapolis",
+      "county": null,
+      "role": "Council Member",
+      "missingFields": [
+        "termStart",
+        "termEnd"
+      ],
+      "citySeatingRule": "charter",
+      "wikipediaUrl": "https://en.wikipedia.org/wiki/Minneapolis_City_Council",
+      "wikipediaExtractSnippet": "The Minneapolis City Council is the legislative branch of the city of Minneapolis in Minnesota, United States. Comprising 13 members, the council holds the authority to create and modify laws, policies, and ordinances that govern the city. Each member represents one of the 13 wards in Minneapolis, elected for a four-year term. The current council structure has been in place since the 1950s.",
+      "candidateElectionYear": null,
+      "verificationGuidance": "Minneapolis is a home rule charter city (per the existing header comment in fetch-mayors.mjs/fetch-wards.mjs). The MN Stat. § 412.02 Subd. 2 shortcut does NOT apply — research Minneapolis's own charter for its seating-date provision. This is a Tier 4 lead (AGENTS.md §3.3) — verify against a Tier 1/2 primary source before entering any date into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs."
+    },
+    {
+      "repName": "Jason Chavez",
+      "city": "Minneapolis",
+      "county": null,
+      "role": "Council Member",
+      "missingFields": [
+        "termEnd"
+      ],
+      "citySeatingRule": "charter",
+      "wikipediaUrl": "https://en.wikipedia.org/wiki/Jason_Chavez",
+      "wikipediaExtractSnippet": "Jason Chavez is an American politician who has served on the Minneapolis City Council, representing the 9th ward, since 2022. He is a member of Minnesota's Democratic–Farmer–Labor Party.",
+      "candidateElectionYear": 2022,
+      "verificationGuidance": "Minneapolis is a home rule charter city (per the existing header comment in fetch-mayors.mjs/fetch-wards.mjs). The MN Stat. § 412.02 Subd. 2 shortcut does NOT apply — research Minneapolis's own charter for its seating-date provision. This is a Tier 4 lead (AGENTS.md §3.3) — verify against a Tier 1/2 primary source before entering any date into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs."
+    },
+    {
+      "repName": "Aisha Chughtai",
+      "city": "Minneapolis",
+      "county": null,
+      "role": "Council Member",
+      "missingFields": [
+        "termEnd"
+      ],
+      "citySeatingRule": "charter",
+      "wikipediaUrl": "https://en.wikipedia.org/wiki/Aisha_Chughtai",
+      "wikipediaExtractSnippet": "Aisha Siddida Chughtai is an American community organizer and politician serving on the Minneapolis City Council, representing the 10th Ward. Chughtai was the council's vice president from 2024 to 2026. A member of the Minnesota Democratic–Farmer–Labor Party (DFL), she was elected in 2021 to succeed retiring Council President Lisa Bender. She is the youngest person, and first Muslim woman, elected to the Council. She is a member of the Twin Cities Democratic Socialists of America (DSA).",
+      "candidateElectionYear": 2021,
+      "verificationGuidance": "Minneapolis is a home rule charter city (per the existing header comment in fetch-mayors.mjs/fetch-wards.mjs). The MN Stat. § 412.02 Subd. 2 shortcut does NOT apply — research Minneapolis's own charter for its seating-date provision. This is a Tier 4 lead (AGENTS.md §3.3) — verify against a Tier 1/2 primary source before entering any date into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs."
+    },
+    {
+      "repName": "Jamison Whiting",
+      "city": "Minneapolis",
+      "county": null,
+      "role": "Council Member",
+      "missingFields": [
+        "termStart",
+        "termEnd"
+      ],
+      "citySeatingRule": "charter",
+      "wikipediaUrl": "https://en.wikipedia.org/wiki/Minneapolis_City_Council",
+      "wikipediaExtractSnippet": "The Minneapolis City Council is the legislative branch of the city of Minneapolis in Minnesota, United States. Comprising 13 members, the council holds the authority to create and modify laws, policies, and ordinances that govern the city. Each member represents one of the 13 wards in Minneapolis, elected for a four-year term. The current council structure has been in place since the 1950s.",
+      "candidateElectionYear": null,
+      "verificationGuidance": "Minneapolis is a home rule charter city (per the existing header comment in fetch-mayors.mjs/fetch-wards.mjs). The MN Stat. § 412.02 Subd. 2 shortcut does NOT apply — research Minneapolis's own charter for its seating-date provision. This is a Tier 4 lead (AGENTS.md §3.3) — verify against a Tier 1/2 primary source before entering any date into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs."
+    },
+    {
+      "repName": "Aurin Chowdhury",
+      "city": "Minneapolis",
+      "county": null,
+      "role": "Council Member",
+      "missingFields": [
+        "termStart",
+        "termEnd"
+      ],
+      "citySeatingRule": "charter",
+      "wikipediaUrl": "https://en.wikipedia.org/wiki/Minneapolis_City_Council",
+      "wikipediaExtractSnippet": "The Minneapolis City Council is the legislative branch of the city of Minneapolis in Minnesota, United States. Comprising 13 members, the council holds the authority to create and modify laws, policies, and ordinances that govern the city. Each member represents one of the 13 wards in Minneapolis, elected for a four-year term. The current council structure has been in place since the 1950s.",
+      "candidateElectionYear": null,
+      "verificationGuidance": "Minneapolis is a home rule charter city (per the existing header comment in fetch-mayors.mjs/fetch-wards.mjs). The MN Stat. § 412.02 Subd. 2 shortcut does NOT apply — research Minneapolis's own charter for its seating-date provision. This is a Tier 4 lead (AGENTS.md §3.3) — verify against a Tier 1/2 primary source before entering any date into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs."
+    },
+    {
+      "repName": "Linea Palmisano",
+      "city": "Minneapolis",
+      "county": null,
+      "role": "Council Member",
+      "missingFields": [
+        "termEnd"
+      ],
+      "citySeatingRule": "charter",
+      "wikipediaUrl": "https://en.wikipedia.org/wiki/Linea_Palmisano",
+      "wikipediaExtractSnippet": "Linea Palmisano is an American businesswoman, non-profit executive, and politician serving as a member of the Minneapolis City Council for the 13th ward.",
+      "candidateElectionYear": null,
+      "verificationGuidance": "Minneapolis is a home rule charter city (per the existing header comment in fetch-mayors.mjs/fetch-wards.mjs). The MN Stat. § 412.02 Subd. 2 shortcut does NOT apply — research Minneapolis's own charter for its seating-date provision. This is a Tier 4 lead (AGENTS.md §3.3) — verify against a Tier 1/2 primary source before entering any date into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs."
+    },
+    {
+      "repName": "Shawn Nelson",
+      "city": "Bloomington",
+      "county": null,
+      "role": "Council Member",
+      "missingFields": [
+        "termStart",
+        "termEnd"
+      ],
+      "citySeatingRule": "unknown",
+      "wikipediaUrl": "https://en.wikipedia.org/wiki/2023_Bloomington%2C_Minnesota_municipal_election",
+      "wikipediaExtractSnippet": "The 2023 Bloomington, Minnesota municipal election was held on November 7, 2025. Bloomington's mayor was up for election, as well as all six city council seats. Additionally, voters decided three ballot measures concerning the establishment of a local sales tax to fund infrastructure projects. It was the second election to use ranked-choice voting in the city, and voters ranked up to three candidates per city office. City council Districts I, II, and the at-large special election were up for two-year terms, while the mayoral race, city council at-large, and Districts III and IV were up for four-year terms.",
+      "candidateElectionYear": null,
+      "verificationGuidance": "Bloomington's statutory-vs-charter status is not stated in fetch-mayors.mjs/fetch-wards.mjs's existing header comments — confirm this first (a Minnesota city-classification lookup or the city's own charter page) before deciding whether the MN Stat. § 412.02 Subd. 2 shortcut (https://www.revisor.mn.gov/statutes/cite/412.02) applies. This is a Tier 4 lead (AGENTS.md §3.3) — verify against a Tier 1/2 primary source before entering any date into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs."
+    },
+    {
+      "repName": "Victor Rivas",
+      "city": "Bloomington",
+      "county": null,
+      "role": "Council Member",
+      "missingFields": [
+        "termStart",
+        "termEnd"
+      ],
+      "citySeatingRule": "unknown",
+      "wikipediaUrl": "https://en.wikipedia.org/wiki/2023_Bloomington%2C_Minnesota_municipal_election",
+      "wikipediaExtractSnippet": "The 2023 Bloomington, Minnesota municipal election was held on November 7, 2025. Bloomington's mayor was up for election, as well as all six city council seats. Additionally, voters decided three ballot measures concerning the establishment of a local sales tax to fund infrastructure projects. It was the second election to use ranked-choice voting in the city, and voters ranked up to three candidates per city office. City council Districts I, II, and the at-large special election were up for two-year terms, while the mayoral race, city council at-large, and Districts III and IV were up for four-year terms.",
+      "candidateElectionYear": null,
+      "verificationGuidance": "Bloomington's statutory-vs-charter status is not stated in fetch-mayors.mjs/fetch-wards.mjs's existing header comments — confirm this first (a Minnesota city-classification lookup or the city's own charter page) before deciding whether the MN Stat. § 412.02 Subd. 2 shortcut (https://www.revisor.mn.gov/statutes/cite/412.02) applies. This is a Tier 4 lead (AGENTS.md §3.3) — verify against a Tier 1/2 primary source before entering any date into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs."
+    },
+    {
+      "repName": "Dwayne Lowman",
+      "city": "Bloomington",
+      "county": null,
+      "role": "Council Member",
+      "missingFields": [
+        "termStart",
+        "termEnd"
+      ],
+      "citySeatingRule": "unknown",
+      "wikipediaUrl": "https://en.wikipedia.org/wiki/2023_Bloomington%2C_Minnesota_municipal_election",
+      "wikipediaExtractSnippet": "The 2023 Bloomington, Minnesota municipal election was held on November 7, 2025. Bloomington's mayor was up for election, as well as all six city council seats. Additionally, voters decided three ballot measures concerning the establishment of a local sales tax to fund infrastructure projects. It was the second election to use ranked-choice voting in the city, and voters ranked up to three candidates per city office. City council Districts I, II, and the at-large special election were up for two-year terms, while the mayoral race, city council at-large, and Districts III and IV were up for four-year terms.",
+      "candidateElectionYear": null,
+      "verificationGuidance": "Bloomington's statutory-vs-charter status is not stated in fetch-mayors.mjs/fetch-wards.mjs's existing header comments — confirm this first (a Minnesota city-classification lookup or the city's own charter page) before deciding whether the MN Stat. § 412.02 Subd. 2 shortcut (https://www.revisor.mn.gov/statutes/cite/412.02) applies. This is a Tier 4 lead (AGENTS.md §3.3) — verify against a Tier 1/2 primary source before entering any date into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs."
+    },
+    {
+      "repName": "Lona Dallessandro",
+      "city": "Bloomington",
+      "county": null,
+      "role": "Council Member",
+      "missingFields": [
+        "termStart",
+        "termEnd"
+      ],
+      "citySeatingRule": "unknown",
+      "wikipediaUrl": "https://en.wikipedia.org/wiki/2023_Bloomington%2C_Minnesota_municipal_election",
+      "wikipediaExtractSnippet": "The 2023 Bloomington, Minnesota municipal election was held on November 7, 2025. Bloomington's mayor was up for election, as well as all six city council seats. Additionally, voters decided three ballot measures concerning the establishment of a local sales tax to fund infrastructure projects. It was the second election to use ranked-choice voting in the city, and voters ranked up to three candidates per city office. City council Districts I, II, and the at-large special election were up for two-year terms, while the mayoral race, city council at-large, and Districts III and IV were up for four-year terms.",
+      "candidateElectionYear": null,
+      "verificationGuidance": "Bloomington's statutory-vs-charter status is not stated in fetch-mayors.mjs/fetch-wards.mjs's existing header comments — confirm this first (a Minnesota city-classification lookup or the city's own charter page) before deciding whether the MN Stat. § 412.02 Subd. 2 shortcut (https://www.revisor.mn.gov/statutes/cite/412.02) applies. This is a Tier 4 lead (AGENTS.md §3.3) — verify against a Tier 1/2 primary source before entering any date into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs."
+    },
+    {
+      "repName": "Scott Aldrich",
+      "city": "Plymouth",
+      "county": null,
+      "role": "Council Member",
+      "missingFields": [
+        "termStart",
+        "termEnd"
+      ],
+      "citySeatingRule": "unknown",
+      "wikipediaUrl": null,
+      "wikipediaExtractSnippet": null,
+      "candidateElectionYear": null,
+      "verificationGuidance": "Plymouth's statutory-vs-charter status is not stated in fetch-mayors.mjs/fetch-wards.mjs's existing header comments — confirm this first (a Minnesota city-classification lookup or the city's own charter page) before deciding whether the MN Stat. § 412.02 Subd. 2 shortcut (https://www.revisor.mn.gov/statutes/cite/412.02) applies. This is a Tier 4 lead (AGENTS.md §3.3) — verify against a Tier 1/2 primary source before entering any date into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs."
+    },
+    {
+      "repName": "Kimberly Nelson",
+      "city": "Plymouth",
+      "county": null,
+      "role": "Council Member",
+      "missingFields": [
+        "termStart",
+        "termEnd"
+      ],
+      "citySeatingRule": "unknown",
+      "wikipediaUrl": "https://en.wikipedia.org/wiki/Champlin%2C_Minnesota",
+      "wikipediaExtractSnippet": "Champlin is a city in Hennepin County, Minnesota, United States. The population was 23,919 at the 2020 census. Champlin is a northern suburb of Minneapolis.",
+      "candidateElectionYear": null,
+      "verificationGuidance": "Plymouth's statutory-vs-charter status is not stated in fetch-mayors.mjs/fetch-wards.mjs's existing header comments — confirm this first (a Minnesota city-classification lookup or the city's own charter page) before deciding whether the MN Stat. § 412.02 Subd. 2 shortcut (https://www.revisor.mn.gov/statutes/cite/412.02) applies. This is a Tier 4 lead (AGENTS.md §3.3) — verify against a Tier 1/2 primary source before entering any date into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs."
+    },
+    {
+      "repName": "Julie Peterson",
+      "city": "Plymouth",
+      "county": null,
+      "role": "Council Member",
+      "missingFields": [
+        "termStart",
+        "termEnd"
+      ],
+      "citySeatingRule": "unknown",
+      "wikipediaUrl": "https://en.wikipedia.org/wiki/2012_United_States_House_of_Representatives_elections_in_Minnesota",
+      "wikipediaExtractSnippet": "The 2012 United States House of Representatives elections in Minnesota were held on Tuesday, November 6, 2012, to elect the eight U.S. representatives from the state of Minnesota. The elections coincided with the elections of other federal and state offices, including a quadrennial presidential election and an election to the U.S. Senate. Primary elections were held on August 14, 2012.",
+      "candidateElectionYear": null,
+      "verificationGuidance": "Plymouth's statutory-vs-charter status is not stated in fetch-mayors.mjs/fetch-wards.mjs's existing header comments — confirm this first (a Minnesota city-classification lookup or the city's own charter page) before deciding whether the MN Stat. § 412.02 Subd. 2 shortcut (https://www.revisor.mn.gov/statutes/cite/412.02) applies. This is a Tier 4 lead (AGENTS.md §3.3) — verify against a Tier 1/2 primary source before entering any date into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs."
+    },
+    {
+      "repName": "Julie Pointner",
+      "city": "Plymouth",
+      "county": null,
+      "role": "Council Member",
+      "missingFields": [
+        "termStart",
+        "termEnd"
+      ],
+      "citySeatingRule": "unknown",
+      "wikipediaUrl": null,
+      "wikipediaExtractSnippet": null,
+      "candidateElectionYear": null,
+      "verificationGuidance": "Plymouth's statutory-vs-charter status is not stated in fetch-mayors.mjs/fetch-wards.mjs's existing header comments — confirm this first (a Minnesota city-classification lookup or the city's own charter page) before deciding whether the MN Stat. § 412.02 Subd. 2 shortcut (https://www.revisor.mn.gov/statutes/cite/412.02) applies. This is a Tier 4 lead (AGENTS.md §3.3) — verify against a Tier 1/2 primary source before entering any date into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs."
+    },
+    {
+      "repName": "Paula Ramaley",
+      "city": "Minnetonka",
+      "county": null,
+      "role": "Council Member",
+      "missingFields": [
+        "termStart",
+        "termEnd"
+      ],
+      "citySeatingRule": "unknown",
+      "wikipediaUrl": null,
+      "wikipediaExtractSnippet": null,
+      "candidateElectionYear": null,
+      "verificationGuidance": "Minnetonka's statutory-vs-charter status is not stated in fetch-mayors.mjs/fetch-wards.mjs's existing header comments — confirm this first (a Minnesota city-classification lookup or the city's own charter page) before deciding whether the MN Stat. § 412.02 Subd. 2 shortcut (https://www.revisor.mn.gov/statutes/cite/412.02) applies. This is a Tier 4 lead (AGENTS.md §3.3) — verify against a Tier 1/2 primary source before entering any date into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs."
+    },
+    {
+      "repName": "Kissy Coakley",
+      "city": "Minnetonka",
+      "county": null,
+      "role": "Council Member",
+      "missingFields": [
+        "termStart",
+        "termEnd"
+      ],
+      "citySeatingRule": "unknown",
+      "wikipediaUrl": "https://en.wikipedia.org/wiki/2024_Minnesota_House_of_Representatives_election",
+      "wikipediaExtractSnippet": "The 2024 Minnesota House of Representatives election was held in the U.S. state of Minnesota on November 5, 2024, to elect members to the House of Representatives of the 94th Minnesota Legislature. Primaries took place on August 13, 2024.",
+      "candidateElectionYear": null,
+      "verificationGuidance": "Minnetonka's statutory-vs-charter status is not stated in fetch-mayors.mjs/fetch-wards.mjs's existing header comments — confirm this first (a Minnesota city-classification lookup or the city's own charter page) before deciding whether the MN Stat. § 412.02 Subd. 2 shortcut (https://www.revisor.mn.gov/statutes/cite/412.02) applies. This is a Tier 4 lead (AGENTS.md §3.3) — verify against a Tier 1/2 primary source before entering any date into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs."
+    },
+    {
+      "repName": "Patsy Foster-Bolton",
+      "city": "Minnetonka",
+      "county": null,
+      "role": "Council Member",
+      "missingFields": [
+        "termStart",
+        "termEnd"
+      ],
+      "citySeatingRule": "unknown",
+      "wikipediaUrl": null,
+      "wikipediaExtractSnippet": null,
+      "candidateElectionYear": null,
+      "verificationGuidance": "Minnetonka's statutory-vs-charter status is not stated in fetch-mayors.mjs/fetch-wards.mjs's existing header comments — confirm this first (a Minnesota city-classification lookup or the city's own charter page) before deciding whether the MN Stat. § 412.02 Subd. 2 shortcut (https://www.revisor.mn.gov/statutes/cite/412.02) applies. This is a Tier 4 lead (AGENTS.md §3.3) — verify against a Tier 1/2 primary source before entering any date into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs."
+    },
+    {
+      "repName": "Amanda Maxwell",
+      "city": "Minnetonka",
+      "county": null,
+      "role": "Council Member",
+      "missingFields": [
+        "termStart",
+        "termEnd"
+      ],
+      "citySeatingRule": "unknown",
+      "wikipediaUrl": null,
+      "wikipediaExtractSnippet": null,
+      "candidateElectionYear": null,
+      "verificationGuidance": "Minnetonka's statutory-vs-charter status is not stated in fetch-mayors.mjs/fetch-wards.mjs's existing header comments — confirm this first (a Minnesota city-classification lookup or the city's own charter page) before deciding whether the MN Stat. § 412.02 Subd. 2 shortcut (https://www.revisor.mn.gov/statutes/cite/412.02) applies. This is a Tier 4 lead (AGENTS.md §3.3) — verify against a Tier 1/2 primary source before entering any date into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs."
+    },
+    {
+      "repName": "Sue Budd",
+      "city": "St. Louis Park",
+      "county": null,
+      "role": "Council Member",
+      "missingFields": [
+        "termStart",
+        "termEnd"
+      ],
+      "citySeatingRule": "unknown",
+      "wikipediaUrl": null,
+      "wikipediaExtractSnippet": null,
+      "candidateElectionYear": null,
+      "verificationGuidance": "St. Louis Park's statutory-vs-charter status is not stated in fetch-mayors.mjs/fetch-wards.mjs's existing header comments — confirm this first (a Minnesota city-classification lookup or the city's own charter page) before deciding whether the MN Stat. § 412.02 Subd. 2 shortcut (https://www.revisor.mn.gov/statutes/cite/412.02) applies. This is a Tier 4 lead (AGENTS.md §3.3) — verify against a Tier 1/2 primary source before entering any date into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs."
+    },
+    {
+      "repName": "Daniel Bashore",
+      "city": "St. Louis Park",
+      "county": null,
+      "role": "Council Member",
+      "missingFields": [
+        "termStart",
+        "termEnd"
+      ],
+      "citySeatingRule": "unknown",
+      "wikipediaUrl": null,
+      "wikipediaExtractSnippet": null,
+      "candidateElectionYear": null,
+      "verificationGuidance": "St. Louis Park's statutory-vs-charter status is not stated in fetch-mayors.mjs/fetch-wards.mjs's existing header comments — confirm this first (a Minnesota city-classification lookup or the city's own charter page) before deciding whether the MN Stat. § 412.02 Subd. 2 shortcut (https://www.revisor.mn.gov/statutes/cite/412.02) applies. This is a Tier 4 lead (AGENTS.md §3.3) — verify against a Tier 1/2 primary source before entering any date into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs."
+    },
+    {
+      "repName": "Tim Brausen",
+      "city": "St. Louis Park",
+      "county": null,
+      "role": "Council Member",
+      "missingFields": [
+        "termStart",
+        "termEnd"
+      ],
+      "citySeatingRule": "unknown",
+      "wikipediaUrl": "https://en.wikipedia.org/wiki/2018_Minnesota_Attorney_General_election",
+      "wikipediaExtractSnippet": "The 2018 Minnesota Attorney General election was held on November 6, 2018, to elect the attorney general of the U.S. state of Minnesota. A primary election was held on August 14, 2018, in which Doug Wardlow was nominated as the Republican candidate and Keith Ellison was nominated as the Democratic–Farmer–Labor (DFL) candidate. Ellison won the election.",
+      "candidateElectionYear": null,
+      "verificationGuidance": "St. Louis Park's statutory-vs-charter status is not stated in fetch-mayors.mjs/fetch-wards.mjs's existing header comments — confirm this first (a Minnesota city-classification lookup or the city's own charter page) before deciding whether the MN Stat. § 412.02 Subd. 2 shortcut (https://www.revisor.mn.gov/statutes/cite/412.02) applies. This is a Tier 4 lead (AGENTS.md §3.3) — verify against a Tier 1/2 primary source before entering any date into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs."
+    },
+    {
+      "repName": "Jim Engelking",
+      "city": "St. Louis Park",
+      "county": null,
+      "role": "Council Member",
+      "missingFields": [
+        "termStart",
+        "termEnd"
+      ],
+      "citySeatingRule": "unknown",
+      "wikipediaUrl": null,
+      "wikipediaExtractSnippet": null,
+      "candidateElectionYear": null,
+      "verificationGuidance": "St. Louis Park's statutory-vs-charter status is not stated in fetch-mayors.mjs/fetch-wards.mjs's existing header comments — confirm this first (a Minnesota city-classification lookup or the city's own charter page) before deciding whether the MN Stat. § 412.02 Subd. 2 shortcut (https://www.revisor.mn.gov/statutes/cite/412.02) applies. This is a Tier 4 lead (AGENTS.md §3.3) — verify against a Tier 1/2 primary source before entering any date into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs."
+    },
+    {
+      "repName": "Rori A. Coleman-Woods",
+      "city": "Richfield",
+      "county": null,
+      "role": "Council Member",
+      "missingFields": [
+        "termStart",
+        "termEnd"
+      ],
+      "citySeatingRule": "unknown",
+      "wikipediaUrl": "https://en.wikipedia.org/wiki/Richfield%2C_Minnesota",
+      "wikipediaExtractSnippet": "Richfield is a city in Hennepin County, Minnesota. An inner-ring suburb of Minneapolis, Richfield is bordered by Minneapolis to the north, Minneapolis–Saint Paul International Airport and Fort Snelling to the east, Bloomington to the south, and Edina to the west. The population was 36,994 at the 2020 census.",
+      "candidateElectionYear": null,
+      "verificationGuidance": "Richfield's statutory-vs-charter status is not stated in fetch-mayors.mjs/fetch-wards.mjs's existing header comments — confirm this first (a Minnesota city-classification lookup or the city's own charter page) before deciding whether the MN Stat. § 412.02 Subd. 2 shortcut (https://www.revisor.mn.gov/statutes/cite/412.02) applies. This is a Tier 4 lead (AGENTS.md §3.3) — verify against a Tier 1/2 primary source before entering any date into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs."
+    },
+    {
+      "repName": "Walter Burk",
+      "city": "Richfield",
+      "county": null,
+      "role": "Council Member",
+      "missingFields": [
+        "termStart",
+        "termEnd"
+      ],
+      "citySeatingRule": "unknown",
+      "wikipediaUrl": null,
+      "wikipediaExtractSnippet": null,
+      "candidateElectionYear": null,
+      "verificationGuidance": "Richfield's statutory-vs-charter status is not stated in fetch-mayors.mjs/fetch-wards.mjs's existing header comments — confirm this first (a Minnesota city-classification lookup or the city's own charter page) before deciding whether the MN Stat. § 412.02 Subd. 2 shortcut (https://www.revisor.mn.gov/statutes/cite/412.02) applies. This is a Tier 4 lead (AGENTS.md §3.3) — verify against a Tier 1/2 primary source before entering any date into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs."
+    },
+    {
+      "repName": "Sean Hayford Oleary",
+      "city": "Richfield",
+      "county": null,
+      "role": "Council Member",
+      "missingFields": [
+        "termStart",
+        "termEnd"
+      ],
+      "citySeatingRule": "unknown",
+      "wikipediaUrl": "https://en.wikipedia.org/wiki/Richfield%2C_Minnesota",
+      "wikipediaExtractSnippet": "Richfield is a city in Hennepin County, Minnesota. An inner-ring suburb of Minneapolis, Richfield is bordered by Minneapolis to the north, Minneapolis–Saint Paul International Airport and Fort Snelling to the east, Bloomington to the south, and Edina to the west. The population was 36,994 at the 2020 census.",
+      "candidateElectionYear": null,
+      "verificationGuidance": "Richfield's statutory-vs-charter status is not stated in fetch-mayors.mjs/fetch-wards.mjs's existing header comments — confirm this first (a Minnesota city-classification lookup or the city's own charter page) before deciding whether the MN Stat. § 412.02 Subd. 2 shortcut (https://www.revisor.mn.gov/statutes/cite/412.02) applies. This is a Tier 4 lead (AGENTS.md §3.3) — verify against a Tier 1/2 primary source before entering any date into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs."
+    },
+    {
+      "repName": "Rachel Wales",
+      "city": "Champlin",
+      "county": null,
+      "role": "Council Member",
+      "missingFields": [
+        "termEnd"
+      ],
+      "citySeatingRule": "unknown",
+      "wikipediaUrl": null,
+      "wikipediaExtractSnippet": null,
+      "candidateElectionYear": null,
+      "verificationGuidance": "Champlin's statutory-vs-charter status is not stated in fetch-mayors.mjs/fetch-wards.mjs's existing header comments — confirm this first (a Minnesota city-classification lookup or the city's own charter page) before deciding whether the MN Stat. § 412.02 Subd. 2 shortcut (https://www.revisor.mn.gov/statutes/cite/412.02) applies. This is a Tier 4 lead (AGENTS.md §3.3) — verify against a Tier 1/2 primary source before entering any date into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs."
+    },
+    {
+      "repName": "Jessica Tesdall",
+      "city": "Champlin",
+      "county": null,
+      "role": "Council Member",
+      "missingFields": [
+        "termStart",
+        "termEnd"
+      ],
+      "citySeatingRule": "unknown",
+      "wikipediaUrl": "https://en.wikipedia.org/wiki/Champlin%2C_Minnesota",
+      "wikipediaExtractSnippet": "Champlin is a city in Hennepin County, Minnesota, United States. The population was 23,919 at the 2020 census. Champlin is a northern suburb of Minneapolis.",
+      "candidateElectionYear": null,
+      "verificationGuidance": "Champlin's statutory-vs-charter status is not stated in fetch-mayors.mjs/fetch-wards.mjs's existing header comments — confirm this first (a Minnesota city-classification lookup or the city's own charter page) before deciding whether the MN Stat. § 412.02 Subd. 2 shortcut (https://www.revisor.mn.gov/statutes/cite/412.02) applies. This is a Tier 4 lead (AGENTS.md §3.3) — verify against a Tier 1/2 primary source before entering any date into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs."
+    },
+    {
+      "repName": "Lorraine Coan",
+      "city": "Champlin",
+      "county": null,
+      "role": "Council Member",
+      "missingFields": [
+        "termEnd"
+      ],
+      "citySeatingRule": "unknown",
+      "wikipediaUrl": null,
+      "wikipediaExtractSnippet": null,
+      "candidateElectionYear": null,
+      "verificationGuidance": "Champlin's statutory-vs-charter status is not stated in fetch-mayors.mjs/fetch-wards.mjs's existing header comments — confirm this first (a Minnesota city-classification lookup or the city's own charter page) before deciding whether the MN Stat. § 412.02 Subd. 2 shortcut (https://www.revisor.mn.gov/statutes/cite/412.02) applies. This is a Tier 4 lead (AGENTS.md §3.3) — verify against a Tier 1/2 primary source before entering any date into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs."
+    },
+    {
+      "repName": "Tom Moe",
+      "city": "Champlin",
+      "county": null,
+      "role": "Council Member",
+      "missingFields": [
+        "termStart",
+        "termEnd"
+      ],
+      "citySeatingRule": "unknown",
+      "wikipediaUrl": "https://en.wikipedia.org/wiki/2024_Minnesota_House_of_Representatives_election",
+      "wikipediaExtractSnippet": "The 2024 Minnesota House of Representatives election was held in the U.S. state of Minnesota on November 5, 2024, to elect members to the House of Representatives of the 94th Minnesota Legislature. Primaries took place on August 13, 2024.",
+      "candidateElectionYear": null,
+      "verificationGuidance": "Champlin's statutory-vs-charter status is not stated in fetch-mayors.mjs/fetch-wards.mjs's existing header comments — confirm this first (a Minnesota city-classification lookup or the city's own charter page) before deciding whether the MN Stat. § 412.02 Subd. 2 shortcut (https://www.revisor.mn.gov/statutes/cite/412.02) applies. This is a Tier 4 lead (AGENTS.md §3.3) — verify against a Tier 1/2 primary source before entering any date into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs."
+    },
+    {
+      "repName": "David Cummings",
+      "city": "Crystal",
+      "county": null,
+      "role": "Council Member",
+      "missingFields": [
+        "termStart",
+        "termEnd"
+      ],
+      "citySeatingRule": "unknown",
+      "wikipediaUrl": "https://en.wikipedia.org/wiki/2026_United_States_Senate_election_in_Minnesota",
+      "wikipediaExtractSnippet": "The 2026 United States Senate election in Minnesota will be held on November 3, 2026, to elect a member of the United States Senate to represent the state of Minnesota. Primary elections will be held on August 11, 2026. Democratic incumbent Tina Smith is not seeking reelection to a second full term.",
+      "candidateElectionYear": null,
+      "verificationGuidance": "Crystal's statutory-vs-charter status is not stated in fetch-mayors.mjs/fetch-wards.mjs's existing header comments — confirm this first (a Minnesota city-classification lookup or the city's own charter page) before deciding whether the MN Stat. § 412.02 Subd. 2 shortcut (https://www.revisor.mn.gov/statutes/cite/412.02) applies. This is a Tier 4 lead (AGENTS.md §3.3) — verify against a Tier 1/2 primary source before entering any date into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs."
+    },
+    {
+      "repName": "Traci Kamish",
+      "city": "Crystal",
+      "county": null,
+      "role": "Council Member",
+      "missingFields": [
+        "termStart",
+        "termEnd"
+      ],
+      "citySeatingRule": "unknown",
+      "wikipediaUrl": "https://en.wikipedia.org/wiki/Crystal%2C_Minnesota",
+      "wikipediaExtractSnippet": "Crystal is a suburban city in Hennepin County, Minnesota, about 5 miles (8.0 km) from downtown Minneapolis. The population was 23,330 at the 2020 census. Minnesota State Highway 100 and County Road 81 are two of Crystal's main routes.",
+      "candidateElectionYear": null,
+      "verificationGuidance": "Crystal's statutory-vs-charter status is not stated in fetch-mayors.mjs/fetch-wards.mjs's existing header comments — confirm this first (a Minnesota city-classification lookup or the city's own charter page) before deciding whether the MN Stat. § 412.02 Subd. 2 shortcut (https://www.revisor.mn.gov/statutes/cite/412.02) applies. This is a Tier 4 lead (AGENTS.md §3.3) — verify against a Tier 1/2 primary source before entering any date into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs."
+    },
+    {
+      "repName": "Therese Kiser",
+      "city": "Crystal",
+      "county": null,
+      "role": "Council Member",
+      "missingFields": [
+        "termStart",
+        "termEnd"
+      ],
+      "citySeatingRule": "unknown",
+      "wikipediaUrl": "https://en.wikipedia.org/wiki/Crystal%2C_Minnesota",
+      "wikipediaExtractSnippet": "Crystal is a suburban city in Hennepin County, Minnesota, about 5 miles (8.0 km) from downtown Minneapolis. The population was 23,330 at the 2020 census. Minnesota State Highway 100 and County Road 81 are two of Crystal's main routes.",
+      "candidateElectionYear": null,
+      "verificationGuidance": "Crystal's statutory-vs-charter status is not stated in fetch-mayors.mjs/fetch-wards.mjs's existing header comments — confirm this first (a Minnesota city-classification lookup or the city's own charter page) before deciding whether the MN Stat. § 412.02 Subd. 2 shortcut (https://www.revisor.mn.gov/statutes/cite/412.02) applies. This is a Tier 4 lead (AGENTS.md §3.3) — verify against a Tier 1/2 primary source before entering any date into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs."
+    },
+    {
+      "repName": "John Budziszewski",
+      "city": "Crystal",
+      "county": null,
+      "role": "Council Member",
+      "missingFields": [
+        "termStart",
+        "termEnd"
+      ],
+      "citySeatingRule": "unknown",
+      "wikipediaUrl": "https://en.wikipedia.org/wiki/Crystal%2C_Minnesota",
+      "wikipediaExtractSnippet": "Crystal is a suburban city in Hennepin County, Minnesota, about 5 miles (8.0 km) from downtown Minneapolis. The population was 23,330 at the 2020 census. Minnesota State Highway 100 and County Road 81 are two of Crystal's main routes.",
+      "candidateElectionYear": null,
+      "verificationGuidance": "Crystal's statutory-vs-charter status is not stated in fetch-mayors.mjs/fetch-wards.mjs's existing header comments — confirm this first (a Minnesota city-classification lookup or the city's own charter page) before deciding whether the MN Stat. § 412.02 Subd. 2 shortcut (https://www.revisor.mn.gov/statutes/cite/412.02) applies. This is a Tier 4 lead (AGENTS.md §3.3) — verify against a Tier 1/2 primary source before entering any date into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs."
+    },
+    {
+      "repName": "Raymond Blackledge",
+      "city": "Robbinsdale",
+      "county": null,
+      "role": "Council Member",
+      "missingFields": [
+        "termEnd"
+      ],
+      "citySeatingRule": "unknown",
+      "wikipediaUrl": null,
+      "wikipediaExtractSnippet": null,
+      "candidateElectionYear": null,
+      "verificationGuidance": "Robbinsdale's statutory-vs-charter status is not stated in fetch-mayors.mjs/fetch-wards.mjs's existing header comments — confirm this first (a Minnesota city-classification lookup or the city's own charter page) before deciding whether the MN Stat. § 412.02 Subd. 2 shortcut (https://www.revisor.mn.gov/statutes/cite/412.02) applies. This is a Tier 4 lead (AGENTS.md §3.3) — verify against a Tier 1/2 primary source before entering any date into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs."
+    },
+    {
+      "repName": "Jason Greenberg",
+      "city": "Robbinsdale",
+      "county": null,
+      "role": "Council Member",
+      "missingFields": [
+        "termEnd"
+      ],
+      "citySeatingRule": "unknown",
+      "wikipediaUrl": null,
+      "wikipediaExtractSnippet": null,
+      "candidateElectionYear": null,
+      "verificationGuidance": "Robbinsdale's statutory-vs-charter status is not stated in fetch-mayors.mjs/fetch-wards.mjs's existing header comments — confirm this first (a Minnesota city-classification lookup or the city's own charter page) before deciding whether the MN Stat. § 412.02 Subd. 2 shortcut (https://www.revisor.mn.gov/statutes/cite/412.02) applies. This is a Tier 4 lead (AGENTS.md §3.3) — verify against a Tier 1/2 primary source before entering any date into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs."
+    },
+    {
+      "repName": "Mia Parisian",
+      "city": "Robbinsdale",
+      "county": null,
+      "role": "Council Member",
+      "missingFields": [
+        "termEnd"
+      ],
+      "citySeatingRule": "unknown",
+      "wikipediaUrl": null,
+      "wikipediaExtractSnippet": null,
+      "candidateElectionYear": null,
+      "verificationGuidance": "Robbinsdale's statutory-vs-charter status is not stated in fetch-mayors.mjs/fetch-wards.mjs's existing header comments — confirm this first (a Minnesota city-classification lookup or the city's own charter page) before deciding whether the MN Stat. § 412.02 Subd. 2 shortcut (https://www.revisor.mn.gov/statutes/cite/412.02) applies. This is a Tier 4 lead (AGENTS.md §3.3) — verify against a Tier 1/2 primary source before entering any date into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs."
+    },
+    {
+      "repName": "Alejandro Caceres Aranda",
+      "city": "Robbinsdale",
+      "county": null,
+      "role": "Council Member",
+      "missingFields": [
+        "termEnd"
+      ],
+      "citySeatingRule": "unknown",
+      "wikipediaUrl": null,
+      "wikipediaExtractSnippet": null,
+      "candidateElectionYear": null,
+      "verificationGuidance": "Robbinsdale's statutory-vs-charter status is not stated in fetch-mayors.mjs/fetch-wards.mjs's existing header comments — confirm this first (a Minnesota city-classification lookup or the city's own charter page) before deciding whether the MN Stat. § 412.02 Subd. 2 shortcut (https://www.revisor.mn.gov/statutes/cite/412.02) applies. This is a Tier 4 lead (AGENTS.md §3.3) — verify against a Tier 1/2 primary source before entering any date into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs."
+    },
+    {
+      "repName": "Jess Robertson",
+      "city": "Blaine",
+      "county": "Anoka County",
+      "role": "Council Member",
+      "missingFields": [
+        "termStart",
+        "termEnd"
+      ],
+      "citySeatingRule": "unknown",
+      "wikipediaUrl": "https://en.wikipedia.org/wiki/2020%E2%80%932023_Minneapolis%E2%80%93Saint_Paul_racial_unrest",
+      "wikipediaExtractSnippet": "In the early 2020s, the Minneapolis–Saint Paul metropolitan area in the U.S. state of Minnesota experienced a wave of civil unrest, comprising peaceful demonstrations and riots, against systemic racism toward black Americans, notably in the form of police violence. A number of events occurred, beginning soon after the murder of George Floyd, an unarmed black man, by a white Minneapolis police officer on May 25, 2020. National Public Radio characterized the events as cultural reckoning on topics of racial injustice.",
+      "candidateElectionYear": null,
+      "verificationGuidance": "Blaine's statutory-vs-charter status is not stated in fetch-mayors.mjs/fetch-wards.mjs's existing header comments — confirm this first (a Minnesota city-classification lookup or the city's own charter page) before deciding whether the MN Stat. § 412.02 Subd. 2 shortcut (https://www.revisor.mn.gov/statutes/cite/412.02) applies. This is a Tier 4 lead (AGENTS.md §3.3) — verify against a Tier 1/2 primary source before entering any date into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs."
+    },
+    {
+      "repName": "Leslie Larson",
+      "city": "Blaine",
+      "county": "Anoka County",
+      "role": "Council Member",
+      "missingFields": [
+        "termStart",
+        "termEnd"
+      ],
+      "citySeatingRule": "unknown",
+      "wikipediaUrl": "https://en.wikipedia.org/wiki/List_of_people_from_Minneapolis",
+      "wikipediaExtractSnippet": "\nThe following list mentions notable people who were born in or lived in Minneapolis, Minnesota, in the United States, and gained recognition.",
+      "candidateElectionYear": null,
+      "verificationGuidance": "Blaine's statutory-vs-charter status is not stated in fetch-mayors.mjs/fetch-wards.mjs's existing header comments — confirm this first (a Minnesota city-classification lookup or the city's own charter page) before deciding whether the MN Stat. § 412.02 Subd. 2 shortcut (https://www.revisor.mn.gov/statutes/cite/412.02) applies. This is a Tier 4 lead (AGENTS.md §3.3) — verify against a Tier 1/2 primary source before entering any date into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs."
+    },
+    {
+      "repName": "Tom Newland",
+      "city": "Blaine",
+      "county": "Anoka County",
+      "role": "Council Member",
+      "missingFields": [
+        "termStart",
+        "termEnd"
+      ],
+      "citySeatingRule": "unknown",
+      "wikipediaUrl": null,
+      "wikipediaExtractSnippet": null,
+      "candidateElectionYear": null,
+      "verificationGuidance": "Blaine's statutory-vs-charter status is not stated in fetch-mayors.mjs/fetch-wards.mjs's existing header comments — confirm this first (a Minnesota city-classification lookup or the city's own charter page) before deciding whether the MN Stat. § 412.02 Subd. 2 shortcut (https://www.revisor.mn.gov/statutes/cite/412.02) applies. This is a Tier 4 lead (AGENTS.md §3.3) — verify against a Tier 1/2 primary source before entering any date into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs."
+    },
+    {
+      "repName": "Chris Ford",
+      "city": "Blaine",
+      "county": "Anoka County",
+      "role": "Council Member",
+      "missingFields": [
+        "termStart",
+        "termEnd"
+      ],
+      "citySeatingRule": "unknown",
+      "wikipediaUrl": "https://en.wikipedia.org/wiki/2006_United_States_Senate_election_in_Minnesota",
+      "wikipediaExtractSnippet": "The 2006 United States Senate election in Minnesota took place on November 7, 2006. Incumbent Senator Mark Dayton announced in February 2005 that he would retire instead of seeking a second term. Fellow Democrat Amy Klobuchar won the open seat by 20.1 percentage points. Primary elections took place on September 12, 2006.",
+      "candidateElectionYear": null,
+      "verificationGuidance": "Blaine's statutory-vs-charter status is not stated in fetch-mayors.mjs/fetch-wards.mjs's existing header comments — confirm this first (a Minnesota city-classification lookup or the city's own charter page) before deciding whether the MN Stat. § 412.02 Subd. 2 shortcut (https://www.revisor.mn.gov/statutes/cite/412.02) applies. This is a Tier 4 lead (AGENTS.md §3.3) — verify against a Tier 1/2 primary source before entering any date into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs."
+    },
+    {
+      "repName": "Terra Fleming",
+      "city": "Blaine",
+      "county": "Anoka County",
+      "role": "Council Member",
+      "missingFields": [
+        "termStart",
+        "termEnd"
+      ],
+      "citySeatingRule": "unknown",
+      "wikipediaUrl": null,
+      "wikipediaExtractSnippet": null,
+      "candidateElectionYear": null,
+      "verificationGuidance": "Blaine's statutory-vs-charter status is not stated in fetch-mayors.mjs/fetch-wards.mjs's existing header comments — confirm this first (a Minnesota city-classification lookup or the city's own charter page) before deciding whether the MN Stat. § 412.02 Subd. 2 shortcut (https://www.revisor.mn.gov/statutes/cite/412.02) applies. This is a Tier 4 lead (AGENTS.md §3.3) — verify against a Tier 1/2 primary source before entering any date into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs."
+    },
+    {
+      "repName": "Chris Massoglia",
+      "city": "Blaine",
+      "county": "Anoka County",
+      "role": "Council Member",
+      "missingFields": [
+        "termStart",
+        "termEnd"
+      ],
+      "citySeatingRule": "unknown",
+      "wikipediaUrl": "https://en.wikipedia.org/wiki/Chris_Massoglia",
+      "wikipediaExtractSnippet": "Christopher Paul Massoglia is an American actor and a city council member for Blaine, Minnesota.",
+      "candidateElectionYear": null,
+      "verificationGuidance": "Blaine's statutory-vs-charter status is not stated in fetch-mayors.mjs/fetch-wards.mjs's existing header comments — confirm this first (a Minnesota city-classification lookup or the city's own charter page) before deciding whether the MN Stat. § 412.02 Subd. 2 shortcut (https://www.revisor.mn.gov/statutes/cite/412.02) applies. This is a Tier 4 lead (AGENTS.md §3.3) — verify against a Tier 1/2 primary source before entering any date into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs."
+    },
+    {
+      "repName": "Nichole Klonowski",
+      "city": "Brooklyn Park",
+      "county": "Hennepin County",
+      "role": "Council Member",
+      "missingFields": [
+        "termEnd"
+      ],
+      "citySeatingRule": "unknown",
+      "wikipediaUrl": null,
+      "wikipediaExtractSnippet": null,
+      "candidateElectionYear": null,
+      "verificationGuidance": "Brooklyn Park's statutory-vs-charter status is not stated in fetch-mayors.mjs/fetch-wards.mjs's existing header comments — confirm this first (a Minnesota city-classification lookup or the city's own charter page) before deciding whether the MN Stat. § 412.02 Subd. 2 shortcut (https://www.revisor.mn.gov/statutes/cite/412.02) applies. This is a Tier 4 lead (AGENTS.md §3.3) — verify against a Tier 1/2 primary source before entering any date into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs."
+    },
+    {
+      "repName": "Shelle Page",
+      "city": "Brooklyn Park",
+      "county": "Hennepin County",
+      "role": "Council Member",
+      "missingFields": [
+        "termEnd"
+      ],
+      "citySeatingRule": "unknown",
+      "wikipediaUrl": null,
+      "wikipediaExtractSnippet": null,
+      "candidateElectionYear": null,
+      "verificationGuidance": "Brooklyn Park's statutory-vs-charter status is not stated in fetch-mayors.mjs/fetch-wards.mjs's existing header comments — confirm this first (a Minnesota city-classification lookup or the city's own charter page) before deciding whether the MN Stat. § 412.02 Subd. 2 shortcut (https://www.revisor.mn.gov/statutes/cite/412.02) applies. This is a Tier 4 lead (AGENTS.md §3.3) — verify against a Tier 1/2 primary source before entering any date into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs."
+    },
+    {
+      "repName": "Christian Eriksen",
+      "city": "Brooklyn Park",
+      "county": "Hennepin County",
+      "role": "Council Member",
+      "missingFields": [
+        "termEnd"
+      ],
+      "citySeatingRule": "unknown",
+      "wikipediaUrl": "https://en.wikipedia.org/wiki/Xp_Lee",
+      "wikipediaExtractSnippet": "Xiongpao \"Xp\" Lee is an American politician serving since 2025 in the Minnesota House of Representatives. A member of the Minnesota Democratic–Farmer–Labor Party (DFL), Lee has represented District 34B since winning a special election after the assassination of Melissa Hortman. He was previously a city council member in Brooklyn Park.",
+      "candidateElectionYear": 2025,
+      "verificationGuidance": "Brooklyn Park's statutory-vs-charter status is not stated in fetch-mayors.mjs/fetch-wards.mjs's existing header comments — confirm this first (a Minnesota city-classification lookup or the city's own charter page) before deciding whether the MN Stat. § 412.02 Subd. 2 shortcut (https://www.revisor.mn.gov/statutes/cite/412.02) applies. This is a Tier 4 lead (AGENTS.md §3.3) — verify against a Tier 1/2 primary source before entering any date into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs."
+    },
+    {
+      "repName": "Amanda Cheng Xiong",
+      "city": "Brooklyn Park",
+      "county": "Hennepin County",
+      "role": "Council Member",
+      "missingFields": [
+        "termEnd"
+      ],
+      "citySeatingRule": "unknown",
+      "wikipediaUrl": "https://en.wikipedia.org/wiki/Xp_Lee",
+      "wikipediaExtractSnippet": "Xiongpao \"Xp\" Lee is an American politician serving since 2025 in the Minnesota House of Representatives. A member of the Minnesota Democratic–Farmer–Labor Party (DFL), Lee has represented District 34B since winning a special election after the assassination of Melissa Hortman. He was previously a city council member in Brooklyn Park.",
+      "candidateElectionYear": 2025,
+      "verificationGuidance": "Brooklyn Park's statutory-vs-charter status is not stated in fetch-mayors.mjs/fetch-wards.mjs's existing header comments — confirm this first (a Minnesota city-classification lookup or the city's own charter page) before deciding whether the MN Stat. § 412.02 Subd. 2 shortcut (https://www.revisor.mn.gov/statutes/cite/412.02) applies. This is a Tier 4 lead (AGENTS.md §3.3) — verify against a Tier 1/2 primary source before entering any date into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs."
+    },
+    {
+      "repName": "Maria Tran",
+      "city": "Brooklyn Park",
+      "county": "Hennepin County",
+      "role": "Council Member",
+      "missingFields": [
+        "termEnd"
+      ],
+      "citySeatingRule": "unknown",
+      "wikipediaUrl": "https://en.wikipedia.org/wiki/Operation_Metro_Surge",
+      "wikipediaExtractSnippet": "Operation Metro Surge was an operation by the United States Immigration and Customs Enforcement (ICE) and the Customs and Border Protection (CBP) with the stated purpose of apprehending undocumented immigrants and deporting them. Beginning in December 2025, it initially targeted the Twin Cities, and later expanded to all of Minnesota. The Department of Homeland Security (DHS) called it \"the largest immigration enforcement operation ever carried out\".",
+      "candidateElectionYear": null,
+      "verificationGuidance": "Brooklyn Park's statutory-vs-charter status is not stated in fetch-mayors.mjs/fetch-wards.mjs's existing header comments — confirm this first (a Minnesota city-classification lookup or the city's own charter page) before deciding whether the MN Stat. § 412.02 Subd. 2 shortcut (https://www.revisor.mn.gov/statutes/cite/412.02) applies. This is a Tier 4 lead (AGENTS.md §3.3) — verify against a Tier 1/2 primary source before entering any date into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs."
+    },
+    {
+      "repName": "Tony McGarvey",
+      "city": "Brooklyn Park",
+      "county": "Hennepin County",
+      "role": "Council Member",
+      "missingFields": [
+        "termEnd"
+      ],
+      "citySeatingRule": "unknown",
+      "wikipediaUrl": null,
+      "wikipediaExtractSnippet": null,
+      "candidateElectionYear": null,
+      "verificationGuidance": "Brooklyn Park's statutory-vs-charter status is not stated in fetch-mayors.mjs/fetch-wards.mjs's existing header comments — confirm this first (a Minnesota city-classification lookup or the city's own charter page) before deciding whether the MN Stat. § 412.02 Subd. 2 shortcut (https://www.revisor.mn.gov/statutes/cite/412.02) applies. This is a Tier 4 lead (AGENTS.md §3.3) — verify against a Tier 1/2 primary source before entering any date into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs."
+    },
+    {
+      "repName": "Brad Greskowiak",
+      "city": "Coon Rapids",
+      "county": "Anoka County",
+      "role": "Council Member",
+      "missingFields": [
+        "termStart",
+        "termEnd"
+      ],
+      "citySeatingRule": "unknown",
+      "wikipediaUrl": "https://en.wikipedia.org/wiki/Coon_Rapids%2C_Minnesota",
+      "wikipediaExtractSnippet": "Coon Rapids is a northern suburb of Minneapolis, and the second-largest city by population in Anoka County, Minnesota, United States. The population was 63,599 at the 2020 census, making it Minnesota's 15th-largest city and the seventh-largest Twin Cities suburb.",
+      "candidateElectionYear": null,
+      "verificationGuidance": "Coon Rapids's statutory-vs-charter status is not stated in fetch-mayors.mjs/fetch-wards.mjs's existing header comments — confirm this first (a Minnesota city-classification lookup or the city's own charter page) before deciding whether the MN Stat. § 412.02 Subd. 2 shortcut (https://www.revisor.mn.gov/statutes/cite/412.02) applies. This is a Tier 4 lead (AGENTS.md §3.3) — verify against a Tier 1/2 primary source before entering any date into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs."
+    },
+    {
+      "repName": "Brian Armstrong",
+      "city": "Coon Rapids",
+      "county": "Anoka County",
+      "role": "Council Member",
+      "missingFields": [
+        "termStart",
+        "termEnd"
+      ],
+      "citySeatingRule": "unknown",
+      "wikipediaUrl": "https://en.wikipedia.org/wiki/2024_Minnesota_House_of_Representatives_election",
+      "wikipediaExtractSnippet": "The 2024 Minnesota House of Representatives election was held in the U.S. state of Minnesota on November 5, 2024, to elect members to the House of Representatives of the 94th Minnesota Legislature. Primaries took place on August 13, 2024.",
+      "candidateElectionYear": null,
+      "verificationGuidance": "Coon Rapids's statutory-vs-charter status is not stated in fetch-mayors.mjs/fetch-wards.mjs's existing header comments — confirm this first (a Minnesota city-classification lookup or the city's own charter page) before deciding whether the MN Stat. § 412.02 Subd. 2 shortcut (https://www.revisor.mn.gov/statutes/cite/412.02) applies. This is a Tier 4 lead (AGENTS.md §3.3) — verify against a Tier 1/2 primary source before entering any date into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs."
+    },
+    {
+      "repName": "Peter Butler",
+      "city": "Coon Rapids",
+      "county": "Anoka County",
+      "role": "Council Member",
+      "missingFields": [
+        "termStart",
+        "termEnd"
+      ],
+      "citySeatingRule": "unknown",
+      "wikipediaUrl": "https://en.wikipedia.org/wiki/Fargo_Marathon",
+      "wikipediaExtractSnippet": "The Fargo Marathon is an annual road running marathon in Fargo, North Dakota, first held in 2005. Most years, it begins and ends inside the Fargodome, and the course also travels through Moorhead, Minnesota, Fargo's twin city. The event weekend also hosts a half marathon, 10K, and 5K. The race is a USATF-qualified course, so marathon finish times can be used to qualify for the Boston Marathon. The event has been sponsored by Sanford Health, but is now sponsored by Essentia Health",
+      "candidateElectionYear": null,
+      "verificationGuidance": "Coon Rapids's statutory-vs-charter status is not stated in fetch-mayors.mjs/fetch-wards.mjs's existing header comments — confirm this first (a Minnesota city-classification lookup or the city's own charter page) before deciding whether the MN Stat. § 412.02 Subd. 2 shortcut (https://www.revisor.mn.gov/statutes/cite/412.02) applies. This is a Tier 4 lead (AGENTS.md §3.3) — verify against a Tier 1/2 primary source before entering any date into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs."
+    },
+    {
+      "repName": "Sean Novack",
+      "city": "Coon Rapids",
+      "county": "Anoka County",
+      "role": "Council Member",
+      "missingFields": [
+        "termStart",
+        "termEnd"
+      ],
+      "citySeatingRule": "unknown",
+      "wikipediaUrl": "https://en.wikipedia.org/wiki/Coon_Rapids%2C_Minnesota",
+      "wikipediaExtractSnippet": "Coon Rapids is a northern suburb of Minneapolis, and the second-largest city by population in Anoka County, Minnesota, United States. The population was 63,599 at the 2020 census, making it Minnesota's 15th-largest city and the seventh-largest Twin Cities suburb.",
+      "candidateElectionYear": null,
+      "verificationGuidance": "Coon Rapids's statutory-vs-charter status is not stated in fetch-mayors.mjs/fetch-wards.mjs's existing header comments — confirm this first (a Minnesota city-classification lookup or the city's own charter page) before deciding whether the MN Stat. § 412.02 Subd. 2 shortcut (https://www.revisor.mn.gov/statutes/cite/412.02) applies. This is a Tier 4 lead (AGENTS.md §3.3) — verify against a Tier 1/2 primary source before entering any date into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs."
+    },
+    {
+      "repName": "Christopher Geisler",
+      "city": "Coon Rapids",
+      "county": "Anoka County",
+      "role": "Council Member",
+      "missingFields": [
+        "termStart",
+        "termEnd"
+      ],
+      "citySeatingRule": "unknown",
+      "wikipediaUrl": "https://en.wikipedia.org/wiki/Coon_Rapids%2C_Minnesota",
+      "wikipediaExtractSnippet": "Coon Rapids is a northern suburb of Minneapolis, and the second-largest city by population in Anoka County, Minnesota, United States. The population was 63,599 at the 2020 census, making it Minnesota's 15th-largest city and the seventh-largest Twin Cities suburb.",
+      "candidateElectionYear": null,
+      "verificationGuidance": "Coon Rapids's statutory-vs-charter status is not stated in fetch-mayors.mjs/fetch-wards.mjs's existing header comments — confirm this first (a Minnesota city-classification lookup or the city's own charter page) before deciding whether the MN Stat. § 412.02 Subd. 2 shortcut (https://www.revisor.mn.gov/statutes/cite/412.02) applies. This is a Tier 4 lead (AGENTS.md §3.3) — verify against a Tier 1/2 primary source before entering any date into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs."
+    },
+    {
+      "repName": "Ann Bolkcom",
+      "city": "Fridley",
+      "county": "Anoka County",
+      "role": "Council Member",
+      "missingFields": [
+        "termStart",
+        "termEnd"
+      ],
+      "citySeatingRule": "unknown",
+      "wikipediaUrl": null,
+      "wikipediaExtractSnippet": null,
+      "candidateElectionYear": null,
+      "verificationGuidance": "Fridley's statutory-vs-charter status is not stated in fetch-mayors.mjs/fetch-wards.mjs's existing header comments — confirm this first (a Minnesota city-classification lookup or the city's own charter page) before deciding whether the MN Stat. § 412.02 Subd. 2 shortcut (https://www.revisor.mn.gov/statutes/cite/412.02) applies. This is a Tier 4 lead (AGENTS.md §3.3) — verify against a Tier 1/2 primary source before entering any date into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs."
+    },
+    {
+      "repName": "Luke Cardona",
+      "city": "Fridley",
+      "county": "Anoka County",
+      "role": "Council Member",
+      "missingFields": [
+        "termEnd"
+      ],
+      "citySeatingRule": "unknown",
+      "wikipediaUrl": null,
+      "wikipediaExtractSnippet": null,
+      "candidateElectionYear": null,
+      "verificationGuidance": "Fridley's statutory-vs-charter status is not stated in fetch-mayors.mjs/fetch-wards.mjs's existing header comments — confirm this first (a Minnesota city-classification lookup or the city's own charter page) before deciding whether the MN Stat. § 412.02 Subd. 2 shortcut (https://www.revisor.mn.gov/statutes/cite/412.02) applies. This is a Tier 4 lead (AGENTS.md §3.3) — verify against a Tier 1/2 primary source before entering any date into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs."
+    },
+    {
+      "repName": "Ryan Evanson",
+      "city": "Fridley",
+      "county": "Anoka County",
+      "role": "Council Member",
+      "missingFields": [
+        "termStart",
+        "termEnd"
+      ],
+      "citySeatingRule": "unknown",
+      "wikipediaUrl": null,
+      "wikipediaExtractSnippet": null,
+      "candidateElectionYear": null,
+      "verificationGuidance": "Fridley's statutory-vs-charter status is not stated in fetch-mayors.mjs/fetch-wards.mjs's existing header comments — confirm this first (a Minnesota city-classification lookup or the city's own charter page) before deciding whether the MN Stat. § 412.02 Subd. 2 shortcut (https://www.revisor.mn.gov/statutes/cite/412.02) applies. This is a Tier 4 lead (AGENTS.md §3.3) — verify against a Tier 1/2 primary source before entering any date into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs."
+    },
+    {
+      "repName": "Michael Olson",
+      "city": "Ramsey",
+      "county": "Anoka County",
+      "role": "Council Member",
+      "missingFields": [
+        "termStart",
+        "termEnd"
+      ],
+      "citySeatingRule": "unknown",
+      "wikipediaUrl": "https://en.wikipedia.org/wiki/Saint_Paul%2C_Minnesota",
+      "wikipediaExtractSnippet": "Saint Paul is the capital city of the U.S. state of Minnesota and the county seat of Ramsey County. As of the 2020 census, the city had a population of 311,527, making it Minnesota's second-most populous city and the 69th-most populous in the United States. Saint Paul and neighboring Minneapolis form the core of the Twin Cities metropolitan area, the third most populous in the Midwest with around 3.7 million residents.",
+      "candidateElectionYear": null,
+      "verificationGuidance": "Ramsey's statutory-vs-charter status is not stated in fetch-mayors.mjs/fetch-wards.mjs's existing header comments — confirm this first (a Minnesota city-classification lookup or the city's own charter page) before deciding whether the MN Stat. § 412.02 Subd. 2 shortcut (https://www.revisor.mn.gov/statutes/cite/412.02) applies. This is a Tier 4 lead (AGENTS.md §3.3) — verify against a Tier 1/2 primary source before entering any date into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs."
+    },
+    {
+      "repName": "Eric Peters",
+      "city": "Ramsey",
+      "county": "Anoka County",
+      "role": "Council Member",
+      "missingFields": [
+        "termStart",
+        "termEnd"
+      ],
+      "citySeatingRule": "unknown",
+      "wikipediaUrl": "https://en.wikipedia.org/wiki/2024_United_States_House_of_Representatives_elections_in_Minnesota",
+      "wikipediaExtractSnippet": "The 2024 United States House of Representatives elections in Minnesota were held on November 5, 2024, to elect the eight U.S. representatives from the state of Minnesota, one from each of the state's congressional districts. The elections coincided with the U.S. presidential election, as well as other elections to the House of Representatives, elections to the United States Senate, and various state and local elections. Primary elections were held on August 13, 2024.",
+      "candidateElectionYear": null,
+      "verificationGuidance": "Ramsey's statutory-vs-charter status is not stated in fetch-mayors.mjs/fetch-wards.mjs's existing header comments — confirm this first (a Minnesota city-classification lookup or the city's own charter page) before deciding whether the MN Stat. § 412.02 Subd. 2 shortcut (https://www.revisor.mn.gov/statutes/cite/412.02) applies. This is a Tier 4 lead (AGENTS.md §3.3) — verify against a Tier 1/2 primary source before entering any date into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs."
+    },
+    {
+      "repName": "Dan Specht",
+      "city": "Ramsey",
+      "county": "Anoka County",
+      "role": "Council Member",
+      "missingFields": [
+        "termStart",
+        "termEnd"
+      ],
+      "citySeatingRule": "unknown",
+      "wikipediaUrl": null,
+      "wikipediaExtractSnippet": null,
+      "candidateElectionYear": null,
+      "verificationGuidance": "Ramsey's statutory-vs-charter status is not stated in fetch-mayors.mjs/fetch-wards.mjs's existing header comments — confirm this first (a Minnesota city-classification lookup or the city's own charter page) before deciding whether the MN Stat. § 412.02 Subd. 2 shortcut (https://www.revisor.mn.gov/statutes/cite/412.02) applies. This is a Tier 4 lead (AGENTS.md §3.3) — verify against a Tier 1/2 primary source before entering any date into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs."
+    },
+    {
+      "repName": "Shanna Stewart",
+      "city": "Ramsey",
+      "county": "Anoka County",
+      "role": "Council Member",
+      "missingFields": [
+        "termStart",
+        "termEnd"
+      ],
+      "citySeatingRule": "unknown",
+      "wikipediaUrl": "https://en.wikipedia.org/wiki/I-35W_Mississippi_River_bridge",
+      "wikipediaExtractSnippet": "The I-35W Mississippi River bridge was an eight-lane, steel truss arch bridge that carried Interstate 35W across the Mississippi River one-half mile downstream from the Saint Anthony Falls in Minneapolis, Minnesota, United States. The bridge opened in 1967, and was Minnesota's third busiest, carrying 140,000 vehicles daily. After 39 years in service, it experienced a catastrophic failure during the evening rush hour on August 1, 2007, killing 13 people and injuring 145. The National Transportation Safety Board (NTSB) cited a design flaw as the likely cause of the collapse, noting that an excessively thin gusset plate ripped along a line of rivets. The amount of weight on the bridge at the time of failure was also cited by the NTSB as a contributing factor.",
+      "candidateElectionYear": null,
+      "verificationGuidance": "Ramsey's statutory-vs-charter status is not stated in fetch-mayors.mjs/fetch-wards.mjs's existing header comments — confirm this first (a Minnesota city-classification lookup or the city's own charter page) before deciding whether the MN Stat. § 412.02 Subd. 2 shortcut (https://www.revisor.mn.gov/statutes/cite/412.02) applies. This is a Tier 4 lead (AGENTS.md §3.3) — verify against a Tier 1/2 primary source before entering any date into scripts/fetch-mayors.mjs or scripts/fetch-wards.mjs."
+    }
+  ]
+}
