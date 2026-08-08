@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import type { BillVote, RepProperties } from "@/lib/types";
 import type { AreaOfficials } from "@/lib/officials";
 import { officialIdentity } from "@/lib/officials";
+import { useFocusTrap } from "@/hooks/useFocusTrap";
 import { CITY_TIER_EMPTY_NOTE, COUNTY_TIER_EMPTY_NOTE, STATE_TIER_EMPTY_NOTE } from "@/lib/coverage";
 import {
   CONTESTED_COLOR,
@@ -1011,8 +1012,20 @@ export default function WardModal({
   const dialogProps =
     variant === "sheet" ? { role: "dialog" as const, "aria-label": "Representatives for this location" } : {};
 
+  // Focus-trap gap fix (issue #79): "sheet" is the one variant of this
+  // component that behaves like a true dialog — mounted/unmounted with the
+  // selection, floating over MapLibre's scrim, closeable by Escape or the
+  // close button above. Per AGENTS.md §4 "Keyboard Complete," a keyboard
+  // user must not be able to Tab past it into whatever's behind it (the
+  // map, or — on mobile — MobileNav's own tab bar). "sidebar" never gets
+  // this: it's a persistent, always-mounted column, not a transient
+  // overlay, so trapping focus in it would trap a keyboard user on every
+  // hover, not just an explicit open. `active` no-ops the hook entirely
+  // for that variant, so it's safe to call unconditionally here.
+  const { containerRef, onKeyDown } = useFocusTrap<HTMLDivElement>(variant === "sheet");
+
   return (
-    <div className={wrapperClass} {...dialogProps}>
+    <div ref={containerRef} onKeyDown={onKeyDown} className={wrapperClass} {...dialogProps}>
       {/* Drag-handle affordance — bottom-sheet convention, mobile only */}
       <div className="sm:hidden flex justify-center pt-2 pb-1 shrink-0">
         <div className="h-1 w-9 rounded-full bg-hair-strong" />

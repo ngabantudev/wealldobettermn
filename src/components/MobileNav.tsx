@@ -31,6 +31,7 @@
 // back to the map" a single, predictable action everywhere — tap the
 // dimmed map, tap the open tab again, or hit Escape all do the same thing.
 import { useEffect, useId, useRef, type ReactNode } from "react";
+import { useFocusTrap } from "@/hooks/useFocusTrap";
 
 export interface MobileNavTab {
   id: string;
@@ -77,6 +78,17 @@ export default function MobileNav({ tabs, activeTab, onSelectTab, sheetContent, 
   const open = sheetContent !== null;
   const sheetId = useId();
   const navRef = useRef<HTMLElement | null>(null);
+
+  // Focus-trap gap fix (issue #79): keeps Tab/Shift+Tab inside this raised
+  // sheet (and its own tab bar, both wrapped below) while it's open, moves
+  // focus in on open, and gives it back to whichever tab/marker triggered
+  // it on close — see useFocusTrap's own comment. When the sheet's content
+  // is WardModal's "sheet" variant, that component runs its own instance of
+  // this same hook scoped to just its own card; that inner trap's keydown
+  // handler stops propagation before it ever reaches this outer one, so the
+  // two don't fight over the same Tab keystroke — see useFocusTrap's
+  // stopPropagation comment.
+  const { containerRef, onKeyDown } = useFocusTrap<HTMLDivElement>(open);
 
   // Same dismiss convention as every other dismissible surface in this app
   // (MapThemeSelector's popover) — only listening while something's
@@ -127,7 +139,11 @@ export default function MobileNav({ tabs, activeTab, onSelectTab, sheetContent, 
           above the bar in one column means it always lands exactly there
           with no height math to keep in sync, the same technique the
           previous mobile search+modal stack used. */}
-      <div className="fixed inset-x-0 bottom-0 z-40 flex flex-col font-sans">
+      <div
+        ref={containerRef}
+        onKeyDown={onKeyDown}
+        className="fixed inset-x-0 bottom-0 z-40 flex flex-col font-sans"
+      >
         {/* No height cap or overflow-auto on this wrapper itself, on
             purpose: `overflow-y-auto` here would clip to *this element's
             own* box — sized by its normal-flow content — and every
