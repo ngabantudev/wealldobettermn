@@ -1,5 +1,20 @@
 import type { ReactNode } from "react";
+import Link from "next/link";
 import MastheadSaying from "./MastheadSaying";
+
+// The site's only persistent chrome nav: Map (back to "/" from any of the
+// pages below), Bills, About, Privacy. Kept small — text links, not icons —
+// since this bar's real estate is already spoken for by MastheadSaying and
+// (on sm+) the search box; see the render below for how it fits between
+// them. Exists because /bills, /about, and /privacy are otherwise dead
+// ends with no way back except the browser's own Back button — PR review,
+// 2026-08-07 ("orphan pages nobody can reach").
+const NAV_LINKS: { href: string; label: string }[] = [
+  { href: "/", label: "Map" },
+  { href: "/bills", label: "Bills" },
+  { href: "/about", label: "About" },
+  { href: "/privacy", label: "Privacy" },
+];
 
 // The site's identity bar — visually matched to mndatacenter.org's own
 // navy/cyan header band (see globals.css's `.band` token overrides for
@@ -32,7 +47,7 @@ interface SiteHeaderProps {
   // mobile mounts its own separate SearchBar instance inside MobileNav's
   // Search tab instead, so passing it here is harmless even on a phone —
   // it just never renders.
-  search: ReactNode;
+  search?: ReactNode;
 }
 
 export default function SiteHeader({ search }: SiteHeaderProps) {
@@ -66,13 +81,30 @@ export default function SiteHeader({ search }: SiteHeaderProps) {
     // sibling can't actually promise anyway.
     <header className="band flex h-16 shrink-0 items-center gap-3 border-b border-hair bg-panel px-4 sm:gap-5 sm:px-6">
       <MastheadSaying />
+      {/* Always visible, every breakpoint — including on mobile, where it's
+          the only way off /bills, /about, or /privacy short of the
+          browser's own Back button. `shrink-0`: MastheadSaying is the
+          element designed to give up width (its own font-fit logic
+          measures whatever box the flex layout leaves it), not this. */}
+      <nav aria-label="Site" className="flex shrink-0 items-center gap-3 sm:gap-4">
+        {NAV_LINKS.map((link) => (
+          <Link
+            key={link.href}
+            href={link.href}
+            className="text-xs font-semibold tracking-wide text-ink-2 uppercase hover:text-ink hover:underline"
+          >
+            {link.label}
+          </Link>
+        ))}
+      </nav>
       {/* Desktop/laptop only. Below `sm`, MobileNav's Search tab is the
           reachable-in-one-tap equivalent — there's no width here to spare
           for an inline search box once the bottom nav takes over, and
           AGENTS.md Part 4 only asks that search stay one interaction away
           on every breakpoint, not that it live in the same place on all of
-          them. */}
-      <div className="hidden min-w-0 flex-1 sm:flex sm:justify-center">{search}</div>
+          them. Omitted entirely (not just hidden) on the static pages that
+          pass no `search` prop at all. */}
+      {search ? <div className="hidden min-w-0 flex-1 sm:flex sm:justify-center">{search}</div> : null}
     </header>
   );
 }

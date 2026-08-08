@@ -22,8 +22,9 @@ import Link from "next/link";
 // Deliberately does not log `error` anywhere (console, network, etc.):
 // per AGENTS.md §0.12 / §2.5, nothing about a visitor's session — which
 // includes exception details that could echo back query state — leaves
-// the device. Cloudflare's own edge logs (see /privacy) already capture
-// what a maintainer needs from the Worker side.
+// the device. Cloudflare's own edge logs (see /privacy, now a real page
+// rather than a dangling comment reference) already capture what a
+// maintainer needs from the Worker side.
 
 export default function Error({ reset }: { error: Error & { digest?: string }; reset: () => void }) {
   return (
@@ -49,6 +50,9 @@ export default function Error({ reset }: { error: Error & { digest?: string }; r
           Back to the map
         </Link>
       </div>
+      <Link href="/privacy" className="text-sm text-accent underline underline-offset-2">
+        What this site sends and doesn&apos;t send
+      </Link>
     </main>
   );
 }

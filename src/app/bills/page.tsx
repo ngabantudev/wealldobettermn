@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import SiteHeader from "@/components/SiteHeader";
 import { BILLS_COVERAGE_NOTE, BILLS_INGEST_STATUS } from "@/lib/billsRegistry";
 import type { Bill } from "@/lib/types";
 // A bundler-resolved JSON import, not readFileSync(process.cwd() + ...):
@@ -32,9 +33,11 @@ import billsFileData from "../../../public/state-bills.json";
 // as src/lib/stateLegislatureData.ts. Coverage is a recently-updated-bills
 // delta poll, not a full-session backfill — see BILLS_COVERAGE_NOTE.
 //
-// Not yet linked from site chrome (SiteHeader carries only search, by
-// design — see that component) — reachable at /bills directly. Wiring a
-// nav entry is a separate follow-up, not part of turning the ingest live.
+// Now linked from site chrome — SiteHeader renders a small persistent nav
+// (Map/Bills/About/Privacy) on every page, this one included, so a visitor
+// who lands here has both a way back to the map and a way to the other two
+// static pages without relying on the browser's own Back button. See that
+// component's NAV_LINKS.
 
 export const metadata: Metadata = {
   title: "State bills & votes — We All Do Better",
@@ -61,39 +64,42 @@ export default function BillsPage() {
   const isLive = BILLS_INGEST_STATUS === "live" && bills.length > 0;
 
   return (
-    <main className="mx-auto max-w-3xl px-4 py-10 sm:px-6">
-      <h1 className="text-xl font-semibold text-ink">State bills &amp; roll-call votes</h1>
-      <p className="mt-2 text-sm text-ink-3">
-        Every recorded floor vote a Minnesota state legislator has taken, with a link to the bill and its full roll
-        call.
-      </p>
+    <>
+      <SiteHeader />
+      <main className="mx-auto max-w-3xl px-4 py-10 sm:px-6">
+        <h1 className="text-xl font-semibold text-ink">State bills &amp; roll-call votes</h1>
+        <p className="mt-2 text-sm text-ink-3">
+          Every recorded floor vote a Minnesota state legislator has taken, with a link to the bill and its full
+          roll call.
+        </p>
 
-      {isLive ? (
-        <ul className="mt-6 space-y-3">
-          {bills.map((bill) => (
-            <li key={bill.id} className="well rounded-xl border p-4">
-              <p className="font-medium text-ink-2">
-                {bill.identifier} — {bill.title}
-              </p>
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <div
-          role="status"
-          className="well mt-6 space-y-2 rounded-xl border border-hair-strong p-4 text-sm text-ink-3"
-        >
-          <p className="font-medium text-ink-2">No bill data ingested yet.</p>
-          <p>{BILLS_COVERAGE_NOTE}</p>
-          <p>
-            See{" "}
-            <a href="https://www.revisor.mn.gov/bills/" className="text-accent underline underline-offset-2">
-              the Minnesota Revisor&apos;s own bill search
-            </a>{" "}
-            in the meantime.
-          </p>
-        </div>
-      )}
-    </main>
+        {isLive ? (
+          <ul className="mt-6 space-y-3">
+            {bills.map((bill) => (
+              <li key={bill.id} className="well rounded-xl border p-4">
+                <p className="font-medium text-ink-2">
+                  {bill.identifier} — {bill.title}
+                </p>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <div
+            role="status"
+            className="well mt-6 space-y-2 rounded-xl border border-hair-strong p-4 text-sm text-ink-3"
+          >
+            <p className="font-medium text-ink-2">No bill data ingested yet.</p>
+            <p>{BILLS_COVERAGE_NOTE}</p>
+            <p>
+              See{" "}
+              <a href="https://www.revisor.mn.gov/bills/" className="text-accent underline underline-offset-2">
+                the Minnesota Revisor&apos;s own bill search
+              </a>{" "}
+              in the meantime.
+            </p>
+          </div>
+        )}
+      </main>
+    </>
   );
 }
