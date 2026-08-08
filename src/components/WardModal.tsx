@@ -696,7 +696,66 @@ function useUniformHeaderHeight() {
     return () => window.removeEventListener("resize", measure);
   }, []);
 
-  return { headerRefs, headerHeight };
+  // Exposed as a callback rather than the ref array itself — TierNode is a
+  // child component, and mutating a ref object received as a prop trips
+  // the project's react-hooks/immutability lint rule (props are meant to
+  // be read-only from the child's side). Routing the write through this
+  // closure keeps the mutation local to the hook that owns the ref.
+  const onHeaderRef = (index: number, el: HTMLHeadingElement | null) => {
+    headerRefs.current[index] = el;
+  };
+
+  return { onHeaderRef, headerHeight };
+}
+
+interface TierNodeProps {
+  index: number;
+  officials: AreaOfficials;
+  onHeaderRef: (index: number, el: HTMLHeadingElement | null) => void;
+  headerHeight: number;
+}
+
+// Each tier nests the rest of the stack *inside* itself — County's
+// <section> sits inside City's, State's inside County's — rather than
+// beside it as a sibling. That nesting is load-bearing, not cosmetic: a
+// sticky element only stays docked while its own containing block (its
+// nearest ancestor — here, its own <section>) is still on screen. With
+// siblings, City's <section> would end exactly where City's own content
+// ends, i.e. the moment County arrives, so City would unstick right as
+// County tried to dock beneath it instead of the two stacking together for
+// the rest of the scroll (the bug this replaced — see the commit history
+// on this file). Nesting County, and inside County, State, inside City's
+// <section> extends City's containing block all the way to the bottom of
+// the list, so City stays docked for as long as anything below it is still
+// scrolling — each header, once stuck, stays stuck for the remainder of
+// the scroll, only ever adding to the stack, never dropping out of it.
+function TierNode({ index, officials, onHeaderRef, headerHeight }: TierNodeProps) {
+  if (index >= TIER_SECTIONS.length) return null;
+  const { key, label, emptyNote } = TIER_SECTIONS[index];
+  const reps = officials[key];
+  const headingId = `officials-tier-${key}-heading`;
+  return (
+    <section aria-labelledby={headingId}>
+      <h2
+        ref={(el) => onHeaderRef(index, el)}
+        id={headingId}
+        className="sticky z-10 px-4 py-2 text-xs font-semibold uppercase tracking-wide shadow-[0_1px_2px_rgba(0,0,0,0.15)]"
+        style={{ top: `${index * headerHeight}px`, backgroundColor: TIER_HEADER_BG, color: TIER_HEADER_TEXT }}
+      >
+        {label}
+      </h2>
+      {reps.length > 0 ? (
+        <div className="divide-y divide-hair">
+          {reps.map((rep) => (
+            <OfficialCard key={officialIdentity(rep)} rep={rep} />
+          ))}
+        </div>
+      ) : (
+        <p className="px-4 pb-3 text-sm text-ink-3">{emptyNote}</p>
+      )}
+      <TierNode index={index + 1} officials={officials} onHeaderRef={onHeaderRef} headerHeight={headerHeight} />
+    </section>
+  );
 }
 
 export interface WardModalProps {
@@ -768,7 +827,7 @@ function panelHeading(officials: AreaOfficials, hoveredCityName?: string | null)
 // the map" vs. "who represents this specific point"), not the same one
 // twice.
 export default function WardModal({ officials, onClose, hoveredCityName = null, variant = "sheet" }: WardModalProps) {
-  const { headerRefs, headerHeight } = useUniformHeaderHeight();
+  const { onHeaderRef, headerHeight } = useUniformHeaderHeight();
 
   // Both variants now scroll from the same div (the tier list below) rather
   // than sidebar additionally scrolling its own outer wrapper — sticky
@@ -841,44 +900,7 @@ export default function WardModal({ officials, onClose, hoveredCityName = null, 
           that job far more weakly once there was no longer a tab strip
           drawing the eye to this row in the first place. */}
       <div className="flex-1 min-h-0 overflow-y-auto">
-        {TIER_SECTIONS.map(({ key, label, emptyNote }, index) => {
-          const reps = officials[key];
-          const headingId = `officials-tier-${key}-heading`;
-          return (
-            <section key={key} aria-labelledby={headingId}>
-              {/* Sticky, not fixed: each header docks at a `top` offset
-                  equal to the ones already stacked above it, so City parks
-                  at the very top of the scroll region, County slides up and
-                  parks directly under it once it reaches that line, then
-                  State under County — plain CSS position:sticky stacking.
-                  A shared z-index (beating content's default z-index:auto
-                  regardless of DOM order) plus the opaque fill below is
-                  what makes each tier's content visually disappear under
-                  the header stack as it scrolls past, and a small shadow
-                  gives the docked stack some depth/weight once it's sitting
-                  above the tier still scrolling underneath it. */}
-              <h2
-                ref={(el) => {
-                  headerRefs.current[index] = el;
-                }}
-                id={headingId}
-                className="sticky z-10 px-4 py-2 text-xs font-semibold uppercase tracking-wide shadow-[0_1px_2px_rgba(0,0,0,0.15)]"
-                style={{ top: `${index * headerHeight}px`, backgroundColor: TIER_HEADER_BG, color: TIER_HEADER_TEXT }}
-              >
-                {label}
-              </h2>
-              {reps.length > 0 ? (
-                <div className="divide-y divide-hair">
-                  {reps.map((rep) => (
-                    <OfficialCard key={officialIdentity(rep)} rep={rep} />
-                  ))}
-                </div>
-              ) : (
-                <p className="px-4 pb-3 text-sm text-ink-3">{emptyNote}</p>
-              )}
-            </section>
-          );
-        })}
+        <TierNode index={0} officials={officials} onHeaderRef={onHeaderRef} headerHeight={headerHeight} />
       </div>
     </div>
   );
