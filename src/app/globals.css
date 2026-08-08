@@ -144,6 +144,24 @@
   --sidebar-accent: var(--flag-water-blue);
   --on-sidebar-accent: var(--flag-night-sky);
   --sidebar-edge-accent: var(--flag-night-sky);
+
+  /* Roll-call vote and staleness badges (WardModal.tsx) — unlike
+     CONTESTED_COLOR/TIER_HEADER_BG/PANEL_HEADER_BG in cityTheme.ts, these
+     were never a brand color matched to an external source; they were
+     plain Tailwind ambers/greens/reds hardcoded straight into the
+     component, with no dark-mode counterpart. Routed through tokens for
+     the same reason every other semantic color in this file is: a
+     component says what the color *means* (stale, voted yes, voted no),
+     not a raw hex. The "soft" variants stay their own tokens rather than
+     a fixed opacity of the base, since (like --accent-soft) they're
+     already tuned to sit behind the base color's own text at a
+     comfortable, theme-appropriate contrast rather than derived from it. */
+  --stale: #b45309; /* amber-700 — "Absent" / "Excused" / stale-record banner */
+  --stale-soft: #fef3c7; /* amber-100 */
+  --vote-yes: #166534; /* green-800 */
+  --vote-yes-soft: #dcfce7; /* green-100 */
+  --vote-no: #991b1b; /* red-800 */
+  --vote-no-soft: #fee2e2; /* red-100 */
 }
 
 .dark {
@@ -193,6 +211,20 @@
   --sidebar-accent: var(--accent);
   --on-sidebar-accent: var(--on-accent);
   --sidebar-edge-accent: var(--hair-strong);
+
+  /* Same amber/green/red identities as light mode, re-tuned for a
+     near-black surface: brighter (400-weight) text so it still reads
+     against --well/--panel-2 (~#09090b), soft backgrounds dropped to a
+     low-opacity overlay of that same hue instead of a pastel fill —
+     matching how --accent-soft/--positive already handle "saturated color
+     on dark chrome" elsewhere in this file, rather than the light-mode
+     pastel going straight onto a dark panel unchanged. */
+  --stale: #fbbf24; /* amber-400 */
+  --stale-soft: #fbbf241a;
+  --vote-yes: #4ade80; /* green-400 */
+  --vote-yes-soft: #4ade801a;
+  --vote-no: #f87171; /* red-400 */
+  --vote-no-soft: #f871711a;
 }
 
 /* The "band" — the site's identity bar (SiteHeader) — is the flag itself,
@@ -283,6 +315,12 @@
   --color-sidebar-accent: var(--sidebar-accent);
   --color-on-sidebar-accent: var(--on-sidebar-accent);
   --color-sidebar-edge-accent: var(--sidebar-edge-accent);
+  --color-stale: var(--stale);
+  --color-stale-soft: var(--stale-soft);
+  --color-vote-yes: var(--vote-yes);
+  --color-vote-yes-soft: var(--vote-yes-soft);
+  --color-vote-no: var(--vote-no);
+  --color-vote-no-soft: var(--vote-no-soft);
 
   /* System font stack, no webfont — matches mndatacenter.org and keeps
      every render (including a five-year-old phone on 3G, AGENTS.md §4)
