@@ -211,6 +211,16 @@ const MODE_VISIBLE_CITIES: Record<LayerMode, readonly City[]> = {
   "state-legislature": [],
 };
 
+// Which cities' wards are checked on first load, before a resident touches
+// the "Areas shown" checklist — every other covered city still renders (its
+// checkbox is just unchecked to start), one click away via the checklist or
+// the "All" bulk toggle, not removed from the map. Minneapolis/St. Paul are
+// the core metro and this app's original two cities; defaulting to just
+// them keeps the first paint focused rather than opening on all 17 cities'
+// wards at once. Unlike MODE_VISIBLE_CITIES above (which city checkboxes
+// even *exist* per mode), this only decides which of those start checked.
+const DEFAULT_VISIBLE_CITIES = new Set<City>(["Minneapolis", "St. Paul"]);
+
 // User-facing names for the mode toggle — "which level of government."
 const MODE_LABELS: Record<LayerMode, string> = {
   wards: "City",
@@ -988,7 +998,7 @@ export default function WardMap() {
   const [layerMode, setLayerMode] = useState<LayerMode>("wards");
   const layerModeRef = useRef(layerMode);
   const [visibleCities, setVisibleCities] = useState<Record<City, boolean>>(
-    () => Object.fromEntries(CITIES.map((city) => [city, true])) as Record<City, boolean>,
+    () => Object.fromEntries(CITIES.map((city) => [city, DEFAULT_VISIBLE_CITIES.has(city)])) as Record<City, boolean>,
   );
   const visibleCitiesRef = useRef(visibleCities);
   const [chamber, setChamber] = useState<Chamber>("house");
