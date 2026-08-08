@@ -23,7 +23,14 @@
 
 import { Info } from "lucide-react";
 import { useEffect, useId, useRef, useState } from "react";
-import { CITY_BOUNDARIES_NOTE, COMMISSIONER_COUNTIES, NOT_COVERED_ANYWHERE, STATE_LEGISLATURE_NOTE, WARD_CITIES } from "@/lib/coverage";
+import {
+  CITY_BOUNDARIES_NOTE,
+  COMMISSIONER_COUNTIES,
+  MEETINGS_NOTE,
+  NOT_COVERED_ANYWHERE,
+  STATE_LEGISLATURE_NOTE,
+  WARD_CITIES,
+} from "@/lib/coverage";
 
 export default function CoverageNotice() {
   const [open, setOpen] = useState(false);
@@ -98,6 +105,13 @@ export default function CoverageNotice() {
             </p>
             <p>
               <span className="font-medium text-ink-2">State legislature</span> — {STATE_LEGISLATURE_NOTE}
+            </p>
+            <p>
+              <span className="font-medium text-ink-2">Meetings &amp; agendas</span> — {MEETINGS_NOTE} See{" "}
+              <a href="/meetings" className="underline underline-offset-2 hover:text-ink-2">
+                /meetings
+              </a>{" "}
+              for the full browser.
             </p>
             <p>
               <span className="font-medium text-ink-2">Not covered anywhere yet</span> — {NOT_COVERED_ANYWHERE.join("; ")}.

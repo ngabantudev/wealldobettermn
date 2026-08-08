@@ -17,6 +17,63 @@ import {
   PANEL_HEADER_TEXT,
 } from "@/lib/cityTheme";
 import { isStale } from "@/lib/electionConfig";
+// Tiny (few-hundred-byte) bundler-resolved JSON imports — not the full
+// {client}-meetings.json feed src/app/meetings/page.tsx reads, which runs
+// into the hundreds of KB across both clients' meetings+agendaItems. This
+// component ships to every visitor on every hover/click, so it only ever
+// carries the one soonest-meeting summary scripts/ingest/legistar.mjs's
+// writeNextMeetingTeaser() produces (AGENTS.md §0.7's 3G/old-phone
+// budget) — full browsing lives at /meetings, linked below, never
+// duplicated here (issue #58: "teaser only, not a duplicate of the full
+// view").
+import stpaulNextMeeting from "../../public/legistar/stpaul-next-meeting.json";
+import hennepinmnNextMeeting from "../../public/legistar/hennepinmn-next-meeting.json";
+
+interface NextMeetingTeaser {
+  client: string;
+  jurisdiction: string;
+  bodyName: string | null;
+  isPrimaryBody: boolean;
+  date: string | null;
+  time: string | null;
+  sourceUrl: string | null;
+  agendaUrl: string | null;
+}
+
+// Keyed by the same city/county display strings RepProperties already
+// carries (rep.city / rep.county) — see NEXT_MEETING_TEASERS's two call
+// sites below. Only jurisdictions with a real wired Legistar feed appear
+// here (src/lib/meetingsRegistry.ts's MEETINGS_JURISDICTIONS); every other
+// city/county keeps rendering the existing honest "no feed" copy.
+const NEXT_MEETING_TEASERS: Partial<Record<string, NextMeetingTeaser | null>> = {
+  "St. Paul": (stpaulNextMeeting as { nextMeeting: NextMeetingTeaser | null }).nextMeeting,
+  Hennepin: (hennepinmnNextMeeting as { nextMeeting: NextMeetingTeaser | null }).nextMeeting,
+};
+
+function formatTeaserDate(iso: string): string {
+  return new Date(`${iso}T00:00:00Z`).toLocaleDateString("en-US", { month: "short", day: "numeric", timeZone: "UTC" });
+}
+
+// One-line "next meeting" teaser (issue #58, AGENTS.md §0.6 "every record
+// ends in an action") — always links to /meetings for the full agenda
+// browser rather than rendering any agenda content itself.
+function NextMeetingTeaserLine({ teaser }: { teaser: NextMeetingTeaser | null | undefined }) {
+  if (!teaser || !teaser.date) return null;
+  return (
+    <p className="mt-1.5 text-sm">
+      Next {teaser.isPrimaryBody ? "meeting" : `meeting (${teaser.bodyName ?? "a related body"})`}:{" "}
+      <span className="font-medium text-ink-2">
+        {formatTeaserDate(teaser.date)}
+        {teaser.time ? `, ${teaser.time}` : ""}
+      </span>{" "}
+      —{" "}
+      <a href="/meetings" className="text-accent underline underline-offset-2">
+        see the full agenda
+      </a>
+      .
+    </p>
+  );
+}
 
 // AGENTS.md §3.2 soft staleness notice ("A record older than a
 // configured threshold renders a visible staleness notice"), scoped to
@@ -653,7 +710,16 @@ function OfficialCard({ rep }: { rep: RepProperties }) {
               <IconCalendar />
               Meetings
             </div>
-            <p className="text-sm text-ink-3">No meetings feed connected yet for {rep.city}.</p>
+            {/* St. Paul (issue #58) has a real wired Legistar feed now —
+                every other city in CITY_MEETINGS_URL still gets the honest
+                "no feed connected" copy below; NEXT_MEETING_TEASERS only
+                has an entry for jurisdictions meetingsRegistry.ts actually
+                lists. */}
+            {NEXT_MEETING_TEASERS[rep.city] !== undefined ? (
+              <NextMeetingTeaserLine teaser={NEXT_MEETING_TEASERS[rep.city]} />
+            ) : (
+              <p className="text-sm text-ink-3">No meetings feed connected yet for {rep.city}.</p>
+            )}
             {CITY_MEETINGS_URL[rep.city] ? (
               <a
                 href={CITY_MEETINGS_URL[rep.city]}
@@ -668,6 +734,22 @@ function OfficialCard({ rep }: { rep: RepProperties }) {
             ) : (
               <p className="text-xs text-ink-4 mt-1">Check {rep.city}&rsquo;s official website for upcoming meetings.</p>
             )}
+          </div>
+        )}
+
+        {/* County tier equivalent of the block above — Hennepin County
+            Board also has a wired Legistar feed (issue #58). No
+            "no feed" fallback copy here (unlike the city block): a county
+            commissioner card with nothing to show for a county
+            meetingsRegistry.ts doesn't cover just renders nothing, same
+            as this card did for every county before this feed existed. */}
+        {!isWard && rep.county && NEXT_MEETING_TEASERS[rep.county] && (
+          <div className="border-t border-hair px-4 py-3">
+            <div className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-ink-3 mb-2.5">
+              <IconCalendar />
+              Meetings
+            </div>
+            <NextMeetingTeaserLine teaser={NEXT_MEETING_TEASERS[rep.county]} />
           </div>
         )}
 

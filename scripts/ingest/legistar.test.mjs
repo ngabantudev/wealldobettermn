@@ -18,8 +18,13 @@ import {
   combineSnapshotHashes,
   dateRangeFilter,
   determineVoteWindow,
+  diffMeetings,
   findHoldingForVote,
+  isConsentAgendaItem,
+  mapEventItemToAgendaItem,
+  mapEventToMeeting,
   mapVoteValue,
+  selectNextMeeting,
   sha256Hex,
   slugify,
   stripInternal,
@@ -249,4 +254,130 @@ test("findHoldingForVote returns null when no holding covers the person/body/dat
   assert.equal(findHoldingForVote(holdings, 999, 138, "2020-01-01"), null, "wrong person");
   assert.equal(findHoldingForVote(holdings, 176, 1, "2020-01-01"), null, "wrong body");
   assert.equal(findHoldingForVote(holdings, 176, 138, "2010-01-01"), null, "before term start");
+});
+
+// --- isConsentAgendaItem / mapEventToMeeting / mapEventItemToAgendaItem ----
+// (issue #58 — meetings/agenda ingest)
+
+test("isConsentAgendaItem reads Legistar's own EventItemConsent flag only", () => {
+  assert.equal(isConsentAgendaItem({ EventItemConsent: 1 }), true);
+  assert.equal(isConsentAgendaItem({ EventItemConsent: 0 }), false);
+  assert.equal(isConsentAgendaItem({ EventItemConsent: null }), false);
+  assert.equal(isConsentAgendaItem({}), false, "missing field is never guessed as consent");
+});
+
+test("mapEventToMeeting carries EventInSiteURL through as sourceUrl with no scraping", () => {
+  const event = {
+    EventId: 7663,
+    EventBodyId: 138,
+    EventBodyName: "City Council",
+    EventDate: "2026-06-03T00:00:00",
+    EventTime: "3:30 PM",
+    EventLocation: "Council Chambers - 3rd Floor",
+    EventAgendaStatusName: "Final-revised",
+    EventAgendaFile: "https://legistar1.granicus.com/StPaul/meetings/2026/6/7663_A.pdf",
+    EventMinutesFile: null,
+    EventVideoStatus: "Public",
+    EventInSiteURL: "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7663&GID=125&G=abc",
+    EventLastModifiedUtc: "2026-06-04T15:12:07.17",
+  };
+
+  const meeting = mapEventToMeeting("stpaul", event);
+
+  assert.equal(meeting.id, "legistar-stpaul-meeting-7663");
+  assert.equal(meeting.body_id, "legistar-stpaul-body-138");
+  assert.equal(meeting.date, "2026-06-03");
+  assert.equal(meeting.sourceUrl, event.EventInSiteURL);
+  assert.equal(meeting.agendaUrl, event.EventAgendaFile);
+  assert.equal(meeting.minutesUrl, null);
+});
+
+test("mapEventItemToAgendaItem flags consent items and passes matter linkage through", () => {
+  const item = {
+    EventItemId: 214511,
+    EventItemAgendaSequence: 3,
+    EventItemAgendaNumber: "1",
+    EventItemTitle: "Authorizing the reallocation of grant funds.",
+    EventItemConsent: 1,
+    EventItemActionName: "Adopted",
+    EventItemPassedFlagName: "Pass",
+    EventItemMatterFile: "RES 26-1145",
+    EventItemMatterId: 52382,
+    EventItemMatterType: "Resolution",
+  };
+
+  const agendaItem = mapEventItemToAgendaItem("stpaul", "legistar-stpaul-meeting-7663", item);
+
+  assert.equal(agendaItem.id, "legistar-stpaul-eventitem-214511");
+  assert.equal(agendaItem.meeting_id, "legistar-stpaul-meeting-7663");
+  assert.equal(agendaItem.isConsent, true);
+  assert.equal(agendaItem.matterFile, "RES 26-1145");
+});
+
+test("mapEventItemToAgendaItem falls back to a generated title, never a fabricated one, when EventItemTitle is missing", () => {
+  const agendaItem = mapEventItemToAgendaItem("stpaul", "m1", { EventItemId: 1 });
+  assert.equal(agendaItem.title, "Agenda item 1");
+  assert.equal(agendaItem.isConsent, false);
+});
+
+// --- diffMeetings (AGENTS.md §0.5 — diff on refresh) ------------------------
+
+test("diffMeetings reports added and removed meeting ids", () => {
+  const previous = [{ id: "m1", date: "2026-08-01" }];
+  const next = [{ id: "m2", date: "2026-08-02" }];
+
+  const diff = diffMeetings(previous, next);
+
+  assert.deepEqual(diff.addedIds, ["m2"]);
+  assert.deepEqual(diff.removedIds, ["m1"]);
+  assert.deepEqual(diff.changed, []);
+});
+
+test("diffMeetings reports a per-field change for a rescheduled meeting (same id, different date)", () => {
+  const previous = [{ id: "m1", date: "2026-08-01", time: "3:30 PM", location: "Chambers" }];
+  const next = [{ id: "m1", date: "2026-08-08", time: "3:30 PM", location: "Chambers" }];
+
+  const diff = diffMeetings(previous, next);
+
+  assert.equal(diff.addedIds.length, 0);
+  assert.equal(diff.removedIds.length, 0);
+  assert.deepEqual(diff.changed, [{ id: "m1", field: "date", from: "2026-08-01", to: "2026-08-08" }]);
+});
+
+test("diffMeetings is a no-op when nothing changed", () => {
+  const meetings = [{ id: "m1", date: "2026-08-01", time: "3:30 PM", location: "Chambers" }];
+  const diff = diffMeetings(meetings, meetings);
+  assert.deepEqual(diff, { addedIds: [], removedIds: [], changed: [] });
+});
+
+// --- selectNextMeeting (WardModal sidebar teaser, issue #58) ---------------
+
+test("selectNextMeeting prefers the primary body's next meeting over a sooner non-primary body", () => {
+  const meetings = [
+    { id: "m1", bodyName: "Legislative Hearings", date: "2026-08-05", time: "9:00 AM", sourceUrl: "u1", agendaUrl: "a1" },
+    { id: "m2", bodyName: "City Council", date: "2026-08-12", time: "3:30 PM", sourceUrl: "u2", agendaUrl: "a2" },
+  ];
+
+  const next = selectNextMeeting(clientConfig, meetings, "2026-08-01", "City Council");
+
+  assert.equal(next.date, "2026-08-12");
+  assert.equal(next.bodyName, "City Council");
+  assert.equal(next.isPrimaryBody, true);
+});
+
+test("selectNextMeeting falls back to the soonest meeting of any body when no primary body is known", () => {
+  const meetings = [
+    { id: "m1", bodyName: "Legislative Hearings", date: "2026-08-05", time: "9:00 AM", sourceUrl: "u1", agendaUrl: "a1" },
+    { id: "m2", bodyName: "City Council", date: "2026-08-12", time: "3:30 PM", sourceUrl: "u2", agendaUrl: "a2" },
+  ];
+
+  const next = selectNextMeeting(clientConfig, meetings, "2026-08-01", null);
+
+  assert.equal(next.date, "2026-08-05");
+  assert.equal(next.isPrimaryBody, false);
+});
+
+test("selectNextMeeting excludes past meetings and returns null when nothing is upcoming", () => {
+  const meetings = [{ id: "m1", bodyName: "City Council", date: "2026-07-01", time: null, sourceUrl: null, agendaUrl: null }];
+  assert.equal(selectNextMeeting(clientConfig, meetings, "2026-08-01", "City Council"), null);
 });

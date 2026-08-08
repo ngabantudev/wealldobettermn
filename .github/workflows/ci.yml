@@ -110,7 +110,7 @@ jobs:
           # a single hung request can block the job.
           set +e
           FAILED=0
-          for route in / /bills; do
+          for route in / /bills /meetings; do
             code=$(curl -s --connect-timeout 5 --max-time 10 -o /dev/null -w "%{http_code}" "http://127.0.0.1:8788${route}")
             curl_status=$?
             if [ "$curl_status" -ne 0 ]; then

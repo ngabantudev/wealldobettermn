@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "client": "stpaul",
   "jurisdiction": "St. Paul City Council",
-  "generatedAt": "2026-08-08T07:23:36.527Z",
+  "generatedAt": "2026-08-08T07:40:04.496Z",
   "status": "ingested",
   "note": "Full ingest: 220 holding(s) across 26 office(s) and 41 person(s), from officerecords. Votes windowed to 2026-06-09–2026-08-09 on \"City Council\": 250/317 matter(s) processed, 100 vote event(s), 700 vote(s).",
   "provenance": {
@@ -11,7 +11,7 @@
     "documentType": "Legistar Web API",
     "documentId": null,
     "issuedDate": null,
-    "fetchedAt": "2026-08-08T07:23:36.527Z",
+    "fetchedAt": "2026-08-08T07:40:04.496Z",
     "licence": "Public records served via Legistar InSite; no separate machine-reuse licence published by the host jurisdiction as of this writing.",
     "contentHash": "af517cf98cdec9da580ba1510f86d11a902968c219a513b08866478a971aacea"
   },
@@ -4622,4201 +4622,4201 @@
   ],
   "votes": [
     {
-      "id": "legistar-stpaul-vote-215871-129952",
+      "id": "legistar-stpaul-vote-129952",
       "vote_event_id": "legistar-stpaul-voteevent-215871",
       "holding_id": "legistar-stpaul-holding-1060",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215871-129953",
+      "id": "legistar-stpaul-vote-129953",
       "vote_event_id": "legistar-stpaul-voteevent-215871",
       "holding_id": "legistar-stpaul-holding-1112",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215871-129954",
+      "id": "legistar-stpaul-vote-129954",
       "vote_event_id": "legistar-stpaul-voteevent-215871",
       "holding_id": "legistar-stpaul-holding-1164",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215871-129955",
+      "id": "legistar-stpaul-vote-129955",
       "vote_event_id": "legistar-stpaul-voteevent-215871",
       "holding_id": "legistar-stpaul-holding-1166",
       "value": "absent"
     },
     {
-      "id": "legistar-stpaul-vote-215871-129956",
+      "id": "legistar-stpaul-vote-129956",
       "vote_event_id": "legistar-stpaul-voteevent-215871",
       "holding_id": "legistar-stpaul-holding-1168",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215871-129957",
+      "id": "legistar-stpaul-vote-129957",
       "vote_event_id": "legistar-stpaul-voteevent-215871",
       "holding_id": "legistar-stpaul-holding-1169",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215871-129958",
+      "id": "legistar-stpaul-vote-129958",
       "vote_event_id": "legistar-stpaul-voteevent-215871",
       "holding_id": "legistar-stpaul-holding-1220",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215795-129980",
+      "id": "legistar-stpaul-vote-129980",
       "vote_event_id": "legistar-stpaul-voteevent-215795",
       "holding_id": "legistar-stpaul-holding-1060",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215795-129981",
+      "id": "legistar-stpaul-vote-129981",
       "vote_event_id": "legistar-stpaul-voteevent-215795",
       "holding_id": "legistar-stpaul-holding-1112",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215795-129982",
+      "id": "legistar-stpaul-vote-129982",
       "vote_event_id": "legistar-stpaul-voteevent-215795",
       "holding_id": "legistar-stpaul-holding-1164",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215795-129983",
+      "id": "legistar-stpaul-vote-129983",
       "vote_event_id": "legistar-stpaul-voteevent-215795",
       "holding_id": "legistar-stpaul-holding-1166",
       "value": "absent"
     },
     {
-      "id": "legistar-stpaul-vote-215795-129984",
+      "id": "legistar-stpaul-vote-129984",
       "vote_event_id": "legistar-stpaul-voteevent-215795",
       "holding_id": "legistar-stpaul-holding-1168",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215795-129985",
+      "id": "legistar-stpaul-vote-129985",
       "vote_event_id": "legistar-stpaul-voteevent-215795",
       "holding_id": "legistar-stpaul-holding-1169",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215795-129986",
+      "id": "legistar-stpaul-vote-129986",
       "vote_event_id": "legistar-stpaul-voteevent-215795",
       "holding_id": "legistar-stpaul-holding-1220",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215796-129952",
+      "id": "legistar-stpaul-vote-129952",
       "vote_event_id": "legistar-stpaul-voteevent-215796",
       "holding_id": "legistar-stpaul-holding-1060",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215796-129953",
+      "id": "legistar-stpaul-vote-129953",
       "vote_event_id": "legistar-stpaul-voteevent-215796",
       "holding_id": "legistar-stpaul-holding-1112",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215796-129954",
+      "id": "legistar-stpaul-vote-129954",
       "vote_event_id": "legistar-stpaul-voteevent-215796",
       "holding_id": "legistar-stpaul-holding-1164",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215796-129955",
+      "id": "legistar-stpaul-vote-129955",
       "vote_event_id": "legistar-stpaul-voteevent-215796",
       "holding_id": "legistar-stpaul-holding-1166",
       "value": "absent"
     },
     {
-      "id": "legistar-stpaul-vote-215796-129956",
+      "id": "legistar-stpaul-vote-129956",
       "vote_event_id": "legistar-stpaul-voteevent-215796",
       "holding_id": "legistar-stpaul-holding-1168",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215796-129957",
+      "id": "legistar-stpaul-vote-129957",
       "vote_event_id": "legistar-stpaul-voteevent-215796",
       "holding_id": "legistar-stpaul-holding-1169",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215796-129958",
+      "id": "legistar-stpaul-vote-129958",
       "vote_event_id": "legistar-stpaul-voteevent-215796",
       "holding_id": "legistar-stpaul-holding-1220",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215797-129952",
+      "id": "legistar-stpaul-vote-129952",
       "vote_event_id": "legistar-stpaul-voteevent-215797",
       "holding_id": "legistar-stpaul-holding-1060",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215797-129953",
+      "id": "legistar-stpaul-vote-129953",
       "vote_event_id": "legistar-stpaul-voteevent-215797",
       "holding_id": "legistar-stpaul-holding-1112",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215797-129954",
+      "id": "legistar-stpaul-vote-129954",
       "vote_event_id": "legistar-stpaul-voteevent-215797",
       "holding_id": "legistar-stpaul-holding-1164",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215797-129955",
+      "id": "legistar-stpaul-vote-129955",
       "vote_event_id": "legistar-stpaul-voteevent-215797",
       "holding_id": "legistar-stpaul-holding-1166",
       "value": "absent"
     },
     {
-      "id": "legistar-stpaul-vote-215797-129956",
+      "id": "legistar-stpaul-vote-129956",
       "vote_event_id": "legistar-stpaul-voteevent-215797",
       "holding_id": "legistar-stpaul-holding-1168",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215797-129957",
+      "id": "legistar-stpaul-vote-129957",
       "vote_event_id": "legistar-stpaul-voteevent-215797",
       "holding_id": "legistar-stpaul-holding-1169",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215797-129958",
+      "id": "legistar-stpaul-vote-129958",
       "vote_event_id": "legistar-stpaul-voteevent-215797",
       "holding_id": "legistar-stpaul-holding-1220",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215830-130141",
+      "id": "legistar-stpaul-vote-130141",
       "vote_event_id": "legistar-stpaul-voteevent-215830",
       "holding_id": "legistar-stpaul-holding-1060",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215830-130142",
+      "id": "legistar-stpaul-vote-130142",
       "vote_event_id": "legistar-stpaul-voteevent-215830",
       "holding_id": "legistar-stpaul-holding-1112",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215830-130143",
+      "id": "legistar-stpaul-vote-130143",
       "vote_event_id": "legistar-stpaul-voteevent-215830",
       "holding_id": "legistar-stpaul-holding-1164",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215830-130144",
+      "id": "legistar-stpaul-vote-130144",
       "vote_event_id": "legistar-stpaul-voteevent-215830",
       "holding_id": "legistar-stpaul-holding-1166",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215830-130145",
+      "id": "legistar-stpaul-vote-130145",
       "vote_event_id": "legistar-stpaul-voteevent-215830",
       "holding_id": "legistar-stpaul-holding-1168",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215830-130146",
+      "id": "legistar-stpaul-vote-130146",
       "vote_event_id": "legistar-stpaul-voteevent-215830",
       "holding_id": "legistar-stpaul-holding-1169",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215830-130147",
+      "id": "legistar-stpaul-vote-130147",
       "vote_event_id": "legistar-stpaul-voteevent-215830",
       "holding_id": "legistar-stpaul-holding-1220",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215793-129952",
+      "id": "legistar-stpaul-vote-129952",
       "vote_event_id": "legistar-stpaul-voteevent-215793",
       "holding_id": "legistar-stpaul-holding-1060",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215793-129953",
+      "id": "legistar-stpaul-vote-129953",
       "vote_event_id": "legistar-stpaul-voteevent-215793",
       "holding_id": "legistar-stpaul-holding-1112",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215793-129954",
+      "id": "legistar-stpaul-vote-129954",
       "vote_event_id": "legistar-stpaul-voteevent-215793",
       "holding_id": "legistar-stpaul-holding-1164",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215793-129955",
+      "id": "legistar-stpaul-vote-129955",
       "vote_event_id": "legistar-stpaul-voteevent-215793",
-      "holding_id": "legistar-stpaul-holding-1166",
-      "value": "absent"
-    },
-    {
-      "id": "legistar-stpaul-vote-215793-129956",
-      "vote_event_id": "legistar-stpaul-voteevent-215793",
-      "holding_id": "legistar-stpaul-holding-1168",
-      "value": "yea"
-    },
-    {
-      "id": "legistar-stpaul-vote-215793-129957",
-      "vote_event_id": "legistar-stpaul-voteevent-215793",
-      "holding_id": "legistar-stpaul-holding-1169",
-      "value": "yea"
-    },
-    {
-      "id": "legistar-stpaul-vote-215793-129958",
-      "vote_event_id": "legistar-stpaul-voteevent-215793",
-      "holding_id": "legistar-stpaul-holding-1220",
-      "value": "yea"
-    },
-    {
-      "id": "legistar-stpaul-vote-215794-129973",
-      "vote_event_id": "legistar-stpaul-voteevent-215794",
-      "holding_id": "legistar-stpaul-holding-1060",
-      "value": "yea"
-    },
-    {
-      "id": "legistar-stpaul-vote-215794-129974",
-      "vote_event_id": "legistar-stpaul-voteevent-215794",
-      "holding_id": "legistar-stpaul-holding-1112",
-      "value": "yea"
-    },
-    {
-      "id": "legistar-stpaul-vote-215794-129975",
-      "vote_event_id": "legistar-stpaul-voteevent-215794",
-      "holding_id": "legistar-stpaul-holding-1164",
-      "value": "yea"
-    },
-    {
-      "id": "legistar-stpaul-vote-215794-129976",
-      "vote_event_id": "legistar-stpaul-voteevent-215794",
       "holding_id": "legistar-stpaul-holding-1166",
       "value": "absent"
     },
     {
-      "id": "legistar-stpaul-vote-215794-129977",
+      "id": "legistar-stpaul-vote-129956",
+      "vote_event_id": "legistar-stpaul-voteevent-215793",
+      "holding_id": "legistar-stpaul-holding-1168",
+      "value": "yea"
+    },
+    {
+      "id": "legistar-stpaul-vote-129957",
+      "vote_event_id": "legistar-stpaul-voteevent-215793",
+      "holding_id": "legistar-stpaul-holding-1169",
+      "value": "yea"
+    },
+    {
+      "id": "legistar-stpaul-vote-129958",
+      "vote_event_id": "legistar-stpaul-voteevent-215793",
+      "holding_id": "legistar-stpaul-holding-1220",
+      "value": "yea"
+    },
+    {
+      "id": "legistar-stpaul-vote-129973",
+      "vote_event_id": "legistar-stpaul-voteevent-215794",
+      "holding_id": "legistar-stpaul-holding-1060",
+      "value": "yea"
+    },
+    {
+      "id": "legistar-stpaul-vote-129974",
+      "vote_event_id": "legistar-stpaul-voteevent-215794",
+      "holding_id": "legistar-stpaul-holding-1112",
+      "value": "yea"
+    },
+    {
+      "id": "legistar-stpaul-vote-129975",
+      "vote_event_id": "legistar-stpaul-voteevent-215794",
+      "holding_id": "legistar-stpaul-holding-1164",
+      "value": "yea"
+    },
+    {
+      "id": "legistar-stpaul-vote-129976",
+      "vote_event_id": "legistar-stpaul-voteevent-215794",
+      "holding_id": "legistar-stpaul-holding-1166",
+      "value": "absent"
+    },
+    {
+      "id": "legistar-stpaul-vote-129977",
       "vote_event_id": "legistar-stpaul-voteevent-215794",
       "holding_id": "legistar-stpaul-holding-1168",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215794-129978",
+      "id": "legistar-stpaul-vote-129978",
       "vote_event_id": "legistar-stpaul-voteevent-215794",
       "holding_id": "legistar-stpaul-holding-1169",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215794-129979",
+      "id": "legistar-stpaul-vote-129979",
       "vote_event_id": "legistar-stpaul-voteevent-215794",
       "holding_id": "legistar-stpaul-holding-1220",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215896-129987",
+      "id": "legistar-stpaul-vote-129987",
       "vote_event_id": "legistar-stpaul-voteevent-215896",
       "holding_id": "legistar-stpaul-holding-1060",
       "value": "nay"
     },
     {
-      "id": "legistar-stpaul-vote-215896-129988",
+      "id": "legistar-stpaul-vote-129988",
       "vote_event_id": "legistar-stpaul-voteevent-215896",
       "holding_id": "legistar-stpaul-holding-1112",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215896-129989",
+      "id": "legistar-stpaul-vote-129989",
       "vote_event_id": "legistar-stpaul-voteevent-215896",
       "holding_id": "legistar-stpaul-holding-1164",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215896-129990",
+      "id": "legistar-stpaul-vote-129990",
       "vote_event_id": "legistar-stpaul-voteevent-215896",
       "holding_id": "legistar-stpaul-holding-1166",
       "value": "nay"
     },
     {
-      "id": "legistar-stpaul-vote-215896-129991",
+      "id": "legistar-stpaul-vote-129991",
       "vote_event_id": "legistar-stpaul-voteevent-215896",
       "holding_id": "legistar-stpaul-holding-1168",
       "value": "nay"
     },
     {
-      "id": "legistar-stpaul-vote-215896-129992",
+      "id": "legistar-stpaul-vote-129992",
       "vote_event_id": "legistar-stpaul-voteevent-215896",
       "holding_id": "legistar-stpaul-holding-1169",
       "value": "nay"
     },
     {
-      "id": "legistar-stpaul-vote-215896-129993",
+      "id": "legistar-stpaul-vote-129993",
       "vote_event_id": "legistar-stpaul-voteevent-215896",
       "holding_id": "legistar-stpaul-holding-1220",
       "value": "nay"
     },
     {
-      "id": "legistar-stpaul-vote-215831-130148",
+      "id": "legistar-stpaul-vote-130148",
       "vote_event_id": "legistar-stpaul-voteevent-215831",
       "holding_id": "legistar-stpaul-holding-1060",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215831-130149",
+      "id": "legistar-stpaul-vote-130149",
       "vote_event_id": "legistar-stpaul-voteevent-215831",
       "holding_id": "legistar-stpaul-holding-1112",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215831-130150",
+      "id": "legistar-stpaul-vote-130150",
       "vote_event_id": "legistar-stpaul-voteevent-215831",
       "holding_id": "legistar-stpaul-holding-1164",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215831-130151",
+      "id": "legistar-stpaul-vote-130151",
       "vote_event_id": "legistar-stpaul-voteevent-215831",
       "holding_id": "legistar-stpaul-holding-1166",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215831-130152",
+      "id": "legistar-stpaul-vote-130152",
       "vote_event_id": "legistar-stpaul-voteevent-215831",
       "holding_id": "legistar-stpaul-holding-1168",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215831-130153",
+      "id": "legistar-stpaul-vote-130153",
       "vote_event_id": "legistar-stpaul-voteevent-215831",
       "holding_id": "legistar-stpaul-holding-1169",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215831-130154",
+      "id": "legistar-stpaul-vote-130154",
       "vote_event_id": "legistar-stpaul-voteevent-215831",
       "holding_id": "legistar-stpaul-holding-1220",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215792-129952",
+      "id": "legistar-stpaul-vote-129952",
       "vote_event_id": "legistar-stpaul-voteevent-215792",
       "holding_id": "legistar-stpaul-holding-1060",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215792-129953",
+      "id": "legistar-stpaul-vote-129953",
       "vote_event_id": "legistar-stpaul-voteevent-215792",
       "holding_id": "legistar-stpaul-holding-1112",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215792-129954",
+      "id": "legistar-stpaul-vote-129954",
       "vote_event_id": "legistar-stpaul-voteevent-215792",
       "holding_id": "legistar-stpaul-holding-1164",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215792-129955",
+      "id": "legistar-stpaul-vote-129955",
       "vote_event_id": "legistar-stpaul-voteevent-215792",
       "holding_id": "legistar-stpaul-holding-1166",
       "value": "absent"
     },
     {
-      "id": "legistar-stpaul-vote-215792-129956",
+      "id": "legistar-stpaul-vote-129956",
       "vote_event_id": "legistar-stpaul-voteevent-215792",
       "holding_id": "legistar-stpaul-holding-1168",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215792-129957",
+      "id": "legistar-stpaul-vote-129957",
       "vote_event_id": "legistar-stpaul-voteevent-215792",
       "holding_id": "legistar-stpaul-holding-1169",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215792-129958",
+      "id": "legistar-stpaul-vote-129958",
       "vote_event_id": "legistar-stpaul-voteevent-215792",
       "holding_id": "legistar-stpaul-holding-1220",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215790-129952",
+      "id": "legistar-stpaul-vote-129952",
       "vote_event_id": "legistar-stpaul-voteevent-215790",
       "holding_id": "legistar-stpaul-holding-1060",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215790-129953",
+      "id": "legistar-stpaul-vote-129953",
       "vote_event_id": "legistar-stpaul-voteevent-215790",
       "holding_id": "legistar-stpaul-holding-1112",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215790-129954",
+      "id": "legistar-stpaul-vote-129954",
       "vote_event_id": "legistar-stpaul-voteevent-215790",
       "holding_id": "legistar-stpaul-holding-1164",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215790-129955",
+      "id": "legistar-stpaul-vote-129955",
       "vote_event_id": "legistar-stpaul-voteevent-215790",
       "holding_id": "legistar-stpaul-holding-1166",
       "value": "absent"
     },
     {
-      "id": "legistar-stpaul-vote-215790-129956",
+      "id": "legistar-stpaul-vote-129956",
       "vote_event_id": "legistar-stpaul-voteevent-215790",
       "holding_id": "legistar-stpaul-holding-1168",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215790-129957",
+      "id": "legistar-stpaul-vote-129957",
       "vote_event_id": "legistar-stpaul-voteevent-215790",
       "holding_id": "legistar-stpaul-holding-1169",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215790-129958",
+      "id": "legistar-stpaul-vote-129958",
       "vote_event_id": "legistar-stpaul-voteevent-215790",
       "holding_id": "legistar-stpaul-holding-1220",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215791-129952",
+      "id": "legistar-stpaul-vote-129952",
       "vote_event_id": "legistar-stpaul-voteevent-215791",
       "holding_id": "legistar-stpaul-holding-1060",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215791-129953",
+      "id": "legistar-stpaul-vote-129953",
       "vote_event_id": "legistar-stpaul-voteevent-215791",
       "holding_id": "legistar-stpaul-holding-1112",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215791-129954",
+      "id": "legistar-stpaul-vote-129954",
       "vote_event_id": "legistar-stpaul-voteevent-215791",
       "holding_id": "legistar-stpaul-holding-1164",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215791-129955",
+      "id": "legistar-stpaul-vote-129955",
       "vote_event_id": "legistar-stpaul-voteevent-215791",
       "holding_id": "legistar-stpaul-holding-1166",
       "value": "absent"
     },
     {
-      "id": "legistar-stpaul-vote-215791-129956",
+      "id": "legistar-stpaul-vote-129956",
       "vote_event_id": "legistar-stpaul-voteevent-215791",
       "holding_id": "legistar-stpaul-holding-1168",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215791-129957",
+      "id": "legistar-stpaul-vote-129957",
       "vote_event_id": "legistar-stpaul-voteevent-215791",
       "holding_id": "legistar-stpaul-holding-1169",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215791-129958",
+      "id": "legistar-stpaul-vote-129958",
       "vote_event_id": "legistar-stpaul-voteevent-215791",
       "holding_id": "legistar-stpaul-holding-1220",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215655-129791",
+      "id": "legistar-stpaul-vote-129791",
       "vote_event_id": "legistar-stpaul-voteevent-215655",
       "holding_id": "legistar-stpaul-holding-1060",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215655-129792",
+      "id": "legistar-stpaul-vote-129792",
       "vote_event_id": "legistar-stpaul-voteevent-215655",
       "holding_id": "legistar-stpaul-holding-1112",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215655-129793",
+      "id": "legistar-stpaul-vote-129793",
       "vote_event_id": "legistar-stpaul-voteevent-215655",
       "holding_id": "legistar-stpaul-holding-1164",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215655-129794",
+      "id": "legistar-stpaul-vote-129794",
       "vote_event_id": "legistar-stpaul-voteevent-215655",
       "holding_id": "legistar-stpaul-holding-1166",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215655-129795",
+      "id": "legistar-stpaul-vote-129795",
       "vote_event_id": "legistar-stpaul-voteevent-215655",
       "holding_id": "legistar-stpaul-holding-1168",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215655-129796",
+      "id": "legistar-stpaul-vote-129796",
       "vote_event_id": "legistar-stpaul-voteevent-215655",
       "holding_id": "legistar-stpaul-holding-1169",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215655-129797",
+      "id": "legistar-stpaul-vote-129797",
       "vote_event_id": "legistar-stpaul-voteevent-215655",
       "holding_id": "legistar-stpaul-holding-1220",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215835-130141",
+      "id": "legistar-stpaul-vote-130141",
       "vote_event_id": "legistar-stpaul-voteevent-215835",
       "holding_id": "legistar-stpaul-holding-1060",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215835-130142",
+      "id": "legistar-stpaul-vote-130142",
       "vote_event_id": "legistar-stpaul-voteevent-215835",
       "holding_id": "legistar-stpaul-holding-1112",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215835-130143",
+      "id": "legistar-stpaul-vote-130143",
       "vote_event_id": "legistar-stpaul-voteevent-215835",
       "holding_id": "legistar-stpaul-holding-1164",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215835-130144",
+      "id": "legistar-stpaul-vote-130144",
       "vote_event_id": "legistar-stpaul-voteevent-215835",
       "holding_id": "legistar-stpaul-holding-1166",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215835-130145",
+      "id": "legistar-stpaul-vote-130145",
       "vote_event_id": "legistar-stpaul-voteevent-215835",
       "holding_id": "legistar-stpaul-holding-1168",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215835-130146",
+      "id": "legistar-stpaul-vote-130146",
       "vote_event_id": "legistar-stpaul-voteevent-215835",
       "holding_id": "legistar-stpaul-holding-1169",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215835-130147",
+      "id": "legistar-stpaul-vote-130147",
       "vote_event_id": "legistar-stpaul-voteevent-215835",
       "holding_id": "legistar-stpaul-holding-1220",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215820-130120",
+      "id": "legistar-stpaul-vote-130120",
       "vote_event_id": "legistar-stpaul-voteevent-215820",
       "holding_id": "legistar-stpaul-holding-1060",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215820-130121",
+      "id": "legistar-stpaul-vote-130121",
       "vote_event_id": "legistar-stpaul-voteevent-215820",
       "holding_id": "legistar-stpaul-holding-1112",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215820-130122",
+      "id": "legistar-stpaul-vote-130122",
       "vote_event_id": "legistar-stpaul-voteevent-215820",
       "holding_id": "legistar-stpaul-holding-1164",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215820-130123",
+      "id": "legistar-stpaul-vote-130123",
       "vote_event_id": "legistar-stpaul-voteevent-215820",
       "holding_id": "legistar-stpaul-holding-1166",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215820-130124",
+      "id": "legistar-stpaul-vote-130124",
       "vote_event_id": "legistar-stpaul-voteevent-215820",
       "holding_id": "legistar-stpaul-holding-1168",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215820-130125",
+      "id": "legistar-stpaul-vote-130125",
       "vote_event_id": "legistar-stpaul-voteevent-215820",
       "holding_id": "legistar-stpaul-holding-1169",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215820-130126",
+      "id": "legistar-stpaul-vote-130126",
       "vote_event_id": "legistar-stpaul-voteevent-215820",
       "holding_id": "legistar-stpaul-holding-1220",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215821-130106",
+      "id": "legistar-stpaul-vote-130106",
       "vote_event_id": "legistar-stpaul-voteevent-215821",
       "holding_id": "legistar-stpaul-holding-1060",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215821-130107",
+      "id": "legistar-stpaul-vote-130107",
       "vote_event_id": "legistar-stpaul-voteevent-215821",
       "holding_id": "legistar-stpaul-holding-1112",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215821-130108",
+      "id": "legistar-stpaul-vote-130108",
       "vote_event_id": "legistar-stpaul-voteevent-215821",
       "holding_id": "legistar-stpaul-holding-1164",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215821-130109",
+      "id": "legistar-stpaul-vote-130109",
       "vote_event_id": "legistar-stpaul-voteevent-215821",
       "holding_id": "legistar-stpaul-holding-1166",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215821-130110",
+      "id": "legistar-stpaul-vote-130110",
       "vote_event_id": "legistar-stpaul-voteevent-215821",
       "holding_id": "legistar-stpaul-holding-1168",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215821-130111",
+      "id": "legistar-stpaul-vote-130111",
       "vote_event_id": "legistar-stpaul-voteevent-215821",
       "holding_id": "legistar-stpaul-holding-1169",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215821-130112",
+      "id": "legistar-stpaul-vote-130112",
       "vote_event_id": "legistar-stpaul-voteevent-215821",
       "holding_id": "legistar-stpaul-holding-1220",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215832-130134",
+      "id": "legistar-stpaul-vote-130134",
       "vote_event_id": "legistar-stpaul-voteevent-215832",
       "holding_id": "legistar-stpaul-holding-1060",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215832-130135",
+      "id": "legistar-stpaul-vote-130135",
       "vote_event_id": "legistar-stpaul-voteevent-215832",
       "holding_id": "legistar-stpaul-holding-1112",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215832-130136",
+      "id": "legistar-stpaul-vote-130136",
       "vote_event_id": "legistar-stpaul-voteevent-215832",
       "holding_id": "legistar-stpaul-holding-1164",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215832-130137",
+      "id": "legistar-stpaul-vote-130137",
       "vote_event_id": "legistar-stpaul-voteevent-215832",
       "holding_id": "legistar-stpaul-holding-1166",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215832-130138",
+      "id": "legistar-stpaul-vote-130138",
       "vote_event_id": "legistar-stpaul-voteevent-215832",
       "holding_id": "legistar-stpaul-holding-1168",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215832-130139",
+      "id": "legistar-stpaul-vote-130139",
       "vote_event_id": "legistar-stpaul-voteevent-215832",
       "holding_id": "legistar-stpaul-holding-1169",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215832-130140",
+      "id": "legistar-stpaul-vote-130140",
       "vote_event_id": "legistar-stpaul-voteevent-215832",
       "holding_id": "legistar-stpaul-holding-1220",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215789-129952",
+      "id": "legistar-stpaul-vote-129952",
       "vote_event_id": "legistar-stpaul-voteevent-215789",
       "holding_id": "legistar-stpaul-holding-1060",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215789-129953",
+      "id": "legistar-stpaul-vote-129953",
       "vote_event_id": "legistar-stpaul-voteevent-215789",
       "holding_id": "legistar-stpaul-holding-1112",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215789-129954",
+      "id": "legistar-stpaul-vote-129954",
       "vote_event_id": "legistar-stpaul-voteevent-215789",
       "holding_id": "legistar-stpaul-holding-1164",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215789-129955",
+      "id": "legistar-stpaul-vote-129955",
       "vote_event_id": "legistar-stpaul-voteevent-215789",
       "holding_id": "legistar-stpaul-holding-1166",
       "value": "absent"
     },
     {
-      "id": "legistar-stpaul-vote-215789-129956",
+      "id": "legistar-stpaul-vote-129956",
       "vote_event_id": "legistar-stpaul-voteevent-215789",
       "holding_id": "legistar-stpaul-holding-1168",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215789-129957",
+      "id": "legistar-stpaul-vote-129957",
       "vote_event_id": "legistar-stpaul-voteevent-215789",
       "holding_id": "legistar-stpaul-holding-1169",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215789-129958",
+      "id": "legistar-stpaul-vote-129958",
       "vote_event_id": "legistar-stpaul-voteevent-215789",
       "holding_id": "legistar-stpaul-holding-1220",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215565-129763",
+      "id": "legistar-stpaul-vote-129763",
       "vote_event_id": "legistar-stpaul-voteevent-215565",
       "holding_id": "legistar-stpaul-holding-1060",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215565-129764",
+      "id": "legistar-stpaul-vote-129764",
       "vote_event_id": "legistar-stpaul-voteevent-215565",
       "holding_id": "legistar-stpaul-holding-1112",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215565-129765",
+      "id": "legistar-stpaul-vote-129765",
       "vote_event_id": "legistar-stpaul-voteevent-215565",
       "holding_id": "legistar-stpaul-holding-1164",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215565-129766",
+      "id": "legistar-stpaul-vote-129766",
       "vote_event_id": "legistar-stpaul-voteevent-215565",
       "holding_id": "legistar-stpaul-holding-1166",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215565-129767",
+      "id": "legistar-stpaul-vote-129767",
       "vote_event_id": "legistar-stpaul-voteevent-215565",
       "holding_id": "legistar-stpaul-holding-1168",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215565-129768",
+      "id": "legistar-stpaul-vote-129768",
       "vote_event_id": "legistar-stpaul-voteevent-215565",
       "holding_id": "legistar-stpaul-holding-1169",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215565-129769",
+      "id": "legistar-stpaul-vote-129769",
       "vote_event_id": "legistar-stpaul-voteevent-215565",
       "holding_id": "legistar-stpaul-holding-1220",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215870-129952",
+      "id": "legistar-stpaul-vote-129952",
       "vote_event_id": "legistar-stpaul-voteevent-215870",
       "holding_id": "legistar-stpaul-holding-1060",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215870-129953",
+      "id": "legistar-stpaul-vote-129953",
       "vote_event_id": "legistar-stpaul-voteevent-215870",
       "holding_id": "legistar-stpaul-holding-1112",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215870-129954",
+      "id": "legistar-stpaul-vote-129954",
       "vote_event_id": "legistar-stpaul-voteevent-215870",
       "holding_id": "legistar-stpaul-holding-1164",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215870-129955",
+      "id": "legistar-stpaul-vote-129955",
       "vote_event_id": "legistar-stpaul-voteevent-215870",
       "holding_id": "legistar-stpaul-holding-1166",
       "value": "absent"
     },
     {
-      "id": "legistar-stpaul-vote-215870-129956",
+      "id": "legistar-stpaul-vote-129956",
       "vote_event_id": "legistar-stpaul-voteevent-215870",
       "holding_id": "legistar-stpaul-holding-1168",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215870-129957",
+      "id": "legistar-stpaul-vote-129957",
       "vote_event_id": "legistar-stpaul-voteevent-215870",
       "holding_id": "legistar-stpaul-holding-1169",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215870-129958",
+      "id": "legistar-stpaul-vote-129958",
       "vote_event_id": "legistar-stpaul-voteevent-215870",
       "holding_id": "legistar-stpaul-holding-1220",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215834-130141",
+      "id": "legistar-stpaul-vote-130141",
       "vote_event_id": "legistar-stpaul-voteevent-215834",
       "holding_id": "legistar-stpaul-holding-1060",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215834-130142",
+      "id": "legistar-stpaul-vote-130142",
       "vote_event_id": "legistar-stpaul-voteevent-215834",
       "holding_id": "legistar-stpaul-holding-1112",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215834-130143",
+      "id": "legistar-stpaul-vote-130143",
       "vote_event_id": "legistar-stpaul-voteevent-215834",
       "holding_id": "legistar-stpaul-holding-1164",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215834-130144",
+      "id": "legistar-stpaul-vote-130144",
       "vote_event_id": "legistar-stpaul-voteevent-215834",
       "holding_id": "legistar-stpaul-holding-1166",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215834-130145",
+      "id": "legistar-stpaul-vote-130145",
       "vote_event_id": "legistar-stpaul-voteevent-215834",
       "holding_id": "legistar-stpaul-holding-1168",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215834-130146",
+      "id": "legistar-stpaul-vote-130146",
       "vote_event_id": "legistar-stpaul-voteevent-215834",
       "holding_id": "legistar-stpaul-holding-1169",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215834-130147",
+      "id": "legistar-stpaul-vote-130147",
       "vote_event_id": "legistar-stpaul-voteevent-215834",
       "holding_id": "legistar-stpaul-holding-1220",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215818-130099",
+      "id": "legistar-stpaul-vote-130099",
       "vote_event_id": "legistar-stpaul-voteevent-215818",
       "holding_id": "legistar-stpaul-holding-1060",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215818-130100",
+      "id": "legistar-stpaul-vote-130100",
       "vote_event_id": "legistar-stpaul-voteevent-215818",
       "holding_id": "legistar-stpaul-holding-1112",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215818-130101",
+      "id": "legistar-stpaul-vote-130101",
       "vote_event_id": "legistar-stpaul-voteevent-215818",
       "holding_id": "legistar-stpaul-holding-1164",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215818-130102",
+      "id": "legistar-stpaul-vote-130102",
       "vote_event_id": "legistar-stpaul-voteevent-215818",
       "holding_id": "legistar-stpaul-holding-1166",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215818-130103",
+      "id": "legistar-stpaul-vote-130103",
       "vote_event_id": "legistar-stpaul-voteevent-215818",
       "holding_id": "legistar-stpaul-holding-1168",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215818-130104",
+      "id": "legistar-stpaul-vote-130104",
       "vote_event_id": "legistar-stpaul-voteevent-215818",
       "holding_id": "legistar-stpaul-holding-1169",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215818-130105",
+      "id": "legistar-stpaul-vote-130105",
       "vote_event_id": "legistar-stpaul-voteevent-215818",
       "holding_id": "legistar-stpaul-holding-1220",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215787-129952",
+      "id": "legistar-stpaul-vote-129952",
       "vote_event_id": "legistar-stpaul-voteevent-215787",
       "holding_id": "legistar-stpaul-holding-1060",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215787-129953",
+      "id": "legistar-stpaul-vote-129953",
       "vote_event_id": "legistar-stpaul-voteevent-215787",
       "holding_id": "legistar-stpaul-holding-1112",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215787-129954",
+      "id": "legistar-stpaul-vote-129954",
       "vote_event_id": "legistar-stpaul-voteevent-215787",
       "holding_id": "legistar-stpaul-holding-1164",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215787-129955",
+      "id": "legistar-stpaul-vote-129955",
       "vote_event_id": "legistar-stpaul-voteevent-215787",
       "holding_id": "legistar-stpaul-holding-1166",
       "value": "absent"
     },
     {
-      "id": "legistar-stpaul-vote-215787-129956",
+      "id": "legistar-stpaul-vote-129956",
       "vote_event_id": "legistar-stpaul-voteevent-215787",
       "holding_id": "legistar-stpaul-holding-1168",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215787-129957",
+      "id": "legistar-stpaul-vote-129957",
       "vote_event_id": "legistar-stpaul-voteevent-215787",
       "holding_id": "legistar-stpaul-holding-1169",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215787-129958",
+      "id": "legistar-stpaul-vote-129958",
       "vote_event_id": "legistar-stpaul-voteevent-215787",
       "holding_id": "legistar-stpaul-holding-1220",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215819-130078",
+      "id": "legistar-stpaul-vote-130078",
       "vote_event_id": "legistar-stpaul-voteevent-215819",
       "holding_id": "legistar-stpaul-holding-1060",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215819-130079",
+      "id": "legistar-stpaul-vote-130079",
       "vote_event_id": "legistar-stpaul-voteevent-215819",
       "holding_id": "legistar-stpaul-holding-1112",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215819-130080",
+      "id": "legistar-stpaul-vote-130080",
       "vote_event_id": "legistar-stpaul-voteevent-215819",
       "holding_id": "legistar-stpaul-holding-1164",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215819-130081",
+      "id": "legistar-stpaul-vote-130081",
       "vote_event_id": "legistar-stpaul-voteevent-215819",
       "holding_id": "legistar-stpaul-holding-1166",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215819-130082",
+      "id": "legistar-stpaul-vote-130082",
       "vote_event_id": "legistar-stpaul-voteevent-215819",
       "holding_id": "legistar-stpaul-holding-1168",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215819-130083",
+      "id": "legistar-stpaul-vote-130083",
       "vote_event_id": "legistar-stpaul-voteevent-215819",
       "holding_id": "legistar-stpaul-holding-1169",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215819-130084",
+      "id": "legistar-stpaul-vote-130084",
       "vote_event_id": "legistar-stpaul-voteevent-215819",
       "holding_id": "legistar-stpaul-holding-1220",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215788-129952",
+      "id": "legistar-stpaul-vote-129952",
       "vote_event_id": "legistar-stpaul-voteevent-215788",
       "holding_id": "legistar-stpaul-holding-1060",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215788-129953",
+      "id": "legistar-stpaul-vote-129953",
       "vote_event_id": "legistar-stpaul-voteevent-215788",
       "holding_id": "legistar-stpaul-holding-1112",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215788-129954",
+      "id": "legistar-stpaul-vote-129954",
       "vote_event_id": "legistar-stpaul-voteevent-215788",
       "holding_id": "legistar-stpaul-holding-1164",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215788-129955",
+      "id": "legistar-stpaul-vote-129955",
       "vote_event_id": "legistar-stpaul-voteevent-215788",
       "holding_id": "legistar-stpaul-holding-1166",
       "value": "absent"
     },
     {
-      "id": "legistar-stpaul-vote-215788-129956",
+      "id": "legistar-stpaul-vote-129956",
       "vote_event_id": "legistar-stpaul-voteevent-215788",
       "holding_id": "legistar-stpaul-holding-1168",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215788-129957",
+      "id": "legistar-stpaul-vote-129957",
       "vote_event_id": "legistar-stpaul-voteevent-215788",
       "holding_id": "legistar-stpaul-holding-1169",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215788-129958",
+      "id": "legistar-stpaul-vote-129958",
       "vote_event_id": "legistar-stpaul-voteevent-215788",
       "holding_id": "legistar-stpaul-holding-1220",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215814-130057",
+      "id": "legistar-stpaul-vote-130057",
       "vote_event_id": "legistar-stpaul-voteevent-215814",
       "holding_id": "legistar-stpaul-holding-1060",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215814-130058",
+      "id": "legistar-stpaul-vote-130058",
       "vote_event_id": "legistar-stpaul-voteevent-215814",
       "holding_id": "legistar-stpaul-holding-1112",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215814-130059",
+      "id": "legistar-stpaul-vote-130059",
       "vote_event_id": "legistar-stpaul-voteevent-215814",
       "holding_id": "legistar-stpaul-holding-1164",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215814-130060",
+      "id": "legistar-stpaul-vote-130060",
       "vote_event_id": "legistar-stpaul-voteevent-215814",
       "holding_id": "legistar-stpaul-holding-1166",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215814-130061",
+      "id": "legistar-stpaul-vote-130061",
       "vote_event_id": "legistar-stpaul-voteevent-215814",
       "holding_id": "legistar-stpaul-holding-1168",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215814-130062",
+      "id": "legistar-stpaul-vote-130062",
       "vote_event_id": "legistar-stpaul-voteevent-215814",
       "holding_id": "legistar-stpaul-holding-1169",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215814-130063",
+      "id": "legistar-stpaul-vote-130063",
       "vote_event_id": "legistar-stpaul-voteevent-215814",
       "holding_id": "legistar-stpaul-holding-1220",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215815-130071",
+      "id": "legistar-stpaul-vote-130071",
       "vote_event_id": "legistar-stpaul-voteevent-215815",
       "holding_id": "legistar-stpaul-holding-1060",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215815-130072",
+      "id": "legistar-stpaul-vote-130072",
       "vote_event_id": "legistar-stpaul-voteevent-215815",
       "holding_id": "legistar-stpaul-holding-1112",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215815-130073",
+      "id": "legistar-stpaul-vote-130073",
       "vote_event_id": "legistar-stpaul-voteevent-215815",
       "holding_id": "legistar-stpaul-holding-1164",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215815-130074",
+      "id": "legistar-stpaul-vote-130074",
       "vote_event_id": "legistar-stpaul-voteevent-215815",
       "holding_id": "legistar-stpaul-holding-1166",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215815-130075",
+      "id": "legistar-stpaul-vote-130075",
       "vote_event_id": "legistar-stpaul-voteevent-215815",
       "holding_id": "legistar-stpaul-holding-1168",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215815-130076",
+      "id": "legistar-stpaul-vote-130076",
       "vote_event_id": "legistar-stpaul-voteevent-215815",
       "holding_id": "legistar-stpaul-holding-1169",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215815-130077",
+      "id": "legistar-stpaul-vote-130077",
       "vote_event_id": "legistar-stpaul-voteevent-215815",
       "holding_id": "legistar-stpaul-holding-1220",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215784-129952",
+      "id": "legistar-stpaul-vote-129952",
       "vote_event_id": "legistar-stpaul-voteevent-215784",
       "holding_id": "legistar-stpaul-holding-1060",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215784-129953",
+      "id": "legistar-stpaul-vote-129953",
       "vote_event_id": "legistar-stpaul-voteevent-215784",
       "holding_id": "legistar-stpaul-holding-1112",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215784-129954",
+      "id": "legistar-stpaul-vote-129954",
       "vote_event_id": "legistar-stpaul-voteevent-215784",
       "holding_id": "legistar-stpaul-holding-1164",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215784-129955",
+      "id": "legistar-stpaul-vote-129955",
       "vote_event_id": "legistar-stpaul-voteevent-215784",
       "holding_id": "legistar-stpaul-holding-1166",
       "value": "absent"
     },
     {
-      "id": "legistar-stpaul-vote-215784-129956",
+      "id": "legistar-stpaul-vote-129956",
       "vote_event_id": "legistar-stpaul-voteevent-215784",
       "holding_id": "legistar-stpaul-holding-1168",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215784-129957",
+      "id": "legistar-stpaul-vote-129957",
       "vote_event_id": "legistar-stpaul-voteevent-215784",
       "holding_id": "legistar-stpaul-holding-1169",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215784-129958",
+      "id": "legistar-stpaul-vote-129958",
       "vote_event_id": "legistar-stpaul-voteevent-215784",
       "holding_id": "legistar-stpaul-holding-1220",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215785-129966",
+      "id": "legistar-stpaul-vote-129966",
       "vote_event_id": "legistar-stpaul-voteevent-215785",
       "holding_id": "legistar-stpaul-holding-1060",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215785-129967",
+      "id": "legistar-stpaul-vote-129967",
       "vote_event_id": "legistar-stpaul-voteevent-215785",
       "holding_id": "legistar-stpaul-holding-1112",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215785-129968",
+      "id": "legistar-stpaul-vote-129968",
       "vote_event_id": "legistar-stpaul-voteevent-215785",
       "holding_id": "legistar-stpaul-holding-1164",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215785-129969",
+      "id": "legistar-stpaul-vote-129969",
       "vote_event_id": "legistar-stpaul-voteevent-215785",
       "holding_id": "legistar-stpaul-holding-1166",
       "value": "absent"
     },
     {
-      "id": "legistar-stpaul-vote-215785-129970",
+      "id": "legistar-stpaul-vote-129970",
       "vote_event_id": "legistar-stpaul-voteevent-215785",
       "holding_id": "legistar-stpaul-holding-1168",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215785-129971",
+      "id": "legistar-stpaul-vote-129971",
       "vote_event_id": "legistar-stpaul-voteevent-215785",
       "holding_id": "legistar-stpaul-holding-1169",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215785-129972",
+      "id": "legistar-stpaul-vote-129972",
       "vote_event_id": "legistar-stpaul-voteevent-215785",
       "holding_id": "legistar-stpaul-holding-1220",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215816-130064",
+      "id": "legistar-stpaul-vote-130064",
       "vote_event_id": "legistar-stpaul-voteevent-215816",
       "holding_id": "legistar-stpaul-holding-1060",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215816-130065",
+      "id": "legistar-stpaul-vote-130065",
       "vote_event_id": "legistar-stpaul-voteevent-215816",
       "holding_id": "legistar-stpaul-holding-1112",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215816-130066",
+      "id": "legistar-stpaul-vote-130066",
       "vote_event_id": "legistar-stpaul-voteevent-215816",
       "holding_id": "legistar-stpaul-holding-1164",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215816-130067",
+      "id": "legistar-stpaul-vote-130067",
       "vote_event_id": "legistar-stpaul-voteevent-215816",
       "holding_id": "legistar-stpaul-holding-1166",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215816-130068",
+      "id": "legistar-stpaul-vote-130068",
       "vote_event_id": "legistar-stpaul-voteevent-215816",
       "holding_id": "legistar-stpaul-holding-1168",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215816-130069",
+      "id": "legistar-stpaul-vote-130069",
       "vote_event_id": "legistar-stpaul-voteevent-215816",
       "holding_id": "legistar-stpaul-holding-1169",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215816-130070",
+      "id": "legistar-stpaul-vote-130070",
       "vote_event_id": "legistar-stpaul-voteevent-215816",
       "holding_id": "legistar-stpaul-holding-1220",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215468-129735",
+      "id": "legistar-stpaul-vote-129735",
       "vote_event_id": "legistar-stpaul-voteevent-215468",
       "holding_id": "legistar-stpaul-holding-1060",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215468-129736",
+      "id": "legistar-stpaul-vote-129736",
       "vote_event_id": "legistar-stpaul-voteevent-215468",
       "holding_id": "legistar-stpaul-holding-1112",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215468-129737",
+      "id": "legistar-stpaul-vote-129737",
       "vote_event_id": "legistar-stpaul-voteevent-215468",
       "holding_id": "legistar-stpaul-holding-1164",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215468-129738",
+      "id": "legistar-stpaul-vote-129738",
       "vote_event_id": "legistar-stpaul-voteevent-215468",
       "holding_id": "legistar-stpaul-holding-1166",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215468-129739",
+      "id": "legistar-stpaul-vote-129739",
       "vote_event_id": "legistar-stpaul-voteevent-215468",
       "holding_id": "legistar-stpaul-holding-1168",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215468-129740",
+      "id": "legistar-stpaul-vote-129740",
       "vote_event_id": "legistar-stpaul-voteevent-215468",
       "holding_id": "legistar-stpaul-holding-1169",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215468-129741",
+      "id": "legistar-stpaul-vote-129741",
       "vote_event_id": "legistar-stpaul-voteevent-215468",
       "holding_id": "legistar-stpaul-holding-1220",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215786-129952",
+      "id": "legistar-stpaul-vote-129952",
       "vote_event_id": "legistar-stpaul-voteevent-215786",
       "holding_id": "legistar-stpaul-holding-1060",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215786-129953",
+      "id": "legistar-stpaul-vote-129953",
       "vote_event_id": "legistar-stpaul-voteevent-215786",
       "holding_id": "legistar-stpaul-holding-1112",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215786-129954",
+      "id": "legistar-stpaul-vote-129954",
       "vote_event_id": "legistar-stpaul-voteevent-215786",
       "holding_id": "legistar-stpaul-holding-1164",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215786-129955",
+      "id": "legistar-stpaul-vote-129955",
       "vote_event_id": "legistar-stpaul-voteevent-215786",
       "holding_id": "legistar-stpaul-holding-1166",
       "value": "absent"
     },
     {
-      "id": "legistar-stpaul-vote-215786-129956",
+      "id": "legistar-stpaul-vote-129956",
       "vote_event_id": "legistar-stpaul-voteevent-215786",
       "holding_id": "legistar-stpaul-holding-1168",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215786-129957",
+      "id": "legistar-stpaul-vote-129957",
       "vote_event_id": "legistar-stpaul-voteevent-215786",
       "holding_id": "legistar-stpaul-holding-1169",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215786-129958",
+      "id": "legistar-stpaul-vote-129958",
       "vote_event_id": "legistar-stpaul-voteevent-215786",
       "holding_id": "legistar-stpaul-holding-1220",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215817-130092",
+      "id": "legistar-stpaul-vote-130092",
       "vote_event_id": "legistar-stpaul-voteevent-215817",
       "holding_id": "legistar-stpaul-holding-1060",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215817-130093",
+      "id": "legistar-stpaul-vote-130093",
       "vote_event_id": "legistar-stpaul-voteevent-215817",
       "holding_id": "legistar-stpaul-holding-1112",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215817-130094",
+      "id": "legistar-stpaul-vote-130094",
       "vote_event_id": "legistar-stpaul-voteevent-215817",
       "holding_id": "legistar-stpaul-holding-1164",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215817-130095",
+      "id": "legistar-stpaul-vote-130095",
       "vote_event_id": "legistar-stpaul-voteevent-215817",
       "holding_id": "legistar-stpaul-holding-1166",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215817-130096",
+      "id": "legistar-stpaul-vote-130096",
       "vote_event_id": "legistar-stpaul-voteevent-215817",
       "holding_id": "legistar-stpaul-holding-1168",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215817-130097",
+      "id": "legistar-stpaul-vote-130097",
       "vote_event_id": "legistar-stpaul-voteevent-215817",
       "holding_id": "legistar-stpaul-holding-1169",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215817-130098",
+      "id": "legistar-stpaul-vote-130098",
       "vote_event_id": "legistar-stpaul-voteevent-215817",
       "holding_id": "legistar-stpaul-holding-1220",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215467-129735",
+      "id": "legistar-stpaul-vote-129735",
       "vote_event_id": "legistar-stpaul-voteevent-215467",
       "holding_id": "legistar-stpaul-holding-1060",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215467-129736",
+      "id": "legistar-stpaul-vote-129736",
       "vote_event_id": "legistar-stpaul-voteevent-215467",
       "holding_id": "legistar-stpaul-holding-1112",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215467-129737",
+      "id": "legistar-stpaul-vote-129737",
       "vote_event_id": "legistar-stpaul-voteevent-215467",
       "holding_id": "legistar-stpaul-holding-1164",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215467-129738",
+      "id": "legistar-stpaul-vote-129738",
       "vote_event_id": "legistar-stpaul-voteevent-215467",
       "holding_id": "legistar-stpaul-holding-1166",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215467-129739",
+      "id": "legistar-stpaul-vote-129739",
       "vote_event_id": "legistar-stpaul-voteevent-215467",
       "holding_id": "legistar-stpaul-holding-1168",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215467-129740",
+      "id": "legistar-stpaul-vote-129740",
       "vote_event_id": "legistar-stpaul-voteevent-215467",
       "holding_id": "legistar-stpaul-holding-1169",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215467-129741",
+      "id": "legistar-stpaul-vote-129741",
       "vote_event_id": "legistar-stpaul-voteevent-215467",
       "holding_id": "legistar-stpaul-holding-1220",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215782-129952",
+      "id": "legistar-stpaul-vote-129952",
       "vote_event_id": "legistar-stpaul-voteevent-215782",
       "holding_id": "legistar-stpaul-holding-1060",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215782-129953",
+      "id": "legistar-stpaul-vote-129953",
       "vote_event_id": "legistar-stpaul-voteevent-215782",
       "holding_id": "legistar-stpaul-holding-1112",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215782-129954",
+      "id": "legistar-stpaul-vote-129954",
       "vote_event_id": "legistar-stpaul-voteevent-215782",
       "holding_id": "legistar-stpaul-holding-1164",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215782-129955",
+      "id": "legistar-stpaul-vote-129955",
       "vote_event_id": "legistar-stpaul-voteevent-215782",
       "holding_id": "legistar-stpaul-holding-1166",
       "value": "absent"
     },
     {
-      "id": "legistar-stpaul-vote-215782-129956",
+      "id": "legistar-stpaul-vote-129956",
       "vote_event_id": "legistar-stpaul-voteevent-215782",
       "holding_id": "legistar-stpaul-holding-1168",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215782-129957",
+      "id": "legistar-stpaul-vote-129957",
       "vote_event_id": "legistar-stpaul-voteevent-215782",
       "holding_id": "legistar-stpaul-holding-1169",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215782-129958",
+      "id": "legistar-stpaul-vote-129958",
       "vote_event_id": "legistar-stpaul-voteevent-215782",
       "holding_id": "legistar-stpaul-holding-1220",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215783-129952",
+      "id": "legistar-stpaul-vote-129952",
       "vote_event_id": "legistar-stpaul-voteevent-215783",
       "holding_id": "legistar-stpaul-holding-1060",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215783-129953",
+      "id": "legistar-stpaul-vote-129953",
       "vote_event_id": "legistar-stpaul-voteevent-215783",
       "holding_id": "legistar-stpaul-holding-1112",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215783-129954",
+      "id": "legistar-stpaul-vote-129954",
       "vote_event_id": "legistar-stpaul-voteevent-215783",
       "holding_id": "legistar-stpaul-holding-1164",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215783-129955",
+      "id": "legistar-stpaul-vote-129955",
       "vote_event_id": "legistar-stpaul-voteevent-215783",
       "holding_id": "legistar-stpaul-holding-1166",
       "value": "absent"
     },
     {
-      "id": "legistar-stpaul-vote-215783-129956",
+      "id": "legistar-stpaul-vote-129956",
       "vote_event_id": "legistar-stpaul-voteevent-215783",
       "holding_id": "legistar-stpaul-holding-1168",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215783-129957",
+      "id": "legistar-stpaul-vote-129957",
       "vote_event_id": "legistar-stpaul-voteevent-215783",
       "holding_id": "legistar-stpaul-holding-1169",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215783-129958",
+      "id": "legistar-stpaul-vote-129958",
       "vote_event_id": "legistar-stpaul-voteevent-215783",
       "holding_id": "legistar-stpaul-holding-1220",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215604-129784",
+      "id": "legistar-stpaul-vote-129784",
       "vote_event_id": "legistar-stpaul-voteevent-215604",
       "holding_id": "legistar-stpaul-holding-1060",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215604-129785",
+      "id": "legistar-stpaul-vote-129785",
       "vote_event_id": "legistar-stpaul-voteevent-215604",
       "holding_id": "legistar-stpaul-holding-1112",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215604-129786",
+      "id": "legistar-stpaul-vote-129786",
       "vote_event_id": "legistar-stpaul-voteevent-215604",
       "holding_id": "legistar-stpaul-holding-1164",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215604-129787",
+      "id": "legistar-stpaul-vote-129787",
       "vote_event_id": "legistar-stpaul-voteevent-215604",
       "holding_id": "legistar-stpaul-holding-1166",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215604-129788",
+      "id": "legistar-stpaul-vote-129788",
       "vote_event_id": "legistar-stpaul-voteevent-215604",
       "holding_id": "legistar-stpaul-holding-1168",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215604-129789",
+      "id": "legistar-stpaul-vote-129789",
       "vote_event_id": "legistar-stpaul-voteevent-215604",
       "holding_id": "legistar-stpaul-holding-1169",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215604-129790",
+      "id": "legistar-stpaul-vote-129790",
       "vote_event_id": "legistar-stpaul-voteevent-215604",
       "holding_id": "legistar-stpaul-holding-1220",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215781-129952",
+      "id": "legistar-stpaul-vote-129952",
       "vote_event_id": "legistar-stpaul-voteevent-215781",
       "holding_id": "legistar-stpaul-holding-1060",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215781-129953",
+      "id": "legistar-stpaul-vote-129953",
       "vote_event_id": "legistar-stpaul-voteevent-215781",
       "holding_id": "legistar-stpaul-holding-1112",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215781-129954",
+      "id": "legistar-stpaul-vote-129954",
       "vote_event_id": "legistar-stpaul-voteevent-215781",
       "holding_id": "legistar-stpaul-holding-1164",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215781-129955",
+      "id": "legistar-stpaul-vote-129955",
       "vote_event_id": "legistar-stpaul-voteevent-215781",
       "holding_id": "legistar-stpaul-holding-1166",
       "value": "absent"
     },
     {
-      "id": "legistar-stpaul-vote-215781-129956",
+      "id": "legistar-stpaul-vote-129956",
       "vote_event_id": "legistar-stpaul-voteevent-215781",
       "holding_id": "legistar-stpaul-holding-1168",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215781-129957",
+      "id": "legistar-stpaul-vote-129957",
       "vote_event_id": "legistar-stpaul-voteevent-215781",
       "holding_id": "legistar-stpaul-holding-1169",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215781-129958",
+      "id": "legistar-stpaul-vote-129958",
       "vote_event_id": "legistar-stpaul-voteevent-215781",
       "holding_id": "legistar-stpaul-holding-1220",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215813-130113",
+      "id": "legistar-stpaul-vote-130113",
       "vote_event_id": "legistar-stpaul-voteevent-215813",
       "holding_id": "legistar-stpaul-holding-1060",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215813-130114",
+      "id": "legistar-stpaul-vote-130114",
       "vote_event_id": "legistar-stpaul-voteevent-215813",
       "holding_id": "legistar-stpaul-holding-1112",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215813-130115",
+      "id": "legistar-stpaul-vote-130115",
       "vote_event_id": "legistar-stpaul-voteevent-215813",
       "holding_id": "legistar-stpaul-holding-1164",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215813-130116",
+      "id": "legistar-stpaul-vote-130116",
       "vote_event_id": "legistar-stpaul-voteevent-215813",
       "holding_id": "legistar-stpaul-holding-1166",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215813-130117",
+      "id": "legistar-stpaul-vote-130117",
       "vote_event_id": "legistar-stpaul-voteevent-215813",
       "holding_id": "legistar-stpaul-holding-1168",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215813-130118",
+      "id": "legistar-stpaul-vote-130118",
       "vote_event_id": "legistar-stpaul-voteevent-215813",
       "holding_id": "legistar-stpaul-holding-1169",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215813-130119",
+      "id": "legistar-stpaul-vote-130119",
       "vote_event_id": "legistar-stpaul-voteevent-215813",
       "holding_id": "legistar-stpaul-holding-1220",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215780-129952",
+      "id": "legistar-stpaul-vote-129952",
       "vote_event_id": "legistar-stpaul-voteevent-215780",
       "holding_id": "legistar-stpaul-holding-1060",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215780-129953",
+      "id": "legistar-stpaul-vote-129953",
       "vote_event_id": "legistar-stpaul-voteevent-215780",
       "holding_id": "legistar-stpaul-holding-1112",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215780-129954",
+      "id": "legistar-stpaul-vote-129954",
       "vote_event_id": "legistar-stpaul-voteevent-215780",
       "holding_id": "legistar-stpaul-holding-1164",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215780-129955",
+      "id": "legistar-stpaul-vote-129955",
       "vote_event_id": "legistar-stpaul-voteevent-215780",
       "holding_id": "legistar-stpaul-holding-1166",
       "value": "absent"
     },
     {
-      "id": "legistar-stpaul-vote-215780-129956",
+      "id": "legistar-stpaul-vote-129956",
       "vote_event_id": "legistar-stpaul-voteevent-215780",
       "holding_id": "legistar-stpaul-holding-1168",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215780-129957",
+      "id": "legistar-stpaul-vote-129957",
       "vote_event_id": "legistar-stpaul-voteevent-215780",
       "holding_id": "legistar-stpaul-holding-1169",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215780-129958",
+      "id": "legistar-stpaul-vote-129958",
       "vote_event_id": "legistar-stpaul-voteevent-215780",
       "holding_id": "legistar-stpaul-holding-1220",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215812-130050",
+      "id": "legistar-stpaul-vote-130050",
       "vote_event_id": "legistar-stpaul-voteevent-215812",
       "holding_id": "legistar-stpaul-holding-1060",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215812-130051",
+      "id": "legistar-stpaul-vote-130051",
       "vote_event_id": "legistar-stpaul-voteevent-215812",
       "holding_id": "legistar-stpaul-holding-1112",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215812-130052",
+      "id": "legistar-stpaul-vote-130052",
       "vote_event_id": "legistar-stpaul-voteevent-215812",
       "holding_id": "legistar-stpaul-holding-1164",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215812-130053",
+      "id": "legistar-stpaul-vote-130053",
       "vote_event_id": "legistar-stpaul-voteevent-215812",
       "holding_id": "legistar-stpaul-holding-1166",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215812-130054",
+      "id": "legistar-stpaul-vote-130054",
       "vote_event_id": "legistar-stpaul-voteevent-215812",
       "holding_id": "legistar-stpaul-holding-1168",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215812-130055",
+      "id": "legistar-stpaul-vote-130055",
       "vote_event_id": "legistar-stpaul-voteevent-215812",
       "holding_id": "legistar-stpaul-holding-1169",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215812-130056",
+      "id": "legistar-stpaul-vote-130056",
       "vote_event_id": "legistar-stpaul-voteevent-215812",
       "holding_id": "legistar-stpaul-holding-1220",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215873-130141",
+      "id": "legistar-stpaul-vote-130141",
       "vote_event_id": "legistar-stpaul-voteevent-215873",
       "holding_id": "legistar-stpaul-holding-1060",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215873-130142",
+      "id": "legistar-stpaul-vote-130142",
       "vote_event_id": "legistar-stpaul-voteevent-215873",
       "holding_id": "legistar-stpaul-holding-1112",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215873-130143",
+      "id": "legistar-stpaul-vote-130143",
       "vote_event_id": "legistar-stpaul-voteevent-215873",
       "holding_id": "legistar-stpaul-holding-1164",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215873-130144",
+      "id": "legistar-stpaul-vote-130144",
       "vote_event_id": "legistar-stpaul-voteevent-215873",
       "holding_id": "legistar-stpaul-holding-1166",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215873-130145",
+      "id": "legistar-stpaul-vote-130145",
       "vote_event_id": "legistar-stpaul-voteevent-215873",
       "holding_id": "legistar-stpaul-holding-1168",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215873-130146",
+      "id": "legistar-stpaul-vote-130146",
       "vote_event_id": "legistar-stpaul-voteevent-215873",
       "holding_id": "legistar-stpaul-holding-1169",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215873-130147",
+      "id": "legistar-stpaul-vote-130147",
       "vote_event_id": "legistar-stpaul-voteevent-215873",
       "holding_id": "legistar-stpaul-holding-1220",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215811-130085",
+      "id": "legistar-stpaul-vote-130085",
       "vote_event_id": "legistar-stpaul-voteevent-215811",
       "holding_id": "legistar-stpaul-holding-1060",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215811-130086",
+      "id": "legistar-stpaul-vote-130086",
       "vote_event_id": "legistar-stpaul-voteevent-215811",
       "holding_id": "legistar-stpaul-holding-1112",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215811-130087",
+      "id": "legistar-stpaul-vote-130087",
       "vote_event_id": "legistar-stpaul-voteevent-215811",
       "holding_id": "legistar-stpaul-holding-1164",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215811-130088",
+      "id": "legistar-stpaul-vote-130088",
       "vote_event_id": "legistar-stpaul-voteevent-215811",
       "holding_id": "legistar-stpaul-holding-1166",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215811-130089",
+      "id": "legistar-stpaul-vote-130089",
       "vote_event_id": "legistar-stpaul-voteevent-215811",
       "holding_id": "legistar-stpaul-holding-1168",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215811-130090",
+      "id": "legistar-stpaul-vote-130090",
       "vote_event_id": "legistar-stpaul-voteevent-215811",
       "holding_id": "legistar-stpaul-holding-1169",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215811-130091",
+      "id": "legistar-stpaul-vote-130091",
       "vote_event_id": "legistar-stpaul-voteevent-215811",
       "holding_id": "legistar-stpaul-holding-1220",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215343-129602",
+      "id": "legistar-stpaul-vote-129602",
       "vote_event_id": "legistar-stpaul-voteevent-215343",
       "holding_id": "legistar-stpaul-holding-1060",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215343-129603",
+      "id": "legistar-stpaul-vote-129603",
       "vote_event_id": "legistar-stpaul-voteevent-215343",
       "holding_id": "legistar-stpaul-holding-1112",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215343-129604",
+      "id": "legistar-stpaul-vote-129604",
       "vote_event_id": "legistar-stpaul-voteevent-215343",
       "holding_id": "legistar-stpaul-holding-1164",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215343-129605",
+      "id": "legistar-stpaul-vote-129605",
       "vote_event_id": "legistar-stpaul-voteevent-215343",
       "holding_id": "legistar-stpaul-holding-1166",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215343-129606",
+      "id": "legistar-stpaul-vote-129606",
       "vote_event_id": "legistar-stpaul-voteevent-215343",
       "holding_id": "legistar-stpaul-holding-1168",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215343-129607",
+      "id": "legistar-stpaul-vote-129607",
       "vote_event_id": "legistar-stpaul-voteevent-215343",
       "holding_id": "legistar-stpaul-holding-1169",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215343-129608",
+      "id": "legistar-stpaul-vote-129608",
       "vote_event_id": "legistar-stpaul-voteevent-215343",
       "holding_id": "legistar-stpaul-holding-1220",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215512-129735",
+      "id": "legistar-stpaul-vote-129735",
       "vote_event_id": "legistar-stpaul-voteevent-215512",
       "holding_id": "legistar-stpaul-holding-1060",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215512-129736",
+      "id": "legistar-stpaul-vote-129736",
       "vote_event_id": "legistar-stpaul-voteevent-215512",
       "holding_id": "legistar-stpaul-holding-1112",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215512-129737",
+      "id": "legistar-stpaul-vote-129737",
       "vote_event_id": "legistar-stpaul-voteevent-215512",
       "holding_id": "legistar-stpaul-holding-1164",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215512-129738",
+      "id": "legistar-stpaul-vote-129738",
       "vote_event_id": "legistar-stpaul-voteevent-215512",
       "holding_id": "legistar-stpaul-holding-1166",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215512-129739",
+      "id": "legistar-stpaul-vote-129739",
       "vote_event_id": "legistar-stpaul-voteevent-215512",
       "holding_id": "legistar-stpaul-holding-1168",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215512-129740",
+      "id": "legistar-stpaul-vote-129740",
       "vote_event_id": "legistar-stpaul-voteevent-215512",
       "holding_id": "legistar-stpaul-holding-1169",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215512-129741",
+      "id": "legistar-stpaul-vote-129741",
       "vote_event_id": "legistar-stpaul-voteevent-215512",
       "holding_id": "legistar-stpaul-holding-1220",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215513-129735",
+      "id": "legistar-stpaul-vote-129735",
       "vote_event_id": "legistar-stpaul-voteevent-215513",
       "holding_id": "legistar-stpaul-holding-1060",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215513-129736",
+      "id": "legistar-stpaul-vote-129736",
       "vote_event_id": "legistar-stpaul-voteevent-215513",
       "holding_id": "legistar-stpaul-holding-1112",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215513-129737",
+      "id": "legistar-stpaul-vote-129737",
       "vote_event_id": "legistar-stpaul-voteevent-215513",
       "holding_id": "legistar-stpaul-holding-1164",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215513-129738",
+      "id": "legistar-stpaul-vote-129738",
       "vote_event_id": "legistar-stpaul-voteevent-215513",
       "holding_id": "legistar-stpaul-holding-1166",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215513-129739",
+      "id": "legistar-stpaul-vote-129739",
       "vote_event_id": "legistar-stpaul-voteevent-215513",
       "holding_id": "legistar-stpaul-holding-1168",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215513-129740",
+      "id": "legistar-stpaul-vote-129740",
       "vote_event_id": "legistar-stpaul-voteevent-215513",
       "holding_id": "legistar-stpaul-holding-1169",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215513-129741",
+      "id": "legistar-stpaul-vote-129741",
       "vote_event_id": "legistar-stpaul-voteevent-215513",
       "holding_id": "legistar-stpaul-holding-1220",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215779-129952",
+      "id": "legistar-stpaul-vote-129952",
       "vote_event_id": "legistar-stpaul-voteevent-215779",
       "holding_id": "legistar-stpaul-holding-1060",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215779-129953",
+      "id": "legistar-stpaul-vote-129953",
       "vote_event_id": "legistar-stpaul-voteevent-215779",
       "holding_id": "legistar-stpaul-holding-1112",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215779-129954",
+      "id": "legistar-stpaul-vote-129954",
       "vote_event_id": "legistar-stpaul-voteevent-215779",
       "holding_id": "legistar-stpaul-holding-1164",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215779-129955",
+      "id": "legistar-stpaul-vote-129955",
       "vote_event_id": "legistar-stpaul-voteevent-215779",
       "holding_id": "legistar-stpaul-holding-1166",
       "value": "absent"
     },
     {
-      "id": "legistar-stpaul-vote-215779-129956",
+      "id": "legistar-stpaul-vote-129956",
       "vote_event_id": "legistar-stpaul-voteevent-215779",
       "holding_id": "legistar-stpaul-holding-1168",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215779-129957",
+      "id": "legistar-stpaul-vote-129957",
       "vote_event_id": "legistar-stpaul-voteevent-215779",
       "holding_id": "legistar-stpaul-holding-1169",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215779-129958",
+      "id": "legistar-stpaul-vote-129958",
       "vote_event_id": "legistar-stpaul-voteevent-215779",
       "holding_id": "legistar-stpaul-holding-1220",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215466-129735",
+      "id": "legistar-stpaul-vote-129735",
       "vote_event_id": "legistar-stpaul-voteevent-215466",
       "holding_id": "legistar-stpaul-holding-1060",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215466-129736",
+      "id": "legistar-stpaul-vote-129736",
       "vote_event_id": "legistar-stpaul-voteevent-215466",
       "holding_id": "legistar-stpaul-holding-1112",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215466-129737",
+      "id": "legistar-stpaul-vote-129737",
       "vote_event_id": "legistar-stpaul-voteevent-215466",
       "holding_id": "legistar-stpaul-holding-1164",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215466-129738",
+      "id": "legistar-stpaul-vote-129738",
       "vote_event_id": "legistar-stpaul-voteevent-215466",
       "holding_id": "legistar-stpaul-holding-1166",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215466-129739",
+      "id": "legistar-stpaul-vote-129739",
       "vote_event_id": "legistar-stpaul-voteevent-215466",
       "holding_id": "legistar-stpaul-holding-1168",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215466-129740",
+      "id": "legistar-stpaul-vote-129740",
       "vote_event_id": "legistar-stpaul-voteevent-215466",
       "holding_id": "legistar-stpaul-holding-1169",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215466-129741",
+      "id": "legistar-stpaul-vote-129741",
       "vote_event_id": "legistar-stpaul-voteevent-215466",
       "holding_id": "legistar-stpaul-holding-1220",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215342-129595",
+      "id": "legistar-stpaul-vote-129595",
       "vote_event_id": "legistar-stpaul-voteevent-215342",
       "holding_id": "legistar-stpaul-holding-1060",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215342-129596",
+      "id": "legistar-stpaul-vote-129596",
       "vote_event_id": "legistar-stpaul-voteevent-215342",
       "holding_id": "legistar-stpaul-holding-1112",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215342-129597",
+      "id": "legistar-stpaul-vote-129597",
       "vote_event_id": "legistar-stpaul-voteevent-215342",
       "holding_id": "legistar-stpaul-holding-1164",
       "value": "absent"
     },
     {
-      "id": "legistar-stpaul-vote-215342-129598",
+      "id": "legistar-stpaul-vote-129598",
       "vote_event_id": "legistar-stpaul-voteevent-215342",
       "holding_id": "legistar-stpaul-holding-1166",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215342-129599",
+      "id": "legistar-stpaul-vote-129599",
       "vote_event_id": "legistar-stpaul-voteevent-215342",
       "holding_id": "legistar-stpaul-holding-1168",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215342-129600",
+      "id": "legistar-stpaul-vote-129600",
       "vote_event_id": "legistar-stpaul-voteevent-215342",
       "holding_id": "legistar-stpaul-holding-1169",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215342-129601",
+      "id": "legistar-stpaul-vote-129601",
       "vote_event_id": "legistar-stpaul-voteevent-215342",
       "holding_id": "legistar-stpaul-holding-1220",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215489-129896",
+      "id": "legistar-stpaul-vote-129896",
       "vote_event_id": "legistar-stpaul-voteevent-215489",
       "holding_id": "legistar-stpaul-holding-1060",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215489-129897",
+      "id": "legistar-stpaul-vote-129897",
       "vote_event_id": "legistar-stpaul-voteevent-215489",
       "holding_id": "legistar-stpaul-holding-1112",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215489-129898",
+      "id": "legistar-stpaul-vote-129898",
       "vote_event_id": "legistar-stpaul-voteevent-215489",
       "holding_id": "legistar-stpaul-holding-1164",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215489-129899",
+      "id": "legistar-stpaul-vote-129899",
       "vote_event_id": "legistar-stpaul-voteevent-215489",
       "holding_id": "legistar-stpaul-holding-1166",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215489-129900",
+      "id": "legistar-stpaul-vote-129900",
       "vote_event_id": "legistar-stpaul-voteevent-215489",
       "holding_id": "legistar-stpaul-holding-1168",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215489-129901",
+      "id": "legistar-stpaul-vote-129901",
       "vote_event_id": "legistar-stpaul-voteevent-215489",
       "holding_id": "legistar-stpaul-holding-1169",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215489-129902",
+      "id": "legistar-stpaul-vote-129902",
       "vote_event_id": "legistar-stpaul-voteevent-215489",
       "holding_id": "legistar-stpaul-holding-1220",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215465-129735",
+      "id": "legistar-stpaul-vote-129735",
       "vote_event_id": "legistar-stpaul-voteevent-215465",
       "holding_id": "legistar-stpaul-holding-1060",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215465-129736",
+      "id": "legistar-stpaul-vote-129736",
       "vote_event_id": "legistar-stpaul-voteevent-215465",
       "holding_id": "legistar-stpaul-holding-1112",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215465-129737",
+      "id": "legistar-stpaul-vote-129737",
       "vote_event_id": "legistar-stpaul-voteevent-215465",
       "holding_id": "legistar-stpaul-holding-1164",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215465-129738",
+      "id": "legistar-stpaul-vote-129738",
       "vote_event_id": "legistar-stpaul-voteevent-215465",
       "holding_id": "legistar-stpaul-holding-1166",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215465-129739",
+      "id": "legistar-stpaul-vote-129739",
       "vote_event_id": "legistar-stpaul-voteevent-215465",
       "holding_id": "legistar-stpaul-holding-1168",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215465-129740",
+      "id": "legistar-stpaul-vote-129740",
       "vote_event_id": "legistar-stpaul-voteevent-215465",
       "holding_id": "legistar-stpaul-holding-1169",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215465-129741",
+      "id": "legistar-stpaul-vote-129741",
       "vote_event_id": "legistar-stpaul-voteevent-215465",
       "holding_id": "legistar-stpaul-holding-1220",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215872-130141",
+      "id": "legistar-stpaul-vote-130141",
       "vote_event_id": "legistar-stpaul-voteevent-215872",
       "holding_id": "legistar-stpaul-holding-1060",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215872-130142",
+      "id": "legistar-stpaul-vote-130142",
       "vote_event_id": "legistar-stpaul-voteevent-215872",
       "holding_id": "legistar-stpaul-holding-1112",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215872-130143",
+      "id": "legistar-stpaul-vote-130143",
       "vote_event_id": "legistar-stpaul-voteevent-215872",
       "holding_id": "legistar-stpaul-holding-1164",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215872-130144",
+      "id": "legistar-stpaul-vote-130144",
       "vote_event_id": "legistar-stpaul-voteevent-215872",
       "holding_id": "legistar-stpaul-holding-1166",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215872-130145",
+      "id": "legistar-stpaul-vote-130145",
       "vote_event_id": "legistar-stpaul-voteevent-215872",
       "holding_id": "legistar-stpaul-holding-1168",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215872-130146",
+      "id": "legistar-stpaul-vote-130146",
       "vote_event_id": "legistar-stpaul-voteevent-215872",
       "holding_id": "legistar-stpaul-holding-1169",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215872-130147",
+      "id": "legistar-stpaul-vote-130147",
       "vote_event_id": "legistar-stpaul-voteevent-215872",
       "holding_id": "legistar-stpaul-holding-1220",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215514-129861",
+      "id": "legistar-stpaul-vote-129861",
       "vote_event_id": "legistar-stpaul-voteevent-215514",
       "holding_id": "legistar-stpaul-holding-1060",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215514-129862",
+      "id": "legistar-stpaul-vote-129862",
       "vote_event_id": "legistar-stpaul-voteevent-215514",
       "holding_id": "legistar-stpaul-holding-1112",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215514-129863",
+      "id": "legistar-stpaul-vote-129863",
       "vote_event_id": "legistar-stpaul-voteevent-215514",
       "holding_id": "legistar-stpaul-holding-1164",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215514-129864",
+      "id": "legistar-stpaul-vote-129864",
       "vote_event_id": "legistar-stpaul-voteevent-215514",
       "holding_id": "legistar-stpaul-holding-1166",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215514-129865",
+      "id": "legistar-stpaul-vote-129865",
       "vote_event_id": "legistar-stpaul-voteevent-215514",
       "holding_id": "legistar-stpaul-holding-1168",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215514-129866",
+      "id": "legistar-stpaul-vote-129866",
       "vote_event_id": "legistar-stpaul-voteevent-215514",
       "holding_id": "legistar-stpaul-holding-1169",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215514-129867",
+      "id": "legistar-stpaul-vote-129867",
       "vote_event_id": "legistar-stpaul-voteevent-215514",
       "holding_id": "legistar-stpaul-holding-1220",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215484-129868",
+      "id": "legistar-stpaul-vote-129868",
       "vote_event_id": "legistar-stpaul-voteevent-215484",
       "holding_id": "legistar-stpaul-holding-1060",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215484-129869",
+      "id": "legistar-stpaul-vote-129869",
       "vote_event_id": "legistar-stpaul-voteevent-215484",
       "holding_id": "legistar-stpaul-holding-1112",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215484-129870",
+      "id": "legistar-stpaul-vote-129870",
       "vote_event_id": "legistar-stpaul-voteevent-215484",
       "holding_id": "legistar-stpaul-holding-1164",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215484-129871",
+      "id": "legistar-stpaul-vote-129871",
       "vote_event_id": "legistar-stpaul-voteevent-215484",
       "holding_id": "legistar-stpaul-holding-1166",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215484-129872",
+      "id": "legistar-stpaul-vote-129872",
       "vote_event_id": "legistar-stpaul-voteevent-215484",
       "holding_id": "legistar-stpaul-holding-1168",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215484-129873",
+      "id": "legistar-stpaul-vote-129873",
       "vote_event_id": "legistar-stpaul-voteevent-215484",
       "holding_id": "legistar-stpaul-holding-1169",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215484-129874",
+      "id": "legistar-stpaul-vote-129874",
       "vote_event_id": "legistar-stpaul-voteevent-215484",
       "holding_id": "legistar-stpaul-holding-1220",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215491-129896",
+      "id": "legistar-stpaul-vote-129896",
       "vote_event_id": "legistar-stpaul-voteevent-215491",
       "holding_id": "legistar-stpaul-holding-1060",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215491-129897",
+      "id": "legistar-stpaul-vote-129897",
       "vote_event_id": "legistar-stpaul-voteevent-215491",
       "holding_id": "legistar-stpaul-holding-1112",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215491-129898",
+      "id": "legistar-stpaul-vote-129898",
       "vote_event_id": "legistar-stpaul-voteevent-215491",
       "holding_id": "legistar-stpaul-holding-1164",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215491-129899",
+      "id": "legistar-stpaul-vote-129899",
       "vote_event_id": "legistar-stpaul-voteevent-215491",
       "holding_id": "legistar-stpaul-holding-1166",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215491-129900",
+      "id": "legistar-stpaul-vote-129900",
       "vote_event_id": "legistar-stpaul-voteevent-215491",
       "holding_id": "legistar-stpaul-holding-1168",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215491-129901",
+      "id": "legistar-stpaul-vote-129901",
       "vote_event_id": "legistar-stpaul-voteevent-215491",
       "holding_id": "legistar-stpaul-holding-1169",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215491-129902",
+      "id": "legistar-stpaul-vote-129902",
       "vote_event_id": "legistar-stpaul-voteevent-215491",
       "holding_id": "legistar-stpaul-holding-1220",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215340-129595",
+      "id": "legistar-stpaul-vote-129595",
       "vote_event_id": "legistar-stpaul-voteevent-215340",
       "holding_id": "legistar-stpaul-holding-1060",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215340-129596",
+      "id": "legistar-stpaul-vote-129596",
       "vote_event_id": "legistar-stpaul-voteevent-215340",
       "holding_id": "legistar-stpaul-holding-1112",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215340-129597",
+      "id": "legistar-stpaul-vote-129597",
       "vote_event_id": "legistar-stpaul-voteevent-215340",
       "holding_id": "legistar-stpaul-holding-1164",
       "value": "absent"
     },
     {
-      "id": "legistar-stpaul-vote-215340-129598",
+      "id": "legistar-stpaul-vote-129598",
       "vote_event_id": "legistar-stpaul-voteevent-215340",
       "holding_id": "legistar-stpaul-holding-1166",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215340-129599",
+      "id": "legistar-stpaul-vote-129599",
       "vote_event_id": "legistar-stpaul-voteevent-215340",
       "holding_id": "legistar-stpaul-holding-1168",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215340-129600",
+      "id": "legistar-stpaul-vote-129600",
       "vote_event_id": "legistar-stpaul-voteevent-215340",
       "holding_id": "legistar-stpaul-holding-1169",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215340-129601",
+      "id": "legistar-stpaul-vote-129601",
       "vote_event_id": "legistar-stpaul-voteevent-215340",
       "holding_id": "legistar-stpaul-holding-1220",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215341-129595",
+      "id": "legistar-stpaul-vote-129595",
       "vote_event_id": "legistar-stpaul-voteevent-215341",
       "holding_id": "legistar-stpaul-holding-1060",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215341-129596",
+      "id": "legistar-stpaul-vote-129596",
       "vote_event_id": "legistar-stpaul-voteevent-215341",
       "holding_id": "legistar-stpaul-holding-1112",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215341-129597",
+      "id": "legistar-stpaul-vote-129597",
       "vote_event_id": "legistar-stpaul-voteevent-215341",
       "holding_id": "legistar-stpaul-holding-1164",
       "value": "absent"
     },
     {
-      "id": "legistar-stpaul-vote-215341-129598",
+      "id": "legistar-stpaul-vote-129598",
       "vote_event_id": "legistar-stpaul-voteevent-215341",
       "holding_id": "legistar-stpaul-holding-1166",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215341-129599",
+      "id": "legistar-stpaul-vote-129599",
       "vote_event_id": "legistar-stpaul-voteevent-215341",
       "holding_id": "legistar-stpaul-holding-1168",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215341-129600",
+      "id": "legistar-stpaul-vote-129600",
       "vote_event_id": "legistar-stpaul-voteevent-215341",
       "holding_id": "legistar-stpaul-holding-1169",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215341-129601",
+      "id": "legistar-stpaul-vote-129601",
       "vote_event_id": "legistar-stpaul-voteevent-215341",
       "holding_id": "legistar-stpaul-holding-1220",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215237-129504",
+      "id": "legistar-stpaul-vote-129504",
       "vote_event_id": "legistar-stpaul-voteevent-215237",
       "holding_id": "legistar-stpaul-holding-1060",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215237-129505",
+      "id": "legistar-stpaul-vote-129505",
       "vote_event_id": "legistar-stpaul-voteevent-215237",
       "holding_id": "legistar-stpaul-holding-1112",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215237-129506",
+      "id": "legistar-stpaul-vote-129506",
       "vote_event_id": "legistar-stpaul-voteevent-215237",
       "holding_id": "legistar-stpaul-holding-1164",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215237-129507",
+      "id": "legistar-stpaul-vote-129507",
       "vote_event_id": "legistar-stpaul-voteevent-215237",
       "holding_id": "legistar-stpaul-holding-1166",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215237-129508",
+      "id": "legistar-stpaul-vote-129508",
       "vote_event_id": "legistar-stpaul-voteevent-215237",
       "holding_id": "legistar-stpaul-holding-1168",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215237-129509",
+      "id": "legistar-stpaul-vote-129509",
       "vote_event_id": "legistar-stpaul-voteevent-215237",
       "holding_id": "legistar-stpaul-holding-1169",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215237-129510",
+      "id": "legistar-stpaul-vote-129510",
       "vote_event_id": "legistar-stpaul-voteevent-215237",
       "holding_id": "legistar-stpaul-holding-1220",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215487-129847",
+      "id": "legistar-stpaul-vote-129847",
       "vote_event_id": "legistar-stpaul-voteevent-215487",
       "holding_id": "legistar-stpaul-holding-1060",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215487-129848",
+      "id": "legistar-stpaul-vote-129848",
       "vote_event_id": "legistar-stpaul-voteevent-215487",
       "holding_id": "legistar-stpaul-holding-1112",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215487-129849",
+      "id": "legistar-stpaul-vote-129849",
       "vote_event_id": "legistar-stpaul-voteevent-215487",
       "holding_id": "legistar-stpaul-holding-1164",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215487-129850",
+      "id": "legistar-stpaul-vote-129850",
       "vote_event_id": "legistar-stpaul-voteevent-215487",
       "holding_id": "legistar-stpaul-holding-1166",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215487-129851",
+      "id": "legistar-stpaul-vote-129851",
       "vote_event_id": "legistar-stpaul-voteevent-215487",
       "holding_id": "legistar-stpaul-holding-1168",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215487-129852",
+      "id": "legistar-stpaul-vote-129852",
       "vote_event_id": "legistar-stpaul-voteevent-215487",
       "holding_id": "legistar-stpaul-holding-1169",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215487-129853",
+      "id": "legistar-stpaul-vote-129853",
       "vote_event_id": "legistar-stpaul-voteevent-215487",
       "holding_id": "legistar-stpaul-holding-1220",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215355-129644",
+      "id": "legistar-stpaul-vote-129644",
       "vote_event_id": "legistar-stpaul-voteevent-215355",
       "holding_id": "legistar-stpaul-holding-1060",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215355-129645",
+      "id": "legistar-stpaul-vote-129645",
       "vote_event_id": "legistar-stpaul-voteevent-215355",
       "holding_id": "legistar-stpaul-holding-1112",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215355-129646",
+      "id": "legistar-stpaul-vote-129646",
       "vote_event_id": "legistar-stpaul-voteevent-215355",
       "holding_id": "legistar-stpaul-holding-1164",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215355-129647",
+      "id": "legistar-stpaul-vote-129647",
       "vote_event_id": "legistar-stpaul-voteevent-215355",
       "holding_id": "legistar-stpaul-holding-1166",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215355-129648",
+      "id": "legistar-stpaul-vote-129648",
       "vote_event_id": "legistar-stpaul-voteevent-215355",
       "holding_id": "legistar-stpaul-holding-1168",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215355-129649",
+      "id": "legistar-stpaul-vote-129649",
       "vote_event_id": "legistar-stpaul-voteevent-215355",
       "holding_id": "legistar-stpaul-holding-1169",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215355-129650",
+      "id": "legistar-stpaul-vote-129650",
       "vote_event_id": "legistar-stpaul-voteevent-215355",
       "holding_id": "legistar-stpaul-holding-1220",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215486-129840",
+      "id": "legistar-stpaul-vote-129840",
       "vote_event_id": "legistar-stpaul-voteevent-215486",
       "holding_id": "legistar-stpaul-holding-1060",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215486-129841",
+      "id": "legistar-stpaul-vote-129841",
       "vote_event_id": "legistar-stpaul-voteevent-215486",
       "holding_id": "legistar-stpaul-holding-1112",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215486-129842",
+      "id": "legistar-stpaul-vote-129842",
       "vote_event_id": "legistar-stpaul-voteevent-215486",
       "holding_id": "legistar-stpaul-holding-1164",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215486-129843",
+      "id": "legistar-stpaul-vote-129843",
       "vote_event_id": "legistar-stpaul-voteevent-215486",
       "holding_id": "legistar-stpaul-holding-1166",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215486-129844",
+      "id": "legistar-stpaul-vote-129844",
       "vote_event_id": "legistar-stpaul-voteevent-215486",
       "holding_id": "legistar-stpaul-holding-1168",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215486-129845",
+      "id": "legistar-stpaul-vote-129845",
       "vote_event_id": "legistar-stpaul-voteevent-215486",
       "holding_id": "legistar-stpaul-holding-1169",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215486-129846",
+      "id": "legistar-stpaul-vote-129846",
       "vote_event_id": "legistar-stpaul-voteevent-215486",
       "holding_id": "legistar-stpaul-holding-1220",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215336-129595",
+      "id": "legistar-stpaul-vote-129595",
       "vote_event_id": "legistar-stpaul-voteevent-215336",
       "holding_id": "legistar-stpaul-holding-1060",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215336-129596",
+      "id": "legistar-stpaul-vote-129596",
       "vote_event_id": "legistar-stpaul-voteevent-215336",
       "holding_id": "legistar-stpaul-holding-1112",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215336-129597",
+      "id": "legistar-stpaul-vote-129597",
       "vote_event_id": "legistar-stpaul-voteevent-215336",
       "holding_id": "legistar-stpaul-holding-1164",
       "value": "absent"
     },
     {
-      "id": "legistar-stpaul-vote-215336-129598",
+      "id": "legistar-stpaul-vote-129598",
       "vote_event_id": "legistar-stpaul-voteevent-215336",
       "holding_id": "legistar-stpaul-holding-1166",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215336-129599",
+      "id": "legistar-stpaul-vote-129599",
       "vote_event_id": "legistar-stpaul-voteevent-215336",
       "holding_id": "legistar-stpaul-holding-1168",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215336-129600",
+      "id": "legistar-stpaul-vote-129600",
       "vote_event_id": "legistar-stpaul-voteevent-215336",
       "holding_id": "legistar-stpaul-holding-1169",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215336-129601",
+      "id": "legistar-stpaul-vote-129601",
       "vote_event_id": "legistar-stpaul-voteevent-215336",
       "holding_id": "legistar-stpaul-holding-1220",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215337-129595",
+      "id": "legistar-stpaul-vote-129595",
       "vote_event_id": "legistar-stpaul-voteevent-215337",
       "holding_id": "legistar-stpaul-holding-1060",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215337-129596",
+      "id": "legistar-stpaul-vote-129596",
       "vote_event_id": "legistar-stpaul-voteevent-215337",
       "holding_id": "legistar-stpaul-holding-1112",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215337-129597",
+      "id": "legistar-stpaul-vote-129597",
       "vote_event_id": "legistar-stpaul-voteevent-215337",
       "holding_id": "legistar-stpaul-holding-1164",
       "value": "absent"
     },
     {
-      "id": "legistar-stpaul-vote-215337-129598",
+      "id": "legistar-stpaul-vote-129598",
       "vote_event_id": "legistar-stpaul-voteevent-215337",
       "holding_id": "legistar-stpaul-holding-1166",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215337-129599",
+      "id": "legistar-stpaul-vote-129599",
       "vote_event_id": "legistar-stpaul-voteevent-215337",
       "holding_id": "legistar-stpaul-holding-1168",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215337-129600",
+      "id": "legistar-stpaul-vote-129600",
       "vote_event_id": "legistar-stpaul-voteevent-215337",
       "holding_id": "legistar-stpaul-holding-1169",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215337-129601",
+      "id": "legistar-stpaul-vote-129601",
       "vote_event_id": "legistar-stpaul-voteevent-215337",
       "holding_id": "legistar-stpaul-holding-1220",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215338-129595",
+      "id": "legistar-stpaul-vote-129595",
       "vote_event_id": "legistar-stpaul-voteevent-215338",
       "holding_id": "legistar-stpaul-holding-1060",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215338-129596",
+      "id": "legistar-stpaul-vote-129596",
       "vote_event_id": "legistar-stpaul-voteevent-215338",
       "holding_id": "legistar-stpaul-holding-1112",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215338-129597",
+      "id": "legistar-stpaul-vote-129597",
       "vote_event_id": "legistar-stpaul-voteevent-215338",
       "holding_id": "legistar-stpaul-holding-1164",
       "value": "absent"
     },
     {
-      "id": "legistar-stpaul-vote-215338-129598",
+      "id": "legistar-stpaul-vote-129598",
       "vote_event_id": "legistar-stpaul-voteevent-215338",
       "holding_id": "legistar-stpaul-holding-1166",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215338-129599",
+      "id": "legistar-stpaul-vote-129599",
       "vote_event_id": "legistar-stpaul-voteevent-215338",
       "holding_id": "legistar-stpaul-holding-1168",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215338-129600",
+      "id": "legistar-stpaul-vote-129600",
       "vote_event_id": "legistar-stpaul-voteevent-215338",
       "holding_id": "legistar-stpaul-holding-1169",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215338-129601",
+      "id": "legistar-stpaul-vote-129601",
       "vote_event_id": "legistar-stpaul-voteevent-215338",
       "holding_id": "legistar-stpaul-holding-1220",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215339-129595",
+      "id": "legistar-stpaul-vote-129595",
       "vote_event_id": "legistar-stpaul-voteevent-215339",
       "holding_id": "legistar-stpaul-holding-1060",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215339-129596",
+      "id": "legistar-stpaul-vote-129596",
       "vote_event_id": "legistar-stpaul-voteevent-215339",
       "holding_id": "legistar-stpaul-holding-1112",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215339-129597",
+      "id": "legistar-stpaul-vote-129597",
       "vote_event_id": "legistar-stpaul-voteevent-215339",
       "holding_id": "legistar-stpaul-holding-1164",
       "value": "absent"
     },
     {
-      "id": "legistar-stpaul-vote-215339-129598",
+      "id": "legistar-stpaul-vote-129598",
       "vote_event_id": "legistar-stpaul-voteevent-215339",
       "holding_id": "legistar-stpaul-holding-1166",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215339-129599",
+      "id": "legistar-stpaul-vote-129599",
       "vote_event_id": "legistar-stpaul-voteevent-215339",
       "holding_id": "legistar-stpaul-holding-1168",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215339-129600",
+      "id": "legistar-stpaul-vote-129600",
       "vote_event_id": "legistar-stpaul-voteevent-215339",
       "holding_id": "legistar-stpaul-holding-1169",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215339-129601",
+      "id": "legistar-stpaul-vote-129601",
       "vote_event_id": "legistar-stpaul-voteevent-215339",
       "holding_id": "legistar-stpaul-holding-1220",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215333-129595",
+      "id": "legistar-stpaul-vote-129595",
       "vote_event_id": "legistar-stpaul-voteevent-215333",
       "holding_id": "legistar-stpaul-holding-1060",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215333-129596",
+      "id": "legistar-stpaul-vote-129596",
       "vote_event_id": "legistar-stpaul-voteevent-215333",
       "holding_id": "legistar-stpaul-holding-1112",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215333-129597",
+      "id": "legistar-stpaul-vote-129597",
       "vote_event_id": "legistar-stpaul-voteevent-215333",
       "holding_id": "legistar-stpaul-holding-1164",
       "value": "absent"
     },
     {
-      "id": "legistar-stpaul-vote-215333-129598",
+      "id": "legistar-stpaul-vote-129598",
       "vote_event_id": "legistar-stpaul-voteevent-215333",
       "holding_id": "legistar-stpaul-holding-1166",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215333-129599",
+      "id": "legistar-stpaul-vote-129599",
       "vote_event_id": "legistar-stpaul-voteevent-215333",
       "holding_id": "legistar-stpaul-holding-1168",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215333-129600",
+      "id": "legistar-stpaul-vote-129600",
       "vote_event_id": "legistar-stpaul-voteevent-215333",
       "holding_id": "legistar-stpaul-holding-1169",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215333-129601",
+      "id": "legistar-stpaul-vote-129601",
       "vote_event_id": "legistar-stpaul-voteevent-215333",
       "holding_id": "legistar-stpaul-holding-1220",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215334-129595",
+      "id": "legistar-stpaul-vote-129595",
       "vote_event_id": "legistar-stpaul-voteevent-215334",
       "holding_id": "legistar-stpaul-holding-1060",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215334-129596",
+      "id": "legistar-stpaul-vote-129596",
       "vote_event_id": "legistar-stpaul-voteevent-215334",
       "holding_id": "legistar-stpaul-holding-1112",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215334-129597",
+      "id": "legistar-stpaul-vote-129597",
       "vote_event_id": "legistar-stpaul-voteevent-215334",
       "holding_id": "legistar-stpaul-holding-1164",
       "value": "absent"
     },
     {
-      "id": "legistar-stpaul-vote-215334-129598",
+      "id": "legistar-stpaul-vote-129598",
       "vote_event_id": "legistar-stpaul-voteevent-215334",
       "holding_id": "legistar-stpaul-holding-1166",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215334-129599",
+      "id": "legistar-stpaul-vote-129599",
       "vote_event_id": "legistar-stpaul-voteevent-215334",
       "holding_id": "legistar-stpaul-holding-1168",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215334-129600",
+      "id": "legistar-stpaul-vote-129600",
       "vote_event_id": "legistar-stpaul-voteevent-215334",
       "holding_id": "legistar-stpaul-holding-1169",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215334-129601",
+      "id": "legistar-stpaul-vote-129601",
       "vote_event_id": "legistar-stpaul-voteevent-215334",
       "holding_id": "legistar-stpaul-holding-1220",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215335-129595",
+      "id": "legistar-stpaul-vote-129595",
       "vote_event_id": "legistar-stpaul-voteevent-215335",
       "holding_id": "legistar-stpaul-holding-1060",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215335-129596",
+      "id": "legistar-stpaul-vote-129596",
       "vote_event_id": "legistar-stpaul-voteevent-215335",
       "holding_id": "legistar-stpaul-holding-1112",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215335-129597",
+      "id": "legistar-stpaul-vote-129597",
       "vote_event_id": "legistar-stpaul-voteevent-215335",
       "holding_id": "legistar-stpaul-holding-1164",
       "value": "absent"
     },
     {
-      "id": "legistar-stpaul-vote-215335-129598",
+      "id": "legistar-stpaul-vote-129598",
       "vote_event_id": "legistar-stpaul-voteevent-215335",
       "holding_id": "legistar-stpaul-holding-1166",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215335-129599",
+      "id": "legistar-stpaul-vote-129599",
       "vote_event_id": "legistar-stpaul-voteevent-215335",
       "holding_id": "legistar-stpaul-holding-1168",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215335-129600",
+      "id": "legistar-stpaul-vote-129600",
       "vote_event_id": "legistar-stpaul-voteevent-215335",
       "holding_id": "legistar-stpaul-holding-1169",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215335-129601",
+      "id": "legistar-stpaul-vote-129601",
       "vote_event_id": "legistar-stpaul-voteevent-215335",
       "holding_id": "legistar-stpaul-holding-1220",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215236-129476",
+      "id": "legistar-stpaul-vote-129476",
       "vote_event_id": "legistar-stpaul-voteevent-215236",
       "holding_id": "legistar-stpaul-holding-1060",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215236-129477",
+      "id": "legistar-stpaul-vote-129477",
       "vote_event_id": "legistar-stpaul-voteevent-215236",
       "holding_id": "legistar-stpaul-holding-1112",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215236-129478",
+      "id": "legistar-stpaul-vote-129478",
       "vote_event_id": "legistar-stpaul-voteevent-215236",
       "holding_id": "legistar-stpaul-holding-1164",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215236-129479",
+      "id": "legistar-stpaul-vote-129479",
       "vote_event_id": "legistar-stpaul-voteevent-215236",
       "holding_id": "legistar-stpaul-holding-1166",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215236-129480",
+      "id": "legistar-stpaul-vote-129480",
       "vote_event_id": "legistar-stpaul-voteevent-215236",
       "holding_id": "legistar-stpaul-holding-1168",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215236-129481",
+      "id": "legistar-stpaul-vote-129481",
       "vote_event_id": "legistar-stpaul-voteevent-215236",
       "holding_id": "legistar-stpaul-holding-1169",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215236-129482",
+      "id": "legistar-stpaul-vote-129482",
       "vote_event_id": "legistar-stpaul-voteevent-215236",
       "holding_id": "legistar-stpaul-holding-1220",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215464-129735",
+      "id": "legistar-stpaul-vote-129735",
       "vote_event_id": "legistar-stpaul-voteevent-215464",
       "holding_id": "legistar-stpaul-holding-1060",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215464-129736",
+      "id": "legistar-stpaul-vote-129736",
       "vote_event_id": "legistar-stpaul-voteevent-215464",
       "holding_id": "legistar-stpaul-holding-1112",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215464-129737",
+      "id": "legistar-stpaul-vote-129737",
       "vote_event_id": "legistar-stpaul-voteevent-215464",
       "holding_id": "legistar-stpaul-holding-1164",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215464-129738",
+      "id": "legistar-stpaul-vote-129738",
       "vote_event_id": "legistar-stpaul-voteevent-215464",
       "holding_id": "legistar-stpaul-holding-1166",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215464-129739",
+      "id": "legistar-stpaul-vote-129739",
       "vote_event_id": "legistar-stpaul-voteevent-215464",
       "holding_id": "legistar-stpaul-holding-1168",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215464-129740",
+      "id": "legistar-stpaul-vote-129740",
       "vote_event_id": "legistar-stpaul-voteevent-215464",
       "holding_id": "legistar-stpaul-holding-1169",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215464-129741",
+      "id": "legistar-stpaul-vote-129741",
       "vote_event_id": "legistar-stpaul-voteevent-215464",
       "holding_id": "legistar-stpaul-holding-1220",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215234-129476",
+      "id": "legistar-stpaul-vote-129476",
       "vote_event_id": "legistar-stpaul-voteevent-215234",
       "holding_id": "legistar-stpaul-holding-1060",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215234-129477",
+      "id": "legistar-stpaul-vote-129477",
       "vote_event_id": "legistar-stpaul-voteevent-215234",
       "holding_id": "legistar-stpaul-holding-1112",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215234-129478",
+      "id": "legistar-stpaul-vote-129478",
       "vote_event_id": "legistar-stpaul-voteevent-215234",
       "holding_id": "legistar-stpaul-holding-1164",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215234-129479",
+      "id": "legistar-stpaul-vote-129479",
       "vote_event_id": "legistar-stpaul-voteevent-215234",
       "holding_id": "legistar-stpaul-holding-1166",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215234-129480",
+      "id": "legistar-stpaul-vote-129480",
       "vote_event_id": "legistar-stpaul-voteevent-215234",
       "holding_id": "legistar-stpaul-holding-1168",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215234-129481",
+      "id": "legistar-stpaul-vote-129481",
       "vote_event_id": "legistar-stpaul-voteevent-215234",
       "holding_id": "legistar-stpaul-holding-1169",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215234-129482",
+      "id": "legistar-stpaul-vote-129482",
       "vote_event_id": "legistar-stpaul-voteevent-215234",
       "holding_id": "legistar-stpaul-holding-1220",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215235-129476",
+      "id": "legistar-stpaul-vote-129476",
       "vote_event_id": "legistar-stpaul-voteevent-215235",
       "holding_id": "legistar-stpaul-holding-1060",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215235-129477",
+      "id": "legistar-stpaul-vote-129477",
       "vote_event_id": "legistar-stpaul-voteevent-215235",
       "holding_id": "legistar-stpaul-holding-1112",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215235-129478",
+      "id": "legistar-stpaul-vote-129478",
       "vote_event_id": "legistar-stpaul-voteevent-215235",
       "holding_id": "legistar-stpaul-holding-1164",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215235-129479",
+      "id": "legistar-stpaul-vote-129479",
       "vote_event_id": "legistar-stpaul-voteevent-215235",
       "holding_id": "legistar-stpaul-holding-1166",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215235-129480",
+      "id": "legistar-stpaul-vote-129480",
       "vote_event_id": "legistar-stpaul-voteevent-215235",
       "holding_id": "legistar-stpaul-holding-1168",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215235-129481",
+      "id": "legistar-stpaul-vote-129481",
       "vote_event_id": "legistar-stpaul-voteevent-215235",
       "holding_id": "legistar-stpaul-holding-1169",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215235-129482",
+      "id": "legistar-stpaul-vote-129482",
       "vote_event_id": "legistar-stpaul-voteevent-215235",
       "holding_id": "legistar-stpaul-holding-1220",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215462-129749",
+      "id": "legistar-stpaul-vote-129749",
       "vote_event_id": "legistar-stpaul-voteevent-215462",
       "holding_id": "legistar-stpaul-holding-1060",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215462-129750",
+      "id": "legistar-stpaul-vote-129750",
       "vote_event_id": "legistar-stpaul-voteevent-215462",
       "holding_id": "legistar-stpaul-holding-1112",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215462-129751",
+      "id": "legistar-stpaul-vote-129751",
       "vote_event_id": "legistar-stpaul-voteevent-215462",
       "holding_id": "legistar-stpaul-holding-1164",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215462-129752",
+      "id": "legistar-stpaul-vote-129752",
       "vote_event_id": "legistar-stpaul-voteevent-215462",
       "holding_id": "legistar-stpaul-holding-1166",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215462-129753",
+      "id": "legistar-stpaul-vote-129753",
       "vote_event_id": "legistar-stpaul-voteevent-215462",
       "holding_id": "legistar-stpaul-holding-1168",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215462-129754",
+      "id": "legistar-stpaul-vote-129754",
       "vote_event_id": "legistar-stpaul-voteevent-215462",
       "holding_id": "legistar-stpaul-holding-1169",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215462-129755",
+      "id": "legistar-stpaul-vote-129755",
       "vote_event_id": "legistar-stpaul-voteevent-215462",
       "holding_id": "legistar-stpaul-holding-1220",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215463-129756",
+      "id": "legistar-stpaul-vote-129756",
       "vote_event_id": "legistar-stpaul-voteevent-215463",
       "holding_id": "legistar-stpaul-holding-1060",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215463-129757",
+      "id": "legistar-stpaul-vote-129757",
       "vote_event_id": "legistar-stpaul-voteevent-215463",
       "holding_id": "legistar-stpaul-holding-1112",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215463-129758",
+      "id": "legistar-stpaul-vote-129758",
       "vote_event_id": "legistar-stpaul-voteevent-215463",
       "holding_id": "legistar-stpaul-holding-1164",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215463-129759",
+      "id": "legistar-stpaul-vote-129759",
       "vote_event_id": "legistar-stpaul-voteevent-215463",
       "holding_id": "legistar-stpaul-holding-1166",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215463-129760",
+      "id": "legistar-stpaul-vote-129760",
       "vote_event_id": "legistar-stpaul-voteevent-215463",
       "holding_id": "legistar-stpaul-holding-1168",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215463-129761",
+      "id": "legistar-stpaul-vote-129761",
       "vote_event_id": "legistar-stpaul-voteevent-215463",
       "holding_id": "legistar-stpaul-holding-1169",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215463-129762",
+      "id": "legistar-stpaul-vote-129762",
       "vote_event_id": "legistar-stpaul-voteevent-215463",
       "holding_id": "legistar-stpaul-holding-1220",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215482-129875",
+      "id": "legistar-stpaul-vote-129875",
       "vote_event_id": "legistar-stpaul-voteevent-215482",
       "holding_id": "legistar-stpaul-holding-1060",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215482-129876",
+      "id": "legistar-stpaul-vote-129876",
       "vote_event_id": "legistar-stpaul-voteevent-215482",
       "holding_id": "legistar-stpaul-holding-1112",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215482-129877",
+      "id": "legistar-stpaul-vote-129877",
       "vote_event_id": "legistar-stpaul-voteevent-215482",
       "holding_id": "legistar-stpaul-holding-1164",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215482-129878",
+      "id": "legistar-stpaul-vote-129878",
       "vote_event_id": "legistar-stpaul-voteevent-215482",
       "holding_id": "legistar-stpaul-holding-1166",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215482-129879",
+      "id": "legistar-stpaul-vote-129879",
       "vote_event_id": "legistar-stpaul-voteevent-215482",
       "holding_id": "legistar-stpaul-holding-1168",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215482-129880",
+      "id": "legistar-stpaul-vote-129880",
       "vote_event_id": "legistar-stpaul-voteevent-215482",
       "holding_id": "legistar-stpaul-holding-1169",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215482-129881",
+      "id": "legistar-stpaul-vote-129881",
       "vote_event_id": "legistar-stpaul-voteevent-215482",
       "holding_id": "legistar-stpaul-holding-1220",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215483-129854",
+      "id": "legistar-stpaul-vote-129854",
       "vote_event_id": "legistar-stpaul-voteevent-215483",
       "holding_id": "legistar-stpaul-holding-1060",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215483-129855",
+      "id": "legistar-stpaul-vote-129855",
       "vote_event_id": "legistar-stpaul-voteevent-215483",
       "holding_id": "legistar-stpaul-holding-1112",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215483-129856",
+      "id": "legistar-stpaul-vote-129856",
       "vote_event_id": "legistar-stpaul-voteevent-215483",
       "holding_id": "legistar-stpaul-holding-1164",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215483-129857",
+      "id": "legistar-stpaul-vote-129857",
       "vote_event_id": "legistar-stpaul-voteevent-215483",
       "holding_id": "legistar-stpaul-holding-1166",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215483-129858",
+      "id": "legistar-stpaul-vote-129858",
       "vote_event_id": "legistar-stpaul-voteevent-215483",
       "holding_id": "legistar-stpaul-holding-1168",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215483-129859",
+      "id": "legistar-stpaul-vote-129859",
       "vote_event_id": "legistar-stpaul-voteevent-215483",
       "holding_id": "legistar-stpaul-holding-1169",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215483-129860",
+      "id": "legistar-stpaul-vote-129860",
       "vote_event_id": "legistar-stpaul-voteevent-215483",
       "holding_id": "legistar-stpaul-holding-1220",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215232-129476",
+      "id": "legistar-stpaul-vote-129476",
       "vote_event_id": "legistar-stpaul-voteevent-215232",
       "holding_id": "legistar-stpaul-holding-1060",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215232-129477",
+      "id": "legistar-stpaul-vote-129477",
       "vote_event_id": "legistar-stpaul-voteevent-215232",
       "holding_id": "legistar-stpaul-holding-1112",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215232-129478",
+      "id": "legistar-stpaul-vote-129478",
       "vote_event_id": "legistar-stpaul-voteevent-215232",
       "holding_id": "legistar-stpaul-holding-1164",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215232-129479",
+      "id": "legistar-stpaul-vote-129479",
       "vote_event_id": "legistar-stpaul-voteevent-215232",
       "holding_id": "legistar-stpaul-holding-1166",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215232-129480",
+      "id": "legistar-stpaul-vote-129480",
       "vote_event_id": "legistar-stpaul-voteevent-215232",
       "holding_id": "legistar-stpaul-holding-1168",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215232-129481",
+      "id": "legistar-stpaul-vote-129481",
       "vote_event_id": "legistar-stpaul-voteevent-215232",
       "holding_id": "legistar-stpaul-holding-1169",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215232-129482",
+      "id": "legistar-stpaul-vote-129482",
       "vote_event_id": "legistar-stpaul-voteevent-215232",
       "holding_id": "legistar-stpaul-holding-1220",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215233-129476",
+      "id": "legistar-stpaul-vote-129476",
       "vote_event_id": "legistar-stpaul-voteevent-215233",
       "holding_id": "legistar-stpaul-holding-1060",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215233-129477",
+      "id": "legistar-stpaul-vote-129477",
       "vote_event_id": "legistar-stpaul-voteevent-215233",
       "holding_id": "legistar-stpaul-holding-1112",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215233-129478",
+      "id": "legistar-stpaul-vote-129478",
       "vote_event_id": "legistar-stpaul-voteevent-215233",
       "holding_id": "legistar-stpaul-holding-1164",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215233-129479",
+      "id": "legistar-stpaul-vote-129479",
       "vote_event_id": "legistar-stpaul-voteevent-215233",
       "holding_id": "legistar-stpaul-holding-1166",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215233-129480",
+      "id": "legistar-stpaul-vote-129480",
       "vote_event_id": "legistar-stpaul-voteevent-215233",
       "holding_id": "legistar-stpaul-holding-1168",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215233-129481",
+      "id": "legistar-stpaul-vote-129481",
       "vote_event_id": "legistar-stpaul-voteevent-215233",
       "holding_id": "legistar-stpaul-holding-1169",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215233-129482",
+      "id": "legistar-stpaul-vote-129482",
       "vote_event_id": "legistar-stpaul-voteevent-215233",
       "holding_id": "legistar-stpaul-holding-1220",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215493-129896",
+      "id": "legistar-stpaul-vote-129896",
       "vote_event_id": "legistar-stpaul-voteevent-215493",
       "holding_id": "legistar-stpaul-holding-1060",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215493-129897",
+      "id": "legistar-stpaul-vote-129897",
       "vote_event_id": "legistar-stpaul-voteevent-215493",
       "holding_id": "legistar-stpaul-holding-1112",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215493-129898",
+      "id": "legistar-stpaul-vote-129898",
       "vote_event_id": "legistar-stpaul-voteevent-215493",
       "holding_id": "legistar-stpaul-holding-1164",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215493-129899",
+      "id": "legistar-stpaul-vote-129899",
       "vote_event_id": "legistar-stpaul-voteevent-215493",
       "holding_id": "legistar-stpaul-holding-1166",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215493-129900",
+      "id": "legistar-stpaul-vote-129900",
       "vote_event_id": "legistar-stpaul-voteevent-215493",
       "holding_id": "legistar-stpaul-holding-1168",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215493-129901",
+      "id": "legistar-stpaul-vote-129901",
       "vote_event_id": "legistar-stpaul-voteevent-215493",
       "holding_id": "legistar-stpaul-holding-1169",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215493-129902",
+      "id": "legistar-stpaul-vote-129902",
       "vote_event_id": "legistar-stpaul-voteevent-215493",
       "holding_id": "legistar-stpaul-holding-1220",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215810-130036",
+      "id": "legistar-stpaul-vote-130036",
       "vote_event_id": "legistar-stpaul-voteevent-215810",
       "holding_id": "legistar-stpaul-holding-1060",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215810-130037",
+      "id": "legistar-stpaul-vote-130037",
       "vote_event_id": "legistar-stpaul-voteevent-215810",
       "holding_id": "legistar-stpaul-holding-1112",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215810-130038",
+      "id": "legistar-stpaul-vote-130038",
       "vote_event_id": "legistar-stpaul-voteevent-215810",
       "holding_id": "legistar-stpaul-holding-1164",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215810-130039",
+      "id": "legistar-stpaul-vote-130039",
       "vote_event_id": "legistar-stpaul-voteevent-215810",
       "holding_id": "legistar-stpaul-holding-1166",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215810-130040",
+      "id": "legistar-stpaul-vote-130040",
       "vote_event_id": "legistar-stpaul-voteevent-215810",
       "holding_id": "legistar-stpaul-holding-1168",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215810-130041",
+      "id": "legistar-stpaul-vote-130041",
       "vote_event_id": "legistar-stpaul-voteevent-215810",
       "holding_id": "legistar-stpaul-holding-1169",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215810-130042",
+      "id": "legistar-stpaul-vote-130042",
       "vote_event_id": "legistar-stpaul-voteevent-215810",
       "holding_id": "legistar-stpaul-holding-1220",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215253-129539",
+      "id": "legistar-stpaul-vote-129539",
       "vote_event_id": "legistar-stpaul-voteevent-215253",
       "holding_id": "legistar-stpaul-holding-1060",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215253-129540",
+      "id": "legistar-stpaul-vote-129540",
       "vote_event_id": "legistar-stpaul-voteevent-215253",
       "holding_id": "legistar-stpaul-holding-1112",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215253-129541",
+      "id": "legistar-stpaul-vote-129541",
       "vote_event_id": "legistar-stpaul-voteevent-215253",
       "holding_id": "legistar-stpaul-holding-1164",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215253-129542",
+      "id": "legistar-stpaul-vote-129542",
       "vote_event_id": "legistar-stpaul-voteevent-215253",
       "holding_id": "legistar-stpaul-holding-1166",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215253-129543",
+      "id": "legistar-stpaul-vote-129543",
       "vote_event_id": "legistar-stpaul-voteevent-215253",
       "holding_id": "legistar-stpaul-holding-1168",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215253-129544",
+      "id": "legistar-stpaul-vote-129544",
       "vote_event_id": "legistar-stpaul-voteevent-215253",
       "holding_id": "legistar-stpaul-holding-1169",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215253-129545",
+      "id": "legistar-stpaul-vote-129545",
       "vote_event_id": "legistar-stpaul-voteevent-215253",
       "holding_id": "legistar-stpaul-holding-1220",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215494-129896",
+      "id": "legistar-stpaul-vote-129896",
       "vote_event_id": "legistar-stpaul-voteevent-215494",
       "holding_id": "legistar-stpaul-holding-1060",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215494-129897",
+      "id": "legistar-stpaul-vote-129897",
       "vote_event_id": "legistar-stpaul-voteevent-215494",
       "holding_id": "legistar-stpaul-holding-1112",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215494-129898",
+      "id": "legistar-stpaul-vote-129898",
       "vote_event_id": "legistar-stpaul-voteevent-215494",
       "holding_id": "legistar-stpaul-holding-1164",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215494-129899",
+      "id": "legistar-stpaul-vote-129899",
       "vote_event_id": "legistar-stpaul-voteevent-215494",
       "holding_id": "legistar-stpaul-holding-1166",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215494-129900",
+      "id": "legistar-stpaul-vote-129900",
       "vote_event_id": "legistar-stpaul-voteevent-215494",
       "holding_id": "legistar-stpaul-holding-1168",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215494-129901",
+      "id": "legistar-stpaul-vote-129901",
       "vote_event_id": "legistar-stpaul-voteevent-215494",
       "holding_id": "legistar-stpaul-holding-1169",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215494-129902",
+      "id": "legistar-stpaul-vote-129902",
       "vote_event_id": "legistar-stpaul-voteevent-215494",
       "holding_id": "legistar-stpaul-holding-1220",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215223-129490",
+      "id": "legistar-stpaul-vote-129490",
       "vote_event_id": "legistar-stpaul-voteevent-215223",
       "holding_id": "legistar-stpaul-holding-1060",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215223-129491",
+      "id": "legistar-stpaul-vote-129491",
       "vote_event_id": "legistar-stpaul-voteevent-215223",
       "holding_id": "legistar-stpaul-holding-1112",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215223-129492",
+      "id": "legistar-stpaul-vote-129492",
       "vote_event_id": "legistar-stpaul-voteevent-215223",
       "holding_id": "legistar-stpaul-holding-1164",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215223-129493",
+      "id": "legistar-stpaul-vote-129493",
       "vote_event_id": "legistar-stpaul-voteevent-215223",
       "holding_id": "legistar-stpaul-holding-1166",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215223-129494",
+      "id": "legistar-stpaul-vote-129494",
       "vote_event_id": "legistar-stpaul-voteevent-215223",
       "holding_id": "legistar-stpaul-holding-1168",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215223-129495",
+      "id": "legistar-stpaul-vote-129495",
       "vote_event_id": "legistar-stpaul-voteevent-215223",
       "holding_id": "legistar-stpaul-holding-1169",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215223-129496",
+      "id": "legistar-stpaul-vote-129496",
       "vote_event_id": "legistar-stpaul-voteevent-215223",
       "holding_id": "legistar-stpaul-holding-1220",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215224-129476",
+      "id": "legistar-stpaul-vote-129476",
       "vote_event_id": "legistar-stpaul-voteevent-215224",
       "holding_id": "legistar-stpaul-holding-1060",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215224-129477",
+      "id": "legistar-stpaul-vote-129477",
       "vote_event_id": "legistar-stpaul-voteevent-215224",
       "holding_id": "legistar-stpaul-holding-1112",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215224-129478",
+      "id": "legistar-stpaul-vote-129478",
       "vote_event_id": "legistar-stpaul-voteevent-215224",
       "holding_id": "legistar-stpaul-holding-1164",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215224-129479",
+      "id": "legistar-stpaul-vote-129479",
       "vote_event_id": "legistar-stpaul-voteevent-215224",
       "holding_id": "legistar-stpaul-holding-1166",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215224-129480",
+      "id": "legistar-stpaul-vote-129480",
       "vote_event_id": "legistar-stpaul-voteevent-215224",
       "holding_id": "legistar-stpaul-holding-1168",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215224-129481",
+      "id": "legistar-stpaul-vote-129481",
       "vote_event_id": "legistar-stpaul-voteevent-215224",
       "holding_id": "legistar-stpaul-holding-1169",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215224-129482",
+      "id": "legistar-stpaul-vote-129482",
       "vote_event_id": "legistar-stpaul-voteevent-215224",
       "holding_id": "legistar-stpaul-holding-1220",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215225-129476",
+      "id": "legistar-stpaul-vote-129476",
       "vote_event_id": "legistar-stpaul-voteevent-215225",
       "holding_id": "legistar-stpaul-holding-1060",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215225-129477",
+      "id": "legistar-stpaul-vote-129477",
       "vote_event_id": "legistar-stpaul-voteevent-215225",
       "holding_id": "legistar-stpaul-holding-1112",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215225-129478",
+      "id": "legistar-stpaul-vote-129478",
       "vote_event_id": "legistar-stpaul-voteevent-215225",
       "holding_id": "legistar-stpaul-holding-1164",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215225-129479",
+      "id": "legistar-stpaul-vote-129479",
       "vote_event_id": "legistar-stpaul-voteevent-215225",
       "holding_id": "legistar-stpaul-holding-1166",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215225-129480",
+      "id": "legistar-stpaul-vote-129480",
       "vote_event_id": "legistar-stpaul-voteevent-215225",
       "holding_id": "legistar-stpaul-holding-1168",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215225-129481",
+      "id": "legistar-stpaul-vote-129481",
       "vote_event_id": "legistar-stpaul-voteevent-215225",
       "holding_id": "legistar-stpaul-holding-1169",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215225-129482",
+      "id": "legistar-stpaul-vote-129482",
       "vote_event_id": "legistar-stpaul-voteevent-215225",
       "holding_id": "legistar-stpaul-holding-1220",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215226-129476",
+      "id": "legistar-stpaul-vote-129476",
       "vote_event_id": "legistar-stpaul-voteevent-215226",
       "holding_id": "legistar-stpaul-holding-1060",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215226-129477",
+      "id": "legistar-stpaul-vote-129477",
       "vote_event_id": "legistar-stpaul-voteevent-215226",
       "holding_id": "legistar-stpaul-holding-1112",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215226-129478",
+      "id": "legistar-stpaul-vote-129478",
       "vote_event_id": "legistar-stpaul-voteevent-215226",
       "holding_id": "legistar-stpaul-holding-1164",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215226-129479",
+      "id": "legistar-stpaul-vote-129479",
       "vote_event_id": "legistar-stpaul-voteevent-215226",
       "holding_id": "legistar-stpaul-holding-1166",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215226-129480",
+      "id": "legistar-stpaul-vote-129480",
       "vote_event_id": "legistar-stpaul-voteevent-215226",
       "holding_id": "legistar-stpaul-holding-1168",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215226-129481",
+      "id": "legistar-stpaul-vote-129481",
       "vote_event_id": "legistar-stpaul-voteevent-215226",
       "holding_id": "legistar-stpaul-holding-1169",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215226-129482",
+      "id": "legistar-stpaul-vote-129482",
       "vote_event_id": "legistar-stpaul-voteevent-215226",
       "holding_id": "legistar-stpaul-holding-1220",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215227-129476",
+      "id": "legistar-stpaul-vote-129476",
       "vote_event_id": "legistar-stpaul-voteevent-215227",
       "holding_id": "legistar-stpaul-holding-1060",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215227-129477",
+      "id": "legistar-stpaul-vote-129477",
       "vote_event_id": "legistar-stpaul-voteevent-215227",
       "holding_id": "legistar-stpaul-holding-1112",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215227-129478",
+      "id": "legistar-stpaul-vote-129478",
       "vote_event_id": "legistar-stpaul-voteevent-215227",
       "holding_id": "legistar-stpaul-holding-1164",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215227-129479",
+      "id": "legistar-stpaul-vote-129479",
       "vote_event_id": "legistar-stpaul-voteevent-215227",
       "holding_id": "legistar-stpaul-holding-1166",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215227-129480",
+      "id": "legistar-stpaul-vote-129480",
       "vote_event_id": "legistar-stpaul-voteevent-215227",
       "holding_id": "legistar-stpaul-holding-1168",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215227-129481",
+      "id": "legistar-stpaul-vote-129481",
       "vote_event_id": "legistar-stpaul-voteevent-215227",
       "holding_id": "legistar-stpaul-holding-1169",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215227-129482",
+      "id": "legistar-stpaul-vote-129482",
       "vote_event_id": "legistar-stpaul-voteevent-215227",
       "holding_id": "legistar-stpaul-holding-1220",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215228-129476",
+      "id": "legistar-stpaul-vote-129476",
       "vote_event_id": "legistar-stpaul-voteevent-215228",
       "holding_id": "legistar-stpaul-holding-1060",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215228-129477",
+      "id": "legistar-stpaul-vote-129477",
       "vote_event_id": "legistar-stpaul-voteevent-215228",
       "holding_id": "legistar-stpaul-holding-1112",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215228-129478",
+      "id": "legistar-stpaul-vote-129478",
       "vote_event_id": "legistar-stpaul-voteevent-215228",
       "holding_id": "legistar-stpaul-holding-1164",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215228-129479",
+      "id": "legistar-stpaul-vote-129479",
       "vote_event_id": "legistar-stpaul-voteevent-215228",
       "holding_id": "legistar-stpaul-holding-1166",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215228-129480",
+      "id": "legistar-stpaul-vote-129480",
       "vote_event_id": "legistar-stpaul-voteevent-215228",
       "holding_id": "legistar-stpaul-holding-1168",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215228-129481",
+      "id": "legistar-stpaul-vote-129481",
       "vote_event_id": "legistar-stpaul-voteevent-215228",
       "holding_id": "legistar-stpaul-holding-1169",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215228-129482",
+      "id": "legistar-stpaul-vote-129482",
       "vote_event_id": "legistar-stpaul-voteevent-215228",
       "holding_id": "legistar-stpaul-holding-1220",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215229-129476",
+      "id": "legistar-stpaul-vote-129476",
       "vote_event_id": "legistar-stpaul-voteevent-215229",
       "holding_id": "legistar-stpaul-holding-1060",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215229-129477",
+      "id": "legistar-stpaul-vote-129477",
       "vote_event_id": "legistar-stpaul-voteevent-215229",
       "holding_id": "legistar-stpaul-holding-1112",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215229-129478",
+      "id": "legistar-stpaul-vote-129478",
       "vote_event_id": "legistar-stpaul-voteevent-215229",
       "holding_id": "legistar-stpaul-holding-1164",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215229-129479",
+      "id": "legistar-stpaul-vote-129479",
       "vote_event_id": "legistar-stpaul-voteevent-215229",
       "holding_id": "legistar-stpaul-holding-1166",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215229-129480",
+      "id": "legistar-stpaul-vote-129480",
       "vote_event_id": "legistar-stpaul-voteevent-215229",
       "holding_id": "legistar-stpaul-holding-1168",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215229-129481",
+      "id": "legistar-stpaul-vote-129481",
       "vote_event_id": "legistar-stpaul-voteevent-215229",
       "holding_id": "legistar-stpaul-holding-1169",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215229-129482",
+      "id": "legistar-stpaul-vote-129482",
       "vote_event_id": "legistar-stpaul-voteevent-215229",
       "holding_id": "legistar-stpaul-holding-1220",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215231-129476",
+      "id": "legistar-stpaul-vote-129476",
       "vote_event_id": "legistar-stpaul-voteevent-215231",
       "holding_id": "legistar-stpaul-holding-1060",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215231-129477",
+      "id": "legistar-stpaul-vote-129477",
       "vote_event_id": "legistar-stpaul-voteevent-215231",
       "holding_id": "legistar-stpaul-holding-1112",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215231-129478",
+      "id": "legistar-stpaul-vote-129478",
       "vote_event_id": "legistar-stpaul-voteevent-215231",
       "holding_id": "legistar-stpaul-holding-1164",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215231-129479",
+      "id": "legistar-stpaul-vote-129479",
       "vote_event_id": "legistar-stpaul-voteevent-215231",
       "holding_id": "legistar-stpaul-holding-1166",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215231-129480",
+      "id": "legistar-stpaul-vote-129480",
       "vote_event_id": "legistar-stpaul-voteevent-215231",
       "holding_id": "legistar-stpaul-holding-1168",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215231-129481",
+      "id": "legistar-stpaul-vote-129481",
       "vote_event_id": "legistar-stpaul-voteevent-215231",
       "holding_id": "legistar-stpaul-holding-1169",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215231-129482",
+      "id": "legistar-stpaul-vote-129482",
       "vote_event_id": "legistar-stpaul-voteevent-215231",
       "holding_id": "legistar-stpaul-holding-1220",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215221-129476",
+      "id": "legistar-stpaul-vote-129476",
       "vote_event_id": "legistar-stpaul-voteevent-215221",
       "holding_id": "legistar-stpaul-holding-1060",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215221-129477",
+      "id": "legistar-stpaul-vote-129477",
       "vote_event_id": "legistar-stpaul-voteevent-215221",
       "holding_id": "legistar-stpaul-holding-1112",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215221-129478",
+      "id": "legistar-stpaul-vote-129478",
       "vote_event_id": "legistar-stpaul-voteevent-215221",
       "holding_id": "legistar-stpaul-holding-1164",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215221-129479",
+      "id": "legistar-stpaul-vote-129479",
       "vote_event_id": "legistar-stpaul-voteevent-215221",
       "holding_id": "legistar-stpaul-holding-1166",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215221-129480",
+      "id": "legistar-stpaul-vote-129480",
       "vote_event_id": "legistar-stpaul-voteevent-215221",
       "holding_id": "legistar-stpaul-holding-1168",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215221-129481",
+      "id": "legistar-stpaul-vote-129481",
       "vote_event_id": "legistar-stpaul-voteevent-215221",
       "holding_id": "legistar-stpaul-holding-1169",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215221-129482",
+      "id": "legistar-stpaul-vote-129482",
       "vote_event_id": "legistar-stpaul-voteevent-215221",
       "holding_id": "legistar-stpaul-holding-1220",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215263-129518",
+      "id": "legistar-stpaul-vote-129518",
       "vote_event_id": "legistar-stpaul-voteevent-215263",
       "holding_id": "legistar-stpaul-holding-1060",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215263-129519",
+      "id": "legistar-stpaul-vote-129519",
       "vote_event_id": "legistar-stpaul-voteevent-215263",
       "holding_id": "legistar-stpaul-holding-1112",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215263-129520",
+      "id": "legistar-stpaul-vote-129520",
       "vote_event_id": "legistar-stpaul-voteevent-215263",
       "holding_id": "legistar-stpaul-holding-1164",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215263-129521",
+      "id": "legistar-stpaul-vote-129521",
       "vote_event_id": "legistar-stpaul-voteevent-215263",
       "holding_id": "legistar-stpaul-holding-1166",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215263-129522",
+      "id": "legistar-stpaul-vote-129522",
       "vote_event_id": "legistar-stpaul-voteevent-215263",
       "holding_id": "legistar-stpaul-holding-1168",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215263-129523",
+      "id": "legistar-stpaul-vote-129523",
       "vote_event_id": "legistar-stpaul-voteevent-215263",
       "holding_id": "legistar-stpaul-holding-1169",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215263-129524",
+      "id": "legistar-stpaul-vote-129524",
       "vote_event_id": "legistar-stpaul-voteevent-215263",
       "holding_id": "legistar-stpaul-holding-1220",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215516-129903",
+      "id": "legistar-stpaul-vote-129903",
       "vote_event_id": "legistar-stpaul-voteevent-215516",
       "holding_id": "legistar-stpaul-holding-1060",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215516-129904",
+      "id": "legistar-stpaul-vote-129904",
       "vote_event_id": "legistar-stpaul-voteevent-215516",
       "holding_id": "legistar-stpaul-holding-1112",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215516-129905",
+      "id": "legistar-stpaul-vote-129905",
       "vote_event_id": "legistar-stpaul-voteevent-215516",
       "holding_id": "legistar-stpaul-holding-1164",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215516-129906",
+      "id": "legistar-stpaul-vote-129906",
       "vote_event_id": "legistar-stpaul-voteevent-215516",
       "holding_id": "legistar-stpaul-holding-1166",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215516-129907",
+      "id": "legistar-stpaul-vote-129907",
       "vote_event_id": "legistar-stpaul-voteevent-215516",
       "holding_id": "legistar-stpaul-holding-1168",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215516-129908",
+      "id": "legistar-stpaul-vote-129908",
       "vote_event_id": "legistar-stpaul-voteevent-215516",
       "holding_id": "legistar-stpaul-holding-1169",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215516-129909",
+      "id": "legistar-stpaul-vote-129909",
       "vote_event_id": "legistar-stpaul-voteevent-215516",
       "holding_id": "legistar-stpaul-holding-1220",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215222-129476",
+      "id": "legistar-stpaul-vote-129476",
       "vote_event_id": "legistar-stpaul-voteevent-215222",
       "holding_id": "legistar-stpaul-holding-1060",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215222-129477",
+      "id": "legistar-stpaul-vote-129477",
       "vote_event_id": "legistar-stpaul-voteevent-215222",
       "holding_id": "legistar-stpaul-holding-1112",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215222-129478",
+      "id": "legistar-stpaul-vote-129478",
       "vote_event_id": "legistar-stpaul-voteevent-215222",
       "holding_id": "legistar-stpaul-holding-1164",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215222-129479",
+      "id": "legistar-stpaul-vote-129479",
       "vote_event_id": "legistar-stpaul-voteevent-215222",
       "holding_id": "legistar-stpaul-holding-1166",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215222-129480",
+      "id": "legistar-stpaul-vote-129480",
       "vote_event_id": "legistar-stpaul-voteevent-215222",
       "holding_id": "legistar-stpaul-holding-1168",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215222-129481",
+      "id": "legistar-stpaul-vote-129481",
       "vote_event_id": "legistar-stpaul-voteevent-215222",
       "holding_id": "legistar-stpaul-holding-1169",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215222-129482",
+      "id": "legistar-stpaul-vote-129482",
       "vote_event_id": "legistar-stpaul-voteevent-215222",
       "holding_id": "legistar-stpaul-holding-1220",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215252-129560",
+      "id": "legistar-stpaul-vote-129560",
       "vote_event_id": "legistar-stpaul-voteevent-215252",
       "holding_id": "legistar-stpaul-holding-1060",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215252-129561",
+      "id": "legistar-stpaul-vote-129561",
       "vote_event_id": "legistar-stpaul-voteevent-215252",
       "holding_id": "legistar-stpaul-holding-1112",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215252-129562",
+      "id": "legistar-stpaul-vote-129562",
       "vote_event_id": "legistar-stpaul-voteevent-215252",
       "holding_id": "legistar-stpaul-holding-1164",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215252-129563",
+      "id": "legistar-stpaul-vote-129563",
       "vote_event_id": "legistar-stpaul-voteevent-215252",
       "holding_id": "legistar-stpaul-holding-1166",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215252-129564",
+      "id": "legistar-stpaul-vote-129564",
       "vote_event_id": "legistar-stpaul-voteevent-215252",
       "holding_id": "legistar-stpaul-holding-1168",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215252-129565",
+      "id": "legistar-stpaul-vote-129565",
       "vote_event_id": "legistar-stpaul-voteevent-215252",
       "holding_id": "legistar-stpaul-holding-1169",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215252-129566",
+      "id": "legistar-stpaul-vote-129566",
       "vote_event_id": "legistar-stpaul-voteevent-215252",
       "holding_id": "legistar-stpaul-holding-1220",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215515-129896",
+      "id": "legistar-stpaul-vote-129896",
       "vote_event_id": "legistar-stpaul-voteevent-215515",
       "holding_id": "legistar-stpaul-holding-1060",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215515-129897",
+      "id": "legistar-stpaul-vote-129897",
       "vote_event_id": "legistar-stpaul-voteevent-215515",
       "holding_id": "legistar-stpaul-holding-1112",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215515-129898",
+      "id": "legistar-stpaul-vote-129898",
       "vote_event_id": "legistar-stpaul-voteevent-215515",
       "holding_id": "legistar-stpaul-holding-1164",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215515-129899",
+      "id": "legistar-stpaul-vote-129899",
       "vote_event_id": "legistar-stpaul-voteevent-215515",
       "holding_id": "legistar-stpaul-holding-1166",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215515-129900",
+      "id": "legistar-stpaul-vote-129900",
       "vote_event_id": "legistar-stpaul-voteevent-215515",
       "holding_id": "legistar-stpaul-holding-1168",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215515-129901",
+      "id": "legistar-stpaul-vote-129901",
       "vote_event_id": "legistar-stpaul-voteevent-215515",
       "holding_id": "legistar-stpaul-holding-1169",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215515-129902",
+      "id": "legistar-stpaul-vote-129902",
       "vote_event_id": "legistar-stpaul-voteevent-215515",
       "holding_id": "legistar-stpaul-holding-1220",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215829-130141",
+      "id": "legistar-stpaul-vote-130141",
       "vote_event_id": "legistar-stpaul-voteevent-215829",
       "holding_id": "legistar-stpaul-holding-1060",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215829-130142",
+      "id": "legistar-stpaul-vote-130142",
       "vote_event_id": "legistar-stpaul-voteevent-215829",
       "holding_id": "legistar-stpaul-holding-1112",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215829-130143",
+      "id": "legistar-stpaul-vote-130143",
       "vote_event_id": "legistar-stpaul-voteevent-215829",
       "holding_id": "legistar-stpaul-holding-1164",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215829-130144",
+      "id": "legistar-stpaul-vote-130144",
       "vote_event_id": "legistar-stpaul-voteevent-215829",
       "holding_id": "legistar-stpaul-holding-1166",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215829-130145",
+      "id": "legistar-stpaul-vote-130145",
       "vote_event_id": "legistar-stpaul-voteevent-215829",
       "holding_id": "legistar-stpaul-holding-1168",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215829-130146",
+      "id": "legistar-stpaul-vote-130146",
       "vote_event_id": "legistar-stpaul-voteevent-215829",
       "holding_id": "legistar-stpaul-holding-1169",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215829-130147",
+      "id": "legistar-stpaul-vote-130147",
       "vote_event_id": "legistar-stpaul-voteevent-215829",
       "holding_id": "legistar-stpaul-holding-1220",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215836-130141",
+      "id": "legistar-stpaul-vote-130141",
       "vote_event_id": "legistar-stpaul-voteevent-215836",
       "holding_id": "legistar-stpaul-holding-1060",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215836-130142",
+      "id": "legistar-stpaul-vote-130142",
       "vote_event_id": "legistar-stpaul-voteevent-215836",
       "holding_id": "legistar-stpaul-holding-1112",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215836-130143",
+      "id": "legistar-stpaul-vote-130143",
       "vote_event_id": "legistar-stpaul-voteevent-215836",
       "holding_id": "legistar-stpaul-holding-1164",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215836-130144",
+      "id": "legistar-stpaul-vote-130144",
       "vote_event_id": "legistar-stpaul-voteevent-215836",
       "holding_id": "legistar-stpaul-holding-1166",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215836-130145",
+      "id": "legistar-stpaul-vote-130145",
       "vote_event_id": "legistar-stpaul-voteevent-215836",
       "holding_id": "legistar-stpaul-holding-1168",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215836-130146",
+      "id": "legistar-stpaul-vote-130146",
       "vote_event_id": "legistar-stpaul-voteevent-215836",
       "holding_id": "legistar-stpaul-holding-1169",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215836-130147",
+      "id": "legistar-stpaul-vote-130147",
       "vote_event_id": "legistar-stpaul-voteevent-215836",
       "holding_id": "legistar-stpaul-holding-1220",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215490-129896",
+      "id": "legistar-stpaul-vote-129896",
       "vote_event_id": "legistar-stpaul-voteevent-215490",
       "holding_id": "legistar-stpaul-holding-1060",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215490-129897",
+      "id": "legistar-stpaul-vote-129897",
       "vote_event_id": "legistar-stpaul-voteevent-215490",
       "holding_id": "legistar-stpaul-holding-1112",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215490-129898",
+      "id": "legistar-stpaul-vote-129898",
       "vote_event_id": "legistar-stpaul-voteevent-215490",
       "holding_id": "legistar-stpaul-holding-1164",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215490-129899",
+      "id": "legistar-stpaul-vote-129899",
       "vote_event_id": "legistar-stpaul-voteevent-215490",
       "holding_id": "legistar-stpaul-holding-1166",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215490-129900",
+      "id": "legistar-stpaul-vote-129900",
       "vote_event_id": "legistar-stpaul-voteevent-215490",
       "holding_id": "legistar-stpaul-holding-1168",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215490-129901",
+      "id": "legistar-stpaul-vote-129901",
       "vote_event_id": "legistar-stpaul-voteevent-215490",
       "holding_id": "legistar-stpaul-holding-1169",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215490-129902",
+      "id": "legistar-stpaul-vote-129902",
       "vote_event_id": "legistar-stpaul-voteevent-215490",
       "holding_id": "legistar-stpaul-holding-1220",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215220-129476",
+      "id": "legistar-stpaul-vote-129476",
       "vote_event_id": "legistar-stpaul-voteevent-215220",
       "holding_id": "legistar-stpaul-holding-1060",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215220-129477",
+      "id": "legistar-stpaul-vote-129477",
       "vote_event_id": "legistar-stpaul-voteevent-215220",
       "holding_id": "legistar-stpaul-holding-1112",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215220-129478",
+      "id": "legistar-stpaul-vote-129478",
       "vote_event_id": "legistar-stpaul-voteevent-215220",
       "holding_id": "legistar-stpaul-holding-1164",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215220-129479",
+      "id": "legistar-stpaul-vote-129479",
       "vote_event_id": "legistar-stpaul-voteevent-215220",
       "holding_id": "legistar-stpaul-holding-1166",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215220-129480",
+      "id": "legistar-stpaul-vote-129480",
       "vote_event_id": "legistar-stpaul-voteevent-215220",
       "holding_id": "legistar-stpaul-holding-1168",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215220-129481",
+      "id": "legistar-stpaul-vote-129481",
       "vote_event_id": "legistar-stpaul-voteevent-215220",
       "holding_id": "legistar-stpaul-holding-1169",
       "value": "yea"
     },
     {
-      "id": "legistar-stpaul-vote-215220-129482",
+      "id": "legistar-stpaul-vote-129482",
       "vote_event_id": "legistar-stpaul-voteevent-215220",
       "holding_id": "legistar-stpaul-holding-1220",
       "value": "yea"
@@ -8828,7 +8828,6 @@
     "officerecords rows dropped for belonging to a non-governing/internal body: Clerk, Council Secretary.",
     "Office here models 'membership in a Legistar body under a given title', not a per-seat/ward electoral district — these two clients' officerecords endpoint does not expose per-seat identifiers. See wards.geojson / commissioners.geojson for seat-level geography.",
     "Votes ingested only for the most recent 60 days (from 2026-06-09) — the current term on City Council began 2016-01-01, but a full-term backfill was not run in this pass to stay within a good-citizen request budget (AGENTS.md §2.2). Run this ingest on a recurring schedule to accumulate full-term coverage incrementally.",
-    "317 matter(s) found in the 2026-06-09–2026-08-09 window for stpaul; capped to the most recent 250 to bound this run's request volume.",
-    "Failed to fetch histories for matter 52296 (stpaul): fetch failed"
+    "317 matter(s) found in the 2026-06-09–2026-08-09 window for stpaul; capped to the most recent 250 to bound this run's request volume."
   ]
 }

@@ -44,7 +44,7 @@
 // (or leaving in place) the honest empty-state file. Nothing here ever
 // synthesizes persons, votes, or dates that didn't come back from the API.
 
-import { writeFile, mkdir } from "node:fs/promises";
+import { writeFile, mkdir, readFile } from "node:fs/promises";
 import { createHash } from "node:crypto";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -156,6 +156,38 @@ const VOTE_WINDOW_DAYS = 60;
 const MAX_MATTERS_PER_CLIENT = 250;
 
 const SNAPSHOT_DIR = path.join(__dirname, "../../data/snapshots/legistar");
+
+// --- Meetings/agenda ingest window (issue #58) -----------------------------
+//
+// The votes window above (VOTE_WINDOW_DAYS) looks backward only — it walks
+// /matters for things a body already voted on. This is a different feed:
+// /events + /events/{id}/eventitems, which is what actually carries
+// upcoming meeting dates and agendas (a matter with no recorded vote yet
+// has no MatterHistory row at all, so it would never surface there). A
+// short look-back plus a longer look-ahead, both bounded, so a resident
+// browsing "what's this body about to decide" sees recently-passed
+// meetings for context and every scheduled meeting on the calendar,
+// without turning this into a full-calendar-history backfill in one run.
+const MEETINGS_LOOKBACK_DAYS = 14;
+const MEETINGS_LOOKAHEAD_DAYS = 90;
+
+// Hard cap on events processed for agenda items in a single run, same
+// good-citizen-request-budget reasoning as MAX_MATTERS_PER_CLIENT — each
+// event costs one extra /events/{id}/eventitems request.
+const MAX_EVENTS_PER_CLIENT = 150;
+
+// Legistar's own EventItemConsent flag (0/1) is a real, first-class field
+// on every event item — not inferred or guessed. This is the one signal
+// AGENTS.md §0.4 asks this ingest to surface ("flag items passed on
+// consent"); there is no comparably reliable field for "no discussion" or
+// "no public comment" in this API (no debate-duration, no comment-count,
+// no roll-call-taken-but-no-remarks marker), so this ingest flags consent
+// only and does not attempt a "no discussion" flag — guessing one from
+// absence of other fields would be exactly the kind of inference AGENTS.md
+// §3.3 "Missing Sources: Never fabricate or infer" rules out.
+export function isConsentAgendaItem(rawEventItem) {
+  return Number(rawEventItem?.EventItemConsent) === 1;
+}
 
 class LegistarAuthError extends Error {
   constructor(client, status) {
@@ -744,6 +776,301 @@ async function buildVotesForWindow(clientConfig, token, { primaryBodyId, primary
   };
 }
 
+// --- Meetings/agenda mapping (pure) — issue #58 -----------------------------
+//
+// /events is the feed that actually carries upcoming meeting dates and
+// full agendas (buildVotesForWindow above only ever sees matters a body
+// has *already* voted on). EventInSiteURL is a direct field on /events —
+// unlike resolveLegislationUrl() for individual matters, no Gateway.aspx
+// scrape is needed to get a citable public source_url for a meeting.
+export function mapEventToMeeting(client, event) {
+  return {
+    id: `legistar-${client}-meeting-${event.EventId}`,
+    body_id: `legistar-${client}-body-${event.EventBodyId}`,
+    bodyName: event.EventBodyName || null,
+    date: toIsoDate(event.EventDate),
+    time: event.EventTime || null,
+    location: event.EventLocation || null,
+    agendaStatus: event.EventAgendaStatusName || null,
+    agendaUrl: event.EventAgendaFile || null,
+    minutesUrl: event.EventMinutesFile || null,
+    videoStatus: event.EventVideoStatus || null,
+    sourceUrl: event.EventInSiteURL || null,
+    lastModifiedUtc: event.EventLastModifiedUtc || null,
+  };
+}
+
+export function mapEventItemToAgendaItem(client, meetingId, item) {
+  return {
+    id: `legistar-${client}-eventitem-${item.EventItemId}`,
+    meeting_id: meetingId,
+    sequence: typeof item.EventItemAgendaSequence === "number" ? item.EventItemAgendaSequence : null,
+    agendaNumber: item.EventItemAgendaNumber || null,
+    title: item.EventItemTitle || `Agenda item ${item.EventItemId}`,
+    isConsent: isConsentAgendaItem(item),
+    actionName: item.EventItemActionName || null,
+    passedFlagName: item.EventItemPassedFlagName || null,
+    matterFile: item.EventItemMatterFile || null,
+    matterId: item.EventItemMatterId ?? null,
+    matterType: item.EventItemMatterType || null,
+  };
+}
+
+// --- Diff on refresh (AGENTS.md §0.5) ---------------------------------------
+//
+// Compares this run's meetings against the previous run's output for the
+// same client (read from disk before this run's file is written — see
+// ingestMeetingsForClient()). Never mutates either input; only reports
+// what changed, so a cancelled/rescheduled meeting is surfaced rather
+// than silently overwritten.
+const MEETING_DIFF_FIELDS = ["date", "time", "location", "agendaStatus", "agendaUrl", "minutesUrl"];
+
+export function diffMeetings(previousMeetings, nextMeetings) {
+  const prevById = new Map((previousMeetings ?? []).map((m) => [m.id, m]));
+  const nextById = new Map((nextMeetings ?? []).map((m) => [m.id, m]));
+
+  const addedIds = [...nextById.keys()].filter((id) => !prevById.has(id));
+  const removedIds = [...prevById.keys()].filter((id) => !nextById.has(id));
+  const changed = [];
+
+  for (const [id, next] of nextById) {
+    const prev = prevById.get(id);
+    if (!prev) continue;
+    for (const field of MEETING_DIFF_FIELDS) {
+      if (prev[field] !== next[field]) {
+        changed.push({ id, field, from: prev[field] ?? null, to: next[field] ?? null });
+      }
+    }
+  }
+
+  return { addedIds, removedIds, changed };
+}
+
+function meetingsOutputPath(clientConfig) {
+  return path.join(OUTPUT_DIR, `${clientConfig.client}-meetings.json`);
+}
+
+// Reads the previous run's output for this client, if any, purely to diff
+// against — never to merge or carry data forward. Returns null (not an
+// empty meetings array) when there's no readable prior file, so a first
+// run for a client can be told apart from "prior run found zero meetings."
+async function fetchExistingMeetingsFile(outputPath) {
+  try {
+    const raw = await readFile(outputPath, "utf-8");
+    const parsed = JSON.parse(raw);
+    return { generatedAt: parsed.generatedAt ?? null, meetings: Array.isArray(parsed.meetings) ? parsed.meetings : [] };
+  } catch {
+    return null;
+  }
+}
+
+// Bounded /events -> /events/{id}/eventitems walk over one recent+upcoming
+// window (MEETINGS_LOOKBACK_DAYS/MEETINGS_LOOKAHEAD_DAYS), across every
+// body the client returns (not just the primary legislative body) — a
+// resident browsing "what's this body about to decide" needs committees
+// too, not just full Council/Board. Throws on a failure that leaves
+// nothing publishable; individual per-event eventitems failures are
+// recorded as knownGaps and skipped rather than failing the whole run.
+async function buildMeetingsForWindow(clientConfig, token, { windowStartIso, windowEndIso }) {
+  const knownGaps = [];
+  const contentHashEntries = [];
+
+  const events = await getEvents(clientConfig.client, { token, startIsoDate: windowStartIso, endIsoDate: windowEndIso });
+  const eventsSnapshot = await snapshotRaw(clientConfig.client, "events-window", {
+    windowStartIso,
+    windowEndIso,
+    count: events.length,
+    events,
+  });
+  contentHashEntries.push({ name: "events-window", hash: eventsSnapshot.hash });
+
+  let workingEvents = events;
+  if (events.length > MAX_EVENTS_PER_CLIENT) {
+    workingEvents = [...events]
+      .sort((a, b) => (a.EventDate || "").localeCompare(b.EventDate || ""))
+      .slice(0, MAX_EVENTS_PER_CLIENT);
+    knownGaps.push(
+      `${events.length} event(s) found in the ${windowStartIso}–${windowEndIso} window for ${clientConfig.client}; capped to ` +
+        `the earliest ${MAX_EVENTS_PER_CLIENT} to bound this run's request volume.`,
+    );
+  }
+
+  const meetings = [];
+  const agendaItems = [];
+  const rawEventItems = [];
+  const skippedEvents = [];
+
+  for (const event of workingEvents) {
+    if (!event.EventId || !toIsoDate(event.EventDate)) {
+      skippedEvents.push(event.EventId ?? "(no id)");
+      continue;
+    }
+    const meeting = mapEventToMeeting(clientConfig.client, event);
+    meetings.push(meeting);
+
+    let items;
+    try {
+      items = await getEventItems(clientConfig.client, event.EventId, { token });
+    } catch (err) {
+      knownGaps.push(`Failed to fetch eventitems for event ${event.EventId} (${clientConfig.client}): ${err.message}`);
+      continue;
+    }
+    await sleepBriefly();
+    rawEventItems.push({ eventId: event.EventId, items });
+
+    for (const item of items) {
+      if (!item.EventItemId) continue;
+      agendaItems.push(mapEventItemToAgendaItem(clientConfig.client, meeting.id, item));
+    }
+  }
+
+  if (skippedEvents.length) {
+    knownGaps.push(
+      `${skippedEvents.length} event(s) skipped for missing an id or a parseable EventDate: ` +
+        `${skippedEvents.slice(0, 10).join(", ")}${skippedEvents.length > 10 ? ", …" : ""}.`,
+    );
+  }
+
+  const itemsSnapshot = await snapshotRaw(clientConfig.client, "eventitems-window", rawEventItems);
+  contentHashEntries.push({ name: "eventitems-window", hash: itemsSnapshot.hash });
+
+  const consentCount = agendaItems.filter((item) => item.isConsent).length;
+  knownGaps.push(
+    `Consent-agenda flagging uses Legistar's own EventItemConsent field only (${consentCount} of ${agendaItems.length} ` +
+      `agenda item(s) in this window flagged). "No discussion" / "no public comment" are NOT flagged — this API exposes ` +
+      `no comparably reliable field for either, and AGENTS.md §3.3 rules out inferring one from absence.`,
+  );
+
+  return {
+    meetings,
+    agendaItems,
+    knownGaps,
+    eventsFound: events.length,
+    eventsProcessed: workingEvents.length,
+    contentHashEntries,
+  };
+}
+
+// Top-level per-client meetings ingest: runs the bounded events window,
+// then diffs against whatever this client's output file already holds on
+// disk (read before writeClientMeetingsOutput() below overwrites it).
+async function ingestMeetingsForClient(clientConfig) {
+  const token = resolveToken(clientConfig);
+  const runDate = new Date();
+  const windowStartIso = addDays(runDate, -MEETINGS_LOOKBACK_DAYS);
+  const windowEndIso = addDays(runDate, MEETINGS_LOOKAHEAD_DAYS);
+
+  const result = await buildMeetingsForWindow(clientConfig, token, { windowStartIso, windowEndIso });
+
+  const previous = await fetchExistingMeetingsFile(meetingsOutputPath(clientConfig));
+  const diff = previous ? diffMeetings(previous.meetings, result.meetings) : null;
+
+  return { ...result, windowStartIso, windowEndIso, diff, previousGeneratedAt: previous?.generatedAt ?? null };
+}
+
+function buildMeetingsIngestedState(clientConfig, ingest) {
+  return {
+    schemaVersion: 1,
+    client: clientConfig.client,
+    jurisdiction: clientConfig.jurisdiction,
+    generatedAt: new Date().toISOString(),
+    status: "ingested",
+    note:
+      `${ingest.meetings.length} meeting(s) (${ingest.eventsProcessed}/${ingest.eventsFound} event(s) in window) and ` +
+      `${ingest.agendaItems.length} agenda item(s) ingested for ${ingest.windowStartIso}–${ingest.windowEndIso}.`,
+    provenance: {
+      primarySourceUrl: `${LEGISTAR_BASE}/${clientConfig.client}/events`,
+      sourceAgency: clientConfig.jurisdiction,
+      documentType: "Legistar Web API — Events/EventItems",
+      documentId: null,
+      issuedDate: null,
+      fetchedAt: new Date().toISOString(),
+      licence:
+        "Public records served via Legistar InSite; no separate machine-reuse licence published by the host jurisdiction as of this writing.",
+      contentHash: combineSnapshotHashes(ingest.contentHashEntries),
+    },
+    window: { startIso: ingest.windowStartIso, endIso: ingest.windowEndIso },
+    meetings: ingest.meetings,
+    agendaItems: ingest.agendaItems,
+    // AGENTS.md §0.5 — added/removed/changed meeting ids since the
+    // previous run's output at this path; null only on the very first
+    // run for this client (nothing to diff against yet).
+    diff: ingest.diff,
+    previousGeneratedAt: ingest.previousGeneratedAt,
+    knownGaps: ingest.knownGaps,
+  };
+}
+
+function buildMeetingsEmptyState(clientConfig, { status, note, fetchedAt }) {
+  return {
+    schemaVersion: 1,
+    client: clientConfig.client,
+    jurisdiction: clientConfig.jurisdiction,
+    generatedAt: new Date().toISOString(),
+    status, // "unreachable" | "auth_required"
+    note,
+    provenance: {
+      primarySourceUrl: `${LEGISTAR_BASE}/${clientConfig.client}/events`,
+      sourceAgency: clientConfig.jurisdiction,
+      documentType: "Legistar Web API — Events/EventItems",
+      documentId: null,
+      issuedDate: null,
+      fetchedAt,
+      licence:
+        "Public records served via Legistar InSite; no separate machine-reuse licence published by the host jurisdiction as of this writing.",
+      contentHash: null,
+    },
+    window: null,
+    meetings: [],
+    agendaItems: [],
+    diff: null,
+    previousGeneratedAt: null,
+    knownGaps: [note].filter(Boolean),
+  };
+}
+
+async function writeClientMeetingsOutput(clientConfig, state) {
+  await mkdir(OUTPUT_DIR, { recursive: true });
+  const outputPath = meetingsOutputPath(clientConfig);
+  await writeFile(outputPath, JSON.stringify(state, null, 2) + "\n");
+  return outputPath;
+}
+
+// A tiny, separate file with just the soonest upcoming meeting (or null),
+// written alongside the full {client}-meetings.json above. Exists purely
+// so WardModal.tsx's sidebar "next meeting" teaser (issue #58) can import
+// a few hundred bytes rather than the full meetings+agendaItems feed
+// (hundreds of KB) into the client bundle it ships to every visitor —
+// AGENTS.md §0.7's "fast on old phones and bad connections" budget. Full
+// browsing still reads {client}-meetings.json via /meetings.
+export function selectNextMeeting(clientConfig, meetings, runIso, primaryBodyName = null) {
+  const upcoming = meetings.filter((m) => m.date && m.date >= runIso).sort((a, b) => (a.date ?? "").localeCompare(b.date ?? ""));
+  // Prefer the primary legislative body's own next meeting when we know
+  // which body that is; otherwise fall back to whichever body meets
+  // soonest (still real, still sourced — just not guaranteed to be the
+  // full Council/Board specifically).
+  const primaryUpcoming = primaryBodyName ? upcoming.filter((m) => m.bodyName === primaryBodyName) : [];
+  const next = primaryUpcoming[0] ?? upcoming[0];
+  if (!next) return null;
+  return {
+    client: clientConfig.client,
+    jurisdiction: clientConfig.jurisdiction,
+    bodyName: next.bodyName,
+    isPrimaryBody: primaryBodyName != null && next.bodyName === primaryBodyName,
+    date: next.date,
+    time: next.time,
+    sourceUrl: next.sourceUrl,
+    agendaUrl: next.agendaUrl,
+  };
+}
+
+async function writeNextMeetingTeaser(clientConfig, nextMeeting) {
+  await mkdir(OUTPUT_DIR, { recursive: true });
+  const outputPath = path.join(OUTPUT_DIR, `${clientConfig.client}-next-meeting.json`);
+  await writeFile(outputPath, JSON.stringify({ generatedAt: new Date().toISOString(), nextMeeting }, null, 2) + "\n");
+  return outputPath;
+}
+
 // Full per-client ingest: bodies + persons/offices/holdings (from
 // officerecords) + a bounded votes window on the primary legislative body.
 // Throws on any failure — callers fall back to the honest empty-state
@@ -999,11 +1326,21 @@ async function main() {
 
   for (const clientConfig of LEGISTAR_CLIENTS) {
     console.log(`[legistar:${clientConfig.client}] probing ${clientConfig.jurisdiction}...`);
+    // Threaded into the next-meeting teaser below so it prefers the primary
+    // legislative body (City Council / County Board) over some other body
+    // that merely happens to meet sooner (e.g. a Legislative Hearings
+    // officer) — a resident looking at their council member's card should
+    // see their council's next meeting, not whichever body meets first.
+    // Stays null if the roster+votes ingest above failed or never
+    // determined one; selectNextMeeting() falls back to "soonest of any
+    // body" in that case, documented on the teaser file itself.
+    let primaryBodyName = null;
     try {
       const sampleCount = await probeClient(clientConfig);
       console.log(`[legistar:${clientConfig.client}] reachable (sample bodies page returned ${sampleCount} row(s)). Starting full ingest...`);
 
       const ingest = await ingestClient(clientConfig);
+      primaryBodyName = ingest.voteWindow?.primaryBodyName ?? null;
       const state = buildIngestedState(clientConfig, ingest);
       const outputPath = await writeClientOutput(clientConfig, state);
       console.log(
@@ -1022,6 +1359,49 @@ async function main() {
       });
       const outputPath = await writeClientOutput(clientConfig, state);
       console.log(`[legistar:${clientConfig.client}] left honest empty-state scaffold in place at ${outputPath}`);
+    }
+
+    // Meetings/agenda ingest (issue #58) is a separate try/catch from the
+    // roster+votes ingest above — a failure in one must never block or be
+    // masked by the other, and each writes to its own output path.
+    console.log(`[legistar:${clientConfig.client}] starting meetings/agenda ingest...`);
+    try {
+      const meetingsIngest = await ingestMeetingsForClient(clientConfig);
+      const meetingsState = buildMeetingsIngestedState(clientConfig, meetingsIngest);
+      const meetingsPath = await writeClientMeetingsOutput(clientConfig, meetingsState);
+      const diffNote = meetingsIngest.diff
+        ? `${meetingsIngest.diff.addedIds.length} added, ${meetingsIngest.diff.removedIds.length} removed, ` +
+          `${meetingsIngest.diff.changed.length} changed field(s) vs. previous run`
+        : "no previous run to diff against";
+      console.log(
+        `[legistar:${clientConfig.client}] ingested ${meetingsIngest.meetings.length} meeting(s), ` +
+          `${meetingsIngest.agendaItems.length} agenda item(s) (${diffNote}). Wrote ${meetingsPath}`,
+      );
+      const nextMeeting = selectNextMeeting(
+        clientConfig,
+        meetingsIngest.meetings,
+        new Date().toISOString().slice(0, 10),
+        primaryBodyName,
+      );
+      const teaserPath = await writeNextMeetingTeaser(clientConfig, nextMeeting);
+      console.log(
+        `[legistar:${clientConfig.client}] next-meeting teaser: ${nextMeeting ? nextMeeting.date : "none upcoming"}. Wrote ${teaserPath}`,
+      );
+    } catch (err) {
+      anyFailures = true;
+      const isAuthError = err instanceof LegistarAuthError;
+      const reason = isAuthError
+        ? "requires a token this run doesn't have"
+        : "meetings ingest failed (network error or unexpected response)";
+      console.error(`[legistar:${clientConfig.client}] ${reason}: ${err.message}`);
+      const meetingsState = buildMeetingsEmptyState(clientConfig, {
+        status: isAuthError ? "auth_required" : "unreachable",
+        note: `Meetings ingest run failed at ${new Date().toISOString()}: ${err.message}`,
+        fetchedAt: null,
+      });
+      const meetingsPath = await writeClientMeetingsOutput(clientConfig, meetingsState);
+      console.log(`[legistar:${clientConfig.client}] left honest meetings empty-state in place at ${meetingsPath}`);
+      await writeNextMeetingTeaser(clientConfig, null);
     }
   }
 
