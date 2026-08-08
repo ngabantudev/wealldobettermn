@@ -128,7 +128,7 @@ export interface RepProperties {
 }
 
 // A pointer to one ward — the join key between the address/ZIP gazetteer
-// (src/lib/addressSearch.ts, public/address-index.json) and the ward
+// (src/lib/addressSearch.ts, public/address-index/) and the ward
 // features already loaded from wards.geojson. Deliberately just the two
 // fields that identify a ward feature (matches the `${city}-${ward}` key
 // shape used elsewhere, e.g. WardMap.tsx's wardPinOccurrences) rather than
@@ -177,19 +177,71 @@ export interface AddressEdge {
   wardCandidates: WardRef[];
 }
 
-// The on-device gazetteer shipped as public/address-index.json — the
-// entire implementation of AGENTS.md §2.5's "static index shipped with
-// the app." Built once per npm run data:addresses from free, public-domain
-// US Census TIGER/Line data; never fetched or computed against a live
-// service at request time.
-export interface AddressIndex {
+// The on-device gazetteer shipped as public/address-index/ — the entire
+// implementation of AGENTS.md §2.5's "static index shipped with the app"
+// and §4's "chunked and lazily loaded so nobody downloads the whole state
+// to find one ward." Built once per npm run data:addresses from free,
+// public-domain US Census TIGER/Line data; never fetched or computed
+// against a live service at request time. See issue #70 / PR that closed
+// it for why this used to be one flat public/address-index.json file.
+//
+// Three shapes now exist where one used to:
+//
+//   AddressGazetteerManifest — public/address-index/manifest.json. Small,
+//     always fetched (see WardMap.tsx): every ZIP's ward list (resolving a
+//     ZIP never needs edge/geometry data, so it never needed chunking —
+//     see fetch-addresses.mjs's own comment on "Why zips stay unchunked"),
+//     plus streetChunks, the routing table src/lib/addressChunks.ts
+//     consults to know which chunk(s) a *committed* address query needs.
+//   AddressIndexChunk — public/address-index/<county-key>.json, one per
+//     county. Holds only that county's own streets map — the actual
+//     edge/geometry payload, which is what made the old flat file large.
+//   AddressIndex — no longer a fetched file at all. It's the shape
+//     src/lib/addressSearch.ts's resolve()/suggestStreets()/etc. still
+//     expect (so none of that pure resolution logic had to change), now
+//     assembled client-side in src/lib/addressChunks.ts by merging the
+//     manifest's zips with whichever chunk(s) have been lazily fetched so
+//     far. `streets` only ever contains entries for chunks actually
+//     loaded — see addressChunks.ts's own comment for why that's safe.
+export interface AddressGazetteerManifest {
   schemaVersion: 1;
   generatedAt: string; // build metadata only, never derived from a query
-  sourceCounties: { name: string; fips: string; url: string }[];
+  sourceCounties: { key: string; name: string; fips: string; url: string }[];
+  chunks: { key: string; county: string; fips: string; sourceUrl: string; streetCount: number; edgeCount: number }[];
+  // Keyed by 5-digit ZIP. An absent key means honestly "not covered,"
+  // never an empty-but-present array standing in for the same thing.
+  zips: Record<string, WardRef[]>;
+  // Keyed by normalizeStreetName(FULLNAME) (see streetNormalize.mjs) ->
+  // the chunk key(s) whose streets map carries that name. A street that
+  // exists in two counties (not rare — "Main St" isn't unique) lists both,
+  // and addressChunks.ts fetches both before resolving, per §2.5's
+  // "ambiguity is surfaced, never silently resolved" — chunking must
+  // never cause a real candidate to go missing, only change how many
+  // bytes are on the wire to find it.
+  streetChunks: Record<string, string[]>;
+}
+
+// One county's own chunk of the gazetteer — public/address-index/
+// <county-key>.json. Never fetched eagerly; see addressChunks.ts.
+export interface AddressIndexChunk {
+  schemaVersion: 1;
+  county: { key: string; name: string; fips: string };
+  streets: Record<string, AddressEdge[]>;
+}
+
+// The merged, in-memory view src/lib/addressSearch.ts's resolution logic
+// operates over — see this section's own comment above for how it's
+// assembled. Never a single fetched file anymore.
+export interface AddressIndex {
+  schemaVersion: 1;
+  generatedAt: string;
+  sourceCounties: { key: string; name: string; fips: string; url: string }[];
   // Keyed by normalizeStreetName(FULLNAME) — see streetNormalize.mjs.
+  // Only ever contains streets from chunk(s) fetched so far.
   streets: Record<string, AddressEdge[]>;
   // Keyed by 5-digit ZIP. An absent key means honestly "not covered,"
   // never an empty-but-present array standing in for the same thing.
+  // Always complete — sourced straight from the manifest, never chunked.
   zips: Record<string, WardRef[]>;
 }
 

@@ -2,18 +2,24 @@
 
 import { Check, Copy, Search, Vote } from "lucide-react";
 import { useId, useMemo, useState } from "react";
-import type { AddressIndex, MnPlaces, WardRef } from "@/lib/types";
+import type { AddressGazetteerManifest, AddressIndex, MnPlaces, WardRef } from "@/lib/types";
 import { CITIES, COUNTIES, COUNTY_CITIES, type City, type County } from "@/lib/cities";
-import { parseQuery, resolve, suggestStreets, suggestStreetsForHouseNumber, type SearchOutcome } from "@/lib/addressSearch";
+import { parseQuery, resolve, suggestStreetsForHouseNumber, type SearchOutcome } from "@/lib/addressSearch";
+import { suggestStreetNamesFromManifest } from "@/lib/addressGazetteer";
+import { useAddressChunkLoader } from "@/lib/addressChunks";
 import CoverageNotice from "./CoverageNotice";
 
 interface SearchBarProps {
-  // null while public/address-index.json is still being fetched — see
-  // WardMap.tsx's map-independent effect for why this can't just block
-  // the whole component (Part 4: search must work even if the map never
-  // finishes loading, and it shouldn't have to wait for the gazetteer to
-  // let someone search a city or county in the meantime either).
-  index: AddressIndex | null;
+  // null while public/address-index/manifest.json is still being fetched
+  // — see WardMap.tsx's map-independent effect for why this can't just
+  // block the whole component (Part 4: search must work even if the map
+  // never finishes loading, and it shouldn't have to wait for the
+  // gazetteer to let someone search a city or county in the meantime
+  // either). Per issue #70, this is the small manifest only — the actual
+  // per-county street/geometry chunks are fetched lazily from inside this
+  // component (see useAddressChunkLoader below), only for whichever
+  // chunk(s) a committed query needs.
+  manifest: AddressGazetteerManifest | null;
   // null while public/mn-places.json is still being fetched. Every MN
   // city/county this app actually covers (CITIES/COUNTIES below) works
   // immediately regardless — this only widens suggestions/recognition to
@@ -50,7 +56,12 @@ type Suggestion =
 
 const MAX_SUGGESTIONS = 8;
 
-function buildSuggestions(rawQuery: string, index: AddressIndex | null, allPlaces: MnPlaces | null): Suggestion[] {
+function buildSuggestions(
+  rawQuery: string,
+  manifest: AddressGazetteerManifest | null,
+  index: AddressIndex | null,
+  allPlaces: MnPlaces | null,
+): Suggestion[] {
   const trimmed = rawQuery.trim();
   if (!trimmed) return [];
   const upper = trimmed.toUpperCase();
@@ -93,7 +104,7 @@ function buildSuggestions(rawQuery: string, index: AddressIndex | null, allPlace
       if (zip.startsWith(trimmed)) items.push({ kind: "zip", label: zip, zip });
     }
   }
-  if (index) {
+  if (manifest) {
     const parsed = parseQuery(trimmed, allPlaces);
     if (parsed.kind === "address") {
       // No street text yet — just typed the house number — suggest which
@@ -102,9 +113,25 @@ function buildSuggestions(rawQuery: string, index: AddressIndex | null, allPlace
       // before; house-number-only matching would stop narrowing further
       // at that point and start showing streets that don't fit what
       // they've typed.
+      //
+      // The street-text branch reads the manifest's full street-name
+      // universe (suggestStreetNamesFromManifest — see
+      // addressGazetteer.ts), not whichever chunk(s) happen to be loaded,
+      // so this keeps working
+      // for a street in a county the resident hasn't triggered a fetch
+      // for yet. The house-number-only branch has no equivalent: knowing
+      // which streets carry a given house number needs the edge data
+      // itself, so it's necessarily limited to chunk(s) already loaded
+      // (index.streets) — it shows nothing extra until the resident has
+      // typed enough of a street name, or a county chunk, to load one.
+      // Documented tradeoff (issue #70's PR), not a bug: this only
+      // affects the transient "typed digits, nothing else yet" moment,
+      // never resolution of an actual committed address.
       const streetSuggestions = parsed.street
-        ? suggestStreets(index, parsed.street, MAX_SUGGESTIONS)
-        : suggestStreetsForHouseNumber(index, parsed.houseNumber, MAX_SUGGESTIONS);
+        ? suggestStreetNamesFromManifest(manifest, parsed.street, MAX_SUGGESTIONS)
+        : index
+          ? suggestStreetsForHouseNumber(index, parsed.houseNumber, MAX_SUGGESTIONS)
+          : [];
       for (const street of streetSuggestions) {
         items.push({
           kind: "street",
@@ -148,7 +175,14 @@ const POLLING_PLACE_FINDER_URL = "https://pollfinder.sos.mn.gov/";
 // CoverageNotice's own popover uses, for the same reason.
 const OVERLAY_POSITION_CLASSES = "absolute left-0 right-0 bottom-full z-10 mb-2 sm:bottom-auto sm:top-full sm:mb-0 sm:mt-2";
 
-export default function SearchBar({ index, allPlaces, onSelectWard, onSelectCity, onSelectCounty }: SearchBarProps) {
+export default function SearchBar({ manifest, allPlaces, onSelectWard, onSelectCity, onSelectCounty }: SearchBarProps) {
+  // Per issue #70: `manifest` (public/address-index/manifest.json) is
+  // small and always fetched by WardMap.tsx up front. The actual
+  // per-county street/geometry chunks (public/address-index/<key>.json)
+  // are only ever fetched lazily, from inside this hook, and only for
+  // the chunk(s) a *committed* query needs — never on a keystroke. See
+  // src/lib/addressChunks.ts's own file comment for the full design.
+  const { index, isLoadingChunk, ensureStreetChunksLoaded } = useAddressChunkLoader(manifest);
   const [query, setQuery] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(-1);
@@ -177,7 +211,10 @@ export default function SearchBar({ index, allPlaces, onSelectWard, onSelectCity
   const [justCopied, setJustCopied] = useState(false);
   const listboxId = useId();
 
-  const suggestions = useMemo(() => buildSuggestions(query, index, allPlaces), [query, index, allPlaces]);
+  const suggestions = useMemo(
+    () => buildSuggestions(query, manifest, index, allPlaces),
+    [query, manifest, index, allPlaces],
+  );
 
   // Both "still typing" (suggestions) and "just committed an ambiguous
   // query" (a real ward list) render through the same listbox and the
@@ -289,18 +326,46 @@ export default function SearchBar({ index, allPlaces, onSelectWard, onSelectCity
     applyOutcome({ status: "single", wards: [ref], point: null, formattedAddress: null });
   }
 
-  function commitSuggestion(s: Suggestion) {
+  // Both commit paths below are async now, per issue #70: a street-shaped
+  // query only resolves once the chunk(s) that carry it (per the
+  // manifest's own streetChunks map — see addressChunks.ts) have loaded.
+  // Every other outcome kind (city/county/zip/ambiguous-name/uncovered-
+  // place) never touches a chunk at all — zips live in the always-loaded
+  // manifest, and city/county resolution never needed the gazetteer in
+  // the first place — so those still resolve synchronously, same as
+  // before. `ensureStreetChunksLoaded` itself only ever fetches on a
+  // commit like this one, never on a keystroke (see handleChange/
+  // suggestions above, which never call it).
+  // Closes the listbox and clears any stale outcome right before an async
+  // chunk fetch starts, so the "loading this street's data" overlay below
+  // (keyed off isLoadingChunk) has a slot to render into instead of
+  // stacking under the still-open suggestion list or a leftover message.
+  function beginChunkLoad() {
+    setIsOpen(false);
+    setOutcome(null);
+    setActiveIndex(-1);
+  }
+
+  async function commitSuggestion(s: Suggestion) {
     if (s.kind === "city") return applyOutcome({ status: "city", city: s.city });
     if (s.kind === "county") return applyOutcome({ status: "county", county: s.county, cities: COUNTY_CITIES[s.county] });
     if (s.kind === "uncovered-place") return applyOutcome(resolve(index, { kind: "uncovered-place", name: s.name, placeType: s.placeType }));
     if (s.kind === "zip") return applyOutcome(resolve(index, { kind: "zip", zip: s.zip }));
+    beginChunkLoad();
+    const loaded = await ensureStreetChunksLoaded(s.street);
     return applyOutcome(
-      resolve(index, { kind: "address", houseNumber: s.houseNumber, street: s.street, cityHint: s.cityHint, zipHint: s.zipHint }),
+      resolve(loaded, { kind: "address", houseNumber: s.houseNumber, street: s.street, cityHint: s.cityHint, zipHint: s.zipHint }),
     );
   }
 
-  function commitRawQuery() {
-    applyOutcome(resolve(index, parseQuery(query, allPlaces)));
+  async function commitRawQuery() {
+    const parsed = parseQuery(query, allPlaces);
+    if (parsed.kind === "address" && parsed.street) {
+      beginChunkLoad();
+      const loaded = await ensureStreetChunksLoaded(parsed.street);
+      return applyOutcome(resolve(loaded, parsed));
+    }
+    return applyOutcome(resolve(index, parsed));
   }
 
   function handleChange(value: string) {
@@ -366,16 +431,25 @@ export default function SearchBar({ index, allPlaces, onSelectWard, onSelectCity
 
   const activeOptionId = activeIndex >= 0 ? `${listboxId}-option-${activeIndex}` : undefined;
   const showMessage = outcome && outcome.status !== "ambiguous" && outcome.status !== "ambiguous-name" && outcome.status !== "single";
-  // The address/ZIP gazetteer (index) is a few MB, fetched separately from
-  // everything else SearchBar can already do without it — city and county
-  // search work immediately regardless (see index's own prop comment).
-  // Rather than a separate "still loading" line taking up its own row
-  // underneath the input (which used to happen here, and is exactly the
-  // kind of extra height SiteHeader can't afford — see this component's
-  // own file comment on why it's a single fixed-height row now), the
-  // placeholder itself just says so until the fetch resolves, then reverts
-  // to the normal prompt. One line of text either way, never both.
-  const placeholder = index ? "Address, city, county, or ZIP" : "Loading address & ZIP search — city, county work now";
+  // The address/ZIP gazetteer *manifest* is small (tens of KB — see
+  // WardMap.tsx) and fetched separately from everything else SearchBar can
+  // already do without it — city and county search work immediately
+  // regardless (see manifest's own prop comment). Rather than a separate
+  // "still loading" line taking up its own row underneath the input (which
+  // used to happen here, and is exactly the kind of extra height
+  // SiteHeader can't afford — see this component's own file comment on why
+  // it's a single fixed-height row now), the placeholder itself just says
+  // so until the fetch resolves, then reverts to the normal prompt. One
+  // line of text either way, never both.
+  //
+  // Per issue #70, this now gates on `manifest`, not the old full `index`:
+  // the manifest alone is enough to search city/ZIP and offer street-name
+  // typeahead (see buildSuggestions/suggestStreetNamesFromManifest above).
+  // A committed street-address query separately awaits its own chunk
+  // fetch (see commitRawQuery/commitSuggestion) — surfaced below via
+  // `isLoadingChunk`, not the placeholder, since that's a brief, per-query
+  // wait rather than a one-time startup cost.
+  const placeholder = manifest ? "Address, city, county, or ZIP" : "Loading address & ZIP search — city, county work now";
 
   return (
     // No more fixed `w-[min(90vw,24rem)]` — sized off its container
@@ -488,6 +562,25 @@ export default function SearchBar({ index, allPlaces, onSelectWard, onSelectCity
           {showMessage && (
             <p className={`well ${OVERLAY_POSITION_CLASSES} rounded-xl border px-2.5 py-1.5 text-ink-3 shadow-xl shadow-(color:--shadow-panel)`}>
               {outcome && "reason" in outcome ? outcome.reason : statusMessage}
+            </p>
+          )}
+
+          {/* Per issue #70: a committed street-address query only resolves
+              once its chunk(s) have loaded (see commitRawQuery/
+              commitSuggestion's ensureStreetChunksLoaded call) — this is
+              the brief "fetching this area's data" state for that gap.
+              beginChunkLoad() closes the listbox and clears `outcome`
+              right before the fetch starts, so this never renders at the
+              same time as the suggestion list or an outcome message above.
+              Never shown for a cached chunk (ensureStreetChunksLoaded
+              resolves before isLoadingChunk ever flips true) or for any
+              non-address outcome (zip/city/county never touch a chunk). */}
+          {isLoadingChunk && !showMessage && (
+            <p
+              role="status"
+              className={`well ${OVERLAY_POSITION_CLASSES} rounded-xl border px-2.5 py-1.5 text-ink-3 shadow-xl shadow-(color:--shadow-panel)`}
+            >
+              Loading address data for this area…
             </p>
           )}
 
