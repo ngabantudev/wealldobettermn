@@ -558,6 +558,38 @@ function formationLngLat(map: maplibregl.Map, center: maplibregl.LngLat, dx: num
   return map.unproject([centerPx.x + dx, centerPx.y + dy]);
 }
 
+// One pin's share of the "zoom" listener's per-frame work (see
+// resizePinsForZoom in the map-setup effect below): resize it for the
+// given zoom level and, if it's part of a multi-member formation,
+// reproject its position. Pulled out on its own so it can be applied to
+// exactly one pin outside the animation-frame loop — see issue #69:
+// resizePinsForZoom skips pins hidden by the current LayerMode/city/
+// chamber filter to avoid doing this work for the ~215 commissioner/
+// state-legislature pins nobody can see in the default "City" view, and
+// each of applyCityFilter/applyChamberFilter/applyLayerMode calls this
+// directly, once, at the moment it flips a pin's display back on — so a
+// pin revealed by a mode switch is never left at a stale size or
+// formation position from whatever zoom level it was last visible at.
+function syncPinGeometryForZoom(map: maplibregl.Map, entry: PinMarker, zoom: number): void {
+  const { marker, properties, formation } = entry;
+  const diameter = diameterForZoom(properties.role, zoom);
+  const el = marker.getElement();
+  const inner = el.querySelector<HTMLElement>(".rep-pin-inner");
+  if (inner) {
+    inner.style.width = `${diameter}px`;
+    inner.style.height = `${diameter}px`;
+  }
+  // Keeps the bigger-role-renders-on-top rule (see createRepPinElement's
+  // z-index comment) correct at every zoom level, not just the one each
+  // pin happened to be created or last resynced at.
+  el.style.zIndex = String(Math.round(diameter));
+  if (formation) {
+    const spacing = diameter * WARD_PIN_CLUSTER_SPACING_FACTOR;
+    const [dx, dy] = wardPinPixelOffsets(formation.count, spacing)[formation.index];
+    marker.setLngLat(formationLngLat(map, formation.center, dx, dy));
+  }
+}
+
 // The dotted connector line's endpoints for one multi-member ward —
 // same formation math as the pins themselves (formationLngLat +
 // wardPinPixelOffsets), but shifted up by half the current pin diameter
@@ -1262,10 +1294,17 @@ export default function WardMap() {
         }
       }
     }
-    for (const { marker, properties, mode } of pinMarkersRef.current) {
+    for (const entry of pinMarkersRef.current) {
+      const { marker, properties, mode } = entry;
       if (mode === "state-legislature") continue; // governed by applyChamberFilter instead
       const visible = mode === layerModeRef.current && cities[properties.city as City];
       marker.getElement().style.display = visible ? "" : "none";
+      // Resync size/formation position the moment this pin is revealed —
+      // resizePinsForZoom (the "zoom" listener) skips hidden pins per
+      // issue #69, so a pin that just went visible could otherwise sit
+      // at whatever zoom level it was last resized at, not the current
+      // one, until the next zoom event happens to fire.
+      if (visible && map) syncPinGeometryForZoom(map, entry, map.getZoom());
     }
   };
 
@@ -1291,9 +1330,15 @@ export default function WardMap() {
     // but only runs on a mode *switch* — this is the one that has to hold
     // on initial load, when the mode never "switches" at all.)
     const showStateLegPins = layerModeRef.current === "state-legislature";
-    for (const { marker, properties, mode } of pinMarkersRef.current) {
+    for (const entry of pinMarkersRef.current) {
+      const { marker, properties, mode } = entry;
       if (mode !== "state-legislature") continue;
-      marker.getElement().style.display = showStateLegPins && properties.chamber === nextChamber ? "" : "none";
+      const visible = showStateLegPins && properties.chamber === nextChamber;
+      marker.getElement().style.display = visible ? "" : "none";
+      // See applyCityFilter's identical comment — resizePinsForZoom skips
+      // hidden pins (issue #69), so a revealed pin needs an explicit
+      // resync here or it stays stale until the next zoom event.
+      if (visible && map) syncPinGeometryForZoom(map, entry, map.getZoom());
     }
   };
 
@@ -1338,13 +1383,19 @@ export default function WardMap() {
     for (const layerId of [CITY_BOUNDARIES_FILL_LAYER_ID, CITY_BOUNDARIES_OUTLINE_LAYER_ID]) {
       if (map.getLayer(layerId)) map.setLayoutProperty(layerId, "visibility", mode === "state-legislature" ? "none" : "visible");
     }
-    for (const { marker, properties, mode: pinMode } of pinMarkersRef.current) {
+    for (const entry of pinMarkersRef.current) {
+      const { marker, properties, mode: pinMode } = entry;
       const visible =
         pinMode === mode &&
         (mode === "state-legislature"
           ? properties.chamber === chamberRef.current
           : visibleCitiesRef.current[properties.city as City]);
       marker.getElement().style.display = visible ? "" : "none";
+      // See applyCityFilter's identical comment — resizePinsForZoom skips
+      // hidden pins (issue #69), so a pin this mode switch just revealed
+      // needs an explicit resync here or it stays stale until the next
+      // zoom event happens to fire.
+      if (visible) syncPinGeometryForZoom(map, entry, map.getZoom());
     }
   };
 
@@ -1647,28 +1698,20 @@ export default function WardMap() {
     const resizePinsForZoom = () => {
       pinResizeFrame = null;
       const zoom = map.getZoom();
-      for (const { marker, properties, formation } of pinMarkersRef.current) {
-        const diameter = diameterForZoom(properties.role, zoom);
-        const el = marker.getElement();
-        const inner = el.querySelector<HTMLElement>(".rep-pin-inner");
-        if (inner) {
-          inner.style.width = `${diameter}px`;
-          inner.style.height = `${diameter}px`;
-        }
-        // Keeps the bigger-role-renders-on-top rule (see
-        // createRepPinElement's z-index comment) correct at every zoom
-        // level, not just the one each pin happened to be created at.
-        el.style.zIndex = String(Math.round(diameter));
-        // Formation pins are positioned in screen pixels relative to
-        // their ward's fixed center (see wardPinPixelOffsets) — that
-        // has to be reprojected every time the pixel-to-lnglat mapping
-        // changes, not just resized, or the group visually drifts back
-        // together as the map zooms out.
-        if (formation) {
-          const spacing = diameter * WARD_PIN_CLUSTER_SPACING_FACTOR;
-          const [dx, dy] = wardPinPixelOffsets(formation.count, spacing)[formation.index];
-          marker.setLngLat(formationLngLat(map, formation.center, dx, dy));
-        }
+      for (const entry of pinMarkersRef.current) {
+        // Pins hidden by the current LayerMode/city/chamber filter
+        // (display:none) are skipped — nothing on screen depends on a
+        // hidden pin's size or formation position, and in the default
+        // "City" mode that's ~215 of the ~305 total pins (commissioners
+        // + state legislators) doing real DOM work every animation
+        // frame for nothing. See issue #69. This is safe only because
+        // applyCityFilter/applyChamberFilter/applyLayerMode each call
+        // syncPinGeometryForZoom themselves at the moment they flip a
+        // pin's display back on, so a revealed pin is never stale —
+        // skipping it here just means it stops updating while nobody
+        // can see it, not that it goes uncorrected once visible again.
+        if (entry.marker.getElement().style.display === "none") continue;
+        syncPinGeometryForZoom(map, entry, zoom);
       }
       // The dashed connector lines are a real style layer (not a DOM
       // marker), sourced from a plain GeoJSON snapshot — refreshing it
