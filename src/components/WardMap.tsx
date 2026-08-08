@@ -1471,6 +1471,20 @@ export default function WardMap() {
       for (const city of cities) next[city] = visible;
       visibleCitiesRef.current = next;
       applyCityFilter(next);
+      // "All" (visible === true) flies out to the combined extent of every
+      // city just revealed — same fly-to-on-enable toggleCity gives one
+      // checkbox, scaled to the whole set, so the metro-wide view "All"
+      // implies is what the camera actually shows instead of leaving it
+      // wherever a single-city or single-ward zoom last left it. "None"
+      // doesn't move the camera: there's nothing left on screen to fly to.
+      if (visible) {
+        const bounds = new maplibregl.LngLatBounds();
+        for (const city of cities) {
+          const cityBounds = boundsForCity(city);
+          if (cityBounds) bounds.extend(cityBounds);
+        }
+        if (!bounds.isEmpty()) zoomToBoundsNoModal(bounds);
+      }
       if (selectedRef.current) {
         const current = selectedRef.current;
         const filtered = filterHiddenCityOfficials(current.officials, next);
