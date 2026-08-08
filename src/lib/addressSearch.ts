@@ -42,7 +42,13 @@ export type ParsedQuery =
 
 export type SearchOutcome =
   // Exactly one ward — the caller auto-selects it, same as a real click.
-  | { status: "single"; wards: [WardRef]; point: [number, number] | null }
+  // `formattedAddress` is the canonical "HOUSE NUMBER STREET, CITY, MN
+  // ZIP" form (see formatConfirmedAddress below) — set only when this
+  // came from an actual house-number match (mirrors `point`: both are
+  // null together, both non-null together), never for a ZIP-only match
+  // or a ward picked off an ambiguous list, which have no single address
+  // behind them to format.
+  | { status: "single"; wards: [WardRef]; point: [number, number] | null; formattedAddress: string | null }
   // 2+ candidate wards — never auto-picked; the caller must show all of them.
   | { status: "ambiguous"; wards: WardRef[]; reason: string }
   // Resolves to a whole city (not one ward) — the caller expands this
@@ -262,6 +268,23 @@ function matchingSideFraction(houseNumber: number, edge: AddressEdge): number | 
   return null;
 }
 
+// The canonical display/copy/clipboard form: "931 BIRMINGHAM ST, ST PAUL,
+// MN 55106". `street` is already USPS-abbreviated uppercase (see
+// normalizeStreetName above — both index-build and query time run the
+// same normalizer, so this never has to re-abbreviate anything). `city`
+// comes from the resolved WardRef, which spells cities the way CITIES
+// does ("St. Paul") — periods stripped and uppercased here to match the
+// rest of the format, not carried through as-is. `zip` is whichever side
+// of the matched block face had one on file (see matchingSideFraction's
+// own two branches); cosmetic only, like interpolateAlongLine's point —
+// never consulted for ward identity — so falling back to the other side
+// or omitting it entirely if neither is on file is an acceptable
+// approximation, not a correctness risk.
+function formatConfirmedAddress(houseNumber: number, street: string, city: string, zip: string | null): string {
+  const cityUpper = city.toUpperCase().replace(/\./g, "");
+  return zip ? `${houseNumber} ${street}, ${cityUpper}, MN ${zip}` : `${houseNumber} ${street}, ${cityUpper}, MN`;
+}
+
 function dedupeWardRefs(refs: WardRef[]): WardRef[] {
   const map = new Map(refs.map((r) => [`${r.city}|${r.ward}`, r]));
   return [...map.values()];
@@ -320,7 +343,9 @@ function resolveAddress(
   if (wards.length === 1) {
     const best = narrowed.find((m) => m.edge.wardCandidates.some((w) => w.city === wards[0].city && w.ward === wards[0].ward));
     const point = best ? interpolateAlongLine(best.edge.coords, best.fraction) : null;
-    return { status: "single", wards: [wards[0]], point };
+    const zip = best?.edge.zipl ?? best?.edge.zipr ?? null;
+    const formattedAddress = formatConfirmedAddress(houseNumber, street, wards[0].city, zip);
+    return { status: "single", wards: [wards[0]], point, formattedAddress };
   }
   return {
     status: "ambiguous",
@@ -334,7 +359,7 @@ function resolveZip(index: AddressIndex, zip: string): SearchOutcome {
   if (!wards || wards.length === 0) {
     return { status: "not-covered", reason: `ZIP ${zip} isn't in the cities this map covers.` };
   }
-  if (wards.length === 1) return { status: "single", wards: [wards[0]], point: null };
+  if (wards.length === 1) return { status: "single", wards: [wards[0]], point: null, formattedAddress: null };
   return {
     status: "ambiguous",
     wards,

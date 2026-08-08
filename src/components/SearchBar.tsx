@@ -1,6 +1,6 @@
 "use client";
 
-import { Check, Copy, ExternalLink, Search } from "lucide-react";
+import { Check, Copy, Search, Vote } from "lucide-react";
 import { useId, useMemo, useState } from "react";
 import type { AddressIndex, MnPlaces, WardRef } from "@/lib/types";
 import { CITIES, COUNTIES, COUNTY_CITIES, type City, type County } from "@/lib/cities";
@@ -206,14 +206,7 @@ export default function SearchBar({ index, allPlaces, onSelectWard, onSelectCity
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [outcome, suggestions]);
 
-  // `confirmedAddressLabel` is the address text as the resident actually
-  // entered/selected it (the suggestion's own label, or their raw typed
-  // query on a direct Enter) — see the two call sites below. Only used for
-  // a "single" outcome that resolved from a real address (point !== null);
-  // every other outcome still fills the box with a synthesized canonical
-  // label (ward/city/county) below, since there's no more specific address
-  // text to show for those.
-  function applyOutcome(next: SearchOutcome, confirmedAddressLabel?: string) {
+  function applyOutcome(next: SearchOutcome) {
     // Reset here, not per-branch — every branch below except a
     // point-bearing "single" result should end with this false, and
     // putting the one true-setting line inside its own branch instead of
@@ -221,23 +214,43 @@ export default function SearchBar({ index, allPlaces, onSelectWard, onSelectCity
     // actually guarantees that.
     setShowPollingPlaceLink(false);
     switch (next.status) {
-      case "single":
-        // A real address match (house-number resolution, point !== null)
-        // keeps showing the address the resident actually confirmed —
-        // that's what they searched for and what the copy-to-clipboard/
-        // polling-place link below are about. A ward picked off the
-        // ambiguous list, or a ZIP-only match, has no address behind it
-        // (point is null either way), so those fall back to the ward's own
-        // canonical label instead, same as before.
-        setQuery(next.point !== null ? (confirmedAddressLabel ?? wardLabel(next.wards[0])) : wardLabel(next.wards[0]));
+      case "single": {
+        // A real address match (house-number resolution) carries its own
+        // canonical `formattedAddress` — "931 BIRMINGHAM ST, ST PAUL, MN
+        // 55106" (see addressSearch.ts's formatConfirmedAddress) — built
+        // from the matched street/house-number/ZIP data itself, not from
+        // whatever casing or shorthand the resident happened to type. That
+        // keeps showing/copying/announcing exactly the same string no
+        // matter whether they typed the full address, a partial one, or
+        // clicked a suggestion. A ward picked off the ambiguous list, or a
+        // ZIP-only match, has no single address behind it (point and
+        // formattedAddress are null together, always), so those fall back
+        // to the ward's own canonical label instead, same as before.
+        const isRealAddress = next.point !== null && next.formattedAddress !== null;
+        const displayText = isRealAddress ? next.formattedAddress! : wardLabel(next.wards[0]);
+        setQuery(displayText);
         onSelectWard(next.wards[0], next.point);
-        setStatusMessage(`Zoomed to ${wardLabel(next.wards[0])}.`);
         setOutcome(null);
         // Only a real interpolated address point counts as "the user
         // entered a searchable, valid address" — see this state's own
         // comment above.
-        setShowPollingPlaceLink(next.point !== null);
+        setShowPollingPlaceLink(isRealAddress);
+        if (isRealAddress) {
+          // Copying happens right here, synchronously inside this commit
+          // handler (a real Enter keypress or suggestion click) rather
+          // than from some later effect — the Clipboard API only grants a
+          // write without its own permission prompt when called inside a
+          // genuine user-activation event, and this is that event. Nothing
+          // is written on mere typing, only on an actual confirmed
+          // address, same gate as everywhere else this file uses
+          // showPollingPlaceLink/isRealAddress.
+          copyToClipboard(displayText);
+          setStatusMessage(`Zoomed to ${wardLabel(next.wards[0])}. Address copied to clipboard.`);
+        } else {
+          setStatusMessage(`Zoomed to ${wardLabel(next.wards[0])}.`);
+        }
         break;
+      }
       case "ambiguous":
         setOutcome(next);
         setStatusMessage(next.reason);
@@ -273,7 +286,7 @@ export default function SearchBar({ index, allPlaces, onSelectWard, onSelectCity
   }
 
   function commitWard(ref: WardRef) {
-    applyOutcome({ status: "single", wards: [ref], point: null });
+    applyOutcome({ status: "single", wards: [ref], point: null, formattedAddress: null });
   }
 
   function commitSuggestion(s: Suggestion) {
@@ -283,15 +296,11 @@ export default function SearchBar({ index, allPlaces, onSelectWard, onSelectCity
     if (s.kind === "zip") return applyOutcome(resolve(index, { kind: "zip", zip: s.zip }));
     return applyOutcome(
       resolve(index, { kind: "address", houseNumber: s.houseNumber, street: s.street, cityHint: s.cityHint, zipHint: s.zipHint }),
-      s.label, // the address exactly as offered/selected — e.g. "123 Main St"
     );
   }
 
   function commitRawQuery() {
-    // The confirmed address, when this resolves to one, is simply what the
-    // resident typed and hit Enter on — nothing more canonical to show
-    // than their own words.
-    applyOutcome(resolve(index, parseQuery(query, allPlaces)), query);
+    applyOutcome(resolve(index, parseQuery(query, allPlaces)));
   }
 
   function handleChange(value: string) {
@@ -325,20 +334,17 @@ export default function SearchBar({ index, allPlaces, onSelectWard, onSelectCity
     }
   }
 
-  // Copies whatever address the resident just confirmed (`query`, which
-  // applyOutcome's "single" branch already set to the exact address text,
-  // not a synthesized ward/city label — see its own comment). Guarded on
-  // showPollingPlaceLink, same gate as the polling-place link itself:
-  // both only make sense once there's a real, confirmed address in the
-  // box, not mid-typing or after a city/county/ward-only result. The
-  // clipboard write is the only thing that ever leaves this component for
-  // this address, and it only happens on this explicit tap — nothing here
-  // is logged, stored, or put in a URL, same as every other rule this file
+  // Shared by the automatic copy-on-confirm (applyOutcome's "single"
+  // branch above) and the manual copy button below — one place that
+  // actually writes to the clipboard, so both call sites stay identical in
+  // behavior (same success/failure handling, same "Copied!" pop). This is
+  // the only thing that ever leaves this component for a searched address,
+  // and it only ever writes to the user's own local clipboard — nothing is
+  // logged, stored, or put in a URL, same as every other rule this file
   // already follows for the query string.
-  async function handleCopyAddress() {
-    if (!showPollingPlaceLink) return;
+  async function copyToClipboard(text: string) {
     try {
-      await navigator.clipboard.writeText(query);
+      await navigator.clipboard.writeText(text);
       setJustCopied(true);
       window.setTimeout(() => setJustCopied(false), 1800);
     } catch {
@@ -346,6 +352,16 @@ export default function SearchBar({ index, allPlaces, onSelectWard, onSelectCity
       // browser/context — no crash, and no false "Copied!" claim either;
       // justCopied simply never flips true.
     }
+  }
+
+  // The manual button's own handler — guarded on showPollingPlaceLink,
+  // same gate the automatic copy above uses: both only make sense once
+  // there's a real, confirmed address in the box. Mostly useful for
+  // re-copying after the automatic pop has already timed out, or after
+  // navigating back to an already-resolved search.
+  function handleCopyAddress() {
+    if (!showPollingPlaceLink) return;
+    copyToClipboard(query);
   }
 
   const activeOptionId = activeIndex >= 0 ? `${listboxId}-option-${activeIndex}` : undefined;
@@ -405,6 +421,39 @@ export default function SearchBar({ index, allPlaces, onSelectWard, onSelectCity
             className="min-w-0 flex-1 bg-transparent text-ink placeholder:text-ink-4 focus:outline-none"
           />
 
+          {/* Polling-place finder — an icon inside the search bar itself,
+              not a separate overlay panel, so it reads as one of this
+              row's own controls. Only rendered at all once a real address
+              is confirmed (see showPollingPlaceLink's own comment) — per
+              this feature's own spec, it must not appear otherwise, so
+              this is a conditional render, not a disabled state the way
+              the copy button below uses. `group`/`focus-within` reveal the
+              tooltip on hover *or* keyboard focus, no click needed to see
+              what it is; the link itself still needs an explicit click/
+              Enter to actually navigate. Links out to the Secretary of
+              State's own tool rather than a pin on this map's own layer —
+              see POLLING_PLACE_FINDER_URL's comment for why there's no
+              first-party data to place a pin from. */}
+          {showPollingPlaceLink && (
+            <div className="group relative shrink-0">
+              <a
+                href={POLLING_PLACE_FINDER_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Find your polling place — Minnesota Secretary of State"
+                className="flex h-6 w-6 items-center justify-center rounded-full text-accent transition hover:bg-hover focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+              >
+                <Vote aria-hidden="true" className="h-4 w-4" strokeWidth={1.75} />
+              </a>
+              <span
+                role="tooltip"
+                className="well pointer-events-none absolute right-0 bottom-full z-20 mb-2 hidden w-44 rounded-lg border px-2.5 py-1.5 text-xs text-ink-2 shadow-xl shadow-(color:--shadow-panel) group-hover:block group-focus-within:block sm:bottom-auto sm:top-full sm:mb-0 sm:mt-2"
+              >
+                Find your polling place — Minnesota Secretary of State
+              </span>
+            </div>
+          )}
+
           {isOpen && options.length > 0 && (
             <ul
               id={listboxId}
@@ -442,26 +491,6 @@ export default function SearchBar({ index, allPlaces, onSelectWard, onSelectCity
             </p>
           )}
 
-          {/* Only for a resolved, real address (see showPollingPlaceLink's
-              own state comment) — not shown for a city/county/ZIP-level
-              result or a bare ward pick. Same overlay treatment as the
-              listbox/message above, and mutually exclusive with both: those
-              only ever render for the "still choosing" and "didn't resolve"
-              outcomes, this only for "resolved to one address." Links out to
-              the Secretary of State's own tool rather than a pin on this
-              map's own layer — see POLLING_PLACE_FINDER_URL's comment for
-              why there's no first-party data to place a pin from. */}
-          {showPollingPlaceLink && !isOpen && (
-            <a
-              href={POLLING_PLACE_FINDER_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={`well ${OVERLAY_POSITION_CLASSES} flex items-center gap-1.5 rounded-xl border px-2.5 py-1.5 text-accent shadow-xl shadow-(color:--shadow-panel) hover:underline`}
-            >
-              <ExternalLink aria-hidden="true" className="h-3.5 w-3.5 shrink-0" strokeWidth={1.75} />
-              Find your polling place — Minnesota Secretary of State
-            </a>
-          )}
         </div>
 
         {/* Copy-the-confirmed-address button — sits in the row slot the
@@ -489,13 +518,17 @@ export default function SearchBar({ index, allPlaces, onSelectWard, onSelectCity
               <Copy aria-hidden="true" className="h-4 w-4" strokeWidth={1.75} />
             )}
           </button>
-          {/* The "pop" itself — auto-dismisses via justCopied's own timeout
+          {/* The "pop" itself — to the right of the icon, vertically
+              centered on it, rather than above: this button sits right at
+              the top of the screen in the desktop header, so an
+              above-opening pop had nowhere to go and got clipped by the
+              viewport edge. Auto-dismisses via justCopied's own timeout
               above, no click-away handling needed since nothing about it
               is interactive. */}
           {justCopied && (
             <span
               role="status"
-              className="well absolute right-0 bottom-full z-20 mb-2 whitespace-nowrap rounded-md border border-positive/40 bg-positive px-2 py-1 text-xs font-medium text-on-accent shadow-lg"
+              className="well absolute left-full top-1/2 z-20 ml-2 -translate-y-1/2 whitespace-nowrap rounded-md border border-positive/40 bg-positive px-2 py-1 text-xs font-medium text-on-accent shadow-lg"
             >
               Copied!
             </span>
