@@ -49,6 +49,16 @@ export const CITIES = [
   // contact forms — so those fields ship null rather than a shared inbox
   // number or a guessed address.
   "Apple Valley",
+  // Same batch — Burnsville (Dakota County), statutory Plan B council-
+  // manager, is also fully at-large. burnsvillemn.gov's own staff
+  // directory is JS-rendered for the per-member email column and every
+  // individual directory.aspx?EID= sub-page returns no usable server-side
+  // content through a plain fetch — not routed around per AGENTS.md §2.2 —
+  // so repEmail/repPhoto ship null and the one phone number the directory
+  // page does render server-side (952-895-4403) is identical across all
+  // five members, a shared office line rather than a personal extension,
+  // so it's not attributed as repPhone either.
+  "Burnsville",
 ] as const;
 export type City = (typeof CITIES)[number];
 
@@ -59,7 +69,9 @@ export type City = (typeof CITIES)[number];
 // city-boundaries feed against this list to build the at-large-boundary
 // layer (previously a separate fetch of its own, per-city GIS URL; see
 // git history for scripts/fetch-at-large-boundaries.mjs, now removed).
-export const AT_LARGE_CITIES: readonly City[] = ["Woodbury", "Eagan", "Lakeville", "Maple Grove", "Apple Valley"];
+export const AT_LARGE_CITIES: readonly City[] = [
+  "Woodbury", "Eagan", "Lakeville", "Maple Grove", "Apple Valley", "Burnsville",
+];
 
 // Dakota added alongside issue #65's batch — Eagan and Lakeville are this
 // app's first Dakota County cities. No collision with any existing city
@@ -96,5 +108,5 @@ export const COUNTY_CITIES: Record<County, City[]> = {
   Ramsey: ["St. Paul"],
   Anoka: ["Blaine", "Coon Rapids", "Fridley", "Ramsey"],
   Washington: ["Woodbury"],
-  Dakota: ["Eagan", "Lakeville", "Apple Valley"],
+  Dakota: ["Eagan", "Lakeville", "Apple Valley", "Burnsville"],
 };

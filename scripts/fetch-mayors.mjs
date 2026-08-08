@@ -651,6 +651,106 @@ const MAYORS = [
     verifiedAt: "2026-08-08",
     verifiedAgainst: "https://www.applevalleymn.gov/27/City-Council",
   },
+  // --- Burnsville (Dakota County) — fully at-large, no wards ----------------
+  //
+  // Statutory Plan B council-manager city; mayor + 4 council members, all
+  // elected citywide (confirmed via burnsvillemn.gov's own government page).
+  // The city's staff-directory page (burnsvillemn.gov/2078/City-Council) is
+  // JS-rendered for names/roles/phone but its per-member email column and
+  // each individual directory.aspx?EID= sub-page render no usable server-
+  // side content at all through a plain fetch — not routed around per
+  // AGENTS.md §2.2, so repEmail stays null and profileUrl falls back to the
+  // shared council page for all five. The one phone number shown,
+  // 952-895-4403, is identical for all five members on that page — a shared
+  // office line, not a personal extension, so it's not attributed as one
+  // (kept only as officeRoom-adjacent context, not repPhone, to avoid
+  // implying it reaches one person directly). No term-start date is stated
+  // anywhere reachable by a plain fetch, so officeSince falls back to the
+  // same documented placeholder used elsewhere in this file for that gap.
+  {
+    city: "Burnsville",
+    coordinates: [-93.2738283, 44.7655806], // Burnsville City Hall, 100 Civic Center Pkwy
+    repName: "Elizabeth Kautz",
+    repParty: NONPARTISAN,
+    repPhotoUrl: null,
+    repEmail: null,
+    repPhone: null,
+    officeSince: "2025-01-01",
+    committees: ["Mayor of Burnsville"],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://burnsvillemn.gov/2078/City-Council",
+    verifiedAt: "2026-08-08",
+    verifiedAgainst: "https://burnsvillemn.gov/2078/City-Council",
+  },
+  {
+    city: "Burnsville",
+    coordinates: [-93.2738283, 44.7655806],
+    role: "Council Member",
+    repName: "Vince Workman",
+    repParty: NONPARTISAN,
+    repPhotoUrl: null,
+    repEmail: null,
+    repPhone: null,
+    officeSince: "2025-01-01",
+    committees: [],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://burnsvillemn.gov/2078/City-Council",
+    verifiedAt: "2026-08-08",
+    verifiedAgainst: "https://burnsvillemn.gov/2078/City-Council",
+  },
+  {
+    city: "Burnsville",
+    coordinates: [-93.2738283, 44.7655806],
+    role: "Council Member",
+    repName: "Dan Kealey",
+    repParty: NONPARTISAN,
+    repPhotoUrl: null,
+    repEmail: null,
+    repPhone: null,
+    officeSince: "2025-01-01",
+    committees: [],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://burnsvillemn.gov/2078/City-Council",
+    verifiedAt: "2026-08-08",
+    verifiedAgainst: "https://burnsvillemn.gov/2078/City-Council",
+  },
+  {
+    city: "Burnsville",
+    coordinates: [-93.2738283, 44.7655806],
+    role: "Council Member",
+    repName: "Dan Gustafson",
+    repParty: NONPARTISAN,
+    repPhotoUrl: null,
+    repEmail: null,
+    repPhone: null,
+    officeSince: "2025-01-01",
+    committees: [],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://burnsvillemn.gov/2078/City-Council",
+    verifiedAt: "2026-08-08",
+    verifiedAgainst: "https://burnsvillemn.gov/2078/City-Council",
+  },
+  {
+    city: "Burnsville",
+    coordinates: [-93.2738283, 44.7655806],
+    role: "Council Member",
+    repName: "Cara Schulz",
+    repParty: NONPARTISAN,
+    repPhotoUrl: null,
+    repEmail: null,
+    repPhone: null,
+    officeSince: "2025-01-01",
+    committees: [],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://burnsvillemn.gov/2078/City-Council",
+    verifiedAt: "2026-08-08",
+    verifiedAgainst: "https://burnsvillemn.gov/2078/City-Council",
+  },
 ];
 
 async function main() {
