@@ -129,8 +129,46 @@ export const CITY_BOUNDARIES_LAYER: LayerRegistryEntry = {
   ],
 };
 
+// Bio-page enrichment for the MN House + Senate roster that
+// scripts/fetch-state-legislature.mjs already writes to
+// public/state-legislature.geojson — leadership title, Capitol office
+// room, legislative assistant contact, committee chair/co-chair role
+// (not just membership), term number, elected-years, and district
+// map/demographics links. None of this is exposed by Open States (the
+// roster layer's own source); it only exists on senate.mn and
+// house.mn.gov's own member pages, hence a second, unkeyed ingest script
+// against those two sites rather than a field the roster fetch itself
+// could add. Needs no API key at all — unlike the roster layer above it,
+// this one's own refresh workflow carries no secret requirement.
+//
+// publicDataPath points at the same file the roster layer writes
+// (public/state-legislature.geojson) rather than a second file: this is
+// an enrichment pass over that layer's own output, not an independent
+// dataset with its own join to perform at render time. See
+// scripts/fetch-state-legislature-bio.mjs's own header for why that's a
+// deliberate choice over a separate joined file.
+export const STATE_LEGISLATURE_BIO_LAYER: LayerRegistryEntry = {
+  id: "state-legislature-bio",
+  label: "MN Legislature Bio Details",
+  description:
+    "Leadership titles, Capitol office rooms, legislative assistant contacts, committee chair/co-chair roles, term counts, and district map/demographics links for MN House and Senate members — sourced from senate.mn and house.mn.gov directly, since Open States (the roster layer's own source) doesn't carry any of these fields.",
+  ingestScript: "scripts/fetch-state-legislature-bio.mjs",
+  publicDataPath: "/state-legislature.geojson",
+  status: "live",
+  coverage:
+    "Every currently-seated MN House and Senate member with a resolvable senate.mn/house.mn bio page. A vacant seat, or a member this scraper's district crosswalk can't match, is skipped rather than guessed at — see the script's own enriched/skipped counts in its run log.",
+  primarySourceUrl: "https://www.senate.mn/members ; https://www.house.mn.gov/members/list",
+  sourceAgency: "Minnesota Senate; Minnesota House of Representatives",
+  knownGaps: [
+    "No stable per-legislator crosswalk file is checked in — mem_id (Senate) and legid (House) are re-derived from each site's own bulk member list every run, joined by district string against the roster this layer enriches. A mismatched or renumbered district would show up as a skipped record, not a silently wrong join.",
+    "Regex-based HTML parsing against two government sites' own markup, not a documented API — a template change on either site can silently stop matching a field until the next maintainer notices the enriched/skipped counts change.",
+    "electedYears is kept as each source's own free-text sequence, not parsed into a structured year list.",
+  ],
+};
+
 export const LAYER_REGISTRY: readonly LayerRegistryEntry[] = [
   MINNEAPOLIS_MEETINGS_VOTES_LAYER,
   CAMPAIGN_FINANCE_LAYER,
   CITY_BOUNDARIES_LAYER,
+  STATE_LEGISLATURE_BIO_LAYER,
 ];

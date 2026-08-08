@@ -16,6 +16,8 @@
     "data:city-boundaries": "node scripts/fetch-city-boundaries.mjs",
     "data:state-legislature": "node scripts/fetch-state-legislature.mjs",
     "data:state-legislature:selftest": "node scripts/fetch-state-legislature.mjs --self-test",
+    "data:state-legislature-bio": "node scripts/fetch-state-legislature-bio.mjs",
+    "data:state-legislature-bio:selftest": "node scripts/fetch-state-legislature-bio.mjs --self-test",
     "data:addresses": "node scripts/fetch-addresses.mjs",
     "data:places": "node scripts/fetch-places.mjs",
     "data:legistar": "node scripts/ingest/legistar.mjs",

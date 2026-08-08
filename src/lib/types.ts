@@ -104,6 +104,27 @@ export interface RepProperties {
   // component would call.
   verifiedAt?: string;
   verifiedAgainst?: string;
+  // State legislators only, populated by
+  // scripts/fetch-state-legislature-bio.mjs's enrichment pass over
+  // scripts/fetch-state-legislature.mjs's own output — none of these are
+  // exposed by Open States at all (senate.mn/house.mn are the only
+  // source), so they stay optional/null for every other role and for any
+  // state legislator this bio scraper hasn't successfully reached yet.
+  // See that script's own header for why it's a separate ingest pass
+  // rather than folded into the roster fetch.
+  leadershipTitle?: string | null;
+  legislativeAssistant?: { name: string; phone: string | null } | null;
+  // e.g. "4th" — the source's own ordinal text, not re-derived from
+  // electedYears below (an off-cycle special election can make the
+  // arithmetic wrong).
+  termNumber?: string | null;
+  // The source's own free-text elected-years sequence, e.g. "2012,
+  // re-elected 2016, 2020, 2022" — kept as reported rather than parsed
+  // into a year array, since the format isn't perfectly uniform across
+  // members and AGENTS.md §3.3 prefers showing a source's own words over
+  // a fragile re-interpretation of them.
+  districtMapUrl?: string | null;
+  districtDemographicsUrl?: string | null;
 }
 
 // A pointer to one ward — the join key between the address/ZIP gazetteer
