@@ -1498,21 +1498,16 @@ export default function WardMap() {
       for (const city of cities) next[city] = visible;
       visibleCitiesRef.current = next;
       applyCityFilter(next);
-      // Both "All" and "None" fly to the same combined extent of every
-      // city this toggle covers — boundsForCity doesn't care whether a
-      // city is currently visible, only that its geometry is loaded, so
-      // the target is identical either way. The only difference between
-      // the two is what applyCityFilter just did: reveal that extent's
-      // cities or hide them. Landing on the same camera position for both
-      // (rather than "None" flying to some unrelated default) is what
-      // makes toggling back and forth read as one consistent view, not
-      // two different ones.
-      const bounds = new maplibregl.LngLatBounds();
-      for (const city of cities) {
-        const cityBounds = boundsForCity(city);
-        if (cityBounds) bounds.extend(cityBounds);
-      }
-      if (!bounds.isEmpty()) zoomToBoundsNoModal(bounds);
+      // Both "All" and "None" fly to the same place: the current mode's
+      // default extent — the exact same zoomToDefault() the "tap away"/
+      // panel-close deselect gesture already flies to (see deselect's own
+      // comment). Deliberately not a per-city-set union computed from just
+      // `cities` — that would put "All" and "None" at two different
+      // targets (the whole set's bounds vs. some other extent), and would
+      // disagree with what deselecting already shows for "nothing/
+      // everything selected." One shared "resting position" for every
+      // gesture that means "show me the default view" is the point.
+      zoomToDefault();
       if (selectedRef.current) {
         const current = selectedRef.current;
         const filtered = filterHiddenCityOfficials(current.officials, next);
@@ -1633,10 +1628,9 @@ export default function WardMap() {
     zoomToBounds(bounds);
   };
 
-  // Shared by applyCityZoom (search/select), toggleCity (legend checkbox),
-  // and setCitiesVisible (the "All"/"None" bulk toggle) — derives a city's
-  // extent straight from whichever loaded geometry actually has it,
-  // rather than a stored bbox (there isn't one;
+  // Shared by applyCityZoom (search/select) and toggleCity (legend
+  // checkbox) — derives a city's extent straight from whichever loaded
+  // geometry actually has it, rather than a stored bbox (there isn't one;
   // see the layer registry's own comment for why bounds are always
   // computed live from GeoJSON in this codebase). Wards first: that's
   // every covered city except the wardless (at-large) ones — Woodbury
@@ -1666,14 +1660,14 @@ export default function WardMap() {
 
   // Minneapolis + St. Paul's combined extent — the "core of the metro"
   // view the map opens on. Used only for that initial camera fit (see the
-  // map-construction effect below, which delegates here); setCitiesVisible
-  // ("All"/"None") deliberately does NOT use this — it flies to the
-  // combined extent of whatever city set it was just called with instead,
-  // so "None" lands wherever "All" would for that same set rather than
-  // always snapping back to the Twin Cities specifically. Falls back to
-  // wardsBoundsRef (every covered city, not just these two) if the Twin
-  // Cities wards are missing/empty for some reason — better than leaving
-  // the camera wherever it happened to be.
+  // map-construction effect below, which delegates here) — every other
+  // "go back to the default view" gesture (deselecting, "All"/"None") goes
+  // through zoomToDefault instead, which fits the current mode's full
+  // extent (every covered city, not just these two) rather than narrowing
+  // to just the Twin Cities the way the very first paint does. Falls back
+  // to wardsBoundsRef for that same reason if the Twin Cities wards
+  // themselves are missing/empty — better than leaving the camera
+  // wherever it happened to be.
   const boundsForTwinCities = (): maplibregl.LngLatBounds | null => {
     const twinCitiesWards = wardsDataRef.current?.features.filter(
       (f) => f.properties?.city === "Minneapolis" || f.properties?.city === "St. Paul",
