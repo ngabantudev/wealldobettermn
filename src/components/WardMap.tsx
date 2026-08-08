@@ -266,6 +266,22 @@ function fillColorExpression(numberField: string): maplibregl.ExpressionSpecific
 const WARD_FILL_COLOR_EXPRESSION = fillColorExpression("ward");
 const COMMISSIONER_FILL_COLOR_EXPRESSION = fillColorExpression("district");
 
+// Builds a paint-property value that reads a per-feature hover/selection
+// flag off MapLibre's own feature-state (set/cleared by setHighlight, see
+// its own comment in the effect below) rather than a `filter` swap — a
+// filter change hard-cuts which features render at all, so a *previous*
+// selection can't fade out and a *new* one can't fade in, it just pops.
+// feature-state changes on an already-rendered feature, by contrast, are a
+// genuine paint-value transition MapLibre tweens smoothly when the
+// corresponding `${property}-transition` is set alongside it — same
+// mechanism a `:hover` CSS transition uses, applied to the GL layer
+// instead of the DOM. Requires `generateId: true` on the source (see
+// addSource calls below) so every feature has a stable numeric id to key
+// feature-state off without depending on the source data carrying its own.
+function hoverExpr(base: number, hovered: number): maplibregl.ExpressionSpecification {
+  return ["case", ["boolean", ["feature-state", "hover"], false], hovered, base] as unknown as maplibregl.ExpressionSpecification;
+}
+
 // At-large-boundaries.geojson features carry only `{ city }` — no ward
 // number to cycle a palette across (see this file's own comment), so this
 // is a flat CITY_ACCENT match rather than fillColorExpression's per-ward
@@ -313,6 +329,21 @@ const POINT_ZOOM_PADDING_DEGREES = 0.01;
 interface SelectedArea {
   officials: AreaOfficials;
   pinned: boolean;
+  // The name of whichever city-limit polygon the cursor/click actually sits
+  // inside, independent of whether that city resolved any officials.
+  // officials.city is empty for the ~most of Minnesota's cities that this
+  // app has no ward/mayor data for (city-boundaries is a statewide backdrop
+  // layer — see CITY_BOUNDARIES_FILL_LAYER_ID's own comment — but the
+  // officials layers only cover the 17-ish cities in cities.ts), and for
+  // those, panelHeading previously had nothing to name the location with at
+  // all. Set from the hovered/clicked feature's own city name (ward's
+  // `city` property, or city-boundaries' `name` property) wherever that's
+  // known, so WardModal can always say *which* city limit is under the
+  // cursor even when there's no representative data for it yet — never
+  // left for officials.city to imply on its own. Undefined/null wherever no
+  // single city applies (a county or state-legislature district hover,
+  // which can straddle city lines or none at all).
+  hoveredCityName?: string | null;
 }
 
 interface PinMarker {
@@ -1075,6 +1106,38 @@ export default function WardMap() {
   // default extent) rather than re-selecting and re-zooming to the exact
   // same target. Cleared by deselect(), set by selectPinned() — see both.
   const selectedIdentityRef = useRef<string | null>(null);
+  // Which single GL feature (source + MapLibre-assigned numeric id, from
+  // that source's own generateId: true) currently carries the hover/
+  // selection paint highlight (hoverExpr's ["feature-state","hover"] case
+  // in addSourcesAndLayers) — tracked so setHighlight can clear the
+  // *previous* feature's state before setting the new one, since
+  // feature-state is additive (it doesn't clear itself when a different
+  // feature becomes "the" selection the way a `filter` swap would).
+  // Null when nothing is highlighted. Read/written only inside the effect
+  // that owns `map` (setHighlight is defined there); kept at component
+  // scope alongside selectedIdentityRef since both describe the same
+  // "what's currently selected" concept and both survive across re-renders
+  // for the same reason.
+  const highlightedFeatureRef = useRef<{ source: string; id: string | number } | null>(null);
+
+  // Clears whatever feature currently carries the hover/selection paint
+  // highlight (see highlightedFeatureRef's own comment) — the one piece of
+  // that bookkeeping deselect() below needs, kept as its own top-level
+  // function (reading mapRef.current directly, like deselect's own
+  // zoomToDefault call does) so deselect doesn't need a reference into the
+  // main effect's setHighlight, which closes over that effect's own local
+  // `map` instead. The main effect's setHighlight (defined there, for
+  // setting a *new* highlight, which does need that closure) calls this
+  // for the "clear the previous one" half of its own job rather than
+  // duplicating this logic.
+  const clearHighlight = () => {
+    const map = mapRef.current;
+    const current = highlightedFeatureRef.current;
+    if (map && current && map.getSource(current.source)) {
+      map.removeFeatureState({ source: current.source, id: current.id }, "hover");
+    }
+    highlightedFeatureRef.current = null;
+  };
   // Screen-reader announcement for the detail panel — set only from a
   // pinned (click/tap/search-result) selection, never from hover, same
   // "don't move focus, just announce" pattern as SearchBar's own
@@ -1273,6 +1336,7 @@ export default function WardMap() {
   const deselect = () => {
     setSelected(null);
     selectedIdentityRef.current = null;
+    clearHighlight();
     setAnnouncement("Representative panel closed.");
     zoomToDefault();
   };
@@ -1336,8 +1400,8 @@ export default function WardMap() {
   // of their own to offer; those simply can't ever toggle off by re-
   // selection (existing "tap away"/re-click-the-panel-close-button paths
   // still work regardless).
-  const selectPinned = (officials: AreaOfficials, identity: string | null = null) => {
-    setSelected({ officials, pinned: true });
+  const selectPinned = (officials: AreaOfficials, identity: string | null = null, hoveredCityName: string | null = null) => {
+    setSelected({ officials, pinned: true, hoveredCityName });
     selectedIdentityRef.current = identity;
     setAnnouncement(summarizeOfficials(officials));
     if (rightDetailCollapsedRef.current) setRightDetailCollapsed(false);
@@ -1860,6 +1924,16 @@ export default function WardMap() {
     collapseAttribOnce();
 
     const isDesktopHover = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+    // AGENTS.md §4 ("Respect prefers-reduced-motion") — gates the hover/
+    // selection highlight's paint-property transitions below (HOVER_
+    // TRANSITION), same media query already used for isDesktopHover. A
+    // zero-duration transition still applies the new paint value
+    // immediately, it just skips the tween — the highlight itself (which
+    // *tier* is emphasized) is real information, not decoration, so it
+    // still needs to appear; only the animated fade is what this switches
+    // off.
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const HOVER_TRANSITION = { duration: prefersReducedMotion ? 0 : 150 };
 
     map.on("error", (e) => {
       console.error("[MapLibre ERROR]", e.error?.message ?? e);
@@ -1975,10 +2049,18 @@ export default function WardMap() {
 
       el.addEventListener("mouseenter", () => {
         if (!isDesktopHover || selectedRef.current?.pinned) return;
-        setSelected({ officials: resolveSelectionAtPoint(point, properties), pinned: false });
+        // A pin has no MapLibre feature/id of its own (it's a DOM marker,
+        // not a GL layer feature) to key the paint highlight off directly
+        // — highlightTargetForRep looks its underlying polygon feature up
+        // in the map's own source instead. See that function's own
+        // comment for why this is safe to call on every hover despite the
+        // extra query.
+        setHighlight(highlightTargetForRep(properties));
+        setSelected({ officials: resolveSelectionAtPoint(point, properties), pinned: false, hoveredCityName: properties.city });
       });
       el.addEventListener("mouseleave", () => {
         if (!isDesktopHover || selectedRef.current?.pinned) return;
+        setHighlight(null);
         setSelected(null);
       });
       el.addEventListener("click", (e) => {
@@ -1995,7 +2077,8 @@ export default function WardMap() {
           deselect();
           return;
         }
-        selectPinned(resolveSelectionAtPoint(point, properties), identity);
+        selectPinned(resolveSelectionAtPoint(point, properties), identity, properties.city);
+        setHighlight(highlightTargetForRep(properties));
         setActiveMobileSheet(null); // see applySearchResult's comment on this same call
         zoomToBounds(zoomBounds);
       });
@@ -2132,26 +2215,41 @@ export default function WardMap() {
       // correct starting visibility here rather than leaving a flash of
       // the wrong state before applyLayerMode's own call — further down
       // this same "load"/basemap-swap path — corrects it a moment later.
-      map.addSource(CITY_BOUNDARIES_SOURCE_ID, { type: "geojson", data: cityBoundariesData });
+      // generateId: true on every polygon source below (not the label/pin-
+      // link sources — nothing highlights those) assigns each feature a
+      // stable numeric id MapLibre tracks internally, which is what makes
+      // setFeatureState/hoverExpr's ["feature-state","hover"] read below
+      // possible without the source data carrying its own id field.
+      map.addSource(CITY_BOUNDARIES_SOURCE_ID, { type: "geojson", data: cityBoundariesData, generateId: true });
       map.addLayer({
         id: CITY_BOUNDARIES_FILL_LAYER_ID,
         type: "fill",
         source: CITY_BOUNDARIES_SOURCE_ID,
         layout: { visibility: layerModeRef.current === "state-legislature" ? "none" : "visible" },
-        paint: { "fill-color": outlineColor, "fill-opacity": 0.08 },
+        paint: {
+          "fill-color": outlineColor,
+          "fill-opacity": hoverExpr(0.08, 0.2),
+          "fill-opacity-transition": HOVER_TRANSITION,
+        },
       });
       map.addLayer({
         id: CITY_BOUNDARIES_OUTLINE_LAYER_ID,
         type: "line",
         source: CITY_BOUNDARIES_SOURCE_ID,
         layout: { visibility: layerModeRef.current === "state-legislature" ? "none" : "visible" },
-        paint: { "line-color": outlineColor, "line-width": 0.5, "line-opacity": 0.5 },
+        paint: {
+          "line-color": outlineColor,
+          "line-width": hoverExpr(0.5, 2),
+          "line-opacity": hoverExpr(0.5, 0.9),
+          "line-width-transition": HOVER_TRANSITION,
+          "line-opacity-transition": HOVER_TRANSITION,
+        },
       });
 
-      map.addSource(WARDS_SOURCE_ID, { type: "geojson", data });
-      map.addSource(COMMISSIONERS_SOURCE_ID, { type: "geojson", data: commissionersData });
-      map.addSource(STATE_LEG_SOURCE_ID, { type: "geojson", data: stateLegData });
-      map.addSource(AT_LARGE_BOUNDARIES_SOURCE_ID, { type: "geojson", data: atLargeBoundariesData });
+      map.addSource(WARDS_SOURCE_ID, { type: "geojson", data, generateId: true });
+      map.addSource(COMMISSIONERS_SOURCE_ID, { type: "geojson", data: commissionersData, generateId: true });
+      map.addSource(STATE_LEG_SOURCE_ID, { type: "geojson", data: stateLegData, generateId: true });
+      map.addSource(AT_LARGE_BOUNDARIES_SOURCE_ID, { type: "geojson", data: atLargeBoundariesData, generateId: true });
       // One point per polygon, at that polygon's own bounds-center — see
       // labelPointsFromFeatureCollection's comment. The three label layers
       // below source from these instead of the polygon sources themselves.
@@ -2170,13 +2268,21 @@ export default function WardMap() {
         id: WARDS_FILL_LAYER_ID,
         type: "fill",
         source: WARDS_SOURCE_ID,
-        paint: { "fill-color": WARD_FILL_COLOR_EXPRESSION, "fill-opacity": 0.6 },
+        paint: {
+          "fill-color": WARD_FILL_COLOR_EXPRESSION,
+          "fill-opacity": hoverExpr(0.6, 0.85),
+          "fill-opacity-transition": HOVER_TRANSITION,
+        },
       });
       map.addLayer({
         id: WARDS_OUTLINE_LAYER_ID,
         type: "line",
         source: WARDS_SOURCE_ID,
-        paint: { "line-color": outlineColor, "line-width": 1.5 },
+        paint: {
+          "line-color": outlineColor,
+          "line-width": hoverExpr(1.5, 3),
+          "line-width-transition": HOVER_TRANSITION,
+        },
       });
       // Highlights wards with a contested election, on top of the normal
       // outline but below labels. Starts matching zero features today —
@@ -2231,13 +2337,21 @@ export default function WardMap() {
         id: AT_LARGE_BOUNDARY_FILL_LAYER_ID,
         type: "fill",
         source: AT_LARGE_BOUNDARIES_SOURCE_ID,
-        paint: { "fill-color": AT_LARGE_BOUNDARY_FILL_COLOR_EXPRESSION, "fill-opacity": 0.5 },
+        paint: {
+          "fill-color": AT_LARGE_BOUNDARY_FILL_COLOR_EXPRESSION,
+          "fill-opacity": hoverExpr(0.5, 0.75),
+          "fill-opacity-transition": HOVER_TRANSITION,
+        },
       });
       map.addLayer({
         id: AT_LARGE_BOUNDARY_OUTLINE_LAYER_ID,
         type: "line",
         source: AT_LARGE_BOUNDARIES_SOURCE_ID,
-        paint: { "line-color": outlineColor, "line-width": 1.5 },
+        paint: {
+          "line-color": outlineColor,
+          "line-width": hoverExpr(1.5, 3),
+          "line-width-transition": HOVER_TRANSITION,
+        },
       });
 
       map.addLayer({
@@ -2245,14 +2359,22 @@ export default function WardMap() {
         type: "fill",
         source: COMMISSIONERS_SOURCE_ID,
         layout: { visibility: "none" },
-        paint: { "fill-color": COMMISSIONER_FILL_COLOR_EXPRESSION, "fill-opacity": 0.6 },
+        paint: {
+          "fill-color": COMMISSIONER_FILL_COLOR_EXPRESSION,
+          "fill-opacity": hoverExpr(0.6, 0.85),
+          "fill-opacity-transition": HOVER_TRANSITION,
+        },
       });
       map.addLayer({
         id: COMMISSIONERS_OUTLINE_LAYER_ID,
         type: "line",
         source: COMMISSIONERS_SOURCE_ID,
         layout: { visibility: "none" },
-        paint: { "line-color": outlineColor, "line-width": 1.5 },
+        paint: {
+          "line-color": outlineColor,
+          "line-width": hoverExpr(1.5, 3),
+          "line-width-transition": HOVER_TRANSITION,
+        },
       });
       map.addLayer({
         id: COMMISSIONERS_PULSE_LAYER_ID,
@@ -2286,7 +2408,11 @@ export default function WardMap() {
         source: STATE_LEG_SOURCE_ID,
         layout: { visibility: "none" },
         filter: defaultChamberFilter,
-        paint: { "fill-color": STATE_LEG_FILL_COLOR_EXPRESSION, "fill-opacity": 0.6 },
+        paint: {
+          "fill-color": STATE_LEG_FILL_COLOR_EXPRESSION,
+          "fill-opacity": hoverExpr(0.6, 0.85),
+          "fill-opacity-transition": HOVER_TRANSITION,
+        },
       });
       map.addLayer({
         id: STATE_LEG_OUTLINE_LAYER_ID,
@@ -2294,7 +2420,11 @@ export default function WardMap() {
         source: STATE_LEG_SOURCE_ID,
         layout: { visibility: "none" },
         filter: defaultChamberFilter,
-        paint: { "line-color": outlineColor, "line-width": 1.5 },
+        paint: {
+          "line-color": outlineColor,
+          "line-width": hoverExpr(1.5, 3),
+          "line-width-transition": HOVER_TRANSITION,
+        },
       });
       map.addLayer({
         id: STATE_LEG_PULSE_LAYER_ID,
@@ -2524,6 +2654,63 @@ export default function WardMap() {
       if (twinCitiesBounds) map.fitBounds(twinCitiesBounds, { padding: 40, duration: 0 });
     });
 
+    // Moves the hover/selection paint highlight (hoverExpr's feature-state
+    // case, set up per-layer in addSourcesAndLayers) from whichever
+    // feature carried it last to `next` — or clears it entirely when
+    // `next` is null (hover leaving the map, or deselect()). Feature-state
+    // is additive per id, not a single "the current one" pointer the way a
+    // `filter` swap would be, so the previous feature's flag has to be
+    // explicitly removed or it would stay highlighted forever once
+    // touched. Safe to call with a source that no longer exists (a
+    // basemap swap tears down and rebuilds every source — see
+    // addSourcesAndLayers' own comment) since map.getSource guards both
+    // the clear and the set.
+    const setHighlight = (next: { source: string; id: string | number } | null) => {
+      const current = highlightedFeatureRef.current;
+      if (current && (!next || current.source !== next.source || current.id !== next.id)) {
+        clearHighlight();
+      }
+      if (next && map.getSource(next.source)) {
+        map.setFeatureState({ source: next.source, id: next.id }, { hover: true });
+        highlightedFeatureRef.current = next;
+      }
+    };
+
+    // The pin-driven hover/click handlers below (mayor/council/
+    // commissioner/state-leg markers) have no MapLibre feature object of
+    // their own to read a feature-state id off — unlike a fill-layer
+    // hover/click, which gets one for free on `e.features[0]`/the
+    // queryRenderedFeatures hit. This looks the matching feature up in the
+    // map's own copy of the source (not wardsDataRef/etc.'s raw fetched
+    // FeatureCollection, which never passed through generateId) using the
+    // same locator fields officialIdentity/the click handlers' own
+    // `matchesHit` functions already key off, so the returned id is one
+    // setHighlight can act on. querySourceFeatures reads from already-
+    // loaded tiles; for a GeoJSON source's single implicit tile that's the
+    // whole dataset, so this is safe to call as soon as the source exists.
+    const highlightTargetForRep = (rep: RepProperties): { source: string; id: string | number } | null => {
+      let source: string;
+      let filter: maplibregl.FilterSpecification;
+      if (rep.role === "Mayor" || rep.role === "Council Member") {
+        if (rep.ward !== null) {
+          source = WARDS_SOURCE_ID;
+          filter = ["all", ["==", ["get", "city"], rep.city], ["==", ["get", "ward"], rep.ward]] as unknown as maplibregl.FilterSpecification;
+        } else {
+          source = AT_LARGE_BOUNDARIES_SOURCE_ID;
+          filter = ["==", ["get", "city"], rep.city] as unknown as maplibregl.FilterSpecification;
+        }
+      } else if (rep.role === "County Commissioner") {
+        source = COMMISSIONERS_SOURCE_ID;
+        filter = ["all", ["==", ["get", "county"], rep.county], ["==", ["get", "district"], rep.district]] as unknown as maplibregl.FilterSpecification;
+      } else {
+        source = STATE_LEG_SOURCE_ID;
+        filter = ["all", ["==", ["get", "chamber"], rep.chamber], ["==", ["get", "stateDistrict"], rep.stateDistrict]] as unknown as maplibregl.FilterSpecification;
+      }
+      if (!map.getSource(source)) return null;
+      const match = map.querySourceFeatures(source, { filter })[0];
+      return match?.id != null ? { source, id: match.id } : null;
+    };
+
     const handleHoverMove = (e: maplibregl.MapLayerMouseEvent) => {
       if (!isDesktopHover) return;
       // A click-pinned modal stays put; hover shouldn't swap its content
@@ -2546,7 +2733,8 @@ export default function WardMap() {
         const hoverIdentity = `at-large:${feature.properties?.city}`;
         if (hoverIdentity === lastHoverIdentityRef.current) return;
         lastHoverIdentityRef.current = hoverIdentity;
-        setSelected({ officials: resolveSelectionAtPoint(point), pinned: false });
+        setHighlight(feature.id != null ? { source: feature.source, id: feature.id } : null);
+        setSelected({ officials: resolveSelectionAtPoint(point), pinned: false, hoveredCityName: feature.properties?.city ?? null });
         return;
       }
       // city-boundaries features carry only `{ name, county, population,
@@ -2581,7 +2769,8 @@ export default function WardMap() {
         const hoverIdentity = `city-boundary:${feature.properties?.name}`;
         if (hoverIdentity === lastHoverIdentityRef.current) return;
         lastHoverIdentityRef.current = hoverIdentity;
-        setSelected({ officials: resolveSelectionAtPoint(point), pinned: false });
+        setHighlight(feature.id != null ? { source: feature.source, id: feature.id } : null);
+        setSelected({ officials: resolveSelectionAtPoint(point), pinned: false, hoveredCityName: feature.properties?.name ?? null });
         return;
       }
       // The hovered layer's own hit seeds its tier exactly (see
@@ -2596,13 +2785,15 @@ export default function WardMap() {
       const hoverIdentity = officialIdentity(known);
       if (hoverIdentity === lastHoverIdentityRef.current) return;
       lastHoverIdentityRef.current = hoverIdentity;
-      setSelected({ officials: resolveSelectionAtPoint(point, known), pinned: false });
+      setHighlight(feature.id != null ? { source: feature.source, id: feature.id } : null);
+      setSelected({ officials: resolveSelectionAtPoint(point, known), pinned: false, hoveredCityName: known.city });
     };
     const handleHoverLeave = () => {
       if (!isDesktopHover) return;
       lastHoverIdentityRef.current = null;
       map.getCanvas().style.cursor = "";
       if (selectedRef.current?.pinned) return;
+      setHighlight(null);
       setSelected(null);
     };
     // A single, unscoped click handler (rather than one bound to a specific
@@ -2652,7 +2843,8 @@ export default function WardMap() {
           return;
         }
         const point = toPoint(e.lngLat);
-        selectPinned(resolveSelectionAtPoint(point), identity);
+        selectPinned(resolveSelectionAtPoint(point), identity, (hit.properties?.city as string | undefined) ?? null);
+        setHighlight(hit.id != null ? { source: hit.source, id: hit.id } : null);
         setActiveMobileSheet(null);
         const boundaryFeature = atLargeBoundariesDataRef.current?.features.find(
           (f) => f.properties?.city === hit.properties?.city,
@@ -2677,7 +2869,8 @@ export default function WardMap() {
           return;
         }
         const point = toPoint(e.lngLat);
-        selectPinned(resolveSelectionAtPoint(point), identity);
+        selectPinned(resolveSelectionAtPoint(point), identity, (hit.properties?.name as string | undefined) ?? null);
+        setHighlight(hit.id != null ? { source: hit.source, id: hit.id } : null);
         setActiveMobileSheet(null);
         const boundaryFeature = cityBoundariesDataRef.current?.features.find(
           (f) => f.properties?.name === hit.properties?.name,
@@ -2732,7 +2925,8 @@ export default function WardMap() {
         return;
       }
       const point = toPoint(e.lngLat);
-      selectPinned(resolveSelectionAtPoint(point, known), identity);
+      selectPinned(resolveSelectionAtPoint(point, known), identity, known.city);
+      setHighlight(hit.id != null ? { source: hit.source, id: hit.id } : null);
       setActiveMobileSheet(null); // see applySearchResult's comment on this same call
       zoomToBounds(boundsFromFeature((fullFeature ?? hit) as Feature<Geometry>));
     });
@@ -3084,7 +3278,7 @@ export default function WardMap() {
   // the modal *and* opens that tab in the same gesture (handleMobileTabSelect
   // below), rather than leaving the first tap stranded doing nothing.
   const mobileSheetContent = selected ? (
-    <WardModal officials={selected.officials} onClose={deselect} variant="sheet" />
+    <WardModal officials={selected.officials} onClose={deselect} hoveredCityName={selected.hoveredCityName} variant="sheet" />
   ) : activeMobileSheet === "search" ? (
     searchBar
   ) : activeMobileSheet === "filters" ? (
@@ -3377,7 +3571,7 @@ export default function WardMap() {
         >
           <div className="flex h-full w-80 shrink-0 flex-col lg:w-96">
             {selected ? (
-              <WardModal officials={selected.officials} onClose={deselect} variant="sidebar" />
+              <WardModal officials={selected.officials} onClose={deselect} hoveredCityName={selected.hoveredCityName} variant="sidebar" />
             ) : (
               <div className="flex flex-1 flex-col items-center justify-center gap-3 px-6 py-10 text-center text-sm text-ink-3">
                 <svg viewBox="0 0 20 20" fill="none" aria-hidden="true" className="h-8 w-8 shrink-0 text-sidebar-accent">
