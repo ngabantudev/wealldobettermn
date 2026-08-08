@@ -647,74 +647,56 @@ const TIER_SECTIONS: TierSection[] = [
   { key: "state", label: "State", emptyNote: STATE_TIER_EMPTY_NOTE },
 ];
 
-// Drives the "stacking" scroll effect on the City/County/State sections:
-// each tier's <h2> docks via plain CSS `position: sticky` at an offset equal
-// to however many headers are already stacked above it (index * headerH),
-// which is what makes County's header park directly under City's, then
-// State's under County's, as the user scrolls — no JS needed for that part.
+// Drives the "stacking" scroll effect on the City/County/State sections.
+// Each tier's <h2> is `position: sticky`, docked at an offset equal to
+// however many headers are already stacked above it (index * headerHeight).
+// That single fact is what produces the whole interaction, natively, with
+// no scroll listener:
 //
-// What *does* need JS is collapsing a tier's content once it's been fully
-// scrolled underneath the header stack: sticky alone leaves that content
-// sitting there, invisible but still occupying scroll height, so a resident
-// keeps scrolling through empty space to reach the next tier. An
-// IntersectionObserver per non-first header watches the line each header
-// docks at (root margin shrunk from the top by index * headerH). When a
-// header crosses that line, the tier above it collapses; scrolling back up
-// past the line un-collapses it, so the motion is symmetric in both
-// directions, matching how sticky headers behave natively.
+//   - City's header docks at the very top of the scroll region (top: 0)
+//     the moment it would otherwise scroll past it, and stays there.
+//   - County keeps scrolling up in normal flow, *carrying its own full
+//     content with it* — nothing about County is collapsed or pinned yet —
+//     until County's header reaches the bottom edge of City's now-docked
+//     header (top: headerHeight). At that exact point it, too, locks in
+//     place, immediately below City's.
+//   - Same for State relative to County (top: 2 * headerHeight).
 //
-// Deliberately does not touch the DOM presence of collapsed content — no
-// `hidden`, no `aria-hidden`. Collapsing only changes a CSS grid track to
-// 0fr and clips it with `overflow-hidden`; the section, its <h2>, and its
-// officials remain in the accessibility tree exactly as before. That's the
-// same reason #53's tab version got reverted (see the comment above
-// TIER_SECTIONS's render below) — this is a scroll-driven compaction, not a
-// click-gated hide, so it doesn't reintroduce that tradeoff.
-function useStackedTierCollapse(sectionCount: number) {
-  const scrollRootRef = useRef<HTMLDivElement | null>(null);
+// Each already-docked header is opaque and painted above ordinary content
+// (a shared z-index beats content's default z-index:auto regardless of DOM
+// order), so as a tier's content keeps scrolling upward past a header
+// that's already stuck, it visually disappears underneath it — the
+// "collapses into the stickied section" effect the panel now has — without
+// any JS touching layout/height. That matters: collapsing height via JS
+// (an earlier version of this did, via IntersectionObserver + a 0fr grid
+// track) removes already-scrolled-past space from the document *while the
+// user is mid-scroll*, which shifts what `scrollTop` points at and reads as
+// a jump/glitch. Pure sticky positioning never has that problem, because
+// nothing's height ever changes — content just scrolls under a header that
+// doesn't move.
+//
+// Content is never removed from the DOM or marked `hidden`/`aria-hidden` —
+// only visually covered once its section is scrolled past. Heading
+// navigation still reaches every tier's officials regardless of scroll
+// position, same as before this feature existed — see the comment above
+// TIER_SECTIONS's render below for why that matters (#53/9665be0).
+function useUniformHeaderHeight() {
   const headerRefs = useRef<Array<HTMLHeadingElement | null>>([]);
-  const [collapsed, setCollapsed] = useState<boolean[]>(() => Array(sectionCount).fill(false));
-  // Measured once from the first header, then reused as every header's
-  // `top` offset (index * headerHeight) — all three tier headers share the
-  // same classes, so one measurement is enough for the whole stack.
   const [headerHeight, setHeaderHeight] = useState(0);
 
   useEffect(() => {
-    const root = scrollRootRef.current;
-    if (!root) return;
+    const measure = () => {
+      const height = headerRefs.current[0]?.getBoundingClientRect().height ?? 0;
+      if (height) setHeaderHeight(height);
+    };
+    measure();
+    // Headers share one set of classes, so only the first needs measuring —
+    // but re-measure on resize since text can reflow at narrow widths.
+    window.addEventListener("resize", measure);
+    return () => window.removeEventListener("resize", measure);
+  }, []);
 
-    const firstHeader = headerRefs.current[0];
-    const measuredHeight = firstHeader?.getBoundingClientRect().height ?? 0;
-    if (!measuredHeight) return;
-    setHeaderHeight(measuredHeight);
-
-    // One observer per header that has a predecessor to collapse — header 0
-    // (City) never collapses anything above it.
-    const observers: IntersectionObserver[] = [];
-    for (let i = 1; i < sectionCount; i += 1) {
-      const header = headerRefs.current[i];
-      if (!header) continue;
-      const observer = new IntersectionObserver(
-        ([entry]) => {
-          setCollapsed((prev) => {
-            if (prev[i - 1] === !entry.isIntersecting) return prev;
-            const next = [...prev];
-            next[i - 1] = !entry.isIntersecting;
-            return next;
-          });
-        },
-        { root, rootMargin: `-${Math.round(i * measuredHeight)}px 0px 0px 0px`, threshold: 0 },
-      );
-      observer.observe(header);
-      observers.push(observer);
-    }
-    return () => observers.forEach((o) => o.disconnect());
-    // sectionCount only ever changes with TIER_SECTIONS, which is a static
-    // module-level constant — this effect re-measures on every mount, which
-    // is the only time header layout can change.
-  }, [sectionCount]);
-
-  return { scrollRootRef, headerRefs, collapsed, headerHeight };
+  return { headerRefs, headerHeight };
 }
 
 export interface WardModalProps {
@@ -786,13 +768,13 @@ function panelHeading(officials: AreaOfficials, hoveredCityName?: string | null)
 // the map" vs. "who represents this specific point"), not the same one
 // twice.
 export default function WardModal({ officials, onClose, hoveredCityName = null, variant = "sheet" }: WardModalProps) {
-  const { scrollRootRef, headerRefs, collapsed, headerHeight } = useStackedTierCollapse(TIER_SECTIONS.length);
+  const { headerRefs, headerHeight } = useUniformHeaderHeight();
 
   // Both variants now scroll from the same div (the tier list below) rather
-  // than sidebar additionally scrolling its own outer wrapper — the sticky
-  // headers and the IntersectionObserver above both need one unambiguous
-  // scrolling ancestor to dock/collapse against, not two nested
-  // overflow-y-auto regions that only one of ever actually engages.
+  // than sidebar additionally scrolling its own outer wrapper — sticky
+  // positioning needs one unambiguous scrolling ancestor to dock against,
+  // not two nested overflow-y-auto regions that only one of ever actually
+  // engages.
   const wrapperClass =
     variant === "sidebar"
       ? "pointer-events-auto flex h-full w-full flex-col overflow-hidden"
@@ -858,54 +840,42 @@ export default function WardModal({ officials, onClose, hoveredCityName = null, 
           jump out — a small rounded badge sitting in open whitespace did
           that job far more weakly once there was no longer a tab strip
           drawing the eye to this row in the first place. */}
-      <div ref={scrollRootRef} className="flex-1 min-h-0 overflow-y-auto">
+      <div className="flex-1 min-h-0 overflow-y-auto">
         {TIER_SECTIONS.map(({ key, label, emptyNote }, index) => {
           const reps = officials[key];
           const headingId = `officials-tier-${key}-heading`;
-          const isCollapsed = collapsed[index] ?? false;
           return (
             <section key={key} aria-labelledby={headingId}>
               {/* Sticky, not fixed: each header docks at a `top` offset
                   equal to the ones already stacked above it, so City parks
                   at the very top of the scroll region, County slides up and
-                  parks directly under it, then State under County — plain
-                  CSS position:sticky stacking, no JS involved in the
-                  docking itself. */}
+                  parks directly under it once it reaches that line, then
+                  State under County — plain CSS position:sticky stacking.
+                  A shared z-index (beating content's default z-index:auto
+                  regardless of DOM order) plus the opaque fill below is
+                  what makes each tier's content visually disappear under
+                  the header stack as it scrolls past, and a small shadow
+                  gives the docked stack some depth/weight once it's sitting
+                  above the tier still scrolling underneath it. */}
               <h2
                 ref={(el) => {
                   headerRefs.current[index] = el;
                 }}
                 id={headingId}
-                className="sticky z-10 px-4 py-2 text-xs font-semibold uppercase tracking-wide"
+                className="sticky z-10 px-4 py-2 text-xs font-semibold uppercase tracking-wide shadow-[0_1px_2px_rgba(0,0,0,0.15)]"
                 style={{ top: `${index * headerHeight}px`, backgroundColor: TIER_HEADER_BG, color: TIER_HEADER_TEXT }}
               >
                 {label}
               </h2>
-              {/* Collapses to 0 height once this tier has scrolled fully
-                  under the header stack (see useStackedTierCollapse above)
-                  and re-expands scrolling back up past that point — a CSS
-                  grid-track animation rather than max-height, since it
-                  doesn't need a hardcoded/guessed content height. The
-                  content itself is never removed from the DOM or marked
-                  aria-hidden, so heading navigation still reaches every
-                  tier's officials regardless of collapsed state. */}
-              <div
-                className={`grid overflow-hidden transition-[grid-template-rows] duration-200 ease-out motion-reduce:transition-none ${
-                  isCollapsed ? "grid-rows-[0fr]" : "grid-rows-[1fr]"
-                }`}
-              >
-                <div className="overflow-hidden">
-                  {reps.length > 0 ? (
-                    <div className="divide-y divide-hair">
-                      {reps.map((rep) => (
-                        <OfficialCard key={officialIdentity(rep)} rep={rep} />
-                      ))}
-                    </div>
-                  ) : (
-                    <p className="px-4 pb-3 text-sm text-ink-3">{emptyNote}</p>
-                  )}
+              {reps.length > 0 ? (
+                <div className="divide-y divide-hair">
+                  {reps.map((rep) => (
+                    <OfficialCard key={officialIdentity(rep)} rep={rep} />
+                  ))}
                 </div>
-              </div>
+              ) : (
+                <p className="px-4 pb-3 text-sm text-ink-3">{emptyNote}</p>
+              )}
             </section>
           );
         })}
