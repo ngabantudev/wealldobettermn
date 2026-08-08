@@ -1412,6 +1412,18 @@ export default function WardMap() {
       // opens still filters that city's own official back out.
       visibleCitiesRef.current = next;
       applyCityFilter(next);
+      // Enabling a city via the legend checkbox (not hiding one — next[city]
+      // false means the branch below runs instead) flies the camera to that
+      // city's own extent, same as picking it from city search does
+      // (applyCityZoom above) — a resident ticking a box wants to see the
+      // place they just asked for, not trust it's somewhere in the current
+      // view. Bounds come from whatever geometry is loaded so far; if wards/
+      // at-large data hasn't arrived yet, boundsForCity returns null and this
+      // just no-ops rather than zooming nowhere.
+      if (next[city]) {
+        const bounds = boundsForCity(city);
+        if (bounds) zoomToBoundsNoModal(bounds);
+      }
       // If hiding this city empties the panel's City (and County, which
       // shares the same per-city visibility — see filterHiddenCityOfficials)
       // section, re-filter what's shown. If that leaves every tier empty,
@@ -1560,29 +1572,34 @@ export default function WardMap() {
     zoomToBounds(bounds);
   };
 
-  const applyCityZoom = (city: City) => {
-    prepareWardsView(city);
+  // Shared by applyCityZoom (search/select) and toggleCity (legend
+  // checkbox) — derives a city's extent straight from whichever loaded
+  // geometry actually has it, rather than a stored bbox (there isn't one;
+  // see the layer registry's own comment for why bounds are always
+  // computed live from GeoJSON in this codebase). Wards first: that's
+  // every covered city except the wardless (at-large) ones — Woodbury
+  // today — which fall through to the derived at-large boundary instead.
+  // That derivation only exists once SecondaryCivicData has resolved, so
+  // atLargeBoundariesDataRef can briefly be null/empty right after mount —
+  // the `?.` below already no-ops harmlessly in that window, same as it
+  // always has.
+  const boundsForCity = (city: City): maplibregl.LngLatBounds | null => {
     const cityWards = wardsDataRef.current?.features.filter((f) => f.properties?.city === city);
     if (cityWards && cityWards.length > 0) {
-      setSelected(null);
-      setActiveMobileSheet(null); // reveal the zoomed-to result instead of leaving the Search sheet up over it
-      zoomToBoundsNoModal(boundsFromFeatureCollection({ type: "FeatureCollection", features: cityWards }));
-      return;
+      return boundsFromFeatureCollection({ type: "FeatureCollection", features: cityWards });
     }
-    // A wardless (at-large) city — Woodbury today — has zero features in
-    // wards.geojson by construction, so the check above always misses for
-    // it; without this fallback, searching/selecting it used to silently
-    // zoom nowhere at all. Its derived boundary (atLargeBoundariesDataRef —
-    // see deriveAtLargeBoundaries's own comment) is the only geometry
-    // standing in for "this city" instead. That derivation only exists
-    // once SecondaryCivicData has resolved, so this ref (like commissioners/
-    // stateLeg) can briefly be null/empty right after mount — the `?.`
-    // below already no-ops harmlessly in that window, same as it always has.
     const boundary = atLargeBoundariesDataRef.current?.features.filter((f) => f.properties?.city === city);
-    if (!boundary || boundary.length === 0) return;
+    if (!boundary || boundary.length === 0) return null;
+    return boundsFromFeatureCollection({ type: "FeatureCollection", features: boundary });
+  };
+
+  const applyCityZoom = (city: City) => {
+    prepareWardsView(city);
+    const bounds = boundsForCity(city);
+    if (!bounds) return;
     setSelected(null);
-    setActiveMobileSheet(null);
-    zoomToBoundsNoModal(boundsFromFeatureCollection({ type: "FeatureCollection", features: boundary }));
+    setActiveMobileSheet(null); // reveal the zoomed-to result instead of leaving the Search sheet up over it
+    zoomToBoundsNoModal(bounds);
   };
 
   const applyCountyZoom = (cities: City[]) => {
@@ -2320,16 +2337,32 @@ export default function WardMap() {
       }
       maybeStartPulseAnimation();
 
-      // Initial camera fit only — wardsBoundsRef (used by zoomToDefault)
-      // is already populated by the map-independent effect above, from
-      // the same data. Fit to the layer's actual extent rather than a
-      // hardcoded bounding box, so this keeps working if boundaries
-      // shift. Deliberately not repeated on a basemap swap — switchBasemap
-      // has no call to this, so picking a new basemap never snaps the
-      // camera back to this default extent out from under whatever the
-      // resident was looking at.
-      const wardsBounds = boundsFromFeatureCollection(primary.wards);
-      if (!wardsBounds.isEmpty()) map.fitBounds(wardsBounds, { padding: 40, duration: 0 });
+      // Initial camera fit only — wardsBoundsRef (used by zoomToDefault,
+      // e.g. on deselect or mode switch) still covers every covered city,
+      // not just these two; only the very first paint narrows to the Twin
+      // Cities themselves. Fit to the two core cities' actual extent
+      // rather than a hardcoded bounding box, so this keeps working if
+      // boundaries shift — same reasoning as the full-extent version this
+      // replaces, just scoped to Minneapolis + St. Paul instead of every
+      // covered city, so a first-time visitor lands on the metro's core
+      // rather than zoomed out to see every suburb this site covers.
+      // Deliberately not repeated on a basemap swap — switchBasemap has no
+      // call to this, so picking a new basemap never snaps the camera back
+      // to this default extent out from under whatever the resident was
+      // looking at.
+      const twinCitiesWards = primary.wards.features.filter(
+        (f) => f.properties?.city === "Minneapolis" || f.properties?.city === "St. Paul",
+      );
+      const twinCitiesBounds = boundsFromFeatureCollection({ type: "FeatureCollection", features: twinCitiesWards });
+      if (!twinCitiesBounds.isEmpty()) {
+        map.fitBounds(twinCitiesBounds, { padding: 40, duration: 0 });
+      } else {
+        // Twin Cities wards missing/empty for some reason — fall back to
+        // every covered city's extent rather than leaving the camera at
+        // the pre-data TWIN_CITIES_CENTER/DEFAULT_ZOOM guess.
+        const wardsBounds = boundsFromFeatureCollection(primary.wards);
+        if (!wardsBounds.isEmpty()) map.fitBounds(wardsBounds, { padding: 40, duration: 0 });
+      }
     });
 
     const handleHoverMove = (e: maplibregl.MapLayerMouseEvent) => {
