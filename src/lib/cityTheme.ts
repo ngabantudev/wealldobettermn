@@ -132,13 +132,15 @@ export function partyColorSoft(party: string): string {
 // CONTESTED_COLOR above: it should read the same in light and dark mode.
 // White text on this navy is a clean ~12.7:1 contrast — mn.gov's own
 // white-on-#003865 header text holds up fine here too. Shared by
-// WardModal's City/County/State tablist and WardMap's left-sidebar Level/
-// Chamber tabs, so the two sidebars read as one consistent tab language
-// rather than two independently-tuned looks (mn.gov also pairs this navy
-// with a light-blue #9bcbeb hairline, but that only clears WCAG's
+// WardModal's City/County/State tier badges (each stacked section's own
+// heading pill — see that file; these tiers stopped being tabs) and
+// WardMap's left-sidebar Level/Chamber tabs' active-cell fill, so the two
+// sidebars still read as one consistent navy-accent language even though
+// only one of them is actually a tab control now (mn.gov also pairs this
+// navy with a light-blue #9bcbeb hairline, but that only clears WCAG's
 // non-text-contrast minimum against the navy itself — the active tab's
-// fill — so it isn't reused as a general-purpose border color; both
-// tablists use the app's own themed border-hair-strong instead).
+// fill — so it isn't reused as a general-purpose border color; both use
+// the app's own themed border-hair-strong instead).
 export const TIER_HEADER_BG = "#003865";
 export const TIER_HEADER_TEXT = "#FFFFFF";
 

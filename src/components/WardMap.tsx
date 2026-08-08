@@ -2709,10 +2709,10 @@ export default function WardMap() {
   //   card, because this is what MobileNav's Filters tab drops straight
   //   into its sheet slot, which sits directly over the dimmed map/scrim.
   //   "sidebar" — the desktop left `<aside>` below now mimics the right
-  //   detail sidebar's own panel chrome (title bar + navy-fill tablist —
-  //   see sidebarTabRowClass/sidebarTabButtonClass below) instead of a
-  //   bordered-row variant of the floating card, so this helper only
-  //   still has a "floating" shape to produce.
+  //   detail sidebar's own panel chrome (title bar, navy-fill segmented
+  //   control — see sidebarTabRowClass/sidebarTabButtonClass below)
+  //   instead of a bordered-row variant of the floating card, so this
+  //   helper only still has a "floating" shape to produce.
   // Desktop used to mount the "floating" flavor top-left, absolutely
   // positioned over the map, the same way MobileNav's sheet still does —
   // see the left `<aside>` in the return below for where the sidebar
@@ -2796,22 +2796,23 @@ export default function WardMap() {
   // Sidebar-only tab look for the Level (City/County/State) and Chamber
   // groups — a flat segmented control (rounded-lg track, rounded-md
   // active cell), matching mndatacenter.org's own "moderate border-radius
-  // on interactive elements" rather than the flush, square, full-bleed
-  // strip this used to mimic from WardModal's tablist. No border on the
-  // track itself: bg-panel-3 (the same recessed token filterListClass's
-  // sidebar variant uses just above) supplies the grouping, and the
-  // active cell's own TIER_HEADER_BG fill supplies the selection state —
-  // between the two, a border line drew no information a resident
-  // couldn't already read from the fill contrast. WardModal's own
-  // City/County/State tablist picked up the matching rounded treatment in
-  // the same pass (see that file), so both sidebars still read as one
-  // consistent panel language, just a flatter one. Rounded corners also
-  // stop the focus ring from being clipped flush against a hard edge —
-  // ring-inset (no longer set here) existed only to keep the ring from
-  // bleeding past the old edge-to-edge row; a padded, rounded cell has
-  // room for a normal outer ring instead. Still role="group", not ARIA
-  // tabs: picking a mode swaps map layers, zoom, and the section below,
-  // not just this row's own tabpanel content.
+  // on interactive elements." No border on the track itself: bg-panel-3
+  // (the same recessed token filterListClass's sidebar variant uses just
+  // above) supplies the grouping, and the active cell's own
+  // TIER_HEADER_BG fill supplies the selection state — between the two, a
+  // border line drew no information a resident couldn't already read from
+  // the fill contrast. Rounded corners also stop the focus ring from
+  // being clipped flush against a hard edge. Still role="group", not ARIA
+  // tabs: picking a mode swaps map layers, zoom, and the checkbox/chamber
+  // list below, not a same-panel tabpanel's content — this switcher isn't
+  // "which tier of my representation to view" (that question lives
+  // entirely in WardModal now, unconditionally, all three tiers at once —
+  // see that file), it's "which layer is drawn on the map." Labeled with
+  // its own "Map layer" heading below for exactly that reason: it used to
+  // go unlabeled on the theory that it visually matched WardModal's own
+  // unlabeled tablist, but that tablist is gone, and sharing the bare
+  // words "City/County/State" with no heading read as the same question
+  // asked twice in two panels — it's not.
   const sidebarTabRowClass = "flex gap-1 rounded-lg bg-panel-3 p-1";
   // hover:bg-sidebar-hover, not hover:bg-hover: this track's own bg-panel-3
   // fill is only 3 shades off --hover, so the generic token was nearly
@@ -2834,7 +2835,7 @@ export default function WardMap() {
   const filterControls = (
     <>
       <div>
-        {filterSectionLabel("floating", "Level")}
+        {filterSectionLabel("floating", "Map layer")}
         <div role="group" aria-label="Choose map layer" className={filterGroupClass()}>
           {(["wards", "commissioners", "state-legislature"] as const).map((mode) => (
             <button
@@ -2903,22 +2904,29 @@ export default function WardMap() {
   // Rendered as the first item inside the padded content column below
   // (see the left `<aside>`'s own comment) — inset with room for the
   // segmented control's own rounded corners, rather than the old
-  // full-bleed placement flush against the header. No "Level" heading
-  // text, same as WardModal's own tablist has no heading above it, just
-  // this group's aria-label.
+  // full-bleed placement flush against the header. Now carries its own
+  // "Map layer" heading (see filterSectionLabel above and this block's
+  // own comment on sidebarTabRowClass) — City/County/State by itself,
+  // sitting directly above WardModal's own City/County/State section
+  // headings on the other side of the screen, read as the same control
+  // duplicated; "Map layer" makes it legible at a glance as "what's drawn"
+  // rather than "which tier of my rep to show."
   const sidebarLevelTabs = (
-    <div role="group" aria-label="Choose map layer" className={sidebarTabRowClass}>
-      {(["wards", "commissioners", "state-legislature"] as const).map((mode) => (
-        <button
-          key={mode}
-          type="button"
-          onClick={() => switchMode(mode)}
-          className={sidebarTabButtonClass(layerMode === mode)}
-          style={layerMode === mode ? { backgroundColor: TIER_HEADER_BG, color: TIER_HEADER_TEXT } : undefined}
-        >
-          {MODE_LABELS[mode]}
-        </button>
-      ))}
+    <div>
+      <div className="mb-1.5">{filterSectionLabel("sidebar", "Map layer")}</div>
+      <div role="group" aria-label="Choose map layer" className={sidebarTabRowClass}>
+        {(["wards", "commissioners", "state-legislature"] as const).map((mode) => (
+          <button
+            key={mode}
+            type="button"
+            onClick={() => switchMode(mode)}
+            className={sidebarTabButtonClass(layerMode === mode)}
+            style={layerMode === mode ? { backgroundColor: TIER_HEADER_BG, color: TIER_HEADER_TEXT } : undefined}
+          >
+            {MODE_LABELS[mode]}
+          </button>
+        ))}
+      </div>
     </div>
   );
 
@@ -3114,14 +3122,13 @@ export default function WardMap() {
                 same green fill, same size/weight heading — so the two
                 sidebars read as one consistent panel chrome instead of
                 this one being a bare stack of controls next to the right
-                sidebar's titled, tabbed one. No close button: unlike
-                WardModal this panel isn't dismissible, only collapsible
-                via the pull-tab outside it. No border under the fill
-                either (a prior pass added one; see git history) — the
-                color change from the green header to the sidebar's own
-                bg-panel-2 is already the seam; a drawn line on top of it
-                was one border mndatacenter.org's own flatter chrome
-                doesn't carry. */}
+                sidebar's titled one. No close button: unlike WardModal
+                this panel isn't dismissible, only collapsible via the
+                pull-tab outside it. No border under the fill either (a
+                prior pass added one; see git history) — the color change
+                from the green header to the sidebar's own bg-panel-2 is
+                already the seam; a drawn line on top of it was one border
+                mndatacenter.org's own flatter chrome doesn't carry. */}
             <div
               className="flex items-center gap-2 px-4 pt-2 pb-2 sm:pt-4 shrink-0"
               style={{ backgroundColor: PANEL_HEADER_BG, color: PANEL_HEADER_TEXT }}
