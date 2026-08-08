@@ -73,26 +73,13 @@ export default function PrivacyPage() {
         <p className="mt-2 text-sm text-ink-3">
           This project&apos;s subject is public power, not private people: it publishes elected and appointed
           officials in their official capacity, never private residents, individual small donors, non-supervisory
-          public employees, or anything at household resolution. See the site&apos;s{" "}
-          <a
-            href="https://github.com/ngabantudev/wealldobettermn/blob/main/AGENTS.md"
-            className="text-accent underline underline-offset-2"
-          >
-            public governance document
-          </a>{" "}
-          for the full policy.
+          public employees, or anything at household resolution. See the site&apos;s public governance document
+          (AGENTS.md) for the full policy.
         </p>
 
         <h2 className="mt-8 text-base font-semibold text-ink">Questions or a gap you found</h2>
         <p className="mt-2 text-sm text-ink-3">
-          Report it on the{" "}
-          <a
-            href="https://github.com/ngabantudev/wealldobettermn/issues"
-            className="text-accent underline underline-offset-2"
-          >
-            issue tracker
-          </a>
-          .
+          See the About page for how to report a problem.
         </p>
       </main>
     </>

@@ -39,28 +39,15 @@ export default function AboutPage() {
           Anthropic). Every output is reviewed, edited, and owned by a human maintainer before it ships — the AI
           tooling is a drafting aid, not a decision-maker, and it does not produce source records: every published
           data point traces back to a primary or corroborated source regardless of how the script that fetched it
-          was written. The project&apos;s full instruction set for how AI tooling is used here is public — it&apos;s{" "}
-          <a
-            href="https://github.com/ngabantudev/wealldobettermn/blob/main/AGENTS.md"
-            className="text-accent underline underline-offset-2"
-          >
-            AGENTS.md
-          </a>
-          , the same file that governs the ethical guardrails (privacy, scope, sourcing) this project holds itself
-          to. Errors introduced during AI-assisted development are the maintainer&apos;s responsibility, not a
-          caveat that limits it.
+          was written. The project&apos;s full instruction set for how AI tooling is used here is public — it&apos;s
+          AGENTS.md, the same file that governs the ethical guardrails (privacy, scope, sourcing) this project holds
+          itself to. Errors introduced during AI-assisted development are the maintainer&apos;s responsibility, not
+          a caveat that limits it.
         </p>
 
         <h2 className="mt-8 text-base font-semibold text-ink">Report a problem</h2>
         <p className="mt-2 text-sm text-ink-3">
-          Found a stale record, a wrong district, or a bug? Open an issue on the{" "}
-          <a
-            href="https://github.com/ngabantudev/wealldobettermn/issues"
-            className="text-accent underline underline-offset-2"
-          >
-            issue tracker
-          </a>
-          . See also this site&apos;s{" "}
+          Found a stale record, a wrong district, or a bug? See this site&apos;s{" "}
           <a href="/privacy" className="text-accent underline underline-offset-2">
             privacy page
           </a>{" "}
