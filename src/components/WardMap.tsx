@@ -228,6 +228,15 @@ const MODE_LABELS: Record<LayerMode, string> = {
   "state-legislature": "State",
 };
 
+// Plain-language copy for the "still in flight" notice (issue #71) — only
+// ever shown for the two modes whose data comes from the background
+// fetchSecondaryCivicData() request. "wards" has no entry on purpose:
+// wards/mayors are the *primary* fetch, never gated behind this notice.
+const SECONDARY_DATA_LOADING_LABEL: Partial<Record<LayerMode, string>> = {
+  commissioners: "Loading county data…",
+  "state-legislature": "Loading state data…",
+};
+
 // Outline/label colors are tuned against the *basemap's* own darkness
 // (isMapStyleDark), not this app's light/dark chrome theme — a resident can
 // pick a dark basemap (Fiord, Dark Mode) under either chrome theme, or a
@@ -1233,6 +1242,21 @@ export default function WardMap() {
   // which case addSourcesAndLayers picks up the same data on its own —
   // see that function's own comment.
   const applySecondaryCivicDataRef = useRef<(data: SecondaryCivicData) => void>(() => {});
+  // Whether fetchSecondaryCivicData (commissioners/state-legislature/city-
+  // boundaries — see that function's own comment) has settled yet, success
+  // or failure. Starts true (nothing has resolved at mount) and flips to
+  // false the moment the mount effect's fetchSecondaryCivicData().then()
+  // callback runs below, regardless of whether it got real data back or
+  // `null` — see issue #71. Read by the "Loading county/state data…"
+  // notice further down in the render (filterControls/sidebarLevelTabs):
+  // shown only while this is true *and* the resident is looking at County
+  // or State mode, so it never appears for the default Wards view (which
+  // never depended on this fetch) and disappears the instant this flips —
+  // whether that's because real data arrived or because the fetch failed
+  // outright. A failed fetch degrades to the same honest-empty-state
+  // silence every other missing feed gets (AGENTS.md §3.1), not a spinner
+  // stuck forever.
+  const [secondaryDataPending, setSecondaryDataPending] = useState(true);
 
   useEffect(() => {
     selectedRef.current = selected;
@@ -1279,6 +1303,10 @@ export default function WardMap() {
       // Only requested now that wards/mayors are already in hand — see
       // fetchSecondaryCivicData's own comment.
       fetchSecondaryCivicData().then((secondary) => {
+        // Flips the County/State "loading" notice off unconditionally —
+        // see secondaryDataPending's own comment for why success and
+        // failure(null) both count as "settled."
+        setSecondaryDataPending(false);
         if (!secondary) return;
         commissionersDataRef.current = secondary.commissioners;
         stateLegDataRef.current = secondary.stateLeg;
@@ -3167,6 +3195,37 @@ export default function WardMap() {
       active ? "" : "text-ink-3 hover:bg-sidebar-hover hover:text-ink"
     }`;
 
+  // "Still loading" notice for County/State mode while the background
+  // fetchSecondaryCivicData() request (commissioners/state-legislature —
+  // see that function's own comment) is still in flight (issue #71).
+  // `secondaryDataLoadingLabel` is `undefined` for "wards" (never gated on
+  // this fetch) and for the two secondary modes once that fetch has
+  // settled either way — see secondaryDataPending's own comment on why
+  // success and failure both count as "settled" — so this collapses to
+  // `null` well before any spinner could get stuck showing "loading"
+  // forever, matching the honest-empty-state posture the rest of the app
+  // uses for a missing feed (AGENTS.md §3.1) rather than inventing a new
+  // stuck-loading failure mode. role="status" + aria-live="polite" (not a
+  // stronger "alert" role) mirrors SearchBar's own transient-status
+  // pattern — nothing has gone wrong, so nothing here should read as an
+  // error. motion-safe:animate-spin keeps the actual spin off under
+  // prefers-reduced-motion (AGENTS.md §4) while leaving the ring itself
+  // visible, so the notice stays legible either way. Called with no
+  // variant param, unlike filterSectionLabel/filterListClass above: the
+  // copy and layout are identical in both the floating and sidebar flavor,
+  // there's no branch to make.
+  const secondaryDataLoadingLabel = SECONDARY_DATA_LOADING_LABEL[layerMode];
+  const secondaryDataNotice =
+    secondaryDataPending && secondaryDataLoadingLabel ? (
+      <p role="status" aria-live="polite" className="mt-1.5 flex items-center gap-1.5 text-xs text-ink-3">
+        <svg aria-hidden="true" viewBox="0 0 24 24" className="h-3 w-3 shrink-0 motion-safe:animate-spin">
+          <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" strokeWidth="3" strokeOpacity="0.25" />
+          <path d="M21 12a9 9 0 0 0-9-9" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
+        </svg>
+        {secondaryDataLoadingLabel}
+      </p>
+    ) : null;
+
   // filterControls (floating, for MobileNav's Filters tab) and
   // sidebarFilterControls (for the desktop left `<aside>` below) render
   // the same two groups but are written out separately rather than
@@ -3195,6 +3254,7 @@ export default function WardMap() {
             </button>
           ))}
         </div>
+        {secondaryDataNotice}
       </div>
 
       <div>
@@ -3272,6 +3332,7 @@ export default function WardMap() {
           </button>
         ))}
       </div>
+      {secondaryDataNotice}
     </div>
   );
 
