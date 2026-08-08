@@ -1,0 +1,99 @@
+name: Refresh MN state legislature bio details
+
+# Runs scripts/fetch-state-legislature-bio.mjs on a schedule and opens (or
+# updates) a PR with whatever changed in public/state-legislature.geojson
+# — never auto-commits to main. Same review-PR pattern as
+# refresh-state-legislature.yml (AGENTS.md §0.5 "Snapshot, don't
+# overwrite"); this workflow is deliberately separate from that one, not
+# a step added to it, because this script's upstream (senate.mn,
+# house.mn.gov — unkeyed, regex-scraped) is a different failure domain
+# than the roster/votes fetch's (Open States, a documented, keyed API).
+# A markup change on either legislative website breaks this workflow,
+# never the roster refresh that resolves address -> representative.
+#
+# Runs *after* the roster refresh in this same schedule window (13:30 UTC
+# vs. that workflow's 13:00 UTC) so a same-day roster change (a
+# resignation, a special election result) is already in
+# public/state-legislature.geojson before this script enriches it — this
+# script reads that file rather than re-deriving the roster itself (see
+# its own header). If the roster refresh's PR hasn't merged yet, this run
+# simply enriches whatever is currently on main, same as any other day.
+#
+# No API key needed at all — this workflow carries no secret.
+#
+# Cadence: same session-aware pattern as the roster refresh, offset by a
+# day so the two PRs don't compete for review attention on the same
+# morning. Bio-page fields (leadership, committee chairs, LAs) change far
+# less often than votes, but committee assignments do shift a few times a
+# session, hence still-weekly rather than monthly during session.
+on:
+  schedule:
+    - cron: "0 14 * 2,3,4,5 2" # every Tuesday 14:00 UTC, Feb-May (session)
+    - cron: "0 14 2 6,7,8,9,10,11,12,1 *" # 2nd of month 14:00 UTC, Jun-Jan (off-session)
+  workflow_dispatch: {} # manual "run now" from the Actions tab
+
+# Only one refresh in flight at a time — a second run landing mid-diff
+# would just race the first one's push to the same automation branch.
+concurrency:
+  group: refresh-state-legislature-bio
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  refresh:
+    name: Scrape senate.mn + house.mn.gov bio pages, open a review PR if anything changed
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: ".nvmrc"
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      # The script itself already fails loudly (exit 1) if
+      # public/state-legislature.geojson is missing, or if any enriched
+      # record's verifiedAt would predate the configured general election
+      # date — nothing extra to check here beyond letting that failure
+      # surface as a red workflow run.
+      - name: Scrape MN House + Senate bio pages, enrich the roster file
+        run: npm run data:state-legislature-bio
+
+      - name: Check whether the output actually changed
+        id: diff
+        run: |
+          if git diff --quiet -- public/state-legislature.geojson; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "No change in public/state-legislature.geojson — nothing to open a PR for."
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Open or update the review PR
+        if: steps.diff.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -e
+          BRANCH="automation/refresh-state-legislature-bio"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add public/state-legislature.geojson
+          git commit -m "chore(data): refresh MN state legislature bio details ($(date -u +%Y-%m-%d))"
+          git push --force origin "HEAD:refs/heads/$BRANCH"
+
+          BODY="Automated refresh via scripts/fetch-state-legislature-bio.mjs (see .github/workflows/refresh-state-legislature-bio.yml). Not auto-merged — review the geojson diff like any other data change (AGENTS.md §0.5). Source: senate.mn and house.mn.gov member bio pages — leadership titles, office rooms, legislative assistant contacts, committee chair/co-chair roles, term counts, district map/demographics links."
+
+          if gh pr view "$BRANCH" --json state -q .state 2>/dev/null | grep -q OPEN; then
+            gh pr edit "$BRANCH" --body "$BODY"
+            echo "PR already open for $BRANCH — pushed the new commit and updated its description."
+          else
+            gh pr create --base main --head "$BRANCH" --title "chore(data): refresh MN state legislature bio details" --body "$BODY"
+          fi
