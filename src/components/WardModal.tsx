@@ -260,6 +260,13 @@ function IconExternal() {
   );
 }
 
+// Recent votes' own disclosure toggle — the only section left with one
+// after the rest of the panel dropped its "More details" wrapper (see
+// OfficialCard). Unlike the other sections, a seat's roll-call history
+// genuinely grows without bound over time (§3.2's Legistar/Open States
+// integrations keep adding to it — see #57, #60), so it's the one place
+// still worth collapsing by default once it's long enough to be worth
+// skimming past, per DEFAULT_OPEN_VOTE_THRESHOLD below.
 function IconChevron() {
   return (
     <svg viewBox="0 0 20 20" fill="none" className="h-3.5 w-3.5 shrink-0 transition-transform duration-150 group-open:rotate-180">
@@ -268,17 +275,29 @@ function IconChevron() {
   );
 }
 
-// A card's committees/party-unity/recent-votes/meetings/office-details
-// block starts expanded when there isn't much in it yet (today's reality
-// for almost every seat — most feeds carry a handful of votes at most)
-// and starts collapsed once it's grown past a skim-friendly length, so a
-// resident scanning up to six stacked cards for "who represents me" isn't
-// forced to scroll past a wall of roll-call history for every single one.
-// Threshold is on recentVotes specifically — the section §3.2's Legistar/
-// Open States integrations are actively growing over time (see #57, #60),
-// not on committees or the static office-details fields, which don't grow
-// on their own. Nothing here is ever permanently hidden: it's a starting
-// state a resident can always open, never a removed feature.
+// Committees section's own header icon — the block below used to render
+// with no label at all (just chips), fine when it lived inside a "More
+// details" disclosure that named the whole group; now that that wrapper
+// is gone (see OfficialCard), every section needs its own heading, same
+// as Recent votes/Meetings already had.
+function IconUsers() {
+  return (
+    <svg viewBox="0 0 20 20" fill="none" className="h-4 w-4 shrink-0">
+      <circle cx="7" cy="7" r="2.5" stroke="currentColor" strokeWidth="1.5" />
+      <path d="M2.5 16c.5-3 2.3-4.5 4.5-4.5s4 1.5 4.5 4.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+      <circle cx="14" cy="7.5" r="2" stroke="currentColor" strokeWidth="1.5" />
+      <path d="M12.5 11.3c1.7.3 2.9 1.6 3.3 4.2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+// Recent votes starts expanded when there isn't much in it yet (today's
+// reality for almost every seat — most feeds carry a handful of votes at
+// most) and starts collapsed once it's grown past a skim-friendly
+// length, so a resident scanning up to six stacked cards for "who
+// represents me" isn't forced to scroll past a wall of roll-call history
+// for every single one. Nothing here is ever permanently hidden: it's a
+// starting state a resident can always open, never a removed feature.
 const DEFAULT_OPEN_VOTE_THRESHOLD = 3;
 
 // One recent-votes row. The plain-language gloss for a non-yes/no option
@@ -447,27 +466,16 @@ function OfficialCard({ rep }: { rep: RepProperties }) {
       )}
 
       {/* Everything below — contested-race candidates, committees, party
-          unity, recent votes, meetings, office/profile links — is the
-          "go deeper" material, collapsed behind a single native
-          <details>/<summary> disclosure rather than each having its own
-          always-rendered block. Unlike the City/County/State tiers this
-          replaced tabs for, hiding this doesn't hide *who represents you*
-          — name, role, party, and how to reach them are all already
-          visible above, unconditionally. This only compresses the
-          receipts a resident can choose to go read, per AGENTS.md §0.2 —
-          they're still one click away, not removed.
-          Starts open when there's not much here yet (DEFAULT_OPEN_VOTE_
-          THRESHOLD, see that constant's own comment) so today's sparse
-          feeds cost zero extra clicks; starts closed once a seat's vote
-          history has actually grown enough to be worth collapsing. */}
-      <details open={recentVotes.length <= DEFAULT_OPEN_VOTE_THRESHOLD} className="group border-t border-hair">
-        <summary
-          className="flex list-none items-center justify-between gap-2 px-4 py-2.5 text-xs font-semibold uppercase tracking-wide text-ink-3 cursor-pointer select-none hover:bg-sidebar-hover [&::-webkit-details-marker]:hidden"
-        >
-          More details
-          <IconChevron />
-        </summary>
-
+          unity, recent votes, meetings, office/profile links — used to
+          live behind a single "More details" <details>/<summary>
+          disclosure. Removed: with committees/votes/meetings each
+          already carrying their own heading, the wrapper's toggle wasn't
+          hiding a meaningful unit of content, just adding a click before
+          a resident could see it. Every section below now always
+          renders, same as Recent votes/Meetings already did — an absent
+          feed is still an honest gap stated inline (AGENTS.md §3.1), not
+          content a resident has to expand to find. */}
+      <div className="border-t border-hair">
         {isContested(rep) && (
           <div className="border-t border-hair px-4 py-3" style={{ backgroundColor: CONTESTED_COLOR_SOFT }}>
             <div
@@ -499,16 +507,22 @@ function OfficialCard({ rep }: { rep: RepProperties }) {
         )}
 
         {committees.length > 0 && (
-          <div className="border-t border-hair px-4 py-3 flex flex-wrap gap-1.5">
-            {committees.map((role) => (
-              <span
-                key={role}
-                className="text-[11px] font-medium px-2 py-1 rounded-full border"
-                style={{ color: accent, borderColor: accentSoft, backgroundColor: accentSoft }}
-              >
-                {role}
-              </span>
-            ))}
+          <div className="border-t border-hair px-4 py-3">
+            <div className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-ink-3 mb-2.5">
+              <IconUsers />
+              Committees
+            </div>
+            <div className="flex flex-wrap gap-1.5">
+              {committees.map((role) => (
+                <span
+                  key={role}
+                  className="text-[11px] font-medium px-2 py-1 rounded-full border"
+                  style={{ color: accent, borderColor: accentSoft, backgroundColor: accentSoft }}
+                >
+                  {role}
+                </span>
+              ))}
+            </div>
           </div>
         )}
 
@@ -543,23 +557,35 @@ function OfficialCard({ rep }: { rep: RepProperties }) {
             a feed exists for them. Skipped for Mayor: strong-mayor
             systems don't cast the kind of roll-call vote this section
             models, and no upstream source scoped here tracks mayoral
-            tie-breaking votes as one. */}
+            tie-breaking votes as one.
+
+            The one section in this card still behind its own <details>/
+            <summary> disclosure (see DEFAULT_OPEN_VOTE_THRESHOLD's own
+            comment) rather than always-open like everything else here —
+            a growing roll-call history is the one part of this card that
+            doesn't have a natural skim-friendly length, unlike a fixed
+            committee-membership list or a single meetings note. */}
         {rep.role !== "Mayor" && (
-          <div className="border-t border-hair px-4 py-3">
-            <div className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-ink-3 mb-2.5">
-              <IconBallot />
-              Recent votes
+          <details open={recentVotes.length <= DEFAULT_OPEN_VOTE_THRESHOLD} className="group border-t border-hair">
+            <summary className="flex list-none items-center justify-between gap-2 px-4 py-3 cursor-pointer select-none hover:bg-sidebar-hover [&::-webkit-details-marker]:hidden">
+              <span className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-ink-3">
+                <IconBallot />
+                Recent votes
+              </span>
+              <IconChevron />
+            </summary>
+            <div className="px-4 pb-3">
+              {recentVotes.length > 0 ? (
+                <ul className="space-y-2.5">
+                  {recentVotes.map((vote) => (
+                    <VoteRow key={vote.voteId} vote={vote} accent={accent} />
+                  ))}
+                </ul>
+              ) : (
+                <p className="text-sm text-ink-3">No voting record connected yet for {areaLabel(rep)}.</p>
+              )}
             </div>
-            {recentVotes.length > 0 ? (
-              <ul className="space-y-2.5">
-                {recentVotes.map((vote) => (
-                  <VoteRow key={vote.voteId} vote={vote} accent={accent} />
-                ))}
-              </ul>
-            ) : (
-              <p className="text-sm text-ink-3">No voting record connected yet for {areaLabel(rep)}.</p>
-            )}
-          </div>
+          </details>
         )}
 
         {/* This used to be a per-ward hearing/meeting schedule — deleted
@@ -628,7 +654,7 @@ function OfficialCard({ rep }: { rep: RepProperties }) {
             )}
           </div>
         )}
-      </details>
+      </div>
     </div>
   );
 }
@@ -708,8 +734,8 @@ function useTierStack() {
   // ended up with a wall of blank space below it — worse the more content
   // State already had. Measuring State's actual rendered height and
   // subtracting it fixes that, and re-measuring on resize means it stays
-  // correct live as a resident expands a card's "More details" disclosure
-  // inside State and its content grows.
+  // correct live as the panel's own width (and therefore each card's
+  // wrapped-text height) changes.
   useEffect(() => {
     const scrollRoot = scrollRootRef.current;
     const lastContent = lastContentRef.current;
@@ -957,9 +983,8 @@ export default function WardModal({ officials, onClose, hoveredCityName = null, 
             constant `100% - stackHeight` spacer (an earlier version of
             this) reserved the worst case unconditionally, leaving a wall
             of blank space below State once it had real content. This
-            shrinks live as State's content grows — including a resident
-            expanding a card's "More details" disclosure — via the
-            ResizeObserver in that hook. */}
+            shrinks live as State's content grows via the ResizeObserver
+            in that hook. */}
         <div aria-hidden style={{ height: `${spacerHeight}px` }} />
       </div>
     </div>
