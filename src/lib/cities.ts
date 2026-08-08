@@ -38,6 +38,10 @@ export const CITIES = [
   // "First elected/appointed to Council" date directly, so officeSince
   // below isn't a fallback for this city.
   "Lakeville",
+  // Same batch — Maple Grove is also fully at-large (5 seats: mayor + 4
+  // council members, confirmed on maplegrovemn.gov/301/Mayor-and-City-
+  // Council: "City councilmembers serve at large"), Hennepin County.
+  "Maple Grove",
 ] as const;
 export type City = (typeof CITIES)[number];
 
@@ -48,7 +52,7 @@ export type City = (typeof CITIES)[number];
 // city-boundaries feed against this list to build the at-large-boundary
 // layer (previously a separate fetch of its own, per-city GIS URL; see
 // git history for scripts/fetch-at-large-boundaries.mjs, now removed).
-export const AT_LARGE_CITIES: readonly City[] = ["Woodbury", "Eagan", "Lakeville"];
+export const AT_LARGE_CITIES: readonly City[] = ["Woodbury", "Eagan", "Lakeville", "Maple Grove"];
 
 // Dakota added alongside issue #65's batch — Eagan and Lakeville are this
 // app's first Dakota County cities. No collision with any existing city
@@ -80,7 +84,7 @@ export type County = (typeof COUNTIES)[number];
 export const COUNTY_CITIES: Record<County, City[]> = {
   Hennepin: [
     "Minneapolis", "Bloomington", "Plymouth", "Minnetonka", "St. Louis Park", "Richfield", "Champlin", "Crystal",
-    "Robbinsdale", "Brooklyn Park",
+    "Robbinsdale", "Brooklyn Park", "Maple Grove",
   ],
   Ramsey: ["St. Paul"],
   Anoka: ["Blaine", "Coon Rapids", "Fridley", "Ramsey"],

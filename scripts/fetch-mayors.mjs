@@ -460,6 +460,98 @@ const MAYORS = [
     verifiedAt: "2026-08-08",
     verifiedAgainst: "https://www.lakevillemn.gov/428/City-Council",
   },
+  // --- Maple Grove (Hennepin County) — fully at-large, no wards -------------
+  //
+  // Mayor + 4 council members, all elected citywide (maplegrovemn.gov/301/
+  // Mayor-and-City-Council: "City councilmembers serve at large"). Every
+  // field (including each member's own stated "Elected to council"/
+  // "Appointed to mayor" date) is read straight from that page. Steffenson
+  // is the only one of the five with his own bio sub-page; the other four
+  // fall back to the shared overview page as profileUrl.
+  {
+    city: "Maple Grove",
+    coordinates: [-93.4420501, 45.0992572], // Maple Grove Government Center, 12800 Arbor Lakes Pkwy N
+    repName: "Mark Steffenson",
+    repParty: NONPARTISAN,
+    repPhotoUrl: "https://www.maplegrovemn.gov/ImageRepository/Document?documentId=5496",
+    repEmail: "msteffenson@maplegrovemn.gov",
+    repPhone: "763-416-0490",
+    officeSince: "2001-08-01", // page states "Appointed to mayor August 2001; Elected January 2003"
+    committees: ["Mayor of Maple Grove"],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://www.maplegrovemn.gov/315/Mark-Steffenson",
+    verifiedAt: "2026-08-08",
+    verifiedAgainst: "https://www.maplegrovemn.gov/301/Mayor-and-City-Council",
+  },
+  {
+    city: "Maple Grove",
+    coordinates: [-93.4420501, 45.0992572],
+    role: "Council Member",
+    repName: "Rachelle Johnson",
+    repParty: NONPARTISAN,
+    repPhotoUrl: "https://www.maplegrovemn.gov/ImageRepository/Document?documentId=5495",
+    repEmail: "rajohnson@maplegrovemn.gov",
+    repPhone: "612-203-8209",
+    officeSince: "2023-01-01", // page states "Elected to council January 2023"
+    committees: [],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://www.maplegrovemn.gov/301/Mayor-and-City-Council",
+    verifiedAt: "2026-08-08",
+    verifiedAgainst: "https://www.maplegrovemn.gov/301/Mayor-and-City-Council",
+  },
+  {
+    city: "Maple Grove",
+    coordinates: [-93.4420501, 45.0992572],
+    role: "Council Member",
+    repName: "Kristy Janigo",
+    repParty: NONPARTISAN,
+    repPhotoUrl: "https://www.maplegrovemn.gov/ImageRepository/Document?documentId=5494",
+    repEmail: "kjanigo@maplegrovemn.gov",
+    repPhone: "612-708-9029",
+    officeSince: "2023-01-01", // page states "Elected to council January 2023"
+    committees: [],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://www.maplegrovemn.gov/301/Mayor-and-City-Council",
+    verifiedAt: "2026-08-08",
+    verifiedAgainst: "https://www.maplegrovemn.gov/301/Mayor-and-City-Council",
+  },
+  {
+    city: "Maple Grove",
+    coordinates: [-93.4420501, 45.0992572],
+    role: "Council Member",
+    repName: "Mike Ostaffe",
+    repParty: NONPARTISAN,
+    repPhotoUrl: "https://www.maplegrovemn.gov/ImageRepository/Document?documentId=9435",
+    repEmail: "mostaffe@maplegrovemn.gov",
+    repPhone: "763-445-9643",
+    officeSince: "2025-01-01", // page states "Elected to council January 2025"
+    committees: [],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://www.maplegrovemn.gov/301/Mayor-and-City-Council",
+    verifiedAt: "2026-08-08",
+    verifiedAgainst: "https://www.maplegrovemn.gov/301/Mayor-and-City-Council",
+  },
+  {
+    city: "Maple Grove",
+    coordinates: [-93.4420501, 45.0992572],
+    role: "Council Member",
+    repName: "Jon McCullough",
+    repParty: NONPARTISAN,
+    repPhotoUrl: "https://www.maplegrovemn.gov/ImageRepository/Document?documentId=9436",
+    repEmail: "jmccullough@maplegrovemn.gov",
+    repPhone: "612-405-0001",
+    officeSince: "2025-01-01", // page states "Elected to council January 2025"
+    committees: [],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://www.maplegrovemn.gov/301/Mayor-and-City-Council",
+    verifiedAt: "2026-08-08",
+    verifiedAgainst: "https://www.maplegrovemn.gov/301/Mayor-and-City-Council",
+  },
 ];
 
 async function main() {
