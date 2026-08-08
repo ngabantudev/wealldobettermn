@@ -313,6 +313,21 @@ const POINT_ZOOM_PADDING_DEGREES = 0.01;
 interface SelectedArea {
   officials: AreaOfficials;
   pinned: boolean;
+  // The name of whichever city-limit polygon the cursor/click actually sits
+  // inside, independent of whether that city resolved any officials.
+  // officials.city is empty for the ~most of Minnesota's cities that this
+  // app has no ward/mayor data for (city-boundaries is a statewide backdrop
+  // layer — see CITY_BOUNDARIES_FILL_LAYER_ID's own comment — but the
+  // officials layers only cover the 17-ish cities in cities.ts), and for
+  // those, panelHeading previously had nothing to name the location with at
+  // all. Set from the hovered/clicked feature's own city name (ward's
+  // `city` property, or city-boundaries' `name` property) wherever that's
+  // known, so WardModal can always say *which* city limit is under the
+  // cursor even when there's no representative data for it yet — never
+  // left for officials.city to imply on its own. Undefined/null wherever no
+  // single city applies (a county or state-legislature district hover,
+  // which can straddle city lines or none at all).
+  hoveredCityName?: string | null;
 }
 
 interface PinMarker {
@@ -1336,8 +1351,8 @@ export default function WardMap() {
   // of their own to offer; those simply can't ever toggle off by re-
   // selection (existing "tap away"/re-click-the-panel-close-button paths
   // still work regardless).
-  const selectPinned = (officials: AreaOfficials, identity: string | null = null) => {
-    setSelected({ officials, pinned: true });
+  const selectPinned = (officials: AreaOfficials, identity: string | null = null, hoveredCityName: string | null = null) => {
+    setSelected({ officials, pinned: true, hoveredCityName });
     selectedIdentityRef.current = identity;
     setAnnouncement(summarizeOfficials(officials));
     if (rightDetailCollapsedRef.current) setRightDetailCollapsed(false);
@@ -1975,7 +1990,7 @@ export default function WardMap() {
 
       el.addEventListener("mouseenter", () => {
         if (!isDesktopHover || selectedRef.current?.pinned) return;
-        setSelected({ officials: resolveSelectionAtPoint(point, properties), pinned: false });
+        setSelected({ officials: resolveSelectionAtPoint(point, properties), pinned: false, hoveredCityName: properties.city });
       });
       el.addEventListener("mouseleave", () => {
         if (!isDesktopHover || selectedRef.current?.pinned) return;
@@ -1995,7 +2010,7 @@ export default function WardMap() {
           deselect();
           return;
         }
-        selectPinned(resolveSelectionAtPoint(point, properties), identity);
+        selectPinned(resolveSelectionAtPoint(point, properties), identity, properties.city);
         setActiveMobileSheet(null); // see applySearchResult's comment on this same call
         zoomToBounds(zoomBounds);
       });
@@ -2546,7 +2561,7 @@ export default function WardMap() {
         const hoverIdentity = `at-large:${feature.properties?.city}`;
         if (hoverIdentity === lastHoverIdentityRef.current) return;
         lastHoverIdentityRef.current = hoverIdentity;
-        setSelected({ officials: resolveSelectionAtPoint(point), pinned: false });
+        setSelected({ officials: resolveSelectionAtPoint(point), pinned: false, hoveredCityName: feature.properties?.city ?? null });
         return;
       }
       // city-boundaries features carry only `{ name, county, population,
@@ -2581,7 +2596,7 @@ export default function WardMap() {
         const hoverIdentity = `city-boundary:${feature.properties?.name}`;
         if (hoverIdentity === lastHoverIdentityRef.current) return;
         lastHoverIdentityRef.current = hoverIdentity;
-        setSelected({ officials: resolveSelectionAtPoint(point), pinned: false });
+        setSelected({ officials: resolveSelectionAtPoint(point), pinned: false, hoveredCityName: feature.properties?.name ?? null });
         return;
       }
       // The hovered layer's own hit seeds its tier exactly (see
@@ -2596,7 +2611,7 @@ export default function WardMap() {
       const hoverIdentity = officialIdentity(known);
       if (hoverIdentity === lastHoverIdentityRef.current) return;
       lastHoverIdentityRef.current = hoverIdentity;
-      setSelected({ officials: resolveSelectionAtPoint(point, known), pinned: false });
+      setSelected({ officials: resolveSelectionAtPoint(point, known), pinned: false, hoveredCityName: known.city });
     };
     const handleHoverLeave = () => {
       if (!isDesktopHover) return;
@@ -2652,7 +2667,7 @@ export default function WardMap() {
           return;
         }
         const point = toPoint(e.lngLat);
-        selectPinned(resolveSelectionAtPoint(point), identity);
+        selectPinned(resolveSelectionAtPoint(point), identity, (hit.properties?.city as string | undefined) ?? null);
         setActiveMobileSheet(null);
         const boundaryFeature = atLargeBoundariesDataRef.current?.features.find(
           (f) => f.properties?.city === hit.properties?.city,
@@ -2677,7 +2692,7 @@ export default function WardMap() {
           return;
         }
         const point = toPoint(e.lngLat);
-        selectPinned(resolveSelectionAtPoint(point), identity);
+        selectPinned(resolveSelectionAtPoint(point), identity, (hit.properties?.name as string | undefined) ?? null);
         setActiveMobileSheet(null);
         const boundaryFeature = cityBoundariesDataRef.current?.features.find(
           (f) => f.properties?.name === hit.properties?.name,
@@ -2732,7 +2747,7 @@ export default function WardMap() {
         return;
       }
       const point = toPoint(e.lngLat);
-      selectPinned(resolveSelectionAtPoint(point, known), identity);
+      selectPinned(resolveSelectionAtPoint(point, known), identity, known.city);
       setActiveMobileSheet(null); // see applySearchResult's comment on this same call
       zoomToBounds(boundsFromFeature((fullFeature ?? hit) as Feature<Geometry>));
     });
@@ -3084,7 +3099,7 @@ export default function WardMap() {
   // the modal *and* opens that tab in the same gesture (handleMobileTabSelect
   // below), rather than leaving the first tap stranded doing nothing.
   const mobileSheetContent = selected ? (
-    <WardModal officials={selected.officials} onClose={deselect} variant="sheet" />
+    <WardModal officials={selected.officials} onClose={deselect} hoveredCityName={selected.hoveredCityName} variant="sheet" />
   ) : activeMobileSheet === "search" ? (
     searchBar
   ) : activeMobileSheet === "filters" ? (
@@ -3377,7 +3392,7 @@ export default function WardMap() {
         >
           <div className="flex h-full w-80 shrink-0 flex-col lg:w-96">
             {selected ? (
-              <WardModal officials={selected.officials} onClose={deselect} variant="sidebar" />
+              <WardModal officials={selected.officials} onClose={deselect} hoveredCityName={selected.hoveredCityName} variant="sidebar" />
             ) : (
               <div className="flex flex-1 flex-col items-center justify-center gap-3 px-6 py-10 text-center text-sm text-ink-3">
                 <svg viewBox="0 0 20 20" fill="none" aria-hidden="true" className="h-8 w-8 shrink-0 text-sidebar-accent">

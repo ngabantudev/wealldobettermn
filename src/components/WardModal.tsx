@@ -641,6 +641,11 @@ const TIER_SECTIONS: TierSection[] = [
 export interface WardModalProps {
   officials: AreaOfficials;
   onClose: () => void;
+  // Which city-limit polygon the cursor/click is actually inside, per
+  // WardMap's SelectedArea.hoveredCityName — see that field's own comment.
+  // Only ever consulted by panelHeading, and only when `officials.city`
+  // came back empty.
+  hoveredCityName?: string | null;
   // "sheet" (the default): this component owns its own card chrome — a
   // rounded, bordered, shadowed surface meant to float over the map or
   // MapLibre's dimmed scrim. That's mobile's bottom sheet and (previously)
@@ -664,11 +669,20 @@ export interface WardModalProps {
 // to the previous static copy when the point falls outside every mapped
 // city (§3.3 coverage honesty — no city officials resolved is not an
 // error, just nothing to name).
-function panelHeading(officials: AreaOfficials): string {
+function panelHeading(officials: AreaOfficials, hoveredCityName?: string | null): string {
   const wardRep = officials.city.find((rep) => rep.role === "Council Member");
   if (wardRep) return `${wardRep.city} - ${roleLabel(wardRep)}`;
   const cityRep = officials.city[0];
   if (cityRep) return cityRep.city;
+  // No officials resolved at this point — most of the state, since the
+  // city-limits backdrop layer (#72) is statewide but the officials layers
+  // only cover the handful of cities in cities.ts. Name whichever city
+  // limit the cursor/click actually landed inside anyway (passed down from
+  // WardMap's hover/click handlers — see SelectedArea.hoveredCityName's own
+  // comment) rather than falling through to the generic copy below: a
+  // resident hovering Duluth should see "Duluth," not a location-less
+  // placeholder, even though this site has no representatives for it yet.
+  if (hoveredCityName) return hoveredCityName;
   return "Representatives for this location";
 }
 
@@ -692,7 +706,7 @@ function panelHeading(officials: AreaOfficials): string {
 // and this panel are answering two different questions ("what's drawn on
 // the map" vs. "who represents this specific point"), not the same one
 // twice.
-export default function WardModal({ officials, onClose, variant = "sheet" }: WardModalProps) {
+export default function WardModal({ officials, onClose, hoveredCityName = null, variant = "sheet" }: WardModalProps) {
   const wrapperClass =
     variant === "sidebar"
       ? "pointer-events-auto flex h-full w-full flex-col overflow-y-auto"
@@ -727,7 +741,7 @@ export default function WardModal({ officials, onClose, variant = "sheet" }: War
         className="flex items-center justify-between gap-2 px-4 pt-2 pb-2 sm:pt-4 shrink-0"
         style={{ backgroundColor: PANEL_HEADER_BG, color: PANEL_HEADER_TEXT }}
       >
-        <h2 className="text-2xl font-extrabold">{panelHeading(officials)}</h2>
+        <h2 className="text-2xl font-extrabold">{panelHeading(officials, hoveredCityName)}</h2>
         <button
           type="button"
           onClick={onClose}
