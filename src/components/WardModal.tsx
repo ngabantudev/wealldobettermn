@@ -901,6 +901,19 @@ export default function WardModal({ officials, onClose, hoveredCityName = null, 
           drawing the eye to this row in the first place. */}
       <div className="flex-1 min-h-0 overflow-y-auto">
         <TierNode index={0} officials={officials} onHeaderRef={onHeaderRef} headerHeight={headerHeight} />
+        {/* Reserves enough extra scroll room for State's header to reach
+            its dock line even when State's own content is shorter than
+            the scroll region is tall. Without this, the scrollable area
+            simply ends — the browser can't scroll further — once State's
+            content runs out, which can leave State's header short of
+            top: 2 * headerHeight and it never docks (the bug this fixes:
+            "State doesn't scroll up all the way, seems to hit the end of
+            the scrollbar"). `calc(100% - stack height)` is exactly enough
+            in the worst case (State has ~0 content of its own) and never
+            adds *more* than needed once State has real content, since the
+            required extra scroll distance shrinks by exactly however much
+            State's own content already provides. */}
+        <div aria-hidden style={{ height: `calc(100% - ${TIER_SECTIONS.length * headerHeight}px)` }} />
       </div>
     </div>
   );
