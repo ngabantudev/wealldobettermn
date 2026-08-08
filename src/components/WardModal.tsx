@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { BillVote, RepProperties } from "@/lib/types";
 import type { AreaOfficials } from "@/lib/officials";
 import { officialIdentity } from "@/lib/officials";
@@ -647,6 +647,76 @@ const TIER_SECTIONS: TierSection[] = [
   { key: "state", label: "State", emptyNote: STATE_TIER_EMPTY_NOTE },
 ];
 
+// Drives the "stacking" scroll effect on the City/County/State sections:
+// each tier's <h2> docks via plain CSS `position: sticky` at an offset equal
+// to however many headers are already stacked above it (index * headerH),
+// which is what makes County's header park directly under City's, then
+// State's under County's, as the user scrolls — no JS needed for that part.
+//
+// What *does* need JS is collapsing a tier's content once it's been fully
+// scrolled underneath the header stack: sticky alone leaves that content
+// sitting there, invisible but still occupying scroll height, so a resident
+// keeps scrolling through empty space to reach the next tier. An
+// IntersectionObserver per non-first header watches the line each header
+// docks at (root margin shrunk from the top by index * headerH). When a
+// header crosses that line, the tier above it collapses; scrolling back up
+// past the line un-collapses it, so the motion is symmetric in both
+// directions, matching how sticky headers behave natively.
+//
+// Deliberately does not touch the DOM presence of collapsed content — no
+// `hidden`, no `aria-hidden`. Collapsing only changes a CSS grid track to
+// 0fr and clips it with `overflow-hidden`; the section, its <h2>, and its
+// officials remain in the accessibility tree exactly as before. That's the
+// same reason #53's tab version got reverted (see the comment above
+// TIER_SECTIONS's render below) — this is a scroll-driven compaction, not a
+// click-gated hide, so it doesn't reintroduce that tradeoff.
+function useStackedTierCollapse(sectionCount: number) {
+  const scrollRootRef = useRef<HTMLDivElement | null>(null);
+  const headerRefs = useRef<Array<HTMLHeadingElement | null>>([]);
+  const [collapsed, setCollapsed] = useState<boolean[]>(() => Array(sectionCount).fill(false));
+  // Measured once from the first header, then reused as every header's
+  // `top` offset (index * headerHeight) — all three tier headers share the
+  // same classes, so one measurement is enough for the whole stack.
+  const [headerHeight, setHeaderHeight] = useState(0);
+
+  useEffect(() => {
+    const root = scrollRootRef.current;
+    if (!root) return;
+
+    const firstHeader = headerRefs.current[0];
+    const measuredHeight = firstHeader?.getBoundingClientRect().height ?? 0;
+    if (!measuredHeight) return;
+    setHeaderHeight(measuredHeight);
+
+    // One observer per header that has a predecessor to collapse — header 0
+    // (City) never collapses anything above it.
+    const observers: IntersectionObserver[] = [];
+    for (let i = 1; i < sectionCount; i += 1) {
+      const header = headerRefs.current[i];
+      if (!header) continue;
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          setCollapsed((prev) => {
+            if (prev[i - 1] === !entry.isIntersecting) return prev;
+            const next = [...prev];
+            next[i - 1] = !entry.isIntersecting;
+            return next;
+          });
+        },
+        { root, rootMargin: `-${Math.round(i * measuredHeight)}px 0px 0px 0px`, threshold: 0 },
+      );
+      observer.observe(header);
+      observers.push(observer);
+    }
+    return () => observers.forEach((o) => o.disconnect());
+    // sectionCount only ever changes with TIER_SECTIONS, which is a static
+    // module-level constant — this effect re-measures on every mount, which
+    // is the only time header layout can change.
+  }, [sectionCount]);
+
+  return { scrollRootRef, headerRefs, collapsed, headerHeight };
+}
+
 export interface WardModalProps {
   officials: AreaOfficials;
   onClose: () => void;
@@ -716,9 +786,16 @@ function panelHeading(officials: AreaOfficials, hoveredCityName?: string | null)
 // the map" vs. "who represents this specific point"), not the same one
 // twice.
 export default function WardModal({ officials, onClose, hoveredCityName = null, variant = "sheet" }: WardModalProps) {
+  const { scrollRootRef, headerRefs, collapsed, headerHeight } = useStackedTierCollapse(TIER_SECTIONS.length);
+
+  // Both variants now scroll from the same div (the tier list below) rather
+  // than sidebar additionally scrolling its own outer wrapper — the sticky
+  // headers and the IntersectionObserver above both need one unambiguous
+  // scrolling ancestor to dock/collapse against, not two nested
+  // overflow-y-auto regions that only one of ever actually engages.
   const wrapperClass =
     variant === "sidebar"
-      ? "pointer-events-auto flex h-full w-full flex-col overflow-y-auto"
+      ? "pointer-events-auto flex h-full w-full flex-col overflow-hidden"
       : "pointer-events-auto w-full sm:w-[380px] max-h-[75vh] sm:max-h-[80vh] flex flex-col rounded-t-2xl sm:rounded-2xl border border-hair bg-panel-2 shadow-2xl shadow-(color:--shadow-panel) overflow-hidden";
 
   // "sidebar": no role here — it's mounted inside WardMap's own persistent
@@ -781,28 +858,54 @@ export default function WardModal({ officials, onClose, hoveredCityName = null, 
           jump out — a small rounded badge sitting in open whitespace did
           that job far more weakly once there was no longer a tab strip
           drawing the eye to this row in the first place. */}
-      <div className="overflow-y-auto">
-        {TIER_SECTIONS.map(({ key, label, emptyNote }) => {
+      <div ref={scrollRootRef} className="flex-1 min-h-0 overflow-y-auto">
+        {TIER_SECTIONS.map(({ key, label, emptyNote }, index) => {
           const reps = officials[key];
           const headingId = `officials-tier-${key}-heading`;
+          const isCollapsed = collapsed[index] ?? false;
           return (
             <section key={key} aria-labelledby={headingId}>
+              {/* Sticky, not fixed: each header docks at a `top` offset
+                  equal to the ones already stacked above it, so City parks
+                  at the very top of the scroll region, County slides up and
+                  parks directly under it, then State under County — plain
+                  CSS position:sticky stacking, no JS involved in the
+                  docking itself. */}
               <h2
+                ref={(el) => {
+                  headerRefs.current[index] = el;
+                }}
                 id={headingId}
-                className="px-4 py-2 text-xs font-semibold uppercase tracking-wide"
-                style={{ backgroundColor: TIER_HEADER_BG, color: TIER_HEADER_TEXT }}
+                className="sticky z-10 px-4 py-2 text-xs font-semibold uppercase tracking-wide"
+                style={{ top: `${index * headerHeight}px`, backgroundColor: TIER_HEADER_BG, color: TIER_HEADER_TEXT }}
               >
                 {label}
               </h2>
-              {reps.length > 0 ? (
-                <div className="divide-y divide-hair">
-                  {reps.map((rep) => (
-                    <OfficialCard key={officialIdentity(rep)} rep={rep} />
-                  ))}
+              {/* Collapses to 0 height once this tier has scrolled fully
+                  under the header stack (see useStackedTierCollapse above)
+                  and re-expands scrolling back up past that point — a CSS
+                  grid-track animation rather than max-height, since it
+                  doesn't need a hardcoded/guessed content height. The
+                  content itself is never removed from the DOM or marked
+                  aria-hidden, so heading navigation still reaches every
+                  tier's officials regardless of collapsed state. */}
+              <div
+                className={`grid overflow-hidden transition-[grid-template-rows] duration-200 ease-out motion-reduce:transition-none ${
+                  isCollapsed ? "grid-rows-[0fr]" : "grid-rows-[1fr]"
+                }`}
+              >
+                <div className="overflow-hidden">
+                  {reps.length > 0 ? (
+                    <div className="divide-y divide-hair">
+                      {reps.map((rep) => (
+                        <OfficialCard key={officialIdentity(rep)} rep={rep} />
+                      ))}
+                    </div>
+                  ) : (
+                    <p className="px-4 pb-3 text-sm text-ink-3">{emptyNote}</p>
+                  )}
                 </div>
-              ) : (
-                <p className="px-4 pb-3 text-sm text-ink-3">{emptyNote}</p>
-              )}
+              </div>
             </section>
           );
         })}
