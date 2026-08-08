@@ -42,6 +42,13 @@ export const CITIES = [
   // council members, confirmed on maplegrovemn.gov/301/Mayor-and-City-
   // Council: "City councilmembers serve at large"), Hennepin County.
   "Maple Grove",
+  // Same batch — Apple Valley (Dakota County; not to be confused with
+  // Apple Valley, California) is also fully at-large, confirmed against
+  // its own site. No individual email/phone is published anywhere on
+  // applevalleymn.gov — only a general municipal line and per-member web
+  // contact forms — so those fields ship null rather than a shared inbox
+  // number or a guessed address.
+  "Apple Valley",
 ] as const;
 export type City = (typeof CITIES)[number];
 
@@ -52,7 +59,7 @@ export type City = (typeof CITIES)[number];
 // city-boundaries feed against this list to build the at-large-boundary
 // layer (previously a separate fetch of its own, per-city GIS URL; see
 // git history for scripts/fetch-at-large-boundaries.mjs, now removed).
-export const AT_LARGE_CITIES: readonly City[] = ["Woodbury", "Eagan", "Lakeville", "Maple Grove"];
+export const AT_LARGE_CITIES: readonly City[] = ["Woodbury", "Eagan", "Lakeville", "Maple Grove", "Apple Valley"];
 
 // Dakota added alongside issue #65's batch — Eagan and Lakeville are this
 // app's first Dakota County cities. No collision with any existing city
@@ -89,5 +96,5 @@ export const COUNTY_CITIES: Record<County, City[]> = {
   Ramsey: ["St. Paul"],
   Anoka: ["Blaine", "Coon Rapids", "Fridley", "Ramsey"],
   Washington: ["Woodbury"],
-  Dakota: ["Eagan", "Lakeville"],
+  Dakota: ["Eagan", "Lakeville", "Apple Valley"],
 };

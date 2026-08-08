@@ -552,6 +552,105 @@ const MAYORS = [
     verifiedAt: "2026-08-08",
     verifiedAgainst: "https://www.maplegrovemn.gov/301/Mayor-and-City-Council",
   },
+  // --- Apple Valley (Dakota County) — fully at-large, no wards --------------
+  //
+  // Not to be confused with Apple Valley, California — every field below is
+  // read from the Minnesota city's own site, applevalleymn.gov. Mayor + 4
+  // council members, all elected citywide (confirmed via a live news
+  // roundup and the city's own "Elections and Voting" page; no wards).
+  // applevalleymn.gov/27/City-Council states only "Served since <year>" per
+  // member (no month/day, so January 1 fills the unstated day within that
+  // stated year) and publishes no individual email or phone anywhere on the
+  // site — only a general municipal line (952-953-2500) and per-member web
+  // contact forms — so repEmail/repPhone stay null rather than substituting
+  // the shared number or a guessed address. A generic web search separately
+  // surfaced a plausible-looking direct email/phone for Mayor Hooppaw that
+  // does NOT appear anywhere on applevalleymn.gov itself; confirmed as
+  // stale/unsourced third-party data and deliberately not used here.
+  {
+    city: "Apple Valley",
+    coordinates: [-93.2090127, 44.7346234], // Apple Valley Municipal Center, 7100 147th St W
+    repName: "Clint Hooppaw",
+    repParty: NONPARTISAN,
+    repPhotoUrl: "https://www.applevalleymn.gov/ImageRepository/Document?documentID=16704",
+    repEmail: null,
+    repPhone: null,
+    officeSince: "2011-01-01", // page states "Served since 2011"
+    committees: ["Mayor of Apple Valley"],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://www.applevalleymn.gov/27/City-Council",
+    verifiedAt: "2026-08-08",
+    verifiedAgainst: "https://www.applevalleymn.gov/27/City-Council",
+  },
+  {
+    city: "Apple Valley",
+    coordinates: [-93.2090127, 44.7346234],
+    role: "Council Member",
+    repName: "John Bergman",
+    repParty: NONPARTISAN,
+    repPhotoUrl: "https://www.applevalleymn.gov/ImageRepository/Document?documentID=16701",
+    repEmail: null,
+    repPhone: null,
+    officeSince: "2003-01-01", // page states "Served since 2003"
+    committees: [],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://www.applevalleymn.gov/27/City-Council",
+    verifiedAt: "2026-08-08",
+    verifiedAgainst: "https://www.applevalleymn.gov/27/City-Council",
+  },
+  {
+    city: "Apple Valley",
+    coordinates: [-93.2090127, 44.7346234],
+    role: "Council Member",
+    repName: "Ruth Grendahl",
+    repParty: NONPARTISAN,
+    repPhotoUrl: "https://www.applevalleymn.gov/ImageRepository/Document?documentID=16705",
+    repEmail: null,
+    repPhone: null,
+    officeSince: "1997-01-01", // page states "Served since 1997"
+    committees: [],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://www.applevalleymn.gov/27/City-Council",
+    verifiedAt: "2026-08-08",
+    verifiedAgainst: "https://www.applevalleymn.gov/27/City-Council",
+  },
+  {
+    city: "Apple Valley",
+    coordinates: [-93.2090127, 44.7346234],
+    role: "Council Member",
+    repName: "Lisa Hiebert",
+    repParty: NONPARTISAN,
+    repPhotoUrl: "https://www.applevalleymn.gov/ImageRepository/Document?documentID=18866",
+    repEmail: null,
+    repPhone: null,
+    officeSince: "2025-01-01", // page states "Served since 2025"
+    committees: [],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://www.applevalleymn.gov/27/City-Council",
+    verifiedAt: "2026-08-08",
+    verifiedAgainst: "https://www.applevalleymn.gov/27/City-Council",
+  },
+  {
+    city: "Apple Valley",
+    coordinates: [-93.2090127, 44.7346234],
+    role: "Council Member",
+    repName: "Tom Melander",
+    repParty: NONPARTISAN,
+    repPhotoUrl: "https://www.applevalleymn.gov/ImageRepository/Document?documentID=16703",
+    repEmail: null,
+    repPhone: null,
+    officeSince: "2021-01-01", // page states "Served since 2021"
+    committees: [],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://www.applevalleymn.gov/27/City-Council",
+    verifiedAt: "2026-08-08",
+    verifiedAgainst: "https://www.applevalleymn.gov/27/City-Council",
+  },
 ];
 
 async function main() {
