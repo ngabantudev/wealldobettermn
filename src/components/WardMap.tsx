@@ -342,12 +342,18 @@ interface PinMarker {
 // hierarchy, so when pins do start crowding at a low zoom, the most
 // numerous/least individually consequential role (Council Member)
 // recedes first while state/county pins stay legible longest.
+// Non-Mayor floors/ceilings raised from their original 14–22/34–40 range —
+// small enough at the old sizes (14px for Council Member, the most common
+// pin on the map) that an official's photo was an unreadable smudge rather
+// than a recognizable face. Still strictly below Mayor at every tier, so
+// the hierarchy this file's own comment above describes is unchanged —
+// just shifted up as a block for legibility.
 const PIN_SIZE_RANGE_BY_ROLE: Partial<Record<RepProperties["role"], { min: number; max: number }>> = {
   Mayor: { min: 30, max: 52 },
-  "County Commissioner": { min: 22, max: 40 },
-  "State Senator": { min: 20, max: 38 },
-  "State Representative": { min: 18, max: 36 },
-  "Council Member": { min: 14, max: 34 },
+  "County Commissioner": { min: 26, max: 46 },
+  "State Senator": { min: 24, max: 44 },
+  "State Representative": { min: 22, max: 42 },
+  "Council Member": { min: 20, max: 40 },
 };
 const DEFAULT_PIN_SIZE_RANGE = { min: 18, max: 44 };
 
@@ -1011,6 +1017,16 @@ export default function WardMap() {
   const lastHoverIdentityRef = useRef<string | null>(null);
   const [selected, setSelected] = useState<SelectedArea | null>(null);
   const selectedRef = useRef<SelectedArea | null>(null);
+  // Identity of whichever ward/at-large/commissioner/state-leg area (or
+  // pin) is currently *pinned* — as opposed to `selected` itself, which
+  // also holds transient hover state and can't be compared directly
+  // (hover overwrites it constantly, with no identity of its own). Lets
+  // the click handlers below tell "clicking the thing that's already
+  // selected" apart from "clicking something new": same identity twice in
+  // a row means toggle it off (deselect, camera back to the mode's
+  // default extent) rather than re-selecting and re-zooming to the exact
+  // same target. Cleared by deselect(), set by selectPinned() — see both.
+  const selectedIdentityRef = useRef<string | null>(null);
   // Screen-reader announcement for the detail panel — set only from a
   // pinned (click/tap/search-result) selection, never from hover, same
   // "don't move focus, just announce" pattern as SearchBar's own
@@ -1208,6 +1224,7 @@ export default function WardMap() {
 
   const deselect = () => {
     setSelected(null);
+    selectedIdentityRef.current = null;
     setAnnouncement("Representative panel closed.");
     zoomToDefault();
   };
@@ -1262,8 +1279,18 @@ export default function WardMap() {
   // had collapsed it — unlike a hover, which never reopens a sidebar
   // they've deliberately hidden; see the right toggle button's own
   // comment further down for why that asymmetry is deliberate.
-  const selectPinned = (officials: AreaOfficials) => {
+  // `identity` is whatever the caller used to decide this was worth
+  // selecting in the first place (an officialIdentity() string for a real
+  // office, or the same "at-large:<city>"/"city-boundary:<name>" shape
+  // handleHoverMove already uses for the two officeless layers) — stashed
+  // so a second click on the same area can be told apart from a click on
+  // something new. Optional only for call sites with no natural identity
+  // of their own to offer; those simply can't ever toggle off by re-
+  // selection (existing "tap away"/re-click-the-panel-close-button paths
+  // still work regardless).
+  const selectPinned = (officials: AreaOfficials, identity: string | null = null) => {
     setSelected({ officials, pinned: true });
+    selectedIdentityRef.current = identity;
     setAnnouncement(summarizeOfficials(officials));
     if (rightDetailCollapsedRef.current) setRightDetailCollapsed(false);
   };
@@ -1399,7 +1426,18 @@ export default function WardMap() {
     }
   };
 
-  const toggleCity = (city: City) => {
+  // flyTo defaults on for the legend checkbox's own onChange (the actual
+  // "enabling a city" gesture this is for) but is turned off by
+  // prepareWardsView below — that call exists only to make sure a search
+  // target's city isn't hidden, and it's immediately followed, same tick,
+  // by that search's own more specific fitBounds (a single ward, or a
+  // multi-city county extent). Flying here too would just be a redundant
+  // fitBounds superseded a moment later by the real target — the exact
+  // "visible double-animation for what should read as one motion" this
+  // file's other zoom helpers already go out of their way to avoid (see
+  // prepareWardsView's own comment on skipping zoomToDefault for the same
+  // reason).
+  const toggleCity = (city: City, { flyTo = true }: { flyTo?: boolean } = {}) => {
     setVisibleCities((prev) => {
       const next = { ...prev, [city]: !prev[city] };
       // Mirrored onto the ref synchronously (not just via the effect that
@@ -1412,6 +1450,18 @@ export default function WardMap() {
       // opens still filters that city's own official back out.
       visibleCitiesRef.current = next;
       applyCityFilter(next);
+      // Enabling a city via the legend checkbox (not hiding one — next[city]
+      // false means the branch below runs instead) flies the camera to that
+      // city's own extent, same as picking it from city search does
+      // (applyCityZoom above) — a resident ticking a box wants to see the
+      // place they just asked for, not trust it's somewhere in the current
+      // view. Bounds come from whatever geometry is loaded so far; if wards/
+      // at-large data hasn't arrived yet, boundsForCity returns null and this
+      // just no-ops rather than zooming nowhere.
+      if (next[city] && flyTo) {
+        const bounds = boundsForCity(city);
+        if (bounds) zoomToBoundsNoModal(bounds);
+      }
       // If hiding this city empties the panel's City (and County, which
       // shares the same per-city visibility — see filterHiddenCityOfficials)
       // section, re-filter what's shown. If that leaves every tier empty,
@@ -1448,6 +1498,16 @@ export default function WardMap() {
       for (const city of cities) next[city] = visible;
       visibleCitiesRef.current = next;
       applyCityFilter(next);
+      // Both "All" and "None" fly to the same place: the current mode's
+      // default extent — the exact same zoomToDefault() the "tap away"/
+      // panel-close deselect gesture already flies to (see deselect's own
+      // comment). Deliberately not a per-city-set union computed from just
+      // `cities` — that would put "All" and "None" at two different
+      // targets (the whole set's bounds vs. some other extent), and would
+      // disagree with what deselecting already shows for "nothing/
+      // everything selected." One shared "resting position" for every
+      // gesture that means "show me the default view" is the point.
+      zoomToDefault();
       if (selectedRef.current) {
         const current = selectedRef.current;
         const filtered = filterHiddenCityOfficials(current.officials, next);
@@ -1525,7 +1585,11 @@ export default function WardMap() {
       setLayerMode("wards");
       applyLayerMode("wards");
     }
-    if (!visibleCitiesRef.current[city]) toggleCity(city);
+    // flyTo: false — same reasoning as skipping zoomToDefault above, just
+    // for toggleCity's own fly-to-city-on-enable instead: the caller
+    // (applySearchResult/applyCityZoom/applyCountyZoom) fires its own,
+    // more specific fitBounds right after this returns, same tick.
+    if (!visibleCitiesRef.current[city]) toggleCity(city, { flyTo: false });
   };
 
   // The three SearchBar outcomes that resolve to a map action — see
@@ -1551,7 +1615,11 @@ export default function WardMap() {
     // placement — there's no ward "office address" to anchor to instead.
     const point = toPoint(bounds.getCenter());
     const known = normalizeRepProperties(feature.properties);
-    selectPinned(resolveSelectionAtPoint(point, known));
+    // Always selects (never toggles off) — a search result is a fresh,
+    // deliberate "go here" action every time, including when it happens to
+    // repeat the last one, so it must never read as a second click on an
+    // already-selected area and close the panel instead of showing it.
+    selectPinned(resolveSelectionAtPoint(point, known), officialIdentity(known));
     // Closes MobileNav's Search sheet on mobile so the ward modal (which
     // takes over the sheet slot the instant `selected` is non-null) isn't
     // left stacked behind it — a no-op on desktop, where nothing opened a
@@ -1560,29 +1628,53 @@ export default function WardMap() {
     zoomToBounds(bounds);
   };
 
-  const applyCityZoom = (city: City) => {
-    prepareWardsView(city);
+  // Shared by applyCityZoom (search/select) and toggleCity (legend
+  // checkbox) — derives a city's extent straight from whichever loaded
+  // geometry actually has it, rather than a stored bbox (there isn't one;
+  // see the layer registry's own comment for why bounds are always
+  // computed live from GeoJSON in this codebase). Wards first: that's
+  // every covered city except the wardless (at-large) ones — Woodbury
+  // today — which fall through to the derived at-large boundary instead.
+  // That derivation only exists once SecondaryCivicData has resolved, so
+  // atLargeBoundariesDataRef can briefly be null/empty right after mount —
+  // the `?.` below already no-ops harmlessly in that window, same as it
+  // always has.
+  const boundsForCity = (city: City): maplibregl.LngLatBounds | null => {
     const cityWards = wardsDataRef.current?.features.filter((f) => f.properties?.city === city);
     if (cityWards && cityWards.length > 0) {
-      setSelected(null);
-      setActiveMobileSheet(null); // reveal the zoomed-to result instead of leaving the Search sheet up over it
-      zoomToBoundsNoModal(boundsFromFeatureCollection({ type: "FeatureCollection", features: cityWards }));
-      return;
+      return boundsFromFeatureCollection({ type: "FeatureCollection", features: cityWards });
     }
-    // A wardless (at-large) city — Woodbury today — has zero features in
-    // wards.geojson by construction, so the check above always misses for
-    // it; without this fallback, searching/selecting it used to silently
-    // zoom nowhere at all. Its derived boundary (atLargeBoundariesDataRef —
-    // see deriveAtLargeBoundaries's own comment) is the only geometry
-    // standing in for "this city" instead. That derivation only exists
-    // once SecondaryCivicData has resolved, so this ref (like commissioners/
-    // stateLeg) can briefly be null/empty right after mount — the `?.`
-    // below already no-ops harmlessly in that window, same as it always has.
     const boundary = atLargeBoundariesDataRef.current?.features.filter((f) => f.properties?.city === city);
-    if (!boundary || boundary.length === 0) return;
+    if (!boundary || boundary.length === 0) return null;
+    return boundsFromFeatureCollection({ type: "FeatureCollection", features: boundary });
+  };
+
+  const applyCityZoom = (city: City) => {
+    prepareWardsView(city);
+    const bounds = boundsForCity(city);
+    if (!bounds) return;
     setSelected(null);
-    setActiveMobileSheet(null);
-    zoomToBoundsNoModal(boundsFromFeatureCollection({ type: "FeatureCollection", features: boundary }));
+    setActiveMobileSheet(null); // reveal the zoomed-to result instead of leaving the Search sheet up over it
+    zoomToBoundsNoModal(bounds);
+  };
+
+  // Minneapolis + St. Paul's combined extent — the "core of the metro"
+  // view the map opens on. Used only for that initial camera fit (see the
+  // map-construction effect below, which delegates here) — every other
+  // "go back to the default view" gesture (deselecting, "All"/"None") goes
+  // through zoomToDefault instead, which fits the current mode's full
+  // extent (every covered city, not just these two) rather than narrowing
+  // to just the Twin Cities the way the very first paint does. Falls back
+  // to wardsBoundsRef for that same reason if the Twin Cities wards
+  // themselves are missing/empty — better than leaving the camera
+  // wherever it happened to be.
+  const boundsForTwinCities = (): maplibregl.LngLatBounds | null => {
+    const twinCitiesWards = wardsDataRef.current?.features.filter(
+      (f) => f.properties?.city === "Minneapolis" || f.properties?.city === "St. Paul",
+    );
+    const bounds = boundsFromFeatureCollection({ type: "FeatureCollection", features: twinCitiesWards ?? [] });
+    if (!bounds.isEmpty()) return bounds;
+    return wardsBoundsRef.current;
   };
 
   const applyCountyZoom = (cities: City[]) => {
@@ -1803,7 +1895,19 @@ export default function WardMap() {
       });
       el.addEventListener("click", (e) => {
         e.stopPropagation();
-        selectPinned(resolveSelectionAtPoint(point, properties));
+        // Clicking the same pin that's already pinned toggles it back off
+        // — same "re-selecting the current area closes it and returns the
+        // camera to where it was before" behavior the fill-layer click
+        // handler gives wards/counties/state districts, see its own
+        // comment. identity here is the pin's own office, so this also
+        // catches clicking a ward's polygon and then that same ward's pin
+        // (or vice versa) as "the same selection," not two different ones.
+        const identity = officialIdentity(properties);
+        if (selectedRef.current?.pinned && selectedIdentityRef.current === identity) {
+          deselect();
+          return;
+        }
+        selectPinned(resolveSelectionAtPoint(point, properties), identity);
         setActiveMobileSheet(null); // see applySearchResult's comment on this same call
         zoomToBounds(zoomBounds);
       });
@@ -2320,16 +2424,16 @@ export default function WardMap() {
       }
       maybeStartPulseAnimation();
 
-      // Initial camera fit only — wardsBoundsRef (used by zoomToDefault)
-      // is already populated by the map-independent effect above, from
-      // the same data. Fit to the layer's actual extent rather than a
-      // hardcoded bounding box, so this keeps working if boundaries
-      // shift. Deliberately not repeated on a basemap swap — switchBasemap
-      // has no call to this, so picking a new basemap never snaps the
-      // camera back to this default extent out from under whatever the
-      // resident was looking at.
-      const wardsBounds = boundsFromFeatureCollection(primary.wards);
-      if (!wardsBounds.isEmpty()) map.fitBounds(wardsBounds, { padding: 40, duration: 0 });
+      // Initial camera fit only — wardsBoundsRef (used by zoomToDefault,
+      // e.g. on deselect or mode switch) still covers every covered city,
+      // not just these two; only the very first paint narrows to the Twin
+      // Cities themselves — see boundsForTwinCities's own comment for why
+      // it's used only here. Deliberately not repeated on a basemap swap —
+      // switchBasemap has no call to this, so picking a new basemap never
+      // snaps the camera back to this default extent out from under
+      // whatever the resident was looking at.
+      const twinCitiesBounds = boundsForTwinCities();
+      if (twinCitiesBounds) map.fitBounds(twinCitiesBounds, { padding: 40, duration: 0 });
     });
 
     const handleHoverMove = (e: maplibregl.MapLayerMouseEvent) => {
@@ -2452,8 +2556,15 @@ export default function WardMap() {
       // other branch below re-looks-up its hit — see the comment past
       // this early return), not the tile-clipped `hit` geometry directly.
       if (hit.layer.id === AT_LARGE_BOUNDARY_FILL_LAYER_ID) {
+        // Same shape handleHoverMove already uses for this layer's hover
+        // identity — reused here so a second click toggles the area off.
+        const identity = `at-large:${hit.properties?.city}`;
+        if (selectedRef.current?.pinned && selectedIdentityRef.current === identity) {
+          deselect();
+          return;
+        }
         const point = toPoint(e.lngLat);
-        selectPinned(resolveSelectionAtPoint(point));
+        selectPinned(resolveSelectionAtPoint(point), identity);
         setActiveMobileSheet(null);
         const boundaryFeature = atLargeBoundariesDataRef.current?.features.find(
           (f) => f.properties?.city === hit.properties?.city,
@@ -2470,8 +2581,15 @@ export default function WardMap() {
       // WardModal's existing "outside every city this map has ward data
       // for" empty state (coverage.ts's CITY_TIER_EMPTY_NOTE).
       if (hit.layer.id === CITY_BOUNDARIES_FILL_LAYER_ID) {
+        // Same shape handleHoverMove already uses for this layer's hover
+        // identity — reused here so a second click toggles the area off.
+        const identity = `city-boundary:${hit.properties?.name}`;
+        if (selectedRef.current?.pinned && selectedIdentityRef.current === identity) {
+          deselect();
+          return;
+        }
         const point = toPoint(e.lngLat);
-        selectPinned(resolveSelectionAtPoint(point));
+        selectPinned(resolveSelectionAtPoint(point), identity);
         setActiveMobileSheet(null);
         const boundaryFeature = cityBoundariesDataRef.current?.features.find(
           (f) => f.properties?.name === hit.properties?.name,
@@ -2513,8 +2631,20 @@ export default function WardMap() {
       const known = normalizeRepProperties(
         (fullFeature?.properties as Record<string, unknown> | undefined) ?? (hitProps as unknown as Record<string, unknown>),
       );
+      // Clicking the same ward/county/state district that's already
+      // pinned toggles it back off instead of re-selecting (and
+      // re-zooming to the exact same bounds) — same identity comparison
+      // addPin's own click listener uses, see its comment. identity here
+      // is the tier's own office at this point, so clicking a ward's
+      // polygon and then that same ward's council-member pin (or vice
+      // versa) both read as "the same selection."
+      const identity = officialIdentity(known);
+      if (selectedRef.current?.pinned && selectedIdentityRef.current === identity) {
+        deselect();
+        return;
+      }
       const point = toPoint(e.lngLat);
-      selectPinned(resolveSelectionAtPoint(point, known));
+      selectPinned(resolveSelectionAtPoint(point, known), identity);
       setActiveMobileSheet(null); // see applySearchResult's comment on this same call
       zoomToBounds(boundsFromFeature((fullFeature ?? hit) as Feature<Geometry>));
     });

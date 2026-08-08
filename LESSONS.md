@@ -77,6 +77,16 @@ Workers edge cases surface. -->
   remain hostable elsewhere. Do not use Workers-specific APIs in the core app logic —
   keep them in the adapter layer only.
 
+- 2026-08-07 — **[cloudflare workers builds]** — Real deploys are **not** GitHub Actions.
+  `.github/workflows/ci.yml` runs lint/tests/build/smoke-test only and explicitly deploys
+  nothing. The actual deploy is Cloudflare Workers Builds' own dashboard-configured git
+  integration, triggered directly by a push, running fully async — a preview URL for a
+  given commit doesn't exist yet the instant `git push` returns. `workers_dev` and
+  `preview_urls` are forced on in `wrangler.jsonc` specifically so Workers Builds' per-
+  branch/per-commit `.workers.dev` preview links keep working (see the comment above
+  those two keys). To find a live preview link after pushing: `npx wrangler deployments
+  list --name mn-civic-watch`, or the Workers Builds tab in the Cloudflare dashboard.
+
 - 2026-08-06 — **[node]** — `rows.push(...parseRawRows(raw))` in the MN CFB ingest script
   blew V8's call stack spreading ~268k array elements as individual call arguments. Any
   ingest script touching a real-scale civic dataset (campaign finance, statewide rosters)
