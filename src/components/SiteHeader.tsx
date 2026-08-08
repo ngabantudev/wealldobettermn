@@ -11,6 +11,7 @@ import MastheadSaying from "./MastheadSaying";
 // 2026-08-07 ("orphan pages nobody can reach").
 const NAV_LINKS: { href: string; label: string }[] = [
   { href: "/", label: "Map" },
+  { href: "/meetings", label: "Meetings" },
   { href: "/bills", label: "Bills" },
   { href: "/about", label: "About" },
   { href: "/privacy", label: "Privacy" },

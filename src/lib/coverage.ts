@@ -21,6 +21,7 @@
 import { CITIES, type City } from "./cities";
 import { BILLS_COVERAGE_NOTE, BILLS_INGEST_STATUS } from "./billsRegistry";
 import { JURISDICTIONS } from "./jurisdictions";
+import { MEETINGS_COVERAGE_NOTE } from "./meetingsRegistry";
 
 export const WARD_CITIES: readonly City[] = CITIES;
 
@@ -92,6 +93,18 @@ export const NOT_COVERED_ANYWHERE: readonly string[] = [
   "Every Minnesota city and county not listed above",
   "County attorney, sheriff, and school board races",
   "Campaign finance, lobbying, and economic-interest disclosures",
-  "Meeting and hearing schedules",
   ...(BILLS_INGEST_STATUS === "live" ? [] : [BILLS_COVERAGE_NOTE]),
 ];
+
+// Meeting/agenda coverage (issue #58) — separated out from the blanket
+// "Meeting and hearing schedules" line NOT_COVERED_ANYWHERE used to carry
+// unconditionally. That line is gone now that St. Paul City Council and
+// the Hennepin County Board have a real, wired Legistar /events feed
+// (scripts/ingest/legistar.mjs) — leaving it in place after real coverage
+// landed would itself be a coverage-honesty violation in the other
+// direction (claiming *less* than the site actually has). This note
+// still says plainly that coverage stops at those two clients — Minneapolis
+// and every other mapped jurisdiction remain uncovered; see
+// src/lib/meetingsRegistry.ts's UNWIRED_MEETINGS_JURISDICTIONS for the
+// itemized list /meetings itself renders.
+export const MEETINGS_NOTE = MEETINGS_COVERAGE_NOTE;

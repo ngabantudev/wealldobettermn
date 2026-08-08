@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "client": "stpaul",
   "jurisdiction": "St. Paul City Council",
-  "generatedAt": "2026-08-08T07:23:36.527Z",
+  "generatedAt": "2026-08-08T15:53:02.501Z",
   "status": "ingested",
   "note": "Full ingest: 220 holding(s) across 26 office(s) and 41 person(s), from officerecords. Votes windowed to 2026-06-09–2026-08-09 on \"City Council\": 250/317 matter(s) processed, 100 vote event(s), 700 vote(s).",
   "provenance": {
@@ -11,7 +11,7 @@
     "documentType": "Legistar Web API",
     "documentId": null,
     "issuedDate": null,
-    "fetchedAt": "2026-08-08T07:23:36.527Z",
+    "fetchedAt": "2026-08-08T15:53:02.501Z",
     "licence": "Public records served via Legistar InSite; no separate machine-reuse licence published by the host jurisdiction as of this writing.",
     "contentHash": "af517cf98cdec9da580ba1510f86d11a902968c219a513b08866478a971aacea"
   },
@@ -8828,7 +8828,6 @@
     "officerecords rows dropped for belonging to a non-governing/internal body: Clerk, Council Secretary.",
     "Office here models 'membership in a Legistar body under a given title', not a per-seat/ward electoral district — these two clients' officerecords endpoint does not expose per-seat identifiers. See wards.geojson / commissioners.geojson for seat-level geography.",
     "Votes ingested only for the most recent 60 days (from 2026-06-09) — the current term on City Council began 2016-01-01, but a full-term backfill was not run in this pass to stay within a good-citizen request budget (AGENTS.md §2.2). Run this ingest on a recurring schedule to accumulate full-term coverage incrementally.",
-    "317 matter(s) found in the 2026-06-09–2026-08-09 window for stpaul; capped to the most recent 250 to bound this run's request volume.",
-    "Failed to fetch histories for matter 52296 (stpaul): fetch failed"
+    "317 matter(s) found in the 2026-06-09–2026-08-09 window for stpaul; capped to the most recent 250 to bound this run's request volume."
   ]
 }
