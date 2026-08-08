@@ -260,6 +260,21 @@ function IconExternal() {
   );
 }
 
+// Recent votes' own disclosure toggle — the only section left with one
+// after the rest of the panel dropped its "More details" wrapper (see
+// OfficialCard). Unlike the other sections, a seat's roll-call history
+// genuinely grows without bound over time (§3.2's Legistar/Open States
+// integrations keep adding to it — see #57, #60), so it's the one place
+// still worth collapsing by default once it's long enough to be worth
+// skimming past, per DEFAULT_OPEN_VOTE_THRESHOLD below.
+function IconChevron() {
+  return (
+    <svg viewBox="0 0 20 20" fill="none" className="h-3.5 w-3.5 shrink-0 transition-transform duration-150 group-open:rotate-180">
+      <path d="m5.5 7.5 4.5 5 4.5-5" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
 // Committees section's own header icon — the block below used to render
 // with no label at all (just chips), fine when it lived inside a "More
 // details" disclosure that named the whole group; now that that wrapper
@@ -275,6 +290,15 @@ function IconUsers() {
     </svg>
   );
 }
+
+// Recent votes starts expanded when there isn't much in it yet (today's
+// reality for almost every seat — most feeds carry a handful of votes at
+// most) and starts collapsed once it's grown past a skim-friendly
+// length, so a resident scanning up to six stacked cards for "who
+// represents me" isn't forced to scroll past a wall of roll-call history
+// for every single one. Nothing here is ever permanently hidden: it's a
+// starting state a resident can always open, never a removed feature.
+const DEFAULT_OPEN_VOTE_THRESHOLD = 3;
 
 // One recent-votes row. The plain-language gloss for a non-yes/no option
 // (see VOTE_OPTION_DISPLAY) is real information, but printing it on every
@@ -533,23 +557,35 @@ function OfficialCard({ rep }: { rep: RepProperties }) {
             a feed exists for them. Skipped for Mayor: strong-mayor
             systems don't cast the kind of roll-call vote this section
             models, and no upstream source scoped here tracks mayoral
-            tie-breaking votes as one. */}
+            tie-breaking votes as one.
+
+            The one section in this card still behind its own <details>/
+            <summary> disclosure (see DEFAULT_OPEN_VOTE_THRESHOLD's own
+            comment) rather than always-open like everything else here —
+            a growing roll-call history is the one part of this card that
+            doesn't have a natural skim-friendly length, unlike a fixed
+            committee-membership list or a single meetings note. */}
         {rep.role !== "Mayor" && (
-          <div className="border-t border-hair px-4 py-3">
-            <div className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-ink-3 mb-2.5">
-              <IconBallot />
-              Recent votes
+          <details open={recentVotes.length <= DEFAULT_OPEN_VOTE_THRESHOLD} className="group border-t border-hair">
+            <summary className="flex list-none items-center justify-between gap-2 px-4 py-3 cursor-pointer select-none hover:bg-sidebar-hover [&::-webkit-details-marker]:hidden">
+              <span className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-ink-3">
+                <IconBallot />
+                Recent votes
+              </span>
+              <IconChevron />
+            </summary>
+            <div className="px-4 pb-3">
+              {recentVotes.length > 0 ? (
+                <ul className="space-y-2.5">
+                  {recentVotes.map((vote) => (
+                    <VoteRow key={vote.voteId} vote={vote} accent={accent} />
+                  ))}
+                </ul>
+              ) : (
+                <p className="text-sm text-ink-3">No voting record connected yet for {areaLabel(rep)}.</p>
+              )}
             </div>
-            {recentVotes.length > 0 ? (
-              <ul className="space-y-2.5">
-                {recentVotes.map((vote) => (
-                  <VoteRow key={vote.voteId} vote={vote} accent={accent} />
-                ))}
-              </ul>
-            ) : (
-              <p className="text-sm text-ink-3">No voting record connected yet for {areaLabel(rep)}.</p>
-            )}
-          </div>
+          </details>
         )}
 
         {/* This used to be a per-ward hearing/meeting schedule — deleted
