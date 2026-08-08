@@ -1,6 +1,6 @@
 "use client";
 
-import { Search } from "lucide-react";
+import { ExternalLink, Search } from "lucide-react";
 import { useId, useMemo, useState } from "react";
 import type { AddressIndex, MnPlaces, WardRef } from "@/lib/types";
 import { CITIES, COUNTIES, COUNTY_CITIES, type City, type County } from "@/lib/cities";
@@ -124,6 +124,21 @@ function wardLabel(ref: WardRef): string {
   return `${ref.city} Ward ${ref.ward}`;
 }
 
+// Where "find your polling place" actually points. There is no bulk,
+// build-time-fetchable, primary-source dataset of MN polling-place
+// locations this app could ingest and pin itself — the Secretary of
+// State's own list is a paid, manually-ordered, per-election PDF/text
+// extract (not a script-fetchable API or bulk file), and polling places
+// aren't a stable year-round fact the way ward boundaries are (they move
+// per election cycle, and MN statute allows one to sit outside its own
+// precinct). Per AGENTS.md §3.1 ("no placeholder data ships as fact"),
+// this links out to the Secretary of State's own live lookup tool instead
+// of fabricating or hand-scraping a location — same treatment the deleted
+// hearings mock got. The user's resolved address is never appended to
+// this URL or sent anywhere by this app; they re-enter it on the SoS's own
+// site if they choose to click through, same as any other outbound link.
+const POLLING_PLACE_FINDER_URL = "https://pollfinder.sos.mn.gov/";
+
 // Shared by every overlay panel below the input (the suggestions listbox,
 // the outcome message, the loading notice) — opens upward by default,
 // downward at sm+. This input only ever sits at the top of the screen
@@ -144,6 +159,15 @@ export default function SearchBar({ index, allPlaces, onSelectWard, onSelectCity
   // null since the map/modal already shows the result.
   const [outcome, setOutcome] = useState<SearchOutcome | null>(null);
   const [statusMessage, setStatusMessage] = useState("");
+  // True only right after a *real address* resolves — a "single" outcome
+  // whose SearchOutcome carries a non-null interpolated point (see
+  // addressSearch.ts). Never set for a bare ward pick off the ambiguous
+  // list (commitWard always passes point: null — there was no house
+  // number to interpolate from) or for a city/county/ZIP-level result:
+  // per this feature's own spec, the polling-place link is only for a
+  // searchable, valid address, not any search that happens to resolve to
+  // a ward. Cleared on every other outcome and on any further typing.
+  const [showPollingPlaceLink, setShowPollingPlaceLink] = useState(false);
   const listboxId = useId();
 
   const suggestions = useMemo(() => buildSuggestions(query, index, allPlaces), [query, index, allPlaces]);
@@ -176,6 +200,12 @@ export default function SearchBar({ index, allPlaces, onSelectWard, onSelectCity
   }, [outcome, suggestions]);
 
   function applyOutcome(next: SearchOutcome) {
+    // Reset here, not per-branch — every branch below except a
+    // point-bearing "single" result should end with this false, and
+    // putting the one true-setting line inside its own branch instead of
+    // repeating `setShowPollingPlaceLink(false)` in the other six is what
+    // actually guarantees that.
+    setShowPollingPlaceLink(false);
     switch (next.status) {
       case "single":
         // Fill the input with the canonical resolved label — a confirmed
@@ -186,6 +216,10 @@ export default function SearchBar({ index, allPlaces, onSelectWard, onSelectCity
         onSelectWard(next.wards[0], next.point);
         setStatusMessage(`Zoomed to ${wardLabel(next.wards[0])}.`);
         setOutcome(null);
+        // Only a real interpolated address point counts as "the user
+        // entered a searchable, valid address" — see this state's own
+        // comment above.
+        setShowPollingPlaceLink(next.point !== null);
         break;
       case "ambiguous":
         setOutcome(next);
@@ -242,6 +276,7 @@ export default function SearchBar({ index, allPlaces, onSelectWard, onSelectCity
   function handleChange(value: string) {
     setQuery(value);
     setOutcome(null); // stale relative to the new text — start over
+    setShowPollingPlaceLink(false); // same reasoning — last result's address no longer matches what's in the box
     setActiveIndex(-1);
     setIsOpen(value.trim().length > 0);
     if (!value.trim()) setStatusMessage("");
@@ -357,6 +392,27 @@ export default function SearchBar({ index, allPlaces, onSelectWard, onSelectCity
           <p className={`well ${OVERLAY_POSITION_CLASSES} rounded-xl border px-2.5 py-1.5 text-ink-3 shadow-xl shadow-(color:--shadow-panel)`}>
             {outcome && "reason" in outcome ? outcome.reason : statusMessage}
           </p>
+        )}
+
+        {/* Only for a resolved, real address (see showPollingPlaceLink's
+            own state comment) — not shown for a city/county/ZIP-level
+            result or a bare ward pick. Same overlay treatment as the
+            listbox/message above, and mutually exclusive with both: those
+            only ever render for the "still choosing" and "didn't resolve"
+            outcomes, this only for "resolved to one address." Links out to
+            the Secretary of State's own tool rather than a pin on this
+            map's own layer — see POLLING_PLACE_FINDER_URL's comment for
+            why there's no first-party data to place a pin from. */}
+        {showPollingPlaceLink && !isOpen && (
+          <a
+            href={POLLING_PLACE_FINDER_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`well ${OVERLAY_POSITION_CLASSES} flex items-center gap-1.5 rounded-xl border px-2.5 py-1.5 text-accent shadow-xl shadow-(color:--shadow-panel) hover:underline`}
+          >
+            <ExternalLink aria-hidden="true" className="h-3.5 w-3.5 shrink-0" strokeWidth={1.75} />
+            Find your polling place — Minnesota Secretary of State
+          </a>
         )}
       </div>
       {/* Announces the outcome without moving focus out of the input —
