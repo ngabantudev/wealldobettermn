@@ -1498,26 +1498,21 @@ export default function WardMap() {
       for (const city of cities) next[city] = visible;
       visibleCitiesRef.current = next;
       applyCityFilter(next);
-      // "All" (visible === true) flies out to the combined extent of every
-      // city just revealed — same fly-to-on-enable toggleCity gives one
-      // checkbox, scaled to the whole set, so the metro-wide view "All"
-      // implies is what the camera actually shows instead of leaving it
-      // wherever a single-city or single-ward zoom last left it. "None"
-      // has no cities left to frame, so it flies back to the same Twin
-      // Cities extent the map opens on instead — the map's own "nothing
-      // selected" resting position — rather than leaving the camera
-      // zoomed in on whatever's now hidden.
-      if (visible) {
-        const bounds = new maplibregl.LngLatBounds();
-        for (const city of cities) {
-          const cityBounds = boundsForCity(city);
-          if (cityBounds) bounds.extend(cityBounds);
-        }
-        if (!bounds.isEmpty()) zoomToBoundsNoModal(bounds);
-      } else {
-        const bounds = boundsForTwinCities();
-        if (bounds) zoomToBoundsNoModal(bounds);
+      // Both "All" and "None" fly to the same combined extent of every
+      // city this toggle covers — boundsForCity doesn't care whether a
+      // city is currently visible, only that its geometry is loaded, so
+      // the target is identical either way. The only difference between
+      // the two is what applyCityFilter just did: reveal that extent's
+      // cities or hide them. Landing on the same camera position for both
+      // (rather than "None" flying to some unrelated default) is what
+      // makes toggling back and forth read as one consistent view, not
+      // two different ones.
+      const bounds = new maplibregl.LngLatBounds();
+      for (const city of cities) {
+        const cityBounds = boundsForCity(city);
+        if (cityBounds) bounds.extend(cityBounds);
       }
+      if (!bounds.isEmpty()) zoomToBoundsNoModal(bounds);
       if (selectedRef.current) {
         const current = selectedRef.current;
         const filtered = filterHiddenCityOfficials(current.officials, next);
