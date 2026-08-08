@@ -1,7 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
-import type { KeyboardEvent } from "react";
+import { useState } from "react";
 import type { BillVote, RepProperties } from "@/lib/types";
 import type { AreaOfficials } from "@/lib/officials";
 import { officialIdentity } from "@/lib/officials";
@@ -627,48 +626,24 @@ function panelHeading(officials: AreaOfficials): string {
 // The panel-level container: owns the one close button, the mobile
 // drag-handle, and the outer scroll/height for the whole panel — none of
 // which belong to any single official now that a panel can hold up to six
-// of them. Always renders all three tiers (City/County/State), each either
+// of them. Always renders all three tiers (City/County/State) as stacked,
+// always-visible sections — not tabs (see git history: #53 briefly made
+// these ARIA tabs, reasoning that a resident would otherwise "scroll past
+// City's full card stack" to reach County/State; reverted because the
+// actual stack per AGENTS.md §Part 0's own resolveOfficialsAtPoint caps at
+// ~6 cards total across all three tiers, not a stack worth avoiding, and
+// AGENTS.md §0.1 — "Connection is the product... every detail panel
+// answers 'what is this connected to' before 'what is this?'" — means the
+// site's own #1 question, "who represents me?", should never require an
+// extra click to see the county or state answer). Each tier renders either
 // its official(s) or an honest "not covered here" note (AGENTS.md §3.3),
 // regardless of which single LayerMode is toggled on the map: resolution
 // happens in src/lib/officials.ts's resolveOfficialsAtPoint, independent
-// of what's currently drawn.
+// of what's currently drawn on the map — the left sidebar's mode switcher
+// and this panel are answering two different questions ("what's drawn on
+// the map" vs. "who represents this specific point"), not the same one
+// twice.
 export default function WardModal({ officials, onClose, variant = "sheet" }: WardModalProps) {
-  // Which single tier (City/County/State) is on screen right now — starts
-  // on City, matching the app's own "who represents me?" question order
-  // (AGENTS.md Part 0) and the panel's original top-to-bottom layout.
-  // Lives here, not per-tier useState, since WardModal stays mounted
-  // across hover/click selection changes (only `officials` itself
-  // changes), so the resident's chosen tab persists as they move the
-  // cursor around the map instead of resetting to City on every new
-  // selection.
-  const [activeTier, setActiveTier] = useState<keyof AreaOfficials>("city");
-  const activeIndex = TIER_SECTIONS.findIndex((tier) => tier.key === activeTier);
-  const tabRefs = useRef<Array<HTMLButtonElement | null>>([]);
-
-  // ARIA Authoring Practices "tabs with automatic activation" pattern:
-  // arrow keys both move focus AND select, so there's exactly one
-  // tabbable element in the tablist at a time (roving tabindex) instead
-  // of tabbing through all three headers like the old disclosure buttons
-  // did. Home/End jump to the first/last tab for keyboard completeness
-  // per AGENTS.md §4.
-  const handleTabKeyDown = (event: KeyboardEvent<HTMLButtonElement>) => {
-    let nextIndex: number | null = null;
-    if (event.key === "ArrowRight" || event.key === "ArrowDown") {
-      nextIndex = (activeIndex + 1) % TIER_SECTIONS.length;
-    } else if (event.key === "ArrowLeft" || event.key === "ArrowUp") {
-      nextIndex = (activeIndex - 1 + TIER_SECTIONS.length) % TIER_SECTIONS.length;
-    } else if (event.key === "Home") {
-      nextIndex = 0;
-    } else if (event.key === "End") {
-      nextIndex = TIER_SECTIONS.length - 1;
-    }
-    if (nextIndex === null) return;
-    event.preventDefault();
-    const nextKey = TIER_SECTIONS[nextIndex].key;
-    setActiveTier(nextKey);
-    tabRefs.current[nextIndex]?.focus();
-  };
-
   const wrapperClass =
     variant === "sidebar"
       ? "pointer-events-auto flex h-full w-full flex-col overflow-y-auto"
@@ -716,93 +691,30 @@ export default function WardModal({ officials, onClose, variant = "sheet" }: War
         </button>
       </div>
 
-      {/* True ARIA tabs (role="tablist"/"tab"/"tabpanel") rather than the
-          previous three independent disclosure buttons — lets a resident
-          jump straight to County or State instead of scrolling past City's
-          full card stack first. Automatic-activation pattern per the ARIA
-          Authoring Practices: arrow keys move focus and select in one
-          step, with roving tabindex (only the active tab is in normal tab
-          order) so Tab itself moves straight from the tablist to the
-          panel content instead of through all three headers.
-
-          Flat segmented control (rounded-lg track on bg-panel-3, rounded-md
-          active cell) instead of the old flush, square, full-bleed strip
-          with a border-hair-strong divider underneath — mndatacenter.org's
-          own "moderate border-radius on interactive elements" look, and
-          matches the same treatment WardMap.tsx's left sidebar tablist
-          (sidebarTabRowClass) now uses, so both sidebars read as one
-          language. No border: bg-panel-3 (the recessed-surface token) and
-          the active cell's own TIER_HEADER_BG fill carry the grouping and
-          selection state between them, so a drawn line added no
-          information. Inset in its own padded wrapper rather than
-          full-bleed, since a rounded track needs room on all sides for its
-          own corners. */}
-      <div className="px-4 pt-4 pb-1 shrink-0">
-        <div role="tablist" aria-label="Representative level" className="flex gap-1 rounded-lg bg-panel-3 p-1">
-          {TIER_SECTIONS.map(({ key, label }, index) => {
-            const isActive = key === activeTier;
-            const tabId = `officials-tier-${key}-tab`;
-            const panelId = `officials-tier-${key}-panel`;
-            return (
-              <button
-                key={key}
-                ref={(el) => {
-                  tabRefs.current[index] = el;
-                }}
-                type="button"
-                role="tab"
-                id={tabId}
-                aria-selected={isActive}
-                aria-controls={panelId}
-                tabIndex={isActive ? 0 : -1}
-                onClick={() => setActiveTier(key)}
-                onKeyDown={handleTabKeyDown}
-                // min-h-11 (44px): Apple/Google's touch-target guidance for
-                // an interactive control on a mobile sheet — this row is
-                // rendered identically for the mobile bottom sheet
-                // (variant="sheet") and the desktop sidebar, so it needs to
-                // hold up as a thumb target, not just a mouse target. Well
-                // above WCAG 2.5.8's own 24x24px AA minimum.
-                className={`flex-1 min-h-11 rounded-md px-3 py-2.5 text-center text-xs font-semibold uppercase tracking-wide transition-colors focus:outline-none focus-visible:ring-2 ${
-                  // Same `--sidebar-hover` token the left sidebar's city
-                  // rows and tabs use (WardMap.tsx's filterListClass rows,
-                  // sidebarTabButtonClass) — not the generic `--hover`,
-                  // which barely shows against this track's own bg-panel-3
-                  // fill (see that token's comment in globals.css).
-                  // Applied only to the inactive tabs — the active tab
-                  // already has its own solid fill and shouldn't visually
-                  // flicker on hover. Not set via the style prop below: an
-                  // inline background-color has higher specificity than
-                  // any Tailwind class, including this one's :hover
-                  // variant, so it would silently block the hover fill
-                  // from ever painting.
-                  isActive ? "" : "hover:bg-sidebar-hover"
-                }`}
-                style={isActive ? { backgroundColor: TIER_HEADER_BG, color: TIER_HEADER_TEXT } : undefined}
-              >
-                {label}
-              </button>
-            );
-          })}
-        </div>
-      </div>
-
+      {/* Three stacked, always-visible sections (City/County/State, in the
+          app's own question order — AGENTS.md Part 0) rather than tabs.
+          Each section header is a real <h2> naming its tier, so a
+          screen-reader user can jump straight to "County" or "State" via
+          heading navigation without anything being hidden from the
+          accessibility tree first — the keyboard-completeness goal #53's
+          tablist chased, without #53's tradeoff of hiding two-thirds of a
+          resident's own representation behind a click. No `role`/`hidden`
+          bookkeeping needed: every section renders all the time, so
+          there's no active/inactive state to keep in sync. */}
       <div className="overflow-y-auto">
-        {TIER_SECTIONS.map(({ key, emptyNote }) => {
+        {TIER_SECTIONS.map(({ key, label, emptyNote }) => {
           const reps = officials[key];
-          const tabId = `officials-tier-${key}-tab`;
-          const panelId = `officials-tier-${key}-panel`;
-          const isActive = key === activeTier;
+          const headingId = `officials-tier-${key}-heading`;
           return (
-            // `hidden` (not the old CSS accordion) removes inactive
-            // panels from the accessibility tree entirely, matching the
-            // ARIA Authoring Practices tabs pattern — a screen-reader user
-            // tabbing from the tablist lands directly on the active
-            // panel's content, not on two other panels' worth of cards
-            // first. `aria-labelledby` ties this panel's accessible name
-            // back to its tab, so the DOM record stays in sync with what's
-            // drawn per AGENTS.md §4 without a redundant repeated label.
-            <section key={key} role="tabpanel" id={panelId} aria-labelledby={tabId} hidden={!isActive} tabIndex={0}>
+            <section key={key} aria-labelledby={headingId}>
+              <h2 id={headingId} className="px-4 pt-4 pb-2 text-xs font-semibold uppercase tracking-wide">
+                <span
+                  className="inline-block rounded-full px-2.5 py-1"
+                  style={{ backgroundColor: TIER_HEADER_BG, color: TIER_HEADER_TEXT }}
+                >
+                  {label}
+                </span>
+              </h2>
               {reps.length > 0 ? (
                 <div className="divide-y divide-hair">
                   {reps.map((rep) => (
@@ -810,7 +722,7 @@ export default function WardModal({ officials, onClose, variant = "sheet" }: War
                   ))}
                 </div>
               ) : (
-                <p className="px-4 py-3 text-sm text-ink-3">{emptyNote}</p>
+                <p className="px-4 pb-3 text-sm text-ink-3">{emptyNote}</p>
               )}
             </section>
           );
