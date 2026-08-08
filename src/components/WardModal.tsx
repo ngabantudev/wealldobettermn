@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { BillVote, RepProperties } from "@/lib/types";
 import type { AreaOfficials } from "@/lib/officials";
 import { officialIdentity } from "@/lib/officials";
@@ -647,6 +647,166 @@ const TIER_SECTIONS: TierSection[] = [
   { key: "state", label: "State", emptyNote: STATE_TIER_EMPTY_NOTE },
 ];
 
+// Drives the "stacking" scroll effect on the City/County/State sections.
+// Each tier's <h2> is `position: sticky`, docked at an offset equal to
+// however many headers are already stacked above it (index * headerHeight).
+// That single fact is what produces the whole interaction, natively, with
+// no scroll listener:
+//
+//   - City's header docks at the very top of the scroll region (top: 0)
+//     the moment it would otherwise scroll past it, and stays there.
+//   - County keeps scrolling up in normal flow, *carrying its own full
+//     content with it* — nothing about County is collapsed or pinned yet —
+//     until County's header reaches the bottom edge of City's now-docked
+//     header (top: headerHeight). At that exact point it, too, locks in
+//     place, immediately below City's.
+//   - Same for State relative to County (top: 2 * headerHeight).
+//
+// Each already-docked header is opaque and painted above ordinary content
+// (a shared z-index beats content's default z-index:auto regardless of DOM
+// order), so as a tier's content keeps scrolling upward past a header
+// that's already stuck, it visually disappears underneath it — the
+// "collapses into the stickied section" effect the panel now has — without
+// any JS touching layout/height. That matters: collapsing height via JS
+// (an earlier version of this did, via IntersectionObserver + a 0fr grid
+// track) removes already-scrolled-past space from the document *while the
+// user is mid-scroll*, which shifts what `scrollTop` points at and reads as
+// a jump/glitch. Pure sticky positioning never has that problem, because
+// nothing's height ever changes — content just scrolls under a header that
+// doesn't move.
+//
+// Content is never removed from the DOM or marked `hidden`/`aria-hidden` —
+// only visually covered once its section is scrolled past. Heading
+// navigation still reaches every tier's officials regardless of scroll
+// position, same as before this feature existed — see the comment above
+// TIER_SECTIONS's render below for why that matters (#53/9665be0).
+function useTierStack() {
+  const scrollRootRef = useRef<HTMLDivElement | null>(null);
+  const headerRefs = useRef<Array<HTMLHeadingElement | null>>([]);
+  const lastContentRef = useRef<HTMLDivElement | null>(null);
+  const [headerHeight, setHeaderHeight] = useState(0);
+  const [spacerHeight, setSpacerHeight] = useState(0);
+
+  useEffect(() => {
+    const measure = () => {
+      const height = headerRefs.current[0]?.getBoundingClientRect().height ?? 0;
+      if (height) setHeaderHeight(height);
+    };
+    measure();
+    // Headers share one set of classes, so only the first needs measuring —
+    // but re-measure on resize since text can reflow at narrow widths.
+    window.addEventListener("resize", measure);
+    return () => window.removeEventListener("resize", measure);
+  }, []);
+
+  // Sizes the trailing spacer (rendered below the whole tier stack) to
+  // exactly the shortfall between the scroll room State's own content
+  // naturally provides and the room it actually needs to reach its dock
+  // line — never more. A fixed `100% - stackHeight` spacer (the prior
+  // version of this) reserved that shortfall for the *worst case* (State
+  // has ~0 content) unconditionally, so a State section with real content
+  // ended up with a wall of blank space below it — worse the more content
+  // State already had. Measuring State's actual rendered height and
+  // subtracting it fixes that, and re-measuring on resize means it stays
+  // correct live as a resident expands a card's "More details" disclosure
+  // inside State and its content grows.
+  useEffect(() => {
+    const scrollRoot = scrollRootRef.current;
+    const lastContent = lastContentRef.current;
+    if (!scrollRoot || !lastContent || !headerHeight) return;
+
+    const recompute = () => {
+      const stackHeight = TIER_SECTIONS.length * headerHeight;
+      const needed = scrollRoot.clientHeight - stackHeight - lastContent.getBoundingClientRect().height;
+      setSpacerHeight(Math.max(0, needed));
+    };
+    recompute();
+
+    const observer = new ResizeObserver(recompute);
+    observer.observe(scrollRoot);
+    observer.observe(lastContent);
+    return () => observer.disconnect();
+  }, [headerHeight]);
+
+  // Both exposed as callbacks rather than the ref objects themselves —
+  // TierNode is a child component, and mutating a ref received as a prop
+  // trips the project's react-hooks/immutability lint rule (props are
+  // meant to be read-only from the child's side). Routing the writes
+  // through these closures keeps the mutation local to the hook that owns
+  // the refs.
+  const onHeaderRef = (index: number, el: HTMLHeadingElement | null) => {
+    headerRefs.current[index] = el;
+  };
+  const onContentRef = (index: number, el: HTMLDivElement | null) => {
+    if (index === TIER_SECTIONS.length - 1) lastContentRef.current = el;
+  };
+
+  return { scrollRootRef, onHeaderRef, onContentRef, headerHeight, spacerHeight };
+}
+
+interface TierNodeProps {
+  index: number;
+  officials: AreaOfficials;
+  onHeaderRef: (index: number, el: HTMLHeadingElement | null) => void;
+  onContentRef: (index: number, el: HTMLDivElement | null) => void;
+  headerHeight: number;
+}
+
+// Each tier nests the rest of the stack *inside* itself — County's
+// <section> sits inside City's, State's inside County's — rather than
+// beside it as a sibling. That nesting is load-bearing, not cosmetic: a
+// sticky element only stays docked while its own containing block (its
+// nearest ancestor — here, its own <section>) is still on screen. With
+// siblings, City's <section> would end exactly where City's own content
+// ends, i.e. the moment County arrives, so City would unstick right as
+// County tried to dock beneath it instead of the two stacking together for
+// the rest of the scroll (the bug this replaced — see the commit history
+// on this file). Nesting County, and inside County, State, inside City's
+// <section> extends City's containing block all the way to the bottom of
+// the list, so City stays docked for as long as anything below it is still
+// scrolling — each header, once stuck, stays stuck for the remainder of
+// the scroll, only ever adding to the stack, never dropping out of it.
+function TierNode({ index, officials, onHeaderRef, onContentRef, headerHeight }: TierNodeProps) {
+  if (index >= TIER_SECTIONS.length) return null;
+  const { key, label, emptyNote } = TIER_SECTIONS[index];
+  const reps = officials[key];
+  const headingId = `officials-tier-${key}-heading`;
+  return (
+    <section aria-labelledby={headingId}>
+      <h2
+        ref={(el) => onHeaderRef(index, el)}
+        id={headingId}
+        className="sticky z-10 border-t border-b border-hair px-4 py-2 text-xs font-semibold uppercase tracking-wide shadow-[0_1px_2px_rgba(0,0,0,0.15)]"
+        style={{ top: `${index * headerHeight}px`, backgroundColor: TIER_HEADER_BG, color: TIER_HEADER_TEXT }}
+      >
+        {label}
+      </h2>
+      {/* Only the last tier's wrapper is actually measured (see
+          useTierStack's onContentRef) — every tier gets one regardless, so
+          expanding which tier is last (were a 4th ever added) doesn't need
+          this markup to change too. */}
+      <div ref={(el) => onContentRef(index, el)}>
+        {reps.length > 0 ? (
+          <div className="divide-y divide-hair">
+            {reps.map((rep) => (
+              <OfficialCard key={officialIdentity(rep)} rep={rep} />
+            ))}
+          </div>
+        ) : (
+          <p className="px-4 pb-3 text-sm text-ink-3">{emptyNote}</p>
+        )}
+      </div>
+      <TierNode
+        index={index + 1}
+        officials={officials}
+        onHeaderRef={onHeaderRef}
+        onContentRef={onContentRef}
+        headerHeight={headerHeight}
+      />
+    </section>
+  );
+}
+
 export interface WardModalProps {
   officials: AreaOfficials;
   onClose: () => void;
@@ -716,9 +876,16 @@ function panelHeading(officials: AreaOfficials, hoveredCityName?: string | null)
 // the map" vs. "who represents this specific point"), not the same one
 // twice.
 export default function WardModal({ officials, onClose, hoveredCityName = null, variant = "sheet" }: WardModalProps) {
+  const { scrollRootRef, onHeaderRef, onContentRef, headerHeight, spacerHeight } = useTierStack();
+
+  // Both variants now scroll from the same div (the tier list below) rather
+  // than sidebar additionally scrolling its own outer wrapper — sticky
+  // positioning needs one unambiguous scrolling ancestor to dock against,
+  // not two nested overflow-y-auto regions that only one of ever actually
+  // engages.
   const wrapperClass =
     variant === "sidebar"
-      ? "pointer-events-auto flex h-full w-full flex-col overflow-y-auto"
+      ? "pointer-events-auto flex h-full w-full flex-col overflow-hidden"
       : "pointer-events-auto w-full sm:w-[380px] max-h-[75vh] sm:max-h-[80vh] flex flex-col rounded-t-2xl sm:rounded-2xl border border-hair bg-panel-2 shadow-2xl shadow-(color:--shadow-panel) overflow-hidden";
 
   // "sidebar": no role here — it's mounted inside WardMap's own persistent
@@ -781,31 +948,19 @@ export default function WardModal({ officials, onClose, hoveredCityName = null, 
           jump out — a small rounded badge sitting in open whitespace did
           that job far more weakly once there was no longer a tab strip
           drawing the eye to this row in the first place. */}
-      <div className="overflow-y-auto">
-        {TIER_SECTIONS.map(({ key, label, emptyNote }) => {
-          const reps = officials[key];
-          const headingId = `officials-tier-${key}-heading`;
-          return (
-            <section key={key} aria-labelledby={headingId}>
-              <h2
-                id={headingId}
-                className="px-4 py-2 text-xs font-semibold uppercase tracking-wide"
-                style={{ backgroundColor: TIER_HEADER_BG, color: TIER_HEADER_TEXT }}
-              >
-                {label}
-              </h2>
-              {reps.length > 0 ? (
-                <div className="divide-y divide-hair">
-                  {reps.map((rep) => (
-                    <OfficialCard key={officialIdentity(rep)} rep={rep} />
-                  ))}
-                </div>
-              ) : (
-                <p className="px-4 pb-3 text-sm text-ink-3">{emptyNote}</p>
-              )}
-            </section>
-          );
-        })}
+      <div ref={scrollRootRef} className="flex-1 min-h-0 overflow-y-auto no-scrollbar">
+        <TierNode index={0} officials={officials} onHeaderRef={onHeaderRef} onContentRef={onContentRef} headerHeight={headerHeight} />
+        {/* Reserves exactly enough extra scroll room for State's header to
+            reach its dock line — no more. Sized in useTierStack from
+            State's own measured height (`viewport - stackHeight -
+            stateContentHeight`, floored at 0), not a fixed formula: a
+            constant `100% - stackHeight` spacer (an earlier version of
+            this) reserved the worst case unconditionally, leaving a wall
+            of blank space below State once it had real content. This
+            shrinks live as State's content grows — including a resident
+            expanding a card's "More details" disclosure — via the
+            ResizeObserver in that hook. */}
+        <div aria-hidden style={{ height: `${spacerHeight}px` }} />
       </div>
     </div>
   );

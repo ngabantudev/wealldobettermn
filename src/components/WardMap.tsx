@@ -3384,7 +3384,7 @@ export default function WardMap() {
           id="map-filters-sidebar"
           aria-label="Map filters"
           aria-hidden={leftFiltersCollapsed}
-          className={`hidden sm:flex shrink-0 flex-col overflow-x-hidden overflow-y-auto bg-panel-2 font-sans transition-[width] duration-300 ease-out ${
+          className={`hidden sm:flex shrink-0 flex-col overflow-x-hidden overflow-y-auto no-scrollbar bg-panel-2 font-sans transition-[width] duration-300 ease-out ${
             leftFiltersCollapsed
               ? "sm:w-0"
               : // bg-panel-2 (not the workspace's usual --panel): a full
@@ -3424,7 +3424,7 @@ export default function WardMap() {
                 segmented control it is, instead of the old full-bleed
                 square strip flush under the header (see
                 sidebarTabRowClass's own comment for why). */}
-            <div className="flex flex-1 flex-col gap-5 overflow-y-auto px-4 py-5">
+            <div className="flex flex-1 flex-col gap-5 overflow-y-auto no-scrollbar px-4 py-5">
               {sidebarLevelTabs}
               {sidebarFilterControls}
             </div>
@@ -3565,7 +3565,7 @@ export default function WardMap() {
           // see its own comment above — with the flag-blue accent moved
           // to *this* sidebar's outer edge (the viewport's right edge)
           // instead.
-          className={`hidden sm:flex shrink-0 flex-col overflow-x-hidden overflow-y-auto bg-panel-2 font-sans transition-[width] duration-300 ease-out ${
+          className={`hidden sm:flex shrink-0 flex-col overflow-x-hidden overflow-y-auto no-scrollbar bg-panel-2 font-sans transition-[width] duration-300 ease-out ${
             rightDetailCollapsed ? "sm:w-0" : "sm:w-80 lg:w-96 border-l border-l-hair-strong border-r-[3px] border-r-sidebar-edge-accent"
           }`}
         >
