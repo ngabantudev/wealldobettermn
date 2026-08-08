@@ -284,69 +284,74 @@ export default function SearchBar({ index, allPlaces, onSelectWard, onSelectCity
     // mobile sheet) — no separate light/dark or band/non-band classes to
     // maintain here, same mechanism as every other themed surface in this
     // app.
-    <div className="w-full max-w-md font-sans text-sm">
-      <label htmlFor={`${listboxId}-input`} className="sr-only">
-        Find your ward
-      </label>
-      <div className="well relative flex items-center gap-1.5 rounded-xl border px-2.5 py-1.5">
-        <Search aria-hidden="true" className="h-4 w-4 shrink-0 text-ink-3" strokeWidth={1.75} />
-        <input
-          id={`${listboxId}-input`}
-          type="text"
-          role="combobox"
-          aria-expanded={isOpen}
-          aria-controls={listboxId}
-          aria-autocomplete="list"
-          aria-activedescendant={activeOptionId}
-          autoComplete="off"
-          placeholder={placeholder}
-          value={query}
-          onChange={(e) => handleChange(e.target.value)}
-          onKeyDown={handleKeyDown}
-          onFocus={() => setIsOpen(query.trim().length > 0)}
-          className="min-w-0 flex-1 bg-transparent text-ink placeholder:text-ink-4 focus:outline-none"
-        />
-        {/* The "what this map can't see" disclosure — its own icon/popover
-            now, see CoverageNotice's file comment for why. */}
-        <CoverageNotice />
+    <div className="flex w-full max-w-md items-center gap-1.5 font-sans text-sm">
+      <div className="min-w-0 flex-1">
+        <label htmlFor={`${listboxId}-input`} className="sr-only">
+          Find your ward
+        </label>
+        <div className="well relative flex items-center gap-1.5 rounded-xl border px-2.5 py-1.5">
+          <Search aria-hidden="true" className="h-4 w-4 shrink-0 text-ink-3" strokeWidth={1.75} />
+          <input
+            id={`${listboxId}-input`}
+            type="text"
+            role="combobox"
+            aria-expanded={isOpen}
+            aria-controls={listboxId}
+            aria-autocomplete="list"
+            aria-activedescendant={activeOptionId}
+            autoComplete="off"
+            placeholder={placeholder}
+            value={query}
+            onChange={(e) => handleChange(e.target.value)}
+            onKeyDown={handleKeyDown}
+            onFocus={() => setIsOpen(query.trim().length > 0)}
+            className="min-w-0 flex-1 bg-transparent text-ink placeholder:text-ink-4 focus:outline-none"
+          />
 
-        {isOpen && options.length > 0 && (
-          <ul
-            id={listboxId}
-            role="listbox"
-            className={`well ${OVERLAY_POSITION_CLASSES} max-h-64 overflow-y-auto rounded-xl border shadow-xl shadow-(color:--shadow-panel)`}
-          >
-            {options.map((opt, i) => (
-              <li
-                key={`${opt.label}-${i}`}
-                id={`${listboxId}-option-${i}`}
-                role="option"
-                aria-selected={i === activeIndex}
-                onMouseDown={(e) => e.preventDefault()} // keep input focus so the click doesn't blur-then-lose the value
-                onClick={() => opt.commit()}
-                className={`cursor-pointer px-2.5 py-1.5 ${
-                  i === activeIndex ? "bg-accent text-on-accent" : opt.muted ? "text-ink-4 hover:bg-hover" : "text-ink-2 hover:bg-hover"
-                }`}
-              >
-                {opt.label}
-              </li>
-            ))}
-          </ul>
-        )}
+          {isOpen && options.length > 0 && (
+            <ul
+              id={listboxId}
+              role="listbox"
+              className={`well ${OVERLAY_POSITION_CLASSES} max-h-64 overflow-y-auto rounded-xl border shadow-xl shadow-(color:--shadow-panel)`}
+            >
+              {options.map((opt, i) => (
+                <li
+                  key={`${opt.label}-${i}`}
+                  id={`${listboxId}-option-${i}`}
+                  role="option"
+                  aria-selected={i === activeIndex}
+                  onMouseDown={(e) => e.preventDefault()} // keep input focus so the click doesn't blur-then-lose the value
+                  onClick={() => opt.commit()}
+                  className={`cursor-pointer px-2.5 py-1.5 ${
+                    i === activeIndex ? "bg-accent text-on-accent" : opt.muted ? "text-ink-4 hover:bg-hover" : "text-ink-2 hover:bg-hover"
+                  }`}
+                >
+                  {opt.label}
+                </li>
+              ))}
+            </ul>
+          )}
 
-        {/* Outcome message (not-covered / not-found / unparseable) — an
-            overlay below the input rather than a line of normal-flow text
-            underneath it, same reasoning as the listbox above: nothing
-            here should be able to change this row's own height, which is
-            what lets SiteHeader treat the search bar as a fixed-height
-            toolbar control instead of one that can grow the whole topbar
-            taller mid-search. */}
-        {showMessage && (
-          <p className={`well ${OVERLAY_POSITION_CLASSES} rounded-xl border px-2.5 py-1.5 text-ink-3 shadow-xl shadow-(color:--shadow-panel)`}>
-            {outcome && "reason" in outcome ? outcome.reason : statusMessage}
-          </p>
-        )}
+          {/* Outcome message (not-covered / not-found / unparseable) — an
+              overlay below the input rather than a line of normal-flow text
+              underneath it, same reasoning as the listbox above: nothing
+              here should be able to change this row's own height, which is
+              what lets SiteHeader treat the search bar as a fixed-height
+              toolbar control instead of one that can grow the whole topbar
+              taller mid-search. */}
+          {showMessage && (
+            <p className={`well ${OVERLAY_POSITION_CLASSES} rounded-xl border px-2.5 py-1.5 text-ink-3 shadow-xl shadow-(color:--shadow-panel)`}>
+              {outcome && "reason" in outcome ? outcome.reason : statusMessage}
+            </p>
+          )}
+        </div>
       </div>
+      {/* The "what this map can't see" disclosure — beside the input pill,
+          not inside it, so the pill stays a plain search control and this
+          stays its own clearly separate affordance. See CoverageNotice's
+          file comment for why it's still reachable in the same motion as
+          searching rather than tucked away elsewhere. */}
+      <CoverageNotice />
       {/* Announces the outcome without moving focus out of the input —
           the standard, less-disorienting combobox convention. Nothing
           rendered here is ever logged, persisted, or put in a URL: it's

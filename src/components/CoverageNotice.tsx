@@ -1,9 +1,9 @@
 "use client";
 
 // The implementation of AGENTS.md §3.3's "What this map can't see" —
-// rendered inside SearchBar's own input row (a small icon at the end, next
-// to the search icon at the start) so it's reachable in the same motion as
-// searching, not a footnote someone would have to go looking for.
+// rendered next to SearchBar's own input pill (not inside it) so it's
+// still reachable in the same motion as searching, without living inside
+// what should otherwise be a plain search control.
 //
 // A single tap away, not zero taps: this used to be an always-visible
 // sentence under the input, which — once the search bar moved into the
