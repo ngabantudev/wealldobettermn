@@ -216,9 +216,9 @@ export default function SearchBar({ index, allPlaces, onSelectWard, onSelectCity
     switch (next.status) {
       case "single": {
         // A real address match (house-number resolution) carries its own
-        // canonical `formattedAddress` — "931 BIRMINGHAM ST, ST PAUL, MN
-        // 55106" (see addressSearch.ts's formatConfirmedAddress) — built
-        // from the matched street/house-number/ZIP data itself, not from
+        // canonical `formattedAddress` — "931 BIRMINGHAM ST" (see
+        // addressSearch.ts's formatConfirmedAddress) — built from the
+        // matched street/house-number data itself, not from
         // whatever casing or shorthand the resident happened to type. That
         // keeps showing/copying/announcing exactly the same string no
         // matter whether they typed the full address, a partial one, or

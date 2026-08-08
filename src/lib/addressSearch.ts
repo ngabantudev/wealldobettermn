@@ -42,8 +42,8 @@ export type ParsedQuery =
 
 export type SearchOutcome =
   // Exactly one ward — the caller auto-selects it, same as a real click.
-  // `formattedAddress` is the canonical "HOUSE NUMBER STREET, CITY, MN
-  // ZIP" form (see formatConfirmedAddress below) — set only when this
+  // `formattedAddress` is the canonical "HOUSE NUMBER STREET" form (see
+  // formatConfirmedAddress below) — set only when this
   // came from an actual house-number match (mirrors `point`: both are
   // null together, both non-null together), never for a ZIP-only match
   // or a ward picked off an ambiguous list, which have no single address
@@ -268,21 +268,16 @@ function matchingSideFraction(houseNumber: number, edge: AddressEdge): number | 
   return null;
 }
 
-// The canonical display/copy/clipboard form: "931 BIRMINGHAM ST, ST PAUL,
-// MN 55106". `street` is already USPS-abbreviated uppercase (see
-// normalizeStreetName above — both index-build and query time run the
-// same normalizer, so this never has to re-abbreviate anything). `city`
-// comes from the resolved WardRef, which spells cities the way CITIES
-// does ("St. Paul") — periods stripped and uppercased here to match the
-// rest of the format, not carried through as-is. `zip` is whichever side
-// of the matched block face had one on file (see matchingSideFraction's
-// own two branches); cosmetic only, like interpolateAlongLine's point —
-// never consulted for ward identity — so falling back to the other side
-// or omitting it entirely if neither is on file is an acceptable
-// approximation, not a correctness risk.
-function formatConfirmedAddress(houseNumber: number, street: string, city: string, zip: string | null): string {
-  const cityUpper = city.toUpperCase().replace(/\./g, "");
-  return zip ? `${houseNumber} ${street}, ${cityUpper}, MN ${zip}` : `${houseNumber} ${street}, ${cityUpper}, MN`;
+// The canonical display/copy/clipboard form: "931 BIRMINGHAM ST" — house
+// number and street only. `street` is already USPS-abbreviated uppercase
+// (see normalizeStreetName above — both index-build and query time run
+// the same normalizer, so this never has to re-abbreviate anything). City,
+// state, and ZIP are deliberately left off: they're resolution metadata
+// (ward disambiguation, polling-place lookup), not part of what the
+// resident typed, and keeping the copied/displayed string to just the
+// street address is what the resident actually asked to confirm.
+function formatConfirmedAddress(houseNumber: number, street: string): string {
+  return `${houseNumber} ${street}`;
 }
 
 function dedupeWardRefs(refs: WardRef[]): WardRef[] {
@@ -343,8 +338,7 @@ function resolveAddress(
   if (wards.length === 1) {
     const best = narrowed.find((m) => m.edge.wardCandidates.some((w) => w.city === wards[0].city && w.ward === wards[0].ward));
     const point = best ? interpolateAlongLine(best.edge.coords, best.fraction) : null;
-    const zip = best?.edge.zipl ?? best?.edge.zipr ?? null;
-    const formattedAddress = formatConfirmedAddress(houseNumber, street, wards[0].city, zip);
+    const formattedAddress = formatConfirmedAddress(houseNumber, street);
     return { status: "single", wards: [wards[0]], point, formattedAddress };
   }
   return {
