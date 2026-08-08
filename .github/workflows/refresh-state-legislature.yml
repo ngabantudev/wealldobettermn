@@ -62,12 +62,18 @@ jobs:
           OPEN_STATES_API_KEY: ${{ secrets.OPEN_STATES_API_KEY }}
         run: npm run data:state-legislature
 
-      - name: Check whether the output actually changed
+      # scripts/cache/state-legislature-votes.json accumulates the
+      # vote-sampling cache across runs (see fetch-state-legislature.mjs's
+      # header comment) — it can change on its own even when the geojson
+      # output doesn't (e.g. this run's sample found new roll calls that
+      # didn't flip any partyUnityPercent score), so both paths are
+      # checked and both get committed together below.
+      - name: Check whether the output or the vote cache actually changed
         id: diff
         run: |
-          if git diff --quiet -- public/state-legislature.geojson; then
+          if git diff --quiet -- public/state-legislature.geojson scripts/cache/state-legislature-votes.json; then
             echo "changed=false" >> "$GITHUB_OUTPUT"
-            echo "No change in public/state-legislature.geojson — nothing to open a PR for."
+            echo "No change in public/state-legislature.geojson or the vote cache — nothing to open a PR for."
           else
             echo "changed=true" >> "$GITHUB_OUTPUT"
           fi
@@ -89,9 +95,19 @@ jobs:
             const feats = data.features;
             const vacant = feats.filter((f) => f.properties.repParty === "Vacant").map((f) => f.properties.stateDistrict);
             const scored = feats.filter((f) => f.properties.partyUnityPercent !== null).length;
+            const houseFeats = feats.filter((f) => f.properties.chamber === "house");
+            const senateFeats = feats.filter((f) => f.properties.chamber === "senate");
+            const houseScored = houseFeats.filter((f) => f.properties.partyUnityPercent !== null).length;
+            const senateScored = senateFeats.filter((f) => f.properties.partyUnityPercent !== null).length;
             const lines = [
-              `- ${feats.length} district(s) total (${feats.filter((f) => f.properties.chamber === "house").length} House, ${feats.filter((f) => f.properties.chamber === "senate").length} Senate)`,
-              `- ${scored} of ${feats.length} have a party-unity score from this run'\''s bill sample`,
+              `- ${feats.length} district(s) total (${houseFeats.length} House, ${senateFeats.length} Senate)`,
+              // Per-chamber breakdown, not just the combined total — the
+              // chamber-balanced sampling this workflow relies on (see
+              // fetch-state-legislature.mjs) exists specifically because a
+              // combined total once hid one chamber going almost entirely
+              // unscored (133/134 House, 1/67 Senate) behind a
+              // reasonable-looking 134/201 overall number.
+              `- ${scored} of ${feats.length} have a party-unity score from the accumulated vote cache (${houseScored}/${houseFeats.length} House, ${senateScored}/${senateFeats.length} Senate)`,
               vacant.length > 0
                 ? `- ⚠️ ${vacant.length} seat(s) show as Vacant: ${vacant.join(", ")} — verify these are real vacancies, not a district-key mismatch (see b3501f2)`
                 : "- 0 seats show as Vacant",
@@ -113,7 +129,7 @@ jobs:
           BRANCH="automation/refresh-state-legislature"
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add public/state-legislature.geojson
+          git add public/state-legislature.geojson scripts/cache/state-legislature-votes.json
           git commit -m "chore(data): refresh MN state legislature roster/votes ($(date -u +%Y-%m-%d))"
           git push --force origin "HEAD:refs/heads/$BRANCH"
 

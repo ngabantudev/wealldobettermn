@@ -8,15 +8,51 @@
 // their own party's majority. See computePartyUnity() below for the
 // exact method.
 //
-// Statewide since #15's follow-up: this script used to filter districts
-// down to a Twin Cities bounding box (TWIN_CITIES_BOUNDS/
-// boundsContainPoint, now removed) even though fetchLegislators() and
+// Statewide since #61 (#15's first follow-up): this script used to filter
+// districts down to a Twin Cities bounding box (TWIN_CITIES_BOUNDS/
+// boundsContainPoint, removed there) even though fetchLegislators() and
 // fetchRecentVoteEvents() below were already querying Open States for
 // all of Minnesota, unfiltered — the geographic filter only ever
 // discarded districts after they'd already been fetched. Removing it
-// costs no extra API calls; see src/lib/coverage.ts's
-// STATE_LEGISLATURE_NOTE, which used to describe this same bounding box
-// and has been updated to match.
+// cost no extra API calls; district/legislator coverage has been
+// statewide (201 seats) since that PR. See src/lib/coverage.ts's
+// STATE_LEGISLATURE_NOTE.
+//
+// What #15 flagged as still-bounded work, and what this pass (#15's
+// second follow-up) does about it: vote-*sampling* depth, not roster
+// coverage, was the actual gap. A single run's sample
+// (BILL_PAGES_TO_SAMPLE pages of "recently updated" MN bills) was pulled
+// from one combined, unfiltered list — and Open States' `updated_desc`
+// ordering across the whole jurisdiction turned out to skew hard toward
+// one chamber's bills on any given day. Confirmed against the
+// then-committed public/state-legislature.geojson (2026-08-08): 133/134
+// House seats had a party-unity score, 1/67 Senate seats did — the
+// sample had found a House floor vote (which alone covers nearly the
+// whole House, since one roll call lists every member present) but
+// never a Senate one. Two changes address this without requesting any
+// more of Open States' free tier than before:
+//
+//   1. fetchRecentVoteEvents() now samples each chamber separately
+//      (`chamber=upper`/`chamber=lower` on /bills, confirmed as a real
+//      filter parameter against v3.openstates.org/openapi.json — see
+//      LESSONS.md's Open States entry for this API's live-verification
+//      status generally) and splits BILL_PAGES_TO_SAMPLE evenly between
+//      them, sequentially, with the same inter-page backoff as before.
+//      Total requests per run are unchanged; the House-heavy skew that
+//      starved the Senate sample is gone by construction.
+//   2. Vote events are now cached across runs (scripts/cache/
+//      state-legislature-votes.json, committed like every other derived
+//      artifact — see mergeVoteEventCache()/loadVoteEventCache()/
+//      saveVoteEventCache() below) instead of discarded at the end of
+//      each run. party-unity is computed from the accumulated cache, not
+//      just this run's sample, so coverage only grows across the
+//      scheduled refreshes in .github/workflows/refresh-state-legislature.yml
+//      — a legislator who didn't appear in this week's sample keeps
+//      whatever score last week's did find, rather than losing it.
+//
+// This does not guarantee 201/201 seats get a score on any given day —
+// see the knownGaps note near MAX_CACHED_VOTE_EVENTS below for what's
+// still an honest, disclosed gap rather than a silent truncation.
 //
 // Unlike every other layer in this app, state legislature data needs a
 // free Open States API key (https://open.pluralpolicy.com/accounts/signup/)
@@ -59,6 +95,11 @@ import { updateDataManifest } from "./lib/dataManifest.mjs";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const OUTPUT_PATH = path.join(__dirname, "../public/state-legislature.geojson");
 const FIXTURE_PATH = path.join(__dirname, "fixtures/state-legislature-sample.json");
+// Not under public/ — this is an ETL-intermediate accumulation cache, not
+// a published artifact per AGENTS.md §2.1's registry contract, and never
+// fetched by any client code. Committed to the repo (like public/legistar/
+// *.json) so it survives across scheduled-workflow runs, not gitignored.
+const VOTE_CACHE_PATH = path.join(__dirname, "cache/state-legislature-votes.json");
 
 const SELF_TEST = process.argv.includes("--self-test");
 
@@ -97,11 +138,36 @@ const OPEN_STATES_BASE = "https://v3.openstates.org";
 
 // How many pages of recently-updated MN bills (with vote data included) to
 // sample when computing party-unity — enough to gather a real number of
-// roll calls without over-using a free-tier API key.
+// roll calls without over-using a free-tier API key. Split evenly across
+// the two chambers by fetchRecentVoteEvents() below (see the header
+// comment) rather than pulled from one combined list, so total requests
+// per run are unchanged from before this pass.
 const BILL_PAGES_TO_SAMPLE = 8;
 const BILLS_PER_PAGE = 20;
 const RECENT_VOTES_TO_KEEP = 5;
 const QUALIFYING_OPTIONS = new Set(["yes", "no"]);
+const CHAMBER_ORG_CLASSIFICATION = { house: "lower", senate: "upper" };
+
+// Caps scripts/cache/state-legislature-votes.json's growth across runs.
+// A two-year MN legislative biennium runs on the order of a few hundred
+// recorded floor votes across both chambers combined; 300 is generous
+// enough to accumulate toward full statewide coverage over a session
+// (each floor vote's roll call lists nearly every member of that chamber
+// at once — see the header comment's House/Senate confirmation) while
+// keeping the file from growing without bound across years of scheduled
+// refreshes. Eviction is oldest-by-date first (mergeVoteEventCache()),
+// which only matters once accumulated coverage actually exceeds this cap.
+//
+//   knownGaps: a seat can still legitimately have no partyUnityPercent/
+//   recentVotes — a brand-new legislator (special election) who hasn't
+//   cast a qualifying vote yet, or one whose chamber simply hasn't held
+//   a floor vote since the cache started accumulating. This is disclosed
+//   in src/lib/coverage.ts's STATE_LEGISLATURE_NOTE and rendered as an
+//   absent field, never a fabricated score (WardModal renders nothing
+//   when partyUnityPercent/recentVotes are null/empty) — not a silent
+//   truncation of statewide coverage, which is unconditional (201/201
+//   seats always get a district, legislator name, and party).
+const MAX_CACHED_VOTE_EVENTS = 300;
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -191,45 +257,132 @@ async function fetchLegislators(chamber) {
   return new Map(results.map((m) => [normalizeDistrictKey(m.current_role.district, chamber), m]));
 }
 
+// Only the fields computePartyUnity()/buildFeature() actually read are
+// kept before a vote event is added to the in-memory list or the
+// persistent cache — Open States' raw vote-event payload carries more
+// per-voter fields (voter_name, chamber, etc.) that this app never uses
+// and that would otherwise inflate scripts/cache/state-legislature-votes
+// .json for no benefit.
+function slimVoteEvent(event) {
+  return {
+    voteId: event.voteId,
+    identifier: event.identifier,
+    title: event.title,
+    date: event.date,
+    result: event.result,
+    sourceUrl: event.sourceUrl,
+    votes: event.votes.map((v) => ({
+      option: v.option,
+      voter: v.voter?.id ? { id: v.voter.id, party: v.voter.party ?? null } : null,
+    })),
+  };
+}
+
 // Collects every roll-call vote found on a sample of recently-updated MN
-// bills. Most bills never get a floor vote (they die in committee), so
-// this pages through more bills than it expects to find votes on.
-async function fetchRecentVoteEvents() {
-  console.log(`[state-legislature] sampling ${BILL_PAGES_TO_SAMPLE * BILLS_PER_PAGE} recent MN bills for roll-call votes...`);
+// bills for one chamber. Most bills never get a floor vote (they die in
+// committee), so this pages through more bills than it expects to find
+// votes on. Filtered to one chamber's bills via Open States' `chamber`
+// parameter (confirmed present on /bills against v3.openstates.org/
+// openapi.json — "filter by chamber of origination") specifically so a
+// jurisdiction-wide `updated_desc` sample can't skew toward whichever
+// chamber happens to have more bill activity on a given day and starve
+// the other chamber's sample entirely — see the file header comment for
+// the confirmed real-world case (House 133/134 scored, Senate 1/67) that
+// motivated splitting this per chamber instead of sampling once overall.
+async function fetchRecentVoteEventsForChamber(chamber, pageBudget) {
+  const orgClassification = CHAMBER_ORG_CLASSIFICATION[chamber];
+  console.log(`[state-legislature] sampling up to ${pageBudget * BILLS_PER_PAGE} recently-updated MN ${chamber} bills for roll-call votes...`);
   const voteEvents = [];
-  for (let page = 1; page <= BILL_PAGES_TO_SAMPLE; page++) {
+  for (let page = 1; page <= pageBudget; page++) {
     if (page > 1) await sleep(500); // spread requests out rather than lean entirely on 429 retries
     let data;
     try {
       data = await openStatesFetch(
-        `/bills?jurisdiction=Minnesota&sort=updated_desc&per_page=${BILLS_PER_PAGE}&page=${page}&include=votes`,
+        `/bills?jurisdiction=Minnesota&chamber=${orgClassification}&sort=updated_desc&per_page=${BILLS_PER_PAGE}&page=${page}&include=votes`,
       );
     } catch (err) {
       // This endpoint appears to carry a tighter quota than the rest of
       // the API — a free-tier key can exhaust it mid-run. Score whoever
       // was covered by the pages that did succeed rather than fail the
       // whole build over one endpoint's quota.
-      console.warn(`[state-legislature] stopping vote sample early at page ${page}: ${err.message}`);
+      console.warn(`[state-legislature] stopping ${chamber} vote sample early at page ${page}: ${err.message}`);
       break;
     }
     for (const bill of data.results) {
       for (const voteEvent of bill.votes ?? []) {
         if (!voteEvent.votes || voteEvent.votes.length === 0) continue;
-        voteEvents.push({
-          voteId: voteEvent.id,
-          identifier: bill.identifier,
-          title: bill.title,
-          date: voteEvent.start_date,
-          result: voteEvent.result,
-          sourceUrl: bill.openstates_url ?? null,
-          votes: voteEvent.votes,
-        });
+        voteEvents.push(
+          slimVoteEvent({
+            voteId: voteEvent.id,
+            identifier: bill.identifier,
+            title: bill.title,
+            date: voteEvent.start_date,
+            result: voteEvent.result,
+            sourceUrl: bill.openstates_url ?? null,
+            votes: voteEvent.votes,
+          }),
+        );
       }
     }
     if (page >= data.pagination.max_page) break;
   }
-  console.log(`[state-legislature] found ${voteEvents.length} roll-call vote(s)`);
+  console.log(`[state-legislature] MN ${chamber}: found ${voteEvents.length} roll-call vote(s) in this run's sample`);
   return voteEvents;
+}
+
+// Splits the same total page budget this script has always used
+// (BILL_PAGES_TO_SAMPLE) evenly across both chambers, sequentially — no
+// increase in requests-per-run versus the single combined sample this
+// replaced. Run sequentially (not Promise.all) so the two chambers' pages
+// share the same gentle pacing as pages within a single chamber always
+// have, rather than doubling instantaneous request concurrency.
+async function fetchRecentVoteEvents() {
+  const perChamberPages = Math.ceil(BILL_PAGES_TO_SAMPLE / 2);
+  const houseEvents = await fetchRecentVoteEventsForChamber("house", perChamberPages);
+  await sleep(500);
+  const senateEvents = await fetchRecentVoteEventsForChamber("senate", perChamberPages);
+  return [...houseEvents, ...senateEvents];
+}
+
+// scripts/cache/state-legislature-votes.json accumulates vote events
+// across scheduled runs (see file header) instead of each run discarding
+// its sample at exit. Missing/unreadable cache -> empty, same
+// honest-empty-state posture as every other "build must succeed with no
+// prior data" path in this app (AGENTS.md §0.8/§3.2) — a first run (or a
+// fresh clone that never ran this script live) just starts accumulating
+// from zero rather than failing.
+async function loadVoteEventCache() {
+  try {
+    const raw = JSON.parse(await readFile(VOTE_CACHE_PATH, "utf8"));
+    if (!Array.isArray(raw.voteEvents)) return [];
+    return raw.voteEvents;
+  } catch (err) {
+    console.warn(`[state-legislature] no usable vote cache at ${VOTE_CACHE_PATH} (${err.message}) — starting from an empty cache.`);
+    return [];
+  }
+}
+
+// Fresh events win on a voteId collision (Open States could in principle
+// re-report the same roll call with corrected data); otherwise every
+// distinct voteId from either list survives. Sorted newest-first and
+// capped at MAX_CACHED_VOTE_EVENTS so the file's growth is bounded — see
+// that constant's own comment for why oldest-first eviction is an
+// acceptable tradeoff here.
+function mergeVoteEventCache(cachedEvents, freshEvents, maxSize = MAX_CACHED_VOTE_EVENTS) {
+  const byId = new Map(cachedEvents.map((e) => [e.voteId, e]));
+  for (const event of freshEvents) byId.set(event.voteId, event);
+  return [...byId.values()].sort((a, b) => b.date.localeCompare(a.date)).slice(0, maxSize);
+}
+
+async function saveVoteEventCache(voteEvents, verifiedAt) {
+  const payload = {
+    schemaVersion: 1,
+    updatedAt: verifiedAt,
+    sourceNote: "Accumulated across scheduled runs of scripts/fetch-state-legislature.mjs — see that script's header comment.",
+    voteEvents,
+  };
+  await mkdir(path.dirname(VOTE_CACHE_PATH), { recursive: true });
+  await writeFile(VOTE_CACHE_PATH, JSON.stringify(payload));
 }
 
 // Party unity: for each roll call, find each party's majority yes/no
@@ -340,7 +493,12 @@ async function main() {
     fetchDistricts(SENATE_DISTRICTS_URL, "senate"),
   ]);
   const [houseMembers, senateMembers] = await Promise.all([fetchLegislators("house"), fetchLegislators("senate")]);
-  const voteEvents = await fetchRecentVoteEvents();
+  const freshVoteEvents = await fetchRecentVoteEvents();
+  const cachedVoteEvents = await loadVoteEventCache();
+  const voteEvents = mergeVoteEventCache(cachedVoteEvents, freshVoteEvents);
+  console.log(
+    `[state-legislature] vote cache: ${cachedVoteEvents.length} cached + ${freshVoteEvents.length} from this run's sample -> ${voteEvents.length} distinct roll call(s) after merge`,
+  );
   const partyUnityTally = computePartyUnity(voteEvents);
 
   const featureCollection = buildFeatureCollection(
@@ -370,6 +528,14 @@ async function main() {
   await writeFile(OUTPUT_PATH, output);
   await updateDataManifest(path.basename(OUTPUT_PATH), output);
   console.log(`[done] wrote ${simplified.features.length} state legislature district feature(s) to ${OUTPUT_PATH}`);
+
+  // Persist the merged cache only after the geojson write above has
+  // already succeeded — a run that fails earlier (bad district fetch, a
+  // stale verifiedAt) leaves the cache exactly as the last successful run
+  // left it, rather than committing a merge attached to output that never
+  // shipped.
+  await saveVoteEventCache(voteEvents, new Date().toISOString().slice(0, 10));
+  console.log(`[state-legislature] wrote ${voteEvents.length} cached roll-call vote(s) to ${VOTE_CACHE_PATH}`);
 }
 
 // Shared between the live run and --self-test so both exercise the exact
@@ -451,9 +617,31 @@ async function runSelfTest() {
     throw new Error("[self-test] assertVerifiedSinceLastGeneralElection did not reject an obviously stale date.");
   }
 
+  // mergeVoteEventCache() is the cross-run accumulation this pass adds —
+  // exercised here against the fixture's own vote event plus two
+  // synthetic "prior run" events, never against the real committed cache
+  // file (loadVoteEventCache/saveVoteEventCache are never called in
+  // self-test mode).
+  const priorCacheEvents = [
+    { voteId: "fixture-vote-1", identifier: "STALE COPY", title: "should be replaced by the fresh version", date: "2020-01-01", result: "pass", sourceUrl: null, votes: [] },
+    { voteId: "fixture-vote-prior-only", identifier: "FIXTURE HF 2", title: "only ever in the cache, never refetched", date: "2025-06-01", result: "pass", sourceUrl: null, votes: [] },
+  ];
+  const merged = mergeVoteEventCache(priorCacheEvents, fixture.voteEvents);
+  const replaced = merged.find((e) => e.voteId === "fixture-vote-1");
+  if (!replaced || replaced.identifier !== "FIXTURE HF 1") {
+    throw new Error("[self-test] mergeVoteEventCache did not let a fresh event win over a stale cached one with the same voteId.");
+  }
+  if (!merged.some((e) => e.voteId === "fixture-vote-prior-only")) {
+    throw new Error("[self-test] mergeVoteEventCache dropped a cache-only event that had no fresh counterpart.");
+  }
+  const capped = mergeVoteEventCache(priorCacheEvents, fixture.voteEvents, 1);
+  if (capped.length !== 1) {
+    throw new Error("[self-test] mergeVoteEventCache did not respect its maxSize cap.");
+  }
+
   console.log(
     `[self-test] PASS — built ${featureCollection.features.length} fixture feature(s), verification fields present, ` +
-      "stale-record check correctly rejects an old verifiedAt.",
+      "stale-record check correctly rejects an old verifiedAt, mergeVoteEventCache dedupes/preserves/caps correctly.",
   );
 }
 

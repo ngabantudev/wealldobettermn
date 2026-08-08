@@ -44,18 +44,23 @@ export const JURISDICTION_COVERAGE_TIERS = JURISDICTIONS.map((j) => ({
 export const COMMISSIONER_COUNTIES = ["Hennepin", "Ramsey"] as const;
 
 // scripts/fetch-state-legislature.mjs used to filter its output down to a
-// Twin Cities bounding box (TWIN_CITIES_BOUNDS, removed as part of #15's
-// follow-up); it now emits every MN House and Senate district statewide.
-// This note is kept even though the geographic caveat is gone, since
-// party-unity scores and recent votes still come from a sample of
-// recently-updated bills (BILL_PAGES_TO_SAMPLE in that script), not a
-// full roll-call archive — some legislators won't have a score yet purely
-// because none of their recent votes landed in the sample. WardModal
-// handles that per-record (partyUnityPercent/recentVotes render nothing
-// when absent, rather than a fabricated zero), so this is disclosure, not
-// a blocker.
+// Twin Cities bounding box (TWIN_CITIES_BOUNDS, removed as part of #61,
+// #15's first follow-up); it now emits every MN House and Senate district
+// statewide. This note is kept even though the geographic caveat is gone,
+// since party-unity scores and recent votes still come from a sample of
+// roll calls, not a full archive — some legislators won't have a score
+// yet purely because none of their qualifying votes have landed in the
+// sample. That sample now accumulates across scheduled runs instead of
+// resetting every time (scripts/cache/state-legislature-votes.json, #15's
+// second follow-up — see that script's header comment for why a single
+// run's sample used to skew almost entirely toward one chamber), so this
+// gap should shrink over successive weekly/monthly refreshes rather than
+// stay fixed at whatever one run's sample found. WardModal handles the
+// gap per-record (partyUnityPercent/recentVotes render nothing when
+// absent, rather than a fabricated zero), so this is disclosure, not a
+// blocker.
 export const STATE_LEGISLATURE_NOTE =
-  "MN House & Senate districts statewide. Party-unity scores and recent votes come from a sample of recent roll calls, so not every legislator has one yet.";
+  "MN House & Senate districts statewide. Party-unity scores and recent votes come from an accumulating sample of recent roll calls, so not every legislator has one yet.";
 
 // Mirrors src/lib/layers.ts's CITY_BOUNDARIES_LAYER coverage field — that
 // registry entry is the ground truth this note has to stay in sync with by
