@@ -8,7 +8,7 @@ import dataManifest from "../../public/data-manifest.json";
 import type { AddressIndex, MnPlaces, RepProperties, WardRef } from "@/lib/types";
 import type { AreaOfficials, CivicGeometrySources } from "@/lib/officials";
 import { officialIdentity, resolveOfficialsAtPoint } from "@/lib/officials";
-import { CITIES, type City } from "@/lib/cities";
+import { AT_LARGE_CITIES, CITIES, type City } from "@/lib/cities";
 import {
   CITY_ACCENT,
   CITY_PALETTES,
@@ -92,16 +92,43 @@ const WARDS_PIN_LINKS_SOURCE_ID = "wards-pin-links-source";
 const WARDS_PIN_LINKS_LAYER_ID = "wards-pin-links";
 
 // A city with no ward polygon at all (elects entirely at-large — Woodbury
-// is the first) gets its own outline filled instead, one feature per city
-// in public/at-large-boundaries.geojson (see fetch-at-large-boundaries.mjs
-// and that file's own comment on why this couldn't just be a pseudo-ward
-// feature in wards.geojson). Solid CITY_ACCENT fill, not a ward-cycled
+// is the first) gets its own outline filled instead, one feature per
+// AT_LARGE_CITIES entry (src/lib/cities.ts), derived client-side by
+// filtering the statewide public/city-boundaries.geojson backdrop down to
+// just those cities — see deriveAtLargeBoundaries's own comment. This used
+// to be its own fetch of public/at-large-boundaries.geojson (Washington
+// County's own GIS portal, one URL per at-large city — see git history for
+// scripts/fetch-at-large-boundaries.mjs, now removed); deriving it from
+// the already-fetched statewide feed instead avoids painting two
+// independently-sourced polygons for the same city that could silently
+// drift apart at the edges. Solid CITY_ACCENT fill, not a ward-cycled
 // shade — there's no ward number to cycle across, this polygon *is* the
 // whole city. Renders alongside wards-mode (same as mayors' pins already
 // do), never its own LayerMode.
 const AT_LARGE_BOUNDARIES_SOURCE_ID = "at-large-boundaries-source";
 const AT_LARGE_BOUNDARY_FILL_LAYER_ID = "at-large-boundary-fill";
 const AT_LARGE_BOUNDARY_OUTLINE_LAYER_ID = "at-large-boundary-outline";
+
+// Statewide "city limits" backdrop — every incorporated MN city's own
+// corporate boundary (public/city-boundaries.geojson, see
+// fetch-city-boundaries.mjs), not just the cities.ts cities this app has
+// ward/mayor data for. Visible in "wards" and "commissioners" modes, hidden
+// in "state-legislature" — see applyLayerMode's own comment on why this
+// isn't just a third entry in that function's per-mode layerGroups (it
+// needs to be visible under *two* modes, not exactly one) and why state
+// mode is the one it's suppressed in (state-legislature.geojson is already
+// statewide — full coverage regardless — so this would be pure redundant
+// clutter there, unlike commissioners.geojson's 2-of-87-county coverage,
+// where it's the only thing on the map for most of the state). No manual
+// toggle — the two-mode/one-mode split above already puts it exactly where
+// it's load-bearing and nowhere it's just noise, so a control to hide it
+// further would have nothing left to usefully do.
+// Added to the map FIRST, before WARDS_SOURCE_ID/every other tier, so
+// z-order alone (this file never passes `beforeId` to addLayer) keeps it
+// painted underneath every real data layer.
+const CITY_BOUNDARIES_SOURCE_ID = "city-boundaries-source";
+const CITY_BOUNDARIES_FILL_LAYER_ID = "city-boundaries-fill";
+const CITY_BOUNDARIES_OUTLINE_LAYER_ID = "city-boundaries-outline";
 
 const COMMISSIONERS_SOURCE_ID = "commissioners-source";
 const COMMISSIONERS_FILL_LAYER_ID = "commissioners-fill";
@@ -183,6 +210,16 @@ const MODE_VISIBLE_CITIES: Record<LayerMode, readonly City[]> = {
   commissioners: ["Minneapolis", "St. Paul"],
   "state-legislature": [],
 };
+
+// Which cities' wards are checked on first load, before a resident touches
+// the "Areas shown" checklist — every other covered city still renders (its
+// checkbox is just unchecked to start), one click away via the checklist or
+// the "All" bulk toggle, not removed from the map. Minneapolis/St. Paul are
+// the core metro and this app's original two cities; defaulting to just
+// them keeps the first paint focused rather than opening on all 17 cities'
+// wards at once. Unlike MODE_VISIBLE_CITIES above (which city checkboxes
+// even *exist* per mode), this only decides which of those start checked.
+const DEFAULT_VISIBLE_CITIES = new Set<City>(["Minneapolis", "St. Paul"]);
 
 // User-facing names for the mode toggle — "which level of government."
 const MODE_LABELS: Record<LayerMode, string> = {
@@ -601,14 +638,14 @@ function wardPinConnectorLines(map: maplibregl.Map, wardsData: FeatureCollection
 const EMPTY_FEATURE_COLLECTION: FeatureCollection = { type: "FeatureCollection", features: [] };
 
 // The two layers every resident needs regardless of which LayerMode
-// they're in: wards/mayors are the default "wards" mode itself, and
-// at-large-boundaries rides along with them (see that source's own
-// comment — it's wardless-city backdrop, shown alongside wards mode,
-// never its own mode).
+// they're in: wards/mayors are the default "wards" mode itself.
+// at-large-boundaries used to ride along with them as its own fetch; it's
+// now *derived* client-side from SecondaryCivicData's cityBoundaries once
+// that arrives — see AT_LARGE_BOUNDARIES_SOURCE_ID's own comment and
+// applySecondaryCivicData below for the tradeoff that follows from that.
 interface PrimaryCivicData {
   wards: FeatureCollection;
   mayors: FeatureCollection;
-  atLargeBoundaries: FeatureCollection;
 }
 
 // Commissioner districts and state legislative districts — by far the
@@ -619,40 +656,40 @@ interface PrimaryCivicData {
 // fetchSecondaryCivicData's own comment for why these are fetched
 // separately, and afterward, rather than in the same Promise.all as
 // PrimaryCivicData above.
+// cityBoundaries rides along with commissioners/stateLeg here rather than
+// with PrimaryCivicData above: it's a backdrop, not something the default
+// "wards" view's search/pin flow depends on, so it's fine to arrive a
+// moment later — same reasoning that already applies to commissioners and
+// stateLeg (see this interface's own comment above). The at-large-boundary
+// layer is derived from this field too — see AT_LARGE_BOUNDARIES_SOURCE_ID's
+// own comment.
 interface SecondaryCivicData {
   commissioners: FeatureCollection;
   stateLeg: FeatureCollection;
+  cityBoundaries: FeatureCollection;
 }
 
-// Fetches wards/mayors/at-large-boundaries independently of the MapLibre
-// instance — previously this ran inside map.on("load"), which meant a
-// resident whose map never finishes loading (WebGL unavailable, tile
-// host down) could never get ward data either, silently breaking search
-// along with the map itself. AGENTS.md Part 4 requires search to work
-// "with the map absent, failed, or never loaded," so this now runs on
-// its own, and the map-setup effect below awaits the same promise
-// instead of fetching a second time. Never throws: a failed fetch
-// resolves null so the caller can degrade (empty map, search that
-// honestly has nothing to search) rather than crash.
+// Fetches wards/mayors independently of the MapLibre instance —
+// previously this ran inside map.on("load"), which meant a resident
+// whose map never finishes loading (WebGL unavailable, tile host down)
+// could never get ward data either, silently breaking search along with
+// the map itself. AGENTS.md Part 4 requires search to work "with the map
+// absent, failed, or never loaded," so this now runs on its own, and the
+// map-setup effect below awaits the same promise instead of fetching a
+// second time. Never throws: a failed fetch resolves null so the caller
+// can degrade (empty map, search that honestly has nothing to search)
+// rather than crash.
 //
 // See dataUrl()'s own comment for the cache-busted-URL/real-HTTP-caching
 // swap that replaced this file's old `{ cache: "no-store" }` on every
 // one of these fetches (issue #67 Finding 3).
 async function fetchPrimaryCivicData(): Promise<PrimaryCivicData | null> {
   try {
-    const [wardsRes, mayorsRes, atLargeBoundariesRes] = await Promise.all([
-      fetch(dataUrl("wards.geojson")),
-      fetch(dataUrl("mayors.geojson")),
-      fetch(dataUrl("at-large-boundaries.geojson")),
-    ]);
-    const [wards, mayors, atLargeBoundaries] = await Promise.all([
-      wardsRes.json(),
-      mayorsRes.json(),
-      atLargeBoundariesRes.json(),
-    ]);
-    return { wards, mayors, atLargeBoundaries };
+    const [wardsRes, mayorsRes] = await Promise.all([fetch(dataUrl("wards.geojson")), fetch(dataUrl("mayors.geojson"))]);
+    const [wards, mayors] = await Promise.all([wardsRes.json(), mayorsRes.json()]);
+    return { wards, mayors };
   } catch (err) {
-    console.error("[WardMap] failed to load primary civic data (wards/mayors/at-large boundaries)", err);
+    console.error("[WardMap] failed to load primary civic data (wards/mayors)", err);
     return null;
   }
 }
@@ -664,25 +701,58 @@ async function fetchPrimaryCivicData(): Promise<PrimaryCivicData | null> {
 // state-legislature.geojson (still the largest of the five layers even
 // after ingest-time simplification) at the same time as wards.geojson
 // would have the two compete for the same limited pipe, delaying the
-// file the default view actually needs. Waiting until wards/mayors/
-// at-large-boundaries are already in hand — search and the map's default
-// view usable — before even asking for these two means a resident never
-// waits on them for anything except the multi-tier hover panel's county/
-// state rows, which fill in a moment later once this resolves (see
+// file the default view actually needs. Waiting until wards/mayors are
+// already in hand — search and the map's default view usable — before
+// even asking for these two means a resident never waits on them for
+// anything except the multi-tier hover panel's county/state rows (and
+// now the at-large-boundary layer — see this file's own comment on that
+// tradeoff), which fill in a moment later once this resolves (see
 // resolveOfficialsAtPoint's own comment on why all three tiers are kept
 // independent of which LayerMode is visible). See issue #67 Finding 2.
 async function fetchSecondaryCivicData(): Promise<SecondaryCivicData | null> {
   try {
-    const [commissionersRes, stateLegRes] = await Promise.all([
+    const [commissionersRes, stateLegRes, cityBoundariesRes] = await Promise.all([
       fetch(dataUrl("commissioners.geojson")),
       fetch(dataUrl("state-legislature.geojson")),
+      fetch(dataUrl("city-boundaries.geojson")),
     ]);
-    const [commissioners, stateLeg] = await Promise.all([commissionersRes.json(), stateLegRes.json()]);
-    return { commissioners, stateLeg };
+    const [commissioners, stateLeg, cityBoundaries] = await Promise.all([
+      commissionersRes.json(),
+      stateLegRes.json(),
+      cityBoundariesRes.json(),
+    ]);
+    return { commissioners, stateLeg, cityBoundaries };
   } catch (err) {
     console.error("[WardMap] failed to load secondary civic data (commissioners/state legislature)", err);
     return null;
   }
+}
+
+// Filters the statewide city-boundaries feed down to the handful of
+// wardless (at-large-elected) cities this app covers, re-shaping each
+// hit into the `{ city }`-only properties shape every existing
+// at-large-boundary consumer already expects (fill color expression,
+// click/hover identity, applyCityZoom/applyCountyZoom's `.city` filter,
+// officials.ts's join — see AT_LARGE_BOUNDARIES_SOURCE_ID's own comment).
+//
+// The join is a plain string match on `properties.name` (MnDOT/MnGeo's
+// spelling) against AT_LARGE_CITIES (this app's abbreviated spelling) —
+// it will silently drop a future at-large city whose full name differs
+// from its abbreviated form here (e.g. "Saint " vs "St. "), the same
+// caveat already documented on CITY_BOUNDARIES_LAYER's knownGaps in
+// src/lib/layers.ts.
+function deriveAtLargeBoundaries(cityBoundaries: FeatureCollection): FeatureCollection {
+  const atLargeCitySet = new Set<string>(AT_LARGE_CITIES);
+  return {
+    type: "FeatureCollection",
+    features: cityBoundaries.features
+      .filter((f) => typeof f.properties?.name === "string" && atLargeCitySet.has(f.properties.name))
+      .map((f) => ({
+        type: "Feature",
+        geometry: f.geometry,
+        properties: { city: f.properties?.name as string },
+      })),
+  };
 }
 
 // MapLibre tiles GeoJSON sources internally (even client-side ones), and
@@ -884,6 +954,7 @@ export default function WardMap() {
   const commissionersDataRef = useRef<FeatureCollection | null>(null);
   const stateLegDataRef = useRef<FeatureCollection | null>(null);
   const atLargeBoundariesDataRef = useRef<FeatureCollection | null>(null);
+  const cityBoundariesDataRef = useRef<FeatureCollection | null>(null);
   // The in-flight/settled fetchPrimaryCivicData() call — a ref (not
   // state) because the map-setup effect below needs to `await` this
   // exact promise instance rather than re-fetch, and refs (unlike state)
@@ -927,7 +998,7 @@ export default function WardMap() {
   const [layerMode, setLayerMode] = useState<LayerMode>("wards");
   const layerModeRef = useRef(layerMode);
   const [visibleCities, setVisibleCities] = useState<Record<City, boolean>>(
-    () => Object.fromEntries(CITIES.map((city) => [city, true])) as Record<City, boolean>,
+    () => Object.fromEntries(CITIES.map((city) => [city, DEFAULT_VISIBLE_CITIES.has(city)])) as Record<City, boolean>,
   );
   const visibleCitiesRef = useRef(visibleCities);
   const [chamber, setChamber] = useState<Chamber>("house");
@@ -1011,16 +1082,26 @@ export default function WardMap() {
       if (!primary) return;
       wardsDataRef.current = primary.wards;
       mayorsDataRef.current = primary.mayors;
-      atLargeBoundariesDataRef.current = primary.atLargeBoundaries;
       const wardsBounds = boundsFromFeatureCollection(primary.wards);
       if (!wardsBounds.isEmpty()) wardsBoundsRef.current = wardsBounds;
 
-      // Only requested now that wards/mayors/at-large-boundaries are
-      // already in hand — see fetchSecondaryCivicData's own comment.
+      // Only requested now that wards/mayors are already in hand — see
+      // fetchSecondaryCivicData's own comment.
       fetchSecondaryCivicData().then((secondary) => {
         if (!secondary) return;
         commissionersDataRef.current = secondary.commissioners;
         stateLegDataRef.current = secondary.stateLeg;
+        cityBoundariesDataRef.current = secondary.cityBoundaries;
+        // Deliberate, accepted regression: Woodbury's at-large boundary
+        // (and everything gated on atLargeBoundariesDataRef — the fill
+        // layer, applyCityZoom/applyCountyZoom's fallback, search) is now
+        // only available once this *secondary* fetch resolves, instead of
+        // immediately with primary wards/mayors data — a moment later on
+        // a slow connection, not on initial paint. Traded for removing
+        // the duplicate-geometry problem (two independently-sourced
+        // polygons for the same city drifting apart at the edges) — see
+        // deriveAtLargeBoundaries's own comment.
+        atLargeBoundariesDataRef.current = deriveAtLargeBoundaries(secondary.cityBoundaries);
         const commissionersBounds = boundsFromFeatureCollection(secondary.commissioners);
         const stateLegBounds = boundsFromFeatureCollection(secondary.stateLeg);
         if (!commissionersBounds.isEmpty()) commissionersBoundsRef.current = commissionersBounds;
@@ -1246,6 +1327,17 @@ export default function WardMap() {
         if (map.getLayer(layerId)) map.setLayoutProperty(layerId, "visibility", groupMode === mode ? "visible" : "none");
       }
     }
+    // City-limits backdrop doesn't fit layerGroups above — that array is a
+    // strict one-mode-owns-this-layer mapping, but this layer needs to be
+    // visible under *two* of the three modes (wards and commissioners),
+    // hidden only in the third (state-legislature, where
+    // state-legislature.geojson's own statewide coverage already makes it
+    // redundant — see CITY_BOUNDARIES_SOURCE_ID's own comment for the full
+    // reasoning). Handled as its own rule rather than a second layerGroups
+    // entry, which could only ever express "owned by exactly one mode."
+    for (const layerId of [CITY_BOUNDARIES_FILL_LAYER_ID, CITY_BOUNDARIES_OUTLINE_LAYER_ID]) {
+      if (map.getLayer(layerId)) map.setLayoutProperty(layerId, "visibility", mode === "state-legislature" ? "none" : "visible");
+    }
     for (const { marker, properties, mode: pinMode } of pinMarkersRef.current) {
       const visible =
         pinMode === mode &&
@@ -1429,8 +1521,12 @@ export default function WardMap() {
     // A wardless (at-large) city — Woodbury today — has zero features in
     // wards.geojson by construction, so the check above always misses for
     // it; without this fallback, searching/selecting it used to silently
-    // zoom nowhere at all. Its boundary in at-large-boundaries.geojson is
-    // the only geometry standing in for "this city" instead.
+    // zoom nowhere at all. Its derived boundary (atLargeBoundariesDataRef —
+    // see deriveAtLargeBoundaries's own comment) is the only geometry
+    // standing in for "this city" instead. That derivation only exists
+    // once SecondaryCivicData has resolved, so this ref (like commissioners/
+    // stateLeg) can briefly be null/empty right after mount — the `?.`
+    // below already no-ops harmlessly in that window, same as it always has.
     const boundary = atLargeBoundariesDataRef.current?.features.filter((f) => f.properties?.city === city);
     if (!boundary || boundary.length === 0) return;
     setSelected(null);
@@ -1720,7 +1816,7 @@ export default function WardMap() {
     };
 
     let secondaryPinsAdded = false;
-    const addSecondaryPins = (secondary: SecondaryCivicData) => {
+    const addSecondaryPins = (secondary: Pick<SecondaryCivicData, "commissioners" | "stateLeg">) => {
       if (secondaryPinsAdded) return;
       secondaryPinsAdded = true;
       const { commissioners: commissionersData, stateLeg: stateLegData } = secondary;
@@ -1757,24 +1853,28 @@ export default function WardMap() {
     //
     // Reads straight from the *Ref.current values rather than taking a
     // parameter, so it always picks up whatever's actually available the
-    // moment it runs — including commissioners/stateLeg, which may or
-    // may not have arrived yet (SecondaryCivicData loads in the
-    // background, after wards/mayors/at-large-boundaries — see
-    // fetchSecondaryCivicData's own comment). Only ever called once
-    // wardsDataRef/mayorsDataRef/atLargeBoundariesDataRef are populated
-    // (both call sites below await primaryCivicDataPromiseRef first), so
-    // those three are asserted non-null; commissioners/stateLeg fall
-    // back to EMPTY_FEATURE_COLLECTION when not loaded yet — every layer
-    // built off them starts hidden by default anyway (layerMode defaults
-    // to "wards"), and applySecondaryCivicDataRef patches in the real
-    // data with setData() the moment it resolves.
+    // moment it runs — including commissioners/stateLeg/cityBoundaries/
+    // atLargeBoundaries, which may or may not have arrived yet
+    // (SecondaryCivicData loads in the background, after wards/mayors —
+    // see fetchSecondaryCivicData's own comment). Only ever called once
+    // wardsDataRef/mayorsDataRef are populated (both call sites below
+    // await primaryCivicDataPromiseRef first), so those two are asserted
+    // non-null; commissioners/stateLeg/cityBoundaries/atLargeBoundaries
+    // fall back to EMPTY_FEATURE_COLLECTION when not loaded/derived yet —
+    // every layer built off them starts hidden or empty by default anyway
+    // (layerMode defaults to "wards", and an empty at-large source just
+    // means Woodbury's accent fill hasn't appeared yet — see
+    // deriveAtLargeBoundaries's own comment on that tradeoff), and
+    // applySecondaryCivicDataRef patches in the real data with setData()
+    // the moment it resolves.
     const addSourcesAndLayers = () => {
       if (map.getSource(WARDS_SOURCE_ID)) return;
       const data = wardsDataRef.current!;
       const mayorsData = mayorsDataRef.current!;
-      const atLargeBoundariesData = atLargeBoundariesDataRef.current!;
+      const atLargeBoundariesData = atLargeBoundariesDataRef.current ?? EMPTY_FEATURE_COLLECTION;
       const commissionersData = commissionersDataRef.current ?? EMPTY_FEATURE_COLLECTION;
       const stateLegData = stateLegDataRef.current ?? EMPTY_FEATURE_COLLECTION;
+      const cityBoundariesData = cityBoundariesDataRef.current ?? EMPTY_FEATURE_COLLECTION;
 
       // Tuned against the *current basemap's* own darkness — see
       // OUTLINE_COLOR/LABEL_PAINT's own comment — recomputed on every call
@@ -1783,6 +1883,35 @@ export default function WardMap() {
       const dark = isMapStyleDark(currentStyleId);
       const outlineColor = dark ? OUTLINE_COLOR.dark : OUTLINE_COLOR.light;
       const labelPaint = dark ? LABEL_PAINT.dark : LABEL_PAINT.light;
+
+      // Statewide city-limits backdrop — added first, before every other
+      // source/layer below, so z-order alone (no `beforeId` is ever passed
+      // to addLayer in this file) keeps it painted underneath every real
+      // data tier. See CITY_BOUNDARIES_SOURCE_ID's own comment. Low flat
+      // opacity, one neutral color (not the per-city palette wards use —
+      // this is backdrop, not a data-carrying fill), reusing OUTLINE_COLOR
+      // for basemap-dark/light contrast the same way every outline here
+      // already does. Initial visibility keys off layerModeRef.current
+      // (hidden only in state-legislature mode), matching commissioners/
+      // state-legislature's own already-established pattern of setting the
+      // correct starting visibility here rather than leaving a flash of
+      // the wrong state before applyLayerMode's own call — further down
+      // this same "load"/basemap-swap path — corrects it a moment later.
+      map.addSource(CITY_BOUNDARIES_SOURCE_ID, { type: "geojson", data: cityBoundariesData });
+      map.addLayer({
+        id: CITY_BOUNDARIES_FILL_LAYER_ID,
+        type: "fill",
+        source: CITY_BOUNDARIES_SOURCE_ID,
+        layout: { visibility: layerModeRef.current === "state-legislature" ? "none" : "visible" },
+        paint: { "fill-color": outlineColor, "fill-opacity": 0.08 },
+      });
+      map.addLayer({
+        id: CITY_BOUNDARIES_OUTLINE_LAYER_ID,
+        type: "line",
+        source: CITY_BOUNDARIES_SOURCE_ID,
+        layout: { visibility: layerModeRef.current === "state-legislature" ? "none" : "visible" },
+        paint: { "line-color": outlineColor, "line-width": 0.5, "line-opacity": 0.5 },
+      });
 
       map.addSource(WARDS_SOURCE_ID, { type: "geojson", data });
       map.addSource(COMMISSIONERS_SOURCE_ID, { type: "geojson", data: commissionersData });
@@ -1963,6 +2092,17 @@ export default function WardMap() {
       // over the canvas before the target layer has been added. Re-bound on
       // every call (including after a basemap swap) since setStyle() drops
       // these layer-scoped listeners along with the layers themselves.
+      // Registered before every other tier's own listeners below — order
+      // doesn't matter for correctness (handleHoverMove's own
+      // CITY_BOUNDARIES branch explicitly defers to a real tier via its
+      // own queryRenderedFeatures check, rather than relying on which
+      // delegate happens to fire first/last on a shared event), but this
+      // still reads naturally as "the backdrop, then each real tier" —
+      // see that branch's own comment for why MapLibre firing every
+      // matching layer-scoped delegate independently, not just the
+      // topmost, made a same-point-two-listeners guard necessary at all.
+      map.on("mousemove", CITY_BOUNDARIES_FILL_LAYER_ID, handleHoverMove);
+      map.on("mouseleave", CITY_BOUNDARIES_FILL_LAYER_ID, handleHoverLeave);
       map.on("mousemove", WARDS_FILL_LAYER_ID, handleHoverMove);
       map.on("mouseleave", WARDS_FILL_LAYER_ID, handleHoverLeave);
       map.on("mousemove", AT_LARGE_BOUNDARY_FILL_LAYER_ID, handleHoverMove);
@@ -2039,6 +2179,14 @@ export default function WardMap() {
       if (!commissionersSource || !stateLegSource) return;
       commissionersSource.setData(secondary.commissioners);
       stateLegSource.setData(secondary.stateLeg);
+      (map.getSource(CITY_BOUNDARIES_SOURCE_ID) as maplibregl.GeoJSONSource | undefined)?.setData(secondary.cityBoundaries);
+      // atLargeBoundariesDataRef.current was already derived and set by
+      // the mount effect's caller above, before this function ran — just
+      // push it onto the live source here. See deriveAtLargeBoundaries's
+      // own comment for the derivation and the tradeoff it accepts.
+      (map.getSource(AT_LARGE_BOUNDARIES_SOURCE_ID) as maplibregl.GeoJSONSource | undefined)?.setData(
+        atLargeBoundariesDataRef.current ?? EMPTY_FEATURE_COLLECTION,
+      );
       (map.getSource(COMMISSIONERS_LABEL_SOURCE_ID) as maplibregl.GeoJSONSource | undefined)?.setData(
         labelPointsFromFeatureCollection(secondary.commissioners),
       );
@@ -2094,11 +2242,12 @@ export default function WardMap() {
 
       // Awaits the *same* fetch the map-independent effect above kicked
       // off on mount, rather than fetching a second time — that effect
-      // is also what populates wardsDataRef/mayorsDataRef/
-      // atLargeBoundariesDataRef, so search can use them even if this
-      // "load" event never fires at all. Deliberately does NOT also wait
-      // on fetchSecondaryCivicData's promise — that would put
-      // commissioners/state-legislature.geojson back in the
+      // is also what populates wardsDataRef/mayorsDataRef (and, once
+      // SecondaryCivicData resolves, atLargeBoundariesDataRef — see
+      // deriveAtLargeBoundaries's own comment), so search can use them
+      // even if this "load" event never fires at all. Deliberately does
+      // NOT also wait on fetchSecondaryCivicData's promise — that would
+      // put commissioners/state-legislature.geojson back in the
       // initial-paint critical path, exactly what #67 Finding 2 moved
       // them out of. See that function's own comment.
       const primary = await primaryCivicDataPromiseRef.current;
@@ -2165,6 +2314,41 @@ export default function WardMap() {
         setSelected({ officials: resolveSelectionAtPoint(point), pinned: false });
         return;
       }
+      // city-boundaries features carry only `{ name, county, population,
+      // gnisId }`, no office — same "no known to seed with" shape as the
+      // at-large branch above. Unlike every other layer here, this one is
+      // *always* visible statewide, so its polygon sits underneath every
+      // real tier's own polygon everywhere that tier exists — MapLibre
+      // fires each layer-scoped mousemove delegate independently (not
+      // just the topmost), so without this guard, hovering anywhere
+      // inside a covered city fired THIS branch and the real tier's own
+      // branch on every single mousemove tick, each doing a full
+      // resolveSelectionAtPoint scan + setSelected/re-render, and (since
+      // both write the same lastHoverIdentityRef) permanently defeating
+      // the "skip unless the hovered feature changed" check below —
+      // twice the resolution cost and twice the re-renders on every
+      // event, for as long as the cursor sat over any of the 17 covered
+      // cities. Bailing out here whenever a real tier also has a feature
+      // at this exact point — letting that tier's own delegated listener
+      // own the hover state entirely, untouched — fixes both the
+      // performance regression and restores the single-resolution-per-
+      // identity-change behavior every other branch already has.
+      if (feature.layer.id === CITY_BOUNDARIES_FILL_LAYER_ID) {
+        const realTierLayers = [
+          WARDS_FILL_LAYER_ID,
+          AT_LARGE_BOUNDARY_FILL_LAYER_ID,
+          COMMISSIONERS_FILL_LAYER_ID,
+          STATE_LEG_FILL_LAYER_ID,
+        ].filter((id) => map.getLayer(id));
+        if (realTierLayers.length > 0 && map.queryRenderedFeatures(e.point, { layers: realTierLayers }).length > 0) {
+          return;
+        }
+        const hoverIdentity = `city-boundary:${feature.properties?.name}`;
+        if (hoverIdentity === lastHoverIdentityRef.current) return;
+        lastHoverIdentityRef.current = hoverIdentity;
+        setSelected({ officials: resolveSelectionAtPoint(point), pinned: false });
+        return;
+      }
       // The hovered layer's own hit seeds its tier exactly (see
       // resolveSelectionAtPoint's comment); the other two tiers — always
       // hidden right now, since only one LayerMode is ever visible — still
@@ -2196,11 +2380,18 @@ export default function WardMap() {
       // Guard against a click landing before the async load handler has
       // finished adding both fill layers — queryRenderedFeatures throws if
       // any listed layer ID doesn't exist yet, instead of just ignoring it.
+      // City-boundaries listed last — it's painted underneath every other
+      // tier (added first, see CITY_BOUNDARIES_SOURCE_ID's own comment), so
+      // queryRenderedFeatures's topmost-first ordering already makes wards/
+      // at-large/commissioners/state-legislature win a click inside a
+      // covered city regardless of this array's own order; listed last
+      // purely to read consistently with that z-order.
       const queryableLayers = [
         WARDS_FILL_LAYER_ID,
         AT_LARGE_BOUNDARY_FILL_LAYER_ID,
         COMMISSIONERS_FILL_LAYER_ID,
         STATE_LEG_FILL_LAYER_ID,
+        CITY_BOUNDARIES_FILL_LAYER_ID,
       ].filter((id) => map.getLayer(id));
       if (queryableLayers.length === 0) return;
       const features = map.queryRenderedFeatures(e.point, {
@@ -2223,6 +2414,24 @@ export default function WardMap() {
         setActiveMobileSheet(null);
         const boundaryFeature = atLargeBoundariesDataRef.current?.features.find(
           (f) => f.properties?.city === hit.properties?.city,
+        );
+        zoomToBounds(boundsFromFeature((boundaryFeature ?? hit) as Feature<Geometry>));
+        return;
+      }
+      // Same "no real RepProperties to seed `known` with" case as the
+      // at-large branch above. Only ever reached for a city with no ward,
+      // at-large, commissioner, or state-legislature polygon under the
+      // click (those all paint on top of this backdrop and win the
+      // queryRenderedFeatures tie first) — resolveSelectionAtPoint(point)
+      // with no `known` then resolves to every tier empty, surfacing
+      // WardModal's existing "outside every city this map has ward data
+      // for" empty state (coverage.ts's CITY_TIER_EMPTY_NOTE).
+      if (hit.layer.id === CITY_BOUNDARIES_FILL_LAYER_ID) {
+        const point = toPoint(e.lngLat);
+        selectPinned(resolveSelectionAtPoint(point));
+        setActiveMobileSheet(null);
+        const boundaryFeature = cityBoundariesDataRef.current?.features.find(
+          (f) => f.properties?.name === hit.properties?.name,
         );
         zoomToBounds(boundsFromFeature((boundaryFeature ?? hit) as Feature<Geometry>));
         return;

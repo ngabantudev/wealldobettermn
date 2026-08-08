@@ -47,6 +47,9 @@ export const SIMPLIFY_TOLERANCE = {
   // ~15-18m — MN House/Senate districts, 201 of them statewide, mostly
   // viewed zoomed out far enough that this is still sub-pixel.
   stateLegislature: 0.00015,
+  // ~11m — statewide city-limits backdrop layer (~906 cities), viewed
+  // both zoomed way out (whole state) and zoomed in on a single city.
+  cityBoundaries: 0.0001,
 };
 
 // 6 decimal places ≈ 11cm at the equator, tighter everywhere in

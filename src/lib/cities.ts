@@ -28,6 +28,16 @@ export const CITIES = [
 ] as const;
 export type City = (typeof CITIES)[number];
 
+// Covered cities with no ward polygon at all — every seat (mayor + council)
+// is elected citywide. Woodbury is the only one today; see its own comment
+// in CITIES above. This is the client-visible single source of truth for
+// "which cities need their boundary derived from city-boundaries.geojson
+// instead of wards.geojson" — WardMap.tsx filters the statewide
+// city-boundaries feed against this list to build the at-large-boundary
+// layer (previously a separate fetch of its own, per-city GIS URL; see
+// git history for scripts/fetch-at-large-boundaries.mjs, now removed).
+export const AT_LARGE_CITIES: readonly City[] = ["Woodbury"];
+
 export const COUNTIES = ["Hennepin", "Ramsey", "Anoka", "Washington"] as const;
 export type County = (typeof COUNTIES)[number];
 
