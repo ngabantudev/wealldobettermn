@@ -1503,7 +1503,10 @@ export default function WardMap() {
       // checkbox, scaled to the whole set, so the metro-wide view "All"
       // implies is what the camera actually shows instead of leaving it
       // wherever a single-city or single-ward zoom last left it. "None"
-      // doesn't move the camera: there's nothing left on screen to fly to.
+      // has no cities left to frame, so it flies back to the same Twin
+      // Cities extent the map opens on instead — the map's own "nothing
+      // selected" resting position — rather than leaving the camera
+      // zoomed in on whatever's now hidden.
       if (visible) {
         const bounds = new maplibregl.LngLatBounds();
         for (const city of cities) {
@@ -1511,6 +1514,9 @@ export default function WardMap() {
           if (cityBounds) bounds.extend(cityBounds);
         }
         if (!bounds.isEmpty()) zoomToBoundsNoModal(bounds);
+      } else {
+        const bounds = boundsForTwinCities();
+        if (bounds) zoomToBoundsNoModal(bounds);
       }
       if (selectedRef.current) {
         const current = selectedRef.current;
@@ -1660,6 +1666,22 @@ export default function WardMap() {
     setSelected(null);
     setActiveMobileSheet(null); // reveal the zoomed-to result instead of leaving the Search sheet up over it
     zoomToBoundsNoModal(bounds);
+  };
+
+  // Minneapolis + St. Paul's combined extent — the same "core of the
+  // metro" view the map opens on (see the initial-camera-fit comment in
+  // the map-construction effect below, which now just delegates here) and
+  // the target the "None" quick toggle flies back out to, per its own
+  // comment. Falls back to wardsBoundsRef (every covered city, not just
+  // these two) if the Twin Cities wards are missing/empty for some
+  // reason — better than leaving the camera wherever it happened to be.
+  const boundsForTwinCities = (): maplibregl.LngLatBounds | null => {
+    const twinCitiesWards = wardsDataRef.current?.features.filter(
+      (f) => f.properties?.city === "Minneapolis" || f.properties?.city === "St. Paul",
+    );
+    const bounds = boundsFromFeatureCollection({ type: "FeatureCollection", features: twinCitiesWards ?? [] });
+    if (!bounds.isEmpty()) return bounds;
+    return wardsBoundsRef.current;
   };
 
   const applyCountyZoom = (cities: City[]) => {
@@ -2412,29 +2434,15 @@ export default function WardMap() {
       // Initial camera fit only — wardsBoundsRef (used by zoomToDefault,
       // e.g. on deselect or mode switch) still covers every covered city,
       // not just these two; only the very first paint narrows to the Twin
-      // Cities themselves. Fit to the two core cities' actual extent
-      // rather than a hardcoded bounding box, so this keeps working if
-      // boundaries shift — same reasoning as the full-extent version this
-      // replaces, just scoped to Minneapolis + St. Paul instead of every
-      // covered city, so a first-time visitor lands on the metro's core
-      // rather than zoomed out to see every suburb this site covers.
+      // Cities themselves. boundsForTwinCities is the same helper the
+      // "None" quick toggle flies back out to, per its own comment — one
+      // definition of "the map's resting position" shared by both.
       // Deliberately not repeated on a basemap swap — switchBasemap has no
       // call to this, so picking a new basemap never snaps the camera back
       // to this default extent out from under whatever the resident was
       // looking at.
-      const twinCitiesWards = primary.wards.features.filter(
-        (f) => f.properties?.city === "Minneapolis" || f.properties?.city === "St. Paul",
-      );
-      const twinCitiesBounds = boundsFromFeatureCollection({ type: "FeatureCollection", features: twinCitiesWards });
-      if (!twinCitiesBounds.isEmpty()) {
-        map.fitBounds(twinCitiesBounds, { padding: 40, duration: 0 });
-      } else {
-        // Twin Cities wards missing/empty for some reason — fall back to
-        // every covered city's extent rather than leaving the camera at
-        // the pre-data TWIN_CITIES_CENTER/DEFAULT_ZOOM guess.
-        const wardsBounds = boundsFromFeatureCollection(primary.wards);
-        if (!wardsBounds.isEmpty()) map.fitBounds(wardsBounds, { padding: 40, duration: 0 });
-      }
+      const twinCitiesBounds = boundsForTwinCities();
+      if (twinCitiesBounds) map.fitBounds(twinCitiesBounds, { padding: 40, duration: 0 });
     });
 
     const handleHoverMove = (e: maplibregl.MapLayerMouseEvent) => {
