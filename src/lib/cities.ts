@@ -67,6 +67,19 @@ export const CITIES = [
   // published bytes (see fetch-mayors.mjs's comment on this entry) rather
   // than guessed.
   "Edina",
+  // Same batch, lowest confidence of the seven — Eden Prairie (Hennepin
+  // County) is also fully at-large (Ballotpedia/GoodParty corroboration,
+  // cross-checked against independent search-indexed citations of the
+  // city's own page titles), but edenprairiemn.gov itself returns HTTP 403
+  // to every path this pipeline tried (overview page, every member's own
+  // bio page, a plain top-level fetch) — not routed around per AGENTS.md
+  // §2.2. Name and mayor/council role ship at AGENTS.md §3.3's
+  // "corroborated" tier; phone, email, and photo could not be confirmed
+  // against a direct render of the primary source and ship null rather
+  // than a plausible-looking third-party contact this pipeline separately
+  // flagged as unsourced (see fetch-mayors.mjs's own comment on this
+  // entry). Re-attempt a direct fetch before this app's next refresh.
+  "Eden Prairie",
 ] as const;
 export type City = (typeof CITIES)[number];
 
@@ -78,7 +91,7 @@ export type City = (typeof CITIES)[number];
 // layer (previously a separate fetch of its own, per-city GIS URL; see
 // git history for scripts/fetch-at-large-boundaries.mjs, now removed).
 export const AT_LARGE_CITIES: readonly City[] = [
-  "Woodbury", "Eagan", "Lakeville", "Maple Grove", "Apple Valley", "Burnsville", "Edina",
+  "Woodbury", "Eagan", "Lakeville", "Maple Grove", "Apple Valley", "Burnsville", "Edina", "Eden Prairie",
 ];
 
 // Dakota added alongside issue #65's batch — Eagan and Lakeville are this
@@ -111,7 +124,7 @@ export type County = (typeof COUNTIES)[number];
 export const COUNTY_CITIES: Record<County, City[]> = {
   Hennepin: [
     "Minneapolis", "Bloomington", "Plymouth", "Minnetonka", "St. Louis Park", "Richfield", "Champlin", "Crystal",
-    "Robbinsdale", "Brooklyn Park", "Maple Grove", "Edina",
+    "Robbinsdale", "Brooklyn Park", "Maple Grove", "Edina", "Eden Prairie",
   ],
   Ramsey: ["St. Paul"],
   Anoka: ["Blaine", "Coon Rapids", "Fridley", "Ramsey"],

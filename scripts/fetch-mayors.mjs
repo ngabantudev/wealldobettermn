@@ -854,6 +854,100 @@ const MAYORS = [
     verifiedAt: "2026-08-08",
     verifiedAgainst: "https://www.edinamn.gov/m/directory/employee?eid=656",
   },
+  // --- Eden Prairie (Hennepin County) — fully at-large, no wards ------------
+  //
+  // Mayor + 4 council members, all elected citywide (Ballotpedia/GoodParty
+  // corroboration, cross-checked against multiple independent search-
+  // engine-indexed citations of the city's own edenprairiemn.gov page
+  // titles for each name below). edenprairiemn.gov itself returns HTTP 403
+  // to every path this pipeline tried — the overview page, every individual
+  // council member's own bio page, and a plain top-level fetch — confirmed
+  // with this script's own descriptive User-Agent, not just a third-party
+  // tool's; not routed around per AGENTS.md §2.2 ("no block evasion"). Name
+  // and mayor/council role are corroborated (AGENTS.md §3.3's
+  // "corroborated" tier — two-plus independent sources agree) but phone,
+  // email, and photo could not be confirmed against a direct render of the
+  // primary source, so they ship null rather than the plausible-looking
+  // contact details a generic web search surfaced (same red flag as Apple
+  // Valley's Hooppaw entry above — those numbers/addresses do not appear on
+  // edenprairiemn.gov itself in any fetch this pipeline could complete, so
+  // they are not used). Re-attempt a direct fetch before this app's next
+  // refresh; the block may be tied to a specific network path, not a
+  // permanent policy.
+  {
+    city: "Eden Prairie",
+    coordinates: [-93.4603848, 44.8568070], // Eden Prairie City Center, 8080 Mitchell Rd
+    repName: "Ron Case",
+    repParty: NONPARTISAN,
+    repPhotoUrl: null,
+    repEmail: null,
+    repPhone: null,
+    officeSince: "2025-01-01",
+    committees: ["Mayor of Eden Prairie"],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://www.edenprairiemn.gov/city-government/city-council/ron-case",
+  },
+  {
+    city: "Eden Prairie",
+    coordinates: [-93.4603848, 44.8568070],
+    role: "Council Member",
+    repName: "Mark Freiberg",
+    repParty: NONPARTISAN,
+    repPhotoUrl: null,
+    repEmail: null,
+    repPhone: null,
+    officeSince: "2025-01-01",
+    committees: [],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://www.edenprairiemn.gov/city-government/city-council",
+  },
+  {
+    city: "Eden Prairie",
+    coordinates: [-93.4603848, 44.8568070],
+    role: "Council Member",
+    repName: "PG Narayanan",
+    repParty: NONPARTISAN,
+    repPhotoUrl: null,
+    repEmail: null,
+    repPhone: null,
+    officeSince: "2025-01-01",
+    committees: [],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://www.edenprairiemn.gov/city-government/city-council/pg-narayanan",
+  },
+  {
+    city: "Eden Prairie",
+    coordinates: [-93.4603848, 44.8568070],
+    role: "Council Member",
+    repName: "Kathy Nelson",
+    repParty: NONPARTISAN,
+    repPhotoUrl: null,
+    repEmail: null,
+    repPhone: null,
+    officeSince: "2025-01-01",
+    committees: [],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://www.edenprairiemn.gov/city-government/city-council",
+  },
+  {
+    city: "Eden Prairie",
+    coordinates: [-93.4603848, 44.8568070],
+    role: "Council Member",
+    repName: "Lisa Toomey",
+    repParty: NONPARTISAN,
+    repPhotoUrl: null,
+    repEmail: null,
+    repPhone: null,
+    officeSince: "2025-01-01",
+    committees: [],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://www.edenprairiemn.gov/city-government/city-council",
+  },
 ];
 
 async function main() {
