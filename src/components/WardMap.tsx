@@ -1399,7 +1399,18 @@ export default function WardMap() {
     }
   };
 
-  const toggleCity = (city: City) => {
+  // flyTo defaults on for the legend checkbox's own onChange (the actual
+  // "enabling a city" gesture this is for) but is turned off by
+  // prepareWardsView below — that call exists only to make sure a search
+  // target's city isn't hidden, and it's immediately followed, same tick,
+  // by that search's own more specific fitBounds (a single ward, or a
+  // multi-city county extent). Flying here too would just be a redundant
+  // fitBounds superseded a moment later by the real target — the exact
+  // "visible double-animation for what should read as one motion" this
+  // file's other zoom helpers already go out of their way to avoid (see
+  // prepareWardsView's own comment on skipping zoomToDefault for the same
+  // reason).
+  const toggleCity = (city: City, { flyTo = true }: { flyTo?: boolean } = {}) => {
     setVisibleCities((prev) => {
       const next = { ...prev, [city]: !prev[city] };
       // Mirrored onto the ref synchronously (not just via the effect that
@@ -1420,7 +1431,7 @@ export default function WardMap() {
       // view. Bounds come from whatever geometry is loaded so far; if wards/
       // at-large data hasn't arrived yet, boundsForCity returns null and this
       // just no-ops rather than zooming nowhere.
-      if (next[city]) {
+      if (next[city] && flyTo) {
         const bounds = boundsForCity(city);
         if (bounds) zoomToBoundsNoModal(bounds);
       }
@@ -1537,7 +1548,11 @@ export default function WardMap() {
       setLayerMode("wards");
       applyLayerMode("wards");
     }
-    if (!visibleCitiesRef.current[city]) toggleCity(city);
+    // flyTo: false — same reasoning as skipping zoomToDefault above, just
+    // for toggleCity's own fly-to-city-on-enable instead: the caller
+    // (applySearchResult/applyCityZoom/applyCountyZoom) fires its own,
+    // more specific fitBounds right after this returns, same tick.
+    if (!visibleCitiesRef.current[city]) toggleCity(city, { flyTo: false });
   };
 
   // The three SearchBar outcomes that resolve to a map action — see
