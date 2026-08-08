@@ -1,12 +1,14 @@
 #!/usr/bin/env node
 // Builds the on-device address/ZIP gazetteer that powers the search bar's
 // street-address and ZIP lookups (src/lib/addressSearch.ts) — the entire
-// implementation of AGENTS.md §2.5's "static index shipped with the app."
-// No geocoding ever happens at runtime; this script does all of it once,
-// offline, from free/public-domain US Census TIGER/Line data — the same
-// address-range data the Census Bureau's own online geocoder is built on
-// (house number + parity matched into the correct range on a street
-// segment, then interpolated along its line geometry).
+// implementation of AGENTS.md §2.5's "static index shipped with the app"
+// and §4's "chunked and lazily loaded so nobody downloads the whole state
+// to find one ward." No geocoding ever happens at runtime; this script
+// does all of it once, offline, from free/public-domain US Census
+// TIGER/Line data — the same address-range data the Census Bureau's own
+// online geocoder is built on (house number + parity matched into the
+// correct range on a street segment, then interpolated along its line
+// geometry).
 //
 // Must run *after* `npm run data:wards` — it reads public/wards.geojson
 // to compute, once here rather than in the browser, which ward(s) each
@@ -18,6 +20,43 @@
 // City/county search need no data from here at all — city search reads
 // wards.geojson directly, county search uses the hardcoded COUNTY_CITIES
 // table in src/lib/cities.ts (wards.geojson carries no county field).
+//
+// --- Chunking (issue #70) ---
+//
+// Output used to be one flat public/address-index.json (14.4MB raw / 1.6MB
+// gzip at today's 3-county coverage, and #15 plans to grow this to all 87
+// counties). Every visitor who used street-address search downloaded the
+// whole thing regardless of where they lived — a direct violation of
+// AGENTS.md §4.
+//
+// The county each edge came from (TIGER ships one shapefile per county,
+// already the loop structure below) is the "stable geographic key already
+// present in the data" AGENTS.md §4 asks for — no new geocoding or
+// re-derivation needed. Output is now:
+//
+//   public/address-index/manifest.json  — small (~tens of KB), always
+//     fetched: every ZIP's ward list (see "Why zips stay unchunked" below),
+//     plus streetChunks: a map of every normalized street name to the
+//     chunk key(s) that carry it. That second map is what lets the client
+//     know *which* chunk(s) a committed address query needs without ever
+//     guessing or fetching speculatively — see src/lib/addressChunks.ts.
+//   public/address-index/<county-key>.json — one per county, holding only
+//     that county's own streets map (the actual edge/geometry payload,
+//     which is what made the flat file large).
+//
+// A street name that exists in two counties (plenty do — "Main St" is not
+// rare) appears in streetChunks with both keys, and the client fetches
+// both before resolving, so a resident on a street straddling two of our
+// counties still gets both wards surfaced per §2.5's "ambiguity is
+// surfaced, never silently resolved" — chunking only changes how many
+// bytes are on the wire, never which candidates the resolver sees.
+//
+// Why zips stay unchunked: resolveZip (src/lib/addressSearch.ts) only ever
+// needs a ZIP's ward list, never any edge/geometry data, and the full zips
+// map for today's 3-county coverage is a few hundred entries — negligible
+// next to the streets payload. Keeping it in the always-loaded manifest
+// also sidesteps "a ZIP crosses a county line" entirely: there's no chunk
+// boundary for it to cross.
 
 import { writeFile, readFile, mkdir } from "node:fs/promises";
 import path from "node:path";
@@ -27,24 +66,32 @@ import { normalizeStreetName } from "../src/lib/streetNormalize.mjs";
 import { updateDataManifest } from "./lib/dataManifest.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const OUTPUT_PATH = path.join(__dirname, "../public/address-index.json");
+const OUTPUT_DIR = path.join(__dirname, "../public/address-index");
+const MANIFEST_PATH = path.join(OUTPUT_DIR, "manifest.json");
 const WARDS_PATH = path.join(__dirname, "../public/wards.geojson");
 
 // TIGER/Line "Address Range Feature" files, one zipped shapefile per
 // county, free and public domain (US federal government work), no API
-// key. These three counties cover every city this app maps.
+// key. These three counties cover every city this app maps. `key` is the
+// chunk's stable slug (public/address-index/<key>.json) — lowercase,
+// filesystem/URL-safe, and independent of `fips` so a chunk file name
+// reads as a place, not a code; `fips` still travels in the manifest for
+// provenance (AGENTS.md §2.2).
 const COUNTIES = [
   {
+    key: "hennepin",
     name: "Hennepin County, MN",
     fips: "27053",
     url: "https://www2.census.gov/geo/tiger/TIGER2024/ADDRFEAT/tl_2024_27053_addrfeat.zip",
   },
   {
+    key: "ramsey",
     name: "Ramsey County, MN",
     fips: "27123",
     url: "https://www2.census.gov/geo/tiger/TIGER2024/ADDRFEAT/tl_2024_27123_addrfeat.zip",
   },
   {
+    key: "anoka",
     name: "Anoka County, MN",
     fips: "27003",
     url: "https://www2.census.gov/geo/tiger/TIGER2024/ADDRFEAT/tl_2024_27003_addrfeat.zip",
@@ -224,8 +271,14 @@ async function main() {
   const wardIndex = loadWardIndex(wardsGeojson);
   console.log(`[addresses] ${wardIndex.length} ward polygon(s) loaded`);
 
-  const streets = {};
-  const zipWards = {}; // zip -> Map("city|ward" -> WardRef)
+  const zipWards = {}; // zip -> Map("city|ward" -> WardRef), merged across every county
+  // street name -> Set(county key) — the manifest's routing table, built
+  // alongside each county's own chunk rather than in a second pass, so it
+  // can never drift from what a chunk file actually contains.
+  const streetChunks = {};
+  const chunkSummaries = []; // {key, county, fips, sourceUrl, streetCount, edgeCount} for the manifest
+
+  await mkdir(OUTPUT_DIR, { recursive: true });
 
   for (const county of COUNTIES) {
     console.log(`[addresses] fetching ${county.name}...`);
@@ -235,6 +288,7 @@ async function main() {
     const fc = Array.isArray(geojson) ? geojson[0] : geojson;
     console.log(`[addresses] ${county.name}: ${fc.features.length} raw edge(s)`);
 
+    const countyStreets = {};
     let kept = 0;
     for (const feature of fc.features) {
       if (feature.geometry.type !== "LineString") continue;
@@ -284,8 +338,9 @@ async function main() {
         wardCandidates,
       };
 
-      const key = normalizeStreetName(fullname);
-      (streets[key] ??= []).push(edge);
+      const streetKey = normalizeStreetName(fullname);
+      (countyStreets[streetKey] ??= []).push(edge);
+      (streetChunks[streetKey] ??= new Set()).add(county.key);
 
       for (const zip of [edge.zipl, edge.zipr]) {
         if (!zip) continue;
@@ -296,24 +351,54 @@ async function main() {
       kept++;
     }
     console.log(`[addresses] ${county.name}: kept ${kept} edge(s) with a name and address range`);
+
+    const chunk = {
+      schemaVersion: 1,
+      county: { key: county.key, name: county.name, fips: county.fips },
+      streets: countyStreets,
+    };
+    const chunkFilename = `address-index/${county.key}.json`;
+    const chunkOutput = JSON.stringify(chunk);
+    await writeFile(path.join(OUTPUT_DIR, `${county.key}.json`), chunkOutput);
+    await updateDataManifest(chunkFilename, chunkOutput);
+    chunkSummaries.push({
+      key: county.key,
+      county: county.name,
+      fips: county.fips,
+      sourceUrl: county.url,
+      streetCount: Object.keys(countyStreets).length,
+      edgeCount: kept,
+    });
   }
 
   const zips = Object.fromEntries(Object.entries(zipWards).map(([zip, wardMap]) => [zip, [...wardMap.values()]]));
+  const streetChunksOut = Object.fromEntries(
+    Object.entries(streetChunks).map(([street, keys]) => [street, [...keys].sort()]),
+  );
 
-  const index = {
+  const manifest = {
     schemaVersion: 1,
     generatedAt: new Date().toISOString().slice(0, 10),
-    sourceCounties: COUNTIES,
-    streets,
+    sourceCounties: COUNTIES.map(({ key, name, fips, url }) => ({ key, name, fips, url })),
+    chunks: chunkSummaries,
+    // Every ZIP's ward list — never chunked; see this file's own comment
+    // on "Why zips stay unchunked."
     zips,
+    // Normalized street name -> chunk key(s) that carry it. The client's
+    // only guide for which chunk(s) an address query needs — never a
+    // guess, and never a reason to fetch a chunk speculatively.
+    streetChunks: streetChunksOut,
   };
 
-  const output = JSON.stringify(index);
-  await mkdir(path.dirname(OUTPUT_PATH), { recursive: true });
-  await writeFile(OUTPUT_PATH, output);
-  await updateDataManifest(path.basename(OUTPUT_PATH), output);
+  const manifestOutput = JSON.stringify(manifest);
+  await writeFile(MANIFEST_PATH, manifestOutput);
+  await updateDataManifest("address-index/manifest.json", manifestOutput);
+
+  const totalStreets = Object.keys(streetChunksOut).length;
+  const totalEdges = chunkSummaries.reduce((sum, c) => sum + c.edgeCount, 0);
   console.log(
-    `[done] wrote ${Object.keys(streets).length} street name(s), ${Object.keys(zips).length} zip(s) to ${OUTPUT_PATH}`,
+    `[done] wrote ${chunkSummaries.length} chunk(s) (${totalStreets} street name(s), ${totalEdges} edge(s) total) ` +
+      `and manifest.json (${Object.keys(zips).length} zip(s)) to ${OUTPUT_DIR}`,
   );
 }
 

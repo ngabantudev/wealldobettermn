@@ -13,8 +13,10 @@
 # response missing a field the current component code expects — a much
 # bigger hammer than the problem needed.
 #
-# The real fix lives in WardMap.tsx's own dataUrl() helper: every fetch
-# is cache-busted with a content-hash query param sourced from
+# The real fix lives in src/lib/dataUrl.ts's dataUrl() helper (originally
+# WardMap.tsx's own, moved out for src/lib/addressChunks.ts's per-county
+# address-chunk fetches to share — see issue #70): every fetch is
+# cache-busted with a content-hash query param sourced from
 # public/data-manifest.json, so a changed file is always a guaranteed
 # cache miss regardless of what's cached here. That means these paths
 # can now carry a real (moderate, not "immutable" — see below) max-age
@@ -32,4 +34,13 @@
   Cache-Control: public,max-age=600,must-revalidate
 
 /*.json
+  Cache-Control: public,max-age=600,must-revalidate
+
+# public/address-index/manifest.json and public/address-index/<county>.json
+# (issue #70's chunked gazetteer — see scripts/fetch-addresses.mjs) sit one
+# path segment deeper than the two bare globs above. Cloudflare's own glob
+# matcher isn't confirmed to treat `/*.json` as recursive into
+# subdirectories, so this repeats the same rule explicitly for that one
+# path rather than assuming it's already covered.
+/address-index/*
   Cache-Control: public,max-age=600,must-revalidate

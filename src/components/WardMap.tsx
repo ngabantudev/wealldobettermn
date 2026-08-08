@@ -4,8 +4,8 @@ import { useEffect, useRef, useState } from "react";
 import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 import type { Feature, FeatureCollection, Geometry, Point } from "geojson";
-import dataManifest from "../../public/data-manifest.json";
-import type { AddressIndex, MnPlaces, RepProperties, WardRef } from "@/lib/types";
+import type { AddressGazetteerManifest, MnPlaces, RepProperties, WardRef } from "@/lib/types";
+import { dataUrl } from "@/lib/dataUrl";
 import type { AreaOfficials, CivicGeometrySources } from "@/lib/officials";
 import { officialIdentity, resolveOfficialsAtPoint } from "@/lib/officials";
 import { AT_LARGE_CITIES, CITIES, type City } from "@/lib/cities";
@@ -37,29 +37,6 @@ import MobileNav, { IconSearch, IconSliders, type MobileNavTab } from "./MobileN
 import SearchBar from "./SearchBar";
 import SiteHeader from "./SiteHeader";
 import WardModal, { areaLabel, roleLabel } from "./WardModal";
-
-// Builds a cache-busted URL for one of the public/*.geojson or public/
-// *.json files scripts/fetch-*.mjs writes — `?v=<content hash>`, sourced
-// from public/data-manifest.json (see scripts/lib/dataManifest.mjs).
-// Every one of these fetches used to pass `{ cache: "no-store" }`,
-// which defeats the browser's HTTP cache entirely on every load — see
-// issue #67 Finding 3. The fix is this file's content hash baked into
-// the URL instead: a re-ingest that actually changes the file changes
-// its hash, which changes the URL, which is a guaranteed cache miss (no
-// risk of a stale response missing a field the current component code
-// expects); an unchanged file keeps the same URL across reloads and even
-// across deploys, so the browser (and Cloudflare's edge) can actually
-// cache it — see public/_headers' Cache-Control rule for these paths.
-// `dataManifest` is a plain JSON import, bundled into this component's
-// own JS at build time, so a fresh deploy always ships the current
-// hashes without a second runtime fetch to look them up. Falls back to
-// the bare filename (no query param) if a file is somehow missing from
-// the manifest, rather than throwing — an unfingerprinted fetch of the
-// current file is a fine degrade, and a source of noisy failures is not.
-function dataUrl(filename: keyof typeof dataManifest): string {
-  const hash = dataManifest[filename];
-  return hash ? `/${filename}?v=${hash}` : `/${filename}`;
-}
 
 // The two destinations MobileNav's bottom bar offers — everything the
 // desktop chrome spreads across the header's search box and the top-left
@@ -1107,7 +1084,7 @@ export default function WardMap() {
   // every other reader of those two refs already tolerates them being
   // temporarily null (see addSourcesAndLayers/maybeStartPulseAnimation).
   const primaryCivicDataPromiseRef = useRef<Promise<PrimaryCivicData | null> | null>(null);
-  const [addressIndex, setAddressIndex] = useState<AddressIndex | null>(null);
+  const [addressManifest, setAddressManifest] = useState<AddressGazetteerManifest | null>(null);
   const [mnPlaces, setMnPlaces] = useState<MnPlaces | null>(null);
   const pinMarkersRef = useRef<PinMarker[]>([]);
   // The single "you searched here" pin — a plain ref rather than a slot in
@@ -1304,19 +1281,27 @@ export default function WardMap() {
     });
   }, []);
 
-  // The address/ZIP gazetteer (a few MB — see scripts/fetch-addresses.mjs)
-  // that powers SearchBar's street-address and ZIP lookups. Fetched
-  // separately from wards/mayors/etc. above since SearchBar is the only
-  // consumer — city and county search work off wardsDataRef instead and
-  // don't need to wait on this at all.
+  // The address/ZIP gazetteer *manifest* (tens of KB — see
+  // scripts/fetch-addresses.mjs) that powers SearchBar's street-address
+  // and ZIP lookups. Fetched separately from wards/mayors/etc. above
+  // since SearchBar is the only consumer — city and county search work
+  // off wardsDataRef instead and don't need to wait on this at all.
+  //
+  // This used to fetch the whole gazetteer (a few MB, one flat file) up
+  // front. Per issue #70 / AGENTS.md §4's "chunked and lazily loaded so
+  // nobody downloads the whole state to find one ward," only the small
+  // manifest (every ZIP's ward list, plus the street->chunk routing
+  // table) loads here now — the actual per-county street/geometry
+  // payload is fetched lazily by SearchBar itself, only for the chunk(s)
+  // a *committed* query actually needs. See src/lib/addressChunks.ts.
   useEffect(() => {
     let cancelled = false;
-    fetch(dataUrl("address-index.json"))
+    fetch(dataUrl("address-index/manifest.json"))
       .then((res) => res.json())
-      .then((data: AddressIndex) => {
-        if (!cancelled) setAddressIndex(data);
+      .then((data: AddressGazetteerManifest) => {
+        if (!cancelled) setAddressManifest(data);
       })
-      .catch((err) => console.error("[WardMap] failed to load address index", err));
+      .catch((err) => console.error("[WardMap] failed to load address gazetteer manifest", err));
     return () => {
       cancelled = true;
     };
@@ -1326,8 +1311,9 @@ export default function WardMap() {
   // few dozen KB — see scripts/fetch-places.mjs) that lets SearchBar
   // recognize *any* MN place name, not just the ones in src/lib/cities.ts
   // this app has ward data for. Fetched separately for the same reason as
-  // address-index.json above: it's its own independent, lazily-loaded
-  // concern, and covered-city/-county search already works without it.
+  // address-index/manifest.json above: it's its own independent,
+  // lazily-loaded concern, and covered-city/-county search already works
+  // without it.
   useEffect(() => {
     let cancelled = false;
     fetch(dataUrl("mn-places.json"))
@@ -3041,7 +3027,7 @@ export default function WardMap() {
   // stay in sync.
   const searchBar = (
     <SearchBar
-      index={addressIndex}
+      manifest={addressManifest}
       allPlaces={mnPlaces}
       onSelectWard={applySearchResult}
       onSelectCity={applyCityZoom}

@@ -1,5 +1,8 @@
 {
-  "address-index.json": "f1acd1e602",
+  "address-index/anoka.json": "fe8403445d",
+  "address-index/hennepin.json": "2b71f70347",
+  "address-index/manifest.json": "88000237a1",
+  "address-index/ramsey.json": "6ab53d0491",
   "city-boundaries.geojson": "3074bc6dca",
   "commissioners.geojson": "b9a07e6fe5",
   "mayors.geojson": "e2a72a9fc7",
