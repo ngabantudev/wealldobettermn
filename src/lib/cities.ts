@@ -32,6 +32,12 @@ export const CITIES = [
   // (fetch-mayors.mjs carries the per-member citations); no GIS ward-
   // boundary search was needed at all, since Eagan has no wards.
   "Eagan",
+  // Same batch — Lakeville is also fully at-large, confirmed on its own
+  // site (lakevillemn.gov/428/City-Council: "elected at-large to represent
+  // the entire community"). That page also states each member's own
+  // "First elected/appointed to Council" date directly, so officeSince
+  // below isn't a fallback for this city.
+  "Lakeville",
 ] as const;
 export type City = (typeof CITIES)[number];
 
@@ -42,13 +48,13 @@ export type City = (typeof CITIES)[number];
 // city-boundaries feed against this list to build the at-large-boundary
 // layer (previously a separate fetch of its own, per-city GIS URL; see
 // git history for scripts/fetch-at-large-boundaries.mjs, now removed).
-export const AT_LARGE_CITIES: readonly City[] = ["Woodbury", "Eagan"];
+export const AT_LARGE_CITIES: readonly City[] = ["Woodbury", "Eagan", "Lakeville"];
 
-// Dakota added alongside issue #65's batch — Eagan is this app's first
-// Dakota County city. No collision with any existing city name here (see
-// the Ramsey city/county collision note below for what that class of bug
-// looks like) — checked against every entry in COUNTIES and CITIES before
-// adding.
+// Dakota added alongside issue #65's batch — Eagan and Lakeville are this
+// app's first Dakota County cities. No collision with any existing city
+// name here (see the Ramsey city/county collision note below for what that
+// class of bug looks like) — checked against every entry in COUNTIES and
+// CITIES before adding.
 export const COUNTIES = ["Hennepin", "Ramsey", "Anoka", "Washington", "Dakota"] as const;
 export type County = (typeof COUNTIES)[number];
 
@@ -79,5 +85,5 @@ export const COUNTY_CITIES: Record<County, City[]> = {
   Ramsey: ["St. Paul"],
   Anoka: ["Blaine", "Coon Rapids", "Fridley", "Ramsey"],
   Washington: ["Woodbury"],
-  Dakota: ["Eagan"],
+  Dakota: ["Eagan", "Lakeville"],
 };

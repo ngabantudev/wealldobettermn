@@ -368,6 +368,98 @@ const MAYORS = [
     verifiedAt: "2026-08-08",
     verifiedAgainst: "https://cityofeagan.com/council-member-mike-supina",
   },
+  // --- Lakeville (Dakota County) — fully at-large, no wards -----------------
+  //
+  // Mayor + 4 council members, all elected citywide, confirmed directly on
+  // lakevillemn.gov/428/City-Council: "elected at-large to represent the
+  // entire community." Every field (including "First elected to Council"/
+  // "First appointed to Council" dates) is read straight from that one
+  // page's own table — no per-member bio pages exist on this site, so
+  // profileUrl falls back to the shared council page for all five.
+  {
+    city: "Lakeville",
+    coordinates: [-93.2434846, 44.6568619], // Lakeville City Hall, 20195 Holyoke Ave
+    repName: "Luke Hellier",
+    repParty: NONPARTISAN,
+    repPhotoUrl: "https://www.lakevillemn.gov/ImageRepository/Document?documentId=16903",
+    repEmail: "lhellier@lakevillemn.gov",
+    repPhone: "612-237-2551",
+    officeSince: "2023-01-03", // page states "First elected as Mayor: January 3, 2023" (council member since 2017)
+    committees: ["Mayor of Lakeville"],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://www.lakevillemn.gov/428/City-Council",
+    verifiedAt: "2026-08-08",
+    verifiedAgainst: "https://www.lakevillemn.gov/428/City-Council",
+  },
+  {
+    city: "Lakeville",
+    coordinates: [-93.2434846, 44.6568619],
+    role: "Council Member",
+    repName: "John Bermel",
+    repParty: NONPARTISAN,
+    repPhotoUrl: "https://www.lakevillemn.gov/ImageRepository/Document?documentId=16904",
+    repEmail: "jbermel@lakevillemn.gov",
+    repPhone: "612-709-0180",
+    officeSince: "2021-01-04", // page states "First elected to Council: January 4, 2021"
+    committees: [],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://www.lakevillemn.gov/428/City-Council",
+    verifiedAt: "2026-08-08",
+    verifiedAgainst: "https://www.lakevillemn.gov/428/City-Council",
+  },
+  {
+    city: "Lakeville",
+    coordinates: [-93.2434846, 44.6568619],
+    role: "Council Member",
+    repName: "Joshua Lee",
+    repParty: NONPARTISAN,
+    repPhotoUrl: "https://www.lakevillemn.gov/ImageRepository/Document?documentId=16905",
+    repEmail: "jlee@lakevillemn.gov",
+    repPhone: "763-245-3677",
+    officeSince: "2019-01-01", // page states "First elected to Council: January 1, 2019"
+    committees: [],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://www.lakevillemn.gov/428/City-Council",
+    verifiedAt: "2026-08-08",
+    verifiedAgainst: "https://www.lakevillemn.gov/428/City-Council",
+  },
+  {
+    city: "Lakeville",
+    coordinates: [-93.2434846, 44.6568619],
+    role: "Council Member",
+    repName: "Michelle Volk",
+    repParty: NONPARTISAN,
+    repPhotoUrl: "https://www.lakevillemn.gov/ImageRepository/Document?documentId=16906",
+    repEmail: "mvolk@lakevillemn.gov",
+    repPhone: "952-270-7125",
+    officeSince: "2019-01-01", // page states "First elected to Council: January 1, 2019"
+    committees: [],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://www.lakevillemn.gov/428/City-Council",
+    verifiedAt: "2026-08-08",
+    verifiedAgainst: "https://www.lakevillemn.gov/428/City-Council",
+  },
+  {
+    city: "Lakeville",
+    coordinates: [-93.2434846, 44.6568619],
+    role: "Council Member",
+    repName: "Dan Wolter",
+    repParty: NONPARTISAN,
+    repPhotoUrl: "https://www.lakevillemn.gov/ImageRepository/Document?documentId=16907",
+    repEmail: "dwolter@lakevillemn.gov",
+    repPhone: "952-479-0020",
+    officeSince: "2023-01-17", // page states "First appointed to Council: January 17, 2023"
+    committees: [],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://www.lakevillemn.gov/428/City-Council",
+    verifiedAt: "2026-08-08",
+    verifiedAgainst: "https://www.lakevillemn.gov/428/City-Council",
+  },
 ];
 
 async function main() {
