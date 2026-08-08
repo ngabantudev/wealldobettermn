@@ -59,6 +59,14 @@ export const CITIES = [
   // five members, a shared office line rather than a personal extension,
   // so it's not attributed as repPhone either.
   "Burnsville",
+  // Same batch — Edina (Hennepin County) is also fully at-large, confirmed
+  // directly on edinamn.gov: "All Council Members in Edina are elected
+  // at-large... do not serve a specific ward." Email addresses are
+  // Cloudflare email-obfuscation-protected on the city's own page; decoded
+  // here via that scheme's own deterministic cipher against the page's own
+  // published bytes (see fetch-mayors.mjs's comment on this entry) rather
+  // than guessed.
+  "Edina",
 ] as const;
 export type City = (typeof CITIES)[number];
 
@@ -70,7 +78,7 @@ export type City = (typeof CITIES)[number];
 // layer (previously a separate fetch of its own, per-city GIS URL; see
 // git history for scripts/fetch-at-large-boundaries.mjs, now removed).
 export const AT_LARGE_CITIES: readonly City[] = [
-  "Woodbury", "Eagan", "Lakeville", "Maple Grove", "Apple Valley", "Burnsville",
+  "Woodbury", "Eagan", "Lakeville", "Maple Grove", "Apple Valley", "Burnsville", "Edina",
 ];
 
 // Dakota added alongside issue #65's batch — Eagan and Lakeville are this
@@ -103,7 +111,7 @@ export type County = (typeof COUNTIES)[number];
 export const COUNTY_CITIES: Record<County, City[]> = {
   Hennepin: [
     "Minneapolis", "Bloomington", "Plymouth", "Minnetonka", "St. Louis Park", "Richfield", "Champlin", "Crystal",
-    "Robbinsdale", "Brooklyn Park", "Maple Grove",
+    "Robbinsdale", "Brooklyn Park", "Maple Grove", "Edina",
   ],
   Ramsey: ["St. Paul"],
   Anoka: ["Blaine", "Coon Rapids", "Fridley", "Ramsey"],

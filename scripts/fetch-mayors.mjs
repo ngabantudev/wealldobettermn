@@ -751,6 +751,109 @@ const MAYORS = [
     verifiedAt: "2026-08-08",
     verifiedAgainst: "https://burnsvillemn.gov/2078/City-Council",
   },
+  // --- Edina (Hennepin County) — fully at-large, no wards --------------------
+  //
+  // Mayor + 4 council members, all elected citywide (confirmed directly on
+  // edinamn.gov: "All Council Members in Edina are elected at-large... do
+  // not serve a specific ward"). Phone and photo document IDs are read
+  // directly off edinamn.gov/780/Council-Member-Directory. Email addresses
+  // are Cloudflare email-obfuscation–protected on that page and on each
+  // member's own /m/directory/employee?eid= sub-page (rendered in the
+  // markup as an encoded "cdn-cgi/l/email-protection#..." fragment) —
+  // decoded here via that scheme's own deterministic XOR cipher against the
+  // page's own published bytes, not guessed or pattern-matched; still worth
+  // a human spot-check of one or two against a real browser render before
+  // fully trusting the decode. No individual "elected"/"took office" date is
+  // stated distinctly from re-election on this site (clearest case: Hovland
+  // is shown as "Elected 2004" despite being on his current term via
+  // multiple re-elections since, not continuously since a single 2004
+  // swearing-in) — officeSince falls back to the same documented placeholder
+  // used elsewhere in this file rather than guessing which of the "elected"
+  // years is the real first one.
+  {
+    city: "Edina",
+    coordinates: [-93.3473318, 44.9110930], // Edina City Hall, 4801 W 50th St
+    repName: "James Hovland",
+    repParty: NONPARTISAN,
+    repPhotoUrl: "https://www.edinamn.gov/ImageRepository/Document?documentID=10560",
+    repEmail: "jhovland@EdinaMN.gov",
+    repPhone: "612-874-8551",
+    officeSince: "2025-01-01",
+    committees: ["Mayor of Edina"],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://www.edinamn.gov/m/directory/employee?eid=7",
+    verifiedAt: "2026-08-08",
+    verifiedAgainst: "https://www.edinamn.gov/m/directory/employee?eid=7",
+  },
+  {
+    city: "Edina",
+    coordinates: [-93.3473318, 44.9110930],
+    role: "Council Member",
+    repName: "Kate Agnew",
+    repParty: NONPARTISAN,
+    repPhotoUrl: "https://www.edinamn.gov/ImageRepository/Document?documentID=12855",
+    repEmail: "KAgnew@EdinaMN.gov",
+    repPhone: "952-833-9556",
+    officeSince: "2025-01-01",
+    committees: [],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://www.edinamn.gov/m/directory/employee?eid=655",
+    verifiedAt: "2026-08-08",
+    verifiedAgainst: "https://www.edinamn.gov/m/directory/employee?eid=655",
+  },
+  {
+    city: "Edina",
+    coordinates: [-93.3473318, 44.9110930],
+    role: "Council Member",
+    repName: "Carolyn Jackson",
+    repParty: NONPARTISAN,
+    repPhotoUrl: "https://www.edinamn.gov/ImageRepository/Document?documentID=15559",
+    repEmail: "CJackson@EdinaMN.gov",
+    repPhone: "952-833-9547",
+    officeSince: "2025-01-01",
+    committees: [],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://www.edinamn.gov/m/directory/employee?eid=541",
+    verifiedAt: "2026-08-08",
+    verifiedAgainst: "https://www.edinamn.gov/m/directory/employee?eid=541",
+  },
+  {
+    city: "Edina",
+    coordinates: [-93.3473318, 44.9110930],
+    role: "Council Member",
+    repName: "James Pierce",
+    repParty: NONPARTISAN,
+    repPhotoUrl: "https://www.edinamn.gov/ImageRepository/Document?documentID=14137",
+    repEmail: "JPierce@EdinaMN.gov",
+    repPhone: "952-833-9548",
+    officeSince: "2025-01-01",
+    committees: [],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://www.edinamn.gov/m/directory/employee?eid=542",
+    verifiedAt: "2026-08-08",
+    verifiedAgainst: "https://www.edinamn.gov/m/directory/employee?eid=542",
+  },
+  {
+    city: "Edina",
+    coordinates: [-93.3473318, 44.9110930],
+    role: "Council Member",
+    repName: "Julie Risser",
+    repParty: NONPARTISAN,
+    repPhotoUrl: "https://www.edinamn.gov/ImageRepository/Document?documentID=15558",
+    repEmail: "JRisser@EdinaMN.gov",
+    repPhone: "952-833-9557",
+    officeSince: "2025-01-01",
+    committees: [],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://www.edinamn.gov/m/directory/employee?eid=656",
+    verifiedAt: "2026-08-08",
+    verifiedAgainst: "https://www.edinamn.gov/m/directory/employee?eid=656",
+  },
 ];
 
 async function main() {
