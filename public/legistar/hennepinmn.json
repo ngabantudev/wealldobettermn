@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "client": "hennepinmn",
   "jurisdiction": "Hennepin County Board",
-  "generatedAt": "2026-08-08T07:40:58.593Z",
+  "generatedAt": "2026-08-08T15:53:56.751Z",
   "status": "ingested",
   "note": "Full ingest: 156 holding(s) across 18 office(s) and 8 person(s), from officerecords. Votes windowed to 2026-06-09–2026-08-09 on \"Board of Hennepin County Commissioners\": 89/89 matter(s) processed, 52 vote event(s), 22 vote(s).",
   "provenance": {
@@ -11,7 +11,7 @@
     "documentType": "Legistar Web API",
     "documentId": null,
     "issuedDate": null,
-    "fetchedAt": "2026-08-08T07:40:58.593Z",
+    "fetchedAt": "2026-08-08T15:53:56.751Z",
     "licence": "Public records served via Legistar InSite; no separate machine-reuse licence published by the host jurisdiction as of this writing.",
     "contentHash": "3a11878122a62d64697e739a99385c2eebee102f85b55c974887fb1050ba7f9a"
   },
@@ -2905,133 +2905,133 @@
   ],
   "votes": [
     {
-      "id": "legistar-hennepinmn-vote-33473",
+      "id": "legistar-hennepinmn-vote-35802-33473",
       "vote_event_id": "legistar-hennepinmn-voteevent-35802",
       "holding_id": "legistar-hennepinmn-holding-586",
       "value": "absent"
     },
     {
-      "id": "legistar-hennepinmn-vote-33466",
+      "id": "legistar-hennepinmn-vote-35803-33466",
       "vote_event_id": "legistar-hennepinmn-voteevent-35803",
       "holding_id": "legistar-hennepinmn-holding-586",
       "value": "absent"
     },
     {
-      "id": "legistar-hennepinmn-vote-33480",
+      "id": "legistar-hennepinmn-vote-35804-33480",
       "vote_event_id": "legistar-hennepinmn-voteevent-35804",
       "holding_id": "legistar-hennepinmn-holding-586",
       "value": "absent"
     },
     {
-      "id": "legistar-hennepinmn-vote-33424",
+      "id": "legistar-hennepinmn-vote-35851-33424",
       "vote_event_id": "legistar-hennepinmn-voteevent-35851",
       "holding_id": "legistar-hennepinmn-holding-586",
       "value": "absent"
     },
     {
-      "id": "legistar-hennepinmn-vote-33557",
+      "id": "legistar-hennepinmn-vote-35854-33557",
       "vote_event_id": "legistar-hennepinmn-voteevent-35854",
       "holding_id": "legistar-hennepinmn-holding-586",
       "value": "absent"
     },
     {
-      "id": "legistar-hennepinmn-vote-33487",
+      "id": "legistar-hennepinmn-vote-35805-33487",
       "vote_event_id": "legistar-hennepinmn-voteevent-35805",
       "holding_id": "legistar-hennepinmn-holding-586",
       "value": "absent"
     },
     {
-      "id": "legistar-hennepinmn-vote-33494",
+      "id": "legistar-hennepinmn-vote-35806-33494",
       "vote_event_id": "legistar-hennepinmn-voteevent-35806",
       "holding_id": "legistar-hennepinmn-holding-586",
       "value": "absent"
     },
     {
-      "id": "legistar-hennepinmn-vote-33417",
+      "id": "legistar-hennepinmn-vote-35807-33417",
       "vote_event_id": "legistar-hennepinmn-voteevent-35807",
       "holding_id": "legistar-hennepinmn-holding-586",
       "value": "absent"
     },
     {
-      "id": "legistar-hennepinmn-vote-33459",
+      "id": "legistar-hennepinmn-vote-35808-33459",
       "vote_event_id": "legistar-hennepinmn-voteevent-35808",
       "holding_id": "legistar-hennepinmn-holding-586",
       "value": "absent"
     },
     {
-      "id": "legistar-hennepinmn-vote-33515",
+      "id": "legistar-hennepinmn-vote-35809-33515",
       "vote_event_id": "legistar-hennepinmn-voteevent-35809",
       "holding_id": "legistar-hennepinmn-holding-586",
       "value": "absent"
     },
     {
-      "id": "legistar-hennepinmn-vote-33501",
+      "id": "legistar-hennepinmn-vote-35810-33501",
       "vote_event_id": "legistar-hennepinmn-voteevent-35810",
       "holding_id": "legistar-hennepinmn-holding-586",
       "value": "absent"
     },
     {
-      "id": "legistar-hennepinmn-vote-33361",
+      "id": "legistar-hennepinmn-vote-35791-33361",
       "vote_event_id": "legistar-hennepinmn-voteevent-35791",
       "holding_id": "legistar-hennepinmn-holding-586",
       "value": "absent"
     },
     {
-      "id": "legistar-hennepinmn-vote-33508",
+      "id": "legistar-hennepinmn-vote-35811-33508",
       "vote_event_id": "legistar-hennepinmn-voteevent-35811",
       "holding_id": "legistar-hennepinmn-holding-586",
       "value": "absent"
     },
     {
-      "id": "legistar-hennepinmn-vote-33529",
+      "id": "legistar-hennepinmn-vote-35812-33529",
       "vote_event_id": "legistar-hennepinmn-voteevent-35812",
       "holding_id": "legistar-hennepinmn-holding-586",
       "value": "absent"
     },
     {
-      "id": "legistar-hennepinmn-vote-33536",
+      "id": "legistar-hennepinmn-vote-35813-33536",
       "vote_event_id": "legistar-hennepinmn-voteevent-35813",
       "holding_id": "legistar-hennepinmn-holding-586",
       "value": "absent"
     },
     {
-      "id": "legistar-hennepinmn-vote-33543",
+      "id": "legistar-hennepinmn-vote-35814-33543",
       "vote_event_id": "legistar-hennepinmn-voteevent-35814",
       "holding_id": "legistar-hennepinmn-holding-586",
       "value": "absent"
     },
     {
-      "id": "legistar-hennepinmn-vote-33522",
+      "id": "legistar-hennepinmn-vote-35855-33522",
       "vote_event_id": "legistar-hennepinmn-voteevent-35855",
       "holding_id": "legistar-hennepinmn-holding-586",
       "value": "absent"
     },
     {
-      "id": "legistar-hennepinmn-vote-33368",
+      "id": "legistar-hennepinmn-vote-35796-33368",
       "vote_event_id": "legistar-hennepinmn-voteevent-35796",
       "holding_id": "legistar-hennepinmn-holding-586",
       "value": "absent"
     },
     {
-      "id": "legistar-hennepinmn-vote-33368",
+      "id": "legistar-hennepinmn-vote-35797-33368",
       "vote_event_id": "legistar-hennepinmn-voteevent-35797",
       "holding_id": "legistar-hennepinmn-holding-586",
       "value": "absent"
     },
     {
-      "id": "legistar-hennepinmn-vote-33431",
+      "id": "legistar-hennepinmn-vote-35853-33431",
       "vote_event_id": "legistar-hennepinmn-voteevent-35853",
       "holding_id": "legistar-hennepinmn-holding-586",
       "value": "absent"
     },
     {
-      "id": "legistar-hennepinmn-vote-34251",
+      "id": "legistar-hennepinmn-vote-36155-34251",
       "vote_event_id": "legistar-hennepinmn-voteevent-36155",
       "holding_id": "legistar-hennepinmn-holding-679",
       "value": "nay"
     },
     {
-      "id": "legistar-hennepinmn-vote-34252",
+      "id": "legistar-hennepinmn-vote-36155-34252",
       "vote_event_id": "legistar-hennepinmn-voteevent-36155",
       "holding_id": "legistar-hennepinmn-holding-680",
       "value": "nay"
