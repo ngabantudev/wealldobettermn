@@ -268,6 +268,686 @@ const MAYORS = [
     officeRoom: null,
     profileUrl: "https://www.woodburymn.gov/m/directory/employee?eid=106",
   },
+  // --- Eagan (Dakota County) — fully at-large, no wards --------------------
+  //
+  // Mayor + 4 council members, all elected citywide (confirmed directly on
+  // cityofeagan.com/council: "The Mayor and four Council Members are
+  // elected at large..."). Every field below was read from each member's
+  // own bio page (cityofeagan.com/<slug>), including email — the page
+  // *displays* "protected from spambots," but the address is right there in
+  // the page's own markup, base64-encoded for a client-side unmask script
+  // (<joomla-hidden-mail text="...">), so decoding it is reading the page's
+  // own published data, not guessing a firstname.lastname@ pattern. Every
+  // officeSince date is the page's own stated first-elected/first-term date
+  // (Maguire's is his first year as Mayor, having previously served as a
+  // council member 2003-2007; Bakken and Hansen's own pages state an exact
+  // "served/elected since" year with no month, so January 1 fills the
+  // unstated day within that stated year, same convention as Robbinsdale's
+  // Mia Parisian entry in fetch-wards.mjs).
+  {
+    city: "Eagan",
+    coordinates: [-93.1664607, 44.8181446], // Eagan Municipal Center, 3830 Pilot Knob Rd
+    repName: "Mike Maguire",
+    repParty: NONPARTISAN,
+    repPhotoUrl: "https://cityofeagan.com/images/Council/Portraits/2022/MikeMaguire-1008-1_192w_72ppi.jpg",
+    repEmail: "mike.maguire@eaganmn.gov",
+    repPhone: "651-675-5048",
+    officeSince: "2007-01-01", // elected Eagan's 8th Mayor in 2006, seated Jan 2007
+    committees: ["Mayor of Eagan"],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://cityofeagan.com/mayor-mike-maguire",
+    verifiedAt: "2026-08-08",
+    verifiedAgainst: "https://cityofeagan.com/mayor-mike-maguire",
+  },
+  {
+    city: "Eagan",
+    coordinates: [-93.1664607, 44.8181446],
+    role: "Council Member",
+    repName: "Paul Bakken",
+    repParty: NONPARTISAN,
+    repPhotoUrl: "https://cityofeagan.com/images/Council/Portraits/2022/PaulBakken-1006_192w_72ppi.jpg",
+    repEmail: "paul.bakken@eaganmn.gov",
+    repPhone: "651-688-7075",
+    officeSince: "2007-01-01", // own bio page: "having served since January 2007" (also served 1999-2002)
+    committees: [],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://cityofeagan.com/councilmember-paul-bakken",
+    verifiedAt: "2026-08-08",
+    verifiedAgainst: "https://cityofeagan.com/councilmember-paul-bakken",
+  },
+  {
+    city: "Eagan",
+    coordinates: [-93.1664607, 44.8181446],
+    role: "Council Member",
+    repName: "Cyndee Fields",
+    repParty: NONPARTISAN,
+    repPhotoUrl: "https://cityofeagan.com/images/Council/Portraits/2022/CyndeeFields-1005_Preferred_192w_72ppi.jpg",
+    repEmail: "cyndee.fields@eaganmn.gov",
+    repPhone: "952-270-3093",
+    officeSince: "2001-01-01", // own bio page: "began her first term...in January, 2001"
+    committees: [],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://cityofeagan.com/councilmember-cyndee-fields",
+    verifiedAt: "2026-08-08",
+    verifiedAgainst: "https://cityofeagan.com/councilmember-cyndee-fields",
+  },
+  {
+    city: "Eagan",
+    coordinates: [-93.1664607, 44.8181446],
+    role: "Council Member",
+    repName: "Gary Hansen",
+    repParty: NONPARTISAN,
+    repPhotoUrl: "https://cityofeagan.com/images/Council/Portraits/2022/GaryHansen-1007_192w_72ppi.jpg",
+    repEmail: "gary.hansen@eaganmn.gov",
+    repPhone: "651-454-1172",
+    officeSince: "2009-01-01", // own bio page: "first elected to the Eagan City Council in 2008"
+    committees: [],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://cityofeagan.com/councilmember-gary-hansen",
+    verifiedAt: "2026-08-08",
+    verifiedAgainst: "https://cityofeagan.com/councilmember-gary-hansen",
+  },
+  {
+    city: "Eagan",
+    coordinates: [-93.1664607, 44.8181446],
+    role: "Council Member",
+    repName: "Mike Supina",
+    repParty: NONPARTISAN,
+    repPhotoUrl: "https://cityofeagan.com/images/Council/Portraits/2022/MikeSupina-1008_192w_72ppi.jpg",
+    repEmail: "mike.supina@eaganmn.gov",
+    repPhone: "651-706-0061",
+    officeSince: "2021-01-01", // own bio page: "elected...in 2020 and began his first term in January 2021"
+    committees: [],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://cityofeagan.com/council-member-mike-supina",
+    verifiedAt: "2026-08-08",
+    verifiedAgainst: "https://cityofeagan.com/council-member-mike-supina",
+  },
+  // --- Lakeville (Dakota County) — fully at-large, no wards -----------------
+  //
+  // Mayor + 4 council members, all elected citywide, confirmed directly on
+  // lakevillemn.gov/428/City-Council: "elected at-large to represent the
+  // entire community." Every field (including "First elected to Council"/
+  // "First appointed to Council" dates) is read straight from that one
+  // page's own table — no per-member bio pages exist on this site, so
+  // profileUrl falls back to the shared council page for all five.
+  {
+    city: "Lakeville",
+    coordinates: [-93.2434846, 44.6568619], // Lakeville City Hall, 20195 Holyoke Ave
+    repName: "Luke Hellier",
+    repParty: NONPARTISAN,
+    repPhotoUrl: "https://www.lakevillemn.gov/ImageRepository/Document?documentId=16903",
+    repEmail: "lhellier@lakevillemn.gov",
+    repPhone: "612-237-2551",
+    officeSince: "2023-01-03", // page states "First elected as Mayor: January 3, 2023" (council member since 2017)
+    committees: ["Mayor of Lakeville"],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://www.lakevillemn.gov/428/City-Council",
+    verifiedAt: "2026-08-08",
+    verifiedAgainst: "https://www.lakevillemn.gov/428/City-Council",
+  },
+  {
+    city: "Lakeville",
+    coordinates: [-93.2434846, 44.6568619],
+    role: "Council Member",
+    repName: "John Bermel",
+    repParty: NONPARTISAN,
+    repPhotoUrl: "https://www.lakevillemn.gov/ImageRepository/Document?documentId=16904",
+    repEmail: "jbermel@lakevillemn.gov",
+    repPhone: "612-709-0180",
+    officeSince: "2021-01-04", // page states "First elected to Council: January 4, 2021"
+    committees: [],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://www.lakevillemn.gov/428/City-Council",
+    verifiedAt: "2026-08-08",
+    verifiedAgainst: "https://www.lakevillemn.gov/428/City-Council",
+  },
+  {
+    city: "Lakeville",
+    coordinates: [-93.2434846, 44.6568619],
+    role: "Council Member",
+    repName: "Joshua Lee",
+    repParty: NONPARTISAN,
+    repPhotoUrl: "https://www.lakevillemn.gov/ImageRepository/Document?documentId=16905",
+    repEmail: "jlee@lakevillemn.gov",
+    repPhone: "763-245-3677",
+    officeSince: "2019-01-01", // page states "First elected to Council: January 1, 2019"
+    committees: [],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://www.lakevillemn.gov/428/City-Council",
+    verifiedAt: "2026-08-08",
+    verifiedAgainst: "https://www.lakevillemn.gov/428/City-Council",
+  },
+  {
+    city: "Lakeville",
+    coordinates: [-93.2434846, 44.6568619],
+    role: "Council Member",
+    repName: "Michelle Volk",
+    repParty: NONPARTISAN,
+    repPhotoUrl: "https://www.lakevillemn.gov/ImageRepository/Document?documentId=16906",
+    repEmail: "mvolk@lakevillemn.gov",
+    repPhone: "952-270-7125",
+    officeSince: "2019-01-01", // page states "First elected to Council: January 1, 2019"
+    committees: [],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://www.lakevillemn.gov/428/City-Council",
+    verifiedAt: "2026-08-08",
+    verifiedAgainst: "https://www.lakevillemn.gov/428/City-Council",
+  },
+  {
+    city: "Lakeville",
+    coordinates: [-93.2434846, 44.6568619],
+    role: "Council Member",
+    repName: "Dan Wolter",
+    repParty: NONPARTISAN,
+    repPhotoUrl: "https://www.lakevillemn.gov/ImageRepository/Document?documentId=16907",
+    repEmail: "dwolter@lakevillemn.gov",
+    repPhone: "952-479-0020",
+    officeSince: "2023-01-17", // page states "First appointed to Council: January 17, 2023"
+    committees: [],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://www.lakevillemn.gov/428/City-Council",
+    verifiedAt: "2026-08-08",
+    verifiedAgainst: "https://www.lakevillemn.gov/428/City-Council",
+  },
+  // --- Maple Grove (Hennepin County) — fully at-large, no wards -------------
+  //
+  // Mayor + 4 council members, all elected citywide (maplegrovemn.gov/301/
+  // Mayor-and-City-Council: "City councilmembers serve at large"). Every
+  // field (including each member's own stated "Elected to council"/
+  // "Appointed to mayor" date) is read straight from that page. Steffenson
+  // is the only one of the five with his own bio sub-page; the other four
+  // fall back to the shared overview page as profileUrl.
+  {
+    city: "Maple Grove",
+    coordinates: [-93.4420501, 45.0992572], // Maple Grove Government Center, 12800 Arbor Lakes Pkwy N
+    repName: "Mark Steffenson",
+    repParty: NONPARTISAN,
+    repPhotoUrl: "https://www.maplegrovemn.gov/ImageRepository/Document?documentId=5496",
+    repEmail: "msteffenson@maplegrovemn.gov",
+    repPhone: "763-416-0490",
+    officeSince: "2001-08-01", // page states "Appointed to mayor August 2001; Elected January 2003"
+    committees: ["Mayor of Maple Grove"],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://www.maplegrovemn.gov/315/Mark-Steffenson",
+    verifiedAt: "2026-08-08",
+    verifiedAgainst: "https://www.maplegrovemn.gov/301/Mayor-and-City-Council",
+  },
+  {
+    city: "Maple Grove",
+    coordinates: [-93.4420501, 45.0992572],
+    role: "Council Member",
+    repName: "Rachelle Johnson",
+    repParty: NONPARTISAN,
+    repPhotoUrl: "https://www.maplegrovemn.gov/ImageRepository/Document?documentId=5495",
+    repEmail: "rajohnson@maplegrovemn.gov",
+    repPhone: "612-203-8209",
+    officeSince: "2023-01-01", // page states "Elected to council January 2023"
+    committees: [],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://www.maplegrovemn.gov/301/Mayor-and-City-Council",
+    verifiedAt: "2026-08-08",
+    verifiedAgainst: "https://www.maplegrovemn.gov/301/Mayor-and-City-Council",
+  },
+  {
+    city: "Maple Grove",
+    coordinates: [-93.4420501, 45.0992572],
+    role: "Council Member",
+    repName: "Kristy Janigo",
+    repParty: NONPARTISAN,
+    repPhotoUrl: "https://www.maplegrovemn.gov/ImageRepository/Document?documentId=5494",
+    repEmail: "kjanigo@maplegrovemn.gov",
+    repPhone: "612-708-9029",
+    officeSince: "2023-01-01", // page states "Elected to council January 2023"
+    committees: [],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://www.maplegrovemn.gov/301/Mayor-and-City-Council",
+    verifiedAt: "2026-08-08",
+    verifiedAgainst: "https://www.maplegrovemn.gov/301/Mayor-and-City-Council",
+  },
+  {
+    city: "Maple Grove",
+    coordinates: [-93.4420501, 45.0992572],
+    role: "Council Member",
+    repName: "Mike Ostaffe",
+    repParty: NONPARTISAN,
+    repPhotoUrl: "https://www.maplegrovemn.gov/ImageRepository/Document?documentId=9435",
+    repEmail: "mostaffe@maplegrovemn.gov",
+    repPhone: "763-445-9643",
+    officeSince: "2025-01-01", // page states "Elected to council January 2025"
+    committees: [],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://www.maplegrovemn.gov/301/Mayor-and-City-Council",
+    verifiedAt: "2026-08-08",
+    verifiedAgainst: "https://www.maplegrovemn.gov/301/Mayor-and-City-Council",
+  },
+  {
+    city: "Maple Grove",
+    coordinates: [-93.4420501, 45.0992572],
+    role: "Council Member",
+    repName: "Jon McCullough",
+    repParty: NONPARTISAN,
+    repPhotoUrl: "https://www.maplegrovemn.gov/ImageRepository/Document?documentId=9436",
+    repEmail: "jmccullough@maplegrovemn.gov",
+    repPhone: "612-405-0001",
+    officeSince: "2025-01-01", // page states "Elected to council January 2025"
+    committees: [],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://www.maplegrovemn.gov/301/Mayor-and-City-Council",
+    verifiedAt: "2026-08-08",
+    verifiedAgainst: "https://www.maplegrovemn.gov/301/Mayor-and-City-Council",
+  },
+  // --- Apple Valley (Dakota County) — fully at-large, no wards --------------
+  //
+  // Not to be confused with Apple Valley, California — every field below is
+  // read from the Minnesota city's own site, applevalleymn.gov. Mayor + 4
+  // council members, all elected citywide (confirmed via a live news
+  // roundup and the city's own "Elections and Voting" page; no wards).
+  // applevalleymn.gov/27/City-Council states only "Served since <year>" per
+  // member (no month/day, so January 1 fills the unstated day within that
+  // stated year) and publishes no individual email or phone anywhere on the
+  // site — only a general municipal line (952-953-2500) and per-member web
+  // contact forms — so repEmail/repPhone stay null rather than substituting
+  // the shared number or a guessed address. A generic web search separately
+  // surfaced a plausible-looking direct email/phone for Mayor Hooppaw that
+  // does NOT appear anywhere on applevalleymn.gov itself; confirmed as
+  // stale/unsourced third-party data and deliberately not used here.
+  {
+    city: "Apple Valley",
+    coordinates: [-93.2090127, 44.7346234], // Apple Valley Municipal Center, 7100 147th St W
+    repName: "Clint Hooppaw",
+    repParty: NONPARTISAN,
+    repPhotoUrl: "https://www.applevalleymn.gov/ImageRepository/Document?documentID=16704",
+    repEmail: null,
+    repPhone: null,
+    officeSince: "2011-01-01", // page states "Served since 2011"
+    committees: ["Mayor of Apple Valley"],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://www.applevalleymn.gov/27/City-Council",
+    verifiedAt: "2026-08-08",
+    verifiedAgainst: "https://www.applevalleymn.gov/27/City-Council",
+  },
+  {
+    city: "Apple Valley",
+    coordinates: [-93.2090127, 44.7346234],
+    role: "Council Member",
+    repName: "John Bergman",
+    repParty: NONPARTISAN,
+    repPhotoUrl: "https://www.applevalleymn.gov/ImageRepository/Document?documentID=16701",
+    repEmail: null,
+    repPhone: null,
+    officeSince: "2003-01-01", // page states "Served since 2003"
+    committees: [],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://www.applevalleymn.gov/27/City-Council",
+    verifiedAt: "2026-08-08",
+    verifiedAgainst: "https://www.applevalleymn.gov/27/City-Council",
+  },
+  {
+    city: "Apple Valley",
+    coordinates: [-93.2090127, 44.7346234],
+    role: "Council Member",
+    repName: "Ruth Grendahl",
+    repParty: NONPARTISAN,
+    repPhotoUrl: "https://www.applevalleymn.gov/ImageRepository/Document?documentID=16705",
+    repEmail: null,
+    repPhone: null,
+    officeSince: "1997-01-01", // page states "Served since 1997"
+    committees: [],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://www.applevalleymn.gov/27/City-Council",
+    verifiedAt: "2026-08-08",
+    verifiedAgainst: "https://www.applevalleymn.gov/27/City-Council",
+  },
+  {
+    city: "Apple Valley",
+    coordinates: [-93.2090127, 44.7346234],
+    role: "Council Member",
+    repName: "Lisa Hiebert",
+    repParty: NONPARTISAN,
+    repPhotoUrl: "https://www.applevalleymn.gov/ImageRepository/Document?documentID=18866",
+    repEmail: null,
+    repPhone: null,
+    officeSince: "2025-01-01", // page states "Served since 2025"
+    committees: [],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://www.applevalleymn.gov/27/City-Council",
+    verifiedAt: "2026-08-08",
+    verifiedAgainst: "https://www.applevalleymn.gov/27/City-Council",
+  },
+  {
+    city: "Apple Valley",
+    coordinates: [-93.2090127, 44.7346234],
+    role: "Council Member",
+    repName: "Tom Melander",
+    repParty: NONPARTISAN,
+    repPhotoUrl: "https://www.applevalleymn.gov/ImageRepository/Document?documentID=16703",
+    repEmail: null,
+    repPhone: null,
+    officeSince: "2021-01-01", // page states "Served since 2021"
+    committees: [],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://www.applevalleymn.gov/27/City-Council",
+    verifiedAt: "2026-08-08",
+    verifiedAgainst: "https://www.applevalleymn.gov/27/City-Council",
+  },
+  // --- Burnsville (Dakota County) — fully at-large, no wards ----------------
+  //
+  // Statutory Plan B council-manager city; mayor + 4 council members, all
+  // elected citywide (confirmed via burnsvillemn.gov's own government page).
+  // The city's staff-directory page (burnsvillemn.gov/2078/City-Council) is
+  // JS-rendered for names/roles/phone but its per-member email column and
+  // each individual directory.aspx?EID= sub-page render no usable server-
+  // side content at all through a plain fetch — not routed around per
+  // AGENTS.md §2.2, so repEmail stays null and profileUrl falls back to the
+  // shared council page for all five. The one phone number shown,
+  // 952-895-4403, is identical for all five members on that page — a shared
+  // office line, not a personal extension, so it's not attributed as one
+  // (kept only as officeRoom-adjacent context, not repPhone, to avoid
+  // implying it reaches one person directly). No term-start date is stated
+  // anywhere reachable by a plain fetch, so officeSince falls back to the
+  // same documented placeholder used elsewhere in this file for that gap.
+  {
+    city: "Burnsville",
+    coordinates: [-93.2738283, 44.7655806], // Burnsville City Hall, 100 Civic Center Pkwy
+    repName: "Elizabeth Kautz",
+    repParty: NONPARTISAN,
+    repPhotoUrl: null,
+    repEmail: null,
+    repPhone: null,
+    officeSince: "2025-01-01",
+    committees: ["Mayor of Burnsville"],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://burnsvillemn.gov/2078/City-Council",
+    verifiedAt: "2026-08-08",
+    verifiedAgainst: "https://burnsvillemn.gov/2078/City-Council",
+  },
+  {
+    city: "Burnsville",
+    coordinates: [-93.2738283, 44.7655806],
+    role: "Council Member",
+    repName: "Vince Workman",
+    repParty: NONPARTISAN,
+    repPhotoUrl: null,
+    repEmail: null,
+    repPhone: null,
+    officeSince: "2025-01-01",
+    committees: [],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://burnsvillemn.gov/2078/City-Council",
+    verifiedAt: "2026-08-08",
+    verifiedAgainst: "https://burnsvillemn.gov/2078/City-Council",
+  },
+  {
+    city: "Burnsville",
+    coordinates: [-93.2738283, 44.7655806],
+    role: "Council Member",
+    repName: "Dan Kealey",
+    repParty: NONPARTISAN,
+    repPhotoUrl: null,
+    repEmail: null,
+    repPhone: null,
+    officeSince: "2025-01-01",
+    committees: [],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://burnsvillemn.gov/2078/City-Council",
+    verifiedAt: "2026-08-08",
+    verifiedAgainst: "https://burnsvillemn.gov/2078/City-Council",
+  },
+  {
+    city: "Burnsville",
+    coordinates: [-93.2738283, 44.7655806],
+    role: "Council Member",
+    repName: "Dan Gustafson",
+    repParty: NONPARTISAN,
+    repPhotoUrl: null,
+    repEmail: null,
+    repPhone: null,
+    officeSince: "2025-01-01",
+    committees: [],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://burnsvillemn.gov/2078/City-Council",
+    verifiedAt: "2026-08-08",
+    verifiedAgainst: "https://burnsvillemn.gov/2078/City-Council",
+  },
+  {
+    city: "Burnsville",
+    coordinates: [-93.2738283, 44.7655806],
+    role: "Council Member",
+    repName: "Cara Schulz",
+    repParty: NONPARTISAN,
+    repPhotoUrl: null,
+    repEmail: null,
+    repPhone: null,
+    officeSince: "2025-01-01",
+    committees: [],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://burnsvillemn.gov/2078/City-Council",
+    verifiedAt: "2026-08-08",
+    verifiedAgainst: "https://burnsvillemn.gov/2078/City-Council",
+  },
+  // --- Edina (Hennepin County) — fully at-large, no wards --------------------
+  //
+  // Mayor + 4 council members, all elected citywide (confirmed directly on
+  // edinamn.gov: "All Council Members in Edina are elected at-large... do
+  // not serve a specific ward"). Phone and photo document IDs are read
+  // directly off edinamn.gov/780/Council-Member-Directory. Email addresses
+  // are Cloudflare email-obfuscation–protected on that page and on each
+  // member's own /m/directory/employee?eid= sub-page (rendered in the
+  // markup as an encoded "cdn-cgi/l/email-protection#..." fragment) —
+  // decoded here via that scheme's own deterministic XOR cipher against the
+  // page's own published bytes, not guessed or pattern-matched; still worth
+  // a human spot-check of one or two against a real browser render before
+  // fully trusting the decode. No individual "elected"/"took office" date is
+  // stated distinctly from re-election on this site (clearest case: Hovland
+  // is shown as "Elected 2004" despite being on his current term via
+  // multiple re-elections since, not continuously since a single 2004
+  // swearing-in) — officeSince falls back to the same documented placeholder
+  // used elsewhere in this file rather than guessing which of the "elected"
+  // years is the real first one.
+  {
+    city: "Edina",
+    coordinates: [-93.3473318, 44.9110930], // Edina City Hall, 4801 W 50th St
+    repName: "James Hovland",
+    repParty: NONPARTISAN,
+    repPhotoUrl: "https://www.edinamn.gov/ImageRepository/Document?documentID=10560",
+    repEmail: "jhovland@EdinaMN.gov",
+    repPhone: "612-874-8551",
+    officeSince: "2025-01-01",
+    committees: ["Mayor of Edina"],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://www.edinamn.gov/m/directory/employee?eid=7",
+    verifiedAt: "2026-08-08",
+    verifiedAgainst: "https://www.edinamn.gov/m/directory/employee?eid=7",
+  },
+  {
+    city: "Edina",
+    coordinates: [-93.3473318, 44.9110930],
+    role: "Council Member",
+    repName: "Kate Agnew",
+    repParty: NONPARTISAN,
+    repPhotoUrl: "https://www.edinamn.gov/ImageRepository/Document?documentID=12855",
+    repEmail: "KAgnew@EdinaMN.gov",
+    repPhone: "952-833-9556",
+    officeSince: "2025-01-01",
+    committees: [],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://www.edinamn.gov/m/directory/employee?eid=655",
+    verifiedAt: "2026-08-08",
+    verifiedAgainst: "https://www.edinamn.gov/m/directory/employee?eid=655",
+  },
+  {
+    city: "Edina",
+    coordinates: [-93.3473318, 44.9110930],
+    role: "Council Member",
+    repName: "Carolyn Jackson",
+    repParty: NONPARTISAN,
+    repPhotoUrl: "https://www.edinamn.gov/ImageRepository/Document?documentID=15559",
+    repEmail: "CJackson@EdinaMN.gov",
+    repPhone: "952-833-9547",
+    officeSince: "2025-01-01",
+    committees: [],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://www.edinamn.gov/m/directory/employee?eid=541",
+    verifiedAt: "2026-08-08",
+    verifiedAgainst: "https://www.edinamn.gov/m/directory/employee?eid=541",
+  },
+  {
+    city: "Edina",
+    coordinates: [-93.3473318, 44.9110930],
+    role: "Council Member",
+    repName: "James Pierce",
+    repParty: NONPARTISAN,
+    repPhotoUrl: "https://www.edinamn.gov/ImageRepository/Document?documentID=14137",
+    repEmail: "JPierce@EdinaMN.gov",
+    repPhone: "952-833-9548",
+    officeSince: "2025-01-01",
+    committees: [],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://www.edinamn.gov/m/directory/employee?eid=542",
+    verifiedAt: "2026-08-08",
+    verifiedAgainst: "https://www.edinamn.gov/m/directory/employee?eid=542",
+  },
+  {
+    city: "Edina",
+    coordinates: [-93.3473318, 44.9110930],
+    role: "Council Member",
+    repName: "Julie Risser",
+    repParty: NONPARTISAN,
+    repPhotoUrl: "https://www.edinamn.gov/ImageRepository/Document?documentID=15558",
+    repEmail: "JRisser@EdinaMN.gov",
+    repPhone: "952-833-9557",
+    officeSince: "2025-01-01",
+    committees: [],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://www.edinamn.gov/m/directory/employee?eid=656",
+    verifiedAt: "2026-08-08",
+    verifiedAgainst: "https://www.edinamn.gov/m/directory/employee?eid=656",
+  },
+  // --- Eden Prairie (Hennepin County) — fully at-large, no wards ------------
+  //
+  // Mayor + 4 council members, all elected citywide (Ballotpedia/GoodParty
+  // corroboration, cross-checked against multiple independent search-
+  // engine-indexed citations of the city's own edenprairiemn.gov page
+  // titles for each name below). edenprairiemn.gov itself returns HTTP 403
+  // to every path this pipeline tried — the overview page, every individual
+  // council member's own bio page, and a plain top-level fetch — confirmed
+  // with this script's own descriptive User-Agent, not just a third-party
+  // tool's; not routed around per AGENTS.md §2.2 ("no block evasion"). Name
+  // and mayor/council role are corroborated (AGENTS.md §3.3's
+  // "corroborated" tier — two-plus independent sources agree) but phone,
+  // email, and photo could not be confirmed against a direct render of the
+  // primary source, so they ship null rather than the plausible-looking
+  // contact details a generic web search surfaced (same red flag as Apple
+  // Valley's Hooppaw entry above — those numbers/addresses do not appear on
+  // edenprairiemn.gov itself in any fetch this pipeline could complete, so
+  // they are not used). Re-attempt a direct fetch before this app's next
+  // refresh; the block may be tied to a specific network path, not a
+  // permanent policy.
+  {
+    city: "Eden Prairie",
+    coordinates: [-93.4603848, 44.8568070], // Eden Prairie City Center, 8080 Mitchell Rd
+    repName: "Ron Case",
+    repParty: NONPARTISAN,
+    repPhotoUrl: null,
+    repEmail: null,
+    repPhone: null,
+    officeSince: "2025-01-01",
+    committees: ["Mayor of Eden Prairie"],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://www.edenprairiemn.gov/city-government/city-council/ron-case",
+  },
+  {
+    city: "Eden Prairie",
+    coordinates: [-93.4603848, 44.8568070],
+    role: "Council Member",
+    repName: "Mark Freiberg",
+    repParty: NONPARTISAN,
+    repPhotoUrl: null,
+    repEmail: null,
+    repPhone: null,
+    officeSince: "2025-01-01",
+    committees: [],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://www.edenprairiemn.gov/city-government/city-council",
+  },
+  {
+    city: "Eden Prairie",
+    coordinates: [-93.4603848, 44.8568070],
+    role: "Council Member",
+    repName: "PG Narayanan",
+    repParty: NONPARTISAN,
+    repPhotoUrl: null,
+    repEmail: null,
+    repPhone: null,
+    officeSince: "2025-01-01",
+    committees: [],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://www.edenprairiemn.gov/city-government/city-council/pg-narayanan",
+  },
+  {
+    city: "Eden Prairie",
+    coordinates: [-93.4603848, 44.8568070],
+    role: "Council Member",
+    repName: "Kathy Nelson",
+    repParty: NONPARTISAN,
+    repPhotoUrl: null,
+    repEmail: null,
+    repPhone: null,
+    officeSince: "2025-01-01",
+    committees: [],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://www.edenprairiemn.gov/city-government/city-council",
+  },
+  {
+    city: "Eden Prairie",
+    coordinates: [-93.4603848, 44.8568070],
+    role: "Council Member",
+    repName: "Lisa Toomey",
+    repParty: NONPARTISAN,
+    repPhotoUrl: null,
+    repEmail: null,
+    repPhone: null,
+    officeSince: "2025-01-01",
+    committees: [],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://www.edenprairiemn.gov/city-government/city-council",
+  },
 ];
 
 async function main() {
