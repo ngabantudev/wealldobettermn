@@ -739,7 +739,7 @@ function TierNode({ index, officials, onHeaderRef, headerHeight }: TierNodeProps
       <h2
         ref={(el) => onHeaderRef(index, el)}
         id={headingId}
-        className="sticky z-10 px-4 py-2 text-xs font-semibold uppercase tracking-wide shadow-[0_1px_2px_rgba(0,0,0,0.15)]"
+        className="sticky z-10 border-t border-b border-hair px-4 py-2 text-xs font-semibold uppercase tracking-wide shadow-[0_1px_2px_rgba(0,0,0,0.15)]"
         style={{ top: `${index * headerHeight}px`, backgroundColor: TIER_HEADER_BG, color: TIER_HEADER_TEXT }}
       >
         {label}
