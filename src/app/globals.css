@@ -338,6 +338,26 @@
     border-color: var(--well-hair);
     box-shadow: var(--well-shadow);
   }
+
+  /* Hides the scrollbar chrome on the two persistent map sidebars
+     (WardMap's left "Filters" `<aside>` and right detail `<aside>`) and
+     WardModal's own tier-list scroll region — the sidebars already carry
+     their own visual edge (border + accent stripe), so a second,
+     browser-drawn scroll track competed with that framing rather than
+     adding information. Scrolling itself is untouched — `overflow` stays
+     whatever it already was; this only hides the indicator. Keyboard and
+     touch/trackpad scrolling both keep working with no visible affordance,
+     which is an acceptable tradeoff here specifically because these two
+     panels also expose every item through normal tab/heading navigation
+     (AGENTS.md §4 keyboard-complete) — a resident never needs to see a
+     scrollbar to find the rest of the content. */
+  .no-scrollbar {
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* older Edge/IE */
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none; /* Chrome/Safari/WebKit */
+  }
 }
 
 body {
