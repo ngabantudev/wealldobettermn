@@ -39,12 +39,17 @@ const NONPARTISAN = "Nonpartisan";
 const ST_PAUL_WARDS_URL =
   "https://services1.arcgis.com/9meaaHE3uiba0zr8/arcgis/rest/services/Council_Ward_/FeatureServer/0/query?where=1%3D1&outFields=*&f=geojson";
 
-// Current term runs Jan 2024-Dec 2027 for all 7 seats (citywide cycle).
+// Current term runs Jan 2024-Dec 2027 for all 7 seats (citywide cycle) —
+// this is the one city in this file where both a termStart and a termEnd
+// are confirmed facts, not a guess.
 const ST_PAUL_TERM_START = "2024-01-01";
+const ST_PAUL_TERM_END = "2027-12-31";
 // Ward 6 is the one exception found on the bio pages: Nelsie Yang has
 // served continuously since her original swearing-in, not just the term
-// that began with everyone else's in 2024.
-const ST_PAUL_OFFICE_SINCE_OVERRIDES = {
+// that began with everyone else's in 2024. Her *current* term still ends
+// with everyone else's per the citywide cycle above — only termStart
+// differs for her seat.
+const ST_PAUL_TERM_START_OVERRIDES = {
   6: "2020-01-01",
 };
 const ST_PAUL_OFFICE_ROOM = {
@@ -89,7 +94,6 @@ const ST_PAUL_NEIGHBORHOODS = {
 // this covers the term that began January 2026.
 const MINNEAPOLIS_WARDS_URL =
   "https://hub.arcgis.com/datasets/cityoflakes::city-council-wards.geojson";
-const MINNEAPOLIS_TERM_START = "2026-01-01";
 const MINNEAPOLIS_OFFICE_ROOM = "Room 370, City Hall";
 const MINNEAPOLIS_PHOTO_BASE =
   "https://www.minneapolismn.gov/media/-www-content-assets/images/headshots/";
@@ -130,17 +134,22 @@ const MINNEAPOLIS_PHOTOS = {
 // Where the bio page states only an election year (not an exact swearing-
 // in date), this uses January 1 of the following year as an approximation
 // (Minnesota's regular cycle seats winners the January after a November
-// election) — flagged per entry since two special-election seats (6, 12)
-// may be off by a few months. Wards not listed here either started with
-// the current term (elected 2025) or didn't state a date on their page,
-// so they fall back to MINNEAPOLIS_TERM_START.
-const MINNEAPOLIS_OFFICE_SINCE_OVERRIDES = {
+// election). Wards 6 and 12 are deliberately absent from this table even
+// though a plausible-looking date was once attached to each: both are
+// special-election seats where the exact date is explicitly unconfirmed
+// (Osman's 2020 special election, Chowdhury's 2023 off-cycle/special) —
+// carrying either forward as a real termStart would be a guess, not a
+// sourced fact, per issue #96. Wards not listed here either started with
+// the current term (elected 2025) or didn't state a date on their page —
+// which of those two is genuinely true per-ward isn't confirmed either, so
+// termStart is null for them too rather than defaulting to a "term began
+// January 2026" stand-in for a real per-member date. No term-end date is
+// stated anywhere for any Minneapolis ward.
+const MINNEAPOLIS_TERM_START_OVERRIDES = {
   1: "2022-01-01", // Payne, first elected 2021
   3: "2022-01-01", // Rainville, first elected 2021
-  6: "2020-01-01", // Osman, won a 2020 special election — exact date unconfirmed
   9: "2022-01-01", // Chavez, first elected 2021
   10: "2022-01-01", // Chughtai, first elected 2021
-  12: "2023-01-01", // Chowdhury, first elected 2023 (off-cycle/special) — exact date unconfirmed
   13: "2014-01-01", // Palmisano, first elected 2013
 };
 
@@ -195,45 +204,45 @@ const HENNEPIN_WARDS_URL = "https://gis.hennepin.us/arcgis/rest/services/Hennepi
 
 const BLOOMINGTON_PROFILE_URL = "https://www.bloomingtonmn.gov/cc/city-councilmembers-and-district-maps";
 const BLOOMINGTON_ROSTER = {
-  1: { name: "Dwayne Lowman", email: "dlowman@BloomingtonMN.gov", phone: "952-270-2377", photo: "https://www.bloomingtonmn.gov/sites/default/files/styles/240x336/public/2026-02/Lowman-Dwayne-2026.jpg?h=59969086&itok=PB1EelDt", officeSince: "2013-01-01" },
-  2: { name: "Shawn Nelson", email: "snelson@BloomingtonMN.gov", phone: "952-479-0471", photo: "https://www.bloomingtonmn.gov/sites/default/files/styles/240x336/public/2026-02/Nelson-Shawn-2026.jpg?h=59969086&itok=c44_JY5w", officeSince: "2017-01-01" },
-  3: { name: "Lona Dallessandro", email: "LDallessandro@BloomingtonMN.gov", phone: "612-231-6824", photo: "https://www.bloomingtonmn.gov/sites/default/files/styles/240x336/public/2026-02/Dallessandro-Lona-2026.jpg?h=59969086&itok=YmLq0W4U", officeSince: "2021-01-01" },
-  4: { name: "Victor Rivas", email: "vrivas@bloomingtonmn.gov", phone: "651-247-5199", photo: "https://www.bloomingtonmn.gov/sites/default/files/styles/240x336/public/2026-02/Rivas-Victor-2026.jpg?h=59969086&itok=tEn3ybvl", officeSince: "2024-01-02" },
+  1: { name: "Dwayne Lowman", email: "dlowman@BloomingtonMN.gov", phone: "952-270-2377", photo: "https://www.bloomingtonmn.gov/sites/default/files/styles/240x336/public/2026-02/Lowman-Dwayne-2026.jpg?h=59969086&itok=PB1EelDt" },
+  2: { name: "Shawn Nelson", email: "snelson@BloomingtonMN.gov", phone: "952-479-0471", photo: "https://www.bloomingtonmn.gov/sites/default/files/styles/240x336/public/2026-02/Nelson-Shawn-2026.jpg?h=59969086&itok=c44_JY5w" },
+  3: { name: "Lona Dallessandro", email: "LDallessandro@BloomingtonMN.gov", phone: "612-231-6824", photo: "https://www.bloomingtonmn.gov/sites/default/files/styles/240x336/public/2026-02/Dallessandro-Lona-2026.jpg?h=59969086&itok=YmLq0W4U" },
+  4: { name: "Victor Rivas", email: "vrivas@bloomingtonmn.gov", phone: "651-247-5199", photo: "https://www.bloomingtonmn.gov/sites/default/files/styles/240x336/public/2026-02/Rivas-Victor-2026.jpg?h=59969086&itok=tEn3ybvl" },
 };
 
 const PLYMOUTH_PROFILE_URL = "https://www.plymouthmn.gov/departments/city-council/city-council-members";
 const PLYMOUTH_ROSTER = {
-  1: { name: "Kimberly Nelson", email: "knelson@plymouthmn.gov", phone: "763-509-5001", photo: "https://www.plymouthmn.gov/home/showpublishedimage/12998/638775647365700000", officeSince: "2024-03-01" },
-  2: { name: "Julie Peterson", email: "jpeterson@plymouthmn.gov", phone: "763-509-5002", photo: "https://www.plymouthmn.gov/home/showpublishedimage/12996/638775647645630000", officeSince: "2023-01-01" },
-  3: { name: "Scott Aldrich", email: "saldrich@plymouthmn.gov", phone: "763-509-5003", photo: "https://www.plymouthmn.gov/home/showpublishedimage/13000/638775647154170000", officeSince: "2025-01-14" },
+  1: { name: "Kimberly Nelson", email: "knelson@plymouthmn.gov", phone: "763-509-5001", photo: "https://www.plymouthmn.gov/home/showpublishedimage/12998/638775647365700000" },
+  2: { name: "Julie Peterson", email: "jpeterson@plymouthmn.gov", phone: "763-509-5002", photo: "https://www.plymouthmn.gov/home/showpublishedimage/12996/638775647645630000" },
+  3: { name: "Scott Aldrich", email: "saldrich@plymouthmn.gov", phone: "763-509-5003", photo: "https://www.plymouthmn.gov/home/showpublishedimage/13000/638775647154170000" },
   // The city's own <img alt> text spells this "Julie Pointer," but the page
   // heading and her official email both use "Pointner" — used here as the
   // correct spelling.
-  4: { name: "Julie Pointner", email: "jpointner@plymouthmn.gov", phone: "763-509-5004", photo: "https://www.plymouthmn.gov/home/showpublishedimage/11569/638134355229800000", officeSince: "2019-01-01" },
+  4: { name: "Julie Pointner", email: "jpointner@plymouthmn.gov", phone: "763-509-5004", photo: "https://www.plymouthmn.gov/home/showpublishedimage/11569/638134355229800000" },
 };
 
 // Unlike Bloomington/Plymouth, each of these three cities' wards has its
 // own individual profile page rather than one shared directory page.
 const MINNETONKA_ROSTER = {
-  1: { name: "Patsy Foster-Bolton", email: "pbolton@minnetonkamn.gov", phone: "952-314-8638", photo: "https://www.minnetonkamn.gov/home/showpublishedimage/4029/638436736809070000", officeSince: "2023-01-01", profileUrl: "https://www.minnetonkamn.gov/government/city-council-mayor/ward-1" },
+  1: { name: "Patsy Foster-Bolton", email: "pbolton@minnetonkamn.gov", phone: "952-314-8638", photo: "https://www.minnetonkamn.gov/home/showpublishedimage/4029/638436736809070000", profileUrl: "https://www.minnetonkamn.gov/government/city-council-mayor/ward-1" },
   // Appointed (not elected) in March 2026 to fill the vacancy left when
   // Rebecca Schack moved from Ward 2 to mayor.
-  2: { name: "Amanda Maxwell", email: "amaxwell@minnetonkamn.gov", phone: "612-466-0729", photo: "https://www.minnetonkamn.gov/home/showpublishedimage/5566/639087423947130000", officeSince: "2026-03-01", profileUrl: "https://www.minnetonkamn.gov/government/city-council-mayor/ward-2" },
-  3: { name: "Paula Ramaley", email: "pramaley@minnetonkamn.gov", phone: "952-222-0105", photo: "https://www.minnetonkamn.gov/home/showpublishedimage/4031/638436738102070000", officeSince: "2023-01-01", profileUrl: "https://www.minnetonkamn.gov/government/city-council-mayor/ward-3" },
-  4: { name: "Kissy Coakley", email: "kcoakley@minnetonkamn.gov", phone: "952-486-9670", photo: "https://www.minnetonkamn.gov/home/showpublishedimage/1687/638436738813470000", officeSince: "2019-01-01", profileUrl: "https://www.minnetonkamn.gov/government/city-council-mayor/ward-4" },
+  2: { name: "Amanda Maxwell", email: "amaxwell@minnetonkamn.gov", phone: "612-466-0729", photo: "https://www.minnetonkamn.gov/home/showpublishedimage/5566/639087423947130000", profileUrl: "https://www.minnetonkamn.gov/government/city-council-mayor/ward-2" },
+  3: { name: "Paula Ramaley", email: "pramaley@minnetonkamn.gov", phone: "952-222-0105", photo: "https://www.minnetonkamn.gov/home/showpublishedimage/4031/638436738102070000", profileUrl: "https://www.minnetonkamn.gov/government/city-council-mayor/ward-3" },
+  4: { name: "Kissy Coakley", email: "kcoakley@minnetonkamn.gov", phone: "952-486-9670", photo: "https://www.minnetonkamn.gov/home/showpublishedimage/1687/638436738813470000", profileUrl: "https://www.minnetonkamn.gov/government/city-council-mayor/ward-4" },
 };
 
 const ST_LOUIS_PARK_ROSTER = {
-  1: { name: "Daniel Bashore", email: "dbashore@stlouisparkmn.gov", phone: "612-523-5702", photo: "https://www.stlouisparkmn.gov/home/showpublishedimage/6958/639046881787430000", officeSince: "2026-01-01", profileUrl: "https://www.stlouisparkmn.gov/government/city-council/mayor-council-members/ward-1" },
-  2: { name: "Jim Engelking", email: "jengelking@stlouisparkmn.gov", phone: "612-449-0989", photo: "https://www.stlouisparkmn.gov/home/showpublishedimage/6960/639046881792530000", officeSince: "2026-01-01", profileUrl: "https://www.stlouisparkmn.gov/government/city-council/mayor-council-members/ward-2" },
-  3: { name: "Sue Budd", email: "sbudd@stlouisparkmn.gov", phone: "612-523-5834", photo: "https://www.stlouisparkmn.gov/home/showpublishedimage/6966/639046881809400000", officeSince: "2022-01-01", profileUrl: "https://www.stlouisparkmn.gov/government/city-council/mayor-council-members/ward-3" },
-  4: { name: "Tim Brausen", email: "tbrausen@stlouisparkmn.gov", phone: "612-523-5678", photo: "https://www.stlouisparkmn.gov/home/showpublishedimage/6968/639046881814570000", officeSince: "2014-01-01", profileUrl: "https://www.stlouisparkmn.gov/government/city-council/mayor-council-members/ward-4" },
+  1: { name: "Daniel Bashore", email: "dbashore@stlouisparkmn.gov", phone: "612-523-5702", photo: "https://www.stlouisparkmn.gov/home/showpublishedimage/6958/639046881787430000", profileUrl: "https://www.stlouisparkmn.gov/government/city-council/mayor-council-members/ward-1" },
+  2: { name: "Jim Engelking", email: "jengelking@stlouisparkmn.gov", phone: "612-449-0989", photo: "https://www.stlouisparkmn.gov/home/showpublishedimage/6960/639046881792530000", profileUrl: "https://www.stlouisparkmn.gov/government/city-council/mayor-council-members/ward-2" },
+  3: { name: "Sue Budd", email: "sbudd@stlouisparkmn.gov", phone: "612-523-5834", photo: "https://www.stlouisparkmn.gov/home/showpublishedimage/6966/639046881809400000", profileUrl: "https://www.stlouisparkmn.gov/government/city-council/mayor-council-members/ward-3" },
+  4: { name: "Tim Brausen", email: "tbrausen@stlouisparkmn.gov", phone: "612-523-5678", photo: "https://www.stlouisparkmn.gov/home/showpublishedimage/6968/639046881814570000", profileUrl: "https://www.stlouisparkmn.gov/government/city-council/mayor-council-members/ward-4" },
 };
 
 const RICHFIELD_ROSTER = {
-  1: { name: "Walter Burk", email: "WBurk@RichfieldMN.gov", phone: "651-236-0563", photo: "https://www.richfieldmn.gov/ImageRepository/Document?documentID=910", officeSince: "2025-01-01", profileUrl: "https://www.richfieldmn.gov/directory.aspx?eid=62" },
-  2: { name: "Sean Hayford Oleary", email: "SHayfordoleary@RichfieldMN.gov", phone: "612-605-8837", photo: "https://www.richfieldmn.gov/ImageRepository/Document?documentID=906", officeSince: "2021-01-11", profileUrl: "https://www.richfieldmn.gov/directory.aspx?eid=63" },
-  3: { name: "Rori A. Coleman-Woods", email: "RColeman-Woods@RichfieldMN.gov", phone: "612-490-2776", photo: "https://www.richfieldmn.gov/ImageRepository/Document?documentID=904", officeSince: "2025-01-01", profileUrl: "https://www.richfieldmn.gov/directory.aspx?eid=64" },
+  1: { name: "Walter Burk", email: "WBurk@RichfieldMN.gov", phone: "651-236-0563", photo: "https://www.richfieldmn.gov/ImageRepository/Document?documentID=910", profileUrl: "https://www.richfieldmn.gov/directory.aspx?eid=62" },
+  2: { name: "Sean Hayford Oleary", email: "SHayfordoleary@RichfieldMN.gov", phone: "612-605-8837", photo: "https://www.richfieldmn.gov/ImageRepository/Document?documentID=906", profileUrl: "https://www.richfieldmn.gov/directory.aspx?eid=63" },
+  3: { name: "Rori A. Coleman-Woods", email: "RColeman-Woods@RichfieldMN.gov", phone: "612-490-2776", photo: "https://www.richfieldmn.gov/ImageRepository/Document?documentID=904", profileUrl: "https://www.richfieldmn.gov/directory.aspx?eid=64" },
 };
 
 // Added Aug 2026 alongside Crystal/Robbinsdale/Fridley/Ramsey — this
@@ -242,8 +251,8 @@ const RICHFIELD_ROSTER = {
 // app queried them; the shortfall was only ever a missing roster/city
 // entry, never a missing GIS source. Champlin's own directory pages state
 // "Term Expires" but never a start date, except where noted per-seat below
-// — unstated seats fall back to fetchHennepinSuburbWards()'s own default
-// ("2025-01-01", same convention as every other city on that helper).
+// — unstated seats get termStart: null (fetchHennepinSuburbWards()'s own
+// default when a roster entry has no termStart field), not a guessed date.
 const CHAMPLIN_ROSTER = {
   1: { name: "Jessica Tesdall", email: "jtesdall@champlinmn.gov", phone: "763-421-8100 ext. 237", photo: "https://www.champlinmn.gov/ImageRepository/Document?documentID=2082", profileUrl: "https://www.champlinmn.gov/directory.aspx?EID=34" },
   2: { name: "Tom Moe", email: "tmoe@champlinmn.gov", phone: "763-421-8100 ext. 228", photo: "https://www.champlinmn.gov/ImageRepository/Document?documentID=2084", profileUrl: "https://www.champlinmn.gov/directory.aspx?EID=35" },
@@ -255,11 +264,11 @@ const CHAMPLIN_ROSTER = {
   // so May 18 (the canvass date, a real dated event on a primary source)
   // is used rather than the generic fallback, which would understate how
   // recently she took office.
-  3: { name: "Rachel Wales", email: "RWales@champlinmn.gov", phone: null, photo: "https://www.champlinmn.gov/ImageRepository/Document?documentID=5657", profileUrl: "https://www.champlinmn.gov/directory.aspx?EID=36", officeSince: "2026-05-18" },
+  3: { name: "Rachel Wales", email: "RWales@champlinmn.gov", phone: null, photo: "https://www.champlinmn.gov/ImageRepository/Document?documentID=5657", profileUrl: "https://www.champlinmn.gov/directory.aspx?EID=36", termStart: "2026-05-18" },
   // Interim appointee — sworn in April 27, 2026 (explicitly stated on her
   // bio page) to serve through the Nov 3, 2026 special election for the
   // remainder of this term.
-  4: { name: "Lorraine Coan", email: "lcoan@champlinmn.gov", phone: "763-421-8100 ext. 239", photo: "https://www.champlinmn.gov/ImageRepository/Document?documentID=5543", profileUrl: "https://www.champlinmn.gov/directory.aspx?EID=90", officeSince: "2026-04-27" },
+  4: { name: "Lorraine Coan", email: "lcoan@champlinmn.gov", phone: "763-421-8100 ext. 239", photo: "https://www.champlinmn.gov/ImageRepository/Document?documentID=5543", profileUrl: "https://www.champlinmn.gov/directory.aspx?EID=90", termStart: "2026-04-27" },
 };
 
 // One shared council-roster page, no individual bio URLs per member
@@ -269,7 +278,8 @@ const CHAMPLIN_ROSTER = {
 // against the city's own page (not a shared inbox).
 const CRYSTAL_PROFILE_URL = "https://www.crystalmn.gov/how_do_i____/contact/city_council_members";
 // No term-start date stated on the city's page for any of the four —
-// falls back to fetchHennepinSuburbWards()'s own default ("2025-01-01").
+// termStart is null for all four (fetchHennepinSuburbWards()'s own default
+// when a roster entry has no termStart field).
 const CRYSTAL_ROSTER = {
   1: { name: "Therese Kiser", email: "therese.kiser@crystalmn.gov", phone: "763-458-0030", photo: "https://www.crystalmn.gov/UserFiles/Servers/Server_10879634/Image/Government/City%20Council/Kiser%20web.jpg" },
   2: { name: "Traci Kamish", email: "traci.kamish@crystalmn.gov", phone: "763-220-0670", photo: "https://www.crystalmn.gov/UserFiles/Servers/Server_10879634/Image/Government/City%20Council/Kamish-web.jpg" },
@@ -284,14 +294,14 @@ const CRYSTAL_ROSTER = {
 // City-Council overview page's independent plaintext listing of the same
 // addresses) — a rendering-technique quirk, not a sourcing gap.
 const ROBBINSDALE_ROSTER = {
-  1: { name: "Raymond Blackledge", email: "rblackledge@robbinsdalemn.gov", phone: "612-501-0201", photo: "https://www.robbinsdalemn.gov/ImageRepository/Document?documentID=1547", officeSince: "2025-01-07", profileUrl: "https://www.robbinsdalemn.gov/directory.aspx?eid=7" },
-  2: { name: "Jason Greenberg", email: "jgreenberg@robbinsdalemn.gov", phone: "612-567-3905", photo: "https://www.robbinsdalemn.gov/ImageRepository/Document?documentID=1545", officeSince: "2024-08-20", profileUrl: "https://www.robbinsdalemn.gov/directory.aspx?eid=8" },
+  1: { name: "Raymond Blackledge", email: "rblackledge@robbinsdalemn.gov", phone: "612-501-0201", photo: "https://www.robbinsdalemn.gov/ImageRepository/Document?documentID=1547", termStart: "2025-01-07", profileUrl: "https://www.robbinsdalemn.gov/directory.aspx?eid=7" },
+  2: { name: "Jason Greenberg", email: "jgreenberg@robbinsdalemn.gov", phone: "612-567-3905", photo: "https://www.robbinsdalemn.gov/ImageRepository/Document?documentID=1545", termStart: "2024-08-20", profileUrl: "https://www.robbinsdalemn.gov/directory.aspx?eid=8" },
   // Bio page states "has represented Ward 3 since 2023" with no month/day
   // — Jan 1 stands in for the unstated day within that stated year, not a
   // guess at the year itself.
-  3: { name: "Mia Parisian", email: "mparisian@robbinsdalemn.gov", phone: "612-501-9499", photo: "https://www.robbinsdalemn.gov/ImageRepository/Document?documentID=1546", officeSince: "2023-01-01", profileUrl: "https://www.robbinsdalemn.gov/directory.aspx?eid=9" },
+  3: { name: "Mia Parisian", email: "mparisian@robbinsdalemn.gov", phone: "612-501-9499", photo: "https://www.robbinsdalemn.gov/ImageRepository/Document?documentID=1546", termStart: "2023-01-01", profileUrl: "https://www.robbinsdalemn.gov/directory.aspx?eid=9" },
   // Sworn in to fill a vacated seat, per his bio page.
-  4: { name: "Alejandro Caceres Aranda", email: "acaceresaranda@robbinsdalemn.gov", phone: "612-701-2250", photo: "https://www.robbinsdalemn.gov/ImageRepository/Document?documentID=1968", officeSince: "2026-02-04", profileUrl: "https://www.robbinsdalemn.gov/directory.aspx?eid=10" },
+  4: { name: "Alejandro Caceres Aranda", email: "acaceresaranda@robbinsdalemn.gov", phone: "612-701-2250", photo: "https://www.robbinsdalemn.gov/ImageRepository/Document?documentID=1968", termStart: "2026-02-04", profileUrl: "https://www.robbinsdalemn.gov/directory.aspx?eid=10" },
 };
 
 // --- Blaine (Anoka County) --------------------------------------------------
@@ -312,9 +322,10 @@ const BLAINE_PHOTOS = {
   "cmassoglia@blainemn.gov": "https://www.blainemn.gov/ImageRepository/Document?documentID=11407",
 };
 // Not stated on any rep's own directory.aspx page (only term-expiration
-// dates are shown there) — best-effort fallback, same convention as
-// RAMSEY_EXTRAS's default below for a date that couldn't be confirmed.
-const BLAINE_OFFICE_SINCE_FALLBACK = "2025-01-01";
+// dates are shown there, and no actual expiration date is quoted anywhere
+// reachable by this pipeline either) — termStart/termEnd are both null
+// for every Blaine seat below, per issue #96, rather than the old
+// "2025-01-01" placeholder this file used to fall back to.
 
 // --- Brooklyn Park (Hennepin County) ---------------------------------------
 //
@@ -331,16 +342,16 @@ const BLAINE_OFFICE_SINCE_FALLBACK = "2025-01-01";
 const BROOKLYN_PARK_DISTRICT_TO_WARD_NUM = { Central: 1, East: 2, West: 3 };
 const BROOKLYN_PARK_ROSTER = {
   Central: [
-    { name: "Nichole Klonowski", email: "nichole.klonowski@brooklynpark.org", phone: "763-493-8372", photo: "https://www.brooklynpark.org/wp-content/uploads/2023/01/Nichole-Klonowski-e1673535427571.jpg", officeSince: "2022-01-01", profileUrl: "https://www.brooklynpark.org/contact/nichole-klonowski/" },
-    { name: "Shelle Page", email: "shelle.page@brooklynpark.org", phone: "763-493-8040", photo: "https://www.brooklynpark.org/wp-content/uploads/2025/01/shelle-page-copy.jpg", officeSince: "2025-01-06", profileUrl: "https://www.brooklynpark.org/contact/shelle-page/" },
+    { name: "Nichole Klonowski", email: "nichole.klonowski@brooklynpark.org", phone: "763-493-8372", photo: "https://www.brooklynpark.org/wp-content/uploads/2023/01/Nichole-Klonowski-e1673535427571.jpg", termStart: "2022-01-01", profileUrl: "https://www.brooklynpark.org/contact/nichole-klonowski/" },
+    { name: "Shelle Page", email: "shelle.page@brooklynpark.org", phone: "763-493-8040", photo: "https://www.brooklynpark.org/wp-content/uploads/2025/01/shelle-page-copy.jpg", termStart: "2025-01-06", profileUrl: "https://www.brooklynpark.org/contact/shelle-page/" },
   ],
   East: [
-    { name: "Christian Eriksen", email: "christian.eriksen@brooklynpark.org", phone: "763-493-8097", photo: "https://www.brooklynpark.org/wp-content/uploads/2023/01/Christian-Eriksen-e1673535748609.jpg", officeSince: "2022-01-01", profileUrl: "https://www.brooklynpark.org/contact/christian-eriksen/" },
-    { name: "Amanda Cheng Xiong", email: "amanda.xiong@brooklynpark.org", phone: "763-493-8010", photo: "https://www.brooklynpark.org/wp-content/uploads/2025/01/amanda-cheng-xiong-copy.jpg", officeSince: "2025-01-06", profileUrl: "https://www.brooklynpark.org/contact/amanda-cheng-xiong/" },
+    { name: "Christian Eriksen", email: "christian.eriksen@brooklynpark.org", phone: "763-493-8097", photo: "https://www.brooklynpark.org/wp-content/uploads/2023/01/Christian-Eriksen-e1673535748609.jpg", termStart: "2022-01-01", profileUrl: "https://www.brooklynpark.org/contact/christian-eriksen/" },
+    { name: "Amanda Cheng Xiong", email: "amanda.xiong@brooklynpark.org", phone: "763-493-8010", photo: "https://www.brooklynpark.org/wp-content/uploads/2025/01/amanda-cheng-xiong-copy.jpg", termStart: "2025-01-06", profileUrl: "https://www.brooklynpark.org/contact/amanda-cheng-xiong/" },
   ],
   West: [
-    { name: "Maria Tran", email: "maria.tran@brooklynpark.org", phone: "763-315-8442", photo: "https://www.brooklynpark.org/wp-content/uploads/2019/06/Maria-Tran-Image-scaled-e1709677467466.jpg", officeSince: "2022-01-01", profileUrl: "https://www.brooklynpark.org/contact/maria-tran/" },
-    { name: "Tony McGarvey", email: "tony.mcgarvey@brooklynpark.org", phone: "763-315-8496", photo: "https://www.brooklynpark.org/wp-content/uploads/2026/04/Tony-McGarvey.jpg", officeSince: "2023-01-01", profileUrl: "https://www.brooklynpark.org/contact/tony-mcgarvey/" },
+    { name: "Maria Tran", email: "maria.tran@brooklynpark.org", phone: "763-315-8442", photo: "https://www.brooklynpark.org/wp-content/uploads/2019/06/Maria-Tran-Image-scaled-e1709677467466.jpg", termStart: "2022-01-01", profileUrl: "https://www.brooklynpark.org/contact/maria-tran/" },
+    { name: "Tony McGarvey", email: "tony.mcgarvey@brooklynpark.org", phone: "763-315-8496", photo: "https://www.brooklynpark.org/wp-content/uploads/2026/04/Tony-McGarvey.jpg", termStart: "2023-01-01", profileUrl: "https://www.brooklynpark.org/contact/tony-mcgarvey/" },
   ],
 };
 
@@ -356,6 +367,7 @@ async function fetchMinneapolisWards() {
   const features = (geojson.features ?? []).map((feature) => {
     const wardNum = Number(feature.properties?.BDNUM);
     const photo = MINNEAPOLIS_PHOTOS[wardNum];
+    const profileUrl = `https://www.minneapolismn.gov/government/city-council/members/ward-${wardNum}/`;
     return {
       type: "Feature",
       geometry: feature.geometry,
@@ -373,11 +385,16 @@ async function fetchMinneapolisWards() {
         repPhotoUrl: photo ? `${MINNEAPOLIS_PHOTO_BASE}${photo}` : null,
         repEmail: null,
         repPhone: null,
-        officeSince: MINNEAPOLIS_OFFICE_SINCE_OVERRIDES[wardNum] ?? MINNEAPOLIS_TERM_START,
+        termsOfService: [{
+          termStart: MINNEAPOLIS_TERM_START_OVERRIDES[wardNum] ?? null,
+          termEnd: null,
+          current: true,
+          sourceUrl: profileUrl,
+        }],
         committees: MINNEAPOLIS_COMMITTEES[wardNum] ?? [],
         neighborhoods: MINNEAPOLIS_NEIGHBORHOODS[wardNum] ?? [],
         officeRoom: MINNEAPOLIS_OFFICE_ROOM,
-        profileUrl: `https://www.minneapolismn.gov/government/city-council/members/ward-${wardNum}/`,
+        profileUrl,
         // No source for candidate filings is wired up yet — empty rather
         // than guessed, since a civic-transparency app is the last place
         // that should show made-up election data. isContested mirrors
@@ -399,6 +416,7 @@ async function fetchStPaulWards() {
   const features = (geojson.features ?? []).map((feature) => {
     const props = feature.properties ?? {};
     const wardNum = Number(String(props.ward ?? "").replace(/\D/g, ""));
+    const profileUrl = `https://www.stpaul.gov/department/city-council/${ST_PAUL_PROFILE_SLUG[wardNum] ?? `ward-${wardNum}`}`;
     return {
       type: "Feature",
       geometry: feature.geometry,
@@ -416,11 +434,16 @@ async function fetchStPaulWards() {
         repPhotoUrl: props.imgpath ?? null,
         repEmail: props.email ?? null,
         repPhone: props.phone ?? null,
-        officeSince: ST_PAUL_OFFICE_SINCE_OVERRIDES[wardNum] ?? ST_PAUL_TERM_START,
+        termsOfService: [{
+          termStart: ST_PAUL_TERM_START_OVERRIDES[wardNum] ?? ST_PAUL_TERM_START,
+          termEnd: ST_PAUL_TERM_END,
+          current: true,
+          sourceUrl: profileUrl,
+        }],
         committees: ST_PAUL_COMMITTEES[wardNum] ?? [],
         neighborhoods: ST_PAUL_NEIGHBORHOODS[wardNum] ?? [],
         officeRoom: ST_PAUL_OFFICE_ROOM[wardNum] ?? null,
-        profileUrl: `https://www.stpaul.gov/department/city-council/${ST_PAUL_PROFILE_SLUG[wardNum] ?? `ward-${wardNum}`}`,
+        profileUrl,
         // No source for candidate filings is wired up yet — empty rather
         // than guessed, since a civic-transparency app is the last place
         // that should show made-up election data. isContested mirrors
@@ -455,6 +478,7 @@ async function fetchHennepinSuburbWards(cityName, roster, profileUrl) {
   const features = (geojson.features ?? []).map((feature) => {
     const wardNum = Number(feature.properties?.WARD);
     const info = roster[wardNum];
+    const resolvedProfileUrl = info?.profileUrl ?? profileUrl ?? null;
     return {
       type: "Feature",
       geometry: feature.geometry,
@@ -472,11 +496,21 @@ async function fetchHennepinSuburbWards(cityName, roster, profileUrl) {
         repPhotoUrl: info?.photo ?? null,
         repEmail: info?.email ?? null,
         repPhone: info?.phone ?? null,
-        officeSince: info?.officeSince ?? "2025-01-01",
+        // termStart/termEnd come straight from the roster entry, per
+        // issue #96 — null unless that specific city/seat has a real
+        // citation (see the per-city comments above each roster). Never a
+        // "2025-01-01"-style sentinel; a seat with no confirmed date gets
+        // null, not a guess that renders identically to a real one.
+        termsOfService: [{
+          termStart: info?.termStart ?? null,
+          termEnd: info?.termEnd ?? null,
+          current: true,
+          sourceUrl: resolvedProfileUrl,
+        }],
         committees: [],
         neighborhoods: [],
         officeRoom: null,
-        profileUrl: info?.profileUrl ?? profileUrl ?? null,
+        profileUrl: resolvedProfileUrl,
         candidates: [],
         isContested: false,
         partyUnityPercent: null,
@@ -503,6 +537,7 @@ async function fetchBlaineWards() {
       const name = props[`rep${slot}`];
       if (!name) continue;
       const email = props[`rep${slot}email`] ?? null;
+      const repProfileUrl = props[`rep${slot}website`] ?? null;
       features.push({
         type: "Feature",
         geometry: feature.geometry,
@@ -520,11 +555,11 @@ async function fetchBlaineWards() {
           repPhotoUrl: (email && BLAINE_PHOTOS[email]) ?? null,
           repEmail: email,
           repPhone: props[`rep${slot}phone`] ?? null,
-          officeSince: BLAINE_OFFICE_SINCE_FALLBACK,
+          termsOfService: [{ termStart: null, termEnd: null, current: true, sourceUrl: repProfileUrl }],
           committees: [],
           neighborhoods: [],
           officeRoom: null,
-          profileUrl: props[`rep${slot}website`] ?? null,
+          profileUrl: repProfileUrl,
           candidates: [],
           isContested: false,
           partyUnityPercent: null,
@@ -567,7 +602,7 @@ async function fetchBrooklynParkWards() {
           repPhotoUrl: info.photo ?? null,
           repEmail: info.email ?? null,
           repPhone: info.phone ?? null,
-          officeSince: info.officeSince ?? "2025-01-01",
+          termsOfService: [{ termStart: info.termStart ?? null, termEnd: null, current: true, sourceUrl: info.profileUrl ?? null }],
           committees: [],
           neighborhoods: [],
           officeRoom: null,
@@ -612,8 +647,8 @@ const COON_RAPIDS_ROSTER = {
 // carry only a shared general inbox, which isn't any one member's contact,
 // so repEmail stays null rather than substituting it. "Since" isn't stated
 // anywhere either (checked both the directory and each member's own
-// profile page) — same best-effort fallback convention as Blaine's.
-const COON_RAPIDS_OFFICE_SINCE_FALLBACK = "2025-01-01";
+// profile page), same gap as Blaine's — termStart/termEnd are both null
+// for all 5 (fetchAnokaSuburbWards's own default), not a guessed date.
 
 // fridleymn.gov returns HTTP 403 to every automated fetch (Cloudflare/Akamai
 // bot protection) — confirmed both via WebFetch and curl with a browser
@@ -622,7 +657,7 @@ const COON_RAPIDS_OFFICE_SINCE_FALLBACK = "2025-01-01";
 // own resident welcome packet PDF and Meet-Your-Council pages (corroborated
 // across multiple independent snippets, internally consistent), not a
 // direct render of the live page — same "corroborated, not primary-read"
-// tier as the Hennepin suburbs' officeSince dates above. Photos are
+// tier as the Hennepin suburbs' termStart dates above. Photos are
 // genuinely unconfirmed (left null, not guessed) since there's no way to
 // extract an <img> src without rendering the blocked page. Re-verify
 // against fridleymn.gov directly (a real browser, not this pipeline) before
@@ -637,11 +672,10 @@ const FRIDLEY_ROSTER = {
   // Anoka County ABC Newspapers/hometownsource.com — third-party sourced
   // (the city's own site doesn't state a term-start date for him), flagged
   // the same as every other "reported, not confirmed" date in this file.
-  1: { name: "Luke Cardona", phone: "763-334-2810", email: "Luke.Cardona@FridleyMN.gov", officeSince: "2025-03-04" },
+  1: { name: "Luke Cardona", phone: "763-334-2810", email: "Luke.Cardona@FridleyMN.gov", termStart: "2025-03-04" },
   2: { name: "Ryan Evanson", phone: "612-325-1329", email: "Ryan.Evanson@FridleyMN.gov" },
   3: { name: "Ann Bolkcom", phone: "612-308-2096", email: "Ann.Bolkcom@FridleyMN.gov" },
 };
-const FRIDLEY_OFFICE_SINCE_FALLBACK = "2025-01-01";
 
 // cityoframseymn.gov's "Elected Officials" page lists all 7 members (Mayor +
 // 2 at-large + 4 ward) on one shared page with no individual profile URLs —
@@ -657,9 +691,8 @@ const RAMSEY_ROSTER = {
   3: { name: "Dan Specht", phone: "763-576-4361", email: "dspecht@cityoframsey.com", photo: "https://www.cityoframseymn.gov/media/nsad02sm/document.jpg" },
   4: { name: "Shanna Stewart", phone: "763-576-4360", email: "sstewart@cityoframsey.com", photo: "https://www.cityoframseymn.gov/media/twijfk1e/document.jpg" },
 };
-const RAMSEY_OFFICE_SINCE_FALLBACK = "2025-01-01";
 
-async function fetchAnokaSuburbWards(cityName, roster, officeSinceFallback, profileUrls) {
+async function fetchAnokaSuburbWards(cityName, roster, profileUrls) {
   console.log(`[wards] fetching ${cityName}...`);
   const url = new URL(ANOKA_PRECINCTS_URL);
   url.searchParams.set("where", `CITY='${cityName}'`);
@@ -682,6 +715,10 @@ async function fetchAnokaSuburbWards(cityName, roster, officeSinceFallback, prof
       continue;
     }
     const info = roster[wardNum];
+    // Three shapes in use: embedded per-ward on the roster entry itself
+    // (Coon Rapids), a separate per-ward map (Fridley), or one shared
+    // page for the whole council (Ramsey) — checked in that order.
+    const resolvedProfileUrl = info?.profileUrl ?? profileUrls?.[wardNum] ?? profileUrls ?? null;
     features.push({
       type: "Feature",
       geometry: dissolved.geometry,
@@ -699,14 +736,16 @@ async function fetchAnokaSuburbWards(cityName, roster, officeSinceFallback, prof
         repPhotoUrl: info?.photo ?? null,
         repEmail: info?.email ?? null,
         repPhone: info?.phone ?? null,
-        officeSince: info?.officeSince ?? officeSinceFallback,
+        termsOfService: [{
+          termStart: info?.termStart ?? null,
+          termEnd: null,
+          current: true,
+          sourceUrl: resolvedProfileUrl,
+        }],
         committees: [],
         neighborhoods: [],
         officeRoom: null,
-        // Three shapes in use: embedded per-ward on the roster entry itself
-        // (Coon Rapids), a separate per-ward map (Fridley), or one shared
-        // page for the whole council (Ramsey) — checked in that order.
-        profileUrl: info?.profileUrl ?? profileUrls?.[wardNum] ?? profileUrls ?? null,
+        profileUrl: resolvedProfileUrl,
         candidates: [],
         isContested: false,
         partyUnityPercent: null,
@@ -735,9 +774,9 @@ async function main() {
     fetchHennepinSuburbWards("Robbinsdale", ROBBINSDALE_ROSTER),
     fetchBlaineWards(),
     fetchBrooklynParkWards(),
-    fetchAnokaSuburbWards("Coon Rapids", COON_RAPIDS_ROSTER, COON_RAPIDS_OFFICE_SINCE_FALLBACK),
-    fetchAnokaSuburbWards("Fridley", FRIDLEY_ROSTER, FRIDLEY_OFFICE_SINCE_FALLBACK, FRIDLEY_PROFILE_URLS),
-    fetchAnokaSuburbWards("Ramsey", RAMSEY_ROSTER, RAMSEY_OFFICE_SINCE_FALLBACK, RAMSEY_PROFILE_URL),
+    fetchAnokaSuburbWards("Coon Rapids", COON_RAPIDS_ROSTER),
+    fetchAnokaSuburbWards("Fridley", FRIDLEY_ROSTER, FRIDLEY_PROFILE_URLS),
+    fetchAnokaSuburbWards("Ramsey", RAMSEY_ROSTER, RAMSEY_PROFILE_URL),
   ]);
   // Named outputCollection, not featureCollection — shadowing the
   // @turf/helpers import of the same name would still work correctly here

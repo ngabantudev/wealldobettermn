@@ -45,7 +45,7 @@ function rep(overrides) {
     repPhotoUrl: null,
     repEmail: null,
     repPhone: null,
-    officeSince: "2020-01-01",
+    termsOfService: [{ termStart: "2020-01-01", termEnd: null, current: true, sourceUrl: "https://example.com/testville" }],
     committees: [],
     neighborhoods: [],
     officeRoom: null,

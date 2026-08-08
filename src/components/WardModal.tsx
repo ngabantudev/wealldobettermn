@@ -158,6 +158,37 @@ function formatOfficeSince(iso: string): string {
   return new Date(iso).toLocaleDateString("en-US", { month: "long", year: "numeric", timeZone: "UTC" });
 }
 
+// Renders whatever the current term entry actually knows, per issue #96 —
+// never a guess, never the old officeSince sentinel. termsOfService always
+// has exactly one entry today (historical backfill is a separate issue,
+// #98), but this still looks it up by `current` rather than assuming
+// index 0, since that's the field that actually means "this one."
+function currentTermLabel(rep: RepProperties): string {
+  // Array.isArray guard is rollout safety, not a type workaround:
+  // public/state-legislature.geojson is refreshed by a script that needs
+  // a real OPEN_STATES_API_KEY (AGENTS.md §3.2 — "cache the response,
+  // commit the derived output"), so a build can genuinely ship this
+  // component before that file has been regenerated onto the new
+  // termsOfService shape. Falling through to the "not published" label
+  // for that stale-shape case beats a hard crash on every state
+  // legislator's panel — see LESSONS.md's node:fs incident for why a
+  // static-data assumption that's true today but not yet true everywhere
+  // is exactly the class of bug that takes down a whole route.
+  const currentTerm = Array.isArray(rep.termsOfService) ? rep.termsOfService.find((term) => term.current) : undefined;
+  const termStart = currentTerm?.termStart ?? null;
+  const termEnd = currentTerm?.termEnd ?? null;
+  if (termStart && termEnd) {
+    return `${rep.repParty} · current term: ${formatOfficeSince(termStart)} – ${formatOfficeSince(termEnd)}`;
+  }
+  if (termEnd) {
+    return `${rep.repParty} · current term expires ${formatOfficeSince(termEnd)} (start date not published)`;
+  }
+  if (termStart) {
+    return `${rep.repParty} · in office since ${formatOfficeSince(termStart)} (term-end date not published)`;
+  }
+  return `${rep.repParty} · in office — term dates not published by the city`;
+}
+
 // Every mapped city's own official council-meetings/agenda calendar
 // page, each individually verified live (fetched and confirmed to be a
 // real, current meetings/agenda page, not guessed from a URL pattern).
@@ -483,9 +514,7 @@ function OfficialCard({ rep }: { rep: RepProperties }) {
               repName ?? "Vacant / TBD"
             )}
           </h4>
-          <div className="text-xs text-ink-3 mt-0.5">
-            {rep.repParty} &middot; in office since {formatOfficeSince(rep.officeSince)}
-          </div>
+          <div className="text-xs text-ink-3 mt-0.5">{currentTermLabel(rep)}</div>
         </div>
       </div>
 

@@ -35,8 +35,8 @@ export const CITIES = [
   // Same batch — Lakeville is also fully at-large, confirmed on its own
   // site (lakevillemn.gov/428/City-Council: "elected at-large to represent
   // the entire community"). That page also states each member's own
-  // "First elected/appointed to Council" date directly, so officeSince
-  // below isn't a fallback for this city.
+  // "First elected/appointed to Council" date directly, so termStart
+  // below isn't a null fallback for this city.
   "Lakeville",
   // Same batch — Maple Grove is also fully at-large (5 seats: mayor + 4
   // council members, confirmed on maplegrovemn.gov/301/Mayor-and-City-
