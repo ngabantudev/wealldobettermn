@@ -25,20 +25,31 @@ export const CITIES = [
   // at City Hall) — see that script's own comment for why they share a
   // file/source rather than needing a new one.
   "Woodbury",
+  // Issue #65's "8 more cities" batch (Woodbury above was the 8th, shipped
+  // separately in #66) — Eagan turned out to be fully at-large too once
+  // checked against its own site, same as Woodbury: mayor + 4 council
+  // members, no wards, no polygon to source. Confirmed on cityofeagan.com
+  // (fetch-mayors.mjs carries the per-member citations); no GIS ward-
+  // boundary search was needed at all, since Eagan has no wards.
+  "Eagan",
 ] as const;
 export type City = (typeof CITIES)[number];
 
 // Covered cities with no ward polygon at all — every seat (mayor + council)
-// is elected citywide. Woodbury is the only one today; see its own comment
-// in CITIES above. This is the client-visible single source of truth for
-// "which cities need their boundary derived from city-boundaries.geojson
+// is elected citywide. This is the client-visible single source of truth
+// for "which cities need their boundary derived from city-boundaries.geojson
 // instead of wards.geojson" — WardMap.tsx filters the statewide
 // city-boundaries feed against this list to build the at-large-boundary
 // layer (previously a separate fetch of its own, per-city GIS URL; see
 // git history for scripts/fetch-at-large-boundaries.mjs, now removed).
-export const AT_LARGE_CITIES: readonly City[] = ["Woodbury"];
+export const AT_LARGE_CITIES: readonly City[] = ["Woodbury", "Eagan"];
 
-export const COUNTIES = ["Hennepin", "Ramsey", "Anoka", "Washington"] as const;
+// Dakota added alongside issue #65's batch — Eagan is this app's first
+// Dakota County city. No collision with any existing city name here (see
+// the Ramsey city/county collision note below for what that class of bug
+// looks like) — checked against every entry in COUNTIES and CITIES before
+// adding.
+export const COUNTIES = ["Hennepin", "Ramsey", "Anoka", "Washington", "Dakota"] as const;
 export type County = (typeof COUNTIES)[number];
 
 // NOTE: the city "Ramsey" (Anoka County) and the county "Ramsey" (St.
@@ -68,4 +79,5 @@ export const COUNTY_CITIES: Record<County, City[]> = {
   Ramsey: ["St. Paul"],
   Anoka: ["Blaine", "Coon Rapids", "Fridley", "Ramsey"],
   Washington: ["Woodbury"],
+  Dakota: ["Eagan"],
 };

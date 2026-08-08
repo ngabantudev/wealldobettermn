@@ -268,6 +268,106 @@ const MAYORS = [
     officeRoom: null,
     profileUrl: "https://www.woodburymn.gov/m/directory/employee?eid=106",
   },
+  // --- Eagan (Dakota County) — fully at-large, no wards --------------------
+  //
+  // Mayor + 4 council members, all elected citywide (confirmed directly on
+  // cityofeagan.com/council: "The Mayor and four Council Members are
+  // elected at large..."). Every field below was read from each member's
+  // own bio page (cityofeagan.com/<slug>), including email — the page
+  // *displays* "protected from spambots," but the address is right there in
+  // the page's own markup, base64-encoded for a client-side unmask script
+  // (<joomla-hidden-mail text="...">), so decoding it is reading the page's
+  // own published data, not guessing a firstname.lastname@ pattern. Every
+  // officeSince date is the page's own stated first-elected/first-term date
+  // (Maguire's is his first year as Mayor, having previously served as a
+  // council member 2003-2007; Bakken and Hansen's own pages state an exact
+  // "served/elected since" year with no month, so January 1 fills the
+  // unstated day within that stated year, same convention as Robbinsdale's
+  // Mia Parisian entry in fetch-wards.mjs).
+  {
+    city: "Eagan",
+    coordinates: [-93.1664607, 44.8181446], // Eagan Municipal Center, 3830 Pilot Knob Rd
+    repName: "Mike Maguire",
+    repParty: NONPARTISAN,
+    repPhotoUrl: "https://cityofeagan.com/images/Council/Portraits/2022/MikeMaguire-1008-1_192w_72ppi.jpg",
+    repEmail: "mike.maguire@eaganmn.gov",
+    repPhone: "651-675-5048",
+    officeSince: "2007-01-01", // elected Eagan's 8th Mayor in 2006, seated Jan 2007
+    committees: ["Mayor of Eagan"],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://cityofeagan.com/mayor-mike-maguire",
+    verifiedAt: "2026-08-08",
+    verifiedAgainst: "https://cityofeagan.com/mayor-mike-maguire",
+  },
+  {
+    city: "Eagan",
+    coordinates: [-93.1664607, 44.8181446],
+    role: "Council Member",
+    repName: "Paul Bakken",
+    repParty: NONPARTISAN,
+    repPhotoUrl: "https://cityofeagan.com/images/Council/Portraits/2022/PaulBakken-1006_192w_72ppi.jpg",
+    repEmail: "paul.bakken@eaganmn.gov",
+    repPhone: "651-688-7075",
+    officeSince: "2007-01-01", // own bio page: "having served since January 2007" (also served 1999-2002)
+    committees: [],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://cityofeagan.com/councilmember-paul-bakken",
+    verifiedAt: "2026-08-08",
+    verifiedAgainst: "https://cityofeagan.com/councilmember-paul-bakken",
+  },
+  {
+    city: "Eagan",
+    coordinates: [-93.1664607, 44.8181446],
+    role: "Council Member",
+    repName: "Cyndee Fields",
+    repParty: NONPARTISAN,
+    repPhotoUrl: "https://cityofeagan.com/images/Council/Portraits/2022/CyndeeFields-1005_Preferred_192w_72ppi.jpg",
+    repEmail: "cyndee.fields@eaganmn.gov",
+    repPhone: "952-270-3093",
+    officeSince: "2001-01-01", // own bio page: "began her first term...in January, 2001"
+    committees: [],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://cityofeagan.com/councilmember-cyndee-fields",
+    verifiedAt: "2026-08-08",
+    verifiedAgainst: "https://cityofeagan.com/councilmember-cyndee-fields",
+  },
+  {
+    city: "Eagan",
+    coordinates: [-93.1664607, 44.8181446],
+    role: "Council Member",
+    repName: "Gary Hansen",
+    repParty: NONPARTISAN,
+    repPhotoUrl: "https://cityofeagan.com/images/Council/Portraits/2022/GaryHansen-1007_192w_72ppi.jpg",
+    repEmail: "gary.hansen@eaganmn.gov",
+    repPhone: "651-454-1172",
+    officeSince: "2009-01-01", // own bio page: "first elected to the Eagan City Council in 2008"
+    committees: [],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://cityofeagan.com/councilmember-gary-hansen",
+    verifiedAt: "2026-08-08",
+    verifiedAgainst: "https://cityofeagan.com/councilmember-gary-hansen",
+  },
+  {
+    city: "Eagan",
+    coordinates: [-93.1664607, 44.8181446],
+    role: "Council Member",
+    repName: "Mike Supina",
+    repParty: NONPARTISAN,
+    repPhotoUrl: "https://cityofeagan.com/images/Council/Portraits/2022/MikeSupina-1008_192w_72ppi.jpg",
+    repEmail: "mike.supina@eaganmn.gov",
+    repPhone: "651-706-0061",
+    officeSince: "2021-01-01", // own bio page: "elected...in 2020 and began his first term in January 2021"
+    committees: [],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://cityofeagan.com/council-member-mike-supina",
+    verifiedAt: "2026-08-08",
+    verifiedAgainst: "https://cityofeagan.com/council-member-mike-supina",
+  },
 ];
 
 async function main() {
