@@ -411,7 +411,20 @@ function OfficialCard({ rep }: { rep: RepProperties }) {
           >
             {areaLabel(rep)} &middot; {roleLabel(rep)}
           </div>
-          <h4 className="text-lg font-bold text-ink leading-tight truncate">{repName ?? "Vacant / TBD"}</h4>
+          <h4 className="text-lg font-bold text-ink leading-tight truncate">
+            {repName && rep.profileUrl ? (
+              <a
+                href={rep.profileUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:underline"
+              >
+                {repName}
+              </a>
+            ) : (
+              repName ?? "Vacant / TBD"
+            )}
+          </h4>
           <div className="text-xs text-ink-3 mt-0.5">
             {rep.repParty} &middot; in office since {formatOfficeSince(rep.officeSince)}
           </div>
@@ -622,7 +635,7 @@ function OfficialCard({ rep }: { rep: RepProperties }) {
           </div>
         )}
 
-        {(rep.officeRoom || neighborhoods.length > 0 || rep.profileUrl) && (
+        {(rep.officeRoom || neighborhoods.length > 0) && (
           <div className="border-t border-hair px-4 py-3 space-y-1.5 text-xs text-ink-3">
             {rep.officeRoom && (
               <div className="flex items-start gap-1.5">
@@ -639,18 +652,6 @@ function OfficialCard({ rep }: { rep: RepProperties }) {
                 </span>
                 <span>{neighborhoods.join(", ")}</span>
               </div>
-            )}
-            {rep.profileUrl && (
-              <a
-                href={rep.profileUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1 font-medium hover:underline pt-0.5"
-                style={{ color: accent }}
-              >
-                View official profile
-                <IconExternal />
-              </a>
             )}
           </div>
         )}
