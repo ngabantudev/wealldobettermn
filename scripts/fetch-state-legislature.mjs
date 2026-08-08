@@ -471,10 +471,18 @@ function buildFeature(districtFeature, chamber, legislatorsByDistrict, partyUnit
       repEmail: member?.email || null,
       repPhone: null,
       // Open States doesn't expose a clean "first elected to this seat"
-      // field — this is when Open States' own tracking of this person
-      // began, a reasonable but unverified proxy (unlike the hand-checked
-      // officeSince dates elsewhere in this app).
-      officeSince: member?.created_at ? member.created_at.slice(0, 10) : "2023-01-01",
+      // field — member.created_at is just when Open States' own tracking
+      // of this person began, an unverified proxy for a real term-start
+      // date (unlike the hand-checked termStart dates elsewhere in this
+      // app) — per issue #96, that's not a real citation, so termStart
+      // stays null rather than carrying forward a date that describes
+      // Open States' own bookkeeping, not this person's term.
+      termsOfService: [{
+        termStart: null,
+        termEnd: null,
+        current: true,
+        sourceUrl: member?.openstates_url ?? OPEN_STATES_PEOPLE_SOURCE,
+      }],
       committees: [],
       neighborhoods: [],
       officeRoom: null,

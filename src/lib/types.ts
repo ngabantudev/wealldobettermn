@@ -66,7 +66,21 @@ export interface RepProperties {
   repPhotoUrl: string | null;
   repEmail: string | null;
   repPhone: string | null;
-  officeSince: string;
+  // Replaces the old officeSince scalar (see AGENTS.md §1d and issue #96):
+  // a single string couldn't represent "we know the term-end date but not
+  // the start," an ambiguous first-elected-vs-current-term date, or a
+  // genuinely unconfirmed date without smuggling in a placeholder that
+  // renders identically to a real one. Every record today gets exactly one
+  // entry (current: true) — historical term backfill is a separate, later
+  // issue (#98). termStart/termEnd are real dates only when a primary or
+  // clearly-cited source states them; null otherwise, never a guess or
+  // sentinel placeholder.
+  termsOfService: Array<{
+    termStart: string | null;
+    termEnd: string | null;
+    current: boolean;
+    sourceUrl: string;
+  }>;
   committees: string[];
   neighborhoods: string[];
   officeRoom: string | null;

@@ -40,13 +40,13 @@ const RAMSEY_DISTRICTS_URL =
 // asset host under a different date-stamped (or "migrated-files") folder,
 // so there's no common prefix to factor out.
 const RAMSEY_EXTRAS = {
-  1: { photo: "https://assets.ramseycountymn.gov/files/2025-08/Tara%20Jebens-Singh%20200x250.jpg", officeSince: "2025-01-01", committees: [] },
-  2: { photo: "https://assets.ramseycountymn.gov/files/2026-02/Mary-Jo-McGuire-2026-200x250_0.jpg", officeSince: "2012-01-01", committees: ["Chair, Legislative Committee", "Vice Chair, Budget and Audit Committee"] },
-  3: { photo: "https://assets.ramseycountymn.gov/files/2025-08/Garrison-McMurtrey-200x250.jpg", officeSince: "2025-02-01", committees: [] },
-  4: { photo: "https://assets.ramseycountymn.gov/files/2025-08/Rena-Moran-200x250.jpg", officeSince: "2022-01-01", committees: ["Chair, Economic Growth and Community Investment Committee", "Vice Chair, Budget Committee"] },
-  5: { photo: "https://assets.ramseycountymn.gov/files/2025-08/Rafael-Ortega-200x250.jpg", officeSince: "1994-01-01", committees: ["Chair, Ramsey County Board", "Chair, Regional Rail Authority"] },
-  6: { photo: "https://assets.ramseycountymn.gov/files/migrated-files/Mai-Chong-Xiong-200x250.jpg", officeSince: "2023-01-01", committees: ["Vice Chair, Ramsey County Board"] },
-  7: { photo: "https://assets.ramseycountymn.gov/files/2025-08/Kelly-Miller-200x250.jpg", officeSince: "2025-01-01", committees: [] },
+  1: { photo: "https://assets.ramseycountymn.gov/files/2025-08/Tara%20Jebens-Singh%20200x250.jpg", termStart: "2025-01-01", committees: [] },
+  2: { photo: "https://assets.ramseycountymn.gov/files/2026-02/Mary-Jo-McGuire-2026-200x250_0.jpg", termStart: "2012-01-01", committees: ["Chair, Legislative Committee", "Vice Chair, Budget and Audit Committee"] },
+  3: { photo: "https://assets.ramseycountymn.gov/files/2025-08/Garrison-McMurtrey-200x250.jpg", termStart: "2025-02-01", committees: [] },
+  4: { photo: "https://assets.ramseycountymn.gov/files/2025-08/Rena-Moran-200x250.jpg", termStart: "2022-01-01", committees: ["Chair, Economic Growth and Community Investment Committee", "Vice Chair, Budget Committee"] },
+  5: { photo: "https://assets.ramseycountymn.gov/files/2025-08/Rafael-Ortega-200x250.jpg", termStart: "1994-01-01", committees: ["Chair, Ramsey County Board", "Chair, Regional Rail Authority"] },
+  6: { photo: "https://assets.ramseycountymn.gov/files/migrated-files/Mai-Chong-Xiong-200x250.jpg", termStart: "2023-01-01", committees: ["Vice Chair, Ramsey County Board"] },
+  7: { photo: "https://assets.ramseycountymn.gov/files/2025-08/Kelly-Miller-200x250.jpg", termStart: "2025-01-01", committees: [] },
 };
 
 // --- Hennepin County (~ Minneapolis) --------------------------------------
@@ -57,9 +57,14 @@ const RAMSEY_EXTRAS = {
 // Unlike the city councils this app covers, Hennepin's board has staggered
 // terms (districts 2/3/4 elect together, 1/5/6/7 elect together on the
 // opposite 4-year cadence) confirmed by cross-checking each member's stated
-// term info — so officeSince is genuinely per-member, not one shared date.
+// term info — so termStart is genuinely per-member, not one shared date.
 // Districts 4 and 6 didn't state an exact first-elected date on their own
-// page; those two are the cycle-implied best estimate, not confirmed.
+// page; those two are the cycle-implied best estimate, not confirmed —
+// termStart is null for both per issue #96, not the guessed date this file
+// used to carry. District 3's own comment below flags a similar problem:
+// the stated date is her first-ever-elected year, not her current (3rd)
+// term's start, so it's null too rather than misrepresenting which term it
+// describes.
 const HENNEPIN_DISTRICTS_URL =
   "https://gis.hennepin.us/arcgis/rest/services/HennepinData/BOUNDARIES/MapServer/0/query?where=1%3D1&outFields=*&f=geojson";
 const HENNEPIN_PHOTO_BASE = "https://www.hennepincounty.gov/-/media/Hennepin-Headless/Hennepin-Gov/government/leadership/board/";
@@ -68,43 +73,47 @@ const HENNEPIN_COMMISSIONERS = {
   1: {
     name: "Jeffrey Lunde",
     photo: "dist-1/jeffrey-lunde-620x465.jpg",
-    officeSince: "2020-01-01",
+    termStart: "2020-01-01",
     committees: ["Chair, Law, Safety and Justice Committee", "Chair, Hennepin Healthcare System Board"],
   },
   2: {
     name: "Irene Fernando",
     photo: "dist-2/irene-fernando-620x465.jpg",
-    officeSince: "2019-01-01", // elected Nov 2018
+    termStart: "2019-01-01", // elected Nov 2018
     committees: ["Chair, Hennepin County Board", "Chair, Municipal Building Commission"],
   },
   3: {
     name: "Marion Greene",
     photo: "dist-3/marion-greene-620x465.jpg",
-    officeSince: "2014-01-01", // 3rd term began 2022 at 4-year cadence
+    // 2014 is her first-ever-elected date, not her current (3rd) term's
+    // start (that began 2022 at this district's 4-year cadence) — null per
+    // issue #96 rather than carrying forward a date that describes the
+    // wrong term.
+    termStart: null,
     committees: ["Chair, Regional Railroad Authority"],
   },
   4: {
     name: "Angela Conley",
     photo: "dist-4/angela-conley-620x465.jpg",
-    officeSince: "2019-01-01", // best estimate: same election cycle as districts 2/3
+    termStart: null, // best estimate only: same election cycle as districts 2/3, not confirmed
     committees: ["Chair, Health Committee", "Chair, Housing and Redevelopment Authority"],
   },
   5: {
     name: "Debbie Goettel",
     photo: "dist-5/debbie-goettel-620x465.jpg",
-    officeSince: "2017-01-01", // elected Nov 2016
+    termStart: "2017-01-01", // elected Nov 2016
     committees: ["Vice Chair, Hennepin County Board", "Chair, Administration, Operations and Budget Committee"],
   },
   6: {
     name: "Heather Edelson",
     photo: "dist-6/heather-edelson-620x465.jpg",
-    officeSince: "2025-01-01", // best estimate: opposite cycle from districts 2/3/4, next point after district 1/5's 2020/2024
+    termStart: null, // best estimate only: opposite cycle from districts 2/3/4, not confirmed
     committees: ["Chair, Human Services Committee", "Chair, Resident Services Committee"],
   },
   7: {
     name: "Kevin Anderson",
     photo: "dist-7/kevin-anderson-620x465.jpg",
-    officeSince: "2021-01-01", // took office 2021, off the regular even-year cycle (likely a special election)
+    termStart: "2021-01-01", // took office 2021, off the regular even-year cycle (likely a special election)
     committees: ["Chair, Hennepin Health", "Chair, Public Works Committee"],
   },
 };
@@ -121,7 +130,8 @@ async function fetchRamseyDistricts() {
   const features = (geojson.features ?? []).map((feature) => {
     const props = feature.properties ?? {};
     const districtNum = Number(props.District);
-    const extra = RAMSEY_EXTRAS[districtNum] ?? { photo: null, officeSince: "2025-01-01", committees: [] };
+    const extra = RAMSEY_EXTRAS[districtNum] ?? { photo: null, termStart: null, committees: [] };
+    const profileUrl = props.Web ?? null;
     return {
       type: "Feature",
       geometry: feature.geometry,
@@ -139,11 +149,11 @@ async function fetchRamseyDistricts() {
         repPhotoUrl: extra.photo,
         repEmail: props.Email ?? null,
         repPhone: props.Phone ?? null,
-        officeSince: extra.officeSince,
+        termsOfService: [{ termStart: extra.termStart ?? null, termEnd: null, current: true, sourceUrl: profileUrl }],
         committees: extra.committees,
         neighborhoods: [],
         officeRoom: null,
-        profileUrl: props.Web ?? null,
+        profileUrl,
         // No source for candidate filings is wired up yet — empty rather
         // than guessed, since a civic-transparency app is the last place
         // that should show made-up election data. isContested mirrors
@@ -166,6 +176,7 @@ async function fetchHennepinDistricts() {
     const props = feature.properties ?? {};
     const districtNum = Number(props.NAME_TXT);
     const info = HENNEPIN_COMMISSIONERS[districtNum];
+    const profileUrl = `https://www.hennepincounty.gov/government/leadership/board-of-commissioners/district-${districtNum}`;
     return {
       type: "Feature",
       geometry: feature.geometry,
@@ -183,11 +194,11 @@ async function fetchHennepinDistricts() {
         repPhotoUrl: info?.photo ? `${HENNEPIN_PHOTO_BASE}${info.photo}` : null,
         repEmail: null,
         repPhone: null,
-        officeSince: info?.officeSince ?? "2023-01-01",
+        termsOfService: [{ termStart: info?.termStart ?? null, termEnd: null, current: true, sourceUrl: profileUrl }],
         committees: info?.committees ?? [],
         neighborhoods: [],
         officeRoom: null,
-        profileUrl: `https://www.hennepincounty.gov/government/leadership/board-of-commissioners/district-${districtNum}`,
+        profileUrl,
         // No source for candidate filings is wired up yet — empty rather
         // than guessed, since a civic-transparency app is the last place
         // that should show made-up election data. isContested mirrors

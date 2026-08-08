@@ -45,7 +45,7 @@ const MAYORS = [
     repPhotoUrl: "https://www.minneapolismn.gov/media/-www-content-assets/images/headshots/Mayor-Jacob-Frey.jpg",
     repEmail: null,
     repPhone: "612-673-2100",
-    officeSince: "2018-01-01", // elected 2017, seated the following January
+    termsOfService: [{ termStart: "2018-01-01", termEnd: null, current: true, sourceUrl: "https://www.minneapolismn.gov/government/mayor/" }],
     committees: ["48th Mayor of Minneapolis"],
     neighborhoods: [],
     officeRoom: "Room 330, City Hall",
@@ -60,7 +60,7 @@ const MAYORS = [
       "https://www.stpaul.gov/sites/default/files/styles/large/public/2025-12/Mayor-Elect%20Her%20-%20Ward%203%20Tour%20-%20December%209%202025-20-2048x2048.jpeg.webp?itok=Du3PTque",
     repEmail: "mayor@stpaul.gov",
     repPhone: "651-266-8510",
-    officeSince: "2026-01-01", // elected Nov 2025, Saint Paul's first woman and first Asian American mayor
+    termsOfService: [{ termStart: "2026-01-01", termEnd: null, current: true, sourceUrl: "https://www.stpaul.gov/departments/mayors-office" }],
     committees: ["Mayor of Saint Paul"],
     neighborhoods: [],
     officeRoom: "Saint Paul City Hall, 15 Kellogg Blvd. West",
@@ -78,7 +78,7 @@ const MAYORS = [
     repPhotoUrl: "https://www.bloomingtonmn.gov/sites/default/files/styles/240x336/public/2026-02/Busse-Tim-2026.jpg?h=59969086&itok=ewxwDjDP",
     repEmail: "tbusse@BloomingtonMN.gov",
     repPhone: "952-457-7506",
-    officeSince: "2020-01-02", // elected Nov 2019; previously an at-large councilmember 2011-2019
+    termsOfService: [{ termStart: null, termEnd: null, current: true, sourceUrl: "https://www.bloomingtonmn.gov/cc/city-councilmembers-and-district-maps" }],
     committees: ["Mayor of Bloomington"],
     neighborhoods: [],
     officeRoom: null,
@@ -92,7 +92,7 @@ const MAYORS = [
     repPhotoUrl: "https://www.plymouthmn.gov/home/showpublishedimage/4692/636190361468730000",
     repEmail: "jwosje@plymouthmn.gov",
     repPhone: "763-509-5007",
-    officeSince: "2019-01-01", // elected Nov 2018; previously Ward 2 councilmember 2011-2018
+    termsOfService: [{ termStart: null, termEnd: null, current: true, sourceUrl: "https://www.plymouthmn.gov/departments/city-council/city-council-members" }],
     committees: ["Mayor of Plymouth"],
     neighborhoods: [],
     officeRoom: null,
@@ -106,7 +106,7 @@ const MAYORS = [
     repPhotoUrl: "https://www.minnetonkamn.gov/home/showpublishedimage/1103/638436738444100000",
     repEmail: "rschack@minnetonkamn.gov",
     repPhone: "612-590-3735",
-    officeSince: "2025-01-01", // previously Ward 2 council member (appointed 2018, elected 2019, re-elected 2023)
+    termsOfService: [{ termStart: null, termEnd: null, current: true, sourceUrl: "https://www.minnetonkamn.gov/government/city-council-mayor/mayor" }],
     committees: ["Mayor of Minnetonka"],
     neighborhoods: [],
     officeRoom: null,
@@ -120,7 +120,7 @@ const MAYORS = [
     repPhotoUrl: "https://www.stlouisparkmn.gov/home/showpublishedimage/6962/639046881797230000",
     repEmail: "nmohamed@stlouisparkmn.gov",
     repPhone: "952-207-0256",
-    officeSince: "2024-01-01", // previously an at-large council member starting 2020
+    termsOfService: [{ termStart: null, termEnd: null, current: true, sourceUrl: "https://www.stlouisparkmn.gov/government/city-council/mayor-council-members/mayor" }],
     committees: ["Mayor of St. Louis Park"],
     neighborhoods: [],
     officeRoom: null,
@@ -134,7 +134,7 @@ const MAYORS = [
     repPhotoUrl: "https://www.richfieldmn.gov/ImageRepository/Document?documentID=902",
     repEmail: "MSupple@RichfieldMN.gov",
     repPhone: "612-281-7482",
-    officeSince: "2023-01-01", // elected Nov 2022; previously a ward council member since 2018
+    termsOfService: [{ termStart: null, termEnd: null, current: true, sourceUrl: "https://www.richfieldmn.gov/directory.aspx?eid=60" }],
     committees: ["Mayor of Richfield"],
     neighborhoods: [],
     officeRoom: null,
@@ -148,7 +148,7 @@ const MAYORS = [
     repPhotoUrl: "https://www.blainemn.gov/ImageRepository/Document?documentID=11405",
     repEmail: "tsanders@blainemn.gov",
     repPhone: "763-203-3286",
-    officeSince: "2021-01-01", // elected Nov 2020, replacing retiring mayor Tom Ryan; re-elected 2024
+    termsOfService: [{ termStart: null, termEnd: null, current: true, sourceUrl: "https://www.blainemn.gov/directory.aspx?eid=378" }],
     committees: ["Mayor of Blaine"],
     neighborhoods: [],
     officeRoom: null,
@@ -162,7 +162,7 @@ const MAYORS = [
     repPhotoUrl: "https://www.brooklynpark.org/wp-content/uploads/2019/06/Hollies-Winston_Studio-scaled-e1673533312964.jpg",
     repEmail: "mayor@brooklynpark.org",
     repPhone: "763-493-8146",
-    officeSince: "2023-01-01", // elected Nov 2022, sworn in Jan 2023 as the city's first Black mayor
+    termsOfService: [{ termStart: "2023-01-01", termEnd: null, current: true, sourceUrl: "https://www.brooklynpark.org/contact/hollies-winston/" }],
     committees: ["Mayor of Brooklyn Park"],
     neighborhoods: [],
     officeRoom: null,
@@ -176,7 +176,7 @@ const MAYORS = [
     repPhotoUrl: "https://www.coonrapidsmn.gov/ImageRepository/Document?documentID=13430",
     repEmail: null, // no personal email published — the city's directory pages carry only a shared general inbox
     repPhone: "763-767-1811",
-    officeSince: "2025-01-01", // not stated on the city's own site (checked directory + profile page) — best-effort fallback
+    termsOfService: [{ termStart: null, termEnd: null, current: true, sourceUrl: "https://www.coonrapidsmn.gov/Directory.aspx?EID=2" }],
     committees: ["Mayor of Coon Rapids"],
     neighborhoods: [],
     officeRoom: null,
@@ -191,9 +191,10 @@ const MAYORS = [
   // publish a per-member email — the city directs contact through a
   // general form instead — so repEmail stays null rather than
   // substituting a shared inbox, same convention as Coon Rapids above.
-  // None state a term-start date either (only "Term expires"); every
-  // officeSince below is the same documented placeholder used elsewhere
-  // in this file for that exact gap.
+  // None state a term-start date either (only "Term expires," and no
+  // actual expiration date is quoted anywhere reachable by this pipeline);
+  // termsOfService below carries termStart: null / termEnd: null for that
+  // exact gap, same convention used elsewhere in this file.
   {
     city: "Woodbury",
     coordinates: [-92.9391, 44.9201], // Woodbury City Hall, 8301 Valley Creek Rd
@@ -202,7 +203,7 @@ const MAYORS = [
     repPhotoUrl: "https://www.woodburymn.gov/ImageRepository/Document?documentID=4179",
     repEmail: null,
     repPhone: "651-714-3576",
-    officeSince: "2025-01-01",
+    termsOfService: [{ termStart: null, termEnd: null, current: true, sourceUrl: "https://www.woodburymn.gov/m/directory/employee?eid=57" }],
     committees: ["Mayor of Woodbury"],
     neighborhoods: [],
     officeRoom: null,
@@ -217,7 +218,7 @@ const MAYORS = [
     repPhotoUrl: "https://www.woodburymn.gov/ImageRepository/Document?documentID=4181",
     repEmail: null,
     repPhone: "651-714-3578",
-    officeSince: "2025-01-01",
+    termsOfService: [{ termStart: null, termEnd: null, current: true, sourceUrl: "https://www.woodburymn.gov/m/directory/employee?eid=60" }],
     committees: ["Mayor Pro Tem"],
     neighborhoods: [],
     officeRoom: null,
@@ -232,7 +233,7 @@ const MAYORS = [
     repPhotoUrl: "https://www.woodburymn.gov/ImageRepository/Document?documentID=4180",
     repEmail: null,
     repPhone: "651-714-3575",
-    officeSince: "2025-01-01",
+    termsOfService: [{ termStart: null, termEnd: null, current: true, sourceUrl: "https://www.woodburymn.gov/m/directory/employee?eid=59" }],
     committees: [],
     neighborhoods: [],
     officeRoom: null,
@@ -247,7 +248,7 @@ const MAYORS = [
     repPhotoUrl: "https://www.woodburymn.gov/ImageRepository/Document?documentID=4182",
     repEmail: null,
     repPhone: "651-714-3577",
-    officeSince: "2025-01-01",
+    termsOfService: [{ termStart: null, termEnd: null, current: true, sourceUrl: "https://www.woodburymn.gov/m/directory/employee?eid=61" }],
     committees: [],
     neighborhoods: [],
     officeRoom: null,
@@ -262,7 +263,7 @@ const MAYORS = [
     repPhotoUrl: "https://www.woodburymn.gov/ImageRepository/Document?documentID=4178",
     repEmail: null,
     repPhone: "651-714-3579",
-    officeSince: "2025-01-01",
+    termsOfService: [{ termStart: null, termEnd: null, current: true, sourceUrl: "https://www.woodburymn.gov/m/directory/employee?eid=106" }],
     committees: [],
     neighborhoods: [],
     officeRoom: null,
@@ -278,8 +279,9 @@ const MAYORS = [
   // the page's own markup, base64-encoded for a client-side unmask script
   // (<joomla-hidden-mail text="...">), so decoding it is reading the page's
   // own published data, not guessing a firstname.lastname@ pattern. Every
-  // officeSince date is the page's own stated first-elected/first-term date
-  // (Maguire's is his first year as Mayor, having previously served as a
+  // termsOfService termStart date below is the page's own stated
+  // first-elected/first-term date (Maguire's is his first year as Mayor,
+  // having previously served as a
   // council member 2003-2007; Bakken and Hansen's own pages state an exact
   // "served/elected since" year with no month, so January 1 fills the
   // unstated day within that stated year, same convention as Robbinsdale's
@@ -292,7 +294,7 @@ const MAYORS = [
     repPhotoUrl: "https://cityofeagan.com/images/Council/Portraits/2022/MikeMaguire-1008-1_192w_72ppi.jpg",
     repEmail: "mike.maguire@eaganmn.gov",
     repPhone: "651-675-5048",
-    officeSince: "2007-01-01", // elected Eagan's 8th Mayor in 2006, seated Jan 2007
+    termsOfService: [{ termStart: "2007-01-01", termEnd: null, current: true, sourceUrl: "https://cityofeagan.com/mayor-mike-maguire" }],
     committees: ["Mayor of Eagan"],
     neighborhoods: [],
     officeRoom: null,
@@ -309,7 +311,7 @@ const MAYORS = [
     repPhotoUrl: "https://cityofeagan.com/images/Council/Portraits/2022/PaulBakken-1006_192w_72ppi.jpg",
     repEmail: "paul.bakken@eaganmn.gov",
     repPhone: "651-688-7075",
-    officeSince: "2007-01-01", // own bio page: "having served since January 2007" (also served 1999-2002)
+    termsOfService: [{ termStart: "2007-01-01", termEnd: null, current: true, sourceUrl: "https://cityofeagan.com/councilmember-paul-bakken" }],
     committees: [],
     neighborhoods: [],
     officeRoom: null,
@@ -326,7 +328,7 @@ const MAYORS = [
     repPhotoUrl: "https://cityofeagan.com/images/Council/Portraits/2022/CyndeeFields-1005_Preferred_192w_72ppi.jpg",
     repEmail: "cyndee.fields@eaganmn.gov",
     repPhone: "952-270-3093",
-    officeSince: "2001-01-01", // own bio page: "began her first term...in January, 2001"
+    termsOfService: [{ termStart: "2001-01-01", termEnd: null, current: true, sourceUrl: "https://cityofeagan.com/councilmember-cyndee-fields" }],
     committees: [],
     neighborhoods: [],
     officeRoom: null,
@@ -343,7 +345,7 @@ const MAYORS = [
     repPhotoUrl: "https://cityofeagan.com/images/Council/Portraits/2022/GaryHansen-1007_192w_72ppi.jpg",
     repEmail: "gary.hansen@eaganmn.gov",
     repPhone: "651-454-1172",
-    officeSince: "2009-01-01", // own bio page: "first elected to the Eagan City Council in 2008"
+    termsOfService: [{ termStart: "2009-01-01", termEnd: null, current: true, sourceUrl: "https://cityofeagan.com/councilmember-gary-hansen" }],
     committees: [],
     neighborhoods: [],
     officeRoom: null,
@@ -360,7 +362,7 @@ const MAYORS = [
     repPhotoUrl: "https://cityofeagan.com/images/Council/Portraits/2022/MikeSupina-1008_192w_72ppi.jpg",
     repEmail: "mike.supina@eaganmn.gov",
     repPhone: "651-706-0061",
-    officeSince: "2021-01-01", // own bio page: "elected...in 2020 and began his first term in January 2021"
+    termsOfService: [{ termStart: "2021-01-01", termEnd: null, current: true, sourceUrl: "https://cityofeagan.com/council-member-mike-supina" }],
     committees: [],
     neighborhoods: [],
     officeRoom: null,
@@ -384,7 +386,7 @@ const MAYORS = [
     repPhotoUrl: "https://www.lakevillemn.gov/ImageRepository/Document?documentId=16903",
     repEmail: "lhellier@lakevillemn.gov",
     repPhone: "612-237-2551",
-    officeSince: "2023-01-03", // page states "First elected as Mayor: January 3, 2023" (council member since 2017)
+    termsOfService: [{ termStart: "2023-01-03", termEnd: null, current: true, sourceUrl: "https://www.lakevillemn.gov/428/City-Council" }],
     committees: ["Mayor of Lakeville"],
     neighborhoods: [],
     officeRoom: null,
@@ -401,7 +403,7 @@ const MAYORS = [
     repPhotoUrl: "https://www.lakevillemn.gov/ImageRepository/Document?documentId=16904",
     repEmail: "jbermel@lakevillemn.gov",
     repPhone: "612-709-0180",
-    officeSince: "2021-01-04", // page states "First elected to Council: January 4, 2021"
+    termsOfService: [{ termStart: "2021-01-04", termEnd: null, current: true, sourceUrl: "https://www.lakevillemn.gov/428/City-Council" }],
     committees: [],
     neighborhoods: [],
     officeRoom: null,
@@ -418,7 +420,7 @@ const MAYORS = [
     repPhotoUrl: "https://www.lakevillemn.gov/ImageRepository/Document?documentId=16905",
     repEmail: "jlee@lakevillemn.gov",
     repPhone: "763-245-3677",
-    officeSince: "2019-01-01", // page states "First elected to Council: January 1, 2019"
+    termsOfService: [{ termStart: "2019-01-01", termEnd: null, current: true, sourceUrl: "https://www.lakevillemn.gov/428/City-Council" }],
     committees: [],
     neighborhoods: [],
     officeRoom: null,
@@ -435,7 +437,7 @@ const MAYORS = [
     repPhotoUrl: "https://www.lakevillemn.gov/ImageRepository/Document?documentId=16906",
     repEmail: "mvolk@lakevillemn.gov",
     repPhone: "952-270-7125",
-    officeSince: "2019-01-01", // page states "First elected to Council: January 1, 2019"
+    termsOfService: [{ termStart: "2019-01-01", termEnd: null, current: true, sourceUrl: "https://www.lakevillemn.gov/428/City-Council" }],
     committees: [],
     neighborhoods: [],
     officeRoom: null,
@@ -452,7 +454,7 @@ const MAYORS = [
     repPhotoUrl: "https://www.lakevillemn.gov/ImageRepository/Document?documentId=16907",
     repEmail: "dwolter@lakevillemn.gov",
     repPhone: "952-479-0020",
-    officeSince: "2023-01-17", // page states "First appointed to Council: January 17, 2023"
+    termsOfService: [{ termStart: "2023-01-17", termEnd: null, current: true, sourceUrl: "https://www.lakevillemn.gov/428/City-Council" }],
     committees: [],
     neighborhoods: [],
     officeRoom: null,
@@ -476,7 +478,7 @@ const MAYORS = [
     repPhotoUrl: "https://www.maplegrovemn.gov/ImageRepository/Document?documentId=5496",
     repEmail: "msteffenson@maplegrovemn.gov",
     repPhone: "763-416-0490",
-    officeSince: "2001-08-01", // page states "Appointed to mayor August 2001; Elected January 2003"
+    termsOfService: [{ termStart: null, termEnd: null, current: true, sourceUrl: "https://www.maplegrovemn.gov/301/Mayor-and-City-Council" }],
     committees: ["Mayor of Maple Grove"],
     neighborhoods: [],
     officeRoom: null,
@@ -493,7 +495,7 @@ const MAYORS = [
     repPhotoUrl: "https://www.maplegrovemn.gov/ImageRepository/Document?documentId=5495",
     repEmail: "rajohnson@maplegrovemn.gov",
     repPhone: "612-203-8209",
-    officeSince: "2023-01-01", // page states "Elected to council January 2023"
+    termsOfService: [{ termStart: "2023-01-01", termEnd: null, current: true, sourceUrl: "https://www.maplegrovemn.gov/301/Mayor-and-City-Council" }],
     committees: [],
     neighborhoods: [],
     officeRoom: null,
@@ -510,7 +512,7 @@ const MAYORS = [
     repPhotoUrl: "https://www.maplegrovemn.gov/ImageRepository/Document?documentId=5494",
     repEmail: "kjanigo@maplegrovemn.gov",
     repPhone: "612-708-9029",
-    officeSince: "2023-01-01", // page states "Elected to council January 2023"
+    termsOfService: [{ termStart: "2023-01-01", termEnd: null, current: true, sourceUrl: "https://www.maplegrovemn.gov/301/Mayor-and-City-Council" }],
     committees: [],
     neighborhoods: [],
     officeRoom: null,
@@ -527,7 +529,7 @@ const MAYORS = [
     repPhotoUrl: "https://www.maplegrovemn.gov/ImageRepository/Document?documentId=9435",
     repEmail: "mostaffe@maplegrovemn.gov",
     repPhone: "763-445-9643",
-    officeSince: "2025-01-01", // page states "Elected to council January 2025"
+    termsOfService: [{ termStart: "2025-01-01", termEnd: null, current: true, sourceUrl: "https://www.maplegrovemn.gov/301/Mayor-and-City-Council" }],
     committees: [],
     neighborhoods: [],
     officeRoom: null,
@@ -544,7 +546,7 @@ const MAYORS = [
     repPhotoUrl: "https://www.maplegrovemn.gov/ImageRepository/Document?documentId=9436",
     repEmail: "jmccullough@maplegrovemn.gov",
     repPhone: "612-405-0001",
-    officeSince: "2025-01-01", // page states "Elected to council January 2025"
+    termsOfService: [{ termStart: "2025-01-01", termEnd: null, current: true, sourceUrl: "https://www.maplegrovemn.gov/301/Mayor-and-City-Council" }],
     committees: [],
     neighborhoods: [],
     officeRoom: null,
@@ -575,7 +577,7 @@ const MAYORS = [
     repPhotoUrl: "https://www.applevalleymn.gov/ImageRepository/Document?documentID=16704",
     repEmail: null,
     repPhone: null,
-    officeSince: "2011-01-01", // page states "Served since 2011"
+    termsOfService: [{ termStart: "2011-01-01", termEnd: null, current: true, sourceUrl: "https://www.applevalleymn.gov/27/City-Council" }],
     committees: ["Mayor of Apple Valley"],
     neighborhoods: [],
     officeRoom: null,
@@ -592,7 +594,7 @@ const MAYORS = [
     repPhotoUrl: "https://www.applevalleymn.gov/ImageRepository/Document?documentID=16701",
     repEmail: null,
     repPhone: null,
-    officeSince: "2003-01-01", // page states "Served since 2003"
+    termsOfService: [{ termStart: "2003-01-01", termEnd: null, current: true, sourceUrl: "https://www.applevalleymn.gov/27/City-Council" }],
     committees: [],
     neighborhoods: [],
     officeRoom: null,
@@ -609,7 +611,7 @@ const MAYORS = [
     repPhotoUrl: "https://www.applevalleymn.gov/ImageRepository/Document?documentID=16705",
     repEmail: null,
     repPhone: null,
-    officeSince: "1997-01-01", // page states "Served since 1997"
+    termsOfService: [{ termStart: "1997-01-01", termEnd: null, current: true, sourceUrl: "https://www.applevalleymn.gov/27/City-Council" }],
     committees: [],
     neighborhoods: [],
     officeRoom: null,
@@ -626,7 +628,7 @@ const MAYORS = [
     repPhotoUrl: "https://www.applevalleymn.gov/ImageRepository/Document?documentID=18866",
     repEmail: null,
     repPhone: null,
-    officeSince: "2025-01-01", // page states "Served since 2025"
+    termsOfService: [{ termStart: "2025-01-01", termEnd: null, current: true, sourceUrl: "https://www.applevalleymn.gov/27/City-Council" }],
     committees: [],
     neighborhoods: [],
     officeRoom: null,
@@ -643,7 +645,7 @@ const MAYORS = [
     repPhotoUrl: "https://www.applevalleymn.gov/ImageRepository/Document?documentID=16703",
     repEmail: null,
     repPhone: null,
-    officeSince: "2021-01-01", // page states "Served since 2021"
+    termsOfService: [{ termStart: "2021-01-01", termEnd: null, current: true, sourceUrl: "https://www.applevalleymn.gov/27/City-Council" }],
     committees: [],
     neighborhoods: [],
     officeRoom: null,
@@ -665,8 +667,11 @@ const MAYORS = [
   // office line, not a personal extension, so it's not attributed as one
   // (kept only as officeRoom-adjacent context, not repPhone, to avoid
   // implying it reaches one person directly). No term-start date is stated
-  // anywhere reachable by a plain fetch, so officeSince falls back to the
-  // same documented placeholder used elsewhere in this file for that gap.
+  // anywhere reachable by a plain fetch — and no term-*expiration* date is
+  // either, despite the shared council page format for other cities in
+  // this file sometimes carrying one — so termsOfService below carries
+  // termStart: null / termEnd: null for all five, same as every other
+  // genuinely-unconfirmed gap in this file.
   {
     city: "Burnsville",
     coordinates: [-93.2738283, 44.7655806], // Burnsville City Hall, 100 Civic Center Pkwy
@@ -675,7 +680,7 @@ const MAYORS = [
     repPhotoUrl: null,
     repEmail: null,
     repPhone: null,
-    officeSince: "2025-01-01",
+    termsOfService: [{ termStart: null, termEnd: null, current: true, sourceUrl: "https://burnsvillemn.gov/2078/City-Council" }],
     committees: ["Mayor of Burnsville"],
     neighborhoods: [],
     officeRoom: null,
@@ -692,7 +697,7 @@ const MAYORS = [
     repPhotoUrl: null,
     repEmail: null,
     repPhone: null,
-    officeSince: "2025-01-01",
+    termsOfService: [{ termStart: null, termEnd: null, current: true, sourceUrl: "https://burnsvillemn.gov/2078/City-Council" }],
     committees: [],
     neighborhoods: [],
     officeRoom: null,
@@ -709,7 +714,7 @@ const MAYORS = [
     repPhotoUrl: null,
     repEmail: null,
     repPhone: null,
-    officeSince: "2025-01-01",
+    termsOfService: [{ termStart: null, termEnd: null, current: true, sourceUrl: "https://burnsvillemn.gov/2078/City-Council" }],
     committees: [],
     neighborhoods: [],
     officeRoom: null,
@@ -726,7 +731,7 @@ const MAYORS = [
     repPhotoUrl: null,
     repEmail: null,
     repPhone: null,
-    officeSince: "2025-01-01",
+    termsOfService: [{ termStart: null, termEnd: null, current: true, sourceUrl: "https://burnsvillemn.gov/2078/City-Council" }],
     committees: [],
     neighborhoods: [],
     officeRoom: null,
@@ -743,7 +748,7 @@ const MAYORS = [
     repPhotoUrl: null,
     repEmail: null,
     repPhone: null,
-    officeSince: "2025-01-01",
+    termsOfService: [{ termStart: null, termEnd: null, current: true, sourceUrl: "https://burnsvillemn.gov/2078/City-Council" }],
     committees: [],
     neighborhoods: [],
     officeRoom: null,
@@ -767,9 +772,10 @@ const MAYORS = [
   // stated distinctly from re-election on this site (clearest case: Hovland
   // is shown as "Elected 2004" despite being on his current term via
   // multiple re-elections since, not continuously since a single 2004
-  // swearing-in) — officeSince falls back to the same documented placeholder
-  // used elsewhere in this file rather than guessing which of the "elected"
-  // years is the real first one.
+  // swearing-in) — termsOfService below carries termStart: null rather than
+  // guessing which of the "elected" years is the real current-term start.
+  // No term-*expiration* date is quoted anywhere reachable by this
+  // pipeline either, so termEnd is also null for all five.
   {
     city: "Edina",
     coordinates: [-93.3473318, 44.9110930], // Edina City Hall, 4801 W 50th St
@@ -778,7 +784,7 @@ const MAYORS = [
     repPhotoUrl: "https://www.edinamn.gov/ImageRepository/Document?documentID=10560",
     repEmail: "jhovland@EdinaMN.gov",
     repPhone: "612-874-8551",
-    officeSince: "2025-01-01",
+    termsOfService: [{ termStart: null, termEnd: null, current: true, sourceUrl: "https://www.edinamn.gov/m/directory/employee?eid=7" }],
     committees: ["Mayor of Edina"],
     neighborhoods: [],
     officeRoom: null,
@@ -795,7 +801,7 @@ const MAYORS = [
     repPhotoUrl: "https://www.edinamn.gov/ImageRepository/Document?documentID=12855",
     repEmail: "KAgnew@EdinaMN.gov",
     repPhone: "952-833-9556",
-    officeSince: "2025-01-01",
+    termsOfService: [{ termStart: null, termEnd: null, current: true, sourceUrl: "https://www.edinamn.gov/m/directory/employee?eid=655" }],
     committees: [],
     neighborhoods: [],
     officeRoom: null,
@@ -812,7 +818,7 @@ const MAYORS = [
     repPhotoUrl: "https://www.edinamn.gov/ImageRepository/Document?documentID=15559",
     repEmail: "CJackson@EdinaMN.gov",
     repPhone: "952-833-9547",
-    officeSince: "2025-01-01",
+    termsOfService: [{ termStart: null, termEnd: null, current: true, sourceUrl: "https://www.edinamn.gov/m/directory/employee?eid=541" }],
     committees: [],
     neighborhoods: [],
     officeRoom: null,
@@ -829,7 +835,7 @@ const MAYORS = [
     repPhotoUrl: "https://www.edinamn.gov/ImageRepository/Document?documentID=14137",
     repEmail: "JPierce@EdinaMN.gov",
     repPhone: "952-833-9548",
-    officeSince: "2025-01-01",
+    termsOfService: [{ termStart: null, termEnd: null, current: true, sourceUrl: "https://www.edinamn.gov/m/directory/employee?eid=542" }],
     committees: [],
     neighborhoods: [],
     officeRoom: null,
@@ -846,7 +852,7 @@ const MAYORS = [
     repPhotoUrl: "https://www.edinamn.gov/ImageRepository/Document?documentID=15558",
     repEmail: "JRisser@EdinaMN.gov",
     repPhone: "952-833-9557",
-    officeSince: "2025-01-01",
+    termsOfService: [{ termStart: null, termEnd: null, current: true, sourceUrl: "https://www.edinamn.gov/m/directory/employee?eid=656" }],
     committees: [],
     neighborhoods: [],
     officeRoom: null,
@@ -882,7 +888,7 @@ const MAYORS = [
     repPhotoUrl: null,
     repEmail: null,
     repPhone: null,
-    officeSince: "2025-01-01",
+    termsOfService: [{ termStart: null, termEnd: null, current: true, sourceUrl: "https://www.edenprairiemn.gov/city-government/city-council/ron-case" }],
     committees: ["Mayor of Eden Prairie"],
     neighborhoods: [],
     officeRoom: null,
@@ -897,7 +903,7 @@ const MAYORS = [
     repPhotoUrl: null,
     repEmail: null,
     repPhone: null,
-    officeSince: "2025-01-01",
+    termsOfService: [{ termStart: null, termEnd: null, current: true, sourceUrl: "https://www.edenprairiemn.gov/city-government/city-council" }],
     committees: [],
     neighborhoods: [],
     officeRoom: null,
@@ -912,7 +918,7 @@ const MAYORS = [
     repPhotoUrl: null,
     repEmail: null,
     repPhone: null,
-    officeSince: "2025-01-01",
+    termsOfService: [{ termStart: null, termEnd: null, current: true, sourceUrl: "https://www.edenprairiemn.gov/city-government/city-council/pg-narayanan" }],
     committees: [],
     neighborhoods: [],
     officeRoom: null,
@@ -927,7 +933,7 @@ const MAYORS = [
     repPhotoUrl: null,
     repEmail: null,
     repPhone: null,
-    officeSince: "2025-01-01",
+    termsOfService: [{ termStart: null, termEnd: null, current: true, sourceUrl: "https://www.edenprairiemn.gov/city-government/city-council" }],
     committees: [],
     neighborhoods: [],
     officeRoom: null,
@@ -942,7 +948,7 @@ const MAYORS = [
     repPhotoUrl: null,
     repEmail: null,
     repPhone: null,
-    officeSince: "2025-01-01",
+    termsOfService: [{ termStart: null, termEnd: null, current: true, sourceUrl: "https://www.edenprairiemn.gov/city-government/city-council" }],
     committees: [],
     neighborhoods: [],
     officeRoom: null,
