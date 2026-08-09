@@ -1463,37 +1463,41 @@ export default function WardMap() {
   // MapLayerMouseEvent.point coordinates — already relative to the map
   // container's own box, the same box this tooltip renders inside.
   const [metroHoverTooltip, setMetroHoverTooltip] = useState<{ name: string; x: number; y: number } | null>(null);
-  // Which single GL feature (source + MapLibre-assigned numeric id, from
-  // that source's own generateId: true) currently carries the hover/
-  // selection paint highlight (hoverExpr's ["feature-state","hover"] case
-  // in addSourcesAndLayers) — tracked so setHighlight can clear the
-  // *previous* feature's state before setting the new one, since
+  // Which GL feature(s) (source + MapLibre-assigned numeric id, from that
+  // source's own generateId: true) currently carry the hover/selection
+  // paint highlight (hoverExpr's ["feature-state","hover"] case in
+  // addSourcesAndLayers) — tracked so setHighlight can clear the
+  // *previous* feature(s)' state before setting the new one, since
   // feature-state is additive (it doesn't clear itself when a different
   // feature becomes "the" selection the way a `filter` swap would).
-  // Null when nothing is highlighted. Read/written only inside the effect
-  // that owns `map` (setHighlight is defined there); kept at component
-  // scope alongside selectedIdentityRef since both describe the same
-  // "what's currently selected" concept and both survive across re-renders
-  // for the same reason.
-  const highlightedFeatureRef = useRef<{ source: string; id: string | number } | null>(null);
+  // Always an array — a single ward/at-large/commissioner/state-leg hover
+  // or click highlights exactly one feature (a one-element array), but
+  // city view highlights every ward belonging to the active city at once
+  // (see enterCityView's own comment on why "selecting a city" has to mean
+  // all its wards, not just whichever one was clicked to get there) — an
+  // empty array when nothing is highlighted, same as null used to mean.
+  // Read/written only inside the effect that owns `map` (setHighlight is
+  // defined there); kept at component scope alongside selectedIdentityRef
+  // since both describe the same "what's currently selected" concept and
+  // both survive across re-renders for the same reason.
+  const highlightedFeaturesRef = useRef<{ source: string; id: string | number }[]>([]);
 
-  // Clears whatever feature currently carries the hover/selection paint
-  // highlight (see highlightedFeatureRef's own comment) — the one piece of
-  // that bookkeeping deselect() below needs, kept as its own top-level
+  // Clears every feature currently carrying the hover/selection paint
+  // highlight (see highlightedFeaturesRef's own comment) — the one piece
+  // of that bookkeeping deselect() below needs, kept as its own top-level
   // function (reading mapRef.current directly, like deselect's own
   // zoomToDefault call does) so deselect doesn't need a reference into the
   // main effect's setHighlight, which closes over that effect's own local
   // `map` instead. The main effect's setHighlight (defined there, for
   // setting a *new* highlight, which does need that closure) calls this
-  // for the "clear the previous one" half of its own job rather than
-  // duplicating this logic.
+  // for the "clear whatever was highlighted before" half of its own job
+  // rather than duplicating this logic.
   const clearHighlight = () => {
     const map = mapRef.current;
-    const current = highlightedFeatureRef.current;
-    if (map && current && map.getSource(current.source)) {
-      map.removeFeatureState({ source: current.source, id: current.id }, "hover");
+    for (const { source, id } of highlightedFeaturesRef.current) {
+      if (map && map.getSource(source)) map.removeFeatureState({ source, id }, "hover");
     }
-    highlightedFeatureRef.current = null;
+    highlightedFeaturesRef.current = [];
   };
   // Screen-reader announcement for the detail panel — set only from a
   // pinned (click/tap/search-result) selection, never from hover, same
@@ -3299,24 +3303,35 @@ export default function WardMap() {
 
     // Moves the hover/selection paint highlight (hoverExpr's feature-state
     // case, set up per-layer in addSourcesAndLayers) from whichever
-    // feature carried it last to `next` — or clears it entirely when
-    // `next` is null (hover leaving the map, or deselect()). Feature-state
-    // is additive per id, not a single "the current one" pointer the way a
-    // `filter` swap would be, so the previous feature's flag has to be
-    // explicitly removed or it would stay highlighted forever once
-    // touched. Safe to call with a source that no longer exists (a
-    // basemap swap tears down and rebuilds every source — see
+    // feature(s) carried it last to `next` — or clears it entirely when
+    // `next` is null/empty (hover leaving the map, or deselect()). Accepts
+    // either one feature (every existing call site — a single ward/
+    // at-large/commissioner/state-leg hover or click) or an array (city
+    // view's own call in enterCityView, highlighting every ward belonging
+    // to the active city at once — see that function's own comment).
+    // Feature-state is additive per id, not a single "the current one"
+    // pointer the way a `filter` swap would be, so whatever carried the
+    // highlight before has to be explicitly cleared first or it would
+    // stay highlighted forever once touched — always clears before
+    // setting rather than diffing old vs. new, since this only ever runs
+    // on an actual click/hover-identity change (never per-frame), so the
+    // extra churn is free. Safe to call with a source that no longer
+    // exists (a basemap swap tears down and rebuilds every source — see
     // addSourcesAndLayers' own comment) since map.getSource guards both
     // the clear and the set.
-    const setHighlight = (next: { source: string; id: string | number } | null) => {
-      const current = highlightedFeatureRef.current;
-      if (current && (!next || current.source !== next.source || current.id !== next.id)) {
-        clearHighlight();
+    const setHighlight = (
+      next: { source: string; id: string | number } | { source: string; id: string | number }[] | null,
+    ) => {
+      clearHighlight();
+      const list = next == null ? [] : Array.isArray(next) ? next : [next];
+      const applied: { source: string; id: string | number }[] = [];
+      for (const item of list) {
+        if (map.getSource(item.source)) {
+          map.setFeatureState({ source: item.source, id: item.id }, { hover: true });
+          applied.push(item);
+        }
       }
-      if (next && map.getSource(next.source)) {
-        map.setFeatureState({ source: next.source, id: next.id }, { hover: true });
-        highlightedFeatureRef.current = next;
-      }
+      highlightedFeaturesRef.current = applied;
     };
 
     // The pin-driven hover/click handlers below (mayor/council/
@@ -3379,7 +3394,7 @@ export default function WardMap() {
     const enterCityView = (
       city: City,
       point: [number, number],
-      highlight: { source: string; id: string | number } | null,
+      fallbackHighlight: { source: string; id: string | number } | null,
       fallbackBounds: maplibregl.LngLatBounds,
       // Set only by a pin click (addPin's own click listener): a pin's
       // `point` is its own designated coordinate (a ward's bounds center,
@@ -3399,7 +3414,25 @@ export default function WardMap() {
       activeCityRef.current = city;
       setActiveCity(city);
       selectPinned(resolveSelectionAtPoint(point, known), `city-boundary:${city}`, city, "city");
-      setHighlight(highlight);
+      // City view is a selection of the WHOLE city, not just whichever
+      // single ward/pin/blob happened to be clicked to get here — highlight
+      // every ward belonging to it at once. querySourceFeatures reads the
+      // source's own already-loaded tile data directly, independent of the
+      // WARDS_FILL_LAYER_ID layer's current visibility/city filter (see
+      // highlightTargetForRep's own comment on the same call), so this
+      // works even on the very first entry into a city whose wards were
+      // filtered out a moment ago. Falls back to fallbackHighlight (the
+      // single clicked feature) only in the unexpected case where the
+      // query comes back empty — e.g. wards.geojson hasn't finished
+      // loading yet — rather than leaving nothing highlighted at all.
+      const cityWards = map.querySourceFeatures(WARDS_SOURCE_ID, {
+        filter: ["==", ["get", "city"], city] as unknown as maplibregl.FilterSpecification,
+      });
+      setHighlight(
+        cityWards.length > 0
+          ? cityWards.filter((f) => f.id != null).map((f) => ({ source: WARDS_SOURCE_ID, id: f.id as string | number }))
+          : fallbackHighlight,
+      );
       setActiveMobileSheet(null);
       // boundsForCity reads whatever ward/at-large geometry has loaded so
       // far (see its own comment) and can briefly return null right after
