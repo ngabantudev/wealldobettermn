@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { createPortal } from "react-dom";
 import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 import type { Feature, FeatureCollection, Geometry, Point } from "geojson";
@@ -30,6 +29,7 @@ import {
   storeMapStyleId,
 } from "@/lib/mapStyles";
 import { getActiveTheme, setTheme, type SiteTheme } from "@/lib/siteTheme";
+import { useSearchCoordinator, type PendingSelection } from "@/lib/searchCoordinator";
 import { readStored, writeStored } from "@/lib/storage";
 import { focusRingClass, rowHoverClass } from "@/lib/variantClasses";
 import AreaFilterList from "./AreaFilterList";
@@ -1345,6 +1345,12 @@ function IconResetView() {
 }
 
 export default function WardMap() {
+  // Registers this instance's apply* functions with the persistent header
+  // search box (SiteSearch.tsx) while mounted, and picks up anything
+  // selected while it wasn't — see the registration/pending-selection
+  // effects below, and searchCoordinator.tsx's own comment for why this
+  // seam exists at all.
+  const { registerMapHandlers, takePendingSelection } = useSearchCoordinator();
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
   const mapRef = useRef<maplibregl.Map | null>(null);
   // Mount points for MapLibre's NavigationControl and AttributionControl
@@ -2273,6 +2279,62 @@ export default function WardMap() {
     setActiveMobileSheet(null); // same as applyCityZoom above
     zoomToBoundsNoModal(boundsFromFeatureCollection({ type: "FeatureCollection", features: combined }));
   };
+
+  // "Latest" refs, kept in sync via a no-deps effect (fires after every
+  // render) rather than a mutation during render itself — react-hooks/refs
+  // forbids the latter. The registration effect below only runs once
+  // (mount/unmount), so it needs some way to always reach the current
+  // render's apply* closures (which close over that render's state)
+  // instead of whichever ones happened to be live when it ran. Same
+  // pattern this file already uses for applySecondaryCivicDataRef.
+  const applySearchResultRef = useRef(applySearchResult);
+  const applyCityZoomRef = useRef(applyCityZoom);
+  const applyCountyZoomRef = useRef(applyCountyZoom);
+  useEffect(() => {
+    applySearchResultRef.current = applySearchResult;
+    applyCityZoomRef.current = applyCityZoom;
+    applyCountyZoomRef.current = applyCountyZoom;
+  });
+
+  // Registers this WardMap instance as the thing the persistent header
+  // search box should call directly, for as long as it's mounted —
+  // cleared on unmount so a selection made from another route correctly
+  // falls back to "stash + navigate to /" instead of silently reaching a
+  // dead instance. See searchCoordinator.tsx.
+  useEffect(() => {
+    registerMapHandlers({
+      onSelectWard: (ref, point) => applySearchResultRef.current(ref, point),
+      onSelectCity: (city) => applyCityZoomRef.current(city),
+      onSelectCounty: (cities) => applyCountyZoomRef.current(cities),
+    });
+    return () => registerMapHandlers(null);
+  }, [registerMapHandlers]);
+
+  // Applies anything selected from the header search box while this
+  // instance wasn't mounted (i.e. the user searched from /bills, /about,
+  // etc. and got navigated here). Waits on primaryCivicDataPromiseRef —
+  // set synchronously by the mount effect just below, so by the time this
+  // effect runs (effects fire in declaration order on mount) that ref is
+  // already populated — rather than calling straight into applySearchResult
+  // et al., which silently no-op if wardsDataRef hasn't loaded yet (see
+  // their own early "wardsDataRef isn't ready yet" returns).
+  useEffect(() => {
+    const pending: PendingSelection | null = takePendingSelection();
+    if (!pending) return;
+    primaryCivicDataPromiseRef.current?.then(() => {
+      switch (pending.kind) {
+        case "ward":
+          applySearchResultRef.current(pending.ref, pending.point);
+          break;
+        case "city":
+          applyCityZoomRef.current(pending.city);
+          break;
+        case "county":
+          applyCountyZoomRef.current(pending.cities);
+          break;
+      }
+    });
+  }, [takePendingSelection]);
 
   useEffect(() => {
     if (!mapContainerRef.current) return;
@@ -3439,13 +3501,12 @@ export default function WardMap() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Defined once, referenced from both the desktop (portaled into
-  // SiteHeader's #site-search-slot, see below) and mobile (MobileNav's
-  // Search tab) branches below — each usage still mounts its own
-  // independent SearchBar instance (React treats the two JSX positions as
-  // separate component instances regardless of sharing this element
-  // description), so this is purely to keep the props in one place rather
-  // than duplicating four lines of callbacks that need to stay in sync.
+  // This instance is mobile-only now (MobileNav's Search tab) — the
+  // desktop search box in SiteHeader is SiteSearch.tsx's own independent
+  // instance, always mounted in the root layout rather than portaled in
+  // from here (see searchCoordinator.tsx). Mobile search stays scoped to
+  // "/" for now, same as MobileNav's bottom bar itself, which only renders
+  // inside this component's own return below.
   const searchBar = (
     <SearchBar
       manifest={addressManifest}
@@ -3454,22 +3515,6 @@ export default function WardMap() {
       onSelectCity={applyCityZoom}
       onSelectCounty={(_county, cities) => applyCountyZoom(cities)}
     />
-  );
-
-  // SiteHeader now lives once in app/layout.tsx, shared across every route
-  // (2026-08-09 — it used to be rendered per-page, which meant App Router
-  // remounted the whole topbar, search box included, on every client-side
-  // navigation). The map route is still the only one with an inline
-  // search box, so it reaches up into the header's #site-search-slot node
-  // via a portal instead of passing `search` as a prop to a SiteHeader
-  // instance it no longer renders itself. Read lazily (useState's
-  // initializer, not an effect) rather than via setState-in-effect: the
-  // slot lives in a parent layout that's already server-rendered into the
-  // DOM by the time WardMap mounts, so it's there on first client render
-  // and there's no async wait to synchronize — an effect here would just
-  // be an unnecessary extra render pass.
-  const [searchSlot] = useState<HTMLElement | null>(() =>
-    typeof document === "undefined" ? null : document.getElementById("site-search-slot"),
   );
 
   // Chrome for the mode switcher + city/chamber filter, in two flavors:
@@ -3793,7 +3838,6 @@ export default function WardMap() {
   // every rung here on purpose — see its own comment.
   return (
     <div className="flex w-full h-full flex-col overflow-hidden bg-canvas">
-      {searchSlot ? createPortal(searchBar, searchSlot) : null}
       {/* Announces the detail panel's content only on an explicit
           click/tap/search-result selection — see `announcement` state's
           own comment for why hover (which repopulates the same panel on
