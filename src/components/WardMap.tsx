@@ -2067,50 +2067,65 @@ export default function WardMap() {
   // prepareWardsView's own comment on skipping zoomToDefault for the same
   // reason).
   const toggleCity = (city: City, { flyTo = true }: { flyTo?: boolean } = {}) => {
-    setVisibleCities((prev) => {
-      const next = { ...prev, [city]: !prev[city] };
-      // Mirrored onto the ref synchronously (not just via the effect that
-      // normally keeps it in sync, further up) — applySearchResult can call
-      // prepareWardsView, which can call this same toggleCity, and then
-      // immediately (same tick) call resolveSelectionAtPoint, which reads
-      // visibleCitiesRef.current. Without this, that read would still see
-      // the stale (hidden) value the effect hasn't caught up to yet, and a
-      // search result would un-hide a city on the map while the panel it
-      // opens still filters that city's own official back out.
-      visibleCitiesRef.current = next;
-      applyCityFilter(next);
-      // Enabling a city via the legend checkbox (not hiding one — next[city]
-      // false means the branch below runs instead) flies the camera to that
-      // city's own extent, same as picking it from city search does
-      // (applyCityZoom above) — a resident ticking a box wants to see the
-      // place they just asked for, not trust it's somewhere in the current
-      // view. Bounds come from whatever geometry is loaded so far; if wards/
-      // at-large data hasn't arrived yet, boundsForCity returns null and this
-      // just no-ops rather than zooming nowhere.
-      if (next[city] && flyTo) {
-        const bounds = boundsForCity(city);
-        if (bounds) zoomToBoundsNoModal(bounds);
-      }
-      // If hiding this city empties the panel's City (and County, which
-      // shares the same per-city visibility — see filterHiddenCityOfficials)
-      // section, re-filter what's shown. If that leaves every tier empty,
-      // close the panel outright rather than leaving it open, zoomed in, on
-      // three "not covered here" notes for content the user just hid.
-      if (!next[city] && selectedRef.current) {
-        const current = selectedRef.current;
-        const filtered = filterHiddenCityOfficials(current.officials, next);
-        if (filtered !== current.officials) {
-          const allEmpty = filtered.city.length === 0 && filtered.county.length === 0 && filtered.state.length === 0;
-          if (allEmpty) {
-            deselect();
-          } else {
-            setSelected({ ...current, officials: filtered });
-            setAnnouncement(summarizeOfficials(filtered));
-          }
+    // Computed from the REF, not React's own `prev` state param, and
+    // mutated onto the ref *before* setVisibleCities is even called — not
+    // inside its updater callback, which is where this used to live (see
+    // git history). That worked for applySearchResult, which dispatches
+    // from inside a React-originated event, where the updater does run
+    // synchronously enough for an immediate same-tick read to see it. It
+    // silently did NOT work reliably called from enterCityView (advanced
+    // zoom controls), which fires from a raw MapLibre `map.on("click",
+    // ...)` listener — a context React's batching does not guarantee
+    // flushes a setState updater synchronously before returning. Confirmed
+    // live: entering a city whose wards weren't visible yet (the normal
+    // case for anything but Minneapolis/St. Paul) intermittently showed
+    // "outside every city this map has ward data for" for a real, fully-
+    // covered city, immediately followed by that same click's own
+    // resolveCityViewOfficials reading visibleCitiesRef.current and still
+    // seeing it false — the "selecting a city sometimes shows nothing"
+    // report. A second click on the same (by-then-actually-visible) city
+    // always worked, which is what made this a same-tick timing race
+    // rather than a data or spelling bug. Plain synchronous variable
+    // assignment has no such ambiguity, so the ref is now always correct
+    // the instant this function returns, regardless of which kind of
+    // event triggered it. setVisibleCities(next) still runs (a plain
+    // value now, not a function) purely to trigger React's own re-render
+    // of anything reading `visibleCities` state — nothing here depends on
+    // when that particular commit happens.
+    const next = { ...visibleCitiesRef.current, [city]: !visibleCitiesRef.current[city] };
+    visibleCitiesRef.current = next;
+    applyCityFilter(next);
+    setVisibleCities(next);
+    // Enabling a city via the legend checkbox (not hiding one — next[city]
+    // false means the branch below runs instead) flies the camera to that
+    // city's own extent, same as picking it from city search does
+    // (applyCityZoom above) — a resident ticking a box wants to see the
+    // place they just asked for, not trust it's somewhere in the current
+    // view. Bounds come from whatever geometry is loaded so far; if wards/
+    // at-large data hasn't arrived yet, boundsForCity returns null and this
+    // just no-ops rather than zooming nowhere.
+    if (next[city] && flyTo) {
+      const bounds = boundsForCity(city);
+      if (bounds) zoomToBoundsNoModal(bounds);
+    }
+    // If hiding this city empties the panel's City (and County, which
+    // shares the same per-city visibility — see filterHiddenCityOfficials)
+    // section, re-filter what's shown. If that leaves every tier empty,
+    // close the panel outright rather than leaving it open, zoomed in, on
+    // three "not covered here" notes for content the user just hid.
+    if (!next[city] && selectedRef.current) {
+      const current = selectedRef.current;
+      const filtered = filterHiddenCityOfficials(current.officials, next);
+      if (filtered !== current.officials) {
+        const allEmpty = filtered.city.length === 0 && filtered.county.length === 0 && filtered.state.length === 0;
+        if (allEmpty) {
+          deselect();
+        } else {
+          setSelected({ ...current, officials: filtered });
+          setAnnouncement(summarizeOfficials(filtered));
         }
       }
-      return next;
-    });
+    }
   };
 
   // Bulk sibling to toggleCity above, backing the "All"/"None" quick
@@ -2119,39 +2134,39 @@ export default function WardMap() {
   // CITIES list) to the same visibility in one state update rather than
   // firing toggleCity in a loop, which would otherwise re-run
   // applyCityFilter and the selected-panel re-filter once per city.
-  // Mirrors toggleCity's own ref-sync and selected-panel re-filter/close
-  // logic for the same reason documented there.
+  // Mirrors toggleCity's own ref-sync (computed from and mutated onto the
+  // ref *before* setVisibleCities, not inside its updater — see that
+  // function's own comment on why) and selected-panel re-filter/close
+  // logic, for the same reasons documented there.
   const setCitiesVisible = (cities: readonly City[], visible: boolean) => {
-    setVisibleCities((prev) => {
-      const next = { ...prev };
-      for (const city of cities) next[city] = visible;
-      visibleCitiesRef.current = next;
-      applyCityFilter(next);
-      // Both "All" and "None" fly to the same place: the current mode's
-      // default extent — the exact same zoomToDefault() the "tap away"/
-      // panel-close deselect gesture already flies to (see deselect's own
-      // comment). Deliberately not a per-city-set union computed from just
-      // `cities` — that would put "All" and "None" at two different
-      // targets (the whole set's bounds vs. some other extent), and would
-      // disagree with what deselecting already shows for "nothing/
-      // everything selected." One shared "resting position" for every
-      // gesture that means "show me the default view" is the point.
-      zoomToDefault();
-      if (selectedRef.current) {
-        const current = selectedRef.current;
-        const filtered = filterHiddenCityOfficials(current.officials, next);
-        if (filtered !== current.officials) {
-          const allEmpty = filtered.city.length === 0 && filtered.county.length === 0 && filtered.state.length === 0;
-          if (allEmpty) {
-            deselect();
-          } else {
-            setSelected({ ...current, officials: filtered });
-            setAnnouncement(summarizeOfficials(filtered));
-          }
+    const next = { ...visibleCitiesRef.current };
+    for (const city of cities) next[city] = visible;
+    visibleCitiesRef.current = next;
+    applyCityFilter(next);
+    setVisibleCities(next);
+    // Both "All" and "None" fly to the same place: the current mode's
+    // default extent — the exact same zoomToDefault() the "tap away"/
+    // panel-close deselect gesture already flies to (see deselect's own
+    // comment). Deliberately not a per-city-set union computed from just
+    // `cities` — that would put "All" and "None" at two different
+    // targets (the whole set's bounds vs. some other extent), and would
+    // disagree with what deselecting already shows for "nothing/
+    // everything selected." One shared "resting position" for every
+    // gesture that means "show me the default view" is the point.
+    zoomToDefault();
+    if (selectedRef.current) {
+      const current = selectedRef.current;
+      const filtered = filterHiddenCityOfficials(current.officials, next);
+      if (filtered !== current.officials) {
+        const allEmpty = filtered.city.length === 0 && filtered.county.length === 0 && filtered.state.length === 0;
+        if (allEmpty) {
+          deselect();
+        } else {
+          setSelected({ ...current, officials: filtered });
+          setAnnouncement(summarizeOfficials(filtered));
         }
       }
-      return next;
-    });
+    }
   };
 
   // Independent checkbox toggle, same pattern as toggleCity above —
