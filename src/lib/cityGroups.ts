@@ -49,17 +49,19 @@ export function buildCityGroups(cities: readonly City[]): CityGroup[] {
 }
 
 // Same fold shape as addressSearch.ts's own `fold()` / build-county-
-// cities.mjs's own `fold()` — case- and punctuation-insensitive, but
-// deliberately NOT the same "SAINT"->"ST" whole-word substitution those
-// two use: this is a substring filter over a fixed, already-known list of
-// ~24 city labels a resident is reading on screen, not a fuzzy parse of
-// arbitrary typed input, so folding "st" and "saint" together isn't
-// needed for it to work as a substring filter (typing "st" alone already
-// substring-matches "St. Paul", "St. Louis Park", AND "Saint" would too
-// if any label spelled it that way — CITIES never does).
+// cities.mjs's own `fold()` — case- and punctuation-insensitive, plus the
+// same "SAINT"->"ST" whole-word substitution those two use. This *was*
+// dropped here on the theory that a plain substring match didn't need it
+// ("st" is already a substring of "st paul"), but that reasoning missed
+// COUNTY_CITIES's own "Saint Louis" county group (countyCities.generated.ts
+// — the CTU dataset spells it out in full, unlike CITIES's abbreviated "St.
+// ___" cities): "st" is NOT a substring of "saint" as typed, so a resident
+// filtering the county list by "st" never found it. Folding both sides to
+// the same "st" form fixes that the same way it already fixes SearchBar.tsx.
 function fold(s: string): string {
   return s
     .toLowerCase()
+    .replace(/\bsaint\b/g, "st")
     .replace(/[.,]/g, "")
     .replace(/\s+/g, " ")
     .trim();

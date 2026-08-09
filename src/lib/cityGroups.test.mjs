@@ -35,6 +35,17 @@ test("matchesCityQuery returns false for no match", () => {
   assert.equal(matchesCityQuery("xyzzy", "Minneapolis"), false);
 });
 
+test("matchesCityQuery treats 'saint' and 'st' as aliases, same as addressSearch.ts's fold()", () => {
+  // "St. Paul"/"St. Louis Park" (CITIES' abbreviated spelling) found by
+  // typing the full word "Saint".
+  assert.equal(matchesCityQuery("saint paul", "St. Paul"), true);
+  assert.equal(matchesCityQuery("saint", "St. Louis Park"), true);
+  // "Saint Louis" (COUNTY_CITIES's full-spelling county group — see
+  // countyCities.generated.ts) found by typing the abbreviation "st".
+  assert.equal(matchesCityQuery("st", "Saint Louis"), true);
+  assert.equal(matchesCityQuery("st louis", "Saint Louis"), true);
+});
+
 test("buildCityGroups covers every requested city exactly in its county group(s)", () => {
   const groups = buildCityGroups(CITIES);
   for (const city of CITIES) {
