@@ -19,8 +19,27 @@
 // change to the token choice itself) now only has one function to touch.
 export type FilterVariant = "floating" | "sidebar";
 
+// Sidebar row hover is deliberately the lighter --panel-3 fill here, not
+// the stronger --sidebar-hover WardMap.tsx's own persistent controls use
+// (its Level/Chamber tab row, the collapse pull-tabs — see their own
+// comments in WardMap.tsx). Those need --sidebar-hover's darker gray
+// because they're the sole way the tab row/pull-tab communicates its
+// interactive-state boundary, which is what WCAG 1.4.11's 3:1 rule is
+// actually protecting. A transient mouse-hover fill on a checkbox row is
+// a different case: the row's real interactive-state indicator for a
+// keyboard user is the separate focus-visible ring (focusRingClass below,
+// unchanged, still meets contrast on its own), and a screen-reader user
+// never perceives a hover fill at all — a checkbox's own label/checked
+// state carries that meaning regardless of any background color. That
+// leaves hover free to be a much subtler, purely-visual "you're pointing
+// at this row" cue for mouse users specifically, closer to
+// mndatacenter.org's own restrained hover treatment — --panel-3 is
+// already this app's own "recessed surface" token (sub-rows, track
+// backgrounds), so reusing it here instead of inventing a new value keeps
+// the same "hover = one step recessed" reading the rest of this sidebar
+// already uses, just applied more gently than --sidebar-hover.
 export function rowHoverClass(variant: FilterVariant): string {
-  return variant === "sidebar" ? "hover:bg-sidebar-hover" : "hover:bg-hover";
+  return variant === "sidebar" ? "hover:bg-panel-3" : "hover:bg-hover";
 }
 
 export function focusRingClass(variant: FilterVariant): string {

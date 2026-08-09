@@ -87,11 +87,14 @@ function edgeToEdgeClass(variant: "floating" | "sidebar"): string {
 // static banner instead, which is what got walked back) and the knob
 // slides to the "All" side. Anything short of fully-on — nothing shown,
 // or a mixed state, some cities checked and others not — reads as "off":
-// the track is the same neutral gray used for the flattened area-filter
-// row hover (--sidebar-hover, already vetted elsewhere in this file to
-// clear WCAG 1.4.11's 3:1 against every surface this switch can sit on —
-// see rowHoverClass's own token comment in variantClasses.ts), and the
-// knob sits at the "None" side. A mixed state has no honest "half on"
+// the track uses --sidebar-hover, vetted to clear WCAG 1.4.11's 3:1
+// against every surface this switch can sit on (see that token's own
+// comment in globals.css). Unlike a transient hover fill (see
+// rowHoverClass's own comment in variantClasses.ts on why *that* can be
+// lighter), this track is a permanently-visible UI boundary whenever the
+// switch is off, not a mouse-only affordance — it needs the stronger,
+// always-legible value on its own merits. The knob sits at the "None"
+// side when off. A mixed state has no honest "half on"
 // rendering on a real switch, so it collapses to "off" — clicking from
 // there turns everything *on* (matches the common "select all" tri-state
 // convention: clicking a partially-checked control always completes it to
@@ -300,19 +303,21 @@ function GroupedList({
 }) {
   const groups = buildCityGroups(cities);
 
-  // Frozen at mount only (functional useState initializer runs once) —
-  // a group containing any currently-checked city starts expanded, every
-  // other group starts collapsed. Deliberately NOT recomputed on later
-  // visibleCities changes: toggling a city off after the fact shouldn't
-  // suddenly collapse the group a resident is actively looking at.
-  const [initiallyOpen] = useState<Set<County>>(
-    () => new Set(groups.filter((g) => g.cities.some((c) => visibleCities[c])).map((g) => g.county)),
-  );
+  // Every group starts collapsed, full stop — including a county holding
+  // a currently-checked city (Hennepin/Ramsey, under the DEFAULT_VISIBLE_
+  // CITIES default). An earlier version auto-expanded those on first
+  // paint on the theory that a collapsed group would hide *why*
+  // Minneapolis/St. Paul wards are already on the map; per-group counts
+  // (see "n of m shown" in each summary below) turned out to answer that
+  // without needing the group itself open, so a resident who wants the
+  // full statewide list to read as uniformly scannable — nothing
+  // "special" pre-opened for them — gets that instead.
+  //
   // Explicit user clicks on a group's own <summary> — takes precedence
-  // over the frozen initial-open set once a resident has touched it.
-  // Ignored while a query is active (every matching group is forced open
-  // during search — see isOpen below), so a stray toggle mid-search can't
-  // leave a group stuck closed once the query is cleared.
+  // once a resident has touched it. Ignored while a query is active
+  // (every matching group is forced open during search — see isOpen
+  // below), so a stray toggle mid-search can't leave a group stuck closed
+  // once the query is cleared.
   const [manualOverride, setManualOverride] = useState<Partial<Record<County, boolean>>>({});
 
   const queryActive = fold(query).length > 0;
@@ -323,7 +328,7 @@ function GroupedList({
   // there's no separate "matching but should stay collapsed" case.
   const isOpen = (county: County) => {
     if (queryActive) return true;
-    return manualOverride[county] ?? initiallyOpen.has(county);
+    return manualOverride[county] ?? false;
   };
 
   const rendered = groups
