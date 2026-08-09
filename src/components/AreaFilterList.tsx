@@ -226,15 +226,15 @@ function FilterInput({
   return (
     <div className="mb-1.5">
       <label className="sr-only" htmlFor={`area-filter-query-${variant}`}>
-        Filter this list
+        Search for a city
       </label>
       <input
         id={`area-filter-query-${variant}`}
         type="search"
         value={query}
         onChange={(e) => onQueryChange(e.target.value)}
-        placeholder="Filter cities…"
-        aria-label="Filter this list"
+        placeholder="Search a city…"
+        aria-label="Search for a city"
         className={`w-full rounded-lg border border-hair-strong bg-panel px-3 py-1.5 text-sm text-ink placeholder:text-ink-3 focus:outline-none focus-visible:ring-2 ${focusRingClass(variant)}`}
       />
     </div>
