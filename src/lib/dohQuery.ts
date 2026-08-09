@@ -16,25 +16,41 @@ export interface DohAnswer {
 }
 
 export interface DohResult {
-  status: number; // DNS RCODE — 0 = NOERROR, 3 = NXDOMAIN
+  // DNS RCODE — 0 = NOERROR, 3 = NXDOMAIN. -1 is not a real RCODE; it
+  // means the resolver's JSON response omitted the Status field
+  // entirely (malformed/non-standard response) — treated as a distinct,
+  // never-silently-NOERROR case so a caller's fail-closed check
+  // (`status !== 0`) catches it too, rather than defaulting a missing
+  // field to "resolved safely." A live bug caught this exact default
+  // during code review: `body.Status ?? 0` was fail-OPEN on a malformed
+  // response, contradicting every caller's own documented "fail closed"
+  // posture.
+  status: number;
   answers: DohAnswer[];
 }
 
+export type DohRecordType = "A" | "AAAA";
+
 /**
- * Queries a DNS-over-HTTPS resolver for a hostname's A record. Returns
- * null on any error (network failure, non-OK response, unparseable
- * JSON) — every caller here treats null as "can't confirm this is
- * safe," but that fail-closed decision belongs to the caller, not this
- * shared helper.
+ * Queries a DNS-over-HTTPS resolver for a hostname's A or AAAA record.
+ * Returns null on any error (network failure, non-OK response,
+ * unparseable JSON) — every caller here treats null as "can't confirm
+ * this is safe," but that fail-closed decision belongs to the caller,
+ * not this shared helper.
  */
-export async function queryDoh(dohUrl: string, hostname: string, fetchImpl: typeof fetch): Promise<DohResult | null> {
+export async function queryDoh(
+  dohUrl: string,
+  hostname: string,
+  fetchImpl: typeof fetch,
+  recordType: DohRecordType = "A",
+): Promise<DohResult | null> {
   try {
-    const res = await fetchImpl(`${dohUrl}?name=${encodeURIComponent(hostname)}&type=A`, {
+    const res = await fetchImpl(`${dohUrl}?name=${encodeURIComponent(hostname)}&type=${recordType}`, {
       headers: { accept: "application/dns-json" },
     });
     if (!res.ok) return null;
     const body = (await res.json()) as { Status?: number; Answer?: DohAnswer[] };
-    return { status: body.Status ?? 0, answers: body.Answer ?? [] };
+    return { status: body.Status ?? -1, answers: body.Answer ?? [] };
   } catch {
     return null;
   }

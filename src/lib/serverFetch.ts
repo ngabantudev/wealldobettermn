@@ -132,12 +132,24 @@ export function isBlockedHostname(hostname: string): boolean {
  * as "can't confirm this is safe," never as "assume it's fine." Request/
  * parse plumbing lives in dohQuery.ts, shared with domainSafety.ts's own
  * DoH check — only the interpretation of the answers differs here.
+ *
+ * Queries A and AAAA separately and rejects if EITHER resolves to a
+ * private/loopback/link-local address — a hostname with a clean public A
+ * record but a private AAAA record (or vice versa) is still unsafe, and
+ * a single `type=A` request (this function's original shape) can never
+ * see the AAAA answer at all, silently leaving isPrivateIPv6() dead code
+ * behind a check that could never reach it. Caught in code review.
  */
 export async function resolvesToPrivateAddress(hostname: string, fetchImpl: typeof fetch): Promise<boolean> {
-  const result = await queryDoh("https://1.1.1.1/dns-query", hostname, fetchImpl);
-  if (!result) return true;
-  if (result.answers.length === 0) return true; // nothing resolved — nothing safe to fetch
-  return result.answers.some((a) => {
+  const doh = "https://1.1.1.1/dns-query";
+  const [ipv4Result, ipv6Result] = await Promise.all([
+    queryDoh(doh, hostname, fetchImpl, "A"),
+    queryDoh(doh, hostname, fetchImpl, "AAAA"),
+  ]);
+  if (!ipv4Result || !ipv6Result) return true;
+  const answers = [...ipv4Result.answers, ...ipv6Result.answers];
+  if (answers.length === 0) return true; // nothing resolved — nothing safe to fetch
+  return answers.some((a) => {
     if (a.type === 1) return isPrivateIPv4(a.data); // A record
     if (a.type === 28) return isPrivateIPv6(a.data); // AAAA record
     return false;
@@ -176,8 +188,15 @@ async function preflightValidate(
 /** Reads a Response body up to a byte cap, aborting the stream early rather than buffering it unbounded. */
 async function readCapped(res: Response, maxBytes: number): Promise<{ ok: true; text: string } | { ok: false }> {
   if (!res.body) {
-    const text = await res.text();
-    return new TextEncoder().encode(text).length > maxBytes ? { ok: false } : { ok: true, text };
+    // No stream to cap at all — treated as empty content rather than
+    // falling back to res.text(), which buffers the ENTIRE response
+    // before this function ever gets to check its size. That fallback
+    // used to defeat the whole point of "capped": a misconfigured or
+    // malicious server serving a body with no readable stream (however
+    // rare in practice on the real Workers runtime) could force
+    // unbounded memory buffering, exactly what maxBytes exists to
+    // prevent. Caught in code review.
+    return { ok: true, text: "" };
   }
   const reader = res.body.getReader();
   const chunks: Uint8Array[] = [];

@@ -93,7 +93,7 @@ test("rejects when DNS resolves to a private/loopback address, and never fetches
   const result = await serverFetch("https://city.example.gov/", { fetchImpl });
   assert.equal(result.ok, false);
   assert.equal(result.reason, "private_ip_target");
-  assert.equal(fetchImpl.calls.length, 1); // only the DoH call
+  assert.equal(fetchImpl.calls.length, 2); // the A and AAAA DoH calls — never the page itself
 });
 
 test("rejects when DNS resolves to the metadata-service address (169.254.169.254)", async () => {
@@ -166,10 +166,11 @@ test("follows a redirect and re-validates the target through the full preflight"
   assert.equal(result.ok, true);
   assert.equal(result.finalUrl, "https://www.city.example.gov/home");
   assert.equal(pageCalls, 1);
-  // Two DoH calls expected — one per hostname, since the redirect target is
-  // re-preflighted from scratch rather than trusted because the first hop passed.
+  // Four DoH calls expected — A and AAAA per hostname, since the redirect
+  // target is re-preflighted from scratch rather than trusted because the
+  // first hop passed.
   const dohCalls = fetchImpl.calls.filter((u) => u.startsWith("https://1.1.1.1/dns-query"));
-  assert.equal(dohCalls.length, 2);
+  assert.equal(dohCalls.length, 4);
 });
 
 test("a redirect to a private-IP-resolving host is rejected, even after the first hop was public", async () => {
@@ -186,6 +187,20 @@ test("a redirect to a private-IP-resolving host is rejected, even after the firs
       "https://city.example.gov",
       () => new Response(null, { status: 302, headers: { location: "https://internal.example.gov/" } }),
     ],
+  ]);
+  const result = await serverFetch("https://city.example.gov/", { fetchImpl });
+  assert.equal(result.ok, false);
+  assert.equal(result.reason, "private_ip_target");
+});
+
+test("rejects a hostname with a clean public A record but a private AAAA record — the AAAA check actually runs, not just A", async () => {
+  const fetchImpl = makeMockFetch([
+    // AAAA handler listed first: "...&type=A" is a string-prefix of
+    // "...&type=AAAA", so makeMockFetch's startsWith matching would let
+    // the shorter "A" prefix wrongly swallow "AAAA" requests too if
+    // checked first — order here is load-bearing, not cosmetic.
+    ["https://1.1.1.1/dns-query?name=city.example.gov&type=AAAA", () => dohResponse([{ type: 28, data: "fd00::1" }])],
+    ["https://1.1.1.1/dns-query?name=city.example.gov&type=A", () => dohResponse([{ type: 1, data: "93.184.216.34" }])],
   ]);
   const result = await serverFetch("https://city.example.gov/", { fetchImpl });
   assert.equal(result.ok, false);
@@ -238,6 +253,27 @@ test("accepts a response body right at the byte cap", async () => {
   const result = await serverFetch("https://city.example.gov/", { fetchImpl });
   assert.equal(result.ok, true);
   assert.equal(result.text.length, COMMUNITY_FETCH_MAX_BYTES);
+});
+
+test("a response with no readable body stream is treated as empty content, never buffered unbounded", async () => {
+  const fetchImpl = makeMockFetch([
+    ["https://1.1.1.1/dns-query", () => publicDohResponse()],
+    [
+      "https://city.example.gov",
+      () => {
+        const res = new Response("this should never be read", { status: 200 });
+        // Simulates a runtime response with no readable stream (rare, but
+        // the case readCapped's fallback exists for) — Response.body
+        // itself is normally read-only in real fetch implementations, so
+        // this test overrides the getter directly to exercise that path.
+        Object.defineProperty(res, "body", { value: null });
+        return res;
+      },
+    ],
+  ]);
+  const result = await serverFetch("https://city.example.gov/", { fetchImpl });
+  assert.equal(result.ok, true);
+  assert.equal(result.text, "");
 });
 
 // --- timeout -------------------------------------------------------------

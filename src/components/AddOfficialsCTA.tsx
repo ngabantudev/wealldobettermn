@@ -22,6 +22,7 @@
 //    path AGENTS.md Part 4 "Keyboard Complete" requires, added alongside
 //    this component rather than left click/tap-only.
 import Link from "next/link";
+import { UserPlus } from "lucide-react";
 import { CITIES } from "@/lib/cities";
 
 interface AddOfficialsCTAProps {
@@ -30,16 +31,6 @@ interface AddOfficialsCTAProps {
   // (AGENTS.md §2.5), just the plain string every render of this
   // component already has on hand.
   cityName: string;
-}
-
-function IconUserPlus() {
-  return (
-    <svg viewBox="0 0 20 20" fill="none" className="h-4 w-4 shrink-0">
-      <circle cx="8" cy="7" r="3" stroke="currentColor" strokeWidth="1.5" />
-      <path d="M2.5 17c0-3 2.5-5 5.5-5s5.5 2 5.5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-      <path d="M15.5 6.5v5M13 9h5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-    </svg>
-  );
 }
 
 export default function AddOfficialsCTA({ cityName }: AddOfficialsCTAProps) {
@@ -65,7 +56,7 @@ export default function AddOfficialsCTA({ cityName }: AddOfficialsCTAProps) {
         href={`/contribute?city=${encodeURIComponent(cityName)}`}
         className="shimmer-cta inline-flex items-center gap-2 rounded-lg bg-positive px-4 py-2.5 text-sm font-semibold text-on-positive hover:bg-positive-hover focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
       >
-        <IconUserPlus />
+        <UserPlus aria-hidden="true" className="h-4 w-4 shrink-0" strokeWidth={1.75} />
         {`Add ${cityName}'s officials`}
       </Link>
       {/* Coverage honesty (AGENTS.md §3.3) used to live in a separate
