@@ -7,7 +7,7 @@ import type { Feature, FeatureCollection, Geometry, Point } from "geojson";
 import type { AddressGazetteerManifest, MnPlaces, RepProperties, WardRef } from "@/lib/types";
 import { dataUrl } from "@/lib/dataUrl";
 import type { AreaOfficials, CivicGeometrySources } from "@/lib/officials";
-import { officialIdentity, resolveOfficialsAtPoint } from "@/lib/officials";
+import { officialIdentity, resolveAllCityOfficials, resolveOfficialsAtPoint } from "@/lib/officials";
 import { AT_LARGE_CITIES, CITIES, type City } from "@/lib/cities";
 import {
   CITY_ACCENT,
@@ -1857,6 +1857,26 @@ export default function WardMap() {
     return filterHiddenChamberOfficials(resolved, visibleChambersRef.current);
   };
 
+  // City view's own equivalent of resolveSelectionAtPoint above — the
+  // panel for "the whole city is selected" should show every one of its
+  // council members, not just whichever single ward `point` happens to
+  // land in (resolveSelectionAtPoint's own single-point City tier).
+  // County/state still come from the point resolution: unlike Council
+  // Member, "every commissioner/legislator whose district overlaps this
+  // city at all" is a different, larger question resolveAllCityOfficials
+  // deliberately doesn't answer (see its own comment) — a city view still
+  // shows the county/state reps for wherever its own anchor point sits,
+  // same as before this existed. Runs the City tier through the same
+  // hidden-city filter resolveSelectionAtPoint's own result already went
+  // through, for consistency (a no-op today, since enterCityView only
+  // ever calls this for a city it just confirmed is visible — see its own
+  // toggleCity call — but cheap to keep correct if that ever changes).
+  const resolveCityViewOfficials = (city: City, point: [number, number], known?: RepProperties): AreaOfficials => {
+    const pointResolved = resolveSelectionAtPoint(point, known);
+    const cityOfficials = resolveAllCityOfficials(city, { wards: wardsDataRef.current, mayors: mayorsDataRef.current });
+    return filterHiddenCityOfficials({ ...pointResolved, city: cityOfficials }, visibleCitiesRef.current);
+  };
+
   // The one path every click/tap/search-result selection runs through
   // (as opposed to a hover, which sets `selected` directly — see
   // handleHoverMove below). An explicit selection always means "show the
@@ -3413,11 +3433,16 @@ export default function WardMap() {
       if (!visibleCitiesRef.current[city]) toggleCity(city, { flyTo: false });
       activeCityRef.current = city;
       setActiveCity(city);
-      selectPinned(resolveSelectionAtPoint(point, known), `city-boundary:${city}`, city, "city");
-      // City view is a selection of the WHOLE city, not just whichever
-      // single ward/pin/blob happened to be clicked to get here — highlight
-      // every ward belonging to it at once. querySourceFeatures reads the
-      // source's own already-loaded tile data directly, independent of the
+      // resolveCityViewOfficials, not resolveSelectionAtPoint — city view
+      // is a selection of the WHOLE city, so its panel shows every one of
+      // its council members, not just whichever single ward `point` (the
+      // clicked feature's own coordinate) happens to fall in. See that
+      // function's own comment.
+      selectPinned(resolveCityViewOfficials(city, point, known), `city-boundary:${city}`, city, "city");
+      // Same "whole city, not just whichever one was clicked" reasoning
+      // for the visual highlight — every ward belonging to it at once.
+      // querySourceFeatures reads the source's own already-loaded tile
+      // data directly, independent of the
       // WARDS_FILL_LAYER_ID layer's current visibility/city filter (see
       // highlightTargetForRep's own comment on the same call), so this
       // works even on the very first entry into a city whose wards were

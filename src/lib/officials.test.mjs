@@ -10,7 +10,7 @@
 
 import assert from "node:assert/strict";
 import test from "node:test";
-import { officialIdentity, resolveOfficialsAtPoint } from "./officials.ts";
+import { officialIdentity, resolveAllCityOfficials, resolveOfficialsAtPoint } from "./officials.ts";
 
 // --- fixtures -------------------------------------------------------------
 // Two adjacent, non-overlapping square wards sharing an edge at lng=0, a
@@ -231,6 +231,28 @@ test("a ward electing two council members off one shared polygon surfaces both, 
   );
 });
 
+// --- resolveAllCityOfficials -----------------------------------------------
+
+test("resolveAllCityOfficials returns every ward's council member plus the mayor, not just one", () => {
+  const officials = resolveAllCityOfficials("Testville", sources);
+  assert.deepEqual(
+    officials.map((r) => r.repName).sort(),
+    ["The Mayor", "Ward A Rep", "Ward B Rep"].sort(),
+  );
+});
+
+test("resolveAllCityOfficials surfaces both seats of a ward with two council members", () => {
+  const officials = resolveAllCityOfficials("Testville", sourcesWithTwinWard);
+  assert.deepEqual(
+    officials.map((r) => r.repName).sort(),
+    ["The Mayor", "Ward A Rep", "Ward B Rep", "Ward C Rep One", "Ward C Rep Two"].sort(),
+  );
+});
+
+test("resolveAllCityOfficials never mixes in another city's officials", () => {
+  assert.deepEqual(resolveAllCityOfficials("Nowhereville", sources), []);
+});
+
 // --- atLargeBoundaries (a wardless, fully at-large city — Woodbury's shape) -
 
 // No wardHits are possible for this city by construction (it has zero
@@ -274,6 +296,14 @@ test("a point inside a wardless city's boundary resolves every mayors-sourced of
 test("a point outside every at-large boundary resolves none of that city's officials", () => {
   const officials = resolveOfficialsAtPoint([50, 50], sourcesWithAtLarge);
   assert.deepEqual(officials.city, []);
+});
+
+test("resolveAllCityOfficials covers a wardless (fully at-large) city too — matched by mayors.geojson alone, no ward polygons needed", () => {
+  const officials = resolveAllCityOfficials("Wardlessville", sourcesWithAtLarge);
+  assert.deepEqual(
+    officials.map((r) => r.repName).sort(),
+    ["At-Large Council Member", "At-Large Mayor"],
+  );
 });
 
 test("atLargeBoundaries is optional — omitting it entirely never throws, just resolves normally", () => {
