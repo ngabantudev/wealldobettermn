@@ -76,10 +76,37 @@ jobs:
       # `--remote`/`-r` defaulting to false) and hit every static route
       # that's known to exist. Add a new top-level route here when one
       # is added to the app — an unlisted route isn't smoke-tested.
+      #
+      # Named risk acceptance (AGENTS.md §2.6 landed the `ai` binding):
+      # Workers AI has no local emulation at all — `wrangler dev` always
+      # tries to open a real remote connection for it, which fails hard
+      # in a non-interactive environment with no CLOUDFLARE_API_TOKEN,
+      # which this workflow deliberately never sets (see this file's own
+      # header: CI has never needed live Cloudflare credentials, and
+      # giving it one is a real security-relevant decision, not something
+      # to add quietly just to unblock a smoke test). None of the routes
+      # smoke-tested below (/, /bills, /meetings) touch the AI binding —
+      # only /api/submissions does, and that route isn't smoke-tested
+      # here at all yet — so this strips `ai` from a throwaway copy of
+      # the real config for this boot only. Accepted gap, stated plainly:
+      # this smoke test cannot catch a broken AI-binding *declaration*
+      # (wrong binding name, malformed config) — only local dev (an
+      # authenticated wrangler session) or an actual deploy would. If
+      # /api/submissions is ever added to the smoke-tested route list,
+      # this gap needs revisiting, likely via a real scoped
+      # CLOUDFLARE_API_TOKEN secret instead of this workaround.
       - name: Smoke test the Worker bundle in a real workerd sandbox
         run: |
           set -e
-          npx wrangler dev --port 8788 --ip 127.0.0.1 > /tmp/wrangler-dev.log 2>&1 &
+          node -e "
+            const fs = require('fs');
+            const raw = fs.readFileSync('wrangler.jsonc', 'utf8');
+            const stripped = raw.replace(/\/\/.*\$/gm, '').replace(/\/\*[\s\S]*?\*\//g, '');
+            const config = JSON.parse(stripped);
+            delete config.ai;
+            fs.writeFileSync('wrangler.ci.json', JSON.stringify(config, null, 2));
+          "
+          npx wrangler dev --config wrangler.ci.json --port 8788 --ip 127.0.0.1 > /tmp/wrangler-dev.log 2>&1 &
           WRANGLER_PID=$!
 
           cleanup() {

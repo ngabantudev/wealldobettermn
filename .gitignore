@@ -56,5 +56,9 @@ next-env.d.ts
 .wrangler
 .dev.vars*
 !.dev.vars.example
+# Generated fresh by ci.yml's smoke-test step (a copy of wrangler.jsonc
+# with the ai binding stripped, since Workers AI has no local emulation
+# and CI never has live Cloudflare credentials) — never hand-edited or committed.
+wrangler.ci.json
 
 !.env.example
