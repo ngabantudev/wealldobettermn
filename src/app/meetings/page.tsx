@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Gloss from "@/components/Gloss";
 import {
   MEETINGS_JURISDICTIONS,
   UNWIRED_MEETINGS_JURISDICTIONS,
@@ -130,12 +131,13 @@ function MeetingCard({ feed, meeting }: { feed: MeetingsFeed; meeting: Meeting }
               <li key={item.id} className="text-sm text-ink-2">
                 <div className="flex items-start gap-2">
                   {item.isConsent && (
-                    <span
-                      className="mt-0.5 inline-block shrink-0 rounded-full bg-accent-soft px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-accent"
-                      title="Passed on the consent agenda — approved as a group with no individual discussion or vote called out. AGENTS.md §0.4: 'flag items passed on consent.'"
+                    <Gloss
+                      term="consent-agenda"
+                      className="mt-0.5 inline-block shrink-0 rounded-full bg-accent-soft px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-inset"
+                      glossClassName="mt-1 block text-xs italic text-ink-4"
                     >
                       Consent
-                    </span>
+                    </Gloss>
                   )}
                   <span>
                     {item.matterFile ? <span className="font-medium text-ink-3">{item.matterFile}</span> : null}
@@ -257,8 +259,7 @@ export default function MeetingsPage() {
         <h1 className="text-xl font-semibold text-ink">Meetings &amp; agendas</h1>
         <p className="mt-2 text-sm text-ink-3">
           What each body is about to decide, by meeting date — including items passed on the{" "}
-          <span title="A block of agenda items voted on together with no individual discussion or roll call.">consent agenda</span>,
-          flagged below (AGENTS.md §0.4: &ldquo;make the routine visible&rdquo;).
+          <Gloss term="consent-agenda">consent agenda</Gloss>, flagged below (AGENTS.md §0.4: &ldquo;make the routine visible&rdquo;).
         </p>
 
         {MEETINGS_JURISDICTIONS.map((entry) => {

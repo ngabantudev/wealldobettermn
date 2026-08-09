@@ -5,6 +5,8 @@ import type { BillVote, RepProperties } from "@/lib/types";
 import type { AreaOfficials } from "@/lib/officials";
 import { officialIdentity, officialSlug } from "@/lib/officials";
 import { useFocusTrap } from "@/hooks/useFocusTrap";
+import Gloss from "@/components/Gloss";
+import type { GlossaryKey } from "@/lib/glossary";
 import { CITY_TIER_EMPTY_NOTE, COUNTY_TIER_EMPTY_NOTE, STATE_TIER_EMPTY_NOTE } from "@/lib/coverage";
 import {
   CONTESTED_COLOR,
@@ -106,37 +108,27 @@ const STALE_COLOR_SOFT = "var(--stale-soft)";
 // legislature.mjs's own recentVotes never carried anything but yes/no
 // (QUALIFYING_OPTIONS there), so the bug was latent until now.
 //
-// Plain-language labels/glosses per AGENTS.md §0.9 — spelled out for the
-// three options a resident could otherwise misread, not just recolored.
-// label: the badge text. gloss: shown only for the non-yes/no cases,
-// where the plain meaning genuinely isn't obvious from the word alone.
-const VOTE_OPTION_DISPLAY: Record<string, { label: string; color: string; colorSoft: string; gloss?: string }> = {
+// Plain-language labels per AGENTS.md §0.9 — spelled out for the three
+// options a resident could otherwise misread, not just recolored. label/
+// color/colorSoft stay local here (presentation, not glossary data — see
+// glossary.ts's header comment on that split); the gloss *text* itself
+// now lives once in src/lib/glossary.ts's GLOSSARY, keyed by
+// `glossaryKey` below, so this table and Gloss.tsx's other two call
+// sites (meetings/bills pages) can never drift apart on wording. yes/no
+// carry no `glossaryKey` at all — no gloss is shown for them, same as
+// before.
+const VOTE_OPTION_DISPLAY: Record<string, { label: string; color: string; colorSoft: string; glossaryKey?: GlossaryKey }> = {
   yes: { label: "Voted Yes", color: "var(--vote-yes)", colorSoft: "var(--vote-yes-soft)" },
   no: { label: "Voted No", color: "var(--vote-no)", colorSoft: "var(--vote-no-soft)" },
-  absent: {
-    label: "Absent",
-    color: STALE_COLOR,
-    colorSoft: STALE_COLOR_SOFT,
-    gloss: "Wasn't recorded as present for this vote — didn't vote either way.",
-  },
-  excused: {
-    label: "Excused",
-    color: STALE_COLOR,
-    colorSoft: STALE_COLOR_SOFT,
-    gloss: "Formally excused from this vote — sometimes a conflict-of-interest recusal, sometimes a pre-approved absence.",
-  },
-  "not voting": {
-    label: "Present, No Vote",
-    color: STALE_COLOR,
-    colorSoft: STALE_COLOR_SOFT,
-    gloss: "Was present but didn't cast a vote either way.",
-  },
+  absent: { label: "Absent", color: STALE_COLOR, colorSoft: STALE_COLOR_SOFT, glossaryKey: "vote-absent" },
+  excused: { label: "Excused", color: STALE_COLOR, colorSoft: STALE_COLOR_SOFT, glossaryKey: "vote-excused" },
+  "not voting": { label: "Present, No Vote", color: STALE_COLOR, colorSoft: STALE_COLOR_SOFT, glossaryKey: "vote-not-voting" },
 };
 const DEFAULT_VOTE_OPTION_DISPLAY = {
   label: "Other",
   color: STALE_COLOR,
   colorSoft: STALE_COLOR_SOFT,
-  gloss: "Recorded outside the usual yes/no options — see the source record for the specifics.",
+  glossaryKey: "vote-other" as GlossaryKey,
 };
 
 function voteOptionDisplay(option: string) {
@@ -402,50 +394,36 @@ function IconChevron() {
 const DEFAULT_OPEN_VOTE_THRESHOLD = 3;
 
 // One recent-votes row. The plain-language gloss for a non-yes/no option
-// (see VOTE_OPTION_DISPLAY) is real information, but printing it on every
-// row unconditionally reads as clutter once a card has 5 of these stacked
-// — most residents scanning the list already read "Absent" as "wasn't
+// (see VOTE_OPTION_DISPLAY, and the shared gloss text it now points into,
+// src/lib/glossary.ts) is real information, but printing it on every row
+// unconditionally reads as clutter once a card has 5 of these stacked —
+// most residents scanning the list already read "Absent" as "wasn't
 // there" without help. Hidden by default, revealed on hover (the badge's
-// native `title` tooltip, free) or tap/click/keyboard (this component's
-// own toggle, since touch has no hover state to fall back on) — same
-// "info available on demand, not forced on everyone" shape as the rest of
-// this file's disclosure patterns. yes/no rows have no gloss at all, so
-// they stay a plain, non-interactive span exactly as before.
+// native `title` tooltip, via Gloss's own default) or tap/click/keyboard
+// (Gloss's toggle, since touch has no hover state to fall back on) — same
+// "info available on demand, not forced on everyone" shape as before,
+// generalized into Gloss.tsx per AGENTS.md §0.9. yes/no rows have no
+// glossaryKey at all, so they stay a plain, non-interactive span exactly
+// as before.
 function VoteRow({ vote, accent }: { vote: BillVote; accent: string }) {
   const display = voteOptionDisplay(vote.option);
-  const [showGloss, setShowGloss] = useState(false);
-  const glossId = display.gloss ? `vote-gloss-${vote.voteId}` : undefined;
+  const badgeClassName = "text-[10px] font-semibold uppercase tracking-wide px-1.5 py-0.5 rounded shrink-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-inset";
+  const badgeStyle = { color: display.color, backgroundColor: display.colorSoft };
 
   return (
     <li className="text-sm">
       <div className="flex items-start justify-between gap-2">
         <span className="font-medium text-ink">{vote.identifier}</span>
-        {display.gloss ? (
-          <button
-            type="button"
-            onClick={() => setShowGloss((shown) => !shown)}
-            aria-expanded={showGloss}
-            aria-describedby={glossId}
-            title={display.gloss}
-            className="text-[10px] font-semibold uppercase tracking-wide px-1.5 py-0.5 rounded shrink-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-inset"
-            style={{ color: display.color, backgroundColor: display.colorSoft }}
-          >
+        {display.glossaryKey ? (
+          <Gloss term={display.glossaryKey} className={badgeClassName} style={badgeStyle} glossClassName="block text-xs italic text-ink-3">
             {display.label}
-          </button>
+          </Gloss>
         ) : (
-          <span
-            className="text-[10px] font-semibold uppercase tracking-wide px-1.5 py-0.5 rounded shrink-0"
-            style={{ color: display.color, backgroundColor: display.colorSoft }}
-          >
+          <span className={badgeClassName} style={badgeStyle}>
             {display.label}
           </span>
         )}
       </div>
-      {display.gloss && showGloss && (
-        <div id={glossId} className="text-xs italic text-ink-3">
-          {display.gloss}
-        </div>
-      )}
       <div className="text-xs text-ink-3">{vote.title}</div>
       {vote.sourceUrl && (
         <a
