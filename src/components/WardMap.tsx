@@ -1743,6 +1743,23 @@ export default function WardMap() {
     return { ...officials, city, county };
   };
 
+  // State tier's own equivalent of filterHiddenCityOfficials above —
+  // `officials.state` can hold both a House and a Senate rep at once (0–2,
+  // per AreaOfficials's own comment), so a chamber going hidden needs to
+  // drop just that entry, not the whole panel. Missing before toggleChamber
+  // existed: the old exclusive switchChamber always deselected outright
+  // (correct then — the *other* chamber's entire layer vanished on every
+  // switch), so nothing needed a surgical filter. Once toggling became
+  // independent, that blanket deselect started firing on a toggle-*on* too
+  // (nothing hidden, panel closes anyway) and, on toggle-off, took the
+  // City/County sections down with it even when they had nothing to do
+  // with the chamber just hidden.
+  const filterHiddenChamberOfficials = (officials: AreaOfficials, visibility: Record<Chamber, boolean>): AreaOfficials => {
+    const state = officials.state.filter((rep) => rep.chamber === null || visibility[rep.chamber] !== false);
+    if (state.length === officials.state.length) return officials;
+    return { ...officials, state };
+  };
+
   // The single entry point every hover/click/pin-interaction now goes
   // through to populate the detail panel — resolves all three tiers
   // (city/county/state) at once for a map point, independent of which
@@ -1761,7 +1778,8 @@ export default function WardMap() {
       stateLeg: stateLegDataRef.current,
       atLargeBoundaries: atLargeBoundariesDataRef.current,
     };
-    return filterHiddenCityOfficials(resolveOfficialsAtPoint(point, sources, known), visibleCitiesRef.current);
+    const resolved = filterHiddenCityOfficials(resolveOfficialsAtPoint(point, sources, known), visibleCitiesRef.current);
+    return filterHiddenChamberOfficials(resolved, visibleChambersRef.current);
   };
 
   // The one path every click/tap/search-result selection runs through
@@ -2034,21 +2052,39 @@ export default function WardMap() {
     });
   };
 
-  // Independent checkbox toggle, same pattern as toggleCity above (minus
-  // that function's flyTo/officials-panel-refilter concerns — the state
-  // legislature panel doesn't filter its own tier by chamber the way city
-  // officials get filtered by visibleCities, so there's nothing here to
-  // re-run). Closes any open panel on toggle, same as the old exclusive
-  // switchChamber did, since a checked-off chamber's own selected district
-  // shouldn't stay pinned open once its pin/fill just disappeared.
+  // Independent checkbox toggle, same pattern as toggleCity above —
+  // including its selected-panel re-filter/close logic (via
+  // filterHiddenChamberOfficials), which an earlier version of this
+  // function skipped in favor of an unconditional setSelected(null)
+  // copied from the old exclusive switchChamber. That was correct there
+  // (switching chambers always made the *other* one's entire layer
+  // vanish) but wrong here: it closed the panel on toggle-*on* too (an
+  // additive change that hides nothing), and on toggle-off it took down
+  // City/County sections that had nothing to do with the chamber just
+  // hidden — AreaOfficials.state can hold a House and a Senate rep
+  // together in one panel, so hiding one chamber should drop just that
+  // entry, the same way a hidden city drops just its own City/County
+  // entries instead of closing everything.
   const toggleChamber = (c: Chamber) => {
     setVisibleChambers((prev) => {
       const next = { ...prev, [c]: !prev[c] };
       visibleChambersRef.current = next;
       applyChamberFilter(next);
+      if (!next[c] && selectedRef.current) {
+        const current = selectedRef.current;
+        const filtered = filterHiddenChamberOfficials(current.officials, next);
+        if (filtered !== current.officials) {
+          const allEmpty = filtered.city.length === 0 && filtered.county.length === 0 && filtered.state.length === 0;
+          if (allEmpty) {
+            deselect();
+          } else {
+            setSelected({ ...current, officials: filtered });
+            setAnnouncement(summarizeOfficials(filtered));
+          }
+        }
+      }
       return next;
     });
-    setSelected(null);
   };
 
   const switchMode = (mode: LayerMode) => {
