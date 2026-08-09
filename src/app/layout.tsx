@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import SiteHeader from "@/components/SiteHeader";
+import { SearchCoordinatorProvider } from "@/lib/searchCoordinator";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -58,11 +59,19 @@ export default function RootLayout({
             plus the search box popping in/out since only the map route
             passed a `search` prop. Hoisting it to the root layout makes it
             genuinely persistent chrome, the way AGENTS.md Part 4 assumes:
-            it survives navigation instead of being recreated by it. The
-            map route still supplies the search box via a portal into the
-            #site-search-slot node SiteHeader renders — see WardMap.tsx. */}
-        <SiteHeader />
-        <div className="min-h-0 flex-1">{children}</div>
+            it survives navigation instead of being recreated by it.
+            SiteHeader now renders the search box itself (SiteSearch.tsx)
+            rather than leaving an empty slot for WardMap to portal into —
+            2026-08-09's first pass fixed the header shell but left the
+            box itself WardMap-owned, so it still vanished on every route
+            but "/" (see AGENTS.md's LESSONS.md-style trail in
+            searchCoordinator.tsx for the follow-up). The provider below
+            is the seam that lets WardMap (mounted only on "/") still be
+            the thing that actually applies a selection to the map. */}
+        <SearchCoordinatorProvider>
+          <SiteHeader />
+          <div className="min-h-0 flex-1">{children}</div>
+        </SearchCoordinatorProvider>
       </body>
     </html>
   );

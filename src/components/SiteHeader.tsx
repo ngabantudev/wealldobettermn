@@ -1,5 +1,6 @@
 import Link from "next/link";
 import MastheadSaying from "./MastheadSaying";
+import SiteSearch from "./SiteSearch";
 
 // The site's only persistent chrome nav: Map (back to "/" from any of the
 // pages below), Bills, Sources, About, Privacy. Kept small — text links,
@@ -44,13 +45,17 @@ const NAV_LINKS: { href: string; label: string }[] = [
 // Dakota-name headline and this app has never adopted.
 // SiteHeader itself now lives in app/layout.tsx, rendered once and shared
 // across every route (see that file's comment) — it no longer takes a
-// `search` prop or knows which page mounted it. The address-search
-// combobox is still map-route-only content, though, so WardMap portals its
-// pre-built SearchBar into the #site-search-slot node below via
-// ReactDOM.createPortal rather than this component reaching into WardMap's
-// state. Hidden below `sm` (see the slot's own className); mobile mounts a
-// separate SearchBar instance inside MobileNav's Search tab instead, so an
-// empty slot here on mobile is expected, not a bug.
+// `search` prop or knows which page mounted it. It renders the address-
+// search combobox directly now (SiteSearch.tsx), rather than leaving an
+// empty #site-search-slot node for WardMap to portal into — that portal
+// approach meant the box only existed while WardMap did, i.e. only on
+// "/", which was the actual bug the 2026-08-09 "persistent chrome" fix
+// was supposed to close but didn't quite reach. SiteSearch reaches WardMap
+// through src/lib/searchCoordinator.tsx instead, so it works identically
+// whether or not the map route happens to be mounted. Hidden below `sm`
+// (see the wrapper's own className); mobile mounts a separate SearchBar
+// instance inside MobileNav's Search tab instead, so nothing rendering
+// here on mobile is expected, not a bug.
 export default function SiteHeader() {
   return (
     // `h-16`, a fixed height rather than one that grows with content: an
@@ -107,7 +112,9 @@ export default function SiteHeader() {
           mounted it), but only ever populated on the map route — WardMap
           portals its SearchBar in here and cleans up on unmount, so on
           every other route this stays an empty, invisible-by-CSS node. */}
-      <div id="site-search-slot" className="hidden min-w-0 flex-1 sm:flex sm:justify-center" />
+      <div className="hidden min-w-0 flex-1 sm:flex sm:justify-center">
+        <SiteSearch />
+      </div>
     </header>
   );
 }
