@@ -3464,21 +3464,33 @@ export default function WardMap() {
                 --positive, this codebase's "affirmative signal" color (used
                 for things like a successful vote outcome); spending it on a
                 full-bleed loud banner behind the word "Filters" made a
-                plain section label read as a call-to-action instead. Fixed
-                by de-loudening with this panel's own *neutral* tokens
-                instead of a new color — bg-panel-3 (the same recessed fill
-                the tab row/checkbox list already use below) for the bar,
-                a small icon badge instead of color-fill for emphasis, and
-                a modest text-sm/semibold label instead of 2xl/extrabold —
-                closer to mndatacenter.org's own restrained filter-sidebar
-                header. Still functionally the same "Filters" label for the
-                sidebar, still not dismissible (no close button — only
-                collapsible via the pull-tab outside it), still no border
-                under the bar (a prior pass added one; see git history) —
-                the fill-to-bg-panel-2 color change below is already the
+                plain section label read as a call-to-action instead. A
+                second pass then de-loudened it to a flat neutral gray
+                (bg-panel-3) instead.
+                This is a third pass: "band" — the same navy-field/Water-
+                Blue-accent flag treatment SiteHeader.tsx's masthead already
+                uses (globals.css's `.band` token overrides) — per the
+                user's own reference to mndatacenter.org's "dark slate
+                header with sky blue accents" on its own detail sidebar.
+                `.band` re-scopes the ordinary bg-panel-2/text-ink/text-
+                accent utilities below to Night Sky Blue / white / Water
+                Blue within this one subtree, so nothing here hardcodes a
+                new color — same mechanism WardModal.tsx's own title bar was
+                moved onto at the same time, so the two sidebars read as one
+                consistent (now navy, not gray) panel chrome again. Light-
+                mode only by design (falls back to the workspace's own
+                near-black in dark mode) — see `.band`'s own comment in
+                globals.css. Still functionally the same "Filters" label,
+                still not dismissible (no close button — only collapsible
+                via the pull-tab outside it), still no border under the bar
+                — the fill-to-bg-panel-2 color change below is already the
                 seam. */}
-            <div className="flex items-center gap-2 px-4 pt-2 pb-2 sm:pt-4 shrink-0 bg-panel-3 text-ink-2">
-              <span aria-hidden="true" className="flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-panel-2 text-ink-3">
+            <div className="band flex items-center gap-2 px-4 pt-2 pb-2 sm:pt-4 shrink-0 bg-panel text-ink">
+              {/* bg-accent-soft, not an ad-hoc opacity modifier — this
+                  codebase's own existing "accent at low opacity, for
+                  badges/fills" token (globals.css), reused here instead of
+                  inventing a one-off bg-accent/20. */}
+              <span aria-hidden="true" className="flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-accent-soft text-accent">
                 <IconSliders />
               </span>
               <h2 className="text-sm font-semibold uppercase tracking-wide">Filters</h2>
