@@ -40,7 +40,3 @@ export const JURISDICTIONS: readonly Jurisdiction[] = [
     coverage_tier: "C",
   },
 ] as const;
-
-export function getJurisdiction(id: string): Jurisdiction | undefined {
-  return JURISDICTIONS.find((j) => j.id === id);
-}

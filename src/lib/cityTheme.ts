@@ -143,23 +143,3 @@ export function partyColorSoft(party: string): string {
 // the app's own themed border-hair-strong instead).
 export const TIER_HEADER_BG = "#003865";
 export const TIER_HEADER_TEXT = "#FFFFFF";
-
-// The panel-level title bar color (WardModal's "Representatives for this
-// location" bar, and WardMap's matching left-sidebar "Map filters" bar),
-// in mn.gov's own accent green rather than its header navy — deliberately
-// a different color from the City/County/State tabs so the one panel
-// title reads as a distinct level from the tabs under it, not a fourth
-// tab. Same live-sourced value as the tier headers' original green
-// (mn.gov/portal/css/core.css's .btn-success/.label-success).
-//
-// Text color was picked by contrast ratio, not eyeballed: plain white
-// against this green is only ~2.3:1 (WCAG AA needs 4.5:1 for text this
-// size), plain black clears it at ~9.19:1 but reads flat/harsh against a
-// saturated brand color. This near-black, faintly green-tinted value
-// clears WCAG AAA (7:1, the stricter of the two standards) at ~7.9:1 while
-// still visually belonging to the same green rather than looking like an
-// unrelated black label dropped on top of it — the same "tint your dark
-// text toward the background hue instead of using pure black" move most
-// professional design systems make for text on a saturated color.
-export const PANEL_HEADER_BG = "#78BE21";
-export const PANEL_HEADER_TEXT = "#0B1A08";

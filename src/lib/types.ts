@@ -529,12 +529,6 @@ export interface JurisdictionPlatformRecord {
   coverageTier: CoverageTier;
 }
 
-export interface JurisdictionPlatformInventory {
-  schemaVersion: 1;
-  generatedAt: string;
-  jurisdictions: JurisdictionPlatformRecord[];
-}
-
 // --- Phase 6: meeting documents & agenda ingestion --------------------
 // (FEATURES.md's Phase 6 section.) scripts/ingest/agenda-documents.mjs
 // produces ArchivedDocument records; scripts/ingest/agenda-versions.mjs
