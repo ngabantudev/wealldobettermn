@@ -125,6 +125,72 @@ const CHAMBERS = ["house", "senate"] as const;
 type Chamber = (typeof CHAMBERS)[number];
 const CHAMBER_LABELS: Record<Chamber, string> = { house: "MN House", senate: "MN Senate" };
 
+// House/Senate as an independently-toggleable pill-button pair, not a
+// checkbox-row list. An earlier pass matched City/County's AreaFilterList
+// row treatment (checkbox + colored dot + label) for full visual
+// consistency across all three tabs, but that pattern is built for
+// scanning an open-ended set — search input, grouping, "n of m shown" —
+// none of which means anything for two fixed, always-known items, and the
+// colored dot had no real per-chamber hue to carry (unlike each city's
+// own accent). This keeps the pill look of the Government Level tabs
+// directly above it — Chamber is one level down from that switcher, not a
+// sibling of the 5-to-23-item City/County lists two panels away — while
+// fixing the actual bug that prompted the change: the old pair was
+// mutually exclusive (aria-pressed toggle here, not `active === mode`),
+// so a resident can now show both chambers at once, same as checking two
+// cities.
+function ChamberToggleButtons({
+  visibleChambers,
+  variant,
+  onToggleChamber,
+}: {
+  visibleChambers: Record<Chamber, boolean>;
+  variant: "floating" | "sidebar";
+  onToggleChamber: (chamber: Chamber) => void;
+}) {
+  return (
+    <div
+      role="group"
+      aria-label="Show or hide each chamber"
+      // Kept in sync by eye with filterGroupClass()/sidebarTabRowClass —
+      // both are plain closures over local WardMap state (TIER_HEADER_BG/
+      // TEXT aside) with nothing this module-scope component can import,
+      // same "hand-copy a short Tailwind string rather than thread it
+      // through props" call this file already makes for FlatList's own
+      // listClass split.
+      className={
+        variant === "floating"
+          ? "flex rounded-lg bg-panel-2/90 backdrop-blur-sm border border-hair shadow-lg shadow-(color:--shadow-panel) p-1 text-sm"
+          : "flex gap-1 rounded-lg bg-panel-3 p-1"
+      }
+    >
+      {CHAMBERS.map((c) => {
+        const active = visibleChambers[c];
+        return (
+          <button
+            key={c}
+            type="button"
+            aria-pressed={active}
+            onClick={() => onToggleChamber(c)}
+            className={
+              variant === "floating"
+                ? `flex-1 px-3 py-1.5 rounded-md font-medium transition-colors focus:outline-none focus-visible:ring-2 ${focusRingClass("floating")} ${
+                    active ? "bg-accent text-on-accent" : `text-ink-3 hover:text-ink ${rowHoverClass("floating")}`
+                  }`
+                : `flex-1 min-h-11 rounded-md px-2 py-2 text-center text-xs font-semibold uppercase tracking-wide transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-sidebar-accent ${
+                    active ? "" : "text-ink-3 hover:bg-sidebar-hover hover:text-ink"
+                  }`
+            }
+            style={variant === "sidebar" && active ? { backgroundColor: TIER_HEADER_BG, color: TIER_HEADER_TEXT } : undefined}
+          >
+            {CHAMBER_LABELS[c]}
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+
 // Desktop-only (sm+) — whether the left filters / right rep-detail
 // sidebar is collapsed to reclaim map width, modeled on mndatacenter.org's
 // own pull-tab sidebar toggle. "0"/"1" rather than JSON: a plain flag is
@@ -215,8 +281,8 @@ const MODE_LABELS: Record<LayerMode, string> = {
 };
 
 // Sidebar heading over the area checklist, one per mode that actually uses
-// it (state-legislature has its own "Chamber" heading instead — see the two
-// call sites below). Previously one bare "Areas shown" for both, which read
+// it (state-legislature has its own "Chambers Shown" heading instead — see
+// the two call sites below). Previously one bare "Areas shown" for both, which read
 // as ambiguous about what's actually being listed: wards mode's checklist is
 // cities, already grouped by county (AreaFilterList's GroupedList — see that
 // file), so "Cities by County" names the structure a resident already sees
@@ -1407,8 +1473,19 @@ export default function WardMap() {
   // in the DOM at once, one hidden via CSS per breakpoint, not
   // conditionally rendered.
   const [areaFilterQuery, setAreaFilterQuery] = useState("");
-  const [chamber, setChamber] = useState<Chamber>("house");
-  const chamberRef = useRef(chamber);
+  // Independent show/hide per chamber, same shape as visibleCities above —
+  // House and Senate used to be an exclusive either/or (a segmented-control
+  // pair, like the Government Level tabs above them), which meant the
+  // Chamber section didn't match the City/County tabs' own checkbox-list UI
+  // one level up and couldn't show both chambers at once the way a
+  // resident can already check multiple cities or counties. Senate only,
+  // checked by default — same "narrow first paint, one click away from
+  // more" reasoning as DEFAULT_VISIBLE_CITIES's Minneapolis/St. Paul
+  // default, just a product call for which single chamber opens checked
+  // rather than a performance one (there are only two items here, so
+  // starting both checked would cost nothing render-wise).
+  const [visibleChambers, setVisibleChambers] = useState<Record<Chamber, boolean>>(() => ({ house: false, senate: true }));
+  const visibleChambersRef = useRef(visibleChambers);
   // Sidebar collapse state — see LEFT_FILTERS_COLLAPSED_KEY's own comment.
   // Both default to false (expanded) here rather than reading storage in
   // the initializer, same SSR-safety reasoning as mapStyleId/siteTheme
@@ -1486,8 +1563,8 @@ export default function WardMap() {
   }, [visibleCities]);
 
   useEffect(() => {
-    chamberRef.current = chamber;
-  }, [chamber]);
+    visibleChambersRef.current = visibleChambers;
+  }, [visibleChambers]);
 
   useEffect(() => {
     layerModeRef.current = layerMode;
@@ -1667,6 +1744,23 @@ export default function WardMap() {
     return { ...officials, city, county };
   };
 
+  // State tier's own equivalent of filterHiddenCityOfficials above —
+  // `officials.state` can hold both a House and a Senate rep at once (0–2,
+  // per AreaOfficials's own comment), so a chamber going hidden needs to
+  // drop just that entry, not the whole panel. Missing before toggleChamber
+  // existed: the old exclusive switchChamber always deselected outright
+  // (correct then — the *other* chamber's entire layer vanished on every
+  // switch), so nothing needed a surgical filter. Once toggling became
+  // independent, that blanket deselect started firing on a toggle-*on* too
+  // (nothing hidden, panel closes anyway) and, on toggle-off, took the
+  // City/County sections down with it even when they had nothing to do
+  // with the chamber just hidden.
+  const filterHiddenChamberOfficials = (officials: AreaOfficials, visibility: Record<Chamber, boolean>): AreaOfficials => {
+    const state = officials.state.filter((rep) => rep.chamber === null || visibility[rep.chamber] !== false);
+    if (state.length === officials.state.length) return officials;
+    return { ...officials, state };
+  };
+
   // The single entry point every hover/click/pin-interaction now goes
   // through to populate the detail panel — resolves all three tiers
   // (city/county/state) at once for a map point, independent of which
@@ -1685,7 +1779,8 @@ export default function WardMap() {
       stateLeg: stateLegDataRef.current,
       atLargeBoundaries: atLargeBoundariesDataRef.current,
     };
-    return filterHiddenCityOfficials(resolveOfficialsAtPoint(point, sources, known), visibleCitiesRef.current);
+    const resolved = filterHiddenCityOfficials(resolveOfficialsAtPoint(point, sources, known), visibleCitiesRef.current);
+    return filterHiddenChamberOfficials(resolved, visibleChambersRef.current);
   };
 
   // The one path every click/tap/search-result selection runs through
@@ -1757,13 +1852,24 @@ export default function WardMap() {
   };
 
   // State legislature mode's equivalent of applyCityFilter above —
-  // districts are filtered by chamber (House/Senate) instead of by city,
-  // since a district doesn't cleanly belong to one Twin City the way a
-  // ward does.
-  const applyChamberFilter = (nextChamber: Chamber) => {
+  // districts are filtered by which chamber(s) are checked instead of by
+  // city, since a district doesn't cleanly belong to one Twin City the way
+  // a ward does. Takes the whole visibility map (like applyCityFilter),
+  // not one chamber — both House and Senate can be checked at once now.
+  const applyChamberFilter = (visible: Record<Chamber, boolean>) => {
     const map = mapRef.current;
+    const shownChambers = CHAMBERS.filter((c) => visible[c]);
     if (map) {
-      const filter = ["==", ["get", "chamber"], nextChamber] as unknown as maplibregl.FilterSpecification;
+      // Empty shownChambers (both unchecked) needs a filter that matches
+      // nothing rather than an empty ["in", ...] list, which MapLibre
+      // reads as "match anything" — same "explicit false, not an empty
+      // match-all" concern applyCityFilter's own filter construction
+      // guards against for the wards/commissioners layers.
+      const filter = (
+        shownChambers.length > 0
+          ? ["in", ["get", "chamber"], ["literal", shownChambers]]
+          : ["==", ["get", "chamber"], "__none__"]
+      ) as unknown as maplibregl.FilterSpecification;
       for (const layerId of [STATE_LEG_FILL_LAYER_ID, STATE_LEG_OUTLINE_LAYER_ID, STATE_LEG_LABEL_LAYER_ID]) {
         if (map.getLayer(layerId)) map.setFilter(layerId, filter);
       }
@@ -1772,7 +1878,7 @@ export default function WardMap() {
       }
     }
     // Chamber match alone isn't enough — without also checking the current
-    // mode, every House (or Senate) pin turns visible the moment this runs
+    // mode, every House/Senate pin turns visible the moment this runs
     // during setup, regardless of which top-level mode is actually active.
     // (applyLayerMode already gates state-legislature pins on chamber too,
     // but only runs on a mode *switch* — this is the one that has to hold
@@ -1781,12 +1887,13 @@ export default function WardMap() {
     for (const entry of pinMarkersRef.current) {
       const { marker, properties, mode } = entry;
       if (mode !== "state-legislature") continue;
-      const visible = showStateLegPins && properties.chamber === nextChamber;
-      marker.getElement().style.display = visible ? "" : "none";
+      const chamberVisible = properties.chamber !== null && visible[properties.chamber as Chamber];
+      const pinVisible = showStateLegPins && chamberVisible;
+      marker.getElement().style.display = pinVisible ? "" : "none";
       // See applyCityFilter's identical comment — resizePinsForZoom skips
       // hidden pins (issue #69), so a revealed pin needs an explicit
       // resync here or it stays stale until the next zoom event.
-      if (visible && map) syncPinGeometryForZoom(map, entry, map.getZoom());
+      if (pinVisible && map) syncPinGeometryForZoom(map, entry, map.getZoom());
     }
   };
 
@@ -1836,7 +1943,7 @@ export default function WardMap() {
       const visible =
         pinMode === mode &&
         (mode === "state-legislature"
-          ? properties.chamber === chamberRef.current
+          ? properties.chamber !== null && visibleChambersRef.current[properties.chamber as Chamber]
           : visibleCitiesRef.current[properties.city as City]);
       marker.getElement().style.display = visible ? "" : "none";
       // See applyCityFilter's identical comment — resizePinsForZoom skips
@@ -1946,11 +2053,39 @@ export default function WardMap() {
     });
   };
 
-  const switchChamber = (next: Chamber) => {
-    if (next === chamberRef.current) return;
-    setChamber(next);
-    setSelected(null);
-    applyChamberFilter(next);
+  // Independent checkbox toggle, same pattern as toggleCity above —
+  // including its selected-panel re-filter/close logic (via
+  // filterHiddenChamberOfficials), which an earlier version of this
+  // function skipped in favor of an unconditional setSelected(null)
+  // copied from the old exclusive switchChamber. That was correct there
+  // (switching chambers always made the *other* one's entire layer
+  // vanish) but wrong here: it closed the panel on toggle-*on* too (an
+  // additive change that hides nothing), and on toggle-off it took down
+  // City/County sections that had nothing to do with the chamber just
+  // hidden — AreaOfficials.state can hold a House and a Senate rep
+  // together in one panel, so hiding one chamber should drop just that
+  // entry, the same way a hidden city drops just its own City/County
+  // entries instead of closing everything.
+  const toggleChamber = (c: Chamber) => {
+    setVisibleChambers((prev) => {
+      const next = { ...prev, [c]: !prev[c] };
+      visibleChambersRef.current = next;
+      applyChamberFilter(next);
+      if (!next[c] && selectedRef.current) {
+        const current = selectedRef.current;
+        const filtered = filterHiddenChamberOfficials(current.officials, next);
+        if (filtered !== current.officials) {
+          const allEmpty = filtered.city.length === 0 && filtered.county.length === 0 && filtered.state.length === 0;
+          if (allEmpty) {
+            deselect();
+          } else {
+            setSelected({ ...current, officials: filtered });
+            setAnnouncement(summarizeOfficials(filtered));
+          }
+        }
+      }
+      return next;
+    });
   };
 
   const switchMode = (mode: LayerMode) => {
@@ -2706,9 +2841,14 @@ export default function WardMap() {
         paint: labelPaint,
       });
 
-      // Starts filtered to the default chamber (House) — switchChamber
-      // updates this filter, switchMode's visibility toggle is separate.
-      const defaultChamberFilter = ["==", ["get", "chamber"], chamberRef.current] as unknown as maplibregl.FilterSpecification;
+      // Starts filtered to both chambers (visibleChambers' own default) —
+      // toggleChamber updates this filter, switchMode's visibility toggle
+      // is separate.
+      const defaultChamberFilter = [
+        "in",
+        ["get", "chamber"],
+        ["literal", CHAMBERS.filter((c) => visibleChambersRef.current[c])],
+      ] as unknown as maplibregl.FilterSpecification;
       map.addLayer({
         id: STATE_LEG_FILL_LAYER_ID,
         type: "fill",
@@ -2786,14 +2926,15 @@ export default function WardMap() {
 
       applyCityFilter(visibleCitiesRef.current);
       // Mode/chamber can change via a click while these fetches were still
-      // in flight — setLayerMode/setChamber happened, but applyLayerMode/
-      // applyChamberFilter's map.getLayer() guards no-opped since these
-      // layers didn't exist yet. Re-apply whatever's current now that they
-      // do, rather than trusting each layer's just-added default state —
-      // also what keeps the current mode/city/chamber selection intact
-      // across a basemap swap, since switchBasemap calls this too.
+      // in flight — setLayerMode/setVisibleChambers happened, but
+      // applyLayerMode/applyChamberFilter's map.getLayer() guards no-opped
+      // since these layers didn't exist yet. Re-apply whatever's current
+      // now that they do, rather than trusting each layer's just-added
+      // default state — also what keeps the current mode/city/chamber
+      // selection intact across a basemap swap, since switchBasemap calls
+      // this too.
       applyLayerMode(layerModeRef.current);
-      applyChamberFilter(chamberRef.current);
+      applyChamberFilter(visibleChambersRef.current);
     };
 
     // Only animate if something's actually contested — with today's data
@@ -3414,7 +3555,7 @@ export default function WardMap() {
   // sidebarFilterControls (for the desktop left `<aside>` below) render
   // the same two groups but are written out separately rather than
   // shared through one JSX-returning helper: a helper closing over
-  // switchMode/switchChamber (both of which read a ref) and called twice
+  // switchMode/toggleChamber (both of which read a ref) and called twice
   // during this component's own render reads, to the react-hooks/refs
   // lint rule, as those refs being touched somewhere other than an event
   // handler — even though the buttons below only ever call them from
@@ -3449,27 +3590,14 @@ export default function WardMap() {
       </div>
 
       <div>
-        {layerMode === "state-legislature" && filterSectionLabel("floating", "Chamber")}
+        {layerMode === "state-legislature" && filterSectionLabel("floating", "Chambers Shown")}
         {layerMode === "state-legislature" ? (
           // A district doesn't cleanly belong to one Twin City, so this
-          // level filters by chamber instead of the Minneapolis/St. Paul
-          // checkboxes below — same toggle pattern as the mode switcher.
-          <div role="group" aria-label="Choose chamber" className={filterGroupClass()}>
-            {CHAMBERS.map((c) => (
-              <button
-                key={c}
-                type="button"
-                onClick={() => switchChamber(c)}
-                // See the Government Level buttons' own comment just above — same
-                // shared rowHoverClass/focusRingClass("floating") pair.
-                className={`px-3 py-1.5 rounded-md font-medium transition-colors focus:outline-none focus-visible:ring-2 ${focusRingClass("floating")} ${
-                  chamber === c ? "bg-accent text-on-accent" : `text-ink-3 hover:text-ink ${rowHoverClass("floating")}`
-                }`}
-              >
-                {CHAMBER_LABELS[c]}
-              </button>
-            ))}
-          </div>
+          // offers the two chambers instead of the Minneapolis/St. Paul
+          // checkboxes below — same pill-button look as the Government
+          // Level switcher just above, but each independently toggleable
+          // rather than exclusive (see ChamberToggleButtons's own comment).
+          <ChamberToggleButtons visibleChambers={visibleChambers} variant="floating" onToggleChamber={toggleChamber} />
         ) : (
           <AreaFilterList
             cities={MODE_VISIBLE_CITIES[layerMode]}
@@ -3531,32 +3659,23 @@ export default function WardMap() {
   //
   // Heading text is mode-specific (AREA_SECTION_LABEL above), not one bare
   // "Areas shown" for both wards and commissioners modes — that read as
-  // ambiguous about what the checklist below it actually lists. State-
-  // legislature keeps its own "Chamber" heading, a completely different
-  // control (chamber toggle, not a city/county checklist at all).
+  // ambiguous about what the checklist below it actually lists.
+  // State-legislature keeps its own "Chambers Shown" heading, with a
+  // pill-button pair below it (ChamberToggleButtons) rather than
+  // AreaFilterList's checkbox-row list — see that component's own comment
+  // for why the row/checkbox pattern was a thinner fit for two fixed
+  // items than it looked.
   const sidebarFilterControls = (
     <>
       <div>
         <div className="mb-1.5 flex items-center justify-between gap-2">
           {filterSectionLabel(
             "sidebar",
-            layerMode === "state-legislature" ? "Chamber" : AREA_SECTION_LABEL[layerMode],
+            layerMode === "state-legislature" ? "Chambers Shown" : AREA_SECTION_LABEL[layerMode],
           )}
         </div>
         {layerMode === "state-legislature" ? (
-          <div role="group" aria-label="Choose chamber" className={sidebarTabRowClass}>
-            {CHAMBERS.map((c) => (
-              <button
-                key={c}
-                type="button"
-                onClick={() => switchChamber(c)}
-                className={sidebarTabButtonClass(chamber === c)}
-                style={chamber === c ? { backgroundColor: TIER_HEADER_BG, color: TIER_HEADER_TEXT } : undefined}
-              >
-                {CHAMBER_LABELS[c]}
-              </button>
-            ))}
-          </div>
+          <ChamberToggleButtons visibleChambers={visibleChambers} variant="sidebar" onToggleChamber={toggleChamber} />
         ) : (
           <AreaFilterList
             cities={MODE_VISIBLE_CITIES[layerMode]}

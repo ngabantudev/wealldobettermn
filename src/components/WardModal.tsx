@@ -209,6 +209,18 @@ const CITY_MEETINGS_URL: Partial<Record<string, string>> = {
   "Coon Rapids": "https://www.coonrapidsmn.gov/572/Agendas-Minutes",
 };
 
+// State-chamber equivalent of CITY_MEETINGS_URL above — same honest-link
+// pattern (AGENTS.md §3.1: no fabricated feed, just a verified pointer to
+// the chamber's own calendar), keyed by rep.chamber rather than rep.city.
+// Neither chamber has a wired Legistar-style feed the way St. Paul/
+// Hennepin do, so this always falls through to the plain-link branch, not
+// the NextMeetingTeaserLine one — there is no NEXT_MEETING_TEASERS entry
+// for "house"/"senate" and none should be added until a real feed exists.
+const STATE_CHAMBER_MEETINGS_URL: Record<"house" | "senate", string> = {
+  house: "https://www.house.mn.gov/schedules/dayonfloor",
+  senate: "https://www.senate.mn/schedule/senate/upcoming-all",
+};
+
 // St. Paul's source data includes a "Councilmember " prefix in the name
 // field; the role/city label above already establishes that, so it's just
 // redundant text eating into the truncated name display.
@@ -819,6 +831,39 @@ function OfficialCard({ rep }: { rep: RepProperties }) {
             </summary>
             <div className="px-4 pb-3">
               <NextMeetingTeaserLine teaser={NEXT_MEETING_TEASERS[rep.county]} />
+            </div>
+          </details>
+        )}
+
+        {/* State-chamber equivalent of the City/County Meetings blocks
+            above (issue: state cards had no Meetings section at all,
+            unlike City/County). Same honest-link pattern as the City
+            block — always renders, no NextMeetingTeaserLine branch, since
+            neither chamber has a wired feed the way St. Paul/Hennepin do
+            (see STATE_CHAMBER_MEETINGS_URL's own comment). */}
+        {rep.chamber !== null && (
+          <details className="group border-t border-hair">
+            <summary className="flex list-none items-center justify-between gap-2 px-4 py-3 cursor-pointer select-none hover:bg-sidebar-hover [&::-webkit-details-marker]:hidden">
+              <span className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-ink-3">
+                <IconCalendar />
+                Meetings
+              </span>
+              <IconChevron />
+            </summary>
+            <div className="px-4 pb-3">
+              <p className="text-sm text-ink-3">
+                No meetings feed connected yet for the MN {rep.chamber === "house" ? "House" : "Senate"}.
+              </p>
+              <a
+                href={STATE_CHAMBER_MEETINGS_URL[rep.chamber]}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1 text-sm font-medium hover:underline mt-1"
+                style={{ color: accent }}
+              >
+                See the {rep.chamber === "house" ? "House" : "Senate"}&rsquo;s own schedule
+                <IconExternal />
+              </a>
             </div>
           </details>
         )}
