@@ -22,7 +22,8 @@
 // this component can't quietly say something the data no longer backs up.
 
 import { Info } from "lucide-react";
-import { useEffect, useId, useRef, useState } from "react";
+import { useCallback, useId, useState } from "react";
+import { useDismissable } from "@/hooks/useDismissable";
 import {
   CITY_BOUNDARIES_NOTE,
   COMMISSIONER_COUNTIES,
@@ -34,26 +35,13 @@ import {
 
 export default function CoverageNotice() {
   const [open, setOpen] = useState(false);
-  const rootRef = useRef<HTMLDivElement | null>(null);
   const panelId = useId();
 
-  // Click-outside and Escape both close it — same dismiss convention as
-  // every other popover in this app (MapThemeSelector's own).
-  useEffect(() => {
-    if (!open) return;
-    const onDocumentClick = (e: MouseEvent) => {
-      if (rootRef.current && !rootRef.current.contains(e.target as Node)) setOpen(false);
-    };
-    const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setOpen(false);
-    };
-    document.addEventListener("click", onDocumentClick);
-    document.addEventListener("keydown", onKeyDown);
-    return () => {
-      document.removeEventListener("click", onDocumentClick);
-      document.removeEventListener("keydown", onKeyDown);
-    };
-  }, [open]);
+  // Escape and outside-pointerdown both close it — shared with every other
+  // popover in this app now (see useDismissable.ts's own header comment for
+  // why this used to be three hand-rolled copies of the same effect).
+  const close = useCallback(() => setOpen(false), []);
+  const { rootRef } = useDismissable<HTMLDivElement>(open, close);
 
   return (
     <div ref={rootRef} className="relative shrink-0">

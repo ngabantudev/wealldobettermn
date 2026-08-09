@@ -18,7 +18,8 @@
 // wasn't worth avoiding a single popover click on a small screen, so the
 // mobile-only path was removed rather than kept in sync.
 
-import { useEffect, useId, useRef, useState } from "react";
+import { useCallback, useId, useState, type KeyboardEvent } from "react";
+import { useDismissable } from "@/hooks/useDismissable";
 import { MAP_STYLE_OPTIONS } from "@/lib/mapStyles";
 import type { SiteTheme } from "@/lib/siteTheme";
 
@@ -79,17 +80,62 @@ function IconCheck() {
   );
 }
 
+// Arrow-key navigation between options within one radiogroup — the one
+// piece of native `<input type="radio">` grouping behavior a *styled*
+// button group doesn't get for free (native radios move the OS's own
+// roving tab index and select-on-arrow automatically; these are plain
+// buttons, so both have to be done by hand). Deliberately small and
+// self-contained: Up/Left moves to the previous option, Down/Right to the
+// next, wrapping at either end, and — matching native radio-group
+// behavior, where arrowing between options also changes the selected
+// value, not just focus — immediately selects whatever it lands on via a
+// synthetic `.click()` rather than requiring a separate confirm step. Home/
+// End and typeahead (real ARIA `menu` obligations this popover doesn't
+// have now that it isn't one — see below) are deliberately NOT implemented:
+// two or a handful of options each is short enough that Home/End save
+// no real navigation over plain Arrow keys, and adding them here would be
+// exactly the kind of half-implemented menu-keyboard-model creep this fix
+// is undoing.
+function focusRadioSibling(container: HTMLElement, direction: 1 | -1) {
+  const radios = Array.from(container.querySelectorAll<HTMLButtonElement>('[role="radio"]'));
+  if (radios.length === 0) return;
+  const currentIndex = radios.findIndex((el) => el === document.activeElement);
+  const nextIndex = currentIndex === -1 ? 0 : (currentIndex + direction + radios.length) % radios.length;
+  const next = radios[nextIndex];
+  next.focus();
+  next.click();
+}
+
+function onRadioGroupKeyDown(e: KeyboardEvent<HTMLDivElement>) {
+  if (e.key === "ArrowDown" || e.key === "ArrowRight") {
+    e.preventDefault();
+    focusRadioSibling(e.currentTarget, 1);
+  } else if (e.key === "ArrowUp" || e.key === "ArrowLeft") {
+    e.preventDefault();
+    focusRadioSibling(e.currentTarget, -1);
+  }
+}
+
 // The two option groups themselves — Site Theme radiogroup, then Map Theme
-// list — split out from the popover chrome around them mostly for
+// radiogroup — split out from the popover chrome around them mostly for
 // readability at this point (the popover below is its only caller now
 // that MobileNav no longer has a Theme tab of its own). `onSelectMapStyle`
 // here is exactly the callback the caller passed in; the popover composes
 // its own close-on-pick behavior into it below.
+//
+// Both groups are `role="radiogroup"` with `role="radio"` children now —
+// the Map Theme list used to be `role="menuitemradio"` inside an outer
+// `role="menu"` panel, which obligates full ARIA menu keyboard semantics
+// (Up/Down/Home/End roving focus, focus-moves-into-the-menu-on-open,
+// typeahead) that were never actually implemented. A mutually-exclusive
+// settings list is exactly what `radiogroup` describes — no unmet menu
+// contract, and it already matches the Site Theme group right above it,
+// which was `radiogroup` from the start.
 function MapThemeOptions({ siteTheme, mapStyleId, onSelectSiteTheme, onSelectMapStyle }: MapThemeSelectorProps) {
   return (
     <>
       <span className="px-2 py-1 text-[9px] font-bold uppercase tracking-wider text-ink-4">Site Theme</span>
-      <div role="radiogroup" aria-label="Site theme" className="grid grid-cols-2 gap-1 px-1 pb-1.5">
+      <div role="radiogroup" aria-label="Site theme" onKeyDown={onRadioGroupKeyDown} className="grid grid-cols-2 gap-1 px-1 pb-1.5">
         {SITE_THEMES.map((option) => {
           const active = option.id === siteTheme;
           const Icon = option.id === "light" ? IconSun : IconMoon;
@@ -114,52 +160,41 @@ function MapThemeOptions({ siteTheme, mapStyleId, onSelectSiteTheme, onSelectMap
       <div className="mx-1 border-t border-hair" />
 
       <span className="px-2 py-1 text-[9px] font-bold uppercase tracking-wider text-ink-4">Map Theme</span>
-      {MAP_STYLE_OPTIONS.map((option) => {
-        const active = option.id === mapStyleId;
-        return (
-          <button
-            key={option.id}
-            type="button"
-            role="menuitemradio"
-            aria-checked={active}
-            onClick={() => onSelectMapStyle(option.id)}
-            className={`flex items-center justify-between gap-2 rounded-lg px-2 py-1.5 text-left text-[11px] md:text-xs font-semibold transition ${
-              active ? "bg-hover text-ink" : "text-ink-2 hover:bg-hover"
-            }`}
-          >
-            <span>{option.label}</span>
-            {active ? <IconCheck /> : <span className="h-3.5 w-3.5 shrink-0" />}
-          </button>
-        );
-      })}
+      <div role="radiogroup" aria-label="Map basemap style" onKeyDown={onRadioGroupKeyDown} className="flex flex-col gap-0.5">
+        {MAP_STYLE_OPTIONS.map((option) => {
+          const active = option.id === mapStyleId;
+          return (
+            <button
+              key={option.id}
+              type="button"
+              role="radio"
+              aria-checked={active}
+              onClick={() => onSelectMapStyle(option.id)}
+              className={`flex items-center justify-between gap-2 rounded-lg px-2 py-1.5 text-left text-[11px] md:text-xs font-semibold transition ${
+                active ? "bg-hover text-ink" : "text-ink-2 hover:bg-hover"
+              }`}
+            >
+              <span>{option.label}</span>
+              {active ? <IconCheck /> : <span className="h-3.5 w-3.5 shrink-0" />}
+            </button>
+          );
+        })}
+      </div>
     </>
   );
 }
 
 export default function MapThemeSelector({ siteTheme, mapStyleId, onSelectSiteTheme, onSelectMapStyle }: MapThemeSelectorProps) {
   const [open, setOpen] = useState(false);
-  const rootRef = useRef<HTMLDivElement | null>(null);
   const panelId = useId();
 
-  // Click-outside and Escape both close the popover, matching every other
-  // dismissible surface in this app (SearchBar's own listbox). Only
-  // registered while open — no listener sitting on `document` the rest of
-  // the time a resident isn't using this control.
-  useEffect(() => {
-    if (!open) return;
-    const onDocumentClick = (e: MouseEvent) => {
-      if (rootRef.current && !rootRef.current.contains(e.target as Node)) setOpen(false);
-    };
-    const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setOpen(false);
-    };
-    document.addEventListener("click", onDocumentClick);
-    document.addEventListener("keydown", onKeyDown);
-    return () => {
-      document.removeEventListener("click", onDocumentClick);
-      document.removeEventListener("keydown", onKeyDown);
-    };
-  }, [open]);
+  // Click-outside (well, outside-pointerdown — see the hook's own comment
+  // on why not `click`) and Escape both close the popover, matching every
+  // other dismissible surface in this app. Only active while `open`, per
+  // useDismissable's own `active` gate — no listener sitting on `document`
+  // the rest of the time a resident isn't using this control.
+  const close = useCallback(() => setOpen(false), []);
+  const { rootRef } = useDismissable<HTMLDivElement>(open, close);
 
   return (
     // Every breakpoint, same map corner — a plain flex child of WardMap's
@@ -192,7 +227,13 @@ export default function MapThemeSelector({ siteTheme, mapStyleId, onSelectSiteTh
       {open && (
         <div
           id={panelId}
-          role="menu"
+          // No role here — this panel wraps two independent radiogroups
+          // (Site Theme, Map Theme; see MapThemeOptions above), not one
+          // single list, so there's no single ARIA widget role that
+          // honestly describes the wrapper itself. It used to be
+          // `role="menu"` (with `role="menuitemradio"` children on the Map
+          // Theme list only), which asserted full ARIA menu semantics this
+          // popover never implemented — see MapThemeOptions's own comment.
           // Opens upward — the toggle sits at the bottom of the screen.
           // w-48 (not w-44): the longest option label, "Liberty (Google
           // Maps)", wrapped to two lines at w-44 — w-48 is also what
