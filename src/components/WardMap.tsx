@@ -189,7 +189,7 @@ const MODE_VISIBLE_CITIES: Record<LayerMode, readonly City[]> = {
 };
 
 // Which cities' wards are checked on first load, before a resident touches
-// the "Areas shown" checklist — every other covered city still renders (its
+// the "Cities by County" checklist — every other covered city still renders (its
 // checkbox is just unchecked to start), one click away via the checklist or
 // the "All" bulk toggle, not removed from the map. Minneapolis/St. Paul are
 // the core metro and this app's original two cities; defaulting to just
@@ -203,6 +203,21 @@ const MODE_LABELS: Record<LayerMode, string> = {
   wards: "City",
   commissioners: "County",
   "state-legislature": "State",
+};
+
+// Sidebar heading over the area checklist, one per mode that actually uses
+// it (state-legislature has its own "Chamber" heading instead — see the two
+// call sites below). Previously one bare "Areas shown" for both, which read
+// as ambiguous about what's actually being listed: wards mode's checklist is
+// cities, already grouped by county (AreaFilterList's GroupedList — see that
+// file), so "Cities by County" names the structure a resident already sees
+// on screen instead of a vaguer "area." Commissioners mode's checklist is
+// exactly two counties (Hennepin/Ramsey, via COMMISSIONER_LABEL_OVERRIDES
+// above) — "Counties Shown" says so plainly rather than calling a county an
+// "area" too.
+const AREA_SECTION_LABEL: Record<"wards" | "commissioners", string> = {
+  wards: "Cities by County",
+  commissioners: "Counties Shown",
 };
 
 // Plain-language copy for the "still in flight" notice (issue #71) — only
@@ -1668,7 +1683,7 @@ export default function WardMap() {
   };
 
   // Bulk sibling to toggleCity above, backing the "All"/"None" quick
-  // toggle next to the Areas shown checklist — sets every city currently
+  // toggle next to the area checklist (AREA_SECTION_LABEL) — sets every city currently
   // offered by this mode (MODE_VISIBLE_CITIES[layerMode], not the full
   // CITIES list) to the same visibility in one state update rather than
   // firing toggleCity in a loop, which would otherwise re-run
@@ -3283,11 +3298,20 @@ export default function WardMap() {
   // recessed fill under the tab row/checkbox list, not from a drawn
   // rectangle around the whole thing. The gap-5 on the padded content
   // column below does that spacing job between sections.
+  //
+  // Heading text is mode-specific (AREA_SECTION_LABEL above), not one bare
+  // "Areas shown" for both wards and commissioners modes — that read as
+  // ambiguous about what the checklist below it actually lists. State-
+  // legislature keeps its own "Chamber" heading, a completely different
+  // control (chamber toggle, not a city/county checklist at all).
   const sidebarFilterControls = (
     <>
       <div>
         <div className="mb-1.5 flex items-center justify-between gap-2">
-          {filterSectionLabel("sidebar", layerMode === "state-legislature" ? "Chamber" : "Areas shown")}
+          {filterSectionLabel(
+            "sidebar",
+            layerMode === "state-legislature" ? "Chamber" : AREA_SECTION_LABEL[layerMode],
+          )}
         </div>
         {layerMode === "state-legislature" ? (
           <div role="group" aria-label="Choose chamber" className={sidebarTabRowClass}>
