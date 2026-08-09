@@ -3613,7 +3613,7 @@ export default function WardMap() {
                 to state-legislature data specifically rather than claiming
                 freshness for every layer this sidebar filters. */}
             {dataLastVerifiedAt && (
-              <div className="shrink-0 border-t border-t-hair-strong px-4 py-3 text-center text-xs text-ink-3">
+              <div className="shrink-0 border-t border-t-hair-strong px-4 py-3 text-center text-[10px] text-ink-3">
                 Last updated {formatLastUpdated(dataLastVerifiedAt)}
               </div>
             )}
