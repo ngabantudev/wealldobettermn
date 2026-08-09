@@ -3626,11 +3626,11 @@ export default function WardMap() {
           aria-label="Representatives for this location"
           aria-hidden={rightDetailCollapsed}
           // Mirrors the left sidebar's contrast/edge/collapse treatment —
-          // see its own comment above — with the flag-blue accent moved
-          // to *this* sidebar's outer edge (the viewport's right edge)
-          // instead.
+          // see its own comment above. Used to also carry a flag-blue
+          // accent on this sidebar's own outer (viewport-right) edge,
+          // removed for the same reason the left one was.
           className={`hidden sm:flex shrink-0 flex-col overflow-x-hidden overflow-y-auto no-scrollbar bg-panel-2 font-sans transition-[width] duration-300 ease-out ${
-            rightDetailCollapsed ? "sm:w-0" : "sm:w-80 lg:w-96 border-l border-l-hair-strong border-r-[3px] border-r-sidebar-edge-accent"
+            rightDetailCollapsed ? "sm:w-0" : "sm:w-80 lg:w-96 border-l border-l-hair-strong"
           }`}
         >
           <div className="flex h-full w-80 shrink-0 flex-col lg:w-96">
