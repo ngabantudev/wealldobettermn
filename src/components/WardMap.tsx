@@ -3451,8 +3451,8 @@ export default function WardMap() {
                 // (the green Filters banner, the boxed county cards), so
                 // leaving this one in place would have been inconsistent
                 // with its own direction. globals.css's --sidebar-edge-
-                // accent token is left defined (unused here now) rather
-                // than deleted, in case a future call wants it back.
+                // accent token was removed entirely in a later cleanup
+                // pass once it had zero remaining usages.
                 "sm:w-64 lg:w-72 border-r border-r-hair-strong"
           }`}
         >
