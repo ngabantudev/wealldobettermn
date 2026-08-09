@@ -4,7 +4,7 @@ import { Check, Copy, Search, Vote } from "lucide-react";
 import { useId, useMemo, useState } from "react";
 import type { AddressGazetteerManifest, AddressIndex, MnPlaces, WardRef } from "@/lib/types";
 import { CITIES, COUNTIES, COUNTY_CITIES, type City, type County } from "@/lib/cities";
-import { parseQuery, resolve, suggestStreetsForHouseNumber, type SearchOutcome } from "@/lib/addressSearch";
+import { fold, parseQuery, resolve, suggestStreetsForHouseNumber, type SearchOutcome } from "@/lib/addressSearch";
 import { suggestStreetNamesFromManifest } from "@/lib/addressGazetteer";
 import { useAddressChunkLoader } from "@/lib/addressChunks";
 import CoverageNotice from "./CoverageNotice";
@@ -65,15 +65,24 @@ function buildSuggestions(
   const trimmed = rawQuery.trim();
   if (!trimmed) return [];
   const upper = trimmed.toUpperCase();
+  // fold() (addressSearch.ts) folds "SAINT" and "ST"/"ST." to the same
+  // "ST" token, so prefix-matching the folded forms lets "Saint" find
+  // "St. Paul" and "St" find "Saint Paul" — both spellings are correct
+  // without growing CITIES/COUNTIES into a spelling table. Plain
+  // upper.startsWith below is kept alongside this so a mid-word prefix
+  // like "St. P" (not a whole "SAINT"/"ST" token) still matches the way
+  // it always has.
+  const foldedQuery = fold(trimmed);
   const items: Suggestion[] = [];
   const coveredCities = new Set<string>(CITIES.map((c) => c.toUpperCase()));
   const coveredCounties = new Set<string>(COUNTIES.map((c) => c.toUpperCase()));
+  const matchesName = (name: string) => name.toUpperCase().startsWith(upper) || fold(name).startsWith(foldedQuery);
 
   for (const city of CITIES) {
-    if (city.toUpperCase().startsWith(upper)) items.push({ kind: "city", label: city, city });
+    if (matchesName(city)) items.push({ kind: "city", label: city, city });
   }
   for (const county of COUNTIES) {
-    if (`${county.toUpperCase()} COUNTY`.startsWith(upper) || county.toUpperCase().startsWith(upper)) {
+    if (matchesName(`${county} County`) || matchesName(county)) {
       items.push({ kind: "county", label: `${county} County`, county });
     }
   }
@@ -83,13 +92,13 @@ function buildSuggestions(
   if (allPlaces) {
     for (const city of allPlaces.cities) {
       if (coveredCities.has(city.toUpperCase())) continue; // already suggested above
-      if (city.toUpperCase().startsWith(upper)) {
+      if (matchesName(city)) {
         items.push({ kind: "uncovered-place", label: `${city} (not mapped yet)`, name: city, placeType: "city" });
       }
     }
     for (const county of allPlaces.counties) {
       if (coveredCounties.has(county.toUpperCase())) continue;
-      if (`${county.toUpperCase()} COUNTY`.startsWith(upper) || county.toUpperCase().startsWith(upper)) {
+      if (matchesName(`${county} County`) || matchesName(county)) {
         items.push({
           kind: "uncovered-place",
           label: `${county} County (not mapped yet)`,

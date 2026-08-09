@@ -71,7 +71,10 @@ export type SearchOutcome =
 // A person might type "Saint Paul" or "St Paul" for what CITIES spells
 // "St. Paul" — fold punctuation/case away and accept a couple of common
 // spellings, rather than growing CITIES itself into a matching table.
-function fold(s: string): string {
+// Exported so SearchBar.tsx can reuse the same normalization for live
+// typeahead prefix-matching ("St" finding "Saint Paul" and vice versa),
+// not just this file's own exact-match resolution.
+export function fold(s: string): string {
   return s
     .toUpperCase()
     .replace(/\bSAINT\b/g, "ST")
