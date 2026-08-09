@@ -19,10 +19,10 @@
 //     in spirit from what WardMap.tsx used to render inline.
 //   - grouped=true (wards mode's ~23 cities): cities grouped by county
 //     (buildCityGroups, src/lib/cityGroups.ts) under collapsible
-//     <details>/<summary> headers, each with its own All/None, plus one
-//     top-level "Clear all." The old top-level "All" is retired here on
-//     purpose — checking every city statewide in one click is the exact
-//     performance foot-gun this component exists to avoid encouraging.
+//     <details>/<summary> headers, each with its own All/None switch, plus
+//     one top-level All/None switch spanning every county at once — same
+//     switch component and visual treatment as the per-county ones, just
+//     scoped to the full `cities` prop instead of one group.
 //
 // The filter-query text itself is NOT local state here — it's owned by
 // WardMap.tsx (query/onQueryChange props) so the floating (mobile sheet)
@@ -101,11 +101,12 @@ function edgeToEdgeClass(variant: "floating" | "sidebar"): string {
 // convention: clicking a partially-checked control always completes it to
 // fully-checked, never fully-unchecked).
 //
-// The lone "Clear all" call site (grouped mode's top-level bulk control,
-// where a global "All" was deliberately retired — see AreaFilterList's
-// own header comment on why) has no "All" side to switch to, so it isn't
-// a switch at all — just a plain text action, same underlined-link
-// treatment this whole control used to have everywhere.
+// Every call site — the flat list's own All/None, each county's own
+// All/None, and the grouped list's top-level all-counties All/None —
+// renders the same real switch below. `onAll`/`allLabel` are optional only
+// so a future caller with a genuine one-way action (no "All" side to
+// switch to) can still reuse this as a plain text button; nothing in this
+// file currently takes that branch.
 function BulkToggleButtons({
   variant,
   onAll,
@@ -500,8 +501,10 @@ export default function AreaFilterList({
         {grouped && (
           <BulkToggleButtons
             variant={variant}
+            onAll={() => onSetCitiesVisible(cities, true)}
+            allLabel="All"
             onNone={() => onSetCitiesVisible(cities, false)}
-            groupLabel="Hide all areas"
+            groupLabel="Show or hide all areas"
             checkedCount={checkedCount}
             totalCount={totalCount}
           />
