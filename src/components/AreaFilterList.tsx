@@ -74,11 +74,7 @@ function fold(s: string): string {
 // variant doesn't need this: its own box (FlatList/GroupedList's `border
 // border-hair` wrapper) has no such outer padding, so a row's own px-3
 // already reaches that box's real edge.
-// Exported for WardMap.tsx's own Chamber checklist (House/Senate) — that
-// control isn't a City, so it can't just call into FlatList/CityRow below
-// (both typed to City), but it wants the exact same row/edge treatment
-// rather than a third hand-rolled variant of this same spacing rule.
-export function edgeToEdgeClass(variant: "floating" | "sidebar"): string {
+function edgeToEdgeClass(variant: "floating" | "sidebar"): string {
   return variant === "sidebar" ? "-mx-4 px-4" : "px-3";
 }
 

@@ -31,7 +31,7 @@ import {
 import { getActiveTheme, setTheme, type SiteTheme } from "@/lib/siteTheme";
 import { readStored, writeStored } from "@/lib/storage";
 import { focusRingClass, rowHoverClass } from "@/lib/variantClasses";
-import AreaFilterList, { edgeToEdgeClass } from "./AreaFilterList";
+import AreaFilterList from "./AreaFilterList";
 import MapThemeSelector from "./MapThemeSelector";
 import MobileNav, { IconSearch, IconSliders, type MobileNavTab } from "./MobileNav";
 import SearchBar from "./SearchBar";
@@ -125,43 +125,21 @@ const CHAMBERS = ["house", "senate"] as const;
 type Chamber = (typeof CHAMBERS)[number];
 const CHAMBER_LABELS: Record<Chamber, string> = { house: "MN House", senate: "MN Senate" };
 
-// The Chamber checklist's own City/County tab equivalent — House and
-// Senate used to be a two-button segmented control (an exclusive either/
-// or, same widget as the Government Level tabs above it), which read as
-// its own thing rather than matching the City tab's "Cities by County"
-// checklist or the County tab's own flat county checklist one control
-// down. This renders the same row markup AreaFilterList's FlatList/
-// CityRow use — checkbox + colored dot + label, divide-y list, no
-// grouping (there's nothing to group two chambers by, same as County
-// tab's own flat list) — so State's Chamber section looks and behaves
-// like the other two tabs' own checklists instead of a bespoke control.
-// A hand-rolled two-row list rather than reusing FlatList/CityRow
-// directly: both are typed to City (src/lib/cities.ts), and genericizing
-// them for a second, unrelated string union wasn't worth it for a
-// two-item list.
-function ChamberRow({
-  chamber,
-  checked,
-  variant,
-  onToggle,
-}: {
-  chamber: Chamber;
-  checked: boolean;
-  variant: "floating" | "sidebar";
-  onToggle: () => void;
-}) {
-  return (
-    <label
-      className={`flex items-center gap-2 ${edgeToEdgeClass(variant)} py-2.5 sm:py-1.5 cursor-pointer select-none ${rowHoverClass(variant)}`}
-    >
-      <input type="checkbox" checked={checked} onChange={onToggle} className="cursor-pointer accent-accent" />
-      <span aria-hidden="true" className="h-2.5 w-2.5 rounded-full shrink-0 bg-ink-4" />
-      {CHAMBER_LABELS[chamber]}
-    </label>
-  );
-}
-
-function ChamberChecklist({
+// House/Senate as an independently-toggleable pill-button pair, not a
+// checkbox-row list. An earlier pass matched City/County's AreaFilterList
+// row treatment (checkbox + colored dot + label) for full visual
+// consistency across all three tabs, but that pattern is built for
+// scanning an open-ended set — search input, grouping, "n of m shown" —
+// none of which means anything for two fixed, always-known items, and the
+// colored dot had no real per-chamber hue to carry (unlike each city's
+// own accent). This keeps the pill look of the Government Level tabs
+// directly above it — Chamber is one level down from that switcher, not a
+// sibling of the 5-to-23-item City/County lists two panels away — while
+// fixing the actual bug that prompted the change: the old pair was
+// mutually exclusive (aria-pressed toggle here, not `active === mode`),
+// so a resident can now show both chambers at once, same as checking two
+// cities.
+function ChamberToggleButtons({
   visibleChambers,
   variant,
   onToggleChamber,
@@ -170,20 +148,45 @@ function ChamberChecklist({
   variant: "floating" | "sidebar";
   onToggleChamber: (chamber: Chamber) => void;
 }) {
-  // Same listClass split FlatList uses (its own comment explains the
-  // sidebar-vs-floating difference: a legible boxed edge over the map for
-  // floating, a flat recessed list matching the rest of the sidebar panel
-  // for sidebar) — kept in sync by eye with that component's classes
-  // rather than importing it, since both are short, plain Tailwind strings.
-  const listClass =
-    variant === "floating"
-      ? "max-h-[45vh] overflow-y-auto rounded-lg bg-panel-2/90 backdrop-blur-sm border border-hair shadow-lg shadow-(color:--shadow-panel) divide-y divide-hair text-sm text-ink-2"
-      : "divide-y divide-hair border-t border-hair text-sm text-ink-2";
   return (
-    <div role="group" aria-label="Filter by chamber" className={listClass}>
-      {CHAMBERS.map((c) => (
-        <ChamberRow key={c} chamber={c} checked={visibleChambers[c]} variant={variant} onToggle={() => onToggleChamber(c)} />
-      ))}
+    <div
+      role="group"
+      aria-label="Show or hide each chamber"
+      // Kept in sync by eye with filterGroupClass()/sidebarTabRowClass —
+      // both are plain closures over local WardMap state (TIER_HEADER_BG/
+      // TEXT aside) with nothing this module-scope component can import,
+      // same "hand-copy a short Tailwind string rather than thread it
+      // through props" call this file already makes for FlatList's own
+      // listClass split.
+      className={
+        variant === "floating"
+          ? "flex rounded-lg bg-panel-2/90 backdrop-blur-sm border border-hair shadow-lg shadow-(color:--shadow-panel) p-1 text-sm"
+          : "flex gap-1 rounded-lg bg-panel-3 p-1"
+      }
+    >
+      {CHAMBERS.map((c) => {
+        const active = visibleChambers[c];
+        return (
+          <button
+            key={c}
+            type="button"
+            aria-pressed={active}
+            onClick={() => onToggleChamber(c)}
+            className={
+              variant === "floating"
+                ? `flex-1 px-3 py-1.5 rounded-md font-medium transition-colors focus:outline-none focus-visible:ring-2 ${focusRingClass("floating")} ${
+                    active ? "bg-accent text-on-accent" : `text-ink-3 hover:text-ink ${rowHoverClass("floating")}`
+                  }`
+                : `flex-1 min-h-11 rounded-md px-2 py-2 text-center text-xs font-semibold uppercase tracking-wide transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-sidebar-accent ${
+                    active ? "" : "text-ink-3 hover:bg-sidebar-hover hover:text-ink"
+                  }`
+            }
+            style={variant === "sidebar" && active ? { backgroundColor: TIER_HEADER_BG, color: TIER_HEADER_TEXT } : undefined}
+          >
+            {CHAMBER_LABELS[c]}
+          </button>
+        );
+      })}
     </div>
   );
 }
@@ -3553,11 +3556,11 @@ export default function WardMap() {
         {layerMode === "state-legislature" && filterSectionLabel("floating", "Chambers Shown")}
         {layerMode === "state-legislature" ? (
           // A district doesn't cleanly belong to one Twin City, so this
-          // checklist offers the two chambers instead of the Minneapolis/
-          // St. Paul checkboxes below — same checkbox-row pattern as the
-          // City/County tabs' own AreaFilterList, not the mode-switcher's
-          // segmented-control buttons (see ChamberChecklist's own comment).
-          <ChamberChecklist visibleChambers={visibleChambers} variant="floating" onToggleChamber={toggleChamber} />
+          // offers the two chambers instead of the Minneapolis/St. Paul
+          // checkboxes below — same pill-button look as the Government
+          // Level switcher just above, but each independently toggleable
+          // rather than exclusive (see ChamberToggleButtons's own comment).
+          <ChamberToggleButtons visibleChambers={visibleChambers} variant="floating" onToggleChamber={toggleChamber} />
         ) : (
           <AreaFilterList
             cities={MODE_VISIBLE_CITIES[layerMode]}
@@ -3620,11 +3623,11 @@ export default function WardMap() {
   // Heading text is mode-specific (AREA_SECTION_LABEL above), not one bare
   // "Areas shown" for both wards and commissioners modes — that read as
   // ambiguous about what the checklist below it actually lists.
-  // State-legislature keeps its own "Chambers Shown" heading, but the
-  // control itself is now the same independent-checkbox-list pattern as
-  // the other two tabs' own AreaFilterList (see ChamberChecklist's own
-  // comment for why it's a hand-rolled sibling rather than AreaFilterList
-  // itself).
+  // State-legislature keeps its own "Chambers Shown" heading, with a
+  // pill-button pair below it (ChamberToggleButtons) rather than
+  // AreaFilterList's checkbox-row list — see that component's own comment
+  // for why the row/checkbox pattern was a thinner fit for two fixed
+  // items than it looked.
   const sidebarFilterControls = (
     <>
       <div>
@@ -3635,7 +3638,7 @@ export default function WardMap() {
           )}
         </div>
         {layerMode === "state-legislature" ? (
-          <ChamberChecklist visibleChambers={visibleChambers} variant="sidebar" onToggleChamber={toggleChamber} />
+          <ChamberToggleButtons visibleChambers={visibleChambers} variant="sidebar" onToggleChamber={toggleChamber} />
         ) : (
           <AreaFilterList
             cities={MODE_VISIBLE_CITIES[layerMode]}
