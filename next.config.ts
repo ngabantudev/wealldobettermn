@@ -1,5 +1,5 @@
 import type { NextConfig } from "next";
-import { PHASE_PRODUCTION_BUILD } from "next/constants";
+import { PHASE_DEVELOPMENT_SERVER, PHASE_PRODUCTION_BUILD } from "next/constants";
 import { readFileSync } from "node:fs";
 import path from "node:path";
 
@@ -81,7 +81,26 @@ export default async function config(phase: string): Promise<NextConfig> {
   if (phase === PHASE_PRODUCTION_BUILD) {
     await validateStateLegislatureFreshnessAtBuildTime();
   }
+  if (phase === PHASE_DEVELOPMENT_SERVER) {
+    // Wires up local binding proxying (D1, AI, etc.) for `next dev` only —
+    // per @opennextjs/cloudflare's own doc comment, this is for
+    // integrating "the local Next.js dev server... with the open-next
+    // Cloudflare adapter," not something a build needs. It used to run
+    // unconditionally at module scope (no `phase` check at all), which
+    // meant `next build` tried it too — harmless for bindings with local
+    // emulation (D1), but the AI binding has none (Workers AI is always
+    // "remote", confirmed by `wrangler dev`'s own bindings table), so
+    // every plain `next build` — including CI's, which deliberately never
+    // sets CLOUDFLARE_API_TOKEN (see ci.yml's own comment on why: deploys
+    // here are Cloudflare Workers Builds, not GitHub Actions, and this
+    // repo's build has never needed live Cloudflare credentials before)
+    // — started failing outright trying to "start the remote proxy
+    // session." Gating this to PHASE_DEVELOPMENT_SERVER restores AGENTS.md
+    // §0.8's "the build must succeed with every upstream API unreachable"
+    // for `next build`/CI, while `next dev` still gets real binding
+    // proxying against the maintainer's own authenticated wrangler session.
+    const { initOpenNextCloudflareForDev } = await import("@opennextjs/cloudflare");
+    await initOpenNextCloudflareForDev();
+  }
   return nextConfig;
 }
-
-import('@opennextjs/cloudflare').then(m => m.initOpenNextCloudflareForDev());
