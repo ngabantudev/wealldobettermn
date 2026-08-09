@@ -13,8 +13,6 @@ import {
   partyColorSoft,
   TIER_HEADER_BG,
   TIER_HEADER_TEXT,
-  PANEL_HEADER_BG,
-  PANEL_HEADER_TEXT,
 } from "@/lib/cityTheme";
 import { isStale } from "@/lib/electionConfig";
 // Tiny (few-hundred-byte) bundler-resolved JSON imports — not the full
@@ -1178,21 +1176,28 @@ export default function WardModal({
       </div>
 
       {/* No border under the header fill (a prior pass added one; see git
-          history) — the color change from PANEL_HEADER_BG down to the
-          panel's own background is already the seam, matching
-          mndatacenter.org's flatter chrome and WardMap.tsx's left
-          "Filters" sidebar header, which dropped the same line for the
-          same reason. */}
-      <div
-        className="flex items-center justify-between gap-2 px-4 pt-2 pb-2 sm:pt-4 shrink-0"
-        style={{ backgroundColor: PANEL_HEADER_BG, color: PANEL_HEADER_TEXT }}
-      >
+          history) — the color change from the header down to the panel's
+          own background is already the seam, matching mndatacenter.org's
+          flatter chrome.
+          "band" — same navy-field/Water-Blue-accent flag treatment
+          SiteHeader.tsx's masthead already uses (globals.css's `.band`
+          token overrides), applied here per the user's own reference to
+          mndatacenter.org's "dark slate header with sky blue accents" on
+          its own detail sidebar. Used to be a flat PANEL_HEADER_BG green
+          fill (cityTheme.ts) instead — that color is this codebase's
+          documented "affirmative signal" token, spent on a static title
+          bar rather than an actual affirmative state; walked back here for
+          the same reason WardMap.tsx's left "Filters" header moved off it.
+          `.band` is light-mode only by design (falls back to the
+          workspace's own near-black in dark mode, matching SiteHeader) —
+          see that class's own comment in globals.css. */}
+      <div className="band flex items-center justify-between gap-2 px-4 pt-2 pb-2 sm:pt-4 shrink-0 bg-panel text-ink">
         <h2 className="text-2xl font-extrabold">{panelHeading(officials, hoveredCityName)}</h2>
         <button
           type="button"
           onClick={onClose}
           aria-label="Close"
-          className="shrink-0 -mr-1 h-9 w-9 flex items-center justify-center rounded-full hover:bg-black/10 active:bg-black/15 focus:outline-none focus-visible:ring-2 focus-visible:ring-inset"
+          className="shrink-0 -mr-1 h-9 w-9 flex items-center justify-center rounded-full hover:bg-black/10 active:bg-black/15 focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent"
         >
           <svg viewBox="0 0 20 20" fill="none" className="h-4 w-4">
             <path d="m5 5 10 10M15 5 5 15" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" />

@@ -32,6 +32,7 @@
 import { useState } from "react";
 import type { City, County } from "@/lib/cities";
 import { buildCityGroups, matchesCityQuery } from "@/lib/cityGroups";
+import { focusRingClass, rowHoverClass } from "@/lib/variantClasses";
 
 export interface AreaFilterListProps {
   // The full set of cities this list can ever offer — MODE_VISIBLE_CITIES
@@ -60,50 +61,110 @@ function fold(s: string): string {
   return s.trim().toLowerCase();
 }
 
-const rowHoverClass = (variant: "floating" | "sidebar") => (variant === "sidebar" ? "hover:bg-sidebar-hover" : "hover:bg-hover");
-const focusRingClass = (variant: "floating" | "sidebar") =>
-  variant === "sidebar" ? "focus-visible:ring-sidebar-accent" : "focus-visible:ring-accent";
+// Lets each interactive row's own hover fill reach the actual left/right
+// edge of the sidebar `<aside>`, edge-to-edge — matching mndatacenter.org's
+// own filter rows, where the highlight spans the full panel width, not just
+// the row's own inset box. The sidebar variant's rows render inside
+// WardMap.tsx's padded content column (`px-4 py-5` on the `<aside>`'s inner
+// wrapper — see that file's own comment on it) — the row itself needs a
+// negative margin exactly matching that padding to "break out" of it before
+// re-applying the same amount as its own padding, or the hover fill would
+// stop at the row's box, inset from the aside's real edge. The floating
+// variant doesn't need this: its own box (FlatList/GroupedList's `border
+// border-hair` wrapper) has no such outer padding, so a row's own px-3
+// already reaches that box's real edge.
+function edgeToEdgeClass(variant: "floating" | "sidebar"): string {
+  return variant === "sidebar" ? "-mx-4 px-4" : "px-3";
+}
 
+// iOS/macOS-style switch for All/None — "None" / "All" flank a single
+// sliding pill, rather than two separate action buttons. This is a real
+// binary switch, not a segmented control: `role="switch"` + `aria-checked`,
+// one knob, one track. "On" (checked) means every city this control
+// governs is currently visible — the track fills --positive (this
+// codebase's own "affirmative signal" color, globals.css — its first
+// genuinely correct use in this sidebar; a prior pass had spent it on a
+// static banner instead, which is what got walked back) and the knob
+// slides to the "All" side. Anything short of fully-on — nothing shown,
+// or a mixed state, some cities checked and others not — reads as "off":
+// the track uses --sidebar-hover, vetted to clear WCAG 1.4.11's 3:1
+// against every surface this switch can sit on (see that token's own
+// comment in globals.css). Unlike a transient hover fill (see
+// rowHoverClass's own comment in variantClasses.ts on why *that* can be
+// lighter), this track is a permanently-visible UI boundary whenever the
+// switch is off, not a mouse-only affordance — it needs the stronger,
+// always-legible value on its own merits. The knob sits at the "None"
+// side when off. A mixed state has no honest "half on"
+// rendering on a real switch, so it collapses to "off" — clicking from
+// there turns everything *on* (matches the common "select all" tri-state
+// convention: clicking a partially-checked control always completes it to
+// fully-checked, never fully-unchecked).
+//
+// The lone "Clear all" call site (grouped mode's top-level bulk control,
+// where a global "All" was deliberately retired — see AreaFilterList's
+// own header comment on why) has no "All" side to switch to, so it isn't
+// a switch at all — just a plain text action, same underlined-link
+// treatment this whole control used to have everywhere.
 function BulkToggleButtons({
   variant,
   onAll,
   onNone,
   allLabel,
   groupLabel,
+  checkedCount,
+  totalCount,
 }: {
   variant: "floating" | "sidebar";
   onAll?: () => void;
   onNone: () => void;
   allLabel?: string;
   groupLabel: string;
+  checkedCount: number;
+  totalCount: number;
 }) {
-  return (
-    <div
-      role="group"
-      aria-label={groupLabel}
-      className="flex items-center gap-1 text-[11px] font-semibold uppercase tracking-wide"
-    >
-      {onAll && allLabel ? (
-        <>
-          <button
-            type="button"
-            onClick={onAll}
-            className={`rounded px-1.5 py-1 text-ink-3 transition-colors hover:text-ink focus:outline-none focus-visible:ring-2 ${rowHoverClass(variant)} ${focusRingClass(variant)}`}
-          >
-            {allLabel}
-          </button>
-          <span aria-hidden="true" className="text-ink-3">
-            /
-          </span>
-        </>
-      ) : null}
+  if (!onAll || !allLabel) {
+    return (
       <button
         type="button"
         onClick={onNone}
-        className={`rounded px-1.5 py-1 text-ink-3 transition-colors hover:text-ink focus:outline-none focus-visible:ring-2 ${rowHoverClass(variant)} ${focusRingClass(variant)}`}
+        className={`rounded underline decoration-hair-strong underline-offset-2 text-[11px] font-medium uppercase tracking-wide text-ink-3 transition-colors hover:text-ink hover:decoration-current focus:outline-none focus-visible:ring-2 ${focusRingClass(variant)}`}
       >
-        {onAll ? "None" : "Clear all"}
+        Clear all
       </button>
+    );
+  }
+
+  const allOn = totalCount > 0 && checkedCount === totalCount;
+  const sideLabelClass = (active: boolean) => `text-[10px] font-semibold uppercase tracking-wide ${active ? "text-ink" : "text-ink-4"}`;
+
+  return (
+    <div className="inline-flex items-center gap-1.5" role="group" aria-label={groupLabel}>
+      <span aria-hidden="true" className={sideLabelClass(!allOn)}>
+        None
+      </span>
+      <button
+        type="button"
+        role="switch"
+        aria-checked={allOn}
+        aria-label={groupLabel}
+        onClick={allOn ? onNone : onAll}
+        className={`relative inline-flex h-5 w-9 shrink-0 items-center rounded-full transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-1 ${focusRingClass(variant)} ${
+          allOn ? "bg-positive" : "bg-sidebar-hover"
+        }`}
+      >
+        {/* A literal white knob, not a token — every native iOS/macOS
+            switch keeps its knob white in both light and dark appearance,
+            so a themed token here (e.g. --panel-2, which is dark in this
+            app's own dark theme) would look wrong precisely when it
+            "correctly" followed the theme. */}
+        <span
+          aria-hidden="true"
+          className={`inline-block h-4 w-4 transform rounded-full bg-white shadow transition-transform ${allOn ? "translate-x-4" : "translate-x-0.5"}`}
+        />
+      </button>
+      <span aria-hidden="true" className={sideLabelClass(allOn)}>
+        {allLabel}
+      </span>
     </div>
   );
 }
@@ -124,8 +185,13 @@ function CityRow({
   onToggle: () => void;
 }) {
   return (
+    // py-2.5 on mobile (below sm) is load-bearing — AGENTS.md §4's 44px
+    // minimum touch target, non-negotiable. sm:py-1.5 tightens desktop-
+    // only, where the interaction is a mouse/trackpad click with no
+    // touch-target floor, closer to mndatacenter.org's own denser row
+    // height.
     <label
-      className={`flex items-center gap-2 px-3 py-2.5 sm:py-2 cursor-pointer select-none ${rowHoverClass(variant)}`}
+      className={`flex items-center gap-2 ${edgeToEdgeClass(variant)} py-2.5 sm:py-1.5 cursor-pointer select-none ${rowHoverClass(variant)}`}
     >
       <input type="checkbox" checked={checked} onChange={onToggle} className="cursor-pointer accent-accent" />
       <span aria-hidden="true" className="h-2.5 w-2.5 rounded-full shrink-0" style={{ backgroundColor: accent ?? "#9ca3af" }} />
@@ -237,19 +303,21 @@ function GroupedList({
 }) {
   const groups = buildCityGroups(cities);
 
-  // Frozen at mount only (functional useState initializer runs once) —
-  // a group containing any currently-checked city starts expanded, every
-  // other group starts collapsed. Deliberately NOT recomputed on later
-  // visibleCities changes: toggling a city off after the fact shouldn't
-  // suddenly collapse the group a resident is actively looking at.
-  const [initiallyOpen] = useState<Set<County>>(
-    () => new Set(groups.filter((g) => g.cities.some((c) => visibleCities[c])).map((g) => g.county)),
-  );
+  // Every group starts collapsed, full stop — including a county holding
+  // a currently-checked city (Hennepin/Ramsey, under the DEFAULT_VISIBLE_
+  // CITIES default). An earlier version auto-expanded those on first
+  // paint on the theory that a collapsed group would hide *why*
+  // Minneapolis/St. Paul wards are already on the map; per-group counts
+  // (see "n of m shown" in each summary below) turned out to answer that
+  // without needing the group itself open, so a resident who wants the
+  // full statewide list to read as uniformly scannable — nothing
+  // "special" pre-opened for them — gets that instead.
+  //
   // Explicit user clicks on a group's own <summary> — takes precedence
-  // over the frozen initial-open set once a resident has touched it.
-  // Ignored while a query is active (every matching group is forced open
-  // during search — see isOpen below), so a stray toggle mid-search can't
-  // leave a group stuck closed once the query is cleared.
+  // once a resident has touched it. Ignored while a query is active
+  // (every matching group is forced open during search — see isOpen
+  // below), so a stray toggle mid-search can't leave a group stuck closed
+  // once the query is cleared.
   const [manualOverride, setManualOverride] = useState<Partial<Record<County, boolean>>>({});
 
   const queryActive = fold(query).length > 0;
@@ -260,7 +328,7 @@ function GroupedList({
   // there's no separate "matching but should stay collapsed" case.
   const isOpen = (county: County) => {
     if (queryActive) return true;
-    return manualOverride[county] ?? initiallyOpen.has(county);
+    return manualOverride[county] ?? false;
   };
 
   const rendered = groups
@@ -276,8 +344,32 @@ function GroupedList({
 
   if (rendered.length === 0) return <NoMatches />;
 
+  // Flat, divided list — no per-group border/radius/background "card." A
+  // prior pass gave each county's own <details> its own
+  // `rounded-lg border border-hair` box (plus a bg-panel-3/bg-panel-2 fill),
+  // which read as N small cards stacked inside the sidebar's own panel —
+  // boxes nested inside a box. mndatacenter.org's own filter sidebar never
+  // does this: county rows are separated by a hairline only, matching the
+  // divide-y treatment FlatList already uses for its own (non-grouped) row
+  // list just above.
+  //
+  // Sidebar variant: fully flat — divide-y + a leading border-t is the only
+  // separator, same "recessed surface, no drawn box" posture as the rest of
+  // this panel (see sidebarFilterControls's own comment in WardMap.tsx on
+  // why nothing here gets a card border). Floating variant: still gets one
+  // *outer* box (this list floats directly over a live, busy map image, so
+  // it keeps needing a legible edge against arbitrary map colors — see the
+  // point 5 judgment call this mirrors on BulkToggleButtons/CityRow already
+  // applying without a matching change here) — but that's one shadowed
+  // panel around the whole grouped list now, not one per county. Same
+  // information, a third of the visual weight.
+  const wrapperClass =
+    variant === "sidebar"
+      ? "divide-y divide-hair border-t border-hair text-sm text-ink-2"
+      : "rounded-lg overflow-hidden bg-panel-2/90 backdrop-blur-sm border border-hair shadow-lg shadow-(color:--shadow-panel) divide-y divide-hair text-sm text-ink-2";
+
   return (
-    <div className="space-y-2">
+    <div className={wrapperClass}>
       {rendered.map((group) => {
         const checkedCount = group.cities.filter((c) => visibleCities[c]).length;
         const totalCount = group.cities.length;
@@ -286,7 +378,7 @@ function GroupedList({
           <details
             key={group.county}
             open={open}
-            className={`group rounded-lg border border-hair overflow-hidden ${variant === "sidebar" ? "bg-panel-3" : "bg-panel-2/90 backdrop-blur-sm shadow-lg shadow-(color:--shadow-panel)"}`}
+            className="group"
             onToggle={(e) => {
               const nowOpen = e.currentTarget.open;
               if (queryActive) return;
@@ -294,7 +386,7 @@ function GroupedList({
             }}
           >
             <summary
-              className={`flex list-none items-center justify-between gap-2 px-3 py-2 cursor-pointer select-none [&::-webkit-details-marker]:hidden focus:outline-none focus-visible:ring-2 focus-visible:-outline-offset-2 ${rowHoverClass(variant)} ${focusRingClass(variant)}`}
+              className={`flex list-none items-center justify-between gap-2 ${edgeToEdgeClass(variant)} py-2 cursor-pointer select-none [&::-webkit-details-marker]:hidden focus:outline-none focus-visible:ring-2 focus-visible:-outline-offset-2 ${rowHoverClass(variant)} ${focusRingClass(variant)}`}
             >
               <span className="flex min-w-0 flex-1 items-center gap-2 text-xs font-semibold text-ink-2">
                 <svg
@@ -334,6 +426,8 @@ function GroupedList({
                   allLabel="All"
                   onNone={() => onSetCitiesVisible(group.cities, false)}
                   groupLabel={`Show or hide all of ${group.county} County`}
+                  checkedCount={checkedCount}
+                  totalCount={totalCount}
                 />
               </span>
             </summary>
@@ -370,6 +464,8 @@ export default function AreaFilterList({
   onSetCitiesVisible,
 }: AreaFilterListProps) {
   const showFilterInput = cities.length > FILTER_INPUT_THRESHOLD;
+  const checkedCount = cities.filter((c) => visibleCities[c]).length;
+  const totalCount = cities.length;
 
   return (
     <div>
@@ -382,10 +478,18 @@ export default function AreaFilterList({
             allLabel="All"
             onNone={() => onSetCitiesVisible(cities, false)}
             groupLabel="Show or hide all areas"
+            checkedCount={checkedCount}
+            totalCount={totalCount}
           />
         )}
         {grouped && (
-          <BulkToggleButtons variant={variant} onNone={() => onSetCitiesVisible(cities, false)} groupLabel="Hide all areas" />
+          <BulkToggleButtons
+            variant={variant}
+            onNone={() => onSetCitiesVisible(cities, false)}
+            groupLabel="Hide all areas"
+            checkedCount={checkedCount}
+            totalCount={totalCount}
+          />
         )}
       </div>
       {grouped ? (

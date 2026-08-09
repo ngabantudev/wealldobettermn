@@ -40,19 +40,19 @@
 // trigger stays separate from the panel it opens: `outerRef` is the
 // actual flex child and the ResizeObserver's target — it can be wider
 // than the visible text (flexbox may hand it leftover space to grow
-// into). `hoverRef`, nested inside, is `w-fit` — sized to exactly the
-// rendered text — and is what mouseenter/mouseleave/click-outside bind
-// to, so the hover/tap zone never extends into that leftover dead space
-// the way it did before this same fix was made for a different reason
-// (see this file's git history: the outer box used to *be* the hover
-// zone, and a full-width block div caught hovers well past the text).
+// into). The inner box (`rootRef`, from useDismissable — see that hook's
+// own comment), nested inside, is `w-fit` — sized to exactly the rendered
+// text — and is what mouseenter/mouseleave/outside-pointerdown bind to, so
+// the hover/tap zone never extends into that leftover dead space the way
+// it did before this same fix was made for a different reason (see this
+// file's git history: the outer box used to *be* the hover zone, and a
+// full-width block div caught hovers well past the text).
 //
 // Only the *explanation* is progressive disclosure: hovering the text
 // opens it — no separate icon, the text itself is the trigger — a tap
 // opens it too (the only way in on a touch device, which has no hover
-// state), same click-outside/Escape/useId dismiss convention
-// CoverageNotice.tsx and MapThemeSelector.tsx already use elsewhere in
-// this app.
+// state), same Escape/outside-pointerdown/useId dismiss convention
+// (useDismissable.ts) CoverageNotice.tsx and MapThemeSelector.tsx also use.
 //
 // Rotation is `floor(hoursSinceEpoch) % length` (mastheadSayings.ts), not
 // random — every visitor sees the same saying in the same clock hour, and
@@ -66,7 +66,8 @@
 // The effect also arms a timer for the next hour boundary, so a tab left
 // open rotates live instead of only on next load/navigation.
 
-import { useEffect, useId, useLayoutEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useId, useLayoutEffect, useRef, useState } from "react";
+import { useDismissable } from "@/hooks/useDismissable";
 import { currentSayingIndex, MASTHEAD_SAYINGS } from "@/lib/mastheadSayings";
 
 const HOUR_MS = 60 * 60 * 1000;
@@ -78,7 +79,6 @@ export default function MastheadSaying() {
   const [open, setOpen] = useState(false);
   const [fontPx, setFontPx] = useState(MAX_FONT_PX);
   const outerRef = useRef<HTMLDivElement | null>(null);
-  const hoverRef = useRef<HTMLDivElement | null>(null);
   const textRef = useRef<HTMLButtonElement | null>(null);
   const panelId = useId();
 
@@ -92,23 +92,20 @@ export default function MastheadSaying() {
     return () => clearTimeout(timeoutId);
   }, []);
 
-  // Click-outside and Escape both close it — same dismiss convention as
-  // every other popover in this app (CoverageNotice's own).
-  useEffect(() => {
-    if (!open) return;
-    const onDocumentClick = (e: MouseEvent) => {
-      if (hoverRef.current && !hoverRef.current.contains(e.target as Node)) setOpen(false);
-    };
-    const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setOpen(false);
-    };
-    document.addEventListener("click", onDocumentClick);
-    document.addEventListener("keydown", onKeyDown);
-    return () => {
-      document.removeEventListener("click", onDocumentClick);
-      document.removeEventListener("keydown", onKeyDown);
-    };
-  }, [open]);
+  // Escape and outside-pointerdown both close it — shared with every other
+  // popover in this app now (see useDismissable.ts). `rootRef` below is
+  // handed to the hover-zone div (the `w-fit` one, not the flex-sized outer
+  // one — see the header comment on why those two are separate boxes), the
+  // same box that used to anchor this component's own hand-rolled
+  // click-outside listener.
+  //
+  // Note this hook only wires Escape/outside-pointerdown — the
+  // hover/focus/blur open+close logic below (onMouseEnter/onMouseLeave/
+  // onFocus/onBlur) stays local to this component, same as
+  // useDismissable.ts's own comment says it should: how a surface *opens*,
+  // and non-hook-owned ways it *closes*, are per-component by design.
+  const close = useCallback(() => setOpen(false), []);
+  const { rootRef } = useDismissable<HTMLDivElement>(open, close);
 
   // The fit calculation described up top. Depends on `index` (a new
   // saying needs re-measuring) and reruns on resize via ResizeObserver —
@@ -154,15 +151,22 @@ export default function MastheadSaying() {
 
   const saying = MASTHEAD_SAYINGS[index];
 
-  // TESTING ONLY: a click/tap also advances to the next saying, so all
-  // nine are reachable in a few taps instead of waiting for real hour
-  // boundaries or faking the clock. This overrides the hour-derived index
-  // in local state only — the sync effect above still re-syncs to the
-  // real `currentSayingIndex()` at the next hour boundary, so a manual
-  // click never permanently detaches this from the clock. Remove this
-  // override (leave the rest of the click handler — it still needs to
-  // open the popover for touch, which has no hover) once this has been
-  // reviewed across all nine and the demo need is gone.
+  // Kept, deliberately, as a real feature rather than removed as dev-only
+  // scaffolding (2026-08-08 overlay-audit pass — see AGENTS.md §3.4 on
+  // human review of AI-touched code for why this decision is written down
+  // rather than just made silently): a click/tap both opens the popover
+  // (the only way in on a touch device, which has no hover state — that
+  // part was never optional) *and* advances to the next saying. The
+  // advance was originally flagged "TESTING ONLY," but a click needed to
+  // open the popover for touch parity regardless, and letting that same
+  // tap also surface a different one of the site's nine community sayings
+  // turns an otherwise-inert popover trigger into a small, honest way to
+  // discover the others — nothing here fabricates or hides data (AGENTS.md
+  // §3.1/§0.9), it just makes the rotation resident-driven instead of only
+  // clock-driven. This overrides the hour-derived index in local state
+  // only — the sync effect above still re-syncs to the real
+  // `currentSayingIndex()` at the next hour boundary, so a manual click
+  // never permanently detaches this from the clock.
   const rotate = () => {
     setIndex((i) => (i === null ? 0 : (i + 1) % MASTHEAD_SAYINGS.length));
     setOpen(true);
@@ -171,7 +175,7 @@ export default function MastheadSaying() {
   return (
     <div ref={outerRef} className="min-w-0 flex-1">
       <div
-        ref={hoverRef}
+        ref={rootRef}
         className="relative w-fit"
         onMouseEnter={() => setOpen(true)}
         onMouseLeave={() => setOpen(false)}
@@ -179,9 +183,14 @@ export default function MastheadSaying() {
         <button
           ref={textRef}
           type="button"
-          aria-haspopup="true"
+          // No aria-haspopup here — that attribute specifically means "this
+          // control opens a menu," which this never was: it opens on
+          // hover/focus, not just click, and closes on blur (see the panel
+          // below's role="tooltip" for the same reasoning). aria-describedby
+          // is the correct wiring for "a button whose meaning is expanded
+          // on by a nearby bit of text" — see below.
           aria-expanded={open}
-          aria-controls={panelId}
+          aria-describedby={open ? panelId : undefined}
           onClick={rotate}
           onFocus={() => setOpen(true)}
           onBlur={() => setOpen(false)}
@@ -213,8 +222,16 @@ export default function MastheadSaying() {
           // on this exception.
           <div
             id={panelId}
-            role="dialog"
-            aria-label={`What "${saying.quote}" means`}
+            // role="tooltip", not "dialog": this panel opens on hover/focus
+            // and closes on blur — a screen-reader user can never actually
+            // "enter" it the way `dialog` semantics imply (a dialog is
+            // expected to receive focus and be navigable; this one is
+            // dismissed by the exact act of tabbing into it). `tooltip` is
+            // what aria-describedby (on the trigger button above) expects
+            // to point at, and matches how this content actually behaves:
+            // supplementary text describing the trigger, not a separate
+            // interactive surface.
+            role="tooltip"
             className="well absolute left-0 top-full z-50 mt-2 w-72 max-w-[calc(100vw-2rem)] space-y-1.5 rounded-xl border p-3 text-xs text-ink-3 shadow-xl shadow-(color:--shadow-panel)"
           >
             <p className="font-medium text-ink-2">{saying.community}</p>
