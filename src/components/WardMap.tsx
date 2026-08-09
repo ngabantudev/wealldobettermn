@@ -796,6 +796,29 @@ async function fetchPrimaryCivicData(): Promise<PrimaryCivicData | null> {
 // tradeoff), which fill in a moment later once this resolves (see
 // resolveOfficialsAtPoint's own comment on why all three tiers are kept
 // independent of which LayerMode is visible). See issue #67 Finding 2.
+// Freshest properties.verifiedAt across a FeatureCollection's features, as
+// a plain YYYY-MM-DD string (lexical max works because that's ISO order).
+// Returns null rather than a fallback date if nothing is dated — feeding
+// the sidebar's "no fabricated data" empty state instead of a made-up
+// timestamp. See dataLastVerifiedAt's own comment for why only
+// state-legislature.geojson is passed in here today.
+function latestVerifiedAt(collection: FeatureCollection): string | null {
+  let latest: string | null = null;
+  for (const feature of collection.features) {
+    const verifiedAt = feature.properties?.verifiedAt;
+    if (typeof verifiedAt !== "string" || verifiedAt.length === 0) continue;
+    if (latest === null || verifiedAt > latest) latest = verifiedAt;
+  }
+  return latest;
+}
+
+// timeZone: "UTC" for the same reason as WardModal's formatOfficeSince —
+// verifiedAt is a bare YYYY-MM-DD (midnight UTC), and formatting it in the
+// browser's local zone rolls it back a day for anyone west of UTC.
+function formatLastUpdated(iso: string): string {
+  return new Date(iso).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric", timeZone: "UTC" });
+}
+
 async function fetchSecondaryCivicData(): Promise<SecondaryCivicData | null> {
   try {
     const [commissionersRes, stateLegRes, cityBoundariesRes] = await Promise.all([
@@ -1245,6 +1268,19 @@ export default function WardMap() {
   // stuck forever.
   const [secondaryDataPending, setSecondaryDataPending] = useState(true);
 
+  // Freshest `verifiedAt` found across a resolved SecondaryCivicData's
+  // state-legislature features, for the "Last updated" line at the foot of
+  // the left filters sidebar (mndatacenter.org shows the same thing in the
+  // same spot). Only state-legislature.geojson carries verifiedAt today —
+  // see isVerificationStale's comment in WardModal.tsx — so this is
+  // honestly scoped to that one feed rather than implying every layer
+  // (wards/mayors/commissioners have no verifiedAt to draw from yet, per
+  // AGENTS.md §3.2's still-open hand-maintained-roster gap). Null until the
+  // secondary fetch resolves with at least one dated feature; the sidebar
+  // renders nothing rather than a placeholder while it's null, per
+  // AGENTS.md §3.1's "no fabricated data" rule extended to dates.
+  const [dataLastVerifiedAt, setDataLastVerifiedAt] = useState<string | null>(null);
+
   useEffect(() => {
     selectedRef.current = selected;
   }, [selected]);
@@ -1298,6 +1334,7 @@ export default function WardMap() {
         commissionersDataRef.current = secondary.commissioners;
         stateLegDataRef.current = secondary.stateLeg;
         cityBoundariesDataRef.current = secondary.cityBoundaries;
+        setDataLastVerifiedAt(latestVerifiedAt(secondary.stateLeg));
         // Deliberate, accepted regression: Woodbury's at-large boundary
         // (and everything gated on atLargeBoundariesDataRef — the fill
         // layer, applyCityZoom/applyCountyZoom's fallback, search) is now
@@ -3505,6 +3542,20 @@ export default function WardMap() {
               {sidebarLevelTabs}
               {sidebarFilterControls}
             </div>
+            {/* Foot of the sidebar, modeled on mndatacenter.org's own
+                "Last updated: [date]" line in the same spot. shrink-0 and
+                outside the scrolling content div above so it stays pinned
+                to the bottom of the column rather than scrolling away with
+                the filter groups. Renders nothing — not a placeholder,
+                not a stale-looking prior date — until dataLastVerifiedAt
+                resolves; see that state's own comment for why it's scoped
+                to state-legislature data specifically rather than claiming
+                freshness for every layer this sidebar filters. */}
+            {dataLastVerifiedAt && (
+              <div className="shrink-0 border-t border-t-hair-strong px-4 py-3 text-xs text-ink-3">
+                Last updated {formatLastUpdated(dataLastVerifiedAt)}
+              </div>
+            )}
           </div>
         </aside>
 
