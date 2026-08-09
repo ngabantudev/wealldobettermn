@@ -4048,7 +4048,14 @@ export default function WardMap() {
   //   40 — mobile-only nav bar + its raised sheet (MobileNav). Above the
   //        scrim at 30, and — since nothing above z-20 exists on desktop
   //        and z-20 itself never renders on mobile — never actually
-  //        contends with the desktop rung it numerically outranks.
+  //        contends with the desktop rung it numerically outranks. The
+  //        "Metro" button (below, near the map container) also shares this
+  //        rung on mobile — deliberately, not a new rung — since it has to
+  //        clear the z-30 scrim to stay tappable (entering a city always
+  //        pins the detail panel on mobile, which raises that scrim the
+  //        same instant the button appears) and it never occupies the same
+  //        screen region as MobileNav's own bottom-anchored bar/sheet, so
+  //        there's nothing for the two to actually contend over.
   //
   // SiteHeader and both sidebar `<aside>`s sit outside this scale
   // entirely — they're normal static-flow flex siblings around the
@@ -4208,7 +4215,21 @@ export default function WardMap() {
               replacement for the corner button (which still resets from
               any state, including this one). Calls the exact same
               resetView() the corner button and a background "miss" click
-              already do — one reset target, three ways to reach it. */}
+              already do — one reset target, three ways to reach it.
+
+              z-40, not z-20 (confirmed live, not just reasoned about — a
+              Playwright pass against a real mobile viewport caught this):
+              on mobile, entering a city always pins the detail panel too
+              (there's no "city view without a panel" the way desktop's
+              sidebar column allows — MobileNav's own "priority ward modal"
+              always wins), which raises its z-30 full-viewport scrim the
+              instant this button would show. At z-20 the button was still
+              *visible* through the scrim's 25% opacity — a static
+              screenshot alone would have missed this — but every tap
+              landed on the scrim instead and never reached the button. z-40
+              matches MobileNav's own rung; safe to share since this button
+              (fixed top-left) and MobileNav's bar/sheet (fixed bottom)
+              never occupy the same screen region regardless of viewport. */}
           {activeCity && (
             <button
               type="button"
@@ -4216,7 +4237,7 @@ export default function WardMap() {
               aria-label={`Return to the metro-wide reset view (leave ${activeCity})`}
               title="Return to metro view"
               style={{ left: "var(--map-ctrl-edge)", top: "var(--map-ctrl-edge)" }}
-              className="absolute z-20 flex items-center gap-1 rounded-full border border-hair bg-panel-2/90 px-3 py-1.5 text-sm font-medium text-ink shadow-lg shadow-(color:--shadow-panel) backdrop-blur-sm transition hover:bg-hover focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+              className="absolute z-40 flex items-center gap-1 rounded-full border border-hair bg-panel-2/90 px-3 py-1.5 text-sm font-medium text-ink shadow-lg shadow-(color:--shadow-panel) backdrop-blur-sm transition hover:bg-hover focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
             >
               <IconChevron />
               Metro
