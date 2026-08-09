@@ -34,6 +34,7 @@ import { useState } from "react";
 import type { City, County } from "@/lib/cities";
 import { buildCityGroups, matchesCityQuery } from "@/lib/cityGroups";
 import { focusRingClass, rowHoverClass } from "@/lib/variantClasses";
+import ConfirmDialog from "@/components/ConfirmDialog";
 
 export interface AreaFilterListProps {
   // The full set of cities this list can ever offer — MODE_VISIBLE_CITIES
@@ -130,12 +131,14 @@ function BulkToggleButtons({
   // pass retired this switch's "All" side in the first place — see this
   // file's own header comment history). A per-county switch or the short
   // flat commissioners list never needs this: neither turns on more than a
-  // handful of cities. window.confirm rather than a custom dialog
-  // component — this is the only confirm-before-action in the app, so a
-  // reusable dialog component would be more code than the one interaction
-  // it'd serve.
+  // handful of cities. Routed through the shared ConfirmDialog component
+  // (src/components/ConfirmDialog.tsx) rather than window.confirm — styled
+  // to match the app instead of a native browser alert, and written
+  // generically enough that it isn't specific to this call site.
   confirmAllMessage?: string;
 }) {
+  const [pendingAll, setPendingAll] = useState(false);
+
   if (!onAll || !allLabel) {
     return (
       <button
@@ -166,7 +169,10 @@ function BulkToggleButtons({
             onNone();
             return;
           }
-          if (confirmAllMessage && !window.confirm(confirmAllMessage)) return;
+          if (confirmAllMessage) {
+            setPendingAll(true);
+            return;
+          }
           onAll?.();
         }}
         className={`relative inline-flex h-5 w-9 shrink-0 items-center rounded-full transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-1 ${focusRingClass(variant)} ${
@@ -186,6 +192,20 @@ function BulkToggleButtons({
       <span aria-hidden="true" className={sideLabelClass(allOn)}>
         {allLabel}
       </span>
+      {confirmAllMessage && (
+        <ConfirmDialog
+          open={pendingAll}
+          title="Show every county?"
+          message={confirmAllMessage}
+          confirmLabel="Show all"
+          cancelLabel="Cancel"
+          onConfirm={() => {
+            setPendingAll(false);
+            onAll?.();
+          }}
+          onCancel={() => setPendingAll(false)}
+        />
+      )}
     </div>
   );
 }
