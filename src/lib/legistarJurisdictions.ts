@@ -65,3 +65,59 @@ export const LEGISTAR_JURISDICTIONS: readonly LegistarJurisdiction[] = [
       "is additive (structured votes/matters, officerecords term dates), not a replacement.",
   },
 ] as const;
+
+// --- Wire shape written to each LEGISTAR_JURISDICTIONS[].emptyStatePath by
+// scripts/ingest/legistar.mjs's full per-client ingest — mirrors that
+// script's actual JSON output field-for-field, not models.ts's normalized
+// AgendaItem/VoteEvent stubs (which have zero real consumers — see that
+// file's own 2026-08-06 note on why the flat wire shape and the relational
+// model are deliberately not the same types). src/app/recap/page.tsx is the
+// first real reader of this shape, so it types against the bytes actually on
+// disk rather than an aspirational schema. Only the fields recap.tsx reads
+// are declared here (bodies/persons/offices/holdings/meetings/votes exist in
+// the file too but have no reader yet); extend this if a future consumer
+// needs more of the payload.
+
+export interface LegistarAgendaItem {
+  id: string;
+  meeting_id: string;
+  title: string;
+  file_number: string | null;
+  external_id: string | null;
+  // The item's own Legistar legislation-detail page — present on every
+  // record as ingested so far, but typed nullable (never guessed at) per
+  // AGENTS.md §3.3 "Missing Sources": a future ingest run could return a
+  // record Legistar itself hasn't published a detail page for yet.
+  source_url: string | null;
+}
+
+export interface LegistarVoteEvent {
+  id: string;
+  agenda_item_id: string;
+  result: string; // "Pass" | "Fail" | source's own wording — kept as-is, AGENTS.md §3.3
+  date: string; // ISO date
+}
+
+export interface LegistarFullIngestProvenance {
+  primarySourceUrl: string;
+  sourceAgency: string;
+  documentType: string;
+  documentId: string | null;
+  issuedDate: string | null;
+  fetchedAt: string | null;
+  licence: string;
+  contentHash: string | null;
+}
+
+export interface LegistarFullIngestFeed {
+  schemaVersion: number;
+  client: string;
+  jurisdiction: string;
+  generatedAt: string;
+  status: "ingested" | "unreachable" | "auth_required";
+  note: string;
+  provenance: LegistarFullIngestProvenance;
+  agendaItems: LegistarAgendaItem[];
+  voteEvents: LegistarVoteEvent[];
+  knownGaps: string[];
+}
