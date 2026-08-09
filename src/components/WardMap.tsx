@@ -3117,11 +3117,14 @@ export default function WardMap() {
   // "which tier of my representation to view" (that question lives
   // entirely in WardModal now, unconditionally, all three tiers at once —
   // see that file), it's "which layer is drawn on the map." Labeled with
-  // its own "Map layer" heading below for exactly that reason: it used to
-  // go unlabeled on the theory that it visually matched WardModal's own
-  // unlabeled tablist, but that tablist is gone, and sharing the bare
+  // its own "Government Level" heading below for exactly that reason: it
+  // used to go unlabeled on the theory that it visually matched WardModal's
+  // own unlabeled tablist, but that tablist is gone, and sharing the bare
   // words "City/County/State" with no heading read as the same question
-  // asked twice in two panels — it's not.
+  // asked twice in two panels — it's not. Renamed from "Map layer" (issue:
+  // label read as map jargon rather than plain language — AGENTS.md §0.9)
+  // to name what the toggle actually picks: which level of government's
+  // officeholders are drawn.
   const sidebarTabRowClass = "flex gap-1 rounded-lg bg-panel-3 p-1";
   // hover:bg-sidebar-hover, not hover:bg-hover: this track's own bg-panel-3
   // fill is only 3 shades off --hover, so the generic token was nearly
@@ -3175,8 +3178,8 @@ export default function WardMap() {
   const filterControls = (
     <>
       <div>
-        {filterSectionLabel("floating", "Map layer")}
-        <div role="group" aria-label="Choose map layer" className={filterGroupClass()}>
+        {filterSectionLabel("floating", "Government Level")}
+        <div role="group" aria-label="Choose government level" className={filterGroupClass()}>
           {(["wards", "commissioners", "state-legislature"] as const).map((mode) => (
             <button
               key={mode}
@@ -3212,7 +3215,7 @@ export default function WardMap() {
                 key={c}
                 type="button"
                 onClick={() => switchChamber(c)}
-                // See the Map layer buttons' own comment just above — same
+                // See the Government Level buttons' own comment just above — same
                 // shared rowHoverClass/focusRingClass("floating") pair.
                 className={`px-3 py-1.5 rounded-md font-medium transition-colors focus:outline-none focus-visible:ring-2 ${focusRingClass("floating")} ${
                   chamber === c ? "bg-accent text-on-accent" : `text-ink-3 hover:text-ink ${rowHoverClass("floating")}`
@@ -3244,16 +3247,19 @@ export default function WardMap() {
   // (see the left `<aside>`'s own comment) — inset with room for the
   // segmented control's own rounded corners, rather than the old
   // full-bleed placement flush against the header. Now carries its own
-  // "Map layer" heading (see filterSectionLabel above and this block's
-  // own comment on sidebarTabRowClass) — City/County/State by itself,
-  // sitting directly above WardModal's own City/County/State section
-  // headings on the other side of the screen, read as the same control
-  // duplicated; "Map layer" makes it legible at a glance as "what's drawn"
-  // rather than "which tier of my rep to show."
+  // "Government Level" heading (see filterSectionLabel above and this
+  // block's own comment on sidebarTabRowClass) — City/County/State by
+  // itself, sitting directly above WardModal's own City/County/State
+  // section headings on the other side of the screen, read as the same
+  // control duplicated; naming the heading after what it picks makes it
+  // legible at a glance as "what's drawn" rather than "which tier of my rep
+  // to show." Renamed from "Map layer," which read as map jargon rather
+  // than the plain-language question a resident actually has (AGENTS.md
+  // §0.9).
   const sidebarLevelTabs = (
     <div>
-      <div className="mb-1.5">{filterSectionLabel("sidebar", "Map layer")}</div>
-      <div role="group" aria-label="Choose map layer" className={sidebarTabRowClass}>
+      <div className="mb-1.5">{filterSectionLabel("sidebar", "Government Level")}</div>
+      <div role="group" aria-label="Choose government level" className={sidebarTabRowClass}>
         {(["wards", "commissioners", "state-legislature"] as const).map((mode) => (
           <button
             key={mode}
