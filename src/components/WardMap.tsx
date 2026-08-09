@@ -402,7 +402,13 @@ interface PinMarker {
   // relative to `center`, not a fixed lng/lat. Every other pin (mayors,
   // commissioners, state legislators, single-member wards) is placed once
   // and never moves, so this stays unset for them.
-  formation?: { center: maplibregl.LngLat; index: number; count: number };
+  // mayorIndex is set only for a mayors.geojson formation (a Mayor + its
+  // city's at-large Council Members) — it's the Mayor's own position
+  // within the group, which pinPixelOffsetsForFormation uses to dispatch
+  // to atLargePinPixelOffsets instead of the ordinary ward-peer shape.
+  // Unset for every ward-polygon formation (Blaine, Brooklyn Park, ...),
+  // where every member is an interchangeable Council Member peer.
+  formation?: { center: maplibregl.LngLat; index: number; count: number; mayorIndex?: number };
 }
 
 // Pin diameter scales along two axes at once: how much ground the office
@@ -628,6 +634,116 @@ function groupFeaturesByCity(data: FeatureCollection): Map<string, Feature<Geome
   return groups;
 }
 
+// Index of the one Mayor in a groupFeaturesByCity group, or -1 if there
+// isn't one (shouldn't happen for real data — every at-large city's
+// MAYORS entries in fetch-mayors.mjs list its Mayor row — but this stays
+// a lookup rather than an assumed index-0 so a reordered or malformed
+// feed degrades to atLargePinPixelOffsets' own peer fallback instead of
+// silently centering the wrong pin).
+function mayorIndexInGroup(group: Feature<Geometry>[]): number {
+  return group.findIndex((f) => (f.properties as RepProperties).role === "Mayor");
+}
+
+// `n` points evenly spaced on a circle of radius `r` around (0, 0),
+// starting straight up and proceeding clockwise (screen-pixel Y grows
+// downward, so this reads as clockwise to the viewer regardless of map
+// bearing — same convention wardPinPixelOffsets' own shapes use).
+function ringOffsets(n: number, r: number): [number, number][] {
+  return Array.from({ length: n }, (_, i) => {
+    const angle = (2 * Math.PI * i) / n - Math.PI / 2;
+    return [r * Math.cos(angle), r * Math.sin(angle)];
+  });
+}
+
+// Margin applied on top of the literal sum of two adjacent pins' radii,
+// below — big enough that a Mayor pin and a Council Member pin never
+// touch even though the two roles never render at quite the same size
+// (Mayor runs 30–52px, Council Member 20–40px, see
+// PIN_SIZE_RANGE_BY_ROLE), unlike wardPinPixelOffsets' ward-polygon
+// peers, which always share one role/diameter throughout a group.
+const AT_LARGE_PIN_MARGIN = 1.35;
+
+// wardPinPixelOffsets' equivalent for a Mayor + at-large Council Member
+// group (mayors.geojson only, via groupFeaturesByCity/mayorIndexInGroup)
+// — every member of a *ward* group is a same-role, same-size peer, but
+// an at-large group is not: there is always exactly one Mayor, and it
+// renders as the visibly larger pin, so the two shapes below place it
+// deliberately rather than as an interchangeable Nth ring point:
+//   - 1 CM: Mayor and the one CM share a 2-point ring — a straight line
+//     through the middle.
+//   - 2 CM: Mayor and both CMs share a 3-point ring — a triangle where
+//     every vertex is adjacent to both others, so the Mayor's own vertex
+//     reads as the triangle's single apex point and the 2 CMs form its
+//     base — exactly "a triangle with the mayor being the single point."
+//   - 3+ CM: the Mayor moves off the ring entirely and sits centered at
+//     (0, 0); the CMs alone form their own ring around it — literally
+//     "mayor is in the center ... N CM form a triangle/square/...", and
+//     it generalizes to any council size without inventing a new named
+//     shape per count the way wardPinPixelOffsets' case 3/case 4 do.
+// Each ring's radius is picked from whichever adjacent-pair distance it
+// needs to clear is larger — Mayor-to-CM or (once there are 2+ CMs on
+// the same ring) CM-to-CM — rather than reusing one shared "diameter"
+// input the way wardPinPixelOffsets does, since this formation always
+// mixes two different pin sizes.
+function atLargePinPixelOffsets(
+  count: number,
+  mayorIndex: number,
+  mayorDiameter: number,
+  cmDiameter: number,
+): [number, number][] {
+  if (count <= 1 || mayorIndex < 0) {
+    // No Mayor to center or single-pin group — same fallback shape a
+    // ward-polygon peer group of this size would get.
+    return wardPinPixelOffsets(count, cmDiameter * WARD_PIN_CLUSTER_SPACING_FACTOR);
+  }
+
+  const cmCount = count - 1;
+  const mayorCmChord = ((mayorDiameter + cmDiameter) / 2) * AT_LARGE_PIN_MARGIN;
+  const cmCmChord = cmDiameter * AT_LARGE_PIN_MARGIN;
+
+  if (cmCount <= 2) {
+    // Mayor + 1–2 CMs share one ring (see comment above); every vertex
+    // is adjacent to every other, so the required radius clears the
+    // larger of the two chord requirements against a regular `count`-gon's
+    // own edge length (2r·sin(π/count)).
+    const chord = cmCount === 2 ? Math.max(mayorCmChord, cmCmChord) : mayorCmChord;
+    const r = chord / (2 * Math.sin(Math.PI / count));
+    const ring = ringOffsets(count, r);
+    // Rotate the ring so the Mayor's own feature index lands on the top
+    // vertex — ringOffsets always starts its own index 0 there, so this
+    // is just a read-order shift, not a different formation.
+    return Array.from({ length: count }, (_, i) => ring[(i - mayorIndex + count) % count]);
+  }
+
+  // 3+ CMs: Mayor centered at (0, 0); CMs alone form their own ring, so
+  // Mayor-to-CM distance is exactly that ring's radius, and CM-to-CM is
+  // its regular-cmCount-gon edge length (2r·sin(π/cmCount)).
+  const r = Math.max(mayorCmChord, cmCmChord / (2 * Math.sin(Math.PI / cmCount)));
+  const cmRing = ringOffsets(cmCount, r);
+  const offsets: [number, number][] = [];
+  let cmI = 0;
+  for (let i = 0; i < count; i++) {
+    offsets.push(i === mayorIndex ? [0, 0] : cmRing[cmI++]);
+  }
+  return offsets;
+}
+
+// Dispatches to the right formation shape for one PinMarker group's
+// pixel offsets — atLargePinPixelOffsets for a Mayor + Council Member
+// group (mayorIndex set), wardPinPixelOffsets for an ordinary
+// multi-member ward (mayorIndex unset — every member is a same-role
+// Council Member peer). The one place this dispatch happens, shared by
+// initial pin placement (addPin), the "zoom" listener's live resync
+// (syncPinGeometryForZoom), and the dotted connector line
+// (wardPinConnectorPoints), so the three can never disagree about where
+// a given group's Nth pin belongs.
+function pinPixelOffsetsForFormation(formation: { count: number; mayorIndex?: number }, zoom: number): [number, number][] {
+  if (formation.mayorIndex !== undefined) {
+    return atLargePinPixelOffsets(formation.count, formation.mayorIndex, diameterForZoom("Mayor", zoom), diameterForZoom("Council Member", zoom));
+  }
+  return wardPinPixelOffsets(formation.count, diameterForZoom("Council Member", zoom) * WARD_PIN_CLUSTER_SPACING_FACTOR);
+}
+
 // Reprojects a ward's shared bounds-center plus one pixel-space formation
 // offset back to a real map coordinate — the one piece of math both a
 // formation pin's own placement (addPin) and its dotted connector-line
@@ -664,8 +780,7 @@ function syncPinGeometryForZoom(map: maplibregl.Map, entry: PinMarker, zoom: num
   // pin happened to be created or last resynced at.
   el.style.zIndex = String(Math.round(diameter));
   if (formation) {
-    const spacing = diameter * WARD_PIN_CLUSTER_SPACING_FACTOR;
-    const [dx, dy] = wardPinPixelOffsets(formation.count, spacing)[formation.index];
+    const [dx, dy] = pinPixelOffsetsForFormation(formation, zoom)[formation.index];
     marker.setLngLat(formationLngLat(map, formation.center, dx, dy));
   }
 }
@@ -683,12 +798,16 @@ function syncPinGeometryForZoom(map: maplibregl.Map, entry: PinMarker, zoom: num
 function wardPinConnectorPoints(
   map: maplibregl.Map,
   center: maplibregl.LngLat,
-  count: number,
-  diameter: number,
+  formation: { count: number; mayorIndex?: number },
+  zoom: number,
 ): [number, number][] {
-  const spacing = diameter * WARD_PIN_CLUSTER_SPACING_FACTOR;
-  const offsets = wardPinPixelOffsets(count, spacing);
-  const points = offsets.map(([dx, dy]) => {
+  const offsets = pinPixelOffsetsForFormation(formation, zoom);
+  const points = offsets.map(([dx, dy], i) => {
+    // Each point's own vertical correction uses its own role's diameter
+    // — a Mayor's larger pin needs a bigger upward shift than a Council
+    // Member's to keep the line through its visual center, unlike an
+    // all-peer ward group, which could get away with one shared value.
+    const diameter = i === formation.mayorIndex ? diameterForZoom("Mayor", zoom) : diameterForZoom("Council Member", zoom);
     const ll = formationLngLat(map, center, dx, dy - diameter / 2);
     return [ll.lng, ll.lat] as [number, number];
   });
@@ -717,12 +836,19 @@ function wardPinConnectorPoints(
 function wardPinConnectorLines(map: maplibregl.Map, wardsData: FeatureCollection, mayorsData: FeatureCollection): FeatureCollection {
   const zoom = map.getZoom();
   const features: Feature<Geometry>[] = [];
-  const pushLinesForGroups = (groups: Map<string, Feature<Geometry>[]>, centerOf: (f: Feature<Geometry>) => maplibregl.LngLat) => {
+  const pushLinesForGroups = (
+    groups: Map<string, Feature<Geometry>[]>,
+    centerOf: (f: Feature<Geometry>) => maplibregl.LngLat,
+    // Only mayorsData groups carry a Mayor to center — see
+    // atLargePinPixelOffsets' own comment for why that group needs a
+    // different shape than an all-peer ward group.
+    atLarge: boolean,
+  ) => {
     for (const group of groups.values()) {
       if (group.length < 2) continue;
       const center = centerOf(group[0]);
-      const diameter = diameterForZoom("Council Member", zoom);
-      const points = wardPinConnectorPoints(map, center, group.length, diameter);
+      const mayorIndex = atLarge ? mayorIndexInGroup(group) : undefined;
+      const points = wardPinConnectorPoints(map, center, { count: group.length, mayorIndex: mayorIndex === -1 ? undefined : mayorIndex }, zoom);
       // Carries `city` through (every member of a group shares one, by
       // construction of both grouping functions) so applyCityFilter can
       // hide this line along with the rest of a deselected city's wards
@@ -735,9 +861,11 @@ function wardPinConnectorLines(map: maplibregl.Map, wardsData: FeatureCollection
       });
     }
   };
-  pushLinesForGroups(groupWardFeaturesByWard(wardsData), (f) => boundsFromFeature(f).getCenter());
-  pushLinesForGroups(groupFeaturesByCity(mayorsData), (f) =>
-    maplibregl.LngLat.convert((f.geometry as Point).coordinates as [number, number]),
+  pushLinesForGroups(groupWardFeaturesByWard(wardsData), (f) => boundsFromFeature(f).getCenter(), false);
+  pushLinesForGroups(
+    groupFeaturesByCity(mayorsData),
+    (f) => maplibregl.LngLat.convert((f.geometry as Point).coordinates as [number, number]),
+    true,
   );
   return { type: "FeatureCollection", features };
 }
@@ -2163,18 +2291,15 @@ export default function WardMap() {
       // raw ward bounds-center every member of the group would
       // otherwise collide on. Stored on the PinMarker so the "zoom"
       // listener below can keep recomputing it as the map moves.
-      formation?: { center: maplibregl.LngLat; index: number; count: number },
+      // mayorIndex — see PinMarker's own comment on the same field.
+      formation?: { center: maplibregl.LngLat; index: number; count: number; mayorIndex?: number },
     ) => {
       // Sized for the zoom the map is at right now; kept in sync as that
       // changes by the "zoom" listener below, which walks pinMarkersRef
       // the same way this function populates it.
       const diameter = diameterForZoom(properties.role, map.getZoom());
       const initialLngLat = formation
-        ? formationLngLat(
-            map,
-            formation.center,
-            ...wardPinPixelOffsets(formation.count, diameter * WARD_PIN_CLUSTER_SPACING_FACTOR)[formation.index],
-          )
+        ? formationLngLat(map, formation.center, ...pinPixelOffsetsForFormation(formation, map.getZoom())[formation.index])
         : maplibregl.LngLat.convert(coordinates);
       const el = createRepPinElement(properties, diameter);
       const marker = new maplibregl.Marker({ element: el, anchor }).setLngLat(initialLngLat).addTo(map);
@@ -2245,15 +2370,21 @@ export default function WardMap() {
       // sharing one City Hall coordinate, unlike every other city's single
       // mayor — fan out into a formation instead of stacking on one pixel,
       // same mechanism the multi-member-ward loop below already uses.
+      // mayorIndex (see PinMarker's own comment) is looked up once per
+      // group and threaded through every member's own formation object,
+      // so pinPixelOffsetsForFormation can tell this Mayor + Council
+      // Member group apart from an ordinary same-role ward group below.
       for (const group of groupFeaturesByCity(mayorsData).values()) {
         const [lng, lat] = (group[0].geometry as Point).coordinates as [number, number];
         const center = maplibregl.LngLat.convert([lng, lat]);
+        const mayorIndex = mayorIndexInGroup(group);
         group.forEach((feature, i) => {
           const properties = feature.properties as RepProperties;
           addPin(properties, [lng, lat], "wards", boundsAroundPoint(lng, lat), "bottom", {
             center,
             index: i,
             count: group.length,
+            mayorIndex: mayorIndex === -1 ? undefined : mayorIndex,
           });
         });
       }
