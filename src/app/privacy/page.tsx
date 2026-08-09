@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import SiteHeader from "@/components/SiteHeader";
 
 // Static route (AGENTS.md §2.1: "a route that can be a static file should
 // be a static file"). This page exists because §2.5 makes "the user's
@@ -21,7 +20,6 @@ export const metadata: Metadata = {
 export default function PrivacyPage() {
   return (
     <>
-      <SiteHeader />
       <main className="mx-auto max-w-2xl px-4 py-10 sm:px-6">
         <h1 className="text-xl font-semibold text-ink">Privacy</h1>
         <p className="mt-2 text-sm text-ink-3">

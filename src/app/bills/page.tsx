@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import SiteHeader from "@/components/SiteHeader";
 import { BILLS_COVERAGE_NOTE, BILLS_INGEST_STATUS } from "@/lib/billsRegistry";
 import type { Bill } from "@/lib/types";
 // A bundler-resolved JSON import, not readFileSync(process.cwd() + ...):
@@ -65,7 +64,6 @@ export default function BillsPage() {
 
   return (
     <>
-      <SiteHeader />
       <main className="mx-auto max-w-3xl px-4 py-10 sm:px-6">
         <h1 className="text-xl font-semibold text-ink">State bills &amp; roll-call votes</h1>
         <p className="mt-2 text-sm text-ink-3">

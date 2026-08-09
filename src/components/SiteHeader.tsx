@@ -1,4 +1,3 @@
-import type { ReactNode } from "react";
 import Link from "next/link";
 import MastheadSaying from "./MastheadSaying";
 
@@ -43,18 +42,16 @@ const NAV_LINKS: { href: string; label: string }[] = [
 // disclosure, reachable by hover, focus, or tap (see that component) —
 // not the `title=`-attribute trick mndatacenter.org uses for its own
 // Dakota-name headline and this app has never adopted.
-interface SiteHeaderProps {
-  // The address-search combobox (SearchBar), pre-built by WardMap so this
-  // component doesn't need to know about wards/index/callbacks — same
-  // "caller assembles it, this just places it" split MobileNav uses for
-  // its own sheet content. Hidden below `sm` (see the wrapping div below);
-  // mobile mounts its own separate SearchBar instance inside MobileNav's
-  // Search tab instead, so passing it here is harmless even on a phone —
-  // it just never renders.
-  search?: ReactNode;
-}
-
-export default function SiteHeader({ search }: SiteHeaderProps) {
+// SiteHeader itself now lives in app/layout.tsx, rendered once and shared
+// across every route (see that file's comment) — it no longer takes a
+// `search` prop or knows which page mounted it. The address-search
+// combobox is still map-route-only content, though, so WardMap portals its
+// pre-built SearchBar into the #site-search-slot node below via
+// ReactDOM.createPortal rather than this component reaching into WardMap's
+// state. Hidden below `sm` (see the slot's own className); mobile mounts a
+// separate SearchBar instance inside MobileNav's Search tab instead, so an
+// empty slot here on mobile is expected, not a bug.
+export default function SiteHeader() {
   return (
     // `h-16`, a fixed height rather than one that grows with content: an
     // earlier revision let a longer saying wrap onto two or three lines,
@@ -106,9 +103,11 @@ export default function SiteHeader({ search }: SiteHeaderProps) {
           for an inline search box once the bottom nav takes over, and
           AGENTS.md Part 4 only asks that search stay one interaction away
           on every breakpoint, not that it live in the same place on all of
-          them. Omitted entirely (not just hidden) on the static pages that
-          pass no `search` prop at all. */}
-      {search ? <div className="hidden min-w-0 flex-1 sm:flex sm:justify-center">{search}</div> : null}
+          them. Always rendered (this component no longer knows which route
+          mounted it), but only ever populated on the map route — WardMap
+          portals its SearchBar in here and cleans up on unmount, so on
+          every other route this stays an empty, invisible-by-CSS node. */}
+      <div id="site-search-slot" className="hidden min-w-0 flex-1 sm:flex sm:justify-center" />
     </header>
   );
 }

@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import SiteHeader from "@/components/SiteHeader";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -47,9 +48,21 @@ export default function RootLayout({
           Keeping it off the static HTML means the light civic theme is
           what a no-JS or slow-JS visitor sees, the safer default for a
           public-records site. */}
-      <body className="h-full bg-canvas text-ink-canvas">
+      <body className="flex h-full flex-col bg-canvas text-ink-canvas">
         <script dangerouslySetInnerHTML={{ __html: NO_FLASH_THEME_SCRIPT }} />
-        {children}
+        {/* Rendered once, here, rather than per-page (the pre-2026-08-09
+            layout): every route under app/ used to import and render its
+            own <SiteHeader />, which meant App Router unmounted and
+            remounted it on every client-side navigation between them —
+            visible as the topbar flickering/resetting on each link click,
+            plus the search box popping in/out since only the map route
+            passed a `search` prop. Hoisting it to the root layout makes it
+            genuinely persistent chrome, the way AGENTS.md Part 4 assumes:
+            it survives navigation instead of being recreated by it. The
+            map route still supplies the search box via a portal into the
+            #site-search-slot node SiteHeader renders — see WardMap.tsx. */}
+        <SiteHeader />
+        <div className="min-h-0 flex-1">{children}</div>
       </body>
     </html>
   );

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 import type { Feature, FeatureCollection, Geometry, Point } from "geojson";
@@ -35,7 +36,6 @@ import AreaFilterList from "./AreaFilterList";
 import MapThemeSelector from "./MapThemeSelector";
 import MobileNav, { IconSearch, IconSliders, type MobileNavTab } from "./MobileNav";
 import SearchBar from "./SearchBar";
-import SiteHeader from "./SiteHeader";
 import WardModal, { areaLabel, roleLabel } from "./WardModal";
 
 // The two destinations MobileNav's bottom bar offers — everything the
@@ -3439,13 +3439,13 @@ export default function WardMap() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Defined once, referenced from both the desktop (SiteHeader) and mobile
-  // (MobileNav's Search tab) branches below — each usage still mounts its
-  // own independent SearchBar instance (React treats the two JSX
-  // positions as separate component instances regardless of sharing this
-  // element description), so this is purely to keep the props in one
-  // place rather than duplicating four lines of callbacks that need to
-  // stay in sync.
+  // Defined once, referenced from both the desktop (portaled into
+  // SiteHeader's #site-search-slot, see below) and mobile (MobileNav's
+  // Search tab) branches below — each usage still mounts its own
+  // independent SearchBar instance (React treats the two JSX positions as
+  // separate component instances regardless of sharing this element
+  // description), so this is purely to keep the props in one place rather
+  // than duplicating four lines of callbacks that need to stay in sync.
   const searchBar = (
     <SearchBar
       manifest={addressManifest}
@@ -3454,6 +3454,22 @@ export default function WardMap() {
       onSelectCity={applyCityZoom}
       onSelectCounty={(_county, cities) => applyCountyZoom(cities)}
     />
+  );
+
+  // SiteHeader now lives once in app/layout.tsx, shared across every route
+  // (2026-08-09 — it used to be rendered per-page, which meant App Router
+  // remounted the whole topbar, search box included, on every client-side
+  // navigation). The map route is still the only one with an inline
+  // search box, so it reaches up into the header's #site-search-slot node
+  // via a portal instead of passing `search` as a prop to a SiteHeader
+  // instance it no longer renders itself. Read lazily (useState's
+  // initializer, not an effect) rather than via setState-in-effect: the
+  // slot lives in a parent layout that's already server-rendered into the
+  // DOM by the time WardMap mounts, so it's there on first client render
+  // and there's no async wait to synchronize — an effect here would just
+  // be an unnecessary extra render pass.
+  const [searchSlot] = useState<HTMLElement | null>(() =>
+    typeof document === "undefined" ? null : document.getElementById("site-search-slot"),
   );
 
   // Chrome for the mode switcher + city/chamber filter, in two flavors:
@@ -3776,8 +3792,8 @@ export default function WardMap() {
   // in the tree) would win, clipping it. That popover uses z-50, above
   // every rung here on purpose — see its own comment.
   return (
-    <div className="flex w-full h-dvh flex-col overflow-hidden bg-canvas">
-      <SiteHeader search={searchBar} />
+    <div className="flex w-full h-full flex-col overflow-hidden bg-canvas">
+      {searchSlot ? createPortal(searchBar, searchSlot) : null}
       {/* Announces the detail panel's content only on an explicit
           click/tap/search-result selection — see `announcement` state's
           own comment for why hover (which repopulates the same panel on
