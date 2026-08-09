@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { BILLS_COVERAGE_NOTE, BILLS_INGEST_STATUS } from "@/lib/billsRegistry";
 import type { Bill } from "@/lib/types";
+import Gloss from "@/components/Gloss";
+import { lookupGlossary, type GlossaryKey } from "@/lib/glossary";
 // A bundler-resolved JSON import, not readFileSync(process.cwd() + ...):
 // see next.config.ts / src/lib/stateLegislatureData.ts for the 2026-08-06
 // incident where the equivalent pattern for state-legislature.geojson —
@@ -43,6 +45,20 @@ export const metadata: Metadata = {
   description: "Minnesota state bills, sponsors, and floor roll-call votes.",
 };
 
+// AGENTS.md §0.9 retrofit — this page's own third consumer of the shared
+// glossary, alongside WardModal.tsx's vote badges and meetings/page.tsx's
+// "consent agenda." Bill.actions isn't guaranteed sorted by the upstream
+// feed (Open States' own ordering isn't part of the documented contract
+// in scripts/ingest/state-bills.mjs), so "most recent" is computed here
+// by date rather than assumed to be `actions[actions.length - 1]` — a
+// wrong assumption here would silently show a stale status as if it were
+// current, which is exactly the kind of "tells a resident something false
+// with no way to detect it" failure AGENTS.md §0.2/§3.1 exist to prevent.
+function mostRecentAction(bill: Bill) {
+  if (bill.actions.length === 0) return undefined;
+  return bill.actions.reduce((latest, action) => (action.date > latest.date ? action : latest));
+}
+
 function loadBills(): Bill[] {
   // public/state-bills.json is committed to the repo (not gitignored —
   // scripts/ingest/state-bills.mjs merges into it, never overwrites), so
@@ -73,13 +89,44 @@ export default function BillsPage() {
 
         {isLive ? (
           <ul className="mt-6 space-y-3">
-            {bills.map((bill) => (
-              <li key={bill.id} className="well rounded-xl border p-4">
-                <p className="font-medium text-ink-2">
-                  {bill.identifier} — {bill.title}
-                </p>
-              </li>
-            ))}
+            {bills.map((bill) => {
+              const latestAction = mostRecentAction(bill);
+              // classification is Open States' own upstream vocabulary
+              // (BillAction's own comment: "kept as reported, never
+              // re-interpreted"), so a tag this build's registry doesn't
+              // recognize yet is a real possibility, not a bug — those
+              // fall back to the bare tag text (via lookupGlossary's
+              // `undefined` and Gloss's own unrecognized-key fallback)
+              // rather than being hidden, so the raw record is never
+              // silently dropped even before its gloss is written.
+              const tags = latestAction?.classification ?? [];
+              return (
+                <li key={bill.id} className="well rounded-xl border p-4">
+                  <p className="font-medium text-ink-2">
+                    {bill.identifier} — {bill.title}
+                  </p>
+                  {latestAction && tags.length > 0 && (
+                    <p className="mt-1.5 flex flex-wrap items-center gap-1.5 text-xs text-ink-3">
+                      <span className="text-ink-4">Latest action ({latestAction.date}):</span>
+                      {tags.map((tag) =>
+                        lookupGlossary(tag) ? (
+                          <Gloss
+                            key={tag}
+                            term={tag as GlossaryKey}
+                            className="rounded-full bg-panel-2 px-2 py-0.5 text-[11px] font-medium uppercase tracking-wide text-ink-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-inset"
+                            glossClassName="block w-full basis-full text-xs italic text-ink-4"
+                          />
+                        ) : (
+                          <span key={tag} className="rounded-full bg-panel-2 px-2 py-0.5 text-[11px] font-medium uppercase tracking-wide text-ink-2">
+                            {tag}
+                          </span>
+                        ),
+                      )}
+                    </p>
+                  )}
+                </li>
+              );
+            })}
           </ul>
         ) : (
           <div
