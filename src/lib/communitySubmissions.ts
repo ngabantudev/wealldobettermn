@@ -264,3 +264,22 @@ export async function recordDispute(db: D1DatabaseLike, submissionId: string): P
 
   return { disputeCount, triggeredRevertIssue: disputeCount >= COMMUNITY_GRADUATION_DISPUTE_THRESHOLD };
 }
+
+// --- Submission-creation rate limiting (migrations/0002) -------------------
+// See that migration's own header for why this is a separate append-only
+// log rather than a column on `submissions` — it has to count every
+// attempt, not just accepted ones, or the limit is trivially bypassable.
+
+/** Logs one POST /api/submissions attempt, regardless of its eventual outcome. */
+export async function recordSubmissionAttempt(db: D1DatabaseLike, ipHash: string, createdAt: string): Promise<void> {
+  await db.prepare(`INSERT INTO submission_attempts (ip_hash, created_at) VALUES (?, ?)`).bind(ipHash, createdAt).run();
+}
+
+/** Count of attempts from this hashed IP since `sinceIso` — a rolling window, not a calendar-day bucket. */
+export async function countRecentSubmissionAttempts(db: D1DatabaseLike, ipHash: string, sinceIso: string): Promise<number> {
+  const row = await db
+    .prepare(`SELECT COUNT(*) as count FROM submission_attempts WHERE ip_hash = ? AND created_at > ?`)
+    .bind(ipHash, sinceIso)
+    .first<{ count: number }>();
+  return row?.count ?? 0;
+}

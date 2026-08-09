@@ -6,7 +6,7 @@
 
 import assert from "node:assert/strict";
 import test from "node:test";
-import { computeDedupKey } from "./voteDedup.ts";
+import { computeDedupKey, hashIp } from "./voteDedup.ts";
 
 test("the same salt/ip/submission/day always produces the same key", async () => {
   const now = new Date("2026-08-09T12:00:00Z");
@@ -56,4 +56,24 @@ test("the result never contains the raw IP as a substring", async () => {
   const key = await computeDedupKey({ salt: "s", ip: "203.0.113.5", submissionId: "sub-1", now: new Date("2026-08-09T12:00:00Z") });
   assert.equal(key.includes("203.0.113.5"), false);
   assert.match(key, /^[0-9a-f]{64}$/); // a plain SHA-256 hex digest, nothing else
+});
+
+// --- hashIp (submission-creation rate limiting) ---------------------------
+
+test("hashIp is stable for the same salt/ip, unlike computeDedupKey it is NOT day-bucketed", async () => {
+  const a = await hashIp("s", "203.0.113.5");
+  const b = await hashIp("s", "203.0.113.5");
+  assert.equal(a, b);
+});
+
+test("hashIp differs for a different IP or a different salt", async () => {
+  const base = await hashIp("s", "203.0.113.5");
+  assert.notEqual(base, await hashIp("s", "203.0.113.6"));
+  assert.notEqual(base, await hashIp("other-salt", "203.0.113.5"));
+});
+
+test("hashIp never contains the raw IP as a substring and is a plain SHA-256 hex digest", async () => {
+  const key = await hashIp("s", "203.0.113.5");
+  assert.equal(key.includes("203.0.113.5"), false);
+  assert.match(key, /^[0-9a-f]{64}$/);
 });

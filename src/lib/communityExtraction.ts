@@ -41,6 +41,7 @@
 // shape there if Workers AI's actual behavior differs.
 
 import { htmlToVisibleText, normalizedIncludes } from "./htmlText.ts";
+import { COMMUNITY_EXTRACTION_MAX_CHARS } from "./communityConfig.ts";
 
 export const AI_MODEL = "@cf/meta/llama-3.3-70b-instruct-fp8-fast";
 
@@ -112,10 +113,17 @@ const RESPONSE_JSON_SCHEMA = {
           // paraphrased. This is what step 2 above verifies mechanically.
           roleSourceQuote: { type: "string" },
           // Only the OFFICE's published contact, never anything that
-          // reads as personal — the model is instructed to use null for
-          // anything ambiguous (AGENTS.md §1d "when in doubt, leave it out").
-          repEmail: { type: ["string", "null"] },
-          repPhone: { type: ["string", "null"] },
+          // reads as personal — the model is instructed to use an empty
+          // string for anything ambiguous (AGENTS.md §1d "when in doubt,
+          // leave it out"). Plain `type: "string"`, not a `["string",
+          // "null"]` union: Workers AI's JSON-mode docs warn compliance
+          // "isn't guaranteed... with complex schemas," and a type union
+          // on these two fields was the concrete cause of a live
+          // "5024: JSON Model couldn't be met" error during testing —
+          // validateExtraction() below already treats an empty/missing
+          // string the same as it would have treated null.
+          repEmail: { type: "string" },
+          repPhone: { type: "string" },
         },
         required: ["role", "repName", "roleSourceQuote"],
       },
@@ -136,8 +144,8 @@ export function buildExtractionPrompt(cityName: string, pageText: string) {
     `merely mentioned, quoted, or thanked on the page. For every person you report, ` +
     `"roleSourceQuote" MUST be an exact, verbatim snippet copied from the page text below — ` +
     `not a paraphrase or summary — that states their name and role together. Set repEmail/ ` +
-    `repPhone to null unless the page clearly presents that contact as belonging to the ` +
-    `official's office itself, not a personal or ambiguous listing. If the page names no ` +
+    `repPhone to an empty string unless the page clearly presents that contact as belonging ` +
+    `to the official's office itself, not a personal or ambiguous listing. If the page names no ` +
     `current Mayor or Council Member of ${cityName} at all, return an empty officials array ` +
     `— never guess or infer a person who isn't explicitly named with their role.`;
   const user = `Page text (from a website submitted as ${cityName}'s official site):\n\n${pageText}`;
@@ -284,7 +292,12 @@ export async function extractOfficials(params: ExtractOfficialsParams): Promise<
     };
   }
 
-  const { system, user } = buildExtractionPrompt(cityName, visiblePageText);
+  // Capped for the model call only — quote verification below still
+  // checks the FULL visiblePageText, never this truncated slice. See
+  // COMMUNITY_EXTRACTION_MAX_CHARS's own comment for why this exists and
+  // what it trades away.
+  const textForModel = visiblePageText.slice(0, COMMUNITY_EXTRACTION_MAX_CHARS);
+  const { system, user } = buildExtractionPrompt(cityName, textForModel);
   let raw: unknown;
   try {
     raw = await ai.run(model, {
@@ -294,7 +307,13 @@ export async function extractOfficials(params: ExtractOfficialsParams): Promise<
       ],
       response_format: { type: "json_schema", json_schema: RESPONSE_JSON_SCHEMA },
     });
-  } catch {
+  } catch (err) {
+    // Logged server-side only — never exposed to the visitor, per
+    // AGENTS.md §3.3's "never fabricate or infer" applied to error
+    // messages too: the client gets an honest, generic explanation, but
+    // this is otherwise a silent failure mode with no diagnosability at
+    // all without it.
+    console.error("[communityExtraction] ai.run failed:", err);
     return {
       ok: false,
       reason: "model_error",

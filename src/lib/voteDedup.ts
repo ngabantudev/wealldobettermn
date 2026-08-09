@@ -59,3 +59,19 @@ export async function computeDedupKey(params: ComputeDedupKeyParams): Promise<st
   const bucket = dayBucket(now, windowDays);
   return sha256Hex(`${params.salt}:${params.ip}:${params.submissionId}:${bucket}`);
 }
+
+/**
+ * A plain salted hash of an IP address, with no day-bucketing and no
+ * submission binding — used only for `POST /api/submissions`'s rate
+ * limit (migrations/0002_submission_rate_limit.sql's
+ * `submission_attempts.ip_hash`). Deliberately NOT day-bucketed like
+ * computeDedupKey above: rate limiting wants a genuine rolling 24h window
+ * (`COUNT(*) WHERE created_at > now - 24h`), which only works if the same
+ * visitor hashes to the same value across a query, not a value that
+ * changes at a fixed calendar-day boundary. Same one-way, salt-dependent
+ * construction as computeDedupKey — never reconstructs or exposes the
+ * original IP.
+ */
+export async function hashIp(salt: string, ip: string): Promise<string> {
+  return sha256Hex(`${salt}:${ip}`);
+}

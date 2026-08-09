@@ -112,3 +112,24 @@ export const COMMUNITY_SUBMISSION_RATE_LIMIT_PER_DAY = 5;
 export const COMMUNITY_FETCH_MAX_BYTES = 2 * 1024 * 1024; // ~2 MB
 export const COMMUNITY_FETCH_TIMEOUT_MS = 10_000;
 export const COMMUNITY_FETCH_MAX_REDIRECTS = 3;
+
+/**
+ * Cap on how much of the fetched page's visible text is actually sent to
+ * the extraction model (communityExtraction.ts), separate from
+ * COMMUNITY_FETCH_MAX_BYTES above (the fetch-response cap, checked before
+ * any HTML stripping). Added after live testing against a real page
+ * (Wikipedia's Worthington, MN article — much larger than a typical city
+ * government page, used as a stress test) took over two minutes and
+ * errored rather than a normal few-second response: sending an entire
+ * large page's text to a 70B-parameter model has real latency cost, and
+ * a real city's "officials"/"government" page is virtually always much
+ * shorter than this cap. The tradeoff, stated plainly: if a real city
+ * page listed its officials LATER than this many characters in, this
+ * truncation could miss them — a false negative, not a false positive,
+ * and a visitor whose extraction comes back empty can always resubmit a
+ * more targeted page (e.g. the site's own "City Council" sub-page)
+ * rather than its homepage. The city-name-evidence pre-filter still
+ * checks the FULL fetched text, not just this truncated slice — only the
+ * model call itself is capped.
+ */
+export const COMMUNITY_EXTRACTION_MAX_CHARS = 20_000;

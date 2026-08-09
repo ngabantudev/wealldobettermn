@@ -49,9 +49,16 @@ export interface ServerFetchDeps {
   fetchImpl?: typeof fetch;
 }
 
+// Plain ASCII only — an em-dash/section-sign here made the Workers
+// runtime's fetch() warn on every request ("header value... contains
+// non-ASCII characters... would likely result in a TypeError exception
+// [in a browser]"), caught during live testing. HTTP header values are
+// meant to be ASCII (or carefully-encoded, which isn't worth it for a
+// User-Agent string); the citation moved to a plain "AGENTS.md section
+// 2.2" instead of "§2.2".
 const USER_AGENT =
   "wealldobettermn-community-contribution/1.0 (+https://wealldobettermn.org/privacy; " +
-  "contact via https://github.com/ngabantudev/wealldobettermn/issues) — AGENTS.md §2.2 Good-Citizen Fetcher";
+  "contact via https://github.com/ngabantudev/wealldobettermn/issues) - AGENTS.md section 2.2 Good-Citizen Fetcher";
 
 const BLOCKED_HOSTNAMES = new Set(["localhost"]);
 const BLOCKED_HOSTNAME_SUFFIXES = [".local", ".internal", ".localhost"];

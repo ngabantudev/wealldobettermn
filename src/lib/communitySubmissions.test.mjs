@@ -20,17 +20,22 @@ import test from "node:test";
 import { fileURLToPath } from "node:url";
 import {
   castVote,
+  countRecentSubmissionAttempts,
   getPendingSubmissionForCity,
   getSubmissionById,
   insertSubmission,
   listLiveSubmissionsForMap,
   markGraduated,
   recordDispute,
+  recordSubmissionAttempt,
 } from "./communitySubmissions.ts";
 import { COMMUNITY_CONFIRMATIONS_REQUIRED, COMMUNITY_GRADUATION_DISPUTE_THRESHOLD, COMMUNITY_PENDING_DISPUTE_THRESHOLD } from "./communityConfig.ts";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const MIGRATION_SQL = readFileSync(path.join(__dirname, "../../migrations/0001_community_submissions.sql"), "utf8");
+const MIGRATION_SQL =
+  readFileSync(path.join(__dirname, "../../migrations/0001_community_submissions.sql"), "utf8") +
+  "\n" +
+  readFileSync(path.join(__dirname, "../../migrations/0002_submission_rate_limit.sql"), "utf8");
 
 /** Wraps node:sqlite's synchronous API to match the async D1DatabaseLike interface communitySubmissions.ts expects. */
 function createD1LikeFromSqlite(sqliteDb) {
@@ -246,4 +251,37 @@ test(`recordDispute reports triggeredRevertIssue at exactly ${COMMUNITY_GRADUATI
   const crossing = await recordDispute(db, "sub-1");
   assert.equal(crossing.disputeCount, COMMUNITY_GRADUATION_DISPUTE_THRESHOLD);
   assert.equal(crossing.triggeredRevertIssue, true);
+});
+
+// --- submission-creation rate limiting (migrations/0002) -------------------
+
+test("countRecentSubmissionAttempts is 0 before any attempt is logged", async () => {
+  const db = freshDb();
+  const count = await countRecentSubmissionAttempts(db, "hash-a", "2026-08-08T00:00:00Z");
+  assert.equal(count, 0);
+});
+
+test("recordSubmissionAttempt + countRecentSubmissionAttempts counts every attempt, not just successful ones", async () => {
+  const db = freshDb();
+  await recordSubmissionAttempt(db, "hash-a", "2026-08-09T01:00:00Z");
+  await recordSubmissionAttempt(db, "hash-a", "2026-08-09T02:00:00Z");
+  await recordSubmissionAttempt(db, "hash-a", "2026-08-09T03:00:00Z");
+  const count = await countRecentSubmissionAttempts(db, "hash-a", "2026-08-08T00:00:00Z");
+  assert.equal(count, 3);
+});
+
+test("countRecentSubmissionAttempts only counts attempts after the given cutoff — a rolling window, not all-time", async () => {
+  const db = freshDb();
+  await recordSubmissionAttempt(db, "hash-a", "2026-08-01T00:00:00Z"); // too old
+  await recordSubmissionAttempt(db, "hash-a", "2026-08-09T00:00:00Z"); // within window
+  const count = await countRecentSubmissionAttempts(db, "hash-a", "2026-08-08T00:00:00Z");
+  assert.equal(count, 1);
+});
+
+test("countRecentSubmissionAttempts is scoped per hashed IP, not global", async () => {
+  const db = freshDb();
+  await recordSubmissionAttempt(db, "hash-a", "2026-08-09T00:00:00Z");
+  await recordSubmissionAttempt(db, "hash-b", "2026-08-09T00:00:00Z");
+  assert.equal(await countRecentSubmissionAttempts(db, "hash-a", "2026-08-08T00:00:00Z"), 1);
+  assert.equal(await countRecentSubmissionAttempts(db, "hash-b", "2026-08-08T00:00:00Z"), 1);
 });
