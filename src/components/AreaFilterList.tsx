@@ -115,6 +115,7 @@ function BulkToggleButtons({
   groupLabel,
   checkedCount,
   totalCount,
+  confirmAllMessage,
 }: {
   variant: "floating" | "sidebar";
   onAll?: () => void;
@@ -123,6 +124,17 @@ function BulkToggleButtons({
   groupLabel: string;
   checkedCount: number;
   totalCount: number;
+  // Only set on the grouped list's top-level switch — flipping "on" there
+  // means rendering ward polygons for every covered city in the state at
+  // once, a real perf cliff on a slow device (the whole reason a prior
+  // pass retired this switch's "All" side in the first place — see this
+  // file's own header comment history). A per-county switch or the short
+  // flat commissioners list never needs this: neither turns on more than a
+  // handful of cities. window.confirm rather than a custom dialog
+  // component — this is the only confirm-before-action in the app, so a
+  // reusable dialog component would be more code than the one interaction
+  // it'd serve.
+  confirmAllMessage?: string;
 }) {
   if (!onAll || !allLabel) {
     return (
@@ -149,7 +161,14 @@ function BulkToggleButtons({
         role="switch"
         aria-checked={allOn}
         aria-label={groupLabel}
-        onClick={allOn ? onNone : onAll}
+        onClick={() => {
+          if (allOn) {
+            onNone();
+            return;
+          }
+          if (confirmAllMessage && !window.confirm(confirmAllMessage)) return;
+          onAll?.();
+        }}
         className={`relative inline-flex h-5 w-9 shrink-0 items-center rounded-full transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-1 ${focusRingClass(variant)} ${
           allOn ? "bg-positive" : "bg-sidebar-hover"
         }`}
@@ -507,6 +526,7 @@ export default function AreaFilterList({
             groupLabel="Show or hide all areas"
             checkedCount={checkedCount}
             totalCount={totalCount}
+            confirmAllMessage={`Show every ward in all ${buildCityGroups(cities).length} counties at once? This can slow down the map on older devices or slow connections.`}
           />
         )}
       </div>
