@@ -78,6 +78,20 @@ function rejected(reason: RejectReason, message: string, status: number, extra?:
   return NextResponse.json({ status: "rejected", reason, message, ...extra }, { status });
 }
 
+/**
+ * The one rejection reachable from two places — the pre-fetch check
+ * (step 4) and insertSubmission's idx_one_pending_per_city race-catch
+ * (step 8) — kept as one builder so the wording can't drift between them.
+ */
+function duplicatePending(cityName: string, submissionId?: string) {
+  return rejected(
+    "duplicate_pending",
+    `${cityName} already has a pending submission awaiting confirmation.`,
+    409,
+    submissionId ? { submissionId } : undefined,
+  );
+}
+
 function getClientIp(request: NextRequest): string {
   // Cloudflare's own header, set at the edge — trustworthy inside a
   // Worker (unlike x-forwarded-for, which a client could forge if this
@@ -145,12 +159,7 @@ export async function POST(request: NextRequest) {
   // still can't produce two live submissions for the same city.
   const existingPending = await getPendingSubmissionForCity(db, canonicalCityName);
   if (existingPending) {
-    return rejected(
-      "duplicate_pending",
-      `${canonicalCityName} already has a pending submission awaiting confirmation.`,
-      409,
-      { submissionId: existingPending.id },
-    );
+    return duplicatePending(canonicalCityName, existingPending.id);
   }
 
   // 5. Domain safety — a known-bad-domain blocklist check and a .gov/
@@ -199,11 +208,7 @@ export async function POST(request: NextRequest) {
       submittedAt: new Date().toISOString(),
     });
   } catch {
-    return rejected(
-      "duplicate_pending",
-      `${canonicalCityName} already has a pending submission awaiting confirmation.`,
-      409,
-    );
+    return duplicatePending(canonicalCityName);
   }
 
   return NextResponse.json({

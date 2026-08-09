@@ -108,6 +108,21 @@ export function fold(s: string): string {
 const FOLDED_CITIES = new Map(CITIES.map((c) => [fold(c), c]));
 const FOLDED_COUNTIES = new Map(COUNTIES.map((c) => [fold(c), c]));
 
+/**
+ * Is `name` a city this app already has officials/ward data for, under
+ * either spelling divergence fold() reconciles (CTU "Saint ___" vs
+ * CITIES' "St. ___")? Exported so every "is this city already covered"
+ * call site — cityMatch.ts's `alreadyCovered`, WardModal.tsx's
+ * showAddOfficialsCta guard — shares this one FOLDED_CITIES lookup
+ * instead of each independently building its own `new
+ * Set(CITIES.map(fold))` literal, which is exactly how a raw-string
+ * (non-folded) comparison bug shipped once already — see WardModal.tsx's
+ * own comment on that fix.
+ */
+export function isCoveredCityName(name: string): boolean {
+  return FOLDED_CITIES.has(fold(name));
+}
+
 const ZIP_RE = /\b(\d{5})(?:-\d{4})?\s*$/;
 const MN_SUFFIX_RE = /,?\s*(MN|MINNESOTA)\s*$/i;
 const UNIT_RE = /\b(apt|unit|ste|suite|#)\.?\s*\S+\s*$/i;

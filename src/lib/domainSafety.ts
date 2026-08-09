@@ -15,6 +15,8 @@
 // authenticity heuristic. Neither is proof of legitimacy — see each
 // function's own comment for exactly what it can and can't tell you.
 
+import { queryDoh } from "./dohQuery.ts";
+
 export interface DomainSafetyDeps {
   /** Injected for tests — defaults to the runtime global `fetch`. */
   fetchImpl?: typeof fetch;
@@ -37,16 +39,6 @@ export function isGovernmentGatedTld(hostname: string): boolean {
   return h.endsWith(".gov") || h.endsWith(".mn.us");
 }
 
-interface DohAnswer {
-  type: number;
-  data: string;
-}
-
-interface DohResponse {
-  Status: number; // DNS RCODE — 0 = NOERROR, 3 = NXDOMAIN
-  Answer?: DohAnswer[];
-}
-
 // Cloudflare's malware/phishing-blocking resolver ("1.1.1.1 for
 // Families" — security.cloudflare-dns.com / 1.1.1.2) rather than the
 // plain 1.1.1.1 resolver serverFetch.ts's SSRF check already uses: this
@@ -65,24 +57,18 @@ const SECURITY_DOH_URL = "https://security.cloudflare-dns.com/dns-query";
  * passes is merely "not currently known-bad," never confirmed legitimate,
  * and a brand-new spoof domain that hasn't been reported yet will pass
  * clean. Fails closed on any error (can't confirm safety → treat as
- * flagged), same posture as serverFetch.ts's own DNS pre-check.
+ * flagged), same posture as serverFetch.ts's own DNS pre-check. Request/
+ * parse plumbing lives in dohQuery.ts, shared with serverFetch.ts's own
+ * DoH check — only the interpretation of the answers differs here.
  */
 export async function isDomainFlaggedMalicious(hostname: string, deps: DomainSafetyDeps = {}): Promise<boolean> {
   const fetchImpl = deps.fetchImpl ?? fetch;
-  try {
-    const res = await fetchImpl(`${SECURITY_DOH_URL}?name=${encodeURIComponent(hostname)}&type=A`, {
-      headers: { accept: "application/dns-json" },
-    });
-    if (!res.ok) return true;
-    const body = (await res.json()) as DohResponse;
-    if (body.Status !== 0) return true; // NXDOMAIN (3) or any non-NOERROR — the resolver refused to answer
-    const answers = body.Answer ?? [];
-    // A malware/phishing hit commonly sinkholes to 0.0.0.0 rather than
-    // NXDOMAINing outright — either shape means "blocked," not "resolved."
-    return answers.some((a) => a.type === 1 && a.data === "0.0.0.0");
-  } catch {
-    return true;
-  }
+  const result = await queryDoh(SECURITY_DOH_URL, hostname, fetchImpl);
+  if (!result) return true;
+  if (result.status !== 0) return true; // NXDOMAIN (3) or any non-NOERROR — the resolver refused to answer
+  // A malware/phishing hit commonly sinkholes to 0.0.0.0 rather than
+  // NXDOMAINing outright — either shape means "blocked," not "resolved."
+  return result.answers.some((a) => a.type === 1 && a.data === "0.0.0.0");
 }
 
 export interface DomainSafetyResult {

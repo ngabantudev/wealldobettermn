@@ -26,6 +26,7 @@ import {
   COMMUNITY_FETCH_MAX_REDIRECTS,
   COMMUNITY_FETCH_TIMEOUT_MS,
 } from "./communityConfig.ts";
+import { queryDoh } from "./dohQuery.ts";
 
 export type ServerFetchRejectReason =
   | "invalid_url"
@@ -128,25 +129,19 @@ export function isBlockedHostname(hostname: string): boolean {
  * DNS-over-HTTPS pre-check against Cloudflare's own resolver — already
  * §2.3-permitted infrastructure (this repo's host), not a new third party.
  * Fails closed: any error, non-OK response, or empty answer set is treated
- * as "can't confirm this is safe," never as "assume it's fine."
+ * as "can't confirm this is safe," never as "assume it's fine." Request/
+ * parse plumbing lives in dohQuery.ts, shared with domainSafety.ts's own
+ * DoH check — only the interpretation of the answers differs here.
  */
 export async function resolvesToPrivateAddress(hostname: string, fetchImpl: typeof fetch): Promise<boolean> {
-  try {
-    const res = await fetchImpl(`https://1.1.1.1/dns-query?name=${encodeURIComponent(hostname)}&type=A`, {
-      headers: { accept: "application/dns-json" },
-    });
-    if (!res.ok) return true;
-    const body = (await res.json()) as { Answer?: Array<{ data: string; type: number }> };
-    const answers = body.Answer ?? [];
-    if (answers.length === 0) return true; // nothing resolved — nothing safe to fetch
-    return answers.some((a) => {
-      if (a.type === 1) return isPrivateIPv4(a.data); // A record
-      if (a.type === 28) return isPrivateIPv6(a.data); // AAAA record
-      return false;
-    });
-  } catch {
-    return true;
-  }
+  const result = await queryDoh("https://1.1.1.1/dns-query", hostname, fetchImpl);
+  if (!result) return true;
+  if (result.answers.length === 0) return true; // nothing resolved — nothing safe to fetch
+  return result.answers.some((a) => {
+    if (a.type === 1) return isPrivateIPv4(a.data); // A record
+    if (a.type === 28) return isPrivateIPv6(a.data); // AAAA record
+    return false;
+  });
 }
 
 async function preflightValidate(

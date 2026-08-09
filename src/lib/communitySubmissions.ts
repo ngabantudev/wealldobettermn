@@ -209,20 +209,27 @@ export async function castVote(db: D1DatabaseLike, params: CastVoteParams): Prom
   let triggeredPendingDispute = false;
 
   if (params.voteType === "confirm" && confirmations >= COMMUNITY_CONFIRMATIONS_REQUIRED) {
-    const flip = await db
-      .prepare(`UPDATE submissions SET status = 'graduating' WHERE id = ? AND status = 'pending' RETURNING id`)
-      .bind(params.submissionId)
-      .first<{ id: string }>();
-    triggeredGraduation = flip !== null;
+    triggeredGraduation = await attemptPendingStatusFlip(db, params.submissionId, "graduating");
   } else if (params.voteType === "flag" && flags >= COMMUNITY_PENDING_DISPUTE_THRESHOLD) {
-    const flip = await db
-      .prepare(`UPDATE submissions SET status = 'disputed' WHERE id = ? AND status = 'pending' RETURNING id`)
-      .bind(params.submissionId)
-      .first<{ id: string }>();
-    triggeredPendingDispute = flip !== null;
+    triggeredPendingDispute = await attemptPendingStatusFlip(db, params.submissionId, "disputed");
   }
 
   return { outcome: "recorded", confirmations, flags, triggeredGraduation, triggeredPendingDispute };
+}
+
+/**
+ * The one guarded state-transition UPDATE castVote can make from
+ * `pending` (`WHERE status = 'pending'` is what makes this race-free —
+ * see this module's own header) — shared by the confirm->graduating and
+ * flag->disputed branches above, which were identical but for the target
+ * status. Returns whether THIS call is the one that won the flip.
+ */
+async function attemptPendingStatusFlip(db: D1DatabaseLike, id: string, toStatus: "graduating" | "disputed"): Promise<boolean> {
+  const flip = await db
+    .prepare(`UPDATE submissions SET status = ? WHERE id = ? AND status = 'pending' RETURNING id`)
+    .bind(toStatus, id)
+    .first<{ id: string }>();
+  return flip !== null;
 }
 
 export interface MarkGraduatedParams {

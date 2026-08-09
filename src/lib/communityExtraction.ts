@@ -40,7 +40,7 @@
 // before relying on this in production, and adjust AI_MODEL/the request
 // shape there if Workers AI's actual behavior differs.
 
-import { htmlToVisibleText, normalizedIncludes } from "./htmlText.ts";
+import { htmlToVisibleText, normalize, normalizedIncludes } from "./htmlText.ts";
 import { COMMUNITY_EXTRACTION_MAX_CHARS } from "./communityConfig.ts";
 
 export const AI_MODEL = "@cf/meta/llama-3.3-70b-instruct-fp8-fast";
@@ -195,9 +195,13 @@ export function parseModelOutput(raw: unknown): { officials: unknown[] } | null 
   return null;
 }
 
-function hasDenylistKeywordNearby(pageText: string, quote: string): boolean {
-  const normalizedPage = pageText.toLowerCase();
-  const normalizedQuote = quote.trim().toLowerCase();
+/**
+ * `normalizedPage` is expected to already be `normalize()`d — computed
+ * once by validateExtraction() below and reused across every candidate,
+ * rather than each call re-normalizing the whole page from scratch.
+ */
+function hasDenylistKeywordNearby(normalizedPage: string, quote: string): boolean {
+  const normalizedQuote = normalize(quote);
   if (!normalizedQuote) return false;
   const index = normalizedPage.indexOf(normalizedQuote);
   if (index === -1) return false; // caller already checked existence; defensive only
@@ -227,6 +231,11 @@ export function validateExtraction(
 ): { officials: ValidatedOfficial[]; rejectedMentions: RejectedMention[] } {
   const officials: ValidatedOfficial[] = [];
   const rejectedMentions: RejectedMention[] = [];
+  // Normalized once here rather than per-candidate inside
+  // normalizedIncludes()/hasDenylistKeywordNearby() below — a page with
+  // several candidate officials was re-lowercasing/re-collapsing the
+  // whole page text from scratch on every single one.
+  const normalizedPageText = normalize(visiblePageText);
 
   for (const entry of rawOfficials) {
     const candidate = (entry ?? {}) as RawCandidate;
@@ -242,11 +251,11 @@ export function validateExtraction(
       rejectedMentions.push({ repName, claimedRole, reason: "role_not_in_enum" });
       continue;
     }
-    if (!quote || !normalizedIncludes(visiblePageText, quote)) {
+    if (!quote || !normalizedPageText.includes(normalize(quote))) {
       rejectedMentions.push({ repName, claimedRole, reason: "quote_not_found_in_source" });
       continue;
     }
-    if (hasDenylistKeywordNearby(visiblePageText, quote)) {
+    if (hasDenylistKeywordNearby(normalizedPageText, quote)) {
       rejectedMentions.push({ repName, claimedRole, reason: "denylist_keyword_nearby" });
       continue;
     }

@@ -17,8 +17,7 @@
 // has no such problem — it's inlined into the bundle like any other
 // module.
 
-import { fold } from "./addressSearch.ts";
-import { CITIES } from "./cities.ts";
+import { fold, isCoveredCityName } from "./addressSearch.ts";
 // `with { type: "json" }`: required by Node's native ESM loader when this
 // module is run directly under `node --test` (as its own .test.mjs does),
 // not just by bundlers — Next.js/webpack accept it too, so this is the
@@ -44,7 +43,6 @@ const cityAnchorPoints = cityAnchorPointsData as CityAnchorPointsFile;
 const FOLDED_ANCHOR_POINTS = new Map<string, { canonicalName: string } & AnchorPoint>(
   Object.entries(cityAnchorPoints.points).map(([name, point]) => [fold(name), { canonicalName: name, ...point }]),
 );
-const FOLDED_COVERED_CITIES = new Set(CITIES.map(fold));
 
 export interface CityMatchResult {
   /** Is this a real MN municipality we have a precomputed anchor point for? */
@@ -75,7 +73,7 @@ export function matchCity(rawCityName: string): CityMatchResult {
   if (!anchor) return UNRECOGNIZED;
   return {
     recognized: true,
-    alreadyCovered: FOLDED_COVERED_CITIES.has(fold(trimmed)),
+    alreadyCovered: isCoveredCityName(trimmed),
     canonicalName: anchor.canonicalName,
     gnisId: anchor.gnisId,
     lng: anchor.lng,

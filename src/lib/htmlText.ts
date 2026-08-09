@@ -34,12 +34,16 @@ const NAMED_ENTITIES: Record<string, string> = {
   "&ldquo;": "“",
 };
 
+// One alternation covering every named entity, built once at module load
+// — a single O(n) replace pass over the text, rather than one
+// .split(entity).join(char) pass per entity (13 full-text scans for
+// what one scan already covers).
+const NAMED_ENTITY_RE = new RegExp(Object.keys(NAMED_ENTITIES).join("|"), "g");
+
 function decodeEntities(text: string): string {
   let decoded = text.replace(/&#(\d+);/g, (_match, code: string) => String.fromCharCode(Number(code)));
   decoded = decoded.replace(/&#x([0-9a-fA-F]+);/g, (_match, code: string) => String.fromCharCode(parseInt(code, 16)));
-  for (const [entity, char] of Object.entries(NAMED_ENTITIES)) {
-    decoded = decoded.split(entity).join(char);
-  }
+  decoded = decoded.replace(NAMED_ENTITY_RE, (entity) => NAMED_ENTITIES[entity]);
   return decoded;
 }
 
@@ -51,7 +55,14 @@ export function htmlToVisibleText(html: string): string {
   return decoded.replace(WHITESPACE_RE, " ").trim();
 }
 
-function normalize(text: string): string {
+/**
+ * Case- and whitespace-collapsing normalization, exported so a caller
+ * checking the same haystack against many needles (e.g.
+ * communityExtraction.ts's per-candidate quote verification) can
+ * normalize it once rather than re-normalizing on every
+ * normalizedIncludes() call below.
+ */
+export function normalize(text: string): string {
   return text.replace(WHITESPACE_RE, " ").trim().toLowerCase();
 }
 

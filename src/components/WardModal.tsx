@@ -8,8 +8,7 @@ import { useFocusTrap } from "@/hooks/useFocusTrap";
 import Gloss from "@/components/Gloss";
 import type { GlossaryKey } from "@/lib/glossary";
 import { CITY_TIER_EMPTY_NOTE, COUNTY_TIER_EMPTY_NOTE, STATE_TIER_EMPTY_NOTE } from "@/lib/coverage";
-import { CITIES } from "@/lib/cities";
-import { fold } from "@/lib/addressSearch";
+import { isCoveredCityName } from "@/lib/addressSearch";
 import AddOfficialsCTA from "./AddOfficialsCTA";
 import {
   CONTESTED_COLOR,
@@ -1120,17 +1119,6 @@ interface TierNodeProps {
   hoveredCityName?: string | null;
 }
 
-// Folded once at module scope, same pattern as addressSearch.ts's own
-// FOLDED_CITIES — hoveredCityName arrives here straight from
-// city-boundaries.geojson's `name` property (MnDOT/MnGeo CTU spelling,
-// e.g. "Saint Paul", "Saint Louis Park"), which diverges from CITIES'
-// abbreviated "St." spelling for exactly two of its 23 entries. A raw
-// `CITIES.some((c) => c === hoveredCityName)` check misses that
-// divergence — see the showAddOfficialsCta guard below, and
-// WardMap.tsx's applyUncoveredCityZoom, which already folds for the same
-// reason on the keyboard/search path into this same component.
-const FOLDED_CITIES = new Set(CITIES.map(fold));
-
 // Each tier nests the rest of the stack *inside* itself — County's
 // <section> sits inside City's, State's inside County's — rather than
 // beside it as a sibling. That nesting is load-bearing, not cosmetic: a
@@ -1169,14 +1157,14 @@ function TierNode({ index, officials, onHeaderRef, onContentRef, headerHeight, h
   // this app already has on file, just hidden by the visitor's own
   // filter, would be a coverage-honesty violation this guard exists to
   // prevent — the CTA is only ever for a name CITIES doesn't contain at
-  // all. Compared via FOLDED_CITIES (fold(), not raw equality) so a
-  // CTU-spelled "Saint Paul"/"Saint Louis Park" is recognized as the same
-  // covered city CITIES spells "St. Paul"/"St. Louis Park" — a raw string
-  // check here previously showed this CTA for two of the app's
-  // best-covered cities the moment either was hidden via the map's own
-  // city-filter toggle.
+  // all. Checked via isCoveredCityName() (addressSearch.ts), the same
+  // fold()-based lookup cityMatch.ts's own `alreadyCovered` uses, rather
+  // than a second independently-maintained folded-CITIES set — a raw
+  // string check here previously showed this CTA for two of the app's
+  // best-covered cities ("Saint Paul"/"Saint Louis Park", CTU spelling)
+  // the moment either was hidden via the map's own city-filter toggle.
   const showAddOfficialsCta =
-    key === "city" && reps.length === 0 && !!hoveredCityName && !FOLDED_CITIES.has(fold(hoveredCityName));
+    key === "city" && reps.length === 0 && !!hoveredCityName && !isCoveredCityName(hoveredCityName);
   return (
     <section aria-labelledby={headingId}>
       <h2
