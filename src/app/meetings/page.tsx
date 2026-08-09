@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import SiteHeader from "@/components/SiteHeader";
 import {
   MEETINGS_JURISDICTIONS,
   UNWIRED_MEETINGS_JURISDICTIONS,
@@ -254,7 +253,6 @@ function JurisdictionSection({
 export default function MeetingsPage() {
   return (
     <>
-      <SiteHeader />
       <main className="mx-auto max-w-3xl px-4 py-10 sm:px-6">
         <h1 className="text-xl font-semibold text-ink">Meetings &amp; agendas</h1>
         <p className="mt-2 text-sm text-ink-3">
