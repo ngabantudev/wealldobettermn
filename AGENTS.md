@@ -383,6 +383,39 @@ assume it. Commercial replacements exist (Cicero, Ballotpedia, USgeocoder) but a
 paid keys and fail §0.8; treat them as a last resort for coverage gaps, never as the
 backbone.
 
+**Evaluated and rejected (2026-08-09) — Cicero and Ballotpedia, checked in depth against a
+peer civic-data project's actual dependence on both.** Prompted by seeing a comparable
+platform (Live Democracy, livedemocracy.us) use both in production, each was vetted past
+the one-line dismissal above, including for narrower build-time-only uses that don't touch
+§2.5's address-search path. Neither earns an exception.
+
+*Cicero* fails on redistribution rights, not just price: its Terms of Use grant a license
+over data *you* submit to Cicero, but no license to cache or republish data Cicero *returns*
+to you — exactly what §2.4's public, versioned static-JSON contract requires. A separate,
+quote-only "Licensing" page for bulk/redistribution needs is the vendor's own tacit
+admission the standard API terms don't cover it. Cicero has also changed corporate owners
+twice in thirteen months (Azavea → Element 84, Feb 2023; Cicero specifically carved out and
+resold to Melissa, a CRM/data-quality vendor, Mar 2024) — §0.8's "any upstream API is
+assumed to die" observed directly, not hypothesized. No public source confirms it actually
+covers Minnesota's county boards or school boards, the coverage gap this evaluation was
+nominally chasing. Verdict: ruled out even as a build-time enrichment source; the only
+surviving use is an unpublished, human-run cross-check lead, never cached or cited.
+
+*Ballotpedia*'s developer Terms of Use state plainly: "No right or license is being conveyed
+to Licensee to use or share the full data sets provided by Ballotpedia with any other
+company or individual" — in direct tension with §2.4. Pricing is sales-gated and
+unpublished (one unconfirmed secondary report puts API access at "thousands of dollars per
+month"), which fails §0.8's "a stranger can rebuild this from RUNBOOK.md" bar regardless of
+Ballotpedia's own nonprofit standing. Its own published `/officeholders` example response
+returns a county and a school district with `"offices": null` — Ballotpedia's own
+documentation shows the gap, not just silence about it; its officeholder coverage is
+documented as the top 100 cities by population, with full school-board coverage a separate,
+additional sales product. Verdict: ruled out as a backbone or bulk source. One narrow use
+survives every constraint here and in §3.3's Tier 4 rule: a human editor citing one
+specific, already-published Ballotpedia page URL as a `corroborated`-tier secondary source
+next to a primary record — manual citation of a public page, never API ingestion, never
+paid, never the sole basis for a published fact.
+
 **Rules for any API-sourced roster:**
 
 * **Cache the response, commit the derived output.** The build must succeed with every
