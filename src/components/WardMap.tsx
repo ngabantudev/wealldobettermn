@@ -3466,26 +3466,27 @@ export default function WardMap() {
                 full-bleed loud banner behind the word "Filters" made a
                 plain section label read as a call-to-action instead. A
                 second pass then de-loudened it to a flat neutral gray
-                (bg-panel-3) instead.
-                This is a third pass: "band" — the same navy-field/Water-
-                Blue-accent flag treatment SiteHeader.tsx's masthead already
-                uses (globals.css's `.band` token overrides) — per the
-                user's own reference to mndatacenter.org's "dark slate
-                header with sky blue accents" on its own detail sidebar.
-                `.band` re-scopes the ordinary bg-panel-2/text-ink/text-
-                accent utilities below to Night Sky Blue / white / Water
-                Blue within this one subtree, so nothing here hardcodes a
-                new color — same mechanism WardModal.tsx's own title bar was
-                moved onto at the same time, so the two sidebars read as one
-                consistent (now navy, not gray) panel chrome again. Light-
-                mode only by design (falls back to the workspace's own
-                near-black in dark mode) — see `.band`'s own comment in
-                globals.css. Still functionally the same "Filters" label,
-                still not dismissible (no close button — only collapsible
-                via the pull-tab outside it), still no border under the bar
-                — the fill-to-bg-panel-2 color change below is already the
+                (bg-panel-3) instead. A third pass moved this onto `.band` —
+                the same navy-field flag treatment SiteHeader.tsx's masthead
+                uses.
+                This is a fourth pass: "band-sub" — a dark neutral charcoal
+                (globals.css's `.band-sub` token overrides), not the navy
+                flag field. This header is subordinate to the one real
+                masthead, not a second identity bar of its own, and giving
+                it the same navy read as competing mastheads rather than one
+                panel inside the app `.band-sub` mirrors the reference
+                implementation's own split between `.band` (its masthead)
+                and a separate `.band-sub` (its footer strip) rather than
+                inventing a new gray. Water Blue stays as the icon accent —
+                see `.band-sub`'s own comment in globals.css for the
+                contrast math. Light-mode only by design (falls back to the
+                workspace's own near-black in dark mode, same as `.band`).
+                Still functionally the same "Filters" label, still not
+                dismissible (no close button — only collapsible via the
+                pull-tab outside it), still no border under the bar — the
+                fill-to-bg-panel-2 color change below is already the
                 seam. */}
-            <div className="band flex items-center gap-2 px-4 pt-2 pb-2 sm:pt-4 shrink-0 bg-panel text-ink">
+            <div className="band-sub flex items-center gap-2 px-4 pt-2 pb-2 sm:pt-4 shrink-0 bg-panel text-ink">
               {/* bg-accent-soft, not an ad-hoc opacity modifier — this
                   codebase's own existing "accent at low opacity, for
                   badges/fills" token (globals.css), reused here instead of

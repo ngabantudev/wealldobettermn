@@ -274,6 +274,59 @@
   --panel-3: #09090b;
 }
 
+/* "band-sub" — a fourth pass on the two persistent-panel title bars
+   (WardMap.tsx's "Filters" header, WardModal.tsx's "City - Ward N"
+   header). Those two used to carry the full `.band` flag treatment above
+   (same navy field as SiteHeader's masthead) — a third pass that read as
+   "these panels are each their own identity bar" when they're actually
+   subordinate to the one real masthead. Reference implementation
+   (github.com/ngabantudev/mndatacenter, src/styles/global.css) draws
+   exactly this distinction itself: `.band` (navy, the masthead) and a
+   separate `.band-sub` (`#303030` neutral dark gray, its footer strip) —
+   this re-creates that second class rather than inventing a new gray.
+   Neutral charcoal, not a tint of Night Sky Blue, is also the same move
+   GitHub/Linear/Stripe make for secondary chrome under a colored primary
+   header, which is the "more professional/modern" framing this was asked
+   for under.
+   Water Blue stays as the accent (icon fill, `text-accent` on the Filters
+   icon badge) rather than being neutralized too — it's still ~6.8:1
+   against `#303030`, and keeping it is what makes this read as "a step
+   down from the masthead" instead of "an unrelated gray box." Hairlines
+   and hover move to plain white-alpha overlays instead of Water-Blue-
+   tinted ones, though — this panel isn't the flag, so its own internal
+   steps shouldn't borrow the flag's mid-tone. */
+:root:not(.dark) .band-sub {
+  --panel: #303030;
+  --panel-2: #303030;
+  --panel-3: #303030;
+  --ink: #ffffff;
+  --ink-2: #ffffffe0;
+  --ink-3: #ffffffb8;
+  --ink-4: #ffffffa3;
+  --hair: #ffffff1f;
+  --hair-strong: #ffffff3d;
+  --hover: #ffffff14;
+  --accent: #52c9e8;
+  --accent-hover: #ffffff;
+  --accent-soft: #52c9e81f;
+  --on-accent: #002d5d;
+  --well: #202020;
+  --well-hair: #ffffff14;
+  --well-shadow:
+    inset 0 1px 3px #0000004d,
+    0 1px 0 #ffffff0d;
+}
+
+/* Same "step down to the workspace's own near-black" reasoning as
+   `.dark .band` above — dark mode never had a flag-navy band to begin
+   with, so `.band-sub` converges on the identical near-black rather than
+   needing its own dark treatment. */
+.dark .band-sub {
+  --panel: #09090b;
+  --panel-2: #09090b;
+  --panel-3: #09090b;
+}
+
 /* Tailwind v4 keys `dark:` off prefers-color-scheme by default. This site
    picks its theme explicitly (localStorage + MapThemeSelector), so
    re-point the variant at the .dark class instead. Nothing currently uses
