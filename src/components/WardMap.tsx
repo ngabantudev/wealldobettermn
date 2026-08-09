@@ -19,8 +19,6 @@ import {
   partyColorSoft,
   TIER_HEADER_BG,
   TIER_HEADER_TEXT,
-  PANEL_HEADER_BG,
-  PANEL_HEADER_TEXT,
 } from "@/lib/cityTheme";
 import {
   clearStoredMapStyleId,
@@ -32,6 +30,7 @@ import {
 } from "@/lib/mapStyles";
 import { getActiveTheme, setTheme, type SiteTheme } from "@/lib/siteTheme";
 import { readStored, writeStored } from "@/lib/storage";
+import { focusRingClass, rowHoverClass } from "@/lib/variantClasses";
 import AreaFilterList from "./AreaFilterList";
 import MapThemeSelector from "./MapThemeSelector";
 import MobileNav, { IconSearch, IconSliders, type MobileNavTab } from "./MobileNav";
@@ -3186,8 +3185,15 @@ export default function WardMap() {
               key={mode}
               type="button"
               onClick={() => switchMode(mode)}
-              className={`px-3 py-1.5 rounded-md font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-accent ${
-                layerMode === mode ? "bg-accent text-on-accent" : "text-ink-3 hover:bg-hover hover:text-ink"
+              // rowHoverClass/focusRingClass("floating") — shared with
+              // AreaFilterList.tsx's own row/summary chrome (src/lib/
+              // variantClasses.ts) rather than this file re-deriving the
+              // same "floating uses --hover/--accent, sidebar uses
+              // --sidebar-hover/--sidebar-accent" choice inline a second
+              // time (this button and the Chamber one just below it used
+              // to each hardcode the identical literal).
+              className={`px-3 py-1.5 rounded-md font-medium transition-colors focus:outline-none focus-visible:ring-2 ${focusRingClass("floating")} ${
+                layerMode === mode ? "bg-accent text-on-accent" : `text-ink-3 hover:text-ink ${rowHoverClass("floating")}`
               }`}
             >
               {MODE_LABELS[mode]}
@@ -3209,8 +3215,10 @@ export default function WardMap() {
                 key={c}
                 type="button"
                 onClick={() => switchChamber(c)}
-                className={`px-3 py-1.5 rounded-md font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-accent ${
-                  chamber === c ? "bg-accent text-on-accent" : "text-ink-3 hover:bg-hover hover:text-ink"
+                // See the Map layer buttons' own comment just above — same
+                // shared rowHoverClass/focusRingClass("floating") pair.
+                className={`px-3 py-1.5 rounded-md font-medium transition-colors focus:outline-none focus-visible:ring-2 ${focusRingClass("floating")} ${
+                  chamber === c ? "bg-accent text-on-accent" : `text-ink-3 hover:text-ink ${rowHoverClass("floating")}`
                 }`}
               >
                 {CHAMBER_LABELS[c]}
@@ -3445,22 +3453,31 @@ export default function WardMap() {
           }`}
         >
           <div className="flex h-full w-64 shrink-0 flex-col lg:w-72">
-            {/* Mirrors WardModal's own title bar (PANEL_HEADER_BG/TEXT) —
-                same green fill, same size/weight heading — so the two
-                sidebars read as one consistent panel chrome instead of
-                this one being a bare stack of controls next to the right
-                sidebar's titled one. No close button: unlike WardModal
-                this panel isn't dismissible, only collapsible via the
-                pull-tab outside it. No border under the fill either (a
-                prior pass added one; see git history) — the color change
-                from the green header to the sidebar's own bg-panel-2 is
-                already the seam; a drawn line on top of it was one border
-                mndatacenter.org's own flatter chrome doesn't carry. */}
-            <div
-              className="flex items-center gap-2 px-4 pt-2 pb-2 sm:pt-4 shrink-0"
-              style={{ backgroundColor: PANEL_HEADER_BG, color: PANEL_HEADER_TEXT }}
-            >
-              <h2 className="text-2xl font-extrabold">Filters</h2>
+            {/* Used to mirror WardModal's own title bar exactly —
+                PANEL_HEADER_BG's brand-green fill, a 2xl/extrabold heading —
+                so the two sidebars would read as one consistent panel
+                chrome. That green is documented in globals.css as
+                --positive, this codebase's "affirmative signal" color (used
+                for things like a successful vote outcome); spending it on a
+                full-bleed loud banner behind the word "Filters" made a
+                plain section label read as a call-to-action instead. Fixed
+                by de-loudening with this panel's own *neutral* tokens
+                instead of a new color — bg-panel-3 (the same recessed fill
+                the tab row/checkbox list already use below) for the bar,
+                a small icon badge instead of color-fill for emphasis, and
+                a modest text-sm/semibold label instead of 2xl/extrabold —
+                closer to mndatacenter.org's own restrained filter-sidebar
+                header. Still functionally the same "Filters" label for the
+                sidebar, still not dismissible (no close button — only
+                collapsible via the pull-tab outside it), still no border
+                under the bar (a prior pass added one; see git history) —
+                the fill-to-bg-panel-2 color change below is already the
+                seam. */}
+            <div className="flex items-center gap-2 px-4 pt-2 pb-2 sm:pt-4 shrink-0 bg-panel-3 text-ink-2">
+              <span aria-hidden="true" className="flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-panel-2 text-ink-3">
+                <IconSliders />
+              </span>
+              <h2 className="text-sm font-semibold uppercase tracking-wide">Filters</h2>
             </div>
             {/* Level (City/County/State) now sits inside the padded
                 content column as its own first item, rounded like the

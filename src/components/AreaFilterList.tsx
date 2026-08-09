@@ -32,6 +32,7 @@
 import { useState } from "react";
 import type { City, County } from "@/lib/cities";
 import { buildCityGroups, matchesCityQuery } from "@/lib/cityGroups";
+import { focusRingClass, rowHoverClass } from "@/lib/variantClasses";
 
 export interface AreaFilterListProps {
   // The full set of cities this list can ever offer — MODE_VISIBLE_CITIES
@@ -60,10 +61,18 @@ function fold(s: string): string {
   return s.trim().toLowerCase();
 }
 
-const rowHoverClass = (variant: "floating" | "sidebar") => (variant === "sidebar" ? "hover:bg-sidebar-hover" : "hover:bg-hover");
-const focusRingClass = (variant: "floating" | "sidebar") =>
-  variant === "sidebar" ? "focus-visible:ring-sidebar-accent" : "focus-visible:ring-accent";
-
+// Understated text-link treatment (mndatacenter.org's own All/None
+// chrome), not small buttons — these are secondary, low-stakes bulk
+// actions sitting right next to the actual controls (the checkboxes) they
+// operate on, and a bordered/filled button read as roughly the same
+// visual weight as a primary control. An underline (rather than a filled
+// hover state) is what signals "this is a text action, not a button" at a
+// glance, matching the underlined-link treatment already used elsewhere in
+// this app's chrome (e.g. CoverageNotice's own inline links). Still a real
+// <button> with the same focus ring / hover-fill as before on
+// hover/focus-visible — removing the *resting* weight doesn't mean
+// removing the interactive affordance once a resident's cursor or
+// keyboard focus actually lands on it.
 function BulkToggleButtons({
   variant,
   onAll,
@@ -81,18 +90,18 @@ function BulkToggleButtons({
     <div
       role="group"
       aria-label={groupLabel}
-      className="flex items-center gap-1 text-[11px] font-semibold uppercase tracking-wide"
+      className="flex items-center gap-1.5 text-[11px] font-medium uppercase tracking-wide text-ink-3"
     >
       {onAll && allLabel ? (
         <>
           <button
             type="button"
             onClick={onAll}
-            className={`rounded px-1.5 py-1 text-ink-3 transition-colors hover:text-ink focus:outline-none focus-visible:ring-2 ${rowHoverClass(variant)} ${focusRingClass(variant)}`}
+            className={`rounded underline decoration-hair-strong underline-offset-2 transition-colors hover:text-ink hover:decoration-current focus:outline-none focus-visible:ring-2 ${focusRingClass(variant)}`}
           >
             {allLabel}
           </button>
-          <span aria-hidden="true" className="text-ink-3">
+          <span aria-hidden="true" className="text-ink-4">
             /
           </span>
         </>
@@ -100,7 +109,7 @@ function BulkToggleButtons({
       <button
         type="button"
         onClick={onNone}
-        className={`rounded px-1.5 py-1 text-ink-3 transition-colors hover:text-ink focus:outline-none focus-visible:ring-2 ${rowHoverClass(variant)} ${focusRingClass(variant)}`}
+        className={`rounded underline decoration-hair-strong underline-offset-2 transition-colors hover:text-ink hover:decoration-current focus:outline-none focus-visible:ring-2 ${focusRingClass(variant)}`}
       >
         {onAll ? "None" : "Clear all"}
       </button>
@@ -124,8 +133,13 @@ function CityRow({
   onToggle: () => void;
 }) {
   return (
+    // py-2.5 on mobile (below sm) is load-bearing — AGENTS.md §4's 44px
+    // minimum touch target, non-negotiable. sm:py-1.5 tightens desktop-
+    // only, where the interaction is a mouse/trackpad click with no
+    // touch-target floor, closer to mndatacenter.org's own denser row
+    // height.
     <label
-      className={`flex items-center gap-2 px-3 py-2.5 sm:py-2 cursor-pointer select-none ${rowHoverClass(variant)}`}
+      className={`flex items-center gap-2 px-3 py-2.5 sm:py-1.5 cursor-pointer select-none ${rowHoverClass(variant)}`}
     >
       <input type="checkbox" checked={checked} onChange={onToggle} className="cursor-pointer accent-accent" />
       <span aria-hidden="true" className="h-2.5 w-2.5 rounded-full shrink-0" style={{ backgroundColor: accent ?? "#9ca3af" }} />
@@ -276,8 +290,32 @@ function GroupedList({
 
   if (rendered.length === 0) return <NoMatches />;
 
+  // Flat, divided list — no per-group border/radius/background "card." A
+  // prior pass gave each county's own <details> its own
+  // `rounded-lg border border-hair` box (plus a bg-panel-3/bg-panel-2 fill),
+  // which read as N small cards stacked inside the sidebar's own panel —
+  // boxes nested inside a box. mndatacenter.org's own filter sidebar never
+  // does this: county rows are separated by a hairline only, matching the
+  // divide-y treatment FlatList already uses for its own (non-grouped) row
+  // list just above.
+  //
+  // Sidebar variant: fully flat — divide-y + a leading border-t is the only
+  // separator, same "recessed surface, no drawn box" posture as the rest of
+  // this panel (see sidebarFilterControls's own comment in WardMap.tsx on
+  // why nothing here gets a card border). Floating variant: still gets one
+  // *outer* box (this list floats directly over a live, busy map image, so
+  // it keeps needing a legible edge against arbitrary map colors — see the
+  // point 5 judgment call this mirrors on BulkToggleButtons/CityRow already
+  // applying without a matching change here) — but that's one shadowed
+  // panel around the whole grouped list now, not one per county. Same
+  // information, a third of the visual weight.
+  const wrapperClass =
+    variant === "sidebar"
+      ? "divide-y divide-hair border-t border-hair text-sm text-ink-2"
+      : "rounded-lg overflow-hidden bg-panel-2/90 backdrop-blur-sm border border-hair shadow-lg shadow-(color:--shadow-panel) divide-y divide-hair text-sm text-ink-2";
+
   return (
-    <div className="space-y-2">
+    <div className={wrapperClass}>
       {rendered.map((group) => {
         const checkedCount = group.cities.filter((c) => visibleCities[c]).length;
         const totalCount = group.cities.length;
@@ -286,7 +324,7 @@ function GroupedList({
           <details
             key={group.county}
             open={open}
-            className={`group rounded-lg border border-hair overflow-hidden ${variant === "sidebar" ? "bg-panel-3" : "bg-panel-2/90 backdrop-blur-sm shadow-lg shadow-(color:--shadow-panel)"}`}
+            className="group"
             onToggle={(e) => {
               const nowOpen = e.currentTarget.open;
               if (queryActive) return;
