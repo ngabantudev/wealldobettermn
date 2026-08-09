@@ -186,8 +186,15 @@ function currentTermLabel(rep: RepProperties): string {
 // §3.1 requires deleting fabricated hearing data outright rather than
 // labeling it, so there is no meetings feed here at all, real or
 // synthetic — only an honest pointer to where a resident can find one
-// themselves. A city missing from this table falls back to a plain-text
-// "check your city's website" prompt rather than a guessed link.
+// themselves. A city missing from this table falls back to
+// CITY_OFFICIAL_WEBSITE_URL below (the city's general homepage, verified
+// but not a specific meetings/agenda page), and only falls further than
+// that — a plain-text "check your city's website" prompt with no link at
+// all — for a city missing from both, which shouldn't happen for any
+// currently covered city (every one of CITIES has a verified homepage as
+// of 2026-08-09; see that table's own comment) but is kept as the honest
+// floor for whatever gap shows up next, per this file's "never guess a
+// link" rule.
 const CITY_MEETINGS_URL: Partial<Record<string, string>> = {
   Minneapolis: "https://lims.minneapolismn.gov/Calendar/all/upcoming",
   "St. Paul": "https://www.stpaul.gov/meetings-agendas-and-minutes",
@@ -199,6 +206,63 @@ const CITY_MEETINGS_URL: Partial<Record<string, string>> = {
   Blaine: "https://www.blainemn.gov/AgendaCenter",
   "Brooklyn Park": "https://www.brooklynpark.org/city-council/city-council-documents/",
   "Coon Rapids": "https://www.coonrapidsmn.gov/572/Agendas-Minutes",
+};
+
+// Every covered city's general official government homepage — a lower,
+// honestly-labeled fallback tier under CITY_MEETINGS_URL above: when this
+// app hasn't (yet) pinned down a city's specific meetings/agenda sub-page,
+// pointing to nothing at all ("check your city's website," no link) is a
+// weaker action than it needs to be, per AGENTS.md §0.6 ("every record
+// ends in an action"). The label on this tier says "official website,"
+// never "meeting calendar" — it would be dishonest to imply this link
+// lands a resident on an agenda page when it's only confirmed to be the
+// homepage.
+//
+// Every entry verified live on 2026-08-09 — each domain confirmed via a
+// real fetch (page title, official branding/seal, and a city-hall address
+// matching the jurisdiction) to be that city's own current government
+// site, not a chamber of commerce, real-estate listing, or Wikipedia
+// mirror; a legacy domain still redirecting to the URL listed here
+// (several MN cities have migrated ci.<name>.mn.us → <name>mn.gov in
+// recent years) counted as corroboration, not the source itself. Medina
+// and Brooklyn Center block automated fetchers at the network layer
+// (Akamai bot protection, 403 on every path) — for those two only, the
+// live 301 redirect from each city's own legacy domain plus independent
+// corroboration (search index + Wikipedia's infobox) stood in for a
+// direct page load. Most cities already in CITY_MEETINGS_URL above also
+// have an entry here (harmless — that table always wins when both exist)
+// so this table stays a complete, reusable "every covered city's own
+// homepage" reference rather than only the leftover cities.
+const CITY_OFFICIAL_WEBSITE_URL: Partial<Record<string, string>> = {
+  Champlin: "https://www.champlinmn.gov/",
+  Crystal: "https://www.crystalmn.gov/",
+  Robbinsdale: "https://www.robbinsdalemn.gov/",
+  Fridley: "https://www.fridleymn.gov/",
+  Ramsey: "https://www.cityoframseymn.gov/",
+  Woodbury: "https://www.woodburymn.gov/",
+  Eagan: "https://cityofeagan.com/",
+  Lakeville: "https://www.lakevillemn.gov/",
+  "Maple Grove": "https://www.maplegrovemn.gov/",
+  "Apple Valley": "https://www.applevalleymn.gov/",
+  Burnsville: "https://www.burnsvillemn.gov/",
+  Edina: "https://www.edinamn.gov/",
+  "Eden Prairie": "https://www.edenprairiemn.gov/",
+  Rochester: "https://www.rochestermn.gov/",
+  Duluth: "https://duluthmn.gov/",
+  "St. Cloud": "https://www.ci.stcloud.mn.us/",
+  "Golden Valley": "https://www.goldenvalleymn.gov/",
+  "New Hope": "https://www.newhopemn.gov/",
+  "Columbia Heights": "https://www.columbiaheightsmn.gov/",
+  Dayton: "https://www.daytonmn.gov/",
+  Hopkins: "https://www.hopkinsmn.com/",
+  Deephaven: "https://deephaven.gov/",
+  Medina: "https://www.medinamn.gov/",
+  Hilltop: "https://www.hilltopmn.gov/",
+  Wayzata: "https://www.wayzata.org/",
+  Corcoran: "https://www.corcoranmn.gov/",
+  "Brooklyn Center": "https://www.brooklyncentermn.gov/",
+  Loretto: "https://lorettomn.gov/",
+  Woodland: "https://cityofwoodlandmn.gov/",
 };
 
 // State-chamber equivalent of CITY_MEETINGS_URL above — same honest-link
@@ -752,10 +816,28 @@ function OfficialCard({ rep }: { rep: RepProperties }) {
             site invented a fake one would have been actively harmed.
             An honest "we don't have this yet" with a real link to the
             city's own calendar is the correct replacement, not a fake
-            feed relabeled as real. The mayor's office doesn't get this
-            section at all (isWard) — there's no ward-level "meetings
-            feed" concept to honestly say we lack for a citywide role. */}
-        {isWard && (
+            feed relabeled as real.
+
+            Lives on the Mayor's card only, not every Council Member's —
+            NEXT_MEETING_TEASERS/CITY_MEETINGS_URL are keyed by rep.city,
+            never by ward or member, because a city council has exactly
+            one meeting calendar. This used to gate on isWard instead
+            (every ward Council Member got an identical copy, the Mayor
+            got none at all) — harmless in a single-card view, but city
+            view (WardMap.tsx's enterCityView/resolveAllCityOfficials) can
+            now stack every one of a city's council members in this panel
+            at once, and N byte-identical "see the city's own calendar"
+            blocks in a row is a resident scrolling past pure repetition,
+            not information. The Mayor's card is the one place per city
+            this can render exactly once — present for every city model,
+            including a fully at-large one with no ward-based seats at
+            all (Woodbury, Eagan, ...), which the old isWard gate quietly
+            never showed this section for either. If a genuinely
+            per-member meetings fact ever exists (attendance at a
+            specific meeting, say), that's a new fact belonging next to
+            Recent votes below — not a reason to keep re-rendering this
+            same citywide link on every card in the meantime. */}
+        {rep.role === "Mayor" && (
           <details className="group border-t border-hair">
             <summary className="flex list-none items-center justify-between gap-2 px-4 py-3 cursor-pointer select-none hover:bg-sidebar-hover [&::-webkit-details-marker]:hidden">
               <span className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-ink-3">
@@ -775,6 +857,13 @@ function OfficialCard({ rep }: { rep: RepProperties }) {
               ) : (
                 <p className="text-sm text-ink-3">No meetings feed connected yet for {rep.city}.</p>
               )}
+              {/* Three tiers, in honesty order: a verified specific
+                  meetings/agenda page, then a verified general homepage
+                  (CITY_OFFICIAL_WEBSITE_URL's own comment), then — only
+                  for a city missing from both, which shouldn't happen for
+                  anything currently covered — unlinked plain text. The
+                  label changes with the tier: "meeting calendar" is only
+                  ever claimed for a link actually confirmed to be one. */}
               {CITY_MEETINGS_URL[rep.city] ? (
                 <a
                   href={CITY_MEETINGS_URL[rep.city]}
@@ -784,6 +873,17 @@ function OfficialCard({ rep }: { rep: RepProperties }) {
                   style={{ color: accent }}
                 >
                   See {rep.city}&rsquo;s own meeting calendar
+                  <IconExternal />
+                </a>
+              ) : CITY_OFFICIAL_WEBSITE_URL[rep.city] ? (
+                <a
+                  href={CITY_OFFICIAL_WEBSITE_URL[rep.city]}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 text-sm font-medium hover:underline mt-1"
+                  style={{ color: accent }}
+                >
+                  Visit {rep.city}&rsquo;s official website
                   <IconExternal />
                 </a>
               ) : (
