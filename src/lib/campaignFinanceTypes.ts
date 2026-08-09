@@ -51,6 +51,23 @@ export interface ContributionSizeBand {
   max: number;
 }
 
+// The sentinel published in place of a real count/amount that fell below
+// MIN_AGGREGATE_CELL_SIZE (campaignFinanceConfig.mjs) — AGENTS.md §1d:
+// "Aggregates must be checked for re-identification risk before
+// publication; suppress cells below a documented threshold." A dedicated
+// literal type, not `null` and not `0`, so a consumer of this JSON can
+// tell apart three genuinely different facts: a verified zero (nobody
+// gave in this band — safe, no re-identification risk, never suppressed),
+// a real count/amount at or above the threshold (safe to publish exactly),
+// and a real-but-small nonzero pool suppressed for privacy. Collapsing the
+// third case into `0` would fabricate a false "nobody gave" (AGENTS.md
+// §3.1); collapsing it into `null` would read as "not collected," which is
+// also false — the count was collected, it's just not being published.
+// This mirrors campaignFinanceConfig.mjs's SUPPRESSED_CELL constant; kept
+// as a string literal type here (not re-imported) because this file is
+// pure `.ts` with no runtime import from the `.mjs` config module.
+export type SuppressedCell = "suppressed";
+
 // Per-committee, per-cycle totals. No donor names anywhere in this shape —
 // "aggregate" means aggregate, not "a list with names redacted."
 export interface ContributionAggregate {
@@ -59,12 +76,21 @@ export interface ContributionAggregate {
   // Jane Doe" or an OCD-style committee id, once one exists upstream.
   recipientCommittee: string;
   cycle: string; // e.g. "2024"
-  totalReceiptsUsd: number;
+  // Suppressed (not published as an exact figure) whenever the count of
+  // underlying natural-person contributions behind it is itself below
+  // MIN_AGGREGATE_CELL_SIZE — see suppressTotalReceipts() in
+  // campaignFinanceConfig.mjs. Without this, a fully-suppressed set of
+  // band counts below could still be defeated by subtracting every
+  // published named-entity contribution's amount from this total and
+  // recovering the exact sum given by a handful of individuals.
+  totalReceiptsUsd: number | SuppressedCell;
   // Count of natural-person contributions per size band — see
   // CONTRIBUTION_SIZE_BANDS in campaignFinanceConfig.mjs. This is the
   // *entire* representation of small individual donors on this site: a
-  // count, in a band, with no name attached, ever.
-  contributionCountsByBand: { band: ContributionSizeBand; count: number }[];
+  // count, in a band, with no name attached, ever. `count` is suppressed
+  // (see SuppressedCell above) whenever it is nonzero but below
+  // MIN_AGGREGATE_CELL_SIZE; a verified 0 is always published as 0.
+  contributionCountsByBand: { band: ContributionSizeBand; count: number | SuppressedCell }[];
 }
 
 export type NamedEntityDonorType =
@@ -101,7 +127,17 @@ export interface CampaignFinanceCandidateSummary {
   id: string;
   recipientCommittee: string;
   cycles: string[];
-  totalReceiptsUsdAllCycles: number;
+  // Suppressed whenever any one of this candidate's per-cycle
+  // ContributionAggregate.totalReceiptsUsd values was itself suppressed —
+  // see the ingest script's buildTotalReceiptsAllCycles(). Summing the
+  // *known* cycle totals and silently treating a suppressed cycle as 0
+  // would both understate the true figure and, worse, let a reader back
+  // out a bound on the suppressed cycle's amount from the published
+  // all-cycles total minus the known cycles — the same subtraction attack
+  // suppressTotalReceipts() in campaignFinanceConfig.mjs exists to close
+  // at the single-cycle level. Suppressing the roll-up too is the
+  // conservative propagation of that same rule one level up.
+  totalReceiptsUsdAllCycles: number | SuppressedCell;
   // Path under public/ this candidate's detail file is served from,
   // relative to the site root — fetched lazily only when a user opens
   // this candidate's record, per AGENTS.md §0.7/§2.5's "nobody downloads
@@ -119,6 +155,12 @@ export interface CampaignFinanceIndex {
   // threshold produced these bands without needing the ingest script.
   itemizationThresholdUsd: number;
   itemizationThresholdSourceUrl: string;
+  // Mirrors MIN_AGGREGATE_CELL_SIZE in campaignFinanceConfig.mjs at
+  // generation time — carried as data for the same reason
+  // itemizationThresholdUsd is above: a downstream consumer needs to know
+  // what "suppressed" means (a real, nonzero count/amount below this
+  // figure) without re-importing the ingest script's config module.
+  minAggregateCellSize: number;
   provenance: CampaignFinanceProvenance;
   cycles: string[];
   candidates: CampaignFinanceCandidateSummary[];
