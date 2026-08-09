@@ -80,6 +80,24 @@ export const CITIES = [
   // flagged as unsourced (see fetch-mayors.mjs's own comment on this
   // entry). Re-attempt a direct fetch before this app's next refresh.
   "Eden Prairie",
+  // Top-20-by-population batch (2026-08) — the three non-metro cities that
+  // round out MN's top 20 (population from MnDOT/MnGeo's CTU FeatureServer,
+  // fetch-city-boundaries.mjs's own `population` field, verified 2026-08-08):
+  // Rochester (125,055, Olmsted County), Duluth (86,924, St. Louis County),
+  // St. Cloud (71,122, split Stearns/Sherburne/Benton). Unlike every city
+  // above, all three elect a mix of ward AND at-large seats — the shape
+  // fetch-wards.mjs's own Hennepin-suburb comment flagged as "a possible
+  // follow-up, not this pilot." No new data-model field was needed for it:
+  // resolveOfficialsAtPoint (src/lib/officials.ts) already unions ward-
+  // polygon hits with city-name-matched mayors.geojson hits, so an at-large
+  // seat living in mayors.geojson resolves correctly alongside a ward seat
+  // from wards.geojson for any point inside the city. See WardModal.tsx's
+  // roleLabel() fix (same batch) for the one real bug this surfaced: at-
+  // large Council Members with no ward/district locator used to badge as
+  // "Mayor".
+  "Rochester",
+  "Duluth",
+  "St. Cloud",
 ] as const;
 export type City = (typeof CITIES)[number];
 
@@ -99,7 +117,24 @@ export const AT_LARGE_CITIES: readonly City[] = [
 // name here (see the Ramsey city/county collision note below for what that
 // class of bug looks like) — checked against every entry in COUNTIES and
 // CITIES before adding.
-export const COUNTIES = ["Hennepin", "Ramsey", "Anoka", "Washington", "Dakota"] as const;
+//
+// Olmsted/Saint Louis/Stearns/Sherburne/Benton added alongside the
+// Rochester/Duluth/St. Cloud batch above — the first non-metro counties
+// this app covers. St. Cloud is genuinely split across three of them with
+// real population in each (56,691 Stearns / 7,546 Sherburne / 6,885 Benton
+// per the same CTU source), not a near-zero sliver like Blaine's Ramsey
+// crossing — see countyCities.generated.ts, which lists it under all
+// three. "Saint Louis," not "St. Louis" — build-county-cities.mjs's own
+// fold() only expands SAINT->ST for *city* names (CITIES uses the
+// abbreviated form residents type); county names are matched against the
+// CTU dataset's own spelling as-is, and Minnesota's own CTU/MCD source
+// spells this one out in full. Duluth's own display label elsewhere
+// ("St. Louis County," in WardMap.tsx's COMMISSIONER_LABEL_OVERRIDES) is a
+// free-text UI string, unrelated to this exact-match county key.
+export const COUNTIES = [
+  "Hennepin", "Ramsey", "Anoka", "Washington", "Dakota",
+  "Olmsted", "Saint Louis", "Stearns", "Sherburne", "Benton",
+] as const;
 export type County = (typeof COUNTIES)[number];
 
 // NOTE: the city "Ramsey" (Anoka County) and the county "Ramsey" (St.

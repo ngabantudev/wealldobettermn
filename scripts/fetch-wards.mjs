@@ -355,6 +355,246 @@ const BROOKLYN_PARK_ROSTER = {
   ],
 };
 
+// --- Rochester (Olmsted County) ---------------------------------------------
+//
+// Top-20-by-population batch (2026-08) — see the CITIES comment in
+// src/lib/cities.ts. Rochester elects 6 ward councilmembers plus a
+// Council President elected at-large (lives in fetch-mayors.mjs, city-
+// name-matched, no ward polygon of its own — same join Woodbury's at-large
+// council already uses). Olmsted County's own GIS publishes wards only as
+// a *precinct* layer (WARD attribute, several precincts per ward, same
+// shape as Anoka County's suburbs above) — confirmed live 2026-08-08 via
+// the ArcGIS Online item "Olmsted County - Wards - City of Rochester"
+// (id 93ec06e0d8c14250b77bd1160eabfb35), whose catalog listing is flagged
+// "deprecated" but whose underlying service responds live and current, per
+// a direct query the same day. Roster hand-transcribed from
+// ROCHESTER_PROFILE_URL (fetched 2026-08-08); the page states no term
+// start/end date for any member.
+const ROCHESTER_WARDS_URL = "https://public.gis.olmstedcounty.gov/arcgis/rest/services/Political_Administrative/MapServer/2/query";
+const ROCHESTER_PROFILE_URL = "https://www.rochestermn.gov/council-administration/city-council/councilmembers/";
+const ROCHESTER_ROSTER = {
+  1: { name: "Patrick Keane", email: "pkeane@rochestermn.gov", phone: "507-259-2870", photo: "https://www.rochestermn.gov/media/ycihkz1l/keane.jpg" },
+  2: { name: "Nick Miller", email: "nmiller@rochestermn.gov", phone: "507-850-2131", photo: "https://www.rochestermn.gov/media/3iwn0na3/miller.png" },
+  3: { name: "Norman Wahl", email: "nwahl@rochestermn.gov", phone: "507-421-8969", photo: "https://www.rochestermn.gov/media/lpohg5ew/norman-wahl.png" },
+  4: { name: "Andy Friederichs", email: "afriederichs@rochestermn.gov", phone: "507-993-6830", photo: "https://www.rochestermn.gov/media/ojifp3j1/friederichs.png" },
+  // Shaun Palmer's own published contact is a personal Gmail address, not a
+  // rochestermn.gov one — that's what the city's own councilmembers page
+  // states directly, not a substitution; citable as official contact info
+  // per AGENTS.md §1a regardless of domain.
+  5: { name: "Shaun C. Palmer", email: "palmerward5@gmail.com", phone: "507-254-9484", photo: "https://www.rochestermn.gov/media/12bj5wvb/palmer.jpg" },
+  6: { name: "Dan Doering", email: "ddoering@rochestermn.gov", phone: "714-309-0314", photo: "https://www.rochestermn.gov/media/eqbn0nfa/doering.png" },
+};
+
+async function fetchRochesterWards() {
+  console.log("[wards] fetching Rochester...");
+  const url = new URL(ROCHESTER_WARDS_URL);
+  url.searchParams.set("where", "1=1");
+  url.searchParams.set("outFields", "WARD");
+  url.searchParams.set("f", "geojson");
+  const geojson = await fetchJson(url.toString());
+
+  const precinctsByWard = new Map();
+  for (const feature of geojson.features ?? []) {
+    const wardNum = Number(feature.properties?.WARD);
+    if (!precinctsByWard.has(wardNum)) precinctsByWard.set(wardNum, []);
+    precinctsByWard.get(wardNum).push(feature);
+  }
+
+  const features = [];
+  for (const [wardNum, precincts] of precinctsByWard) {
+    const dissolved = precincts.length === 1 ? precincts[0] : union(featureCollection(precincts));
+    if (!dissolved) {
+      console.warn(`[wards] Rochester ward ${wardNum}: union() returned null, skipping`);
+      continue;
+    }
+    const info = ROCHESTER_ROSTER[wardNum];
+    features.push({
+      type: "Feature",
+      geometry: dissolved.geometry,
+      properties: {
+        role: "Council Member",
+        city: "Rochester",
+        county: null,
+        ward: wardNum,
+        wardName: null,
+        district: null,
+        stateDistrict: null,
+        chamber: null,
+        repName: info?.name ?? null,
+        repParty: NONPARTISAN,
+        repPhotoUrl: info?.photo ?? null,
+        repEmail: info?.email ?? null,
+        repPhone: info?.phone ?? null,
+        termsOfService: [{ termStart: null, termEnd: null, current: true, sourceUrl: ROCHESTER_PROFILE_URL }],
+        committees: [],
+        neighborhoods: [],
+        officeRoom: null,
+        profileUrl: ROCHESTER_PROFILE_URL,
+        candidates: [],
+        isContested: false,
+        partyUnityPercent: null,
+        recentVotes: [],
+      },
+    });
+  }
+  console.log(`[wards] Rochester: ${features.length} ward(s)`);
+  return features;
+}
+
+// --- Duluth (St. Louis County) -----------------------------------------------
+//
+// Same batch as Rochester above. Duluth elects 5 district councilors plus
+// 4 at-large councilors (fetch-mayors.mjs, same city-name join). Unlike
+// every ward-based city above, Duluth's own charter calls these "Council
+// Districts," not wards — `ward` still carries the real district number
+// (fill-color cycling/click-identity key off it same as everywhere else),
+// but `wardName` overrides the *display* string to "District N" instead of
+// "Ward N" (see roleLabel()'s comment in WardModal.tsx and the field's own
+// comment in types.ts). GIS is the city's own open-data layer
+// (ArcGIS Online item "Precincts_Council_Boundaries_Duluth", already
+// dissolved to one polygon per district, layer 1 "Council_Districts_Duluth"
+// — confirmed live 2026-08-08). Roster hand-transcribed from
+// DULUTH_PROFILE_URL (fetched 2026-08-08); no term dates are published on
+// that page for any member. Photos come from each councilor's own
+// individual bio page (duluthmn.gov/city-council/city-councilors/<slug>/,
+// fetched 2026-08-08) — the shared roster page above links to each but
+// carries no photo itself.
+const DULUTH_DISTRICTS_URL =
+  "https://utility.arcgis.com/usrsvcs/servers/0f2b2e8a51814f26b0c7626f31915537/rest/services/GeneralUse/Precincts_Council_Boundaries_Duluth/MapServer/1/query";
+const DULUTH_PROFILE_URL = "https://duluthmn.gov/city-council/";
+const DULUTH_PHOTO_BASE = "https://duluthmn.gov";
+const DULUTH_ROSTER = {
+  1: { name: "Wendy Durrwachter", email: "wdurrwachter@duluthmn.gov", phone: "218-730-5351", photo: "/media/23afjqmb/i-8wdhrjc-x2.jpg" },
+  2: { name: "Diane Desotelle", email: "ddesotelle@duluthmn.gov", phone: "218-730-5355", photo: "/media/unahu1iq/diane-desotelle-district-2-councilor.jpg" },
+  3: { name: "Roz Randorf", email: "rrandorf@duluthmn.gov", phone: "218-730-5353", photo: "/media/9117/rozrandorf0018.jpg" },
+  4: { name: "David Clanaugh", email: "dclanaugh@duluthmn.gov", phone: "218-730-5356", photo: "/media/ndaddmij/david-clanaugh-district-4-city-councilor.jpg" },
+  5: { name: "Janet Kennedy", email: "jkennedy@duluthmn.gov", phone: "218-730-5357", photo: "/media/9116/janet-kennedy-press.jpg" }, // Council Vice President
+};
+
+async function fetchDuluthWards() {
+  console.log("[wards] fetching Duluth...");
+  const url = new URL(DULUTH_DISTRICTS_URL);
+  url.searchParams.set("where", "1=1");
+  url.searchParams.set("outFields", "Cncl_Dist");
+  url.searchParams.set("f", "geojson");
+  const geojson = await fetchJson(url.toString());
+
+  const features = [];
+  for (const feature of geojson.features ?? []) {
+    const districtNum = Number(feature.properties?.Cncl_Dist);
+    const info = DULUTH_ROSTER[districtNum];
+    features.push({
+      type: "Feature",
+      geometry: feature.geometry,
+      properties: {
+        role: "Council Member",
+        city: "Duluth",
+        county: null,
+        ward: districtNum,
+        wardName: Number.isFinite(districtNum) ? `District ${districtNum}` : null,
+        district: null,
+        stateDistrict: null,
+        chamber: null,
+        repName: info?.name ?? null,
+        repParty: NONPARTISAN,
+        repPhotoUrl: info?.photo ? `${DULUTH_PHOTO_BASE}${info.photo}` : null,
+        repEmail: info?.email ?? null,
+        repPhone: info?.phone ?? null,
+        termsOfService: [{ termStart: null, termEnd: null, current: true, sourceUrl: DULUTH_PROFILE_URL }],
+        committees: [],
+        neighborhoods: [],
+        officeRoom: null,
+        profileUrl: DULUTH_PROFILE_URL,
+        candidates: [],
+        isContested: false,
+        partyUnityPercent: null,
+        recentVotes: [],
+      },
+    });
+  }
+  console.log(`[wards] Duluth: ${features.length} district(s)`);
+  return features;
+}
+
+// --- St. Cloud (Stearns / Sherburne / Benton Counties) -----------------------
+//
+// Same batch as Rochester/Duluth above. St. Cloud elects 4 ward
+// councilmembers plus 3 at-large councilors (fetch-mayors.mjs, same
+// city-name join) — genuinely the most complex of the three: the city's
+// own boundary crosses Stearns/Sherburne/Benton county lines with real
+// population in all three (see the COUNTIES comment in src/lib/cities.ts),
+// unlike Blaine's near-zero county sliver. GIS is the city's own hosted
+// server (sws.stcloudcity.com, discovered via the "St. Cloud Link"
+// Experience Builder app's embedded config, ArcGIS item
+// 8e82426a27794b5aae357b6d7df290aa) — its "Wards" layer (STC_Public
+// MapServer id 21) is already dissolved to one polygon per ward and
+// already spans all three counties on its own, so no county-by-county
+// stitching was needed. `where=DIST_ID>0` drops several zero-population,
+// zero-length, duplicate-OBJECTID-0 rows the layer also carries — confirmed
+//2026-08-08 as degenerate export artifacts (not real geography: every
+// numeric field on them is exactly 0) rather than real small parcels, the
+// same way Blaine's real-but-empty Ramsey sliver was confirmed genuine
+// before being kept. Roster: ward emails from ST_CLOUD_PROFILE_URL, phones
+// AND photos from each member's own directory.aspx sub-page linked off it
+// (ci.stcloud.mn.us/Directory.aspx?eid=N — cited directly in
+// fetch-mayors.mjs's St. Cloud section for the at-large seats' phones
+// too) — both fetched 2026-08-08; neither page states individual term
+// start/end dates (only "each serves a four-year term").
+const ST_CLOUD_WARDS_URL = "https://sws.stcloudcity.com/arcgis/rest/services/STC_Public/MapServer/21/query";
+const ST_CLOUD_PROFILE_URL = "https://www.ci.stcloud.mn.us/81/City-Council";
+const ST_CLOUD_PHOTO_BASE = "https://www.ci.stcloud.mn.us";
+const ST_CLOUD_ROSTER = {
+  1: { name: "Dave Masters", email: "dave.masters@ci.stcloud.mn.us", phone: "320-266-0075", photo: "/ImageRepository/Document?documentID=24197" }, // Council Vice-President
+  2: { name: "Karen Larson", email: "Karen.Larson@ci.stcloud.mn.us", phone: "712-330-1098", photo: "/ImageRepository/Document?documentId=24201" },
+  3: { name: "Hudda Ibrahim", email: "hudda.ibrahim@ci.stcloud.mn.us", phone: "612-987-7323", photo: "/ImageRepository/Document?documentID=28665" },
+  4: { name: "Mike Conway", email: "mike.conway@ci.stcloud.mn.us", phone: "320-493-3659", photo: "/ImageRepository/Document?documentID=28672" }, // Council President
+};
+
+async function fetchStCloudWards() {
+  console.log("[wards] fetching St. Cloud...");
+  const url = new URL(ST_CLOUD_WARDS_URL);
+  url.searchParams.set("where", "DIST_ID>0");
+  url.searchParams.set("outFields", "DIST_ID");
+  url.searchParams.set("f", "geojson");
+  const geojson = await fetchJson(url.toString());
+
+  const features = [];
+  for (const feature of geojson.features ?? []) {
+    const wardNum = Number(feature.properties?.DIST_ID);
+    const info = ST_CLOUD_ROSTER[wardNum];
+    features.push({
+      type: "Feature",
+      geometry: feature.geometry,
+      properties: {
+        role: "Council Member",
+        city: "St. Cloud",
+        county: null,
+        ward: wardNum,
+        wardName: null,
+        district: null,
+        stateDistrict: null,
+        chamber: null,
+        repName: info?.name ?? null,
+        repParty: NONPARTISAN,
+        repPhotoUrl: info?.photo ? `${ST_CLOUD_PHOTO_BASE}${info.photo}` : null,
+        repEmail: info?.email ?? null,
+        repPhone: info?.phone ?? null,
+        termsOfService: [{ termStart: null, termEnd: null, current: true, sourceUrl: ST_CLOUD_PROFILE_URL }],
+        committees: [],
+        neighborhoods: [],
+        officeRoom: null,
+        profileUrl: ST_CLOUD_PROFILE_URL,
+        candidates: [],
+        isContested: false,
+        partyUnityPercent: null,
+        recentVotes: [],
+      },
+    });
+  }
+  console.log(`[wards] St. Cloud: ${features.length} ward(s)`);
+  return features;
+}
+
 async function fetchJson(url) {
   const res = await fetch(url, { headers: { "User-Agent": "mn-civic-map-etl/0.1" } });
   if (!res.ok) throw new Error(`HTTP ${res.status} ${res.statusText} for ${url}`);
@@ -593,7 +833,13 @@ async function fetchBrooklynParkWards() {
           city: "Brooklyn Park",
           county: null,
           ward: wardNum,
-          wardName: districtName || null,
+          // Full override label, not just the bare name — see WardModal.tsx's
+          // roleLabel() comment (2026-08 Duluth batch): wardName used to be
+          // just "Central" with the modal appending " District" itself, but
+          // that word-order assumption doesn't fit every city (Duluth calls
+          // its numbered areas "District 1", not "1 District"). wardName now
+          // carries the complete label as-is everywhere it's read.
+          wardName: districtName ? `${districtName} District` : null,
           district: null,
           stateDistrict: null,
           chamber: null,
@@ -760,7 +1006,7 @@ async function fetchAnokaSuburbWards(cityName, roster, profileUrls) {
 async function main() {
   const [
     mpls, stPaul, bloomington, plymouth, minnetonka, stLouisPark, richfield, champlin, crystal, robbinsdale,
-    blaine, brooklynPark, coonRapids, fridley, ramsey,
+    blaine, brooklynPark, coonRapids, fridley, ramsey, rochester, duluth, stCloud,
   ] = await Promise.all([
     fetchMinneapolisWards(),
     fetchStPaulWards(),
@@ -777,6 +1023,9 @@ async function main() {
     fetchAnokaSuburbWards("Coon Rapids", COON_RAPIDS_ROSTER),
     fetchAnokaSuburbWards("Fridley", FRIDLEY_ROSTER, FRIDLEY_PROFILE_URLS),
     fetchAnokaSuburbWards("Ramsey", RAMSEY_ROSTER, RAMSEY_PROFILE_URL),
+    fetchRochesterWards(),
+    fetchDuluthWards(),
+    fetchStCloudWards(),
   ]);
   // Named outputCollection, not featureCollection — shadowing the
   // @turf/helpers import of the same name would still work correctly here
@@ -787,6 +1036,7 @@ async function main() {
     features: [
       ...mpls, ...stPaul, ...bloomington, ...plymouth, ...minnetonka, ...stLouisPark, ...richfield, ...champlin,
       ...crystal, ...robbinsdale, ...blaine, ...brooklynPark, ...coonRapids, ...fridley, ...ramsey,
+      ...rochester, ...duluth, ...stCloud,
     ],
   };
 

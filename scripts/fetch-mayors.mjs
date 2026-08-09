@@ -954,6 +954,224 @@ const MAYORS = [
     officeRoom: null,
     profileUrl: "https://www.edenprairiemn.gov/city-government/city-council",
   },
+  // --- Rochester (Olmsted County) — mayor + at-large Council President -----
+  //
+  // Top-20-by-population batch (2026-08). Unlike every entry above,
+  // Rochester is NOT fully at-large: it elects 6 ward councilmembers too
+  // (see fetch-wards.mjs's own Rochester section) — only the Mayor and the
+  // Council President (an at-large seat, not a second mayor) sit here, at
+  // Rochester City Hall's coordinate. Both fetched 2026-08-08 directly from
+  // rochestermn.gov.
+  {
+    city: "Rochester",
+    coordinates: [-92.459679, 44.019372], // Rochester City Hall, 201 4th St SE
+    repName: "Kim Norton",
+    repParty: NONPARTISAN,
+    repPhotoUrl: "https://www.rochestermn.gov/media/lqedgesb/mayor-kim-norton-2025-headshot-2.jpg",
+    // The page's own contact line is the Mayor's Office/Executive Assistant
+    // inbox, not a personal address of Norton's own — still her office's
+    // published contact channel, per AGENTS.md §1a.
+    repEmail: "mrogers@rochestermn.gov",
+    repPhone: "507-328-2700",
+    termsOfService: [{ termStart: null, termEnd: null, current: true, sourceUrl: "https://www.rochestermn.gov/council-administration/mayor-s-office/" }],
+    committees: ["Mayor of Rochester"],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://www.rochestermn.gov/council-administration/mayor-s-office/",
+    verifiedAt: "2026-08-08",
+    verifiedAgainst: "https://www.rochestermn.gov/council-administration/mayor-s-office/",
+  },
+  {
+    city: "Rochester",
+    coordinates: [-92.459679, 44.019372],
+    role: "Council Member",
+    repName: "Randy Schubring",
+    repParty: NONPARTISAN,
+    repPhotoUrl: "https://www.rochestermn.gov/media/iwbfbse2/randy-schubring_full.jpg",
+    repEmail: "rschubring@rochestermn.gov",
+    repPhone: "507-328-2992",
+    termsOfService: [{ termStart: null, termEnd: null, current: true, sourceUrl: "https://www.rochestermn.gov/council-administration/city-council/councilmembers/" }],
+    committees: ["Council President"],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://www.rochestermn.gov/council-administration/city-council/councilmembers/",
+    verifiedAt: "2026-08-08",
+    verifiedAgainst: "https://www.rochestermn.gov/council-administration/city-council/councilmembers/",
+  },
+  // --- Duluth (St. Louis County) — mayor + 4 at-large councilors -----------
+  //
+  // Same batch as Rochester above. Duluth elects 5 district councilors
+  // (fetch-wards.mjs) plus these 4 at-large seats and the Mayor, all at
+  // Duluth City Hall's coordinate. Councilor contact info fetched
+  // 2026-08-08 from duluthmn.gov/city-council/, which links to each
+  // councilor's own individual bio page — that's where photos come from
+  // (duluthmn.gov/city-council/city-councilors/<slug>/, same fetch date),
+  // since the shared roster page itself carries none. Lynn Marie Nephew's
+  // own bio page is the one exception with no photo at all — see her
+  // entry's own comment.
+  {
+    city: "Duluth",
+    coordinates: [-92.1052761, 46.7838565], // Duluth City Hall, 411 W 1st St
+    repName: "Roger Reinert",
+    repParty: NONPARTISAN,
+    repPhotoUrl: "https://duluthmn.gov/media/hp3llka2/reinert_roger_formal-headshot_-with-seal.jpg",
+    repEmail: "rreinert@duluthmn.gov",
+    repPhone: "218-730-5230",
+    termsOfService: [{ termStart: "2024-01-01", termEnd: null, current: true, sourceUrl: "https://duluthmn.gov/mayor/" }],
+    committees: ["Mayor of Duluth"],
+    neighborhoods: [],
+    officeRoom: "City Hall, Room 422",
+    profileUrl: "https://duluthmn.gov/mayor/",
+    verifiedAt: "2026-08-08",
+    verifiedAgainst: "https://duluthmn.gov/mayor/",
+  },
+  {
+    city: "Duluth",
+    coordinates: [-92.1052761, 46.7838565],
+    role: "Council Member",
+    repName: "Jordon Johnson",
+    repParty: NONPARTISAN,
+    repPhotoUrl: "https://duluthmn.gov/media/4fdmblbq/jordon-johnson-at-large-city-councilor.jpg",
+    repEmail: "jjohnson@duluthmn.gov",
+    repPhone: "218-730-5359",
+    termsOfService: [{ termStart: null, termEnd: null, current: true, sourceUrl: "https://duluthmn.gov/city-council/" }],
+    committees: [],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://duluthmn.gov/city-council/",
+    verifiedAt: "2026-08-08",
+    verifiedAgainst: "https://duluthmn.gov/city-council/",
+  },
+  {
+    city: "Duluth",
+    coordinates: [-92.1052761, 46.7838565],
+    role: "Council Member",
+    repName: "Arik Forsman",
+    repParty: NONPARTISAN,
+    repPhotoUrl: "https://duluthmn.gov/media/xsrptm2t/forsman-head-shot.jpg",
+    repEmail: "aforsman@duluthmn.gov",
+    repPhone: "218-730-5352",
+    termsOfService: [{ termStart: null, termEnd: null, current: true, sourceUrl: "https://duluthmn.gov/city-council/" }],
+    committees: [],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://duluthmn.gov/city-council/",
+    verifiedAt: "2026-08-08",
+    verifiedAgainst: "https://duluthmn.gov/city-council/",
+  },
+  {
+    city: "Duluth",
+    coordinates: [-92.1052761, 46.7838565],
+    role: "Council Member",
+    repName: "Lynn Marie Nephew",
+    repParty: NONPARTISAN,
+    // The only one of Duluth's 9 councilors whose own bio page (checked
+    // 2026-08-08, same pass that found the other 8) carries no photo at
+    // all — genuinely absent, not missed.
+    repPhotoUrl: null,
+    repEmail: "lnephew@duluthmn.gov",
+    repPhone: "218-730-5354",
+    termsOfService: [{ termStart: null, termEnd: null, current: true, sourceUrl: "https://duluthmn.gov/city-council/" }],
+    committees: ["Council President"],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://duluthmn.gov/city-council/",
+    verifiedAt: "2026-08-08",
+    verifiedAgainst: "https://duluthmn.gov/city-council/",
+  },
+  {
+    city: "Duluth",
+    coordinates: [-92.1052761, 46.7838565],
+    role: "Council Member",
+    repName: "Terese Tomanek",
+    repParty: NONPARTISAN,
+    repPhotoUrl: "https://duluthmn.gov/media/12005/headshot.jpg",
+    repEmail: "ttomanek@duluthmn.gov",
+    repPhone: "218-730-5358",
+    termsOfService: [{ termStart: null, termEnd: null, current: true, sourceUrl: "https://duluthmn.gov/city-council/" }],
+    committees: [],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://duluthmn.gov/city-council/",
+    verifiedAt: "2026-08-08",
+    verifiedAgainst: "https://duluthmn.gov/city-council/",
+  },
+  // --- St. Cloud (Stearns / Sherburne / Benton Counties) — mayor + 3 -------
+  //     at-large councilors
+  //
+  // Same batch as Rochester/Duluth above. St. Cloud elects 4 ward
+  // councilmembers (fetch-wards.mjs) plus these 3 at-large seats and the
+  // Mayor, all at St. Cloud City Hall's coordinate. Emails from the council
+  // page; phones and photos from each member's own directory.aspx sub-page
+  // linked off it (ci.stcloud.mn.us/Directory.aspx?eid=N) — both fetched
+  // 2026-08-08.
+  {
+    city: "St. Cloud",
+    coordinates: [-94.165496, 45.553142], // St. Cloud City Hall, 1201 7th St S
+    repName: "Jake Anderson",
+    repParty: NONPARTISAN,
+    repPhotoUrl: "https://www.ci.stcloud.mn.us/ImageRepository/Document?documentID=29161",
+    repEmail: "Jake.Anderson@ci.stcloud.mn.us",
+    repPhone: "320-255-7201",
+    termsOfService: [{ termStart: "2024-11-01", termEnd: null, current: true, sourceUrl: "https://www.ci.stcloud.mn.us/82/Mayors-Office" }],
+    committees: ["Mayor of St. Cloud"],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://www.ci.stcloud.mn.us/82/Mayors-Office",
+    verifiedAt: "2026-08-08",
+    verifiedAgainst: "https://www.ci.stcloud.mn.us/82/Mayors-Office",
+  },
+  {
+    city: "St. Cloud",
+    coordinates: [-94.165496, 45.553142],
+    role: "Council Member",
+    repName: "Scott Brodeen",
+    repParty: NONPARTISAN,
+    repPhotoUrl: "https://www.ci.stcloud.mn.us/ImageRepository/Document?documentID=28673",
+    repEmail: "scott.brodeen@ci.stcloud.mn.us",
+    repPhone: "651-246-4936",
+    termsOfService: [{ termStart: null, termEnd: null, current: true, sourceUrl: "https://www.ci.stcloud.mn.us/81/City-Council" }],
+    committees: [],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://www.ci.stcloud.mn.us/81/City-Council",
+    verifiedAt: "2026-08-08",
+    verifiedAgainst: "https://www.ci.stcloud.mn.us/Directory.aspx?DID=35",
+  },
+  {
+    city: "St. Cloud",
+    coordinates: [-94.165496, 45.553142],
+    role: "Council Member",
+    repName: "Tami Calhoun",
+    repParty: NONPARTISAN,
+    repPhotoUrl: "https://www.ci.stcloud.mn.us/ImageRepository/Document?documentID=28669",
+    repEmail: "tami.calhoun@ci.stcloud.mn.us",
+    repPhone: "320-267-9366",
+    termsOfService: [{ termStart: null, termEnd: null, current: true, sourceUrl: "https://www.ci.stcloud.mn.us/81/City-Council" }],
+    committees: [],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://www.ci.stcloud.mn.us/81/City-Council",
+    verifiedAt: "2026-08-08",
+    verifiedAgainst: "https://www.ci.stcloud.mn.us/Directory.aspx?DID=35",
+  },
+  {
+    city: "St. Cloud",
+    coordinates: [-94.165496, 45.553142],
+    role: "Council Member",
+    repName: "Mark Johnson",
+    repParty: NONPARTISAN,
+    repPhotoUrl: "https://www.ci.stcloud.mn.us/ImageRepository/Document?documentID=28675",
+    repEmail: "mark.johnson@ci.stcloud.mn.us",
+    repPhone: "320-420-8745",
+    termsOfService: [{ termStart: null, termEnd: null, current: true, sourceUrl: "https://www.ci.stcloud.mn.us/81/City-Council" }],
+    committees: [],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://www.ci.stcloud.mn.us/81/City-Council",
+    verifiedAt: "2026-08-08",
+    verifiedAgainst: "https://www.ci.stcloud.mn.us/Directory.aspx?DID=35",
+  },
 ];
 
 async function main() {

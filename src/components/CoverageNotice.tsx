@@ -26,7 +26,7 @@ import { useCallback, useId, useState } from "react";
 import { useDismissable } from "@/hooks/useDismissable";
 import {
   CITY_BOUNDARIES_NOTE,
-  COMMISSIONER_COUNTIES,
+  COMMISSIONER_COUNTIES_LIST,
   MEETINGS_NOTE,
   NOT_COVERED_ANYWHERE,
   STATE_LEGISLATURE_NOTE,
@@ -77,8 +77,8 @@ export default function CoverageNotice() {
           className="well absolute right-0 bottom-full z-20 mb-2 w-72 space-y-2 rounded-xl border p-3 text-xs text-ink-3 shadow-xl shadow-(color:--shadow-panel) sm:bottom-auto sm:top-full sm:mb-0 sm:mt-2"
         >
           <p>
-            City and county rep data covers <strong className="font-semibold text-ink-2">{WARD_CITIES.length} Twin Cities-area cities</strong>{" "}
-            — not the whole metro. State legislature coverage is statewide; see below for what&apos;s still missing there.
+            City and county rep data covers <strong className="font-semibold text-ink-2">{WARD_CITIES.length} Minnesota cities</strong>{" "}
+            — not every city in the state. State legislature coverage is statewide; see below for what&apos;s still missing there.
           </p>
           <div className="space-y-1.5 border-t border-hair pt-2">
             <p>
@@ -88,7 +88,7 @@ export default function CoverageNotice() {
               <span className="font-medium text-ink-2">City council &amp; mayor</span> — {WARD_CITIES.join(", ")}.
             </p>
             <p>
-              <span className="font-medium text-ink-2">County commissioner</span> — {COMMISSIONER_COUNTIES.join(" & ")} counties
+              <span className="font-medium text-ink-2">County commissioner</span> — {COMMISSIONER_COUNTIES_LIST} Counties
               only.
             </p>
             <p>
