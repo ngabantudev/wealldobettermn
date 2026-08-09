@@ -169,6 +169,35 @@ function featuresContainingPoint(collection: FeatureCollection | null, point: Po
   return hits;
 }
 
+// Every officeholder for a whole city at once — every ward's own Council
+// Member (not just whichever single ward a point happens to fall in), plus
+// every entry mayors.geojson carries for that city: the Mayor, and — for a
+// mixed ward/at-large city like Rochester/Duluth/St Cloud — any at-large
+// Council Member too, the same join resolveOfficialsAtPoint's own
+// mayorHits step already relies on (mayors.geojson entries are matched by
+// city name, not by polygon, so they were never point-scoped to begin
+// with). Used when the CITY ITSELF is the selection (WardMap.tsx's
+// enterCityView, entering city view) — as opposed to
+// resolveOfficialsAtPoint's single-point resolution, which is still what a
+// specific ward/pin click needs.
+//
+// County and state are deliberately NOT covered here — a city can span
+// several commissioner/legislative districts at once (Minneapolis alone
+// touches multiple Hennepin County districts), and "every one that
+// overlaps this city" is a materially different, larger question than
+// this function answers. A caller building a full city-view AreaOfficials
+// still resolves those two tiers at a single point, same as before; only
+// the `city` array comes from here.
+export function resolveAllCityOfficials(city: RepProperties["city"], sources: Pick<CivicGeometrySources, "wards" | "mayors">): RepProperties[] {
+  const wardMembers = (sources.wards?.features ?? [])
+    .map((feature) => feature.properties as unknown as RepProperties)
+    .filter((rep) => rep.city === city);
+  const mayorAndAtLarge = (sources.mayors?.features ?? [])
+    .map((feature) => feature.properties as unknown as RepProperties)
+    .filter((rep) => rep.city === city);
+  return sortByRole(dedupeByIdentity([...mayorAndAtLarge, ...wardMembers]));
+}
+
 // Resolves every applicable official at one map point, across all three
 // tiers, independent of which LayerMode is currently visible on the map.
 //

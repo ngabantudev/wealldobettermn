@@ -7,8 +7,9 @@ import type { Feature, FeatureCollection, Geometry, Point } from "geojson";
 import type { AddressGazetteerManifest, MnPlaces, RepProperties, WardRef } from "@/lib/types";
 import { dataUrl } from "@/lib/dataUrl";
 import type { AreaOfficials, CivicGeometrySources } from "@/lib/officials";
-import { officialIdentity, resolveOfficialsAtPoint } from "@/lib/officials";
+import { officialIdentity, resolveAllCityOfficials, resolveOfficialsAtPoint } from "@/lib/officials";
 import { AT_LARGE_CITIES, CITIES, type City } from "@/lib/cities";
+import { fold } from "@/lib/addressSearch";
 import {
   CITY_ACCENT,
   CITY_PALETTES,
@@ -1415,37 +1416,89 @@ export default function WardMap() {
   // default extent) rather than re-selecting and re-zooming to the exact
   // same target. Cleared by deselect(), set by selectPinned() — see both.
   const selectedIdentityRef = useRef<string | null>(null);
-  // Which single GL feature (source + MapLibre-assigned numeric id, from
-  // that source's own generateId: true) currently carries the hover/
-  // selection paint highlight (hoverExpr's ["feature-state","hover"] case
-  // in addSourcesAndLayers) — tracked so setHighlight can clear the
-  // *previous* feature's state before setting the new one, since
+  // The one city (if any) whose wards are currently drill-down-enabled for
+  // direct ward-level hover/click — the "advanced zoom controls" hierarchy:
+  // reset view -> city view (this ref set) -> ward view (a specific ward
+  // pinned within it). A ward belonging to any OTHER city is treated as a
+  // request to enter *that* city first (see enterCityView below), never a
+  // direct jump to ward-level detail. Cleared by resetView() and deselect()
+  // (leaving a city means leaving its wards' enabled state too); set by
+  // enterCityView(), applySearchResult, and applyCityZoom (a ward/city
+  // search is exactly as much a "select this city" gesture as a map click,
+  // per AGENTS.md Part 4 — search and map must reach the same capability).
+  // Deliberately NOT touched by applyCountyZoom, which shows multiple
+  // cities' wards at once with no single one of them "active" — the user
+  // still has to click into one specific city before any of its wards
+  // respond at ward level, same two-step gate as anywhere else. Deliberately
+  // NOT consulted by commissioners/state-legislature mode at all — this
+  // hierarchy is scoped to the wards city/ward drill-down the feature asked
+  // for; those two modes keep their existing deselect()/zoomToDefault(mode)
+  // behavior untouched.
+  //
+  // Kept as both a ref and real state — the ref for synchronous reads
+  // inside the imperative click/hover handlers below (same reason
+  // selectedIdentityRef is a ref, not state), the state so the "Metro"
+  // button (rendered below) can actually re-render when it changes. Every
+  // assignment sets both together; never write one without the other.
+  const activeCityRef = useRef<City | null>(null);
+  const [activeCity, setActiveCity] = useState<City | null>(null);
+  // Metro level's own hover affordance — a lightweight "you're over
+  // [city]" name tooltip, deliberately NOT the full officials preview a
+  // hover inside an already-active city still gets (see the WARDS_FILL_
+  // LAYER_ID/CITY_BOUNDARIES_FILL_LAYER_ID/AT_LARGE_BOUNDARY_FILL_LAYER_ID
+  // branches of handleHoverMove below). Two things this replaces for the
+  // not-yet-entered case: it skips resolveSelectionAtPoint's three-tier
+  // point-in-polygon scan entirely (the city's own name is already sitting
+  // right there on the hovered feature's properties, no resolution
+  // needed), and it stops the right-hand detail panel from popping open/
+  // changing on every city the cursor happens to sweep across before a
+  // real selection — reusing the officials panel for this would have also
+  // required threading an empty AreaOfficials through it, which
+  // TierNode's own City-tier empty-state logic would misread as "no
+  // officials on file for this real, covered city" (AGENTS.md §3.1
+  // honesty — this app doesn't get to imply a gap that isn't real). Pure
+  // UI state, not consulted anywhere else; cleared on every click
+  // (selectPinned) since a pinned selection makes handleHoverMove
+  // early-return on every subsequent mousemove, which would otherwise
+  // leave a stale tooltip frozen in place forever. `x`/`y` are
+  // MapLayerMouseEvent.point coordinates — already relative to the map
+  // container's own box, the same box this tooltip renders inside.
+  const [metroHoverTooltip, setMetroHoverTooltip] = useState<{ name: string; x: number; y: number } | null>(null);
+  // Which GL feature(s) (source + MapLibre-assigned numeric id, from that
+  // source's own generateId: true) currently carry the hover/selection
+  // paint highlight (hoverExpr's ["feature-state","hover"] case in
+  // addSourcesAndLayers) — tracked so setHighlight can clear the
+  // *previous* feature(s)' state before setting the new one, since
   // feature-state is additive (it doesn't clear itself when a different
   // feature becomes "the" selection the way a `filter` swap would).
-  // Null when nothing is highlighted. Read/written only inside the effect
-  // that owns `map` (setHighlight is defined there); kept at component
-  // scope alongside selectedIdentityRef since both describe the same
-  // "what's currently selected" concept and both survive across re-renders
-  // for the same reason.
-  const highlightedFeatureRef = useRef<{ source: string; id: string | number } | null>(null);
+  // Always an array — a single ward/at-large/commissioner/state-leg hover
+  // or click highlights exactly one feature (a one-element array), but
+  // city view highlights every ward belonging to the active city at once
+  // (see enterCityView's own comment on why "selecting a city" has to mean
+  // all its wards, not just whichever one was clicked to get there) — an
+  // empty array when nothing is highlighted, same as null used to mean.
+  // Read/written only inside the effect that owns `map` (setHighlight is
+  // defined there); kept at component scope alongside selectedIdentityRef
+  // since both describe the same "what's currently selected" concept and
+  // both survive across re-renders for the same reason.
+  const highlightedFeaturesRef = useRef<{ source: string; id: string | number }[]>([]);
 
-  // Clears whatever feature currently carries the hover/selection paint
-  // highlight (see highlightedFeatureRef's own comment) — the one piece of
-  // that bookkeeping deselect() below needs, kept as its own top-level
+  // Clears every feature currently carrying the hover/selection paint
+  // highlight (see highlightedFeaturesRef's own comment) — the one piece
+  // of that bookkeeping deselect() below needs, kept as its own top-level
   // function (reading mapRef.current directly, like deselect's own
   // zoomToDefault call does) so deselect doesn't need a reference into the
   // main effect's setHighlight, which closes over that effect's own local
   // `map` instead. The main effect's setHighlight (defined there, for
   // setting a *new* highlight, which does need that closure) calls this
-  // for the "clear the previous one" half of its own job rather than
-  // duplicating this logic.
+  // for the "clear whatever was highlighted before" half of its own job
+  // rather than duplicating this logic.
   const clearHighlight = () => {
     const map = mapRef.current;
-    const current = highlightedFeatureRef.current;
-    if (map && current && map.getSource(current.source)) {
-      map.removeFeatureState({ source: current.source, id: current.id }, "hover");
+    for (const { source, id } of highlightedFeaturesRef.current) {
+      if (map && map.getSource(source)) map.removeFeatureState({ source, id }, "hover");
     }
-    highlightedFeatureRef.current = null;
+    highlightedFeaturesRef.current = [];
   };
   // Screen-reader announcement for the detail panel — set only from a
   // pinned (click/tap/search-result) selection, never from hover, same
@@ -1708,6 +1761,13 @@ export default function WardMap() {
   const deselect = () => {
     setSelected(null);
     selectedIdentityRef.current = null;
+    // Leaving a commissioners/state-legislature area has never touched this
+    // (they don't consult it), and leaving a wards-mode area means its
+    // wards are no longer "entered" either — cleared here regardless of
+    // mode so it's never stale the next time "wards" becomes active again.
+    activeCityRef.current = null;
+    setActiveCity(null);
+    setMetroHoverTooltip(null);
     clearHighlight();
     setAnnouncement("Representative panel closed.");
     zoomToDefault();
@@ -1720,9 +1780,18 @@ export default function WardMap() {
   // first-paint framing (Buffalo/St. Croix Falls/Lakeville), regardless of
   // which Government Level happens to be selected. Clears any selection
   // too, same as deselect, so "reset" really does mean back to the start.
+  // Also the target for the wards city/ward hierarchy's own "always resets
+  // to the reset-view level" rule (advanced zoom controls) — background
+  // "miss" clicks and the detail panel's own close button both call this
+  // now instead of deselect(), specifically so leaving a city or a ward
+  // always lands here rather than at deselect()'s per-mode statewide
+  // extent. See the map click handler's own comment on that switch.
   const resetView = () => {
     setSelected(null);
     selectedIdentityRef.current = null;
+    activeCityRef.current = null;
+    setActiveCity(null);
+    setMetroHoverTooltip(null);
     clearHighlight();
     setAnnouncement("Map view reset.");
     zoomToBoundsNoModal(DEFAULT_VIEW_BOUNDS);
@@ -1789,6 +1858,26 @@ export default function WardMap() {
     return filterHiddenChamberOfficials(resolved, visibleChambersRef.current);
   };
 
+  // City view's own equivalent of resolveSelectionAtPoint above — the
+  // panel for "the whole city is selected" should show every one of its
+  // council members, not just whichever single ward `point` happens to
+  // land in (resolveSelectionAtPoint's own single-point City tier).
+  // County/state still come from the point resolution: unlike Council
+  // Member, "every commissioner/legislator whose district overlaps this
+  // city at all" is a different, larger question resolveAllCityOfficials
+  // deliberately doesn't answer (see its own comment) — a city view still
+  // shows the county/state reps for wherever its own anchor point sits,
+  // same as before this existed. Runs the City tier through the same
+  // hidden-city filter resolveSelectionAtPoint's own result already went
+  // through, for consistency (a no-op today, since enterCityView only
+  // ever calls this for a city it just confirmed is visible — see its own
+  // toggleCity call — but cheap to keep correct if that ever changes).
+  const resolveCityViewOfficials = (city: City, point: [number, number], known?: RepProperties): AreaOfficials => {
+    const pointResolved = resolveSelectionAtPoint(point, known);
+    const cityOfficials = resolveAllCityOfficials(city, { wards: wardsDataRef.current, mayors: mayorsDataRef.current });
+    return filterHiddenCityOfficials({ ...pointResolved, city: cityOfficials }, visibleCitiesRef.current);
+  };
+
   // The one path every click/tap/search-result selection runs through
   // (as opposed to a hover, which sets `selected` directly — see
   // handleHoverMove below). An explicit selection always means "show the
@@ -1813,6 +1902,12 @@ export default function WardMap() {
   ) => {
     setSelected({ officials, pinned: true, hoveredCityName, jumpToTier, selectionKey: identity });
     selectedIdentityRef.current = identity;
+    // A pinned selection makes handleHoverMove early-return on every
+    // subsequent mousemove (see its own comment) — nothing would ever
+    // clear metroHoverTooltip.current-tick-of-cursor-position after this
+    // point otherwise, leaving the metro-level name tooltip frozen on
+    // screen indefinitely once something's actually been clicked.
+    setMetroHoverTooltip(null);
     setAnnouncement(summarizeOfficials(officials));
     if (rightDetailCollapsedRef.current) setRightDetailCollapsed(false);
   };
@@ -1972,50 +2067,65 @@ export default function WardMap() {
   // prepareWardsView's own comment on skipping zoomToDefault for the same
   // reason).
   const toggleCity = (city: City, { flyTo = true }: { flyTo?: boolean } = {}) => {
-    setVisibleCities((prev) => {
-      const next = { ...prev, [city]: !prev[city] };
-      // Mirrored onto the ref synchronously (not just via the effect that
-      // normally keeps it in sync, further up) — applySearchResult can call
-      // prepareWardsView, which can call this same toggleCity, and then
-      // immediately (same tick) call resolveSelectionAtPoint, which reads
-      // visibleCitiesRef.current. Without this, that read would still see
-      // the stale (hidden) value the effect hasn't caught up to yet, and a
-      // search result would un-hide a city on the map while the panel it
-      // opens still filters that city's own official back out.
-      visibleCitiesRef.current = next;
-      applyCityFilter(next);
-      // Enabling a city via the legend checkbox (not hiding one — next[city]
-      // false means the branch below runs instead) flies the camera to that
-      // city's own extent, same as picking it from city search does
-      // (applyCityZoom above) — a resident ticking a box wants to see the
-      // place they just asked for, not trust it's somewhere in the current
-      // view. Bounds come from whatever geometry is loaded so far; if wards/
-      // at-large data hasn't arrived yet, boundsForCity returns null and this
-      // just no-ops rather than zooming nowhere.
-      if (next[city] && flyTo) {
-        const bounds = boundsForCity(city);
-        if (bounds) zoomToBoundsNoModal(bounds);
-      }
-      // If hiding this city empties the panel's City (and County, which
-      // shares the same per-city visibility — see filterHiddenCityOfficials)
-      // section, re-filter what's shown. If that leaves every tier empty,
-      // close the panel outright rather than leaving it open, zoomed in, on
-      // three "not covered here" notes for content the user just hid.
-      if (!next[city] && selectedRef.current) {
-        const current = selectedRef.current;
-        const filtered = filterHiddenCityOfficials(current.officials, next);
-        if (filtered !== current.officials) {
-          const allEmpty = filtered.city.length === 0 && filtered.county.length === 0 && filtered.state.length === 0;
-          if (allEmpty) {
-            deselect();
-          } else {
-            setSelected({ ...current, officials: filtered });
-            setAnnouncement(summarizeOfficials(filtered));
-          }
+    // Computed from the REF, not React's own `prev` state param, and
+    // mutated onto the ref *before* setVisibleCities is even called — not
+    // inside its updater callback, which is where this used to live (see
+    // git history). That worked for applySearchResult, which dispatches
+    // from inside a React-originated event, where the updater does run
+    // synchronously enough for an immediate same-tick read to see it. It
+    // silently did NOT work reliably called from enterCityView (advanced
+    // zoom controls), which fires from a raw MapLibre `map.on("click",
+    // ...)` listener — a context React's batching does not guarantee
+    // flushes a setState updater synchronously before returning. Confirmed
+    // live: entering a city whose wards weren't visible yet (the normal
+    // case for anything but Minneapolis/St. Paul) intermittently showed
+    // "outside every city this map has ward data for" for a real, fully-
+    // covered city, immediately followed by that same click's own
+    // resolveCityViewOfficials reading visibleCitiesRef.current and still
+    // seeing it false — the "selecting a city sometimes shows nothing"
+    // report. A second click on the same (by-then-actually-visible) city
+    // always worked, which is what made this a same-tick timing race
+    // rather than a data or spelling bug. Plain synchronous variable
+    // assignment has no such ambiguity, so the ref is now always correct
+    // the instant this function returns, regardless of which kind of
+    // event triggered it. setVisibleCities(next) still runs (a plain
+    // value now, not a function) purely to trigger React's own re-render
+    // of anything reading `visibleCities` state — nothing here depends on
+    // when that particular commit happens.
+    const next = { ...visibleCitiesRef.current, [city]: !visibleCitiesRef.current[city] };
+    visibleCitiesRef.current = next;
+    applyCityFilter(next);
+    setVisibleCities(next);
+    // Enabling a city via the legend checkbox (not hiding one — next[city]
+    // false means the branch below runs instead) flies the camera to that
+    // city's own extent, same as picking it from city search does
+    // (applyCityZoom above) — a resident ticking a box wants to see the
+    // place they just asked for, not trust it's somewhere in the current
+    // view. Bounds come from whatever geometry is loaded so far; if wards/
+    // at-large data hasn't arrived yet, boundsForCity returns null and this
+    // just no-ops rather than zooming nowhere.
+    if (next[city] && flyTo) {
+      const bounds = boundsForCity(city);
+      if (bounds) zoomToBoundsNoModal(bounds);
+    }
+    // If hiding this city empties the panel's City (and County, which
+    // shares the same per-city visibility — see filterHiddenCityOfficials)
+    // section, re-filter what's shown. If that leaves every tier empty,
+    // close the panel outright rather than leaving it open, zoomed in, on
+    // three "not covered here" notes for content the user just hid.
+    if (!next[city] && selectedRef.current) {
+      const current = selectedRef.current;
+      const filtered = filterHiddenCityOfficials(current.officials, next);
+      if (filtered !== current.officials) {
+        const allEmpty = filtered.city.length === 0 && filtered.county.length === 0 && filtered.state.length === 0;
+        if (allEmpty) {
+          deselect();
+        } else {
+          setSelected({ ...current, officials: filtered });
+          setAnnouncement(summarizeOfficials(filtered));
         }
       }
-      return next;
-    });
+    }
   };
 
   // Bulk sibling to toggleCity above, backing the "All"/"None" quick
@@ -2024,39 +2134,39 @@ export default function WardMap() {
   // CITIES list) to the same visibility in one state update rather than
   // firing toggleCity in a loop, which would otherwise re-run
   // applyCityFilter and the selected-panel re-filter once per city.
-  // Mirrors toggleCity's own ref-sync and selected-panel re-filter/close
-  // logic for the same reason documented there.
+  // Mirrors toggleCity's own ref-sync (computed from and mutated onto the
+  // ref *before* setVisibleCities, not inside its updater — see that
+  // function's own comment on why) and selected-panel re-filter/close
+  // logic, for the same reasons documented there.
   const setCitiesVisible = (cities: readonly City[], visible: boolean) => {
-    setVisibleCities((prev) => {
-      const next = { ...prev };
-      for (const city of cities) next[city] = visible;
-      visibleCitiesRef.current = next;
-      applyCityFilter(next);
-      // Both "All" and "None" fly to the same place: the current mode's
-      // default extent — the exact same zoomToDefault() the "tap away"/
-      // panel-close deselect gesture already flies to (see deselect's own
-      // comment). Deliberately not a per-city-set union computed from just
-      // `cities` — that would put "All" and "None" at two different
-      // targets (the whole set's bounds vs. some other extent), and would
-      // disagree with what deselecting already shows for "nothing/
-      // everything selected." One shared "resting position" for every
-      // gesture that means "show me the default view" is the point.
-      zoomToDefault();
-      if (selectedRef.current) {
-        const current = selectedRef.current;
-        const filtered = filterHiddenCityOfficials(current.officials, next);
-        if (filtered !== current.officials) {
-          const allEmpty = filtered.city.length === 0 && filtered.county.length === 0 && filtered.state.length === 0;
-          if (allEmpty) {
-            deselect();
-          } else {
-            setSelected({ ...current, officials: filtered });
-            setAnnouncement(summarizeOfficials(filtered));
-          }
+    const next = { ...visibleCitiesRef.current };
+    for (const city of cities) next[city] = visible;
+    visibleCitiesRef.current = next;
+    applyCityFilter(next);
+    setVisibleCities(next);
+    // Both "All" and "None" fly to the same place: the current mode's
+    // default extent — the exact same zoomToDefault() the "tap away"/
+    // panel-close deselect gesture already flies to (see deselect's own
+    // comment). Deliberately not a per-city-set union computed from just
+    // `cities` — that would put "All" and "None" at two different
+    // targets (the whole set's bounds vs. some other extent), and would
+    // disagree with what deselecting already shows for "nothing/
+    // everything selected." One shared "resting position" for every
+    // gesture that means "show me the default view" is the point.
+    zoomToDefault();
+    if (selectedRef.current) {
+      const current = selectedRef.current;
+      const filtered = filterHiddenCityOfficials(current.officials, next);
+      if (filtered !== current.officials) {
+        const allEmpty = filtered.city.length === 0 && filtered.county.length === 0 && filtered.state.length === 0;
+        if (allEmpty) {
+          deselect();
+        } else {
+          setSelected({ ...current, officials: filtered });
+          setAnnouncement(summarizeOfficials(filtered));
         }
       }
-      return next;
-    });
+    }
   };
 
   // Independent checkbox toggle, same pattern as toggleCity above —
@@ -2098,6 +2208,13 @@ export default function WardMap() {
     if (mode === layerModeRef.current) return;
     setLayerMode(mode);
     setSelected(null);
+    // A city "entered" in wards mode has no meaning in commissioners/
+    // state-legislature mode (they don't consult activeCityRef at all) —
+    // cleared here so switching back to wards later never silently
+    // remembers a city from several Government Level switches ago.
+    activeCityRef.current = null;
+    setActiveCity(null);
+    setMetroHoverTooltip(null);
     applyLayerMode(mode);
     // Deliberately no zoomToDefault(mode) here: switching Government Level
     // toggles which layer/pins are visible, not where the camera points.
@@ -2210,6 +2327,13 @@ export default function WardMap() {
     // pin below does.
     const wardCenterPoint = toPoint(bounds.getCenter());
     const known = normalizeRepProperties(feature.properties);
+    // A ward search is exactly as much a "select this city" gesture as a
+    // map click on one of its wards — marking it active here is what lets
+    // a subsequent direct map click on a DIFFERENT ward in this same city
+    // switch straight to it instead of re-triggering "enter city view"
+    // first. See activeCityRef's own comment.
+    activeCityRef.current = ref.city as City;
+    setActiveCity(ref.city as City);
     // Always selects (never toggles off) — a search result is a fresh,
     // deliberate "go here" action every time, including when it happens to
     // repeat the last one, so it must never read as a second click on an
@@ -2254,6 +2378,12 @@ export default function WardMap() {
     prepareWardsView(city);
     const bounds = boundsForCity(city);
     if (!bounds) return;
+    // Same "a search is exactly as much a select-this-city gesture as a
+    // map click" reasoning as applySearchResult's own comment — a
+    // city-name search should leave that city's wards just as click-
+    // enabled as clicking its boundary on the map would.
+    activeCityRef.current = city;
+    setActiveCity(city);
     setSelected(null);
     // A city search zooms to an area, not a point — no single address to
     // anchor a pin to, so any pin left over from a previous address search
@@ -2541,6 +2671,23 @@ export default function WardMap() {
 
       el.addEventListener("mouseenter", () => {
         if (!isDesktopHover || selectedRef.current?.pinned) return;
+        // Same metro-level gate the fill-layer hover branches use (see
+        // handleHoverMove's own WARDS_FILL_LAYER_ID comment) — a pin for a
+        // warded city that hasn't been "entered" yet gets the lightweight
+        // name tooltip, not the full preview, same reasoning as there.
+        // This is a separate hover mechanism from handleHoverMove (a DOM
+        // mouseenter on the marker element, not a MapLibre layer event) —
+        // without this, a mayor/council-member pin sitting on top of its
+        // ward polygon would silently bypass the gate the polygon itself
+        // already enforces underneath it.
+        if (mode === "wards" && !AT_LARGE_CITIES.includes(properties.city as City) && properties.city !== activeCityRef.current) {
+          const containerRect = mapContainerRef.current?.getBoundingClientRect();
+          const elRect = el.getBoundingClientRect();
+          const x = containerRect ? elRect.left + elRect.width / 2 - containerRect.left : 0;
+          const y = containerRect ? elRect.top - containerRect.top : 0;
+          setMetroHoverTooltip({ name: properties.city, x, y });
+          return;
+        }
         // A pin has no MapLibre feature/id of its own (it's a DOM marker,
         // not a GL layer feature) to key the paint highlight off directly
         // — highlightTargetForRep looks its underlying polygon feature up
@@ -2548,6 +2695,7 @@ export default function WardMap() {
         // comment for why this is safe to call on every hover despite the
         // extra query.
         setHighlight(highlightTargetForRep(properties));
+        setMetroHoverTooltip(null);
         setSelected({
           officials: resolveSelectionAtPoint(point, properties),
           pinned: false,
@@ -2560,9 +2708,23 @@ export default function WardMap() {
         if (!isDesktopHover || selectedRef.current?.pinned) return;
         setHighlight(null);
         setSelected(null);
+        setMetroHoverTooltip(null);
       });
       el.addEventListener("click", (e) => {
         e.stopPropagation();
+        // A mayor/council-member pin in a WARDED city (Minneapolis, or
+        // Rochester/Duluth/St Cloud's at-large seats included, since they
+        // still belong to a city with real ward polygons) is the same
+        // "specific ward" tier a click on its own ward polygon would be —
+        // it has to respect the same city/ward gate, or a resident could
+        // just click the pin to skip straight past "select the city"
+        // entirely, the exact loophole this closes. A city with NO ward
+        // polygons at all (Woodbury, Eagan, ...) has no hierarchy to gate:
+        // its pins stay exactly as they were, the terminal selection.
+        if (mode === "wards" && !AT_LARGE_CITIES.includes(properties.city as City) && properties.city !== activeCityRef.current) {
+          enterCityView(properties.city as City, point, highlightTargetForRep(properties), zoomBounds, properties);
+          return;
+        }
         // Clicking the same pin that's already pinned toggles it back off
         // — same "re-selecting the current area closes it and returns the
         // camera to where it was before" behavior the fill-layer click
@@ -2572,6 +2734,15 @@ export default function WardMap() {
         // (or vice versa) as "the same selection," not two different ones.
         const identity = officialIdentity(properties);
         if (selectedRef.current?.pinned && selectedIdentityRef.current === identity) {
+          // Same city-view step-back as a ward polygon's own re-click (see
+          // the fill-layer click handler's comment) for a warded city's
+          // pin; an at-large pin (or a commissioners/state-leg pin, which
+          // never reaches this branch's condition above) keeps the plain
+          // deselect() it's always had.
+          if (mode === "wards" && !AT_LARGE_CITIES.includes(properties.city as City)) {
+            enterCityView(properties.city as City, point, highlightTargetForRep(properties), zoomBounds, properties);
+            return;
+          }
           deselect();
           return;
         }
@@ -3168,24 +3339,35 @@ export default function WardMap() {
 
     // Moves the hover/selection paint highlight (hoverExpr's feature-state
     // case, set up per-layer in addSourcesAndLayers) from whichever
-    // feature carried it last to `next` — or clears it entirely when
-    // `next` is null (hover leaving the map, or deselect()). Feature-state
-    // is additive per id, not a single "the current one" pointer the way a
-    // `filter` swap would be, so the previous feature's flag has to be
-    // explicitly removed or it would stay highlighted forever once
-    // touched. Safe to call with a source that no longer exists (a
-    // basemap swap tears down and rebuilds every source — see
+    // feature(s) carried it last to `next` — or clears it entirely when
+    // `next` is null/empty (hover leaving the map, or deselect()). Accepts
+    // either one feature (every existing call site — a single ward/
+    // at-large/commissioner/state-leg hover or click) or an array (city
+    // view's own call in enterCityView, highlighting every ward belonging
+    // to the active city at once — see that function's own comment).
+    // Feature-state is additive per id, not a single "the current one"
+    // pointer the way a `filter` swap would be, so whatever carried the
+    // highlight before has to be explicitly cleared first or it would
+    // stay highlighted forever once touched — always clears before
+    // setting rather than diffing old vs. new, since this only ever runs
+    // on an actual click/hover-identity change (never per-frame), so the
+    // extra churn is free. Safe to call with a source that no longer
+    // exists (a basemap swap tears down and rebuilds every source — see
     // addSourcesAndLayers' own comment) since map.getSource guards both
     // the clear and the set.
-    const setHighlight = (next: { source: string; id: string | number } | null) => {
-      const current = highlightedFeatureRef.current;
-      if (current && (!next || current.source !== next.source || current.id !== next.id)) {
-        clearHighlight();
+    const setHighlight = (
+      next: { source: string; id: string | number } | { source: string; id: string | number }[] | null,
+    ) => {
+      clearHighlight();
+      const list = next == null ? [] : Array.isArray(next) ? next : [next];
+      const applied: { source: string; id: string | number }[] = [];
+      for (const item of list) {
+        if (map.getSource(item.source)) {
+          map.setFeatureState({ source: item.source, id: item.id }, { hover: true });
+          applied.push(item);
+        }
       }
-      if (next && map.getSource(next.source)) {
-        map.setFeatureState({ source: next.source, id: next.id }, { hover: true });
-        highlightedFeatureRef.current = next;
-      }
+      highlightedFeaturesRef.current = applied;
     };
 
     // The pin-driven hover/click handlers below (mayor/council/
@@ -3223,6 +3405,84 @@ export default function WardMap() {
       return match?.id != null ? { source, id: match.id } : null;
     };
 
+    // The wards city/ward hierarchy's one entry point for "select this
+    // city": zooms to its full extent (never a single ward's), pins the
+    // city-tier detail panel, and — the actual new behavior this feature
+    // adds — makes sure the city's own wards are visible so they start
+    // responding to hover/click as individual wards from here on
+    // (activeCityRef is what every wards-layer hover/click branch below
+    // checks to tell "already entered this city" apart from "first click
+    // here"). Reused for three distinct triggers: clicking the statewide
+    // city-boundaries backdrop for a covered-but-currently-hidden city,
+    // clicking straight into a not-yet-active city's own ward polygon (no
+    // separate "city" click target needed once wards render — see the new
+    // WARDS_FILL_LAYER_ID click branch below), and re-clicking an
+    // already-pinned ward to step back out to city view (requirement 5 —
+    // "returns to the city view," not all the way back to reset). That
+    // third call is why toggleCity is only invoked when the city isn't
+    // already visible: re-entering a city whose wards are already showing
+    // must not re-trigger its own fitBounds fly (toggleCity's own comment).
+    // `identity` reuses the exact `city-boundary:${city}` shape the
+    // CITY_BOUNDARIES_FILL_LAYER_ID branch already used before this
+    // existed, so a click/search/reset elsewhere that compares against
+    // selectedIdentityRef keeps recognizing "city view for this city" the
+    // same way it always has.
+    const enterCityView = (
+      city: City,
+      point: [number, number],
+      fallbackHighlight: { source: string; id: string | number } | null,
+      fallbackBounds: maplibregl.LngLatBounds,
+      // Set only by a pin click (addPin's own click listener): a pin's
+      // `point` is its own designated coordinate (a ward's bounds center,
+      // or a nudged formation position for a multi-member ward) — close
+      // enough to *place* the marker, but not guaranteed to land inside
+      // the ward's actual polygon the way a real click coordinate does, so
+      // a bare point-in-polygon lookup can come up empty even though the
+      // pin obviously belongs to a real office. `known` seeds that tier
+      // directly instead, the same way the pin's own original (pre-gate)
+      // click handler always has — see addPin's own resolveSelectionAtPoint
+      // call. A fill-layer click passes no `known`: its `point` is the
+      // actual click coordinate, already guaranteed inside the polygon
+      // that was hit-tested to get here.
+      known?: RepProperties,
+    ) => {
+      if (!visibleCitiesRef.current[city]) toggleCity(city, { flyTo: false });
+      activeCityRef.current = city;
+      setActiveCity(city);
+      // resolveCityViewOfficials, not resolveSelectionAtPoint — city view
+      // is a selection of the WHOLE city, so its panel shows every one of
+      // its council members, not just whichever single ward `point` (the
+      // clicked feature's own coordinate) happens to fall in. See that
+      // function's own comment.
+      selectPinned(resolveCityViewOfficials(city, point, known), `city-boundary:${city}`, city, "city");
+      // Same "whole city, not just whichever one was clicked" reasoning
+      // for the visual highlight — every ward belonging to it at once.
+      // querySourceFeatures reads the source's own already-loaded tile
+      // data directly, independent of the
+      // WARDS_FILL_LAYER_ID layer's current visibility/city filter (see
+      // highlightTargetForRep's own comment on the same call), so this
+      // works even on the very first entry into a city whose wards were
+      // filtered out a moment ago. Falls back to fallbackHighlight (the
+      // single clicked feature) only in the unexpected case where the
+      // query comes back empty — e.g. wards.geojson hasn't finished
+      // loading yet — rather than leaving nothing highlighted at all.
+      const cityWards = map.querySourceFeatures(WARDS_SOURCE_ID, {
+        filter: ["==", ["get", "city"], city] as unknown as maplibregl.FilterSpecification,
+      });
+      setHighlight(
+        cityWards.length > 0
+          ? cityWards.filter((f) => f.id != null).map((f) => ({ source: WARDS_SOURCE_ID, id: f.id as string | number }))
+          : fallbackHighlight,
+      );
+      setActiveMobileSheet(null);
+      // boundsForCity reads whatever ward/at-large geometry has loaded so
+      // far (see its own comment) and can briefly return null right after
+      // mount; falling back to the clicked feature's own bounds — narrower
+      // than the full city, but still a real, present-on-screen target —
+      // rather than silently zooming nowhere.
+      zoomToBounds(boundsForCity(city) ?? fallbackBounds);
+    };
+
     const handleHoverMove = (e: maplibregl.MapLayerMouseEvent) => {
       if (!isDesktopHover) return;
       // A click-pinned modal stays put; hover shouldn't swap its content
@@ -3246,13 +3506,7 @@ export default function WardMap() {
         if (hoverIdentity === lastHoverIdentityRef.current) return;
         lastHoverIdentityRef.current = hoverIdentity;
         setHighlight(feature.id != null ? { source: feature.source, id: feature.id } : null);
-        setSelected({
-          officials: resolveSelectionAtPoint(point),
-          pinned: false,
-          hoveredCityName: feature.properties?.city ?? null,
-          jumpToTier: "city",
-          selectionKey: hoverIdentity,
-        });
+        setMetroHoverTooltip({ name: (feature.properties?.city as string | undefined) ?? "", x: e.point.x, y: e.point.y });
         return;
       }
       // city-boundaries features carry only `{ name, county, population,
@@ -3284,18 +3538,45 @@ export default function WardMap() {
         if (realTierLayers.length > 0 && map.queryRenderedFeatures(e.point, { layers: realTierLayers }).length > 0) {
           return;
         }
-        const hoverIdentity = `city-boundary:${feature.properties?.name}`;
+        const cityName = feature.properties?.name as string | undefined;
+        const hoverIdentity = `city-boundary:${cityName}`;
         if (hoverIdentity === lastHoverIdentityRef.current) return;
         lastHoverIdentityRef.current = hoverIdentity;
         setHighlight(feature.id != null ? { source: feature.source, id: feature.id } : null);
-        setSelected({
-          officials: resolveSelectionAtPoint(point),
-          pinned: false,
-          hoveredCityName: feature.properties?.name ?? null,
-          jumpToTier: "city",
-          selectionKey: hoverIdentity,
-        });
+        // Same canonical-spelling preference the click handler's own
+        // hasWardData/canonicalWard lookup uses (see its comment) — this
+        // statewide backdrop's `name` spells some covered cities "Saint
+        // ___" in full (St. Louis Park, St. Cloud), while CITIES
+        // abbreviates "St. ___". Falls back to the raw name for a
+        // genuinely uncovered city, which has no wards.geojson entry to
+        // prefer a spelling from.
+        const canonicalName =
+          cityName != null
+            ? ((wardsDataRef.current?.features.find((f) => fold((f.properties?.city as string | undefined) ?? "") === fold(cityName))
+                ?.properties as { city: string } | undefined)?.city ?? cityName)
+            : "";
+        setMetroHoverTooltip({ name: canonicalName, x: e.point.x, y: e.point.y });
         return;
+      }
+      // A ward belonging to a city that hasn't been "entered" yet (see
+      // activeCityRef's own comment) previews at metro level (just the
+      // name, via metroHoverTooltip) instead of ward level — same
+      // identity shape the CITY_BOUNDARIES_FILL_LAYER_ID branch above
+      // already uses, so hovering a not-yet-active city reads identically
+      // whether its wards happen to be visible or not. Only wards get this
+      // treatment: commissioners/state-legislature have no city/ward
+      // hierarchy of their own and fall straight through to the normal
+      // (full officials) preview below, unaffected.
+      if (feature.layer.id === WARDS_FILL_LAYER_ID) {
+        const wardCity = (feature.properties?.city as City | undefined) ?? null;
+        if (wardCity !== activeCityRef.current) {
+          const hoverIdentity = `city-boundary:${wardCity}`;
+          if (hoverIdentity === lastHoverIdentityRef.current) return;
+          lastHoverIdentityRef.current = hoverIdentity;
+          setHighlight(feature.id != null ? { source: feature.source, id: feature.id } : null);
+          setMetroHoverTooltip({ name: wardCity ?? "", x: e.point.x, y: e.point.y });
+          return;
+        }
       }
       // The hovered layer's own hit seeds its tier exactly (see
       // resolveSelectionAtPoint's comment); the other two tiers — always
@@ -3310,6 +3591,12 @@ export default function WardMap() {
       if (hoverIdentity === lastHoverIdentityRef.current) return;
       lastHoverIdentityRef.current = hoverIdentity;
       setHighlight(feature.id != null ? { source: feature.source, id: feature.id } : null);
+      // Reaching here means either a real (non-hierarchy) tier —
+      // commissioners/state-legislature — or a ward inside the already-
+      // active city; either way this is the full officials preview, not
+      // the metro-level name tooltip, so clear any tooltip a moment-ago
+      // hover over a *different*, not-yet-active city might have left up.
+      setMetroHoverTooltip(null);
       setSelected({
         officials: resolveSelectionAtPoint(point, known),
         pinned: false,
@@ -3322,6 +3609,7 @@ export default function WardMap() {
       if (!isDesktopHover) return;
       lastHoverIdentityRef.current = null;
       map.getCanvas().style.cursor = "";
+      setMetroHoverTooltip(null);
       if (selectedRef.current?.pinned) return;
       setHighlight(null);
       setSelected(null);
@@ -3355,7 +3643,12 @@ export default function WardMap() {
       });
       const hit = features[0];
       if (!hit) {
-        if (selectedRef.current?.pinned) deselect();
+        // A "miss" click always resets fully — the wards city/ward
+        // hierarchy's outermost boundary — rather than deselect()'s
+        // per-mode extent, so tapping empty map background from a ward, a
+        // city, or a commissioner/state-leg district all land at the same
+        // reset-view level (requirement 1 of the advanced zoom controls).
+        if (selectedRef.current?.pinned) resetView();
         return;
       }
       // Same "no real RepProperties to seed `known` with" case as
@@ -3391,19 +3684,75 @@ export default function WardMap() {
       // WardModal's existing "outside every city this map has ward data
       // for" empty state (coverage.ts's CITY_TIER_EMPTY_NOTE).
       if (hit.layer.id === CITY_BOUNDARIES_FILL_LAYER_ID) {
+        const cityName = hit.properties?.name as string | undefined;
         // Same shape handleHoverMove already uses for this layer's hover
         // identity — reused here so a second click toggles the area off.
-        const identity = `city-boundary:${hit.properties?.name}`;
+        const identity = `city-boundary:${cityName}`;
+        // A city with real ward polygons paints as this statewide backdrop
+        // only while its wards are filtered out of `visibleCities` (never
+        // entered before, or unchecked in the sidebar) — enter it through
+        // the same "select this city" path a direct ward click below uses
+        // (enterCityView), rather than duplicating that logic here, so
+        // hitting the blob vs. hitting an already-visible-but-not-yet-
+        // active ward reads identically either way. A genuinely uncovered
+        // city (no ward data at all — most of the state) has nothing to
+        // enter and keeps the original empty-panel behavior below.
+        //
+        // Matched via fold(), NOT a raw === on cityName: this backdrop's
+        // `name` comes from the statewide city-boundaries feed (MnDOT/
+        // MnGeo's CTU FeatureServer), which spells some covered cities
+        // "Saint ___" in full — St. Louis Park and St. Cloud, concretely —
+        // while wards.geojson (CITIES' own spelling) abbreviates "St. ___".
+        // A raw string compare made hasWardData false for those cities
+        // whenever their wards weren't already showing, silently treating
+        // a real, fully-covered city as if it had no officials at all —
+        // the reported "selecting a city sometimes shows nothing" bug.
+        // canonicalWard's own `city` property (not cityName) is what gets
+        // passed to enterCityView below for the same reason: every
+        // downstream lookup it makes (toggleCity's visibleCities key,
+        // resolveAllCityOfficials, boundsForCity) is keyed by CITIES' own
+        // spelling, so passing the CTU spelling through would have kept
+        // failing all of them even once hasWardData itself was fixed.
+        const canonicalWard =
+          cityName != null
+            ? wardsDataRef.current?.features.find((f) => fold((f.properties?.city as string | undefined) ?? "") === fold(cityName))
+            : undefined;
+        if (canonicalWard) {
+          if (selectedRef.current?.pinned && selectedIdentityRef.current === identity) {
+            // A warded city's own boundary is only re-clickable here at all
+            // in the sliver-of-a-click-gap edge case (see enterCityView's
+            // comment) — once its wards paint on top, re-clicking one of
+            // them is what steps back to city view (own branch below).
+            // Toggling off this rarer path goes all the way back to reset,
+            // same "leaving a city" outcome as everywhere else that isn't a
+            // ward re-click, rather than deselect()'s per-mode extent.
+            resetView();
+            return;
+          }
+          const point = toPoint(e.lngLat);
+          enterCityView(
+            (canonicalWard.properties as { city: string }).city as City,
+            point,
+            hit.id != null ? { source: hit.source, id: hit.id } : null,
+            boundsFromFeature(hit as Feature<Geometry>),
+          );
+          return;
+        }
         if (selectedRef.current?.pinned && selectedIdentityRef.current === identity) {
-          deselect();
+          // A genuinely uncovered city (no ward, at-large, or mayor/
+          // council data at all) has nothing to step back to — same
+          // "leaving a city always lands at the reset-view level" rule as
+          // every other toggle-off in this hierarchy, rather than
+          // deselect()'s per-mode statewide extent.
+          resetView();
           return;
         }
         const point = toPoint(e.lngLat);
-        selectPinned(resolveSelectionAtPoint(point), identity, (hit.properties?.name as string | undefined) ?? null, "city");
+        selectPinned(resolveSelectionAtPoint(point), identity, cityName ?? null, "city");
         setHighlight(hit.id != null ? { source: hit.source, id: hit.id } : null);
         setActiveMobileSheet(null);
         const boundaryFeature = cityBoundariesDataRef.current?.features.find(
-          (f) => f.properties?.name === hit.properties?.name,
+          (f) => f.properties?.name === cityName,
         );
         zoomToBounds(boundsFromFeature((boundaryFeature ?? hit) as Feature<Geometry>));
         return;
@@ -3442,6 +3791,22 @@ export default function WardMap() {
       const known = normalizeRepProperties(
         (fullFeature?.properties as Record<string, unknown> | undefined) ?? (hitProps as unknown as Record<string, unknown>),
       );
+      const point = toPoint(e.lngLat);
+      // A ward belonging to a city that hasn't been "entered" yet (see
+      // activeCityRef's own comment): this first click selects the CITY —
+      // zooms to its full extent and enables its wards — rather than
+      // jumping straight to this one ward. Commissioners/state-legislature
+      // have no city/ward hierarchy of their own and always fall straight
+      // through to the shared toggle/select logic below, unaffected.
+      if (hit.layer.id === WARDS_FILL_LAYER_ID && known.city !== activeCityRef.current) {
+        enterCityView(
+          known.city as City,
+          point,
+          hit.id != null ? { source: hit.source, id: hit.id } : null,
+          boundsFromFeature((fullFeature ?? hit) as Feature<Geometry>),
+        );
+        return;
+      }
       // Clicking the same ward/county/state district that's already
       // pinned toggles it back off instead of re-selecting (and
       // re-zooming to the exact same bounds) — same identity comparison
@@ -3451,10 +3816,22 @@ export default function WardMap() {
       // versa) both read as "the same selection."
       const identity = officialIdentity(known);
       if (selectedRef.current?.pinned && selectedIdentityRef.current === identity) {
+        // A ward toggling off steps back to city view (still zoomed to the
+        // city, its wards still enabled) rather than a full deselect —
+        // requirement 5 of the wards city/ward hierarchy. Commissioners/
+        // state-legislature keep the plain deselect() they've always had.
+        if (hit.layer.id === WARDS_FILL_LAYER_ID) {
+          enterCityView(
+            known.city as City,
+            point,
+            hit.id != null ? { source: hit.source, id: hit.id } : null,
+            boundsFromFeature((fullFeature ?? hit) as Feature<Geometry>),
+          );
+          return;
+        }
         deselect();
         return;
       }
-      const point = toPoint(e.lngLat);
       selectPinned(resolveSelectionAtPoint(point, known), identity, known.city, tierForRole(known.role));
       setHighlight(hit.id != null ? { source: hit.source, id: hit.id } : null);
       setActiveMobileSheet(null); // see applySearchResult's comment on this same call
@@ -3766,7 +4143,7 @@ export default function WardMap() {
   // the modal *and* opens that tab in the same gesture (handleMobileTabSelect
   // below), rather than leaving the first tap stranded doing nothing.
   const mobileSheetContent = selected ? (
-    <WardModal officials={selected.officials} onClose={deselect} hoveredCityName={selected.hoveredCityName} jumpToTier={selected.jumpToTier} selectionKey={selected.selectionKey} variant="sheet" />
+    <WardModal officials={selected.officials} onClose={resetView} hoveredCityName={selected.hoveredCityName} jumpToTier={selected.jumpToTier} selectionKey={selected.selectionKey} variant="sheet" />
   ) : activeMobileSheet === "search" ? (
     searchBar
   ) : activeMobileSheet === "filters" ? (
@@ -3809,7 +4186,12 @@ export default function WardMap() {
   //        collapse toggles (one pinned to each edge of the map's own
   //        box — see the return below). Search doesn't need a rung here —
   //        it lives in SiteHeader, outside this scale (see below) — and
-  //        neither do the sidebars themselves, for the same reason.
+  //        neither do the sidebars themselves, for the same reason. The
+  //        metro-level hover tooltip (metroHoverTooltip, below) lives here
+  //        too — transient, not "persistent," but genuinely desktop-only
+  //        for a different reason (hover itself doesn't exist on a touch
+  //        device, gated by isDesktopHover — not a CSS breakpoint, so it
+  //        never needs a mobile-scrim workaround the way "Metro" at 40 does).
   //   30 — mobile-only (below sm) scrim: a dimmed overlay behind whatever
   //        MobileNav has open (a tab's sheet, or the priority ward modal),
   //        blocking map interaction underneath it. See MobileNav's own
@@ -3817,7 +4199,14 @@ export default function WardMap() {
   //   40 — mobile-only nav bar + its raised sheet (MobileNav). Above the
   //        scrim at 30, and — since nothing above z-20 exists on desktop
   //        and z-20 itself never renders on mobile — never actually
-  //        contends with the desktop rung it numerically outranks.
+  //        contends with the desktop rung it numerically outranks. The
+  //        "Metro" button (below, near the map container) also shares this
+  //        rung on mobile — deliberately, not a new rung — since it has to
+  //        clear the z-30 scrim to stay tappable (entering a city always
+  //        pins the detail panel on mobile, which raises that scrim the
+  //        same instant the button appears) and it never occupies the same
+  //        screen region as MobileNav's own bottom-anchored bar/sheet, so
+  //        there's nothing for the two to actually contend over.
   //
   // SiteHeader and both sidebar `<aside>`s sit outside this scale
   // entirely — they're normal static-flow flex siblings around the
@@ -3965,6 +4354,75 @@ export default function WardMap() {
         <div className="relative min-h-0 flex-1">
           <div ref={mapContainerRef} className="absolute inset-0 w-full h-full isolate z-0" />
 
+          {/* Metro level's hover affordance — see metroHoverTooltip's own
+              comment for why this is a standalone floating label rather
+              than reusing the officials detail panel. Desktop-only in
+              practice (metroHoverTooltip is only ever set from inside
+              handleHoverMove, itself gated on isDesktopHover — mobile has
+              no hover at all, so this never renders there), so it shares
+              the desktop-only z-20 rung with #map-corner-controls below
+              rather than needing z-40's mobile-scrim workaround the Metro
+              button does. pointer-events-none: it tracks the cursor, so it
+              must never itself become the thing the cursor is over —
+              MapLibre's own hit-testing needs the real event underneath.
+              aria-hidden: purely a mouse-hover nicety, same as every other
+              hover-only affordance in this file (see handleHoverMove's own
+              comment on why hover never touches the aria-live
+              announcement region either) — a keyboard/screen-reader
+              resident reaches every city by name through search instead
+              (AGENTS.md Part 4). Position is MapLayerMouseEvent.point,
+              already relative to this same box. */}
+          {metroHoverTooltip && (
+            <div
+              aria-hidden="true"
+              style={{ left: metroHoverTooltip.x, top: metroHoverTooltip.y, transform: "translate(14px, -100%)" }}
+              className="pointer-events-none absolute z-20 whitespace-nowrap rounded border border-hair bg-panel-2/95 px-2 py-1 text-xs font-medium text-ink shadow-lg shadow-(color:--shadow-panel) backdrop-blur-sm"
+            >
+              {metroHoverTooltip.name}
+            </div>
+          )}
+
+          {/* "Metro" — the wards city/ward hierarchy's own discoverable way
+              back to the reset-view level, shown only while a city is
+              entered (city or ward view; see activeCityRef's own comment).
+              Distinct from #map-corner-controls' always-present icon-only
+              Reset View button below: once a city's wards render on top of
+              it, there's no separate "city" polygon left to re-click to
+              back out the way an at-large city's own boundary still can
+              (see enterCityView's comment) — this is the labeled,
+              always-visible equivalent for a warded city, not a
+              replacement for the corner button (which still resets from
+              any state, including this one). Calls the exact same
+              resetView() the corner button and a background "miss" click
+              already do — one reset target, three ways to reach it.
+
+              z-40, not z-20 (confirmed live, not just reasoned about — a
+              Playwright pass against a real mobile viewport caught this):
+              on mobile, entering a city always pins the detail panel too
+              (there's no "city view without a panel" the way desktop's
+              sidebar column allows — MobileNav's own "priority ward modal"
+              always wins), which raises its z-30 full-viewport scrim the
+              instant this button would show. At z-20 the button was still
+              *visible* through the scrim's 25% opacity — a static
+              screenshot alone would have missed this — but every tap
+              landed on the scrim instead and never reached the button. z-40
+              matches MobileNav's own rung; safe to share since this button
+              (fixed top-left) and MobileNav's bar/sheet (fixed bottom)
+              never occupy the same screen region regardless of viewport. */}
+          {activeCity && (
+            <button
+              type="button"
+              onClick={resetView}
+              aria-label={`Return to the metro-wide reset view (leave ${activeCity})`}
+              title="Return to metro view"
+              style={{ left: "var(--map-ctrl-edge)", top: "var(--map-ctrl-edge)" }}
+              className="absolute z-40 flex items-center gap-1 rounded-full border border-hair bg-panel-2/90 px-3 py-1.5 text-sm font-medium text-ink shadow-lg shadow-(color:--shadow-panel) backdrop-blur-sm transition hover:bg-hover focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+            >
+              <IconChevron />
+              Metro
+            </button>
+          )}
+
           {/* Left sidebar's pull-tab — mndatacenter.org's own mechanism
               (a small tab stuck to the panel's edge, chevron flips
               direction on toggle), adapted for a real flex sidebar rather
@@ -4110,7 +4568,7 @@ export default function WardMap() {
         >
           <div className="flex h-full w-80 shrink-0 flex-col lg:w-96">
             {selected ? (
-              <WardModal officials={selected.officials} onClose={deselect} hoveredCityName={selected.hoveredCityName} jumpToTier={selected.jumpToTier} selectionKey={selected.selectionKey} variant="sidebar" />
+              <WardModal officials={selected.officials} onClose={resetView} hoveredCityName={selected.hoveredCityName} jumpToTier={selected.jumpToTier} selectionKey={selected.selectionKey} variant="sidebar" />
             ) : (
               <div className="flex flex-1 flex-col items-center justify-center gap-3 px-6 py-10 text-center text-sm text-ink-3">
                 <svg viewBox="0 0 20 20" fill="none" aria-hidden="true" className="h-8 w-8 shrink-0 text-sidebar-accent">

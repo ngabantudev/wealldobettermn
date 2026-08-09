@@ -71,9 +71,16 @@ export type SearchOutcome =
 // A person might type "Saint Paul" or "St Paul" for what CITIES spells
 // "St. Paul" — fold punctuation/case away and accept a couple of common
 // spellings, rather than growing CITIES itself into a matching table.
-// Exported so SearchBar.tsx can reuse the same normalization for live
-// typeahead prefix-matching ("St" finding "Saint Paul" and vice versa),
-// not just this file's own exact-match resolution.
+// Exported for two independent consumers that both need this exact
+// normalization: SearchBar.tsx reuses it for live typeahead prefix-
+// matching ("St" finding "Saint Paul" and vice versa), and WardMap.tsx's
+// click handler needs it for a different divergence between the same two
+// spellings — the statewide city-boundaries backdrop (MnDOT/MnGeo CTU
+// FeatureServer) spells some of these cities "Saint ___" in full, while
+// CITIES (and every per-city dataset keyed off it — wards.geojson,
+// mayors.geojson) uses the abbreviated "St. ___" this file's own CITIES/
+// COUNTIES already do. See that call site's own comment for the bug this
+// fixes.
 export function fold(s: string): string {
   return s
     .toUpperCase()
