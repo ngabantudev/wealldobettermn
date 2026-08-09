@@ -1107,6 +1107,21 @@ function IconChevron({ className = "" }: { className?: string }) {
   );
 }
 
+// #map-corner-controls' "Reset view" button, next to MapLibre's own zoom
+// buttons — a target/crosshair reads as "recenter" without borrowing the
+// GPS-locate glyph (this app never requests device location for the map
+// itself; see AGENTS.md §0.12/§2.5 on why address resolution — the one
+// thing that *does* need a position — stays off this control entirely).
+function IconResetView() {
+  return (
+    <svg viewBox="0 0 20 20" fill="none" aria-hidden="true" className="h-3.5 w-3.5 shrink-0">
+      <circle cx="10" cy="10" r="6.5" stroke="currentColor" strokeWidth="1.5" />
+      <circle cx="10" cy="10" r="1.4" fill="currentColor" />
+      <path d="M10 1.5v3M10 15.5v3M1.5 10h3M15.5 10h3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+    </svg>
+  );
+}
+
 export default function WardMap() {
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
   const mapRef = useRef<maplibregl.Map | null>(null);
@@ -1459,6 +1474,21 @@ export default function WardMap() {
     zoomToDefault();
   };
 
+  // The one explicit way back to the starting view, now that switchMode no
+  // longer flies the camera anywhere on its own (see its own comment) —
+  // flies to the same DEFAULT_VIEW_BOUNDS the map opens on, not
+  // zoomToDefault's per-mode bounds, since "default" here means the actual
+  // first-paint framing (Buffalo/St. Croix Falls/Lakeville), regardless of
+  // which Government Level happens to be selected. Clears any selection
+  // too, same as deselect, so "reset" really does mean back to the start.
+  const resetView = () => {
+    setSelected(null);
+    selectedIdentityRef.current = null;
+    clearHighlight();
+    setAnnouncement("Map view reset.");
+    zoomToBoundsNoModal(DEFAULT_VIEW_BOUNDS);
+  };
+
   // City AND county tier officials are both grouped/keyed by rep.city — per
   // RepProperties's own comment in types.ts, a Hennepin commissioner
   // district groups with Minneapolis, Ramsey with St. Paul, even though
@@ -1772,7 +1802,11 @@ export default function WardMap() {
     setLayerMode(mode);
     setSelected(null);
     applyLayerMode(mode);
-    zoomToDefault(mode);
+    // Deliberately no zoomToDefault(mode) here: switching Government Level
+    // toggles which layer/pins are visible, not where the camera points.
+    // The user's current zoom and position are left exactly where they are —
+    // see the "Reset view" control (near NavigationControl) for the one
+    // explicit way back to the default extent.
   };
 
   // A resident picking a basemap by hand makes it sticky (storeMapStyleId) —
@@ -3661,6 +3695,18 @@ export default function WardMap() {
               onSelectSiteTheme={selectSiteTheme}
               onSelectMapStyle={selectMapStyle}
             />
+            <button
+              type="button"
+              onClick={resetView}
+              aria-label="Reset map view to default zoom and position"
+              title="Reset view"
+              // Sized to match MapLibre's own NavigationControl buttons
+              // (29x29, 4px corners) right below it — see MapThemeSelector's
+              // own comment on the same choice for its toggle.
+              className="flex h-7.25 w-7.25 items-center justify-center rounded bg-panel-2/90 backdrop-blur-sm border border-hair shadow-lg shadow-(color:--shadow-panel) text-ink-3 hover:bg-hover hover:text-ink transition focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+            >
+              <IconResetView />
+            </button>
             <div ref={navControlMountRef} />
             <div ref={attribControlMountRef} />
           </div>
