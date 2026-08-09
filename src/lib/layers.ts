@@ -30,8 +30,10 @@ export interface LayerRegistryEntry {
   // state per AGENTS.md §3.1, never a missing file and never fabricated
   // content).
   publicDataPath: string;
-  // "empty": public data file exists with zero records, ingest not yet
-  //   run against a live key/credential.
+  // "empty": public data file exists with zero records — ingest not yet
+  //   run against a live key/credential, or (per ECONOMIC_INTEREST_LAYER)
+  //   blocked on a currently-empty manually-curated allowlist. See the
+  //   layer's own coverage/knownGaps for which applies.
   // "partial": some records present, known coverage gaps remain (see
   //   knownGaps).
   // "live": fully wired for its documented coverage.
@@ -92,14 +94,16 @@ export const CAMPAIGN_FINANCE_LAYER: LayerRegistryEntry = {
   publicDataPath: "/campaign-finance/index.json",
   status: "partial",
   coverage:
-    "State-level candidate committees only, itemized contributions over the MN CFB's $200-per-cycle threshold. No party-unit or PAC recipient filings yet (same schema, not yet ingested). No local (city/county) filings — those are largely PDF-only. No federal (OpenFEC) receipts. No individual small-donor names, ever, by design.",
+    "State-level candidate committees only, itemized contributions over the MN CFB's $200-per-cycle threshold — every registered state candidate committee statewide, not a single-official lookup. No party-unit or PAC recipient filings yet (same schema, not yet ingested). No local (city/county) filings — those are largely PDF-only. No federal (OpenFEC) receipts. No individual small-donor names, ever, by design.",
   primarySourceUrl: "https://cfb.mn.gov/reports-and-data/self-help/data-downloads/campaign-finance/",
   sourceAgency: "Minnesota Campaign Finance and Public Disclosure Board",
   knownGaps: [
     "Local (city/county) candidate filings are largely PDF-only and are not covered by this importer yet — FEATURES.md Phase 8.",
-    "Federal receipts (OpenFEC) are not merged into this layer.",
+    "Federal receipts (OpenFEC) are not merged into this layer — see AGENTS.md §3.2's 'Campaign finance (federal)' row (OpenFEC is the source evaluated specifically for this gap; the table's Congress.gov and Bioguide rows are for legislative activity and bio/term data respectively, not receipts).",
     "Only the 'Candidates' recipient-type bulk file is ingested — Party unit and PAC recipient files are not yet included.",
     "'Self' (candidate self-funding) and 'Other' Contrib-type rows are counted in aggregates but never surfaced as named records — a deliberate fail-closed default pending a human policy call.",
+    "Statements of Economic Interest (stock holdings, outside income, real property, and government-agency interests) are a separate MN CFB dataset and now have their own registry entry — see ECONOMIC_INTEREST_LAYER below — rather than being folded into this one.",
+    "cfb.mn.gov/robots.txt contains two contradictory back-to-back `User-agent: *` blocks (first a blanket `Disallow: /`) — unresolved with CFB as of 2026-08-09; a question is drafted for CFB outreach (held outside this repo, not yet sent) asking which block governs automated access, per AGENTS.md §2.2's 'respect robots.txt' rule.",
   ],
 };
 
@@ -166,9 +170,51 @@ export const STATE_LEGISLATURE_BIO_LAYER: LayerRegistryEntry = {
   ],
 };
 
+// MN Campaign Finance Board Statements of Economic Interest — stock
+// holdings, outside income, real property, and government-agency interests
+// per official. A separate CFB dataset from CAMPAIGN_FINANCE_LAYER's
+// contributions (different pages, different form). status is "empty":
+// scripts/ingest/mn-economic-interest.mjs's fetch/parse logic is real and
+// verified live against three officials' pages (2026-08-09), but no public
+// bulk/name-search endpoint for the full official roster has been found —
+// see the script's own header comment for what was checked. Populating
+// KNOWN_OFFICIAL_IDS by hand is the documented manual workflow (AGENTS.md
+// §2.2) until that's solved; no id is ever guessed.
+//
+// A multi-dimension live-verified review (2026-08-09) found this shipped
+// with two confirmed privacy bugs — a street-address redaction regex that
+// missed Minneapolis/St. Paul's own numbered-street convention, and
+// unredacted family-member names in income-source/agency-interest rows.
+// Neither had reached public/ (the allowlist was still empty when found),
+// but both are fixed in the ingest script, with a runtime backstop
+// assertion added so a future regression is refused at ingest rather than
+// discovered live again. See the script's own header comment for detail.
+export const ECONOMIC_INTEREST_LAYER: LayerRegistryEntry = {
+  id: "economic-interest",
+  label: "Officials' Economic Interest",
+  description:
+    "Stock/securities holdings, outside income sources, real property, and government-agency interests as self-disclosed by officials on Statements of Economic Interest filed with the Minnesota Campaign Finance Board.",
+  ingestScript: "scripts/ingest/mn-economic-interest.mjs",
+  publicDataPath: "/economic-interest/index.json",
+  status: "empty",
+  coverage:
+    "Nothing yet, structurally: only officials whose CFB id has been manually verified and added to the ingest script's allowlist are covered — this is not 'all officials' and does not scale on its own. No bulk/name-search endpoint for the CFB's official roster has been found (see the ingest script's header for what was checked). No dollar valuation of holdings is ever published — the source form itself doesn't require one.",
+  primarySourceUrl: "https://cfb.mn.gov/reports-and-data/officials-financial-disclosure/official/",
+  sourceAgency: "Minnesota Campaign Finance and Public Disclosure Board",
+  knownGaps: [
+    "No public bulk or name-search endpoint has been found for the CFB's official roster — ingestion is manual-allowlist-only until this is solved. See scripts/ingest/mn-economic-interest.mjs's header comment.",
+    "The 'Securities' section's positive case is confirmed (official 14898 holds one security, \"OAANX\") — every documented field's parsing is now verified against a real populated example.",
+    "Dollar values for securities holdings are never published: the SEI form doesn't require the official to disclose one.",
+    "Real property street addresses are redacted at ingest pending a maintainer policy call on the §1a/§1b tension (see redactIfStreetAddress() in the ingest script) — research (2026-08-09) found the Board's own policy carves out SEI real-property addresses specifically as potentially public unless the filer designated them private (Minn. Stat. § 10A.09, subd. 5(b)/5b(d)), which isn't yet reconciled with this script's blanket redaction.",
+    "Income sources and government agency interests are redacted for explicit family-relationship markers ('(spouse)', etc.) but not for a private individual's bare name with no marker — see the ingest script's knownGaps. Human review is required before adding any official whose disclosures might name a private individual this way.",
+    "cfb.mn.gov/robots.txt contains two contradictory back-to-back `User-agent: *` blocks (first a blanket `Disallow: /`) — unresolved with CFB as of 2026-08-09; a question is drafted for CFB outreach (held outside this repo, not yet sent) asking which block governs automated access, per AGENTS.md §2.2's 'respect robots.txt' rule.",
+  ],
+};
+
 export const LAYER_REGISTRY: readonly LayerRegistryEntry[] = [
   MINNEAPOLIS_MEETINGS_VOTES_LAYER,
   CAMPAIGN_FINANCE_LAYER,
+  ECONOMIC_INTEREST_LAYER,
   CITY_BOUNDARIES_LAYER,
   STATE_LEGISLATURE_BIO_LAYER,
 ];

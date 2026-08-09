@@ -67,7 +67,35 @@ const CANDIDATES_DIR = path.join(OUTPUT_DIR, "candidates");
 const USER_AGENT = "wealldobettermn-etl/0.1 (+https://github.com/ngabantudev/wealldobettermn; civic transparency data pipeline)";
 
 const SOURCE_AGENCY = "Minnesota Campaign Finance and Public Disclosure Board";
-const SOURCE_LICENCE = "Public record under Minn. Stat. ch. 10A — verify current redistribution terms on cfb.mn.gov before publishing.";
+
+// Redistribution posture verified 2026-08-09 against revisor.mn.gov directly
+// (Tier 1 primary source per AGENTS.md §3.3) — see AGENTS.md §3.2 and the
+// identical note in mn-economic-interest.mjs. The operative rule is Minn.
+// Stat. § 10A.35 ("Commercial Use of Information Prohibited"), not a
+// CFB-issued licence — cfb.mn.gov has no Terms of Use page at all. § 10A.35
+// bars selling or using copied report/statement data "for a commercial
+// purpose," but states explicitly that "purposes related to elections,
+// political activities, or law enforcement are not commercial purposes" —
+// this project's nonpartisan, ad-free, non-commercial civic-transparency
+// use reads as within that carve-out on a plain reading. No attribution is
+// legally required. This reading is a well-sourced working answer, not a
+// substitute for attorney sign-off before publishing a definitive
+// compliance claim — see AGENTS.md §3.4.
+//
+// Separately unresolved: cfb.mn.gov/robots.txt contains two back-to-back
+// `User-agent: *` blocks — the first a blanket `Disallow: /`, the second
+// (with the blanket line commented out) permitting most paths. Under
+// standard robots.txt parsing only the first matching record applies,
+// which would mean this script's own fetches aren't robots.txt-clean per
+// AGENTS.md §2.2's "respect robots.txt" rule. Not yet resolved with CFB —
+// flagged for the same outreach contact as the economic-interest bulk-ID
+// question.
+const SOURCE_LICENCE =
+  "Public record under Minn. Stat. ch. 10A; commercial use/sale is barred by § 10A.35, " +
+  "but purposes related to elections, political activities, or law enforcement are not " +
+  "commercial purposes under that section — this project's non-commercial civic-transparency " +
+  "use reads as within that carve-out (verified against revisor.mn.gov, 2026-08-09; not a " +
+  "substitute for attorney review before publishing a compliance claim).";
 
 // Live-verified 2026-08-06 against cfb.mn.gov's own data-downloads page
 // (https://cfb.mn.gov/reports-and-data/self-help/data-downloads/campaign-finance/):
