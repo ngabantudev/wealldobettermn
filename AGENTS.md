@@ -373,8 +373,23 @@ resident to contact someone who no longer holds the office. Move to APIs where t
 | State roll calls | MN House and Senate journals; Revisor | Recorded votes only; voice votes recorded as "no recorded vote," itself a finding |
 | County & school boards | County/district sites; some use Legistar | Largest coverage gap; expect manual until proven otherwise |
 | Campaign finance (state/local) | **MN Campaign Finance Board** bulk data | Question 3. Subject to the donor rule in §1b |
-| Campaign finance (federal) | **OpenFEC API** | Free, keyed, well-documented |
+| Economic interest (stock, outside income, real property) | **MN Campaign Finance Board** — Statements of Economic Interest, per-official page | Question 3. Structured HTML per official, not a scanned PDF — confirmed by direct fetch. No bulk/name-search endpoint found yet; enumerating "all officials" requires the board's own official/agency index page as an ID source, not sequential ID guessing (§2.2 "no unbounded requests") |
+| Campaign finance (federal) | **OpenFEC API** | Free, keyed, well-documented. `/candidates` and `/committees` are natively bulk/paginated — covers all federal candidates without a per-official crawl |
+| Federal legislative activity (bills, sponsorships, roll calls) | **Congress.gov** | Official record, Tier 1. Covers MN's federal House/Senate delegation only — not state or local |
+| Federal officeholder bio/term data | **Bioguide** | Official congressional biographical directory. Office dates, committee assignments; source for federal `verifiedAt`/term data |
 | Candidates & election results | MN Secretary of State | Authoritative for terms and turnover |
+
+**Evaluated and rejected (2026-08-09).** GovTrack's raw bill/cosponsorship/vote data would be
+Tier 3 (redundant with Congress.gov's Tier 1 record of the same facts) — never use its
+**ideology score**, a computed left-right ranking of a member's political position, which is
+exactly the "no ideological scoring of individual members" ban in §1c. OpenSecrets' public API
+was discontinued April 2025; current access is a paid custom arrangement, which fails §0.8.
+TrackAIPAC.com is Tier 4 advocacy with a self-described contested donor-attribution methodology
+(bundler/network inference, not primary-source records) — the kind of derived-influence claim
+§1c prohibits, so it doesn't even qualify as a Tier 4 lead here. keep-dc-honest.com (Influence
+Registry) is a Tier 3/4 secondary aggregator sitting on top of the (now-dead) OpenSecrets API,
+with no MN state or local coverage — useful only as design reference for disclaiming causal
+claims, not as a data source.
 
 **Deprecated — do not use.** The Google Civic Information API's Representatives endpoint,
 long the default for address-to-official lookup, was announced for turndown in April 2025

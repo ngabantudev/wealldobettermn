@@ -92,14 +92,15 @@ export const CAMPAIGN_FINANCE_LAYER: LayerRegistryEntry = {
   publicDataPath: "/campaign-finance/index.json",
   status: "partial",
   coverage:
-    "State-level candidate committees only, itemized contributions over the MN CFB's $200-per-cycle threshold. No party-unit or PAC recipient filings yet (same schema, not yet ingested). No local (city/county) filings — those are largely PDF-only. No federal (OpenFEC) receipts. No individual small-donor names, ever, by design.",
+    "State-level candidate committees only, itemized contributions over the MN CFB's $200-per-cycle threshold — every registered state candidate committee statewide, not a single-official lookup. No party-unit or PAC recipient filings yet (same schema, not yet ingested). No local (city/county) filings — those are largely PDF-only. No federal (OpenFEC) receipts. No individual small-donor names, ever, by design.",
   primarySourceUrl: "https://cfb.mn.gov/reports-and-data/self-help/data-downloads/campaign-finance/",
   sourceAgency: "Minnesota Campaign Finance and Public Disclosure Board",
   knownGaps: [
     "Local (city/county) candidate filings are largely PDF-only and are not covered by this importer yet — FEATURES.md Phase 8.",
-    "Federal receipts (OpenFEC) are not merged into this layer.",
+    "Federal receipts (OpenFEC) are not merged into this layer — see AGENTS.md §3.2 for the federal Tier 1 sources (OpenFEC, Congress.gov, Bioguide) evaluated for this.",
     "Only the 'Candidates' recipient-type bulk file is ingested — Party unit and PAC recipient files are not yet included.",
     "'Self' (candidate self-funding) and 'Other' Contrib-type rows are counted in aggregates but never surfaced as named records — a deliberate fail-closed default pending a human policy call.",
+    "Statements of Economic Interest (stock holdings, outside income, real property) are a separate MN CFB dataset and now have their own registry entry — see ECONOMIC_INTEREST_LAYER below — rather than being folded into this one.",
   ],
 };
 
@@ -166,9 +167,39 @@ export const STATE_LEGISLATURE_BIO_LAYER: LayerRegistryEntry = {
   ],
 };
 
+// MN Campaign Finance Board Statements of Economic Interest — stock
+// holdings, outside income, real property, and government-agency interests
+// per official. A separate CFB dataset from CAMPAIGN_FINANCE_LAYER's
+// contributions (different pages, different form). status is "empty":
+// scripts/ingest/mn-economic-interest.mjs's fetch/parse logic is real and
+// verified live against two officials' pages (2026-08-09), but no public
+// bulk/name-search endpoint for the full official roster has been found —
+// see the script's own header comment for what was checked. Populating
+// KNOWN_OFFICIAL_IDS by hand is the documented manual workflow (AGENTS.md
+// §2.2) until that's solved; no id is ever guessed.
+export const ECONOMIC_INTEREST_LAYER: LayerRegistryEntry = {
+  id: "economic-interest",
+  label: "Officials' Economic Interest",
+  description:
+    "Stock/securities holdings, outside income sources, real property, and government-agency interests as self-disclosed by officials on Statements of Economic Interest filed with the Minnesota Campaign Finance Board.",
+  ingestScript: "scripts/ingest/mn-economic-interest.mjs",
+  publicDataPath: "/economic-interest/index.json",
+  status: "empty",
+  coverage:
+    "Nothing yet, structurally: only officials whose CFB id has been manually verified and added to the ingest script's allowlist are covered — this is not 'all officials' and does not scale on its own. No bulk/name-search endpoint for the CFB's official roster has been found (see the ingest script's header for what was checked). No dollar valuation of holdings is ever published — the source form itself doesn't require one.",
+  primarySourceUrl: "https://cfb.mn.gov/reports-and-data/officials-financial-disclosure/official/",
+  sourceAgency: "Minnesota Campaign Finance and Public Disclosure Board",
+  knownGaps: [
+    "No public bulk or name-search endpoint has been found for the CFB's official roster — ingestion is manual-allowlist-only until this is solved. See scripts/ingest/mn-economic-interest.mjs's header comment.",
+    "securitiesHoldings, realProperty, incomeSources, and governmentAgencyInterests parsing is stubbed to empty pending a maintainer confirming the live page's list markup — only occupation/employer/lastUpdated are extracted today.",
+    "Dollar values for securities holdings are never published: the SEI form doesn't require the official to disclose one.",
+  ],
+};
+
 export const LAYER_REGISTRY: readonly LayerRegistryEntry[] = [
   MINNEAPOLIS_MEETINGS_VOTES_LAYER,
   CAMPAIGN_FINANCE_LAYER,
+  ECONOMIC_INTEREST_LAYER,
   CITY_BOUNDARIES_LAYER,
   STATE_LEGISLATURE_BIO_LAYER,
 ];
