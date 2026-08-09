@@ -1420,11 +1420,7 @@ export default function WardMap() {
   // reset view -> city view (this ref set) -> ward view (a specific ward
   // pinned within it). A ward belonging to any OTHER city is treated as a
   // request to enter *that* city first (see enterCityView below), never a
-  // direct jump to ward-level detail. Deliberately a plain ref, not
-  // useState: nothing ever renders off this value directly, it's read only
-  // inside the imperative click/hover handlers and search-selection
-  // functions below, all of which already read/write selectedIdentityRef
-  // and selectedRef the same way. Cleared by resetView() and deselect()
+  // direct jump to ward-level detail. Cleared by resetView() and deselect()
   // (leaving a city means leaving its wards' enabled state too); set by
   // enterCityView(), applySearchResult, and applyCityZoom (a ward/city
   // search is exactly as much a "select this city" gesture as a map click,
@@ -1437,7 +1433,14 @@ export default function WardMap() {
   // hierarchy is scoped to the wards city/ward drill-down the feature asked
   // for; those two modes keep their existing deselect()/zoomToDefault(mode)
   // behavior untouched.
+  //
+  // Kept as both a ref and real state — the ref for synchronous reads
+  // inside the imperative click/hover handlers below (same reason
+  // selectedIdentityRef is a ref, not state), the state so the "Metro"
+  // button (rendered below) can actually re-render when it changes. Every
+  // assignment sets both together; never write one without the other.
   const activeCityRef = useRef<City | null>(null);
+  const [activeCity, setActiveCity] = useState<City | null>(null);
   // Which single GL feature (source + MapLibre-assigned numeric id, from
   // that source's own generateId: true) currently carries the hover/
   // selection paint highlight (hoverExpr's ["feature-state","hover"] case
@@ -1736,6 +1739,7 @@ export default function WardMap() {
     // wards are no longer "entered" either — cleared here regardless of
     // mode so it's never stale the next time "wards" becomes active again.
     activeCityRef.current = null;
+    setActiveCity(null);
     clearHighlight();
     setAnnouncement("Representative panel closed.");
     zoomToDefault();
@@ -1758,6 +1762,7 @@ export default function WardMap() {
     setSelected(null);
     selectedIdentityRef.current = null;
     activeCityRef.current = null;
+    setActiveCity(null);
     clearHighlight();
     setAnnouncement("Map view reset.");
     zoomToBoundsNoModal(DEFAULT_VIEW_BOUNDS);
@@ -2138,6 +2143,7 @@ export default function WardMap() {
     // cleared here so switching back to wards later never silently
     // remembers a city from several Government Level switches ago.
     activeCityRef.current = null;
+    setActiveCity(null);
     applyLayerMode(mode);
     // Deliberately no zoomToDefault(mode) here: switching Government Level
     // toggles which layer/pins are visible, not where the camera points.
@@ -2256,6 +2262,7 @@ export default function WardMap() {
     // switch straight to it instead of re-triggering "enter city view"
     // first. See activeCityRef's own comment.
     activeCityRef.current = ref.city as City;
+    setActiveCity(ref.city as City);
     // Always selects (never toggles off) — a search result is a fresh,
     // deliberate "go here" action every time, including when it happens to
     // repeat the last one, so it must never read as a second click on an
@@ -2305,6 +2312,7 @@ export default function WardMap() {
     // city-name search should leave that city's wards just as click-
     // enabled as clicking its boundary on the map would.
     activeCityRef.current = city;
+    setActiveCity(city);
     setSelected(null);
     // A city search zooms to an area, not a point — no single address to
     // anchor a pin to, so any pin left over from a previous address search
@@ -3339,6 +3347,7 @@ export default function WardMap() {
     ) => {
       if (!visibleCitiesRef.current[city]) toggleCity(city, { flyTo: false });
       activeCityRef.current = city;
+      setActiveCity(city);
       selectPinned(resolveSelectionAtPoint(point, known), `city-boundary:${city}`, city, "city");
       setHighlight(highlight);
       setActiveMobileSheet(null);
@@ -4186,6 +4195,33 @@ export default function WardMap() {
             instead of overlays. */}
         <div className="relative min-h-0 flex-1">
           <div ref={mapContainerRef} className="absolute inset-0 w-full h-full isolate z-0" />
+
+          {/* "Metro" — the wards city/ward hierarchy's own discoverable way
+              back to the reset-view level, shown only while a city is
+              entered (city or ward view; see activeCityRef's own comment).
+              Distinct from #map-corner-controls' always-present icon-only
+              Reset View button below: once a city's wards render on top of
+              it, there's no separate "city" polygon left to re-click to
+              back out the way an at-large city's own boundary still can
+              (see enterCityView's comment) — this is the labeled,
+              always-visible equivalent for a warded city, not a
+              replacement for the corner button (which still resets from
+              any state, including this one). Calls the exact same
+              resetView() the corner button and a background "miss" click
+              already do — one reset target, three ways to reach it. */}
+          {activeCity && (
+            <button
+              type="button"
+              onClick={resetView}
+              aria-label={`Return to the metro-wide reset view (leave ${activeCity})`}
+              title="Return to metro view"
+              style={{ left: "var(--map-ctrl-edge)", top: "var(--map-ctrl-edge)" }}
+              className="absolute z-20 flex items-center gap-1 rounded-full border border-hair bg-panel-2/90 px-3 py-1.5 text-sm font-medium text-ink shadow-lg shadow-(color:--shadow-panel) backdrop-blur-sm transition hover:bg-hover focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+            >
+              <IconChevron />
+              Metro
+            </button>
+          )}
 
           {/* Left sidebar's pull-tab — mndatacenter.org's own mechanism
               (a small tab stuck to the panel's edge, chevron flips
