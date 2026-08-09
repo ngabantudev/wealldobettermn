@@ -299,8 +299,18 @@ const STATE_LEG_FILL_COLOR_EXPRESSION = [
 // conditions at once.
 const CONTESTED_FILTER = ["==", ["get", "isContested"], true] as unknown as maplibregl.FilterSpecification;
 
-const TWIN_CITIES_CENTER: [number, number] = [-93.185, 44.955];
-const DEFAULT_ZOOM = 10.4;
+// The view a fresh page load (or refresh) opens on: zoomed out just far
+// enough that Buffalo (west), St. Croix Falls, WI (northeast), and
+// Lakeville (south) are all inside the frame, so the map reads as "the
+// Twin Cities metro" rather than just the Minneapolis/St. Paul core.
+// Fixed town coordinates rather than a data-derived bounds (the way
+// zoomToDefault's per-mode bounds are) since these three aren't
+// necessarily covered by any layer this app ships — they're picked purely
+// to define the initial camera framing.
+const DEFAULT_VIEW_BOUNDS = new maplibregl.LngLatBounds(
+  [-93.8744, 44.6497], // sw: Buffalo, MN (west) / Lakeville, MN (south)
+  [-92.6404, 45.4055], // ne: St. Croix Falls, WI (east / north)
+);
 // How far around a point marker (mayor pin) to pad when "zooming to" it —
 // there's no polygon to fitBounds to, so this fakes one.
 const POINT_ZOOM_PADDING_DEGREES = 0.01;
@@ -408,7 +418,7 @@ const DEFAULT_PIN_SIZE_RANGE = { min: 18, max: 44 };
 
 // The zoom range over which pin diameter interpolates — below MIN every
 // pin holds at its role's smallest size, above MAX at its largest.
-// Chosen around DEFAULT_ZOOM (10.4, the whole-metro starting view):
+// Chosen around the whole-metro starting view DEFAULT_VIEW_BOUNDS fits to (roughly zoom 9 on a typical viewport):
 // zoomed out further than that, pins are already shrinking toward
 // legible-but-small; zoomed in to a single neighborhood, they're at
 // full size.
@@ -1870,25 +1880,6 @@ export default function WardMap() {
     zoomToBoundsNoModal(bounds);
   };
 
-  // Minneapolis + St. Paul's combined extent — the "core of the metro"
-  // view the map opens on. Used only for that initial camera fit (see the
-  // map-construction effect below, which delegates here) — every other
-  // "go back to the default view" gesture (deselecting, "All"/"None") goes
-  // through zoomToDefault instead, which fits the current mode's full
-  // extent (every covered city, not just these two) rather than narrowing
-  // to just the Twin Cities the way the very first paint does. Falls back
-  // to wardsBoundsRef for that same reason if the Twin Cities wards
-  // themselves are missing/empty — better than leaving the camera
-  // wherever it happened to be.
-  const boundsForTwinCities = (): maplibregl.LngLatBounds | null => {
-    const twinCitiesWards = wardsDataRef.current?.features.filter(
-      (f) => f.properties?.city === "Minneapolis" || f.properties?.city === "St. Paul",
-    );
-    const bounds = boundsFromFeatureCollection({ type: "FeatureCollection", features: twinCitiesWards ?? [] });
-    if (!bounds.isEmpty()) return bounds;
-    return wardsBoundsRef.current;
-  };
-
   const applyCountyZoom = (cities: City[]) => {
     for (const city of cities) prepareWardsView(city);
     const citySet = new Set<City>(cities);
@@ -1934,8 +1925,12 @@ export default function WardMap() {
     const map = new maplibregl.Map({
       container: mapContainerRef.current,
       style: getMapStyleUrlById(currentStyleId),
-      center: TWIN_CITIES_CENTER,
-      zoom: DEFAULT_ZOOM,
+      // `bounds` fits the initial camera on first paint (re-fit again once
+      // "load" fires below, once the container's size has settled) — see
+      // DEFAULT_VIEW_BOUNDS's own comment for why this frame and not a
+      // plain center/zoom.
+      bounds: DEFAULT_VIEW_BOUNDS,
+      fitBoundsOptions: { padding: 40 },
       // Built manually below and mounted into #map-corner-controls, not
       // via this option or map.addControl() — both of those hand the
       // control to MapLibre's own bottom-right corner container, which
@@ -2709,16 +2704,18 @@ export default function WardMap() {
       }
       maybeStartPulseAnimation();
 
-      // Initial camera fit only — wardsBoundsRef (used by zoomToDefault,
-      // e.g. on deselect or mode switch) still covers every covered city,
-      // not just these two; only the very first paint narrows to the Twin
-      // Cities themselves — see boundsForTwinCities's own comment for why
-      // it's used only here. Deliberately not repeated on a basemap swap —
-      // switchBasemap has no call to this, so picking a new basemap never
-      // snaps the camera back to this default extent out from under
-      // whatever the resident was looking at.
-      const twinCitiesBounds = boundsForTwinCities();
-      if (twinCitiesBounds) map.fitBounds(twinCitiesBounds, { padding: 40, duration: 0 });
+      // Initial camera fit only — re-fits to the same DEFAULT_VIEW_BOUNDS
+      // the constructor's `bounds` option already fit to (see that
+      // constant's comment), since the container's size can settle after
+      // construction but before this "load" event fires, leaving the
+      // constructor's own fit slightly off. wardsBoundsRef (used by
+      // zoomToDefault, e.g. on deselect or mode switch) covers every
+      // covered city's actual ward data instead of this fixed three-town
+      // frame — deliberately not used here. Also deliberately not repeated
+      // on a basemap swap — switchBasemap has no call to this, so picking
+      // a new basemap never snaps the camera back to this default extent
+      // out from under whatever the resident was looking at.
+      map.fitBounds(DEFAULT_VIEW_BOUNDS, { padding: 40, duration: 0 });
     });
 
     // Moves the hover/selection paint highlight (hoverExpr's feature-state
