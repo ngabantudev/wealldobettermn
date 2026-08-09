@@ -221,7 +221,8 @@ legend, filters, detail panels, sources page, downloads, and address-search resu
 * **Server Boundary:** Prefer static generation and edge-cached responses. Any dynamic
   route must justify itself against §0.7, §0.8, and §0.12 — a route that can be a static
   file should be a static file, and a route that would receive a user's address should not
-  exist at all.
+  exist at all. **One deliberate, narrowly-scoped exception exists** — the community
+  contribution pipeline's four API routes; see §2.6. It does not change the default.
 
 ### 2.2 Ingestion
 
@@ -248,7 +249,10 @@ than aspire to a purity the deployment doesn't have.
   government or civic APIs called **at build time only**.
 * **Forbidden:** analytics of any kind, third-party fonts, ad or marketing pixels, session
   or behavioural tracking, embedded social widgets, and **any runtime third-party request
-  triggered by user input** — see §2.5.
+  triggered by user input** — see §2.5. **One narrow, disclosed exception**: the community
+  contribution pipeline's URL fetch, Turnstile checks, and extraction call — see §2.6. It
+  does not reopen the door to runtime third-party requests generally; every other surface
+  in the app still calls only at build time.
 * **Tile Independence:** Basemap style and glyph URLs are configurable in one place. The
   app must degrade to a plain background with boundaries drawn if the tile provider
   disappears — the data is the point, the basemap is decoration.
@@ -276,7 +280,10 @@ Sister projects consume this data. That changes the contract.
   record without calling back here.
 * **No Downstream Callbacks.** Consumers fetch static files at their build time. This repo
   never becomes a runtime dependency of another site — that would make our uptime their
-  correctness problem and our logs their users' exposure.
+  correctness problem and our logs their users' exposure. The community contribution
+  pipeline's live pending-submission feed (§2.6) is explicitly **not** part of this
+  contract — it's a transient view over unverified data. Only data that has graduated into
+  committed, versioned static JSON is.
 * **Bulk Export Is A Feature, Not A Courtesy.** Full dataset download under a permissive
   licence, linked from the UI, per §0.7.
 
@@ -322,6 +329,115 @@ the design is constrained accordingly.
   a documented entry on `/privacy`, and a fully functional local path for users who
   decline. Default is always local. This escape hatch is documented so nobody quietly
   adds a fetch call and calls it a bug fix.
+
+### 2.6 Community Contribution Pipeline — A Deliberate, Scoped Exception
+
+`/contribute` and its supporting API routes (`POST /api/submissions`,
+`GET /api/community-submissions`, `POST /api/submissions/:id/vote`,
+`POST /api/submissions/:id/dispute`) are this project's first dynamic surface and first
+runtime third-party requests triggered by user input. They exist to close the
+officials-coverage gap — 39 of Minnesota's ~850 cities have officials data as of 2026-08 —
+faster than hand research alone can, by letting a resident submit their city's official
+website and letting the community, not the maintainer, vouch for the extracted result. This
+is in direct tension with §2.1's "static generation first," §2.3's "no runtime third-party
+request triggered by user input," and §2.4's "no downstream callbacks." Each tension is
+named and narrowly carved out below — this section does not reopen any of those rules
+generally, and every other surface in the app remains exactly as static and as free of
+runtime third-party requests as before.
+
+* **Scope.** Brand-new cities only — cities not yet present in `CITIES`
+  (`src/lib/cities.ts`). Correcting an already-covered city's roster is explicitly out of
+  scope for this pipeline; see `/privacy`'s existing issue-tracker path for that.
+* **§2.1 exception.** The four routes above are the only dynamic routes in the app. The
+  `GET` route is edge-cached and read-only; the others are low-volume, user-initiated
+  writes gated by Turnstile and rate limiting. None of them ever receive or process a
+  user's home address — §2.5's hard line stands untouched.
+* **§2.3 exception, each disclosed in plain language on `/privacy`:** (1) the
+  visitor-submitted URL, fetched once per submission through a scheme- and
+  hostname-restricted, size- and time-capped fetch (`src/lib/serverFetch.ts`); (2)
+  Cloudflare Turnstile, on the submission form and on every confirm/flag vote; (3)
+  Cloudflare Workers AI, used to extract candidate officeholder records from the fetched
+  page's own text — never a proprietary third-party LLM API key in the runtime path, per
+  §0.8; an external LLM stays available only as a documented, disclosure-gated escape
+  hatch, the same bar §2.5 sets for its own hypothetical geocoder exception; (4) the GitHub
+  REST API, called by the Worker itself at graduation or dispute time, never by a visitor's
+  browser directly.
+* **§2.4 clarification.** `GET /api/community-submissions` is explicitly **not** part of
+  the versioned static-JSON contract §2.4 describes — it's a transient, edge-cached view
+  over unverified community submissions, and downstream sister sites are not expected to
+  consume it. Only data that has graduated into `public/mayors.geojson` — committed,
+  versioned, git-tracked — is part of that contract.
+* **Confidence tier.** §3.3's Confidence Enum gains a fifth value: `community_verified` —
+  one Turnstile-gated anonymous confirmation agreed the extracted record matches the
+  cited source URL, following the automated domain-safety and extraction gates below. This
+  is distinct from `corroborated`, which requires two independent lower-tier *sources*
+  (documents) to agree, not votes. Never use the two interchangeably.
+* **Domain-safety gate, not an authenticity proof.** Before extraction runs, the submitted
+  URL's hostname is checked against Cloudflare's malware/phishing-blocking resolver
+  (`security.cloudflare-dns.com` — the same "1.1.1.1 for Families" infrastructure, zero new
+  vendor relationship, no API key) and for a `.gov`/`.mn.us` gated TLD (a positive
+  authenticity signal — CISA and MN's registrar both vet the registrant before issuance —
+  but absence is never a red flag, since most small MN cities run ordinary `.com`/`.org`
+  domains). Researched before building (2026-08): no licensable, build-time-fetchable
+  Tier 1/2 directory of MN cities' official website URLs exists to cross-reference against
+  (League of MN Cities' directory is copyrighted with no reuse grant and sells the same data
+  as a paid product; MN.gov's own city-directory page actively hCaptcha-blocks scripted
+  fetches, which §2.2's "no block evasion" rule forbids working around; MnGeo's boundary
+  data carries no website field at all). Both checks here are honest about their ceiling: a
+  known-bad blocklist hit is disqualifying, but a clean result only means "not currently
+  known-bad," never "confirmed to be the real city." See `src/lib/domainSafety.ts`.
+* **Structural extraction gate (§1b/§1d).** The extraction step's response schema
+  restricts `role` to a two-value enum — `"Mayor"` or `"Council Member"` — with no slot
+  for any other classification, the same "no variant for a private individual, by
+  construction" discipline §1d already requires applied to the extraction contract itself.
+  Every extracted record's role-attribution quote is mechanically verified as an actual
+  substring of the fetched page before publication, and checked against a staff/clerk/
+  administrator keyword denylist. A submission that can't confidently produce at least one
+  such record fails, with a plain-language explanation — it never guesses, and it never
+  populates `repPhotoUrl` (§1b's bar on official portraits — "never a scraped image" — is
+  too high to automate safely yet). See `src/lib/communityExtraction.ts`.
+* **AI-tooling disclosure (§3.4).** This is the first AI call in the production data path,
+  distinct from §0.13's build-time coding-assistance disclosure. It runs on Cloudflare
+  Workers AI, never sees a visitor's identity — only the fetched page's public text — and
+  its output is treated as untrusted candidate data, mechanically validated before any
+  human ever votes on it.
+* **Vote dedup and §0.12/§1b's "leaves no trace" posture.** Confirm/flag votes are
+  deduplicated with a salted, one-way hash of the visitor's IP address (`sha256(salt +
+  ip)`), retained for at most a day and only while the parent submission is still
+  `pending`/`graduating`. This is a narrow, deliberate exception to "a resident... leaves
+  no trace," disclosed on `/privacy`. Turnstile plus this hash is a **friction layer, not
+  identity verification** — coordinated bad-faith votes from distinct IPs are not detected
+  by this mechanism. The dispute path below is the real backstop, not the vote count.
+* **Named risk acceptance.** Once a submission reaches one confirmation, a GitHub
+  Action commits the graduated record directly to `main` — and therefore into the dataset
+  every downstream sister site consumes per §2.4 — with **no human review at the moment of
+  publish**. This is a deliberate divergence from this repo's only other
+  scheduled-automation precedent (`refresh-state-legislature.yml` and its bio sibling,
+  which always open a PR and never auto-merge), chosen by the maintainer after being
+  offered and declining the PR-gated alternative. Originally three confirmations, lowered to
+  one deliberately — see `src/lib/communityConfig.ts`'s own comment on
+  `COMMUNITY_CONFIRMATIONS_REQUIRED` for the full reasoning, stated honestly rather than
+  glossed over here: three independent human confirmations were themselves real evidence a
+  machine check can't fully replace, and dropping to one trades that redundancy away. What
+  offsets it is more automated scrutiny than the original design had at all — the
+  domain-safety gate and the four-layer extraction gate above — before a human ever votes.
+  This is a different risk allocation, not a strictly safer one. One bad-faith or mistaken
+  vote can now ship a wrong record to production. This is accepted, not overlooked: the
+  alternative — a review queue nobody staffs — leaves the coverage gap this feature exists
+  to close exactly as wide as before. The mitigation is `POST /api/submissions/:id/dispute`:
+  at two post-graduation disputes, the Worker opens a GitHub issue with a pre-built, unmerged
+  `git revert` PR attached, tagging the maintainer. Nothing merges automatically at that
+  stage — a second automatic-write attack surface would recreate the same Sybil risk one
+  level later, letting two bad-faith flags suppress a correct, already-shipped record. With
+  confirmations at one, this post-graduation path — not the pre-graduation flag threshold —
+  is the load-bearing backstop; see `COMMUNITY_PENDING_DISPUTE_THRESHOLD`'s own comment for
+  why.
+* **Structural non-goals, for now.** This pipeline never diffs or corrects an existing
+  roster (only adds brand-new cities); never adopts the `Person`/`Holding` relational model
+  in `src/lib/models.ts`; never resolves ward-accurate boundaries for a graduated city (new
+  cities are always modeled at-large/Point, documented as such, not silently wrong); and
+  carries no municipal-election-date staleness enforcement yet (`electionConfig.ts` encodes
+  only the state general-election cycle).
 
 ---
 
@@ -461,7 +577,10 @@ paid, never the sole basis for a published fact.
   aggregators — **lead lists only**, never the sole basis of a published feature.
 * **Confidence Enum:** `confirmed` (Tier 1/2 document states it directly), `corroborated`
   (two independent lower-tier sources agree), `reported` (credible secondary reporting, not
-  yet documented), `lead` (unresolved — not rendered).
+  yet documented), `lead` (unresolved — not rendered), `community_verified` (one
+  Turnstile-gated anonymous confirmation, following an automated domain-safety and
+  extraction-accuracy gate, agrees the extraction matches its cited source — see §2.6; a
+  vote count, not a second document, so never conflated with `corroborated`).
 * **Missing Sources:** Never fabricate or infer. If an upstream field or link does not
   exist, leave it `null`, state `"No source found"` in the UI link field, and record the
   gap in `knownGaps`.
@@ -491,7 +610,10 @@ paid, never the sole basis for a published fact.
   assistance. A human reads and approves every string that reaches a user.
 * **The AGENTS.md is the AI instruction record.** Substantive changes to how AI tooling is
   used in this project are reflected here, not in commit messages or READMEs alone. The
-  file's git history is the audit trail.
+  file's git history is the audit trail. The community contribution pipeline's extraction
+  step (§2.6) is the first AI call in the production data path rather than the build/coding
+  path this bullet otherwise describes — documented there specifically because it's a
+  different kind of AI use, not covered by the general drafting-aid framing below.
 * **Public disclosure.** The project's `/about` page states plainly that the codebase was
   developed with AI assistance, that all data and editorial decisions are human-reviewed,
   and that errors can be reported via the issue tracker. The framing is capability, not

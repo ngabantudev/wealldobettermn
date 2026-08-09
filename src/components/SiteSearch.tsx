@@ -47,6 +47,9 @@ export default function SiteSearch() {
       onSelectCounty={(_county, cities) => {
         if (!dispatchSelection({ kind: "county", cities })) goToMap();
       }}
+      onSelectUncoveredCity={(name) => {
+        if (!dispatchSelection({ kind: "uncovered-city", name })) goToMap();
+      }}
     />
   );
 }

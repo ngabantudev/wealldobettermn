@@ -30,18 +30,23 @@ interface MapSearchHandlers {
   onSelectWard: (ref: WardRef, point: [number, number] | null) => void;
   onSelectCity: (city: City) => void;
   onSelectCounty: (cities: City[]) => void;
+  // A real MN city with no ward/mayor data at all — see SearchBar.tsx's
+  // own comment on this same prop name. Registered by WardMap's
+  // applyUncoveredCityZoom, same as the three handlers above.
+  onSelectUncoveredCity: (name: string) => void;
 }
 
-// The three SearchBar outcomes (see WardMap.tsx's applySearchResult/
-// applyCityZoom/applyCountyZoom), captured as data so they can wait in
-// `pendingRef` until a map handler is actually available. `county` isn't
-// carried here for the same reason WardMap's own onSelectCounty callback
-// already drops it (see SiteSearch.tsx) — applyCountyZoom only ever acts
-// on the resolved city list.
+// The four SearchBar outcomes (see WardMap.tsx's applySearchResult/
+// applyCityZoom/applyCountyZoom/applyUncoveredCityZoom), captured as data
+// so they can wait in `pendingRef` until a map handler is actually
+// available. `county` isn't carried here for the same reason WardMap's own
+// onSelectCounty callback already drops it (see SiteSearch.tsx) —
+// applyCountyZoom only ever acts on the resolved city list.
 export type PendingSelection =
   | { kind: "ward"; ref: WardRef; point: [number, number] | null }
   | { kind: "city"; city: City }
-  | { kind: "county"; cities: City[] };
+  | { kind: "county"; cities: City[] }
+  | { kind: "uncovered-city"; name: string };
 
 interface SearchCoordinatorValue {
   // WardMap calls this once on mount with its live apply* functions, and
@@ -87,6 +92,9 @@ export function SearchCoordinatorProvider({ children }: { children: ReactNode })
         break;
       case "county":
         handlers.onSelectCounty(selection.cities);
+        break;
+      case "uncovered-city":
+        handlers.onSelectUncoveredCity(selection.name);
         break;
     }
     return true;

@@ -2410,6 +2410,48 @@ export default function WardMap() {
     zoomToBoundsNoModal(boundsFromFeatureCollection({ type: "FeatureCollection", features: combined }));
   };
 
+  // Search/keyboard-driven equivalent of the CITY_BOUNDARIES_FILL_LAYER_ID
+  // click branch further down (the "genuinely uncovered city" case) — same
+  // identity shape, same fold()-based lookup against cityBoundariesDataRef,
+  // same selectPinned/zoomToBounds pair — but starting from a typed city
+  // name instead of a click point. AGENTS.md Part 4 "Keyboard Complete":
+  // this is what makes AddOfficialsCTA's panel reachable by typing a city
+  // name and pressing Enter, not just by clicking the map canvas.
+  //
+  // No click point to seed resolveSelectionAtPoint with, so one is
+  // approximated from the matched boundary's bounding-box center via
+  // MapLibre's own LngLatBounds.getCenter() — not a real point-on-surface
+  // (a sufficiently concave city could compute a center outside its own
+  // boundary), but good enough for what it's actually used for here: which
+  // COUNTY/STATE district contains the city, both usually larger and less
+  // concave than the city itself. The city tier is empty by construction
+  // on this path regardless (it only ever runs for a city with no ward/
+  // mayor/at-large data at all), so a slightly-off point can't misattribute
+  // city-level data the way it could for county/state.
+  const applyUncoveredCityZoom = (name: string) => {
+    // No setHighlight() call here, same as applyCityZoom/applyCountyZoom
+    // above — that setter is local to the map-initialization effect
+    // further down (click-driven selection only), not reachable from a
+    // component-scope function like this one.
+    const identity = `city-boundary:${name}`;
+    const boundaryFeature = cityBoundariesDataRef.current?.features.find(
+      (f) => fold((f.properties?.name as string | undefined) ?? "") === fold(name),
+    );
+    setActiveMobileSheet(null);
+    if (!boundaryFeature) {
+      // A real MN place addressSearch.ts's allPlaces.json knows about, but
+      // that isn't in this map's own city-boundaries.geojson (a boundary-
+      // fetch gap, not a data-entry error) — still opens the panel so the
+      // CTA stays reachable; there's just nothing on the map to fly to.
+      selectPinned({ city: [], county: [], state: [] }, identity, name, "city");
+      return;
+    }
+    const bounds = boundsFromFeature(boundaryFeature as Feature<Geometry>);
+    const point = toPoint(bounds.getCenter());
+    selectPinned(resolveSelectionAtPoint(point), identity, name, "city");
+    zoomToBounds(bounds);
+  };
+
   // "Latest" refs, kept in sync via a no-deps effect (fires after every
   // render) rather than a mutation during render itself — react-hooks/refs
   // forbids the latter. The registration effect below only runs once
@@ -2420,10 +2462,12 @@ export default function WardMap() {
   const applySearchResultRef = useRef(applySearchResult);
   const applyCityZoomRef = useRef(applyCityZoom);
   const applyCountyZoomRef = useRef(applyCountyZoom);
+  const applyUncoveredCityZoomRef = useRef(applyUncoveredCityZoom);
   useEffect(() => {
     applySearchResultRef.current = applySearchResult;
     applyCityZoomRef.current = applyCityZoom;
     applyCountyZoomRef.current = applyCountyZoom;
+    applyUncoveredCityZoomRef.current = applyUncoveredCityZoom;
   });
 
   // Registers this WardMap instance as the thing the persistent header
@@ -2436,6 +2480,7 @@ export default function WardMap() {
       onSelectWard: (ref, point) => applySearchResultRef.current(ref, point),
       onSelectCity: (city) => applyCityZoomRef.current(city),
       onSelectCounty: (cities) => applyCountyZoomRef.current(cities),
+      onSelectUncoveredCity: (name) => applyUncoveredCityZoomRef.current(name),
     });
     return () => registerMapHandlers(null);
   }, [registerMapHandlers]);
@@ -2461,6 +2506,9 @@ export default function WardMap() {
           break;
         case "county":
           applyCountyZoomRef.current(pending.cities);
+          break;
+        case "uncovered-city":
+          applyUncoveredCityZoomRef.current(pending.name);
           break;
       }
     });
@@ -3891,6 +3939,7 @@ export default function WardMap() {
       onSelectWard={applySearchResult}
       onSelectCity={applyCityZoom}
       onSelectCounty={(_county, cities) => applyCountyZoom(cities)}
+      onSelectUncoveredCity={applyUncoveredCityZoom}
     />
   );
 

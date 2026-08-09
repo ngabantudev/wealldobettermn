@@ -144,6 +144,17 @@ export interface RepProperties {
   // a fragile re-interpretation of them.
   districtMapUrl?: string | null;
   districtDemographicsUrl?: string | null;
+  // Community Contribution Pipeline (AGENTS.md §2.6). Absent/undefined for
+  // every officially-sourced record — these three fields only ever appear
+  // on a record that originated through POST /api/submissions.
+  // `communityStatus` is the discriminant; `confirmations`/`submissionId`
+  // are only meaningful while it's "pending". A graduated record keeps
+  // `communityStatus: "community_verified"` permanently as honest
+  // provenance disclosure (AGENTS.md §3.3's fifth Confidence Enum value),
+  // not as a warning — it never reverts to undefined once set.
+  communityStatus?: "pending" | "community_verified";
+  confirmations?: number;
+  submissionId?: string;
 }
 
 // A pointer to one ward — the join key between the address/ZIP gazetteer

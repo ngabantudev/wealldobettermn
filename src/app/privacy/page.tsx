@@ -9,8 +9,9 @@ import type { Metadata } from "next";
 //
 // Every claim below is a statement about what this codebase does today,
 // not aspirational copy — cross-check against AGENTS.md §0.12, §2.3, §2.5,
-// and §2.4 ("No Downstream Callbacks") before changing either without the
-// other.
+// §2.4 ("No Downstream Callbacks"), and §2.6 (Community Contribution
+// Pipeline — this site's one narrow, disclosed exception to several of the
+// above) before changing either without the other.
 
 export const metadata: Metadata = {
   title: "Privacy — We All Do Better",
@@ -43,7 +44,9 @@ export default function PrivacyPage() {
         <p className="mt-2 text-sm text-ink-3">
           There&apos;s no login, no user profile, no saved-search history tied to an identity, no analytics script,
           no ad or marketing pixel, no session recording, and no third-party font or embedded social widget. A visit
-          to this site leaves no trace we can tie back to you.
+          to this site leaves no trace we can tie back to you — with one narrow exception, described below, if you
+          use the <a href="/contribute" className="text-accent underline underline-offset-2">community contribution</a>{" "}
+          feature.
         </p>
 
         <h2 className="mt-8 text-base font-semibold text-ink">What we do send requests to</h2>
@@ -65,7 +68,44 @@ export default function PrivacyPage() {
             Minnesota Campaign Finance Board, and similar) are called only at <em>build time</em>, to assemble the
             static data this site ships — never triggered by anything you do in your browser.
           </li>
+          <li>
+            <span className="font-medium text-ink-2">Community submissions</span> (
+            <a href="/contribute" className="text-accent underline underline-offset-2">/contribute</a> only) — if
+            you submit a city&apos;s website to add missing officials data, that URL is fetched once, server-side,
+            to check it&apos;s reachable and plausibly about that city, and its domain is checked against
+            Cloudflare&apos;s malware/phishing block list. Together, this confirms the page exists, mentions the
+            city you named, and isn&apos;t already known to be malicious — it does not verify it&apos;s that
+            city&apos;s official government site. That trust is built afterward, by another visitor confirming the
+            result.
+          </li>
+          <li>
+            <span className="font-medium text-ink-2">Cloudflare Turnstile</span> — a bot-check shown on the
+            submission form and on every &quot;confirm&quot;/&quot;flag&quot; vote on a pending community
+            submission, so the same visitor can&apos;t trivially vote on the same record repeatedly. Confirming or
+            flagging also stores a salted, one-way hash of your IP address — never the raw address, never linked to
+            anything else you do on this site — kept for at most a day and only until the vote it&apos;s deduping
+            is no longer relevant. This is the one place on this site that departs from &quot;a visit leaves no
+            trace,&quot; and it only applies if you use this specific feature.
+          </li>
+          <li>
+            <span className="font-medium text-ink-2">Cloudflare Workers AI</span> — reads a submitted page&apos;s
+            own public text to pick out candidate officeholder names and roles. It never receives your identity,
+            only the fetched page&apos;s content, and its output is never published on its own — see the next
+            section.
+          </li>
         </ul>
+
+        <h2 className="mt-8 text-base font-semibold text-ink">If you add your city&apos;s officials</h2>
+        <p className="mt-2 text-sm text-ink-3">
+          Anyone can submit a city&apos;s official website to fill in a coverage gap. What we check
+          automatically — the page is reachable, mentions the city you named, and its domain isn&apos;t on a known
+          malware/phishing list — is a plausibility and safety check, not proof it&apos;s an official government
+          site. A submission goes live immediately, labeled as pending, and becomes a trusted record once one other
+          visitor independently confirms it matches the source. Anyone can also flag a submission as wrong, before
+          or after it&apos;s been trusted — even after a record is trusted, enough flags open a public issue for a
+          maintainer to review a possible reversal. None of this requires an account — confirming or flagging just
+          runs the bot-check and IP-hash dedup described above.
+        </p>
 
         <h2 className="mt-8 text-base font-semibold text-ink">What this site is careful not to publish</h2>
         <p className="mt-2 text-sm text-ink-3">

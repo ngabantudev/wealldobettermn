@@ -34,5 +34,35 @@
   },
   "observability": {
     "enabled": true
+  },
+  // Community Contribution Pipeline (AGENTS.md §2.6) — this app's first
+  // Cloudflare data binding. `database_id` is a placeholder: this repo has
+  // no D1 database provisioned yet. Before this binding will work, a
+  // maintainer must run, once, against their own Cloudflare account:
+  //   npx wrangler d1 create wealldobettermn-community
+  // and paste the returned id in below (never fabricate one — an
+  // unprovisioned/incorrect id fails loudly at `wrangler dev`/deploy time,
+  // which is the correct failure mode here, not a silent no-op).
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "wealldobettermn-community",
+      "database_id": "REPLACE_WITH_REAL_D1_DATABASE_ID",
+      "migrations_dir": "migrations"
+    }
+  ],
+  // Officeholder extraction for community submissions (AGENTS.md §2.6) —
+  // deliberately Workers AI, not a proprietary external LLM key, per §0.8
+  // ("no proprietary API keys in the critical path"). No further setup
+  // needed beyond this binding; Workers AI is billed per-account, not
+  // per-key.
+  "ai": {
+    "binding": "AI"
   }
+  // A `triggers.crons` entry for the weekly dedup/expiry purge (AGENTS.md
+  // §2.6 phase 2) is deliberately NOT added yet — it needs
+  // @opennextjs/cloudflare's scheduled() support verified first (see the
+  // implementation plan); adding an unverified cron trigger here would
+  // silently no-op rather than fail loudly, which this repo treats as
+  // worse than not having it yet.
 }
