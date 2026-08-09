@@ -1478,12 +1478,13 @@ export default function WardMap() {
   // pair, like the Government Level tabs above them), which meant the
   // Chamber section didn't match the City/County tabs' own checkbox-list UI
   // one level up and couldn't show both chambers at once the way a
-  // resident can already check multiple cities or counties. Both start
-  // true (unlike DEFAULT_VISIBLE_CITIES's deliberately-narrow Minneapolis/
-  // St. Paul default) — there are only two items here, not 23 cities, so
-  // there's no "everything at once is a performance foot-gun" reason to
-  // start either one unchecked.
-  const [visibleChambers, setVisibleChambers] = useState<Record<Chamber, boolean>>(() => ({ house: true, senate: true }));
+  // resident can already check multiple cities or counties. Senate only,
+  // checked by default — same "narrow first paint, one click away from
+  // more" reasoning as DEFAULT_VISIBLE_CITIES's Minneapolis/St. Paul
+  // default, just a product call for which single chamber opens checked
+  // rather than a performance one (there are only two items here, so
+  // starting both checked would cost nothing render-wise).
+  const [visibleChambers, setVisibleChambers] = useState<Record<Chamber, boolean>>(() => ({ house: false, senate: true }));
   const visibleChambersRef = useRef(visibleChambers);
   // Sidebar collapse state — see LEFT_FILTERS_COLLAPSED_KEY's own comment.
   // Both default to false (expanded) here rather than reading storage in
