@@ -1179,19 +1179,21 @@ export default function WardModal({
           history) — the color change from the header down to the panel's
           own background is already the seam, matching mndatacenter.org's
           flatter chrome.
-          "band" — same navy-field/Water-Blue-accent flag treatment
-          SiteHeader.tsx's masthead already uses (globals.css's `.band`
-          token overrides), applied here per the user's own reference to
-          mndatacenter.org's "dark slate header with sky blue accents" on
-          its own detail sidebar. Used to be a flat PANEL_HEADER_BG green
-          fill (cityTheme.ts) instead — that color is this codebase's
-          documented "affirmative signal" token, spent on a static title
-          bar rather than an actual affirmative state; walked back here for
-          the same reason WardMap.tsx's left "Filters" header moved off it.
-          `.band` is light-mode only by design (falls back to the
-          workspace's own near-black in dark mode, matching SiteHeader) —
-          see that class's own comment in globals.css. */}
-      <div className="band flex items-center justify-between gap-2 px-4 pt-2 pb-2 sm:pt-4 shrink-0 bg-panel text-ink">
+          "band-sub" — a dark neutral charcoal (globals.css's `.band-sub`
+          token overrides), not the navy-field flag treatment SiteHeader.tsx's
+          masthead uses. Used to be a flat PANEL_HEADER_BG green fill
+          (cityTheme.ts), then briefly the full navy `.band` flag treatment
+          — walked back off navy for the same reason WardMap.tsx's left
+          "Filters" header moved off it: this is the masthead's subordinate,
+          not a second identity bar competing with it, and the reference
+          implementation (mndatacenter.org) draws that same line between its
+          own `.band` masthead and a separate neutral `.band-sub` strip.
+          Water Blue stays as the accent color here — see `.band-sub`'s own
+          comment in globals.css for why that isn't neutralized too.
+          `.band-sub` is light-mode only by design (falls back to the
+          workspace's own near-black in dark mode, matching `.band`) — see
+          that class's own comment in globals.css. */}
+      <div className="band-sub flex items-center justify-between gap-2 px-4 pt-2 pb-2 sm:pt-4 shrink-0 bg-panel text-ink">
         <h2 className="text-2xl font-extrabold">{panelHeading(officials, hoveredCityName)}</h2>
         <button
           type="button"
