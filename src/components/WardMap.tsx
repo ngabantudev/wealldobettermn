@@ -2631,6 +2631,23 @@ export default function WardMap() {
 
       el.addEventListener("mouseenter", () => {
         if (!isDesktopHover || selectedRef.current?.pinned) return;
+        // Same metro-level gate the fill-layer hover branches use (see
+        // handleHoverMove's own WARDS_FILL_LAYER_ID comment) — a pin for a
+        // warded city that hasn't been "entered" yet gets the lightweight
+        // name tooltip, not the full preview, same reasoning as there.
+        // This is a separate hover mechanism from handleHoverMove (a DOM
+        // mouseenter on the marker element, not a MapLibre layer event) —
+        // without this, a mayor/council-member pin sitting on top of its
+        // ward polygon would silently bypass the gate the polygon itself
+        // already enforces underneath it.
+        if (mode === "wards" && !AT_LARGE_CITIES.includes(properties.city as City) && properties.city !== activeCityRef.current) {
+          const containerRect = mapContainerRef.current?.getBoundingClientRect();
+          const elRect = el.getBoundingClientRect();
+          const x = containerRect ? elRect.left + elRect.width / 2 - containerRect.left : 0;
+          const y = containerRect ? elRect.top - containerRect.top : 0;
+          setMetroHoverTooltip({ name: properties.city, x, y });
+          return;
+        }
         // A pin has no MapLibre feature/id of its own (it's a DOM marker,
         // not a GL layer feature) to key the paint highlight off directly
         // — highlightTargetForRep looks its underlying polygon feature up
@@ -2638,6 +2655,7 @@ export default function WardMap() {
         // comment for why this is safe to call on every hover despite the
         // extra query.
         setHighlight(highlightTargetForRep(properties));
+        setMetroHoverTooltip(null);
         setSelected({
           officials: resolveSelectionAtPoint(point, properties),
           pinned: false,
@@ -2650,6 +2668,7 @@ export default function WardMap() {
         if (!isDesktopHover || selectedRef.current?.pinned) return;
         setHighlight(null);
         setSelected(null);
+        setMetroHoverTooltip(null);
       });
       el.addEventListener("click", (e) => {
         e.stopPropagation();
