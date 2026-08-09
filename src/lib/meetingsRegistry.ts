@@ -79,7 +79,7 @@ export const UNWIRED_MEETINGS_JURISDICTIONS: readonly UnwiredMeetingsJurisdictio
     reason:
       "Minneapolis runs a different meetings platform (LIMS/DataNet, not Legistar). scripts/ingest/lims-minneapolis.mjs " +
       "is blocked pending an approved API key (LESSONS.md) — no meetings/agenda feed is connected for Minneapolis yet.",
-    calendarUrl: "https://www.minneapolismn.gov/government/city-council/",
+    calendarUrl: "https://lims.minneapolismn.gov/Calendar/all/upcoming",
   },
   {
     jurisdiction: "Ramsey County Board",
