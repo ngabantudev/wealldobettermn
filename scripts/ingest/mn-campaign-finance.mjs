@@ -49,8 +49,12 @@ import {
   ITEMIZATION_THRESHOLD_USD,
   ITEMIZATION_THRESHOLD_SOURCE_URL,
   CONTRIBUTION_SIZE_BANDS,
+  MIN_AGGREGATE_CELL_SIZE,
+  SUPPRESSED_CELL,
   bandForAmount,
   isNamedEntityDonor,
+  suppressSmallCount,
+  suppressTotalReceipts,
 } from "../../src/lib/campaignFinanceConfig.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -310,11 +314,31 @@ function parseRawRows(raw) {
  * written once per output file by main() below. This function's rows
  * carry only the data fields.
  *
+ * --- Cell suppression (AGENTS.md §1d) ---------------------------------
+ *
+ * A committee/cycle with only a handful of itemized natural-person
+ * contributions is exactly the "small-race committee" case §1d's
+ * re-identification-risk check exists for: a school-board or city-council
+ * candidate with 1–4 contributions in some band. Before this function
+ * returns, every band count and every totalReceiptsUsd figure is run
+ * through campaignFinanceConfig.mjs's suppression helpers — the *only*
+ * place in this script a ContributionAggregate is constructed, so there is
+ * no other code path that could publish an unsuppressed one. See
+ * suppressSmallCount()/suppressTotalReceipts() in that file for the exact
+ * rule and the reasoning behind MIN_AGGREGATE_CELL_SIZE.
+ *
+ * `individualContributionCount` (tracked per bucket below, not published)
+ * is the count of natural-person rows behind that bucket's total —
+ * distinct from the band counts, since a contribution can be a natural
+ * person's donation above every configured band's ceiling (bandForAmount
+ * returns null past ITEMIZATION_THRESHOLD_USD) and still needs to count
+ * toward the "is this committee's total re-identifying" decision.
+ *
  * @param {RawContributionRow[]} rows
  * @returns {{ aggregates: import("../../src/lib/campaignFinanceTypes.js").ContributionAggregate[], namedEntityContributions: import("../../src/lib/campaignFinanceTypes.js").NamedEntityContribution[] }}
  */
 export function filterAndAggregate(rows) {
-  /** @type {Map<string, { recipientCommittee: string, cycle: string, totalReceiptsUsd: number, bandCounts: Map<string, number> }>} */
+  /** @type {Map<string, { recipientCommittee: string, cycle: string, totalReceiptsUsd: number, individualContributionCount: number, bandCounts: Map<string, number> }>} */
   const byCommitteeAndCycle = new Map();
   const namedEntityContributions = [];
 
@@ -325,11 +349,15 @@ export function filterAndAggregate(rows) {
         recipientCommittee: row.recipientCommittee,
         cycle: row.cycle,
         totalReceiptsUsd: 0,
+        individualContributionCount: 0,
         bandCounts: new Map(CONTRIBUTION_SIZE_BANDS.map((band) => [band.label, 0])),
       });
     }
     const bucket = byCommitteeAndCycle.get(key);
     bucket.totalReceiptsUsd += row.amountUsd;
+
+    const isNamed = isNamedEntityDonor(row);
+    if (!isNamed) bucket.individualContributionCount += 1;
 
     const band = bandForAmount(row.amountUsd);
     if (band) bucket.bandCounts.set(band.label, (bucket.bandCounts.get(band.label) ?? 0) + 1);
@@ -339,7 +367,7 @@ export function filterAndAggregate(rows) {
     // record; everyone else — every natural person, regardless of amount
     // — contributes only to the totals/band counts above and is dropped
     // here, before anything is written to disk.
-    if (isNamedEntityDonor(row)) {
+    if (isNamed) {
       namedEntityContributions.push({
         schemaVersion: 1,
         donorName: row.donorName,
@@ -356,10 +384,10 @@ export function filterAndAggregate(rows) {
     schemaVersion: 1,
     recipientCommittee: bucket.recipientCommittee,
     cycle: bucket.cycle,
-    totalReceiptsUsd: bucket.totalReceiptsUsd,
+    totalReceiptsUsd: suppressTotalReceipts(bucket.totalReceiptsUsd, bucket.individualContributionCount),
     contributionCountsByBand: CONTRIBUTION_SIZE_BANDS.map((band) => ({
       band,
-      count: bucket.bandCounts.get(band.label) ?? 0,
+      count: suppressSmallCount(bucket.bandCounts.get(band.label) ?? 0),
     })),
   }));
 
@@ -377,6 +405,15 @@ export function filterAndAggregate(rows) {
 // that adds an "individual" branch back into filterAndAggregate(), or
 // that starts forwarding donorCity, trips this before anything is
 // written, not after.
+//
+// Also re-checks the cell-suppression invariant from AGENTS.md §1d: no
+// published band count is ever a nonzero number below
+// MIN_AGGREGATE_CELL_SIZE. filterAndAggregate() is the only place that
+// builds a ContributionAggregate, and it always routes counts through
+// suppressSmallCount() — this assertion exists so a future edit that adds
+// a second aggregate-construction path, or that quietly drops the
+// suppression call from the existing one, fails the build instead of
+// silently shipping a re-identifying cell.
 function assertNoIndividualDonorLeak({ aggregates, namedEntityContributions }) {
   for (const record of namedEntityContributions) {
     assert.ok(
@@ -396,6 +433,15 @@ function assertNoIndividualDonorLeak({ aggregates, namedEntityContributions }) {
       `[mn-campaign-finance] donor-privacy filter violated: aggregate record for ` +
         `"${agg.recipientCommittee}" carries a per-donor field. Aggregates are totals and band counts only.`,
     );
+    for (const { band, count } of agg.contributionCountsByBand) {
+      assert.ok(
+        count === SUPPRESSED_CELL || count === 0 || count >= MIN_AGGREGATE_CELL_SIZE,
+        `[mn-campaign-finance] cell-suppression invariant violated: aggregate for ` +
+          `"${agg.recipientCommittee}" cycle ${agg.cycle} publishes a raw count of ${count} for band ` +
+          `"${band.label}", which is nonzero and below MIN_AGGREGATE_CELL_SIZE (${MIN_AGGREGATE_CELL_SIZE}). ` +
+          `Refusing to write output — see suppressSmallCount() in campaignFinanceConfig.mjs.`,
+      );
+    }
   }
 }
 
@@ -404,6 +450,7 @@ const KNOWN_GAPS = [
   "Federal receipts (OpenFEC) are not merged into this file.",
   "Only the 'Candidates' recipient-type bulk file is ingested — Party unit and PAC recipient files (same schema, confirmed 2026-08-06) are not yet included.",
   "'Self' (candidate self-funding) and 'Other' Contrib-type rows are counted in aggregates but never surfaced as named records — a deliberate fail-closed default, not a gap in coverage of what CFB reports (see mapDonorType() comment).",
+  `Per AGENTS.md §1d, contributionCountsByBand entries and totalReceiptsUsd/totalReceiptsUsdAllCycles figures below MIN_AGGREGATE_CELL_SIZE (${MIN_AGGREGATE_CELL_SIZE}) underlying contributions are published as the literal string "${SUPPRESSED_CELL}" instead of a real number, to prevent re-identifying a small-race committee's handful of donors — see suppressSmallCount()/suppressTotalReceipts() in campaignFinanceConfig.mjs.`,
 ];
 
 /**
@@ -480,6 +527,32 @@ function groupByCommittee(aggregates, namedEntityContributions) {
   return byCommittee;
 }
 
+/**
+ * Rolls a candidate's per-cycle ContributionAggregate.totalReceiptsUsd
+ * figures up into one all-cycles total for CampaignFinanceCandidateSummary
+ * — but only when every cycle's total survived suppression. If any single
+ * cycle's total was suppressed (SUPPRESSED_CELL, per
+ * suppressTotalReceipts() in campaignFinanceConfig.mjs), the roll-up is
+ * suppressed too rather than silently summing only the known cycles:
+ * publishing "known cycles summed, unknown cycle omitted" as a plain
+ * number would still let a reader recover a bound on the suppressed
+ * cycle's amount by comparing this total against the per-cycle detail
+ * file, defeating the per-cycle suppression it's supposed to sit on top
+ * of. This is the conservative propagation documented on
+ * CampaignFinanceCandidateSummary.totalReceiptsUsdAllCycles in
+ * campaignFinanceTypes.ts.
+ * @param {import("../../src/lib/campaignFinanceTypes.js").ContributionAggregate[]} aggregates
+ * @returns {number | typeof SUPPRESSED_CELL}
+ */
+function sumTotalReceiptsAllCycles(aggregates) {
+  let total = 0;
+  for (const agg of aggregates) {
+    if (agg.totalReceiptsUsd === SUPPRESSED_CELL) return SUPPRESSED_CELL;
+    total += agg.totalReceiptsUsd;
+  }
+  return total;
+}
+
 async function main() {
   const fetchedAt = new Date().toISOString();
   const { rows: rawRows, fetchedFiles, rawTexts } = await fetchRawContributions();
@@ -517,11 +590,8 @@ async function main() {
   // committeeNamesInOrder walk in groupByCommittee) keeps both the written
   // file set and the index's candidate list order deterministic.
   for (const bucket of byCommittee.values()) {
-    let totalReceiptsUsdAllCycles = 0;
-    for (const agg of bucket.aggregates) {
-      cycles.add(agg.cycle);
-      totalReceiptsUsdAllCycles += agg.totalReceiptsUsd;
-    }
+    for (const agg of bucket.aggregates) cycles.add(agg.cycle);
+    const totalReceiptsUsdAllCycles = sumTotalReceiptsAllCycles(bucket.aggregates);
 
     const dataPath = `/campaign-finance/candidates/${bucket.id}.json`;
 
@@ -551,6 +621,7 @@ async function main() {
     generatedAt: fetchedAt,
     itemizationThresholdUsd: ITEMIZATION_THRESHOLD_USD,
     itemizationThresholdSourceUrl: ITEMIZATION_THRESHOLD_SOURCE_URL,
+    minAggregateCellSize: MIN_AGGREGATE_CELL_SIZE,
     provenance,
     cycles: Array.from(cycles).sort((a, b) => a.localeCompare(b)),
     candidates: candidateSummaries,

@@ -191,7 +191,12 @@ from the data layer, citing the same documents.
 * Officials leave the active layer when they leave office; their acts remain, dated and
   attributed to the office they held. Never delete history to reflect a new roster.
 * Aggregates must be checked for re-identification risk before publication; suppress cells
-  below a documented threshold.
+  below a documented threshold. Enforced for campaign finance: `MIN_AGGREGATE_CELL_SIZE` in
+  `src/lib/campaignFinanceConfig.mjs` (currently 5) is that threshold — `contributionCountsByBand`
+  and `totalReceiptsUsd` in `filterAndAggregate()` (`scripts/ingest/mn-campaign-finance.mjs`)
+  are suppressed to an explicit `"suppressed"` marker, never floored to 0, whenever the
+  underlying nonzero count falls below it, with a build-time assertion refusing to write
+  output if an unsuppressed small cell ever reaches an aggregate.
 * When in doubt, leave it out.
 
 ---
