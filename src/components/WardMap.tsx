@@ -1441,6 +1441,28 @@ export default function WardMap() {
   // assignment sets both together; never write one without the other.
   const activeCityRef = useRef<City | null>(null);
   const [activeCity, setActiveCity] = useState<City | null>(null);
+  // Metro level's own hover affordance — a lightweight "you're over
+  // [city]" name tooltip, deliberately NOT the full officials preview a
+  // hover inside an already-active city still gets (see the WARDS_FILL_
+  // LAYER_ID/CITY_BOUNDARIES_FILL_LAYER_ID/AT_LARGE_BOUNDARY_FILL_LAYER_ID
+  // branches of handleHoverMove below). Two things this replaces for the
+  // not-yet-entered case: it skips resolveSelectionAtPoint's three-tier
+  // point-in-polygon scan entirely (the city's own name is already sitting
+  // right there on the hovered feature's properties, no resolution
+  // needed), and it stops the right-hand detail panel from popping open/
+  // changing on every city the cursor happens to sweep across before a
+  // real selection — reusing the officials panel for this would have also
+  // required threading an empty AreaOfficials through it, which
+  // TierNode's own City-tier empty-state logic would misread as "no
+  // officials on file for this real, covered city" (AGENTS.md §3.1
+  // honesty — this app doesn't get to imply a gap that isn't real). Pure
+  // UI state, not consulted anywhere else; cleared on every click
+  // (selectPinned) since a pinned selection makes handleHoverMove
+  // early-return on every subsequent mousemove, which would otherwise
+  // leave a stale tooltip frozen in place forever. `x`/`y` are
+  // MapLayerMouseEvent.point coordinates — already relative to the map
+  // container's own box, the same box this tooltip renders inside.
+  const [metroHoverTooltip, setMetroHoverTooltip] = useState<{ name: string; x: number; y: number } | null>(null);
   // Which single GL feature (source + MapLibre-assigned numeric id, from
   // that source's own generateId: true) currently carries the hover/
   // selection paint highlight (hoverExpr's ["feature-state","hover"] case
@@ -1740,6 +1762,7 @@ export default function WardMap() {
     // mode so it's never stale the next time "wards" becomes active again.
     activeCityRef.current = null;
     setActiveCity(null);
+    setMetroHoverTooltip(null);
     clearHighlight();
     setAnnouncement("Representative panel closed.");
     zoomToDefault();
@@ -1763,6 +1786,7 @@ export default function WardMap() {
     selectedIdentityRef.current = null;
     activeCityRef.current = null;
     setActiveCity(null);
+    setMetroHoverTooltip(null);
     clearHighlight();
     setAnnouncement("Map view reset.");
     zoomToBoundsNoModal(DEFAULT_VIEW_BOUNDS);
@@ -1853,6 +1877,12 @@ export default function WardMap() {
   ) => {
     setSelected({ officials, pinned: true, hoveredCityName, jumpToTier, selectionKey: identity });
     selectedIdentityRef.current = identity;
+    // A pinned selection makes handleHoverMove early-return on every
+    // subsequent mousemove (see its own comment) — nothing would ever
+    // clear metroHoverTooltip.current-tick-of-cursor-position after this
+    // point otherwise, leaving the metro-level name tooltip frozen on
+    // screen indefinitely once something's actually been clicked.
+    setMetroHoverTooltip(null);
     setAnnouncement(summarizeOfficials(officials));
     if (rightDetailCollapsedRef.current) setRightDetailCollapsed(false);
   };
@@ -2144,6 +2174,7 @@ export default function WardMap() {
     // remembers a city from several Government Level switches ago.
     activeCityRef.current = null;
     setActiveCity(null);
+    setMetroHoverTooltip(null);
     applyLayerMode(mode);
     // Deliberately no zoomToDefault(mode) here: switching Government Level
     // toggles which layer/pins are visible, not where the camera points.
@@ -3382,13 +3413,7 @@ export default function WardMap() {
         if (hoverIdentity === lastHoverIdentityRef.current) return;
         lastHoverIdentityRef.current = hoverIdentity;
         setHighlight(feature.id != null ? { source: feature.source, id: feature.id } : null);
-        setSelected({
-          officials: resolveSelectionAtPoint(point),
-          pinned: false,
-          hoveredCityName: feature.properties?.city ?? null,
-          jumpToTier: "city",
-          selectionKey: hoverIdentity,
-        });
+        setMetroHoverTooltip({ name: (feature.properties?.city as string | undefined) ?? "", x: e.point.x, y: e.point.y });
         return;
       }
       // city-boundaries features carry only `{ name, county, population,
@@ -3424,23 +3449,18 @@ export default function WardMap() {
         if (hoverIdentity === lastHoverIdentityRef.current) return;
         lastHoverIdentityRef.current = hoverIdentity;
         setHighlight(feature.id != null ? { source: feature.source, id: feature.id } : null);
-        setSelected({
-          officials: resolveSelectionAtPoint(point),
-          pinned: false,
-          hoveredCityName: feature.properties?.name ?? null,
-          jumpToTier: "city",
-          selectionKey: hoverIdentity,
-        });
+        setMetroHoverTooltip({ name: (feature.properties?.name as string | undefined) ?? "", x: e.point.x, y: e.point.y });
         return;
       }
       // A ward belonging to a city that hasn't been "entered" yet (see
-      // activeCityRef's own comment) previews at city level instead of
-      // ward level — same identity/shape the CITY_BOUNDARIES_FILL_LAYER_ID
-      // branch above already uses, so hovering a not-yet-active city reads
-      // identically whether its wards happen to be visible or not. Only
-      // wards get this treatment: commissioners/state-legislature have no
-      // city/ward hierarchy of their own and fall straight through to the
-      // normal preview below, unaffected.
+      // activeCityRef's own comment) previews at metro level (just the
+      // name, via metroHoverTooltip) instead of ward level — same
+      // identity shape the CITY_BOUNDARIES_FILL_LAYER_ID branch above
+      // already uses, so hovering a not-yet-active city reads identically
+      // whether its wards happen to be visible or not. Only wards get this
+      // treatment: commissioners/state-legislature have no city/ward
+      // hierarchy of their own and fall straight through to the normal
+      // (full officials) preview below, unaffected.
       if (feature.layer.id === WARDS_FILL_LAYER_ID) {
         const wardCity = (feature.properties?.city as City | undefined) ?? null;
         if (wardCity !== activeCityRef.current) {
@@ -3448,13 +3468,7 @@ export default function WardMap() {
           if (hoverIdentity === lastHoverIdentityRef.current) return;
           lastHoverIdentityRef.current = hoverIdentity;
           setHighlight(feature.id != null ? { source: feature.source, id: feature.id } : null);
-          setSelected({
-            officials: resolveSelectionAtPoint(point),
-            pinned: false,
-            hoveredCityName: wardCity,
-            jumpToTier: "city",
-            selectionKey: hoverIdentity,
-          });
+          setMetroHoverTooltip({ name: wardCity ?? "", x: e.point.x, y: e.point.y });
           return;
         }
       }
@@ -3471,6 +3485,12 @@ export default function WardMap() {
       if (hoverIdentity === lastHoverIdentityRef.current) return;
       lastHoverIdentityRef.current = hoverIdentity;
       setHighlight(feature.id != null ? { source: feature.source, id: feature.id } : null);
+      // Reaching here means either a real (non-hierarchy) tier —
+      // commissioners/state-legislature — or a ward inside the already-
+      // active city; either way this is the full officials preview, not
+      // the metro-level name tooltip, so clear any tooltip a moment-ago
+      // hover over a *different*, not-yet-active city might have left up.
+      setMetroHoverTooltip(null);
       setSelected({
         officials: resolveSelectionAtPoint(point, known),
         pinned: false,
@@ -3483,6 +3503,7 @@ export default function WardMap() {
       if (!isDesktopHover) return;
       lastHoverIdentityRef.current = null;
       map.getCanvas().style.cursor = "";
+      setMetroHoverTooltip(null);
       if (selectedRef.current?.pinned) return;
       setHighlight(null);
       setSelected(null);
@@ -4040,7 +4061,12 @@ export default function WardMap() {
   //        collapse toggles (one pinned to each edge of the map's own
   //        box — see the return below). Search doesn't need a rung here —
   //        it lives in SiteHeader, outside this scale (see below) — and
-  //        neither do the sidebars themselves, for the same reason.
+  //        neither do the sidebars themselves, for the same reason. The
+  //        metro-level hover tooltip (metroHoverTooltip, below) lives here
+  //        too — transient, not "persistent," but genuinely desktop-only
+  //        for a different reason (hover itself doesn't exist on a touch
+  //        device, gated by isDesktopHover — not a CSS breakpoint, so it
+  //        never needs a mobile-scrim workaround the way "Metro" at 40 does).
   //   30 — mobile-only (below sm) scrim: a dimmed overlay behind whatever
   //        MobileNav has open (a tab's sheet, or the priority ward modal),
   //        blocking map interaction underneath it. See MobileNav's own
@@ -4202,6 +4228,34 @@ export default function WardMap() {
             instead of overlays. */}
         <div className="relative min-h-0 flex-1">
           <div ref={mapContainerRef} className="absolute inset-0 w-full h-full isolate z-0" />
+
+          {/* Metro level's hover affordance — see metroHoverTooltip's own
+              comment for why this is a standalone floating label rather
+              than reusing the officials detail panel. Desktop-only in
+              practice (metroHoverTooltip is only ever set from inside
+              handleHoverMove, itself gated on isDesktopHover — mobile has
+              no hover at all, so this never renders there), so it shares
+              the desktop-only z-20 rung with #map-corner-controls below
+              rather than needing z-40's mobile-scrim workaround the Metro
+              button does. pointer-events-none: it tracks the cursor, so it
+              must never itself become the thing the cursor is over —
+              MapLibre's own hit-testing needs the real event underneath.
+              aria-hidden: purely a mouse-hover nicety, same as every other
+              hover-only affordance in this file (see handleHoverMove's own
+              comment on why hover never touches the aria-live
+              announcement region either) — a keyboard/screen-reader
+              resident reaches every city by name through search instead
+              (AGENTS.md Part 4). Position is MapLayerMouseEvent.point,
+              already relative to this same box. */}
+          {metroHoverTooltip && (
+            <div
+              aria-hidden="true"
+              style={{ left: metroHoverTooltip.x, top: metroHoverTooltip.y, transform: "translate(14px, -100%)" }}
+              className="pointer-events-none absolute z-20 whitespace-nowrap rounded border border-hair bg-panel-2/95 px-2 py-1 text-xs font-medium text-ink shadow-lg shadow-(color:--shadow-panel) backdrop-blur-sm"
+            >
+              {metroHoverTooltip.name}
+            </div>
+          )}
 
           {/* "Metro" — the wards city/ward hierarchy's own discoverable way
               back to the reset-view level, shown only while a city is
