@@ -373,8 +373,7 @@ function IconExternal() {
 // OfficialCard). Unlike the other sections, a seat's roll-call history
 // genuinely grows without bound over time (§3.2's Legistar/Open States
 // integrations keep adding to it — see #57, #60), so it's the one place
-// still worth collapsing by default once it's long enough to be worth
-// skimming past, per DEFAULT_OPEN_VOTE_THRESHOLD below.
+// still worth a collapsible disclosure at all.
 function IconChevron() {
   return (
     <svg viewBox="0 0 20 20" fill="none" className="h-3.5 w-3.5 shrink-0 transition-transform duration-150 group-open:rotate-180">
@@ -383,15 +382,16 @@ function IconChevron() {
   );
 }
 
-
-// Recent votes starts expanded when there isn't much in it yet (today's
-// reality for almost every seat — most feeds carry a handful of votes at
-// most) and starts collapsed once it's grown past a skim-friendly
-// length, so a resident scanning up to six stacked cards for "who
-// represents me" isn't forced to scroll past a wall of roll-call history
-// for every single one. Nothing here is ever permanently hidden: it's a
-// starting state a resident can always open, never a removed feature.
-const DEFAULT_OPEN_VOTE_THRESHOLD = 3;
+// Recent votes always starts collapsed — city view (WardMap.tsx's
+// enterCityView/resolveAllCityOfficials) can stack every one of a city's
+// council members in this panel at once now, not just whichever one a
+// point happened to resolve to, and almost none of them have any recorded
+// votes yet (most seats' feeds are still empty), so an auto-expand-when-
+// short heuristic here used to mean N nearly-identical "not tracked yet"
+// blocks expanded back to back — exactly the wall-of-content-to-scroll-
+// past this disclosure exists to avoid, just inverted. Nothing here is
+// ever permanently hidden: it's a starting state a resident can always
+// open per card, never a removed feature.
 
 // One recent-votes row. The plain-language gloss for a non-yes/no option
 // (see VOTE_OPTION_DISPLAY, and the shared gloss text it now points into,
@@ -681,13 +681,14 @@ function OfficialCard({ rep }: { rep: RepProperties }) {
             tie-breaking votes as one.
 
             The one section in this card still behind its own <details>/
-            <summary> disclosure (see DEFAULT_OPEN_VOTE_THRESHOLD's own
-            comment) rather than always-open like everything else here —
-            a growing roll-call history is the one part of this card that
-            doesn't have a natural skim-friendly length, unlike a fixed
-            committee-membership list or a single meetings note. */}
+            <summary> disclosure (see the comment above it) rather than
+            always-open like everything else here — a growing roll-call
+            history is the one part of this card that doesn't have a
+            natural skim-friendly length, unlike a fixed committee-
+            membership list or a single meetings note. Always starts
+            closed (see that same comment). */}
         {rep.role !== "Mayor" && (
-          <details open={recentVotes.length <= DEFAULT_OPEN_VOTE_THRESHOLD} className="group border-t border-hair">
+          <details className="group border-t border-hair">
             <summary className="flex list-none items-center justify-between gap-2 px-4 py-3 cursor-pointer select-none hover:bg-sidebar-hover [&::-webkit-details-marker]:hidden">
               <span className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-ink-3">
                 <IconBallot />

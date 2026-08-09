@@ -9,6 +9,7 @@ import { dataUrl } from "@/lib/dataUrl";
 import type { AreaOfficials, CivicGeometrySources } from "@/lib/officials";
 import { officialIdentity, resolveAllCityOfficials, resolveOfficialsAtPoint } from "@/lib/officials";
 import { AT_LARGE_CITIES, CITIES, type City } from "@/lib/cities";
+import { fold } from "@/lib/addressSearch";
 import {
   CITY_ACCENT,
   CITY_PALETTES,
@@ -3522,11 +3523,24 @@ export default function WardMap() {
         if (realTierLayers.length > 0 && map.queryRenderedFeatures(e.point, { layers: realTierLayers }).length > 0) {
           return;
         }
-        const hoverIdentity = `city-boundary:${feature.properties?.name}`;
+        const cityName = feature.properties?.name as string | undefined;
+        const hoverIdentity = `city-boundary:${cityName}`;
         if (hoverIdentity === lastHoverIdentityRef.current) return;
         lastHoverIdentityRef.current = hoverIdentity;
         setHighlight(feature.id != null ? { source: feature.source, id: feature.id } : null);
-        setMetroHoverTooltip({ name: (feature.properties?.name as string | undefined) ?? "", x: e.point.x, y: e.point.y });
+        // Same canonical-spelling preference the click handler's own
+        // hasWardData/canonicalWard lookup uses (see its comment) — this
+        // statewide backdrop's `name` spells some covered cities "Saint
+        // ___" in full (St. Louis Park, St. Cloud), while CITIES
+        // abbreviates "St. ___". Falls back to the raw name for a
+        // genuinely uncovered city, which has no wards.geojson entry to
+        // prefer a spelling from.
+        const canonicalName =
+          cityName != null
+            ? ((wardsDataRef.current?.features.find((f) => fold((f.properties?.city as string | undefined) ?? "") === fold(cityName))
+                ?.properties as { city: string } | undefined)?.city ?? cityName)
+            : "";
+        setMetroHoverTooltip({ name: canonicalName, x: e.point.x, y: e.point.y });
         return;
       }
       // A ward belonging to a city that hasn't been "entered" yet (see
@@ -3668,8 +3682,27 @@ export default function WardMap() {
         // active ward reads identically either way. A genuinely uncovered
         // city (no ward data at all — most of the state) has nothing to
         // enter and keeps the original empty-panel behavior below.
-        const hasWardData = cityName != null && (wardsDataRef.current?.features.some((f) => f.properties?.city === cityName) ?? false);
-        if (hasWardData) {
+        //
+        // Matched via fold(), NOT a raw === on cityName: this backdrop's
+        // `name` comes from the statewide city-boundaries feed (MnDOT/
+        // MnGeo's CTU FeatureServer), which spells some covered cities
+        // "Saint ___" in full — St. Louis Park and St. Cloud, concretely —
+        // while wards.geojson (CITIES' own spelling) abbreviates "St. ___".
+        // A raw string compare made hasWardData false for those cities
+        // whenever their wards weren't already showing, silently treating
+        // a real, fully-covered city as if it had no officials at all —
+        // the reported "selecting a city sometimes shows nothing" bug.
+        // canonicalWard's own `city` property (not cityName) is what gets
+        // passed to enterCityView below for the same reason: every
+        // downstream lookup it makes (toggleCity's visibleCities key,
+        // resolveAllCityOfficials, boundsForCity) is keyed by CITIES' own
+        // spelling, so passing the CTU spelling through would have kept
+        // failing all of them even once hasWardData itself was fixed.
+        const canonicalWard =
+          cityName != null
+            ? wardsDataRef.current?.features.find((f) => fold((f.properties?.city as string | undefined) ?? "") === fold(cityName))
+            : undefined;
+        if (canonicalWard) {
           if (selectedRef.current?.pinned && selectedIdentityRef.current === identity) {
             // A warded city's own boundary is only re-clickable here at all
             // in the sliver-of-a-click-gap edge case (see enterCityView's
@@ -3683,7 +3716,7 @@ export default function WardMap() {
           }
           const point = toPoint(e.lngLat);
           enterCityView(
-            cityName as City,
+            (canonicalWard.properties as { city: string }).city as City,
             point,
             hit.id != null ? { source: hit.source, id: hit.id } : null,
             boundsFromFeature(hit as Feature<Geometry>),
