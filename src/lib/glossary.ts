@@ -107,7 +107,7 @@ export const GLOSSARY: Record<GlossaryKey, GlossaryEntry> = {
     // second, shorter one on the words "consent agenda" in the page's
     // intro paragraph) — one definition now, not two that could drift.
     term: "Consent agenda",
-    gloss: "A block of routine agenda items voted on together in a single motion, with no individual discussion or roll call. Anything on it passes or fails as a group. AGENTS.md §0.4 flags consent-agenda items specifically because voting no discussion is exactly the kind of routine, easy-to-miss decision this site exists to surface.",
+    gloss: "A block of routine agenda items voted on together in a single motion, with no individual discussion or roll call. Anything on it passes or fails as a group. AGENTS.md §0.4 flags consent-agenda items specifically because a vote with no discussion is exactly the kind of routine, easy-to-miss decision this site exists to surface.",
   },
   "first-reading": {
     term: "First reading",
