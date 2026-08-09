@@ -32,6 +32,7 @@ import {
 } from "@/lib/mapStyles";
 import { getActiveTheme, setTheme, type SiteTheme } from "@/lib/siteTheme";
 import { readStored, writeStored } from "@/lib/storage";
+import AreaFilterList from "./AreaFilterList";
 import MapThemeSelector from "./MapThemeSelector";
 import MobileNav, { IconSearch, IconSliders, type MobileNavTab } from "./MobileNav";
 import SearchBar from "./SearchBar";
@@ -1178,6 +1179,16 @@ export default function WardMap() {
     () => Object.fromEntries(CITIES.map((city) => [city, DEFAULT_VISIBLE_CITIES.has(city)])) as Record<City, boolean>,
   );
   const visibleCitiesRef = useRef(visibleCities);
+  // Area-filter sidebar's own free-text query (AreaFilterList's search
+  // input, rendered once the city list is long enough — see that
+  // component's FILTER_INPUT_THRESHOLD) — a plain useState, never a ref,
+  // never persisted to localStorage/URL (no visibility/expansion state
+  // was persisted before this feature and none is added now). Shared by
+  // both the floating (mobile sheet) and sidebar (desktop) AreaFilterList
+  // instances, same as visibleCities above already is — both are mounted
+  // in the DOM at once, one hidden via CSS per breakpoint, not
+  // conditionally rendered.
+  const [areaFilterQuery, setAreaFilterQuery] = useState("");
   const [chamber, setChamber] = useState<Chamber>("house");
   const chamberRef = useRef(chamber);
   // Sidebar collapse state — see LEFT_FILTERS_COLLAPSED_KEY's own comment.
@@ -3078,33 +3089,15 @@ export default function WardMap() {
   // flavor mounts now instead.
   const filterGroupClass = () =>
     "flex rounded-lg bg-panel-2/90 backdrop-blur-sm border border-hair shadow-lg shadow-(color:--shadow-panel) p-1 text-sm";
-  const filterListClass = (variant: "floating" | "sidebar") =>
-    variant === "floating"
-      ? // Capped height + internal scroll: with all 10 cities checked this
-        // list runs ~400px+ tall, and nothing on the floating desktop
-        // overlay (or MobileNav's own capped sheet slot) would otherwise
-        // stop it from running off-screen.
-        "max-h-[45vh] overflow-y-auto rounded-lg bg-panel-2/90 backdrop-blur-sm border border-hair shadow-lg shadow-(color:--shadow-panel) divide-y divide-hair text-sm text-ink-2"
-      : // No height cap here — the sidebar `<aside>` itself scrolls (see
-        // its own overflow-y-auto), so a second, nested scroll region
-        // would just be confusing about which element actually moves.
-        // No border: mndatacenter.org's own sidebar groups lean on a
-        // recessed fill (bg-panel-3, the app's existing "sub-rows, track
-        // backgrounds" token — see globals.css) and row dividers to read
-        // as one grouped list, not a boxed border. A border here on top
-        // of the sidebar's own edge border and the section card around it
-        // (see sidebarFilterControls below) was one border too many —
-        // flat and modern reads as fewer lines, not more of them.
-        "rounded-lg bg-panel-3 divide-y divide-hair text-sm text-ink-2";
   // Sidebar-only: a short Water Blue tick ahead of the label — the flag's
   // own accent (see globals.css's --sidebar-accent) used as a structural
   // marker, not just a color swap. AGENTS.md §4 "structure is
   // information": this is what tells a resident's eye "here's a new
   // group of controls" before they've read the words.
   // No mb-* of its own — callers wrap this in their own margin-bottom
-  // container so a label sitting beside the All/None toggle (see
-  // areasAllNoneToggle) doesn't pick up a second, misaligning gap from a
-  // margin baked into the label itself.
+  // container so a label sitting beside AreaFilterList's own bulk-toggle
+  // row doesn't pick up a second, misaligning gap from a margin baked
+  // into the label itself.
   const filterSectionLabel = (variant: "floating" | "sidebar", text: string) =>
     variant === "sidebar" ? (
       <h3 className="flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wide text-ink-3">
@@ -3113,51 +3106,12 @@ export default function WardMap() {
       </h3>
     ) : null;
 
-  // Quick bulk toggle sitting beside the "Areas shown" label in both
-  // flavors — with up to ten city checkboxes in the list below (CITIES),
-  // clearing or restoring them one at a time is the single most tedious
-  // interaction either sidebar offers. `cities` is always
-  // MODE_VISIBLE_CITIES[layerMode] at the call site: only the checkboxes
-  // actually on screen for the current mode toggle, never the full
-  // CITIES list, so this can't silently flip a city's visibility for a
-  // mode that isn't even showing it right now.
-  const areasAllNoneToggle = (variant: "floating" | "sidebar", cities: readonly City[]) => (
-    <div role="group" aria-label="Show or hide all areas" className="flex items-center gap-1 text-[11px] font-semibold uppercase tracking-wide">
-      <button
-        type="button"
-        onClick={() => setCitiesVisible(cities, true)}
-        className={`rounded px-1.5 py-1 text-ink-3 transition-colors hover:text-ink focus:outline-none focus-visible:ring-2 ${
-          // hover:bg-sidebar-hover, not the generic hover:bg-hover: this
-          // button sits on the sidebar's own panel-2 fill, where --hover
-          // reads as nearly invisible (see that token's own comment in
-          // globals.css) — same fix applied everywhere else in this
-          // sidebar's interactive rows/tabs below.
-          variant === "sidebar" ? "hover:bg-sidebar-hover focus-visible:ring-sidebar-accent" : "hover:bg-hover focus-visible:ring-accent"
-        }`}
-      >
-        All
-      </button>
-      <span aria-hidden="true" className="text-ink-3">
-        /
-      </span>
-      <button
-        type="button"
-        onClick={() => setCitiesVisible(cities, false)}
-        className={`rounded px-1.5 py-1 text-ink-3 transition-colors hover:text-ink focus:outline-none focus-visible:ring-2 ${
-          variant === "sidebar" ? "hover:bg-sidebar-hover focus-visible:ring-sidebar-accent" : "hover:bg-hover focus-visible:ring-accent"
-        }`}
-      >
-        None
-      </button>
-    </div>
-  );
-
   // Sidebar-only tab look for the Level (City/County/State) and Chamber
   // groups — a flat segmented control (rounded-lg track, rounded-md
   // active cell), matching mndatacenter.org's own "moderate border-radius
   // on interactive elements." No border on the track itself: bg-panel-3
-  // (the same recessed token filterListClass's sidebar variant uses just
-  // above) supplies the grouping, and the active cell's own
+  // (the same recessed token AreaFilterList's sidebar variant uses for its
+  // own list) supplies the grouping, and the active cell's own
   // TIER_HEADER_BG fill supplies the selection state — between the two, a
   // border line drew no information a resident couldn't already read from
   // the fill contrast. Rounded corners also stop the focus ring from
@@ -3197,7 +3151,7 @@ export default function WardMap() {
   // error. motion-safe:animate-spin keeps the actual spin off under
   // prefers-reduced-motion (AGENTS.md §4) while leaving the ring itself
   // visible, so the notice stays legible either way. Called with no
-  // variant param, unlike filterSectionLabel/filterListClass above: the
+  // variant param, unlike filterSectionLabel above: the
   // copy and layout are identical in both the floating and sidebar flavor,
   // there's no branch to make.
   const secondaryDataLoadingLabel = SECONDARY_DATA_LOADING_LABEL[layerMode];
@@ -3244,16 +3198,7 @@ export default function WardMap() {
       </div>
 
       <div>
-        {layerMode === "state-legislature" ? (
-          filterSectionLabel("floating", "Chamber")
-        ) : (
-          // No visible "Areas shown" text on the floating flavor (see
-          // filterSectionLabel's own comment — it only renders a heading
-          // for "sidebar"), so the All/None toggle is the one thing on
-          // this row; its own aria-label carries the meaning for a
-          // screen-reader user with no heading text to anchor to.
-          <div className="flex items-center justify-end mb-1">{areasAllNoneToggle("floating", MODE_VISIBLE_CITIES[layerMode])}</div>
-        )}
+        {layerMode === "state-legislature" && filterSectionLabel("floating", "Chamber")}
         {layerMode === "state-legislature" ? (
           // A district doesn't cleanly belong to one Twin City, so this
           // level filters by chamber instead of the Minneapolis/St. Paul
@@ -3273,20 +3218,18 @@ export default function WardMap() {
             ))}
           </div>
         ) : (
-          <div role="group" aria-label="Filter by area" className={filterListClass("floating")}>
-            {MODE_VISIBLE_CITIES[layerMode].map((city) => (
-              <label key={city} className="flex items-center gap-2 px-3 py-2.5 sm:py-2 cursor-pointer select-none hover:bg-hover">
-                <input
-                  type="checkbox"
-                  checked={visibleCities[city]}
-                  onChange={() => toggleCity(city)}
-                  className="cursor-pointer accent-accent"
-                />
-                <span className="h-2.5 w-2.5 rounded-full shrink-0" style={{ backgroundColor: CITY_ACCENT[city] }} />
-                {MODE_FILTER_LABELS[layerMode][city]}
-              </label>
-            ))}
-          </div>
+          <AreaFilterList
+            cities={MODE_VISIBLE_CITIES[layerMode]}
+            visibleCities={visibleCities}
+            labels={MODE_FILTER_LABELS[layerMode]}
+            accents={CITY_ACCENT}
+            variant="floating"
+            grouped={layerMode === "wards"}
+            query={areaFilterQuery}
+            onQueryChange={setAreaFilterQuery}
+            onToggleCity={toggleCity}
+            onSetCitiesVisible={setCitiesVisible}
+          />
         )}
       </div>
     </>
@@ -3334,7 +3277,6 @@ export default function WardMap() {
       <div>
         <div className="mb-1.5 flex items-center justify-between gap-2">
           {filterSectionLabel("sidebar", layerMode === "state-legislature" ? "Chamber" : "Areas shown")}
-          {layerMode !== "state-legislature" && areasAllNoneToggle("sidebar", MODE_VISIBLE_CITIES[layerMode])}
         </div>
         {layerMode === "state-legislature" ? (
           <div role="group" aria-label="Choose chamber" className={sidebarTabRowClass}>
@@ -3351,25 +3293,18 @@ export default function WardMap() {
             ))}
           </div>
         ) : (
-          <div role="group" aria-label="Filter by area" className={filterListClass("sidebar")}>
-            {MODE_VISIBLE_CITIES[layerMode].map((city) => (
-              // hover:bg-sidebar-hover here (not hover:bg-hover, which the
-              // floating variant just above keeps) — this row sits on
-              // filterListClass("sidebar")'s bg-panel-3 fill, where
-              // --hover reads as nearly invisible. See that token's own
-              // comment in globals.css.
-              <label key={city} className="flex items-center gap-2 px-3 py-2.5 sm:py-2 cursor-pointer select-none hover:bg-sidebar-hover">
-                <input
-                  type="checkbox"
-                  checked={visibleCities[city]}
-                  onChange={() => toggleCity(city)}
-                  className="cursor-pointer accent-accent"
-                />
-                <span className="h-2.5 w-2.5 rounded-full shrink-0" style={{ backgroundColor: CITY_ACCENT[city] }} />
-                {MODE_FILTER_LABELS[layerMode][city]}
-              </label>
-            ))}
-          </div>
+          <AreaFilterList
+            cities={MODE_VISIBLE_CITIES[layerMode]}
+            visibleCities={visibleCities}
+            labels={MODE_FILTER_LABELS[layerMode]}
+            accents={CITY_ACCENT}
+            variant="sidebar"
+            grouped={layerMode === "wards"}
+            query={areaFilterQuery}
+            onQueryChange={setAreaFilterQuery}
+            onToggleCity={toggleCity}
+            onSetCitiesVisible={setCitiesVisible}
+          />
         )}
       </div>
     </>

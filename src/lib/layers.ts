@@ -125,7 +125,7 @@ export const CITY_BOUNDARIES_LAYER: LayerRegistryEntry = {
   sourceAgency: "Minnesota Department of Transportation / MnGeo",
   knownGaps: [
     "Townships and unorganized territory are intentionally excluded (CTU_CLASS='CITY' filter only) — this layer is incorporated cities only.",
-    "This dataset spells city names out in full (e.g. \"Saint Paul\", \"Saint Louis Park\") — it is not cross-referenced against src/lib/cities.ts's abbreviated forms (\"St. Paul\", \"St. Louis Park\"), so a covered city's ward data and its city-boundaries backdrop are not visually distinguished from an uncovered city's outline.",
+    "This dataset spells city names out in full (e.g. \"Saint Paul\", \"Saint Louis Park\") rather than src/lib/cities.ts's abbreviated forms (\"St. Paul\", \"St. Louis Park\"). This is now resolved for the county/city filter crosswalk (scripts/build-county-cities.mjs normalizes both sides before joining — see src/lib/countyCities.generated.ts), but the map layers themselves still render a covered city's ward data and its city-boundaries backdrop as two separate, visually undistinguished layers rather than one merged feature.",
   ],
 };
 
