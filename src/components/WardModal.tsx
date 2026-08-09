@@ -235,11 +235,28 @@ export function roleLabel(rep: RepProperties): string {
   // (see that function's own comment), so a mayor from a fetch script that
   // simply omits wardName would have it as undefined, not null, and
   // undefined !== null is true. A truthy check treats both as "absent."
-  if (rep.wardName) return `${rep.wardName} District`;
+  // wardName is the complete override label, used as-is — not just a name
+  // with " District" appended here, which assumed every city's own term
+  // reads as "{name} District" (true for Brooklyn Park's "Central District"
+  // etc., false for Duluth's "District 1", which reads the other way
+  // round). fetch-wards.mjs now bakes the full label in at the source
+  // instead (2026-08 Duluth batch) — see its own comment on this.
+  if (rep.wardName) return rep.wardName;
   if (rep.ward !== null) return `Ward ${rep.ward}`;
   if (rep.district !== null) return `District ${rep.district}`;
   if (rep.stateDistrict !== null) return `District ${rep.stateDistrict}`;
-  return "Mayor";
+  // No locator field at all: a Mayor (city-wide by definition, no locator
+  // needed) or an at-large Council Member (city-wide seat, same absence of
+  // a locator for the same reason) — the two are indistinguishable by
+  // locator fields alone, so fall back to `rep.role`, which every
+  // RepProperties always carries. Previously fell through to "Mayor"
+  // unconditionally, which mislabeled every at-large Council Member across
+  // every fully-at-large city (Woodbury, Eagan, Lakeville, Maple Grove,
+  // Apple Valley, Burnsville, Edina, Eden Prairie) as "Mayor" in this badge
+  // — found while scoping mixed ward + at-large councils (Rochester,
+  // Duluth, St. Cloud), where the same fallback would otherwise mislabel
+  // every at-large seat sitting alongside real ward seats too.
+  return rep.role === "Mayor" ? "Mayor" : "At-Large";
 }
 
 // Council members and mayors are identified by city; commissioners by
@@ -362,21 +379,6 @@ function IconChevron() {
   );
 }
 
-// Committees section's own header icon — the block below used to render
-// with no label at all (just chips), fine when it lived inside a "More
-// details" disclosure that named the whole group; now that that wrapper
-// is gone (see OfficialCard), every section needs its own heading, same
-// as Recent votes/Meetings already had.
-function IconUsers() {
-  return (
-    <svg viewBox="0 0 20 20" fill="none" className="h-4 w-4 shrink-0">
-      <circle cx="7" cy="7" r="2.5" stroke="currentColor" strokeWidth="1.5" />
-      <path d="M2.5 16c.5-3 2.3-4.5 4.5-4.5s4 1.5 4.5 4.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-      <circle cx="14" cy="7.5" r="2" stroke="currentColor" strokeWidth="1.5" />
-      <path d="M12.5 11.3c1.7.3 2.9 1.6 3.3 4.2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-    </svg>
-  );
-}
 
 // Recent votes starts expanded when there isn't much in it yet (today's
 // reality for almost every seat — most feeds carry a handful of votes at
@@ -492,13 +494,11 @@ function OfficialCard({ rep }: { rep: RepProperties }) {
       <div className="flex items-start gap-3 px-4 pt-3 pb-3">
         <div className="h-16 w-16 text-xl">{avatar}</div>
         <div className="min-w-0 flex-1 pt-0.5">
-          <div
-            className="inline-block text-[11px] font-semibold uppercase tracking-wide px-2 py-0.5 rounded-full mb-1"
-            style={{ color: accent, backgroundColor: accentSoft }}
-          >
-            {areaLabel(rep)} &middot; {roleLabel(rep)}
-          </div>
-          <h4 className="text-lg font-bold text-ink leading-tight truncate">
+          {/* Name leads the card, title trails it on the same line
+              ("Kaohly Her - ST. PAUL MAYOR") — a resident scanning up to
+              six stacked cards is looking for a person first, the office
+              badge second (PR review, 2026-08-09). */}
+          <h4 className="text-lg font-bold text-ink leading-tight">
             {repName && rep.profileUrl ? (
               <a
                 href={rep.profileUrl}
@@ -511,8 +511,35 @@ function OfficialCard({ rep }: { rep: RepProperties }) {
             ) : (
               repName ?? "Vacant / TBD"
             )}
+            {" "}
+            <span
+              className="text-[11px] font-semibold uppercase tracking-wide align-middle"
+              style={{ color: accent }}
+            >
+              - {areaLabel(rep)} {roleLabel(rep)}
+            </span>
           </h4>
-          <div className="text-xs text-ink-3 mt-0.5">{currentTermLabel(rep)}</div>
+          <div className="text-xs text-ink-3 mt-1">{currentTermLabel(rep)}</div>
+          {/* Mayors' `committees` field is really just a restated title
+              ("Mayor of Saint Paul" — see scripts/fetch-mayors.mjs), not a
+              real committee assignment, and the title already renders in
+              the heading above — showing it again here as a pill read as
+              a duplicated, meaningless "committee" (PR review, 2026-08-09).
+              Every other role's committees array is real seat/committee
+              membership, so this only excludes Mayor. */}
+          {committees.length > 0 && rep.role !== "Mayor" && (
+            <div className="flex flex-wrap gap-1.5 mt-2">
+              {committees.map((role) => (
+                <span
+                  key={role}
+                  className="text-[11px] font-medium px-2 py-1 rounded-full border"
+                  style={{ color: accent, borderColor: accentSoft, backgroundColor: accentSoft }}
+                >
+                  {role}
+                </span>
+              ))}
+            </div>
+          )}
         </div>
       </div>
 
@@ -535,30 +562,49 @@ function OfficialCard({ rep }: { rep: RepProperties }) {
           ("every record ends in an action"), how to reach this person has
           to survive collapsing the card down to its shortest state, not
           live inside the "more detail" a resident might never open. */}
-      {(rep.repEmail || rep.repPhone) && (
-        <div className="px-4 pb-3 flex items-center gap-2">
-          {rep.repEmail && (
-            <a
-              href={`mailto:${rep.repEmail}`}
-              // hover:bg-sidebar-hover, not hover:bg-hover: this chip is
-              // one of the sidebar's own interactive rows (this card
-              // renders inside WardMap's right `<aside>` in the
-              // "sidebar" variant) — see --sidebar-hover's comment in
-              // globals.css for why the generic token barely shows.
-              className="flex items-center gap-1.5 text-xs font-medium text-ink-2 border border-hair rounded-full px-3 py-1.5 hover:bg-sidebar-hover active:bg-hair-strong"
-            >
-              <IconMail />
-              Email
-            </a>
+      {(rep.repEmail || rep.repPhone || rep.officeRoom) && (
+        <div className="px-4 pb-3 space-y-2">
+          {(rep.repEmail || rep.repPhone) && (
+            <div className="flex items-center gap-2">
+              {rep.repEmail && (
+                <a
+                  href={`mailto:${rep.repEmail}`}
+                  // hover:bg-sidebar-hover, not hover:bg-hover: this chip is
+                  // one of the sidebar's own interactive rows (this card
+                  // renders inside WardMap's right `<aside>` in the
+                  // "sidebar" variant) — see --sidebar-hover's comment in
+                  // globals.css for why the generic token barely shows.
+                  className="flex items-center gap-1.5 text-xs font-medium text-ink-2 border border-hair rounded-full px-3 py-1.5 hover:bg-sidebar-hover active:bg-hair-strong"
+                >
+                  <IconMail />
+                  Email
+                </a>
+              )}
+              {rep.repPhone && (
+                <a
+                  href={`tel:${rep.repPhone.replace(/[^\d+]/g, "")}`}
+                  className="flex items-center gap-1.5 text-xs font-medium text-ink-2 border border-hair rounded-full px-3 py-1.5 hover:bg-sidebar-hover active:bg-hair-strong"
+                >
+                  <IconPhone />
+                  {rep.repPhone}
+                </a>
+              )}
+            </div>
           )}
-          {rep.repPhone && (
-            <a
-              href={`tel:${rep.repPhone.replace(/[^\d+]/g, "")}`}
-              className="flex items-center gap-1.5 text-xs font-medium text-ink-2 border border-hair rounded-full px-3 py-1.5 hover:bg-sidebar-hover active:bg-hair-strong"
-            >
-              <IconPhone />
-              {rep.repPhone}
-            </a>
+          {/* Office address now lives with Email/Phone — all three are the
+              same "how do I reach this person" action (AGENTS.md §0.6) —
+              rather than in its own section down past committees/votes/
+              meetings, where it used to sit alongside neighborhoods (a
+              different kind of fact entirely: what the seat covers, not
+              how to contact it). Neighborhoods keeps its own section below,
+              unchanged. */}
+          {rep.officeRoom && (
+            <div className="flex items-start gap-1.5 text-xs text-ink-3">
+              <span className="mt-0.5">
+                <IconBuilding />
+              </span>
+              <span>{rep.officeRoom}</span>
+            </div>
           )}
         </div>
       )}
@@ -601,26 +647,6 @@ function OfficialCard({ rep }: { rep: RepProperties }) {
                 </li>
               ))}
             </ul>
-          </div>
-        )}
-
-        {committees.length > 0 && (
-          <div className="border-t border-hair px-4 py-3">
-            <div className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-ink-3 mb-2.5">
-              <IconUsers />
-              Committees
-            </div>
-            <div className="flex flex-wrap gap-1.5">
-              {committees.map((role) => (
-                <span
-                  key={role}
-                  className="text-[11px] font-medium px-2 py-1 rounded-full border"
-                  style={{ color: accent, borderColor: accentSoft, backgroundColor: accentSoft }}
-                >
-                  {role}
-                </span>
-              ))}
-            </div>
           </div>
         )}
 
@@ -732,36 +758,41 @@ function OfficialCard({ rep }: { rep: RepProperties }) {
             section at all (isWard) — there's no ward-level "meetings
             feed" concept to honestly say we lack for a citywide role. */}
         {isWard && (
-          <div className="border-t border-hair px-4 py-3">
-            <div className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-ink-3 mb-2.5">
-              <IconCalendar />
-              Meetings
+          <details className="group border-t border-hair">
+            <summary className="flex list-none items-center justify-between gap-2 px-4 py-3 cursor-pointer select-none hover:bg-sidebar-hover [&::-webkit-details-marker]:hidden">
+              <span className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-ink-3">
+                <IconCalendar />
+                Meetings
+              </span>
+              <IconChevron />
+            </summary>
+            <div className="px-4 pb-3">
+              {/* St. Paul (issue #58) has a real wired Legistar feed now —
+                  every other city in CITY_MEETINGS_URL still gets the honest
+                  "no feed connected" copy below; NEXT_MEETING_TEASERS only
+                  has an entry for jurisdictions meetingsRegistry.ts actually
+                  lists. */}
+              {NEXT_MEETING_TEASERS[rep.city] !== undefined ? (
+                <NextMeetingTeaserLine teaser={NEXT_MEETING_TEASERS[rep.city]} />
+              ) : (
+                <p className="text-sm text-ink-3">No meetings feed connected yet for {rep.city}.</p>
+              )}
+              {CITY_MEETINGS_URL[rep.city] ? (
+                <a
+                  href={CITY_MEETINGS_URL[rep.city]}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 text-sm font-medium hover:underline mt-1"
+                  style={{ color: accent }}
+                >
+                  See {rep.city}&rsquo;s own meeting calendar
+                  <IconExternal />
+                </a>
+              ) : (
+                <p className="text-xs text-ink-4 mt-1">Check {rep.city}&rsquo;s official website for upcoming meetings.</p>
+              )}
             </div>
-            {/* St. Paul (issue #58) has a real wired Legistar feed now —
-                every other city in CITY_MEETINGS_URL still gets the honest
-                "no feed connected" copy below; NEXT_MEETING_TEASERS only
-                has an entry for jurisdictions meetingsRegistry.ts actually
-                lists. */}
-            {NEXT_MEETING_TEASERS[rep.city] !== undefined ? (
-              <NextMeetingTeaserLine teaser={NEXT_MEETING_TEASERS[rep.city]} />
-            ) : (
-              <p className="text-sm text-ink-3">No meetings feed connected yet for {rep.city}.</p>
-            )}
-            {CITY_MEETINGS_URL[rep.city] ? (
-              <a
-                href={CITY_MEETINGS_URL[rep.city]}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1 text-sm font-medium hover:underline mt-1"
-                style={{ color: accent }}
-              >
-                See {rep.city}&rsquo;s own meeting calendar
-                <IconExternal />
-              </a>
-            ) : (
-              <p className="text-xs text-ink-4 mt-1">Check {rep.city}&rsquo;s official website for upcoming meetings.</p>
-            )}
-          </div>
+          </details>
         )}
 
         {/* County tier equivalent of the block above — Hennepin County
@@ -771,33 +802,28 @@ function OfficialCard({ rep }: { rep: RepProperties }) {
             meetingsRegistry.ts doesn't cover just renders nothing, same
             as this card did for every county before this feed existed. */}
         {!isWard && rep.county && NEXT_MEETING_TEASERS[rep.county] && (
-          <div className="border-t border-hair px-4 py-3">
-            <div className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-ink-3 mb-2.5">
-              <IconCalendar />
-              Meetings
+          <details className="group border-t border-hair">
+            <summary className="flex list-none items-center justify-between gap-2 px-4 py-3 cursor-pointer select-none hover:bg-sidebar-hover [&::-webkit-details-marker]:hidden">
+              <span className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-ink-3">
+                <IconCalendar />
+                Meetings
+              </span>
+              <IconChevron />
+            </summary>
+            <div className="px-4 pb-3">
+              <NextMeetingTeaserLine teaser={NEXT_MEETING_TEASERS[rep.county]} />
             </div>
-            <NextMeetingTeaserLine teaser={NEXT_MEETING_TEASERS[rep.county]} />
-          </div>
+          </details>
         )}
 
-        {(rep.officeRoom || neighborhoods.length > 0) && (
-          <div className="border-t border-hair px-4 py-3 space-y-1.5 text-xs text-ink-3">
-            {rep.officeRoom && (
-              <div className="flex items-start gap-1.5">
-                <span className="mt-0.5">
-                  <IconBuilding />
-                </span>
-                <span>{rep.officeRoom}</span>
-              </div>
-            )}
-            {neighborhoods.length > 0 && (
-              <div className="flex items-start gap-1.5">
-                <span className="mt-0.5">
-                  <IconPin />
-                </span>
-                <span>{neighborhoods.join(", ")}</span>
-              </div>
-            )}
+        {neighborhoods.length > 0 && (
+          <div className="border-t border-hair px-4 py-3 text-xs text-ink-3">
+            <div className="flex items-start gap-1.5">
+              <span className="mt-0.5">
+                <IconPin />
+              </span>
+              <span>{neighborhoods.join(", ")}</span>
+            </div>
           </div>
         )}
       </div>

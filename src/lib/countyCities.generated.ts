@@ -18,8 +18,13 @@ import type { City, County } from "./cities.ts";
 
 export const COUNTY_CITIES: Record<County, City[]> = {
   "Anoka": ["Blaine", "Coon Rapids", "Fridley", "Ramsey"],
+  "Benton": ["St. Cloud"],
   "Dakota": ["Apple Valley", "Burnsville", "Eagan", "Lakeville"],
   "Hennepin": ["Bloomington", "Brooklyn Park", "Champlin", "Crystal", "Eden Prairie", "Edina", "Maple Grove", "Minneapolis", "Minnetonka", "Plymouth", "Richfield", "Robbinsdale", "St. Louis Park"],
+  "Olmsted": ["Rochester"],
   "Ramsey": ["Blaine", "St. Paul"],
+  "Saint Louis": ["Duluth"],
+  "Sherburne": ["St. Cloud"],
+  "Stearns": ["St. Cloud"],
   "Washington": ["Woodbury"],
 };

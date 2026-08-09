@@ -37,12 +37,15 @@ export const JURISDICTION_COVERAGE_TIERS = JURISDICTIONS.map((j) => ({
   coverage_tier: j.coverage_tier,
 }));
 
-// Mirrors scripts/fetch-commissioners.mjs's own RAMSEY_DISTRICTS_URL /
-// HENNEPIN_DISTRICTS_URL pair — that script only ever fetches these two
-// counties' commissioner districts, never Anoka's (Anoka's mapped cities,
-// Blaine and Coon Rapids, get city-council data but no county-commissioner
-// layer at all). Update this if that script's county list ever changes.
-export const COMMISSIONER_COUNTIES = ["Hennepin", "Ramsey"] as const;
+// Mirrors scripts/fetch-commissioners.mjs's own county fetch functions —
+// that script only ever fetches these seven counties' commissioner
+// districts, never Anoka's (Anoka's mapped cities, Blaine and Coon Rapids,
+// get city-council data but no county-commissioner layer at all). Update
+// this if that script's county list ever changes. Display spelling here
+// intentionally differs from cities.ts's COUNTIES key ("St. Louis," not
+// the CTU dataset's "Saint Louis") — see that file's own comment on why
+// the two spellings diverge.
+export const COMMISSIONER_COUNTIES = ["Hennepin", "Ramsey", "Olmsted", "St. Louis", "Stearns", "Sherburne", "Benton"] as const;
 
 // scripts/fetch-state-legislature.mjs used to filter its output down to a
 // Twin Cities bounding box (TWIN_CITIES_BOUNDS, removed as part of #61,
@@ -79,7 +82,30 @@ export const CITY_BOUNDARIES_NOTE = `All incorporated Minnesota cities are outli
 // per AGENTS.md §3.4 — this is user-facing copy, drafted with AI assistance.
 export const CITY_TIER_EMPTY_NOTE = `This location is outside every city this map has ward data for (${WARD_CITIES.join(", ")}).`;
 
-export const COUNTY_TIER_EMPTY_NOTE = `County commissioner districts are only mapped for ${COMMISSIONER_COUNTIES.join(" and ")} County.`;
+// join(" and ") + a hardcoded literal " County." suffix worked only while
+// COMMISSIONER_COUNTIES had exactly two entries ("Hennepin and Ramsey
+// County") — broke grammatically the moment a third county was added
+// (2026-08 batch): "Hennepin and Ramsey and Olmsted ... County" reads as
+// one endless list with a stray singular "County" tacked on. Oxford-comma
+// join + "Counties" (plural) instead, still correct for the two-item case
+// (`.slice(0, -1).join(", ")` on a 2-element array is just the first
+// element, so this reduces to "Hennepin and Ramsey Counties" — plural,
+// the one small wording change from before).
+// Exported (not module-private) — CoverageNotice.tsx reuses this exact
+// list for its own "County commissioner — ... counties only" line rather
+// than joining COMMISSIONER_COUNTIES with its own separate "&"-join, which
+// would drift from this wording the next time a county is added.
+// Widened to `readonly string[]` for this computation only — COMMISSIONER_
+// COUNTIES's own `as const` tuple type narrows `.length` to the literal 7,
+// which makes a general "handle the 1-element case too" comparison a
+// compile error (comparing literal type 7 to 1) even though the function
+// itself is written to stay correct if the tuple's size ever changes.
+const commissionerCountiesList: readonly string[] = COMMISSIONER_COUNTIES;
+export const COMMISSIONER_COUNTIES_LIST: string =
+  commissionerCountiesList.length === 1
+    ? commissionerCountiesList[0]
+    : `${commissionerCountiesList.slice(0, -1).join(", ")} and ${commissionerCountiesList[commissionerCountiesList.length - 1]}`;
+export const COUNTY_TIER_EMPTY_NOTE = `County commissioner districts are only mapped for ${COMMISSIONER_COUNTIES_LIST} Counties.`;
 
 export const STATE_TIER_EMPTY_NOTE = `No state legislative district mapped here. ${STATE_LEGISLATURE_NOTE}`;
 

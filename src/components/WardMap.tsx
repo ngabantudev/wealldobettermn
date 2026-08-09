@@ -154,13 +154,21 @@ type LayerMode = "wards" | "commissioners" | "state-legislature";
 
 // A Hennepin County commissioner district covers plenty of suburbs
 // "Minneapolis" doesn't literally describe — the checkbox label should say
-// so. Only Minneapolis/St. Paul need an override here: every other city's
-// commissioner-mode (and state-legislature-mode) label is a dead entry —
-// see MODE_VISIBLE_CITIES below for why those never actually render — so
-// it falls back to "" rather than needing its own line per city.
+// so. Only cities whose county commissioner districts actually render need
+// an override here — see MODE_VISIBLE_CITIES below for why every other
+// city's commissioner-mode label is a dead entry that falls back to "".
+// St. Cloud spans three counties (Stearns/Sherburne/Benton, all with real
+// population — see the COUNTIES comment in src/lib/cities.ts), so its
+// commissioner features carry `city: "St. Cloud"` regardless of which of
+// the three they're actually in — same "group by covered city, not by
+// county" convention Hennepin/Ramsey already use for their own suburbs —
+// and the label says so plainly rather than picking just one county.
 const COMMISSIONER_LABEL_OVERRIDES: Partial<Record<City, string>> = {
   Minneapolis: "Hennepin County",
   "St. Paul": "Ramsey County",
+  Rochester: "Olmsted County",
+  Duluth: "St. Louis County",
+  "St. Cloud": "Stearns, Sherburne & Benton Counties",
 };
 
 // Derived from CITIES so adding a city there is enough to get it a correct
@@ -177,14 +185,15 @@ const MODE_FILTER_LABELS: Record<LayerMode, Record<City, string>> = {
 };
 
 // Which of the CITIES checkboxes actually make sense to show per mode.
-// Commissioner districts only ever carry city:"Minneapolis"/"St. Paul"
-// (see fetch-commissioners.mjs — Hennepin/Ramsey aren't broken out by
-// suburb), so listing the newer ward-only cities there would just be dead
-// checkboxes that filter nothing. State legislature mode doesn't use the
-// city filter at all — see the comment above.
+// Commissioner districts only ever carry city:"Minneapolis"/"St. Paul"/
+// "Rochester"/"Duluth"/"St. Cloud" (see fetch-commissioners.mjs —
+// Hennepin/Ramsey/Olmsted/St. Louis/Stearns/Sherburne/Benton aren't broken
+// out by suburb), so listing the other ward-only cities there would just be
+// dead checkboxes that filter nothing. State legislature mode doesn't use
+// the city filter at all — see the comment above.
 const MODE_VISIBLE_CITIES: Record<LayerMode, readonly City[]> = {
   wards: CITIES,
-  commissioners: ["Minneapolis", "St. Paul"],
+  commissioners: ["Minneapolis", "St. Paul", "Rochester", "Duluth", "St. Cloud"],
   "state-legislature": [],
 };
 
@@ -212,9 +221,10 @@ const MODE_LABELS: Record<LayerMode, string> = {
 // cities, already grouped by county (AreaFilterList's GroupedList — see that
 // file), so "Cities by County" names the structure a resident already sees
 // on screen instead of a vaguer "area." Commissioners mode's checklist is
-// exactly two counties (Hennepin/Ramsey, via COMMISSIONER_LABEL_OVERRIDES
-// above) — "Counties Shown" says so plainly rather than calling a county an
-// "area" too.
+// county-commissioner coverage grouped by covered city (Hennepin/Ramsey/
+// Olmsted/St. Louis/Stearns+Sherburne+Benton, via COMMISSIONER_LABEL_
+// OVERRIDES above) — "Counties Shown" says so plainly rather than calling a
+// county an "area" too.
 const AREA_SECTION_LABEL: Record<"wards" | "commissioners", string> = {
   wards: "Cities by County",
   commissioners: "Counties Shown",

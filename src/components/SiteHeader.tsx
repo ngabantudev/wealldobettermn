@@ -3,16 +3,19 @@ import Link from "next/link";
 import MastheadSaying from "./MastheadSaying";
 
 // The site's only persistent chrome nav: Map (back to "/" from any of the
-// pages below), Bills, About, Privacy. Kept small — text links, not icons —
-// since this bar's real estate is already spoken for by MastheadSaying and
-// (on sm+) the search box; see the render below for how it fits between
-// them. Exists because /bills, /about, and /privacy are otherwise dead
-// ends with no way back except the browser's own Back button — PR review,
-// 2026-08-07 ("orphan pages nobody can reach").
+// pages below), Bills, Sources, About, Privacy. Kept small — text links,
+// not icons — since this bar's real estate is already spoken for by
+// MastheadSaying and (on sm+) the search box; see the render below for how
+// it fits between them. Exists because /bills, /about, and /privacy are
+// otherwise dead ends with no way back except the browser's own Back
+// button — PR review, 2026-08-07 ("orphan pages nobody can reach"). /sources
+// (2026-08-08) follows the same rule from day one rather than needing its
+// own follow-up fix.
 const NAV_LINKS: { href: string; label: string }[] = [
   { href: "/", label: "Map" },
   { href: "/meetings", label: "Meetings" },
   { href: "/bills", label: "Bills" },
+  { href: "/sources", label: "Sources" },
   { href: "/about", label: "About" },
   { href: "/privacy", label: "Privacy" },
 ];
