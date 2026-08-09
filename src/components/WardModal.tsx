@@ -494,12 +494,11 @@ function OfficialCard({ rep }: { rep: RepProperties }) {
       <div className="flex items-start gap-3 px-4 pt-3 pb-3">
         <div className="h-16 w-16 text-xl">{avatar}</div>
         <div className="min-w-0 flex-1 pt-0.5">
-          {/* Name leads the card — a resident scanning up to six stacked
-              cards is looking for a person first, the office badge second
-              (PR review, 2026-08-09). Was previously the reverse (badge
-              above name); the badge now trails as a `mt-1` line under the
-              name instead of leading it. */}
-          <h4 className="text-lg font-bold text-ink leading-tight truncate">
+          {/* Name leads the card, title trails it on the same line
+              ("Kaohly Her - ST. PAUL MAYOR") — a resident scanning up to
+              six stacked cards is looking for a person first, the office
+              badge second (PR review, 2026-08-09). */}
+          <h4 className="text-lg font-bold text-ink leading-tight">
             {repName && rep.profileUrl ? (
               <a
                 href={rep.profileUrl}
@@ -512,15 +511,23 @@ function OfficialCard({ rep }: { rep: RepProperties }) {
             ) : (
               repName ?? "Vacant / TBD"
             )}
+            {" "}
+            <span
+              className="text-[11px] font-semibold uppercase tracking-wide align-middle"
+              style={{ color: accent }}
+            >
+              - {areaLabel(rep)} {roleLabel(rep)}
+            </span>
           </h4>
-          <div
-            className="inline-block text-[11px] font-semibold uppercase tracking-wide px-2 py-0.5 rounded-full mt-1"
-            style={{ color: accent, backgroundColor: accentSoft }}
-          >
-            {areaLabel(rep)} &middot; {roleLabel(rep)}
-          </div>
           <div className="text-xs text-ink-3 mt-1">{currentTermLabel(rep)}</div>
-          {committees.length > 0 && (
+          {/* Mayors' `committees` field is really just a restated title
+              ("Mayor of Saint Paul" — see scripts/fetch-mayors.mjs), not a
+              real committee assignment, and the title already renders in
+              the heading above — showing it again here as a pill read as
+              a duplicated, meaningless "committee" (PR review, 2026-08-09).
+              Every other role's committees array is real seat/committee
+              membership, so this only excludes Mayor. */}
+          {committees.length > 0 && rep.role !== "Mayor" && (
             <div className="flex flex-wrap gap-1.5 mt-2">
               {committees.map((role) => (
                 <span
@@ -555,30 +562,49 @@ function OfficialCard({ rep }: { rep: RepProperties }) {
           ("every record ends in an action"), how to reach this person has
           to survive collapsing the card down to its shortest state, not
           live inside the "more detail" a resident might never open. */}
-      {(rep.repEmail || rep.repPhone) && (
-        <div className="px-4 pb-3 flex items-center gap-2">
-          {rep.repEmail && (
-            <a
-              href={`mailto:${rep.repEmail}`}
-              // hover:bg-sidebar-hover, not hover:bg-hover: this chip is
-              // one of the sidebar's own interactive rows (this card
-              // renders inside WardMap's right `<aside>` in the
-              // "sidebar" variant) — see --sidebar-hover's comment in
-              // globals.css for why the generic token barely shows.
-              className="flex items-center gap-1.5 text-xs font-medium text-ink-2 border border-hair rounded-full px-3 py-1.5 hover:bg-sidebar-hover active:bg-hair-strong"
-            >
-              <IconMail />
-              Email
-            </a>
+      {(rep.repEmail || rep.repPhone || rep.officeRoom) && (
+        <div className="px-4 pb-3 space-y-2">
+          {(rep.repEmail || rep.repPhone) && (
+            <div className="flex items-center gap-2">
+              {rep.repEmail && (
+                <a
+                  href={`mailto:${rep.repEmail}`}
+                  // hover:bg-sidebar-hover, not hover:bg-hover: this chip is
+                  // one of the sidebar's own interactive rows (this card
+                  // renders inside WardMap's right `<aside>` in the
+                  // "sidebar" variant) — see --sidebar-hover's comment in
+                  // globals.css for why the generic token barely shows.
+                  className="flex items-center gap-1.5 text-xs font-medium text-ink-2 border border-hair rounded-full px-3 py-1.5 hover:bg-sidebar-hover active:bg-hair-strong"
+                >
+                  <IconMail />
+                  Email
+                </a>
+              )}
+              {rep.repPhone && (
+                <a
+                  href={`tel:${rep.repPhone.replace(/[^\d+]/g, "")}`}
+                  className="flex items-center gap-1.5 text-xs font-medium text-ink-2 border border-hair rounded-full px-3 py-1.5 hover:bg-sidebar-hover active:bg-hair-strong"
+                >
+                  <IconPhone />
+                  {rep.repPhone}
+                </a>
+              )}
+            </div>
           )}
-          {rep.repPhone && (
-            <a
-              href={`tel:${rep.repPhone.replace(/[^\d+]/g, "")}`}
-              className="flex items-center gap-1.5 text-xs font-medium text-ink-2 border border-hair rounded-full px-3 py-1.5 hover:bg-sidebar-hover active:bg-hair-strong"
-            >
-              <IconPhone />
-              {rep.repPhone}
-            </a>
+          {/* Office address now lives with Email/Phone — all three are the
+              same "how do I reach this person" action (AGENTS.md §0.6) —
+              rather than in its own section down past committees/votes/
+              meetings, where it used to sit alongside neighborhoods (a
+              different kind of fact entirely: what the seat covers, not
+              how to contact it). Neighborhoods keeps its own section below,
+              unchanged. */}
+          {rep.officeRoom && (
+            <div className="flex items-start gap-1.5 text-xs text-ink-3">
+              <span className="mt-0.5">
+                <IconBuilding />
+              </span>
+              <span>{rep.officeRoom}</span>
+            </div>
           )}
         </div>
       )}
@@ -790,24 +816,14 @@ function OfficialCard({ rep }: { rep: RepProperties }) {
           </details>
         )}
 
-        {(rep.officeRoom || neighborhoods.length > 0) && (
-          <div className="border-t border-hair px-4 py-3 space-y-1.5 text-xs text-ink-3">
-            {rep.officeRoom && (
-              <div className="flex items-start gap-1.5">
-                <span className="mt-0.5">
-                  <IconBuilding />
-                </span>
-                <span>{rep.officeRoom}</span>
-              </div>
-            )}
-            {neighborhoods.length > 0 && (
-              <div className="flex items-start gap-1.5">
-                <span className="mt-0.5">
-                  <IconPin />
-                </span>
-                <span>{neighborhoods.join(", ")}</span>
-              </div>
-            )}
+        {neighborhoods.length > 0 && (
+          <div className="border-t border-hair px-4 py-3 text-xs text-ink-3">
+            <div className="flex items-start gap-1.5">
+              <span className="mt-0.5">
+                <IconPin />
+              </span>
+              <span>{neighborhoods.join(", ")}</span>
+            </div>
           </div>
         )}
       </div>
