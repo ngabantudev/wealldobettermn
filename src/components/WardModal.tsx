@@ -520,28 +520,35 @@ function OfficialCard({ rep }: { rep: RepProperties }) {
             </span>
           </h4>
           <div className="text-xs text-ink-3 mt-1">{currentTermLabel(rep)}</div>
-          {/* Mayors' `committees` field is really just a restated title
-              ("Mayor of Saint Paul" — see scripts/fetch-mayors.mjs), not a
-              real committee assignment, and the title already renders in
-              the heading above — showing it again here as a pill read as
-              a duplicated, meaningless "committee" (PR review, 2026-08-09).
-              Every other role's committees array is real seat/committee
-              membership, so this only excludes Mayor. */}
-          {committees.length > 0 && rep.role !== "Mayor" && (
-            <div className="flex flex-wrap gap-1.5 mt-2">
-              {committees.map((role) => (
-                <span
-                  key={role}
-                  className="text-[11px] font-medium px-2 py-1 rounded-full border"
-                  style={{ color: accent, borderColor: accentSoft, backgroundColor: accentSoft }}
-                >
-                  {role}
-                </span>
-              ))}
-            </div>
-          )}
         </div>
       </div>
+
+      {/* Committees render in their own full-width row below the avatar/
+          name row, not nested in the name column beside the avatar — a
+          long committee list wrapped inside that narrower column before
+          (PR review, 2026-08-09). This div spans the card's full width and
+          never truncates, so every committee/title is always fully
+          readable, not just whichever fit in the avatar-constrained
+          column. Mayors' `committees` field is really just a restated
+          title ("Mayor of Saint Paul" — see scripts/fetch-mayors.mjs), not
+          a real committee assignment, and that title already renders in
+          the heading above — showing it again here would be a duplicated,
+          meaningless "committee," so this excludes Mayor only; every
+          other role's committees array is real seat/committee
+          membership. */}
+      {committees.length > 0 && rep.role !== "Mayor" && (
+        <div className="px-4 pb-3 flex flex-wrap gap-1.5">
+          {committees.map((role) => (
+            <span
+              key={role}
+              className="text-[11px] font-medium px-2 py-1 rounded-full border"
+              style={{ color: accent, borderColor: accentSoft, backgroundColor: accentSoft }}
+            >
+              {role}
+            </span>
+          ))}
+        </div>
+      )}
 
       {isVerificationStale(rep) && (
         <div
