@@ -795,22 +795,28 @@ function syncPinGeometryForZoom(map: maplibregl.Map, entry: PinMarker, zoom: num
 // the pins). Triangle/square formations close the loop back to their
 // first point so the line traces a full outline; a 2-point "line" is
 // already a single segment.
+// The Mayor's own point (formation.mayorIndex, when set) is deliberately
+// filtered out before any of this — the line ties Council Members to
+// each other as fellow at-large seats, not to the Mayor they share a
+// City Hall coordinate with but don't share a formation shape *with* in
+// the same sense (see atLargePinPixelOffsets' own comment on why the
+// Mayor sits apart from — or at the center of — the CMs' own ring).
+// Every remaining point is a Council Member, so the vertical correction
+// can use that one role's diameter throughout rather than a per-point
+// lookup.
 function wardPinConnectorPoints(
   map: maplibregl.Map,
   center: maplibregl.LngLat,
   formation: { count: number; mayorIndex?: number },
   zoom: number,
 ): [number, number][] {
-  const offsets = pinPixelOffsetsForFormation(formation, zoom);
-  const points = offsets.map(([dx, dy], i) => {
-    // Each point's own vertical correction uses its own role's diameter
-    // — a Mayor's larger pin needs a bigger upward shift than a Council
-    // Member's to keep the line through its visual center, unlike an
-    // all-peer ward group, which could get away with one shared value.
-    const diameter = i === formation.mayorIndex ? diameterForZoom("Mayor", zoom) : diameterForZoom("Council Member", zoom);
-    const ll = formationLngLat(map, center, dx, dy - diameter / 2);
-    return [ll.lng, ll.lat] as [number, number];
-  });
+  const diameter = diameterForZoom("Council Member", zoom);
+  const points = pinPixelOffsetsForFormation(formation, zoom)
+    .filter((_, i) => i !== formation.mayorIndex)
+    .map(([dx, dy]) => {
+      const ll = formationLngLat(map, center, dx, dy - diameter / 2);
+      return [ll.lng, ll.lat] as [number, number];
+    });
   if (points.length > 2) points.push(points[0]);
   return points;
 }
@@ -829,10 +835,15 @@ function wardPinConnectorPoints(
 // (Blaine, Brooklyn Park); mayorsData covers a city whose officials all
 // share one City Hall coordinate instead — an ordinary city (one mayor)
 // never produces a line here (group.length < 2), only an at-large one
-// (Woodbury: mayor + 4 council members) does. Both grouping strategies
-// feed the same output FeatureCollection/layer, since both use identical
-// formation math (wardPinConnectorPoints) and both need the exact same
-// `city`-keyed filtering applyCityFilter already applies.
+// (Woodbury: mayor + 4 council members) does. For a mayorsData group,
+// the "2+ members" the line requires means 2+ Council Members
+// specifically — the Mayor is never one of the line's own endpoints (see
+// wardPinConnectorPoints' own comment), so a Mayor + 1 CM group (nothing
+// for that one CM to connect to) draws no line either, the same as a
+// solo-Mayor group. Both grouping strategies feed the same output
+// FeatureCollection/layer, since both use identical formation math
+// (wardPinConnectorPoints) and both need the exact same `city`-keyed
+// filtering applyCityFilter already applies.
 function wardPinConnectorLines(map: maplibregl.Map, wardsData: FeatureCollection, mayorsData: FeatureCollection): FeatureCollection {
   const zoom = map.getZoom();
   const features: Feature<Geometry>[] = [];
@@ -845,10 +856,17 @@ function wardPinConnectorLines(map: maplibregl.Map, wardsData: FeatureCollection
     atLarge: boolean,
   ) => {
     for (const group of groups.values()) {
-      if (group.length < 2) continue;
-      const center = centerOf(group[0]);
       const mayorIndex = atLarge ? mayorIndexInGroup(group) : undefined;
-      const points = wardPinConnectorPoints(map, center, { count: group.length, mayorIndex: mayorIndex === -1 ? undefined : mayorIndex }, zoom);
+      const resolvedMayorIndex = mayorIndex === -1 ? undefined : mayorIndex;
+      // How many *line* endpoints this group actually has — every member
+      // for a ward group, but the Mayor never counts toward a mayorsData
+      // group's line (see wardPinConnectorPoints' own comment), so a
+      // Mayor + 1 CM group has only one real endpoint and draws nothing,
+      // same as a solo Mayor.
+      const lineMemberCount = resolvedMayorIndex !== undefined ? group.length - 1 : group.length;
+      if (lineMemberCount < 2) continue;
+      const center = centerOf(group[0]);
+      const points = wardPinConnectorPoints(map, center, { count: group.length, mayorIndex: resolvedMayorIndex }, zoom);
       // Carries `city` through (every member of a group shares one, by
       // construction of both grouping functions) so applyCityFilter can
       // hide this line along with the rest of a deselected city's wards
