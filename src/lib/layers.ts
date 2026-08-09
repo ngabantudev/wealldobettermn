@@ -101,6 +101,7 @@ export const CAMPAIGN_FINANCE_LAYER: LayerRegistryEntry = {
     "Only the 'Candidates' recipient-type bulk file is ingested — Party unit and PAC recipient files are not yet included.",
     "'Self' (candidate self-funding) and 'Other' Contrib-type rows are counted in aggregates but never surfaced as named records — a deliberate fail-closed default pending a human policy call.",
     "Statements of Economic Interest (stock holdings, outside income, real property) are a separate MN CFB dataset and now have their own registry entry — see ECONOMIC_INTEREST_LAYER below — rather than being folded into this one.",
+    "cfb.mn.gov/robots.txt contains two contradictory back-to-back `User-agent: *` blocks (first a blanket `Disallow: /`) — unresolved with CFB as of 2026-08-09; outreach drafted (not yet sent) asking which block governs automated access, per AGENTS.md §2.2's 'respect robots.txt' rule.",
   ],
 };
 
@@ -191,8 +192,10 @@ export const ECONOMIC_INTEREST_LAYER: LayerRegistryEntry = {
   sourceAgency: "Minnesota Campaign Finance and Public Disclosure Board",
   knownGaps: [
     "No public bulk or name-search endpoint has been found for the CFB's official roster — ingestion is manual-allowlist-only until this is solved. See scripts/ingest/mn-economic-interest.mjs's header comment.",
-    "securitiesHoldings, realProperty, incomeSources, and governmentAgencyInterests parsing is stubbed to empty pending a maintainer confirming the live page's list markup — only occupation/employer/lastUpdated are extracted today.",
+    "The 'Securities' section's positive-case (an official who actually holds stock) markup is unverified — neither of the two officials checked while building this held any. Occupation, employer, income sources, real property, and government agency interests parsing are all confirmed against live pages; only the populated-securities-table shape is untested.",
     "Dollar values for securities holdings are never published: the SEI form doesn't require the official to disclose one.",
+    "Real property street addresses are redacted at ingest pending a maintainer policy call on the §1a/§1b tension (see redactIfStreetAddress() in the ingest script) — research (2026-08-09) found the Board's own policy carves out SEI real-property addresses specifically as potentially public unless the filer designated them private (Minn. Stat. § 10A.09, subd. 5(b)/5b(d)), which isn't yet reconciled with this script's blanket redaction.",
+    "cfb.mn.gov/robots.txt contains two contradictory back-to-back `User-agent: *` blocks (first a blanket `Disallow: /`) — unresolved with CFB as of 2026-08-09; outreach drafted (not yet sent) asking which block governs automated access, per AGENTS.md §2.2's 'respect robots.txt' rule.",
   ],
 };
 

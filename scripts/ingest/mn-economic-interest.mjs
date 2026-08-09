@@ -59,8 +59,38 @@ const OFFICIALS_DIR = path.join(OUTPUT_DIR, "officials");
 const USER_AGENT =
   "wealldobettermn-etl/0.1 (+https://github.com/ngabantudev/wealldobettermn; civic transparency data pipeline)";
 const SOURCE_AGENCY = "Minnesota Campaign Finance and Public Disclosure Board";
+// Redistribution posture verified 2026-08-09 against revisor.mn.gov directly
+// (Tier 1 primary source per AGENTS.md §3.3) — see AGENTS.md §3.2. The
+// operative rule is Minn. Stat. § 10A.35 ("Commercial Use of Information
+// Prohibited"), not a CFB-issued licence — cfb.mn.gov has no Terms of Use
+// page at all. § 10A.35 bars selling or using copied report/statement data
+// "for a commercial purpose," but states explicitly that "purposes related
+// to elections, political activities, or law enforcement are not commercial
+// purposes" — this project's nonpartisan, ad-free, non-commercial civic-
+// transparency use reads as within that carve-out on a plain reading. No
+// attribution is legally required (none found in the statute or the
+// Board's own data-access policy PDF). Separately, and independent of this
+// licence question: the same research surfaced that the Board's own policy
+// classifies most street addresses in filed reports/statements as nonpublic
+// — but carves out real-property addresses disclosed on a Statement of
+// Economic Interest specifically (Minn. Stat. § 10A.09, subd. 5(b)/5b(d))
+// as potentially public unless the filer designated them private. That
+// nuance is not yet reconciled with redactIfStreetAddress()'s blanket
+// redaction below — left as the conservative default per §1d "when in
+// doubt, leave it out" until a maintainer reviews it (see knownGaps).
+// This reading is a well-sourced working answer, not a substitute for
+// attorney sign-off before publishing a definitive compliance claim (e.g.
+// on /privacy or /sources) — see AGENTS.md §3.4.
+//
+// Also unresolved (see mn-campaign-finance.mjs's identical note): cfb.mn.gov
+// /robots.txt has two contradictory back-to-back `User-agent: *` blocks —
+// the first a blanket `Disallow: /`. Not yet resolved with CFB.
 const SOURCE_LICENCE =
-  "Public record under Minn. Stat. ch. 10A — verify current redistribution terms on cfb.mn.gov before publishing.";
+  "Public record under Minn. Stat. ch. 10A; commercial use/sale is barred by § 10A.35, " +
+  "but purposes related to elections, political activities, or law enforcement are not " +
+  "commercial purposes under that section — this project's non-commercial civic-transparency " +
+  "use reads as within that carve-out (verified against revisor.mn.gov, 2026-08-09; not a " +
+  "substitute for attorney review before publishing a compliance claim).";
 
 // Manual allowlist per the header comment above — no id-guessing. Each
 // entry is a human-verified {id, name} pair, e.g. found by browsing the
