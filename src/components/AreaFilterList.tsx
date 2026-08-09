@@ -61,58 +61,107 @@ function fold(s: string): string {
   return s.trim().toLowerCase();
 }
 
-// Understated text-link treatment (mndatacenter.org's own All/None
-// chrome), not small buttons — these are secondary, low-stakes bulk
-// actions sitting right next to the actual controls (the checkboxes) they
-// operate on, and a bordered/filled button read as roughly the same
-// visual weight as a primary control. An underline (rather than a filled
-// hover state) is what signals "this is a text action, not a button" at a
-// glance, matching the underlined-link treatment already used elsewhere in
-// this app's chrome (e.g. CoverageNotice's own inline links). Still a real
-// <button> with the same focus ring / hover-fill as before on
-// hover/focus-visible — removing the *resting* weight doesn't mean
-// removing the interactive affordance once a resident's cursor or
-// keyboard focus actually lands on it.
+// Lets each interactive row's own hover fill reach the actual left/right
+// edge of the sidebar `<aside>`, edge-to-edge — matching mndatacenter.org's
+// own filter rows, where the highlight spans the full panel width, not just
+// the row's own inset box. The sidebar variant's rows render inside
+// WardMap.tsx's padded content column (`px-4 py-5` on the `<aside>`'s inner
+// wrapper — see that file's own comment on it) — the row itself needs a
+// negative margin exactly matching that padding to "break out" of it before
+// re-applying the same amount as its own padding, or the hover fill would
+// stop at the row's box, inset from the aside's real edge. The floating
+// variant doesn't need this: its own box (FlatList/GroupedList's `border
+// border-hair` wrapper) has no such outer padding, so a row's own px-3
+// already reaches that box's real edge.
+function edgeToEdgeClass(variant: "floating" | "sidebar"): string {
+  return variant === "sidebar" ? "-mx-4 px-4" : "px-3";
+}
+
+// iOS/macOS-style switch for All/None — "None" / "All" flank a single
+// sliding pill, rather than two separate action buttons. This is a real
+// binary switch, not a segmented control: `role="switch"` + `aria-checked`,
+// one knob, one track. "On" (checked) means every city this control
+// governs is currently visible — the track fills --positive (this
+// codebase's own "affirmative signal" color, globals.css — its first
+// genuinely correct use in this sidebar; a prior pass had spent it on a
+// static banner instead, which is what got walked back) and the knob
+// slides to the "All" side. Anything short of fully-on — nothing shown,
+// or a mixed state, some cities checked and others not — reads as "off":
+// the track is the same neutral gray used for the flattened area-filter
+// row hover (--sidebar-hover, already vetted elsewhere in this file to
+// clear WCAG 1.4.11's 3:1 against every surface this switch can sit on —
+// see rowHoverClass's own token comment in variantClasses.ts), and the
+// knob sits at the "None" side. A mixed state has no honest "half on"
+// rendering on a real switch, so it collapses to "off" — clicking from
+// there turns everything *on* (matches the common "select all" tri-state
+// convention: clicking a partially-checked control always completes it to
+// fully-checked, never fully-unchecked).
+//
+// The lone "Clear all" call site (grouped mode's top-level bulk control,
+// where a global "All" was deliberately retired — see AreaFilterList's
+// own header comment on why) has no "All" side to switch to, so it isn't
+// a switch at all — just a plain text action, same underlined-link
+// treatment this whole control used to have everywhere.
 function BulkToggleButtons({
   variant,
   onAll,
   onNone,
   allLabel,
   groupLabel,
+  checkedCount,
+  totalCount,
 }: {
   variant: "floating" | "sidebar";
   onAll?: () => void;
   onNone: () => void;
   allLabel?: string;
   groupLabel: string;
+  checkedCount: number;
+  totalCount: number;
 }) {
-  return (
-    <div
-      role="group"
-      aria-label={groupLabel}
-      className="flex items-center gap-1.5 text-[11px] font-medium uppercase tracking-wide text-ink-3"
-    >
-      {onAll && allLabel ? (
-        <>
-          <button
-            type="button"
-            onClick={onAll}
-            className={`rounded underline decoration-hair-strong underline-offset-2 transition-colors hover:text-ink hover:decoration-current focus:outline-none focus-visible:ring-2 ${focusRingClass(variant)}`}
-          >
-            {allLabel}
-          </button>
-          <span aria-hidden="true" className="text-ink-4">
-            /
-          </span>
-        </>
-      ) : null}
+  if (!onAll || !allLabel) {
+    return (
       <button
         type="button"
         onClick={onNone}
-        className={`rounded underline decoration-hair-strong underline-offset-2 transition-colors hover:text-ink hover:decoration-current focus:outline-none focus-visible:ring-2 ${focusRingClass(variant)}`}
+        className={`rounded underline decoration-hair-strong underline-offset-2 text-[11px] font-medium uppercase tracking-wide text-ink-3 transition-colors hover:text-ink hover:decoration-current focus:outline-none focus-visible:ring-2 ${focusRingClass(variant)}`}
       >
-        {onAll ? "None" : "Clear all"}
+        Clear all
       </button>
+    );
+  }
+
+  const allOn = totalCount > 0 && checkedCount === totalCount;
+  const sideLabelClass = (active: boolean) => `text-[10px] font-semibold uppercase tracking-wide ${active ? "text-ink" : "text-ink-4"}`;
+
+  return (
+    <div className="inline-flex items-center gap-1.5" role="group" aria-label={groupLabel}>
+      <span aria-hidden="true" className={sideLabelClass(!allOn)}>
+        None
+      </span>
+      <button
+        type="button"
+        role="switch"
+        aria-checked={allOn}
+        aria-label={groupLabel}
+        onClick={allOn ? onNone : onAll}
+        className={`relative inline-flex h-5 w-9 shrink-0 items-center rounded-full transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-1 ${focusRingClass(variant)} ${
+          allOn ? "bg-positive" : "bg-sidebar-hover"
+        }`}
+      >
+        {/* A literal white knob, not a token — every native iOS/macOS
+            switch keeps its knob white in both light and dark appearance,
+            so a themed token here (e.g. --panel-2, which is dark in this
+            app's own dark theme) would look wrong precisely when it
+            "correctly" followed the theme. */}
+        <span
+          aria-hidden="true"
+          className={`inline-block h-4 w-4 transform rounded-full bg-white shadow transition-transform ${allOn ? "translate-x-4" : "translate-x-0.5"}`}
+        />
+      </button>
+      <span aria-hidden="true" className={sideLabelClass(allOn)}>
+        {allLabel}
+      </span>
     </div>
   );
 }
@@ -139,7 +188,7 @@ function CityRow({
     // touch-target floor, closer to mndatacenter.org's own denser row
     // height.
     <label
-      className={`flex items-center gap-2 px-3 py-2.5 sm:py-1.5 cursor-pointer select-none ${rowHoverClass(variant)}`}
+      className={`flex items-center gap-2 ${edgeToEdgeClass(variant)} py-2.5 sm:py-1.5 cursor-pointer select-none ${rowHoverClass(variant)}`}
     >
       <input type="checkbox" checked={checked} onChange={onToggle} className="cursor-pointer accent-accent" />
       <span aria-hidden="true" className="h-2.5 w-2.5 rounded-full shrink-0" style={{ backgroundColor: accent ?? "#9ca3af" }} />
@@ -332,7 +381,7 @@ function GroupedList({
             }}
           >
             <summary
-              className={`flex list-none items-center justify-between gap-2 px-3 py-2 cursor-pointer select-none [&::-webkit-details-marker]:hidden focus:outline-none focus-visible:ring-2 focus-visible:-outline-offset-2 ${rowHoverClass(variant)} ${focusRingClass(variant)}`}
+              className={`flex list-none items-center justify-between gap-2 ${edgeToEdgeClass(variant)} py-2 cursor-pointer select-none [&::-webkit-details-marker]:hidden focus:outline-none focus-visible:ring-2 focus-visible:-outline-offset-2 ${rowHoverClass(variant)} ${focusRingClass(variant)}`}
             >
               <span className="flex min-w-0 flex-1 items-center gap-2 text-xs font-semibold text-ink-2">
                 <svg
@@ -372,6 +421,8 @@ function GroupedList({
                   allLabel="All"
                   onNone={() => onSetCitiesVisible(group.cities, false)}
                   groupLabel={`Show or hide all of ${group.county} County`}
+                  checkedCount={checkedCount}
+                  totalCount={totalCount}
                 />
               </span>
             </summary>
@@ -408,6 +459,8 @@ export default function AreaFilterList({
   onSetCitiesVisible,
 }: AreaFilterListProps) {
   const showFilterInput = cities.length > FILTER_INPUT_THRESHOLD;
+  const checkedCount = cities.filter((c) => visibleCities[c]).length;
+  const totalCount = cities.length;
 
   return (
     <div>
@@ -420,10 +473,18 @@ export default function AreaFilterList({
             allLabel="All"
             onNone={() => onSetCitiesVisible(cities, false)}
             groupLabel="Show or hide all areas"
+            checkedCount={checkedCount}
+            totalCount={totalCount}
           />
         )}
         {grouped && (
-          <BulkToggleButtons variant={variant} onNone={() => onSetCitiesVisible(cities, false)} groupLabel="Hide all areas" />
+          <BulkToggleButtons
+            variant={variant}
+            onNone={() => onSetCitiesVisible(cities, false)}
+            groupLabel="Hide all areas"
+            checkedCount={checkedCount}
+            totalCount={totalCount}
+          />
         )}
       </div>
       {grouped ? (
