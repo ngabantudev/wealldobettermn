@@ -197,7 +197,7 @@ function currentTermLabel(rep: RepProperties): string {
 // themselves. A city missing from this table falls back to a plain-text
 // "check your city's website" prompt rather than a guessed link.
 const CITY_MEETINGS_URL: Partial<Record<string, string>> = {
-  Minneapolis: "https://www.minneapolismn.gov/government/city-council/",
+  Minneapolis: "https://lims.minneapolismn.gov/Calendar/all/upcoming",
   "St. Paul": "https://www.stpaul.gov/meetings-agendas-and-minutes",
   Bloomington: "https://www.bloomingtonmn.gov/cob/city-meetings-agendas-webcasts-and-documents",
   Plymouth: "https://www.plymouthmn.gov/departments/city-council/meetings-agendas-videos-2406",
