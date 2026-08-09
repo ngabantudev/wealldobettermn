@@ -3442,14 +3442,18 @@ export default function WardMap() {
                 // step whiter than --canvas/--panel, so the sidebar reads
                 // as its own surface against the map rather than nearly
                 // the same gray. border-r-hair-strong does the same job
-                // on the inner edge (the seam against the map);
-                // border-l-sidebar-edge-accent puts a thin Night Sky Blue
-                // frame on the *outer* edge instead — the viewport's own
-                // left edge, where nothing else was competing for
-                // attention. See globals.css's --sidebar-edge-accent
-                // comment for why that's light-mode only (falls back to
-                // a plain --hair-strong sliver in dark mode).
-                "sm:w-64 lg:w-72 border-r border-r-hair-strong border-l-[3px] border-l-sidebar-edge-accent"
+                // on the inner edge (the seam against the map). This used
+                // to also carry a border-l-sidebar-edge-accent — a thin
+                // Night Sky Blue frame on the outer (viewport) edge —
+                // removed as part of the mndatacenter-style flattening
+                // pass: a colored edge accent is exactly the kind of
+                // decorative chrome that pass was stripping elsewhere
+                // (the green Filters banner, the boxed county cards), so
+                // leaving this one in place would have been inconsistent
+                // with its own direction. globals.css's --sidebar-edge-
+                // accent token is left defined (unused here now) rather
+                // than deleted, in case a future call wants it back.
+                "sm:w-64 lg:w-72 border-r border-r-hair-strong"
           }`}
         >
           <div className="flex h-full w-64 shrink-0 flex-col lg:w-72">
