@@ -1172,6 +1172,1368 @@ const MAYORS = [
     verifiedAt: "2026-08-08",
     verifiedAgainst: "https://www.ci.stcloud.mn.us/Directory.aspx?DID=35",
   },
+  // --- 2026-08 batch: mayors for 5 cities that already had ward rosters
+  // here (fetch-wards.mjs) but no mayor entry — every one of these is a
+  // real elected office (MN statutory cities all have one); the gap was
+  // only ever a missing roster row, never a structural absence. Coordinates
+  // via OpenStreetMap/Nominatim geocoding of each City Hall address, not
+  // eyeballed, same as every entry above.
+  {
+    city: "Champlin",
+    coordinates: [-93.3956, 45.1713], // Champlin City Hall
+    repName: "Ryan Sabas",
+    repParty: NONPARTISAN,
+    repPhotoUrl: "https://www.champlinmn.gov/ImageRepository/Document?documentID=2085",
+    repEmail: "rsabas@champlinmn.gov",
+    // No individual phone published for the mayor — the page lists only a
+    // general City Hall line and a City Clerk line, neither attributed to
+    // him by name, so repPhone stays null rather than substituting either.
+    repPhone: null,
+    termsOfService: [{ termStart: null, termEnd: null, current: true, sourceUrl: "https://www.champlinmn.gov/277/Mayor-City-Council" }],
+    committees: ["Mayor of Champlin"],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://www.champlinmn.gov/277/Mayor-City-Council",
+    verifiedAt: "2026-08-09",
+    verifiedAgainst: "https://www.champlinmn.gov/277/Mayor-City-Council",
+  },
+  {
+    city: "Crystal",
+    coordinates: [-93.3606391, 45.0320088], // Crystal City Hall
+    repName: "Julie Deshler",
+    repParty: NONPARTISAN,
+    repPhotoUrl: "https://www.crystalmn.gov/UserFiles/Servers/Server_10879634/Image/Government/City%20Council/Deshler-web.jpg",
+    repEmail: "julie.deshler2@crystalmn.gov",
+    repPhone: "612-306-5808",
+    termsOfService: [{ termStart: null, termEnd: null, current: true, sourceUrl: "https://www.crystalmn.gov/government/city_council" }],
+    committees: ["Mayor of Crystal"],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://www.crystalmn.gov/government/city_council",
+    verifiedAt: "2026-08-09",
+    verifiedAgainst: "https://www.crystalmn.gov/government/city_council",
+  },
+  {
+    city: "Robbinsdale",
+    coordinates: [-93.3353832, 45.0317151], // Robbinsdale City Hall
+    repName: "Brad Sutton",
+    repParty: NONPARTISAN,
+    repPhotoUrl: "https://www.robbinsdalemn.gov/ImageRepository/Document?documentID=1544",
+    repEmail: "bsutton@robbinsdalemn.gov",
+    repPhone: "763-232-0556",
+    // "Brad Sutton was sworn in as Mayor on January 7, 2025" — stated
+    // verbatim on his own bio page, not back-calculated.
+    termsOfService: [{ termStart: "2025-01-07", termEnd: null, current: true, sourceUrl: "https://www.robbinsdalemn.gov/m/directory/employee?eid=6" }],
+    committees: ["Mayor of Robbinsdale"],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://www.robbinsdalemn.gov/m/directory/employee?eid=6",
+    verifiedAt: "2026-08-09",
+    verifiedAgainst: "https://www.robbinsdalemn.gov/m/directory/employee?eid=6",
+  },
+  {
+    city: "Fridley",
+    coordinates: [-93.2632944, 45.0966451], // Fridley Municipal Center
+    repName: "Dave Ostwald",
+    repParty: NONPARTISAN,
+    // fridleymn.gov returns HTTP 403 to every automated fetch — same block
+    // fetch-wards.mjs's own Fridley comment already documents, not routed
+    // around per AGENTS.md §2.2. Won the Nov 5, 2024 general election
+    // (75.69% to 23.56% over Natividad Seefeld), defeating 24-year
+    // incumbent Scott Lund, who did not seek re-election — per
+    // hometownsource.com/ABC Newspapers, corroborated by Ballotpedia's 2024
+    // candidate page (AGENTS.md §3.3 "corroborated" tier, not "confirmed").
+    // Email is search-index-cached text from the city's own resident
+    // welcome packet PDF (same FirstName.LastName@FridleyMN.gov pattern the
+    // prior mayor's welcome packet used) rather than a direct render.
+    // Phone and photo could not be confirmed against a direct render of the
+    // primary source and ship null rather than a plausible-looking but
+    // unverified value — a phone number surfaced attached to his name in
+    // search results, but the caching may predate the election, so it's
+    // not used. No term-start date is published anywhere reachable.
+    repPhotoUrl: null,
+    repEmail: "Dave.Ostwald@FridleyMN.gov",
+    repPhone: null,
+    termsOfService: [{ termStart: null, termEnd: null, current: true, sourceUrl: "https://www.fridleymn.gov/Your-Government/City-Council-Commissions/Meet-Your-Council/Dave-Ostwald" }],
+    committees: ["Mayor of Fridley"],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://www.fridleymn.gov/Your-Government/City-Council-Commissions/Meet-Your-Council/Dave-Ostwald",
+    verifiedAt: "2026-08-09",
+    verifiedAgainst: "https://www.fridleymn.gov/Your-Government/City-Council-Commissions/Meet-Your-Council/Dave-Ostwald",
+  },
+  {
+    city: "Ramsey",
+    coordinates: [-93.4597832, 45.2327342], // Ramsey Municipal Center
+    repName: "Ryan Heineman",
+    repParty: NONPARTISAN,
+    repPhotoUrl: "https://www.cityoframseymn.gov/media/35tl2qz3/document.jpg",
+    // Individual staff emails use the cityoframsey.com domain, distinct
+    // from the site's own cityoframseymn.gov domain — verified in the
+    // page's raw HTML, not a transcription error (same distinction
+    // fetch-wards.mjs's own RAMSEY_ROSTER already carries).
+    repEmail: "rheineman@cityoframsey.com",
+    repPhone: "763-576-4367",
+    termsOfService: [{ termStart: null, termEnd: null, current: true, sourceUrl: "https://www.cityoframseymn.gov/city-hall/council/elected-officials/" }],
+    committees: ["Mayor of Ramsey"],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://www.cityoframseymn.gov/city-hall/council/elected-officials/",
+    verifiedAt: "2026-08-09",
+    verifiedAgainst: "https://www.cityoframseymn.gov/city-hall/council/elected-officials/",
+  },
+  // --- 2026-08 batch: 12 new at-large cities, sourced from links supplied
+  // directly by the maintainer during this session's research pass — not a
+  // population-ranked batch like the top-20 one above. All fully at-large
+  // (mayor + 4 council members elected citywide, no wards), same shape as
+  // Woodbury/Eagan/Lakeville/Maple Grove/Apple Valley/Burnsville/Edina/Eden
+  // Prairie above — each city's own site states this directly except where
+  // flagged per-city below. Coordinates via OpenStreetMap/Nominatim
+  // geocoding of each City Hall address, not eyeballed. No term-start
+  // dates are published for any of these officials except where explicitly
+  // stated per-person below — never back-calculated from a term-expiration
+  // date. A 13th city researched this same session, Rogers (Hennepin), is
+  // deliberately NOT included here — see src/lib/sourcesRegistry.ts's
+  // KNOWN_ROSTER_GAPS for why.
+  //
+  // Golden Valley (Hennepin) — "All Council members serve at large to
+  // represent the entire community," goldenvalleymn.gov/180/City-Council,
+  // fetched directly (HTTP 200, robots.txt permits this path).
+  {
+    city: "Golden Valley",
+    coordinates: [-93.3794744, 44.9859974], // Golden Valley City Hall
+    repName: "Roslyn Harmon",
+    repParty: NONPARTISAN,
+    repPhotoUrl: "https://goldenvalleymn.gov/ImageRepository/Document?documentID=3761",
+    repEmail: "rharmon@goldenvalleymn.gov",
+    repPhone: "952-463-0630",
+    termsOfService: [{ termStart: null, termEnd: null, current: true, sourceUrl: "https://goldenvalleymn.gov/180/City-Council" }],
+    committees: ["Mayor of Golden Valley"],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://goldenvalleymn.gov/180/City-Council",
+    verifiedAt: "2026-08-09",
+    verifiedAgainst: "https://goldenvalleymn.gov/180/City-Council",
+  },
+  {
+    city: "Golden Valley",
+    coordinates: [-93.3794744, 44.9859974],
+    role: "Council Member",
+    repName: "Sophia Ginis",
+    repParty: NONPARTISAN,
+    repPhotoUrl: "https://goldenvalleymn.gov/ImageRepository/Document?documentID=5561",
+    repEmail: "sginis@goldenvalleymn.gov",
+    repPhone: "763-340-1271",
+    termsOfService: [{ termStart: null, termEnd: null, current: true, sourceUrl: "https://goldenvalleymn.gov/180/City-Council" }],
+    committees: [],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://goldenvalleymn.gov/180/City-Council",
+    verifiedAt: "2026-08-09",
+    verifiedAgainst: "https://goldenvalleymn.gov/180/City-Council",
+  },
+  {
+    city: "Golden Valley",
+    coordinates: [-93.3794744, 44.9859974],
+    role: "Council Member",
+    repName: "Maurice Harris",
+    repParty: NONPARTISAN,
+    repPhotoUrl: "https://goldenvalleymn.gov/ImageRepository/Document?documentID=121",
+    repEmail: "mharris@goldenvalleymn.gov",
+    repPhone: "612-567-2584",
+    termsOfService: [{ termStart: null, termEnd: null, current: true, sourceUrl: "https://goldenvalleymn.gov/180/City-Council" }],
+    committees: [],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://goldenvalleymn.gov/180/City-Council",
+    verifiedAt: "2026-08-09",
+    verifiedAgainst: "https://goldenvalleymn.gov/180/City-Council",
+  },
+  {
+    city: "Golden Valley",
+    coordinates: [-93.3794744, 44.9859974],
+    role: "Council Member",
+    repName: "Tracey Fussy",
+    repParty: NONPARTISAN,
+    repPhotoUrl: "https://goldenvalleymn.gov/ImageRepository/Document?documentID=5560",
+    repEmail: "tfussy@goldenvalleymn.gov",
+    repPhone: "952-495-5562",
+    termsOfService: [{ termStart: null, termEnd: null, current: true, sourceUrl: "https://goldenvalleymn.gov/180/City-Council" }],
+    committees: [],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://goldenvalleymn.gov/180/City-Council",
+    verifiedAt: "2026-08-09",
+    verifiedAgainst: "https://goldenvalleymn.gov/180/City-Council",
+  },
+  {
+    city: "Golden Valley",
+    coordinates: [-93.3794744, 44.9859974],
+    role: "Council Member",
+    repName: "Chris Queitzsch",
+    repParty: NONPARTISAN,
+    repPhotoUrl: "https://goldenvalleymn.gov/ImageRepository/Document?documentID=5562",
+    repEmail: "cqueitzsch@goldenvalleymn.gov",
+    repPhone: "952-428-8922",
+    termsOfService: [{ termStart: null, termEnd: null, current: true, sourceUrl: "https://goldenvalleymn.gov/180/City-Council" }],
+    committees: [],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://goldenvalleymn.gov/180/City-Council",
+    verifiedAt: "2026-08-09",
+    verifiedAgainst: "https://goldenvalleymn.gov/180/City-Council",
+  },
+  // New Hope (Hennepin) — "The mayor and four council members all serve
+  // the community at large," newhopemn.gov/city_hall/city_council,
+  // fetched directly (HTTP 200, robots.txt permits this path). Emails
+  // decoded from the page's own Cloudflare email-obfuscation markup (same
+  // documented, non-bypass decode Robbinsdale's ROBBINSDALE_ROSTER already
+  // uses in fetch-wards.mjs), not a rendering workaround.
+  {
+    city: "New Hope",
+    coordinates: [-93.3861886, 45.0346362], // New Hope City Hall
+    repName: "John Elder",
+    repParty: NONPARTISAN,
+    repPhotoUrl: "https://cdnsm5-hosted.civiclive.com/UserFiles/Servers/Server_9826625/Image/City%20Hall/City%20Council/Council%20Members/Elder.jpg",
+    repEmail: "jelder@newhopemn.gov",
+    repPhone: "763-341-1350",
+    termsOfService: [{ termStart: null, termEnd: null, current: true, sourceUrl: "https://www.newhopemn.gov/city_hall/city_council/council_members" }],
+    committees: ["Mayor of New Hope"],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://www.newhopemn.gov/city_hall/city_council/council_members",
+    verifiedAt: "2026-08-09",
+    verifiedAgainst: "https://www.newhopemn.gov/city_hall/city_council/council_members",
+  },
+  {
+    city: "New Hope",
+    coordinates: [-93.3861886, 45.0346362],
+    role: "Council Member",
+    repName: "Kyle Coryell",
+    repParty: NONPARTISAN,
+    repPhotoUrl: "https://cdnsm5-hosted.civiclive.com/UserFiles/Servers/Server_9826625/Image/City%20Hall/City%20Council/Council%20Members/Coryell,%20Kyle.JPG",
+    repEmail: "kcoryell@newhopemn.gov",
+    repPhone: "763-250-1177",
+    // Bio text: "appointed to the New Hope City Council in January 2025 to
+    // fill a vacant seat" — month/year stated, no exact day; Jan 1 stands
+    // in for the unstated day within that stated month, same convention
+    // Robbinsdale's bare-year case already uses in fetch-wards.mjs.
+    termsOfService: [{ termStart: "2025-01-01", termEnd: null, current: true, sourceUrl: "https://www.newhopemn.gov/city_hall/city_council/council_members" }],
+    committees: [],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://www.newhopemn.gov/city_hall/city_council/council_members",
+    verifiedAt: "2026-08-09",
+    verifiedAgainst: "https://www.newhopemn.gov/city_hall/city_council/council_members",
+  },
+  {
+    city: "New Hope",
+    coordinates: [-93.3861886, 45.0346362],
+    role: "Council Member",
+    repName: "Michael Isenberg",
+    repParty: NONPARTISAN,
+    repPhotoUrl: "https://cdnsm5-hosted.civiclive.com/UserFiles/Servers/Server_9826625/Image/City%20Hall/City%20Council/Council%20Members/MIsenberg.jpg",
+    repEmail: "misenberg@newhopemn.gov",
+    repPhone: "612-568-2337",
+    termsOfService: [{ termStart: null, termEnd: null, current: true, sourceUrl: "https://www.newhopemn.gov/city_hall/city_council/council_members" }],
+    committees: [],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://www.newhopemn.gov/city_hall/city_council/council_members",
+    verifiedAt: "2026-08-09",
+    verifiedAgainst: "https://www.newhopemn.gov/city_hall/city_council/council_members",
+  },
+  {
+    city: "New Hope",
+    coordinates: [-93.3861886, 45.0346362],
+    role: "Council Member",
+    repName: "Jonathan London",
+    repParty: NONPARTISAN,
+    repPhotoUrl: "https://cdnsm5-hosted.civiclive.com/UserFiles/Servers/Server_9826625/Image/City%20Hall/City%20Council/Council%20Members/London.jpg",
+    repEmail: "jlondon@newhopemn.gov",
+    repPhone: "763-546-1293",
+    termsOfService: [{ termStart: null, termEnd: null, current: true, sourceUrl: "https://www.newhopemn.gov/city_hall/city_council/council_members" }],
+    committees: [],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://www.newhopemn.gov/city_hall/city_council/council_members",
+    verifiedAt: "2026-08-09",
+    verifiedAgainst: "https://www.newhopemn.gov/city_hall/city_council/council_members",
+  },
+  {
+    city: "New Hope",
+    coordinates: [-93.3861886, 45.0346362],
+    role: "Council Member",
+    repName: "Brock Ray",
+    repParty: NONPARTISAN,
+    repPhotoUrl: "https://cdnsm5-hosted.civiclive.com/UserFiles/Servers/Server_9826625/Image/City%20Hall/City%20Council/Council%20Members/Ray,%20Brock.JPG",
+    repEmail: "bray@newhopemn.gov",
+    repPhone: "612-481-0566",
+    // Bio text: "appointed to the New Hope City Council in August 2025 to
+    // fill a vacant seat" — same month/year-only convention as Coryell above.
+    termsOfService: [{ termStart: "2025-08-01", termEnd: null, current: true, sourceUrl: "https://www.newhopemn.gov/city_hall/city_council/council_members" }],
+    committees: [],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://www.newhopemn.gov/city_hall/city_council/council_members",
+    verifiedAt: "2026-08-09",
+    verifiedAgainst: "https://www.newhopemn.gov/city_hall/city_council/council_members",
+  },
+  // Columbia Heights (Anoka) — "a five-member council, consisting of a
+  // mayor and four council members who are elected at large on a
+  // nonpartisan basis," columbiaheightsmn.gov/city_council_commissions/
+  // city_council.php. Independently corroborated no-wards via Anoka
+  // County's own precinct layer (WARD field blank for all 8 Columbia
+  // Heights precincts). columbiaheightsmn.gov/robots.txt blanket-disallows
+  // every crawler except five named commercial ones (Googlebot, Bingbot,
+  // FacebookBot, LinkedInBot, Twitterbot) — same class of conflict as
+  // cfb.mn.gov's flagged in commit e9f7f29; this data is a one-time
+  // hand-transcription (this whole file's own stated model, see header
+  // comment), not a target for a recurring automated fetcher, per
+  // AGENTS.md §2.2's "a source that cannot be fetched politely gets a
+  // knownGaps entry and a manual workflow, not a workaround."
+  {
+    city: "Columbia Heights",
+    coordinates: [-93.2469559, 45.0405879], // Columbia Heights City Hall
+    repName: "Amáda Márquez Simula",
+    repParty: NONPARTISAN,
+    repPhotoUrl: "https://www.columbiaheightsmn.gov/Images/Government/City%20Council%20Commissions/City%20Council/Amada%20Marquez%20Simula.jpg",
+    repEmail: "amarquezsimula@columbiaheightsmn.gov",
+    repPhone: "763-706-3607",
+    termsOfService: [{ termStart: null, termEnd: null, current: true, sourceUrl: "https://www.columbiaheightsmn.gov/city_council_commissions/city_council.php" }],
+    committees: ["Mayor of Columbia Heights"],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://www.columbiaheightsmn.gov/city_council_commissions/city_council.php",
+    verifiedAt: "2026-08-09",
+    verifiedAgainst: "https://www.columbiaheightsmn.gov/city_council_commissions/city_council.php",
+  },
+  {
+    city: "Columbia Heights",
+    coordinates: [-93.2469559, 45.0405879],
+    role: "Council Member",
+    repName: "Connie Buesgens",
+    repParty: NONPARTISAN,
+    repPhotoUrl: "https://www.columbiaheightsmn.gov/Images/Government/City%20Council%20Commissions/City%20Council/Buesgens%20-%20Copy%20(2).jpg",
+    repEmail: "cbuesgens@columbiaheightsmn.gov",
+    repPhone: "612-314-9776",
+    termsOfService: [{ termStart: null, termEnd: null, current: true, sourceUrl: "https://www.columbiaheightsmn.gov/city_council_commissions/city_council.php" }],
+    committees: [],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://www.columbiaheightsmn.gov/city_council_commissions/city_council.php",
+    verifiedAt: "2026-08-09",
+    verifiedAgainst: "https://www.columbiaheightsmn.gov/city_council_commissions/city_council.php",
+  },
+  {
+    city: "Columbia Heights",
+    coordinates: [-93.2469559, 45.0405879],
+    role: "Council Member",
+    repName: "Laurel Deneen",
+    repParty: NONPARTISAN,
+    repPhotoUrl: "https://www.columbiaheightsmn.gov/Images/Headshots/Laurel_Deneen_Headshot.jpg",
+    repEmail: "LDeneen@columbiaheightsmn.gov",
+    repPhone: "763-706-3620",
+    termsOfService: [{ termStart: null, termEnd: null, current: true, sourceUrl: "https://www.columbiaheightsmn.gov/city_council_commissions/city_council.php" }],
+    committees: [],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://www.columbiaheightsmn.gov/city_council_commissions/city_council.php",
+    verifiedAt: "2026-08-09",
+    verifiedAgainst: "https://www.columbiaheightsmn.gov/city_council_commissions/city_council.php",
+  },
+  {
+    city: "Columbia Heights",
+    coordinates: [-93.2469559, 45.0405879],
+    role: "Council Member",
+    repName: "Rachel James",
+    repParty: NONPARTISAN,
+    repPhotoUrl: "https://www.columbiaheightsmn.gov/Images/Headshots/Rachel_James_Headshot.jpg",
+    repEmail: "rjames@columbiaheightsmn.gov",
+    repPhone: "763-706-3619",
+    termsOfService: [{ termStart: null, termEnd: null, current: true, sourceUrl: "https://www.columbiaheightsmn.gov/city_council_commissions/city_council.php" }],
+    committees: [],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://www.columbiaheightsmn.gov/city_council_commissions/city_council.php",
+    verifiedAt: "2026-08-09",
+    verifiedAgainst: "https://www.columbiaheightsmn.gov/city_council_commissions/city_council.php",
+  },
+  {
+    city: "Columbia Heights",
+    coordinates: [-93.2469559, 45.0405879],
+    role: "Council Member",
+    repName: "Justice Spriggs",
+    repParty: NONPARTISAN,
+    repPhotoUrl: "https://www.columbiaheightsmn.gov/Images/Government/City%20Council%20Commissions/City%20Council/Justice%20Spriggs.jpg",
+    repEmail: "jspriggs@columbiaheightsmn.gov",
+    repPhone: "763-706-3617",
+    termsOfService: [{ termStart: null, termEnd: null, current: true, sourceUrl: "https://www.columbiaheightsmn.gov/city_council_commissions/city_council.php" }],
+    committees: [],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://www.columbiaheightsmn.gov/city_council_commissions/city_council.php",
+    verifiedAt: "2026-08-09",
+    verifiedAgainst: "https://www.columbiaheightsmn.gov/city_council_commissions/city_council.php",
+  },
+  // Dayton (spans Hennepin, Wright, and Anoka Counties) — daytonmn.gov
+  // itself never uses the words "at large," "ward," or "district" anywhere
+  // (checked the mayor/council page, the elections page, and the sitemap);
+  // at-large is corroborated, not primary-confirmed, via Minn. Stat.
+  // § 412.02's opt-in ward mechanism (no such ordinance found) plus an
+  // unofficial legacy city page (daytonmn.com, non-.gov, ~2004-2006-era)
+  // stating the structure directly. The only photo on the roster page is
+  // one shared group photo with no per-person labeling — not safely
+  // attributable to any individual, so repPhotoUrl is null for all five
+  // rather than guessed. No individual phone is published for anyone
+  // either (only the City Administrator's general line).
+  {
+    city: "Dayton",
+    coordinates: [-93.4372508, 45.1994127], // Dayton City Hall
+    repName: "Dennis Fisher",
+    repParty: NONPARTISAN,
+    repPhotoUrl: null,
+    repEmail: "dfisher@daytonmn.gov",
+    repPhone: null,
+    termsOfService: [{ termStart: null, termEnd: null, current: true, sourceUrl: "https://www.daytonmn.gov/government/mayor_council.php" }],
+    committees: ["Mayor of Dayton"],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://www.daytonmn.gov/government/mayor_council.php",
+    verifiedAt: "2026-08-09",
+    verifiedAgainst: "https://www.daytonmn.gov/government/mayor_council.php",
+  },
+  {
+    city: "Dayton",
+    coordinates: [-93.4372508, 45.1994127],
+    role: "Council Member",
+    repName: "Scott Salonek",
+    repParty: NONPARTISAN,
+    repPhotoUrl: null,
+    repEmail: "ssalonek@daytonmn.gov",
+    repPhone: null,
+    termsOfService: [{ termStart: null, termEnd: null, current: true, sourceUrl: "https://www.daytonmn.gov/government/mayor_council.php" }],
+    committees: [],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://www.daytonmn.gov/government/mayor_council.php",
+    verifiedAt: "2026-08-09",
+    verifiedAgainst: "https://www.daytonmn.gov/government/mayor_council.php",
+  },
+  {
+    city: "Dayton",
+    coordinates: [-93.4372508, 45.1994127],
+    role: "Council Member",
+    repName: "David Fashant",
+    repParty: NONPARTISAN,
+    repPhotoUrl: null,
+    repEmail: "dfashant@daytonmn.gov",
+    repPhone: null,
+    termsOfService: [{ termStart: null, termEnd: null, current: true, sourceUrl: "https://www.daytonmn.gov/government/mayor_council.php" }],
+    committees: [],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://www.daytonmn.gov/government/mayor_council.php",
+    verifiedAt: "2026-08-09",
+    verifiedAgainst: "https://www.daytonmn.gov/government/mayor_council.php",
+  },
+  {
+    city: "Dayton",
+    coordinates: [-93.4372508, 45.1994127],
+    role: "Council Member",
+    repName: "Sara Van Asten",
+    repParty: NONPARTISAN,
+    repPhotoUrl: null,
+    repEmail: "svanasten@daytonmn.gov",
+    repPhone: null,
+    termsOfService: [{ termStart: null, termEnd: null, current: true, sourceUrl: "https://www.daytonmn.gov/government/mayor_council.php" }],
+    committees: [],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://www.daytonmn.gov/government/mayor_council.php",
+    verifiedAt: "2026-08-09",
+    verifiedAgainst: "https://www.daytonmn.gov/government/mayor_council.php",
+  },
+  {
+    city: "Dayton",
+    coordinates: [-93.4372508, 45.1994127],
+    role: "Council Member",
+    repName: "Stephanie Henderson",
+    repParty: NONPARTISAN,
+    repPhotoUrl: null,
+    repEmail: "shenderson@daytonmn.gov",
+    repPhone: null,
+    termsOfService: [{ termStart: null, termEnd: null, current: true, sourceUrl: "https://www.daytonmn.gov/government/mayor_council.php" }],
+    committees: [],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://www.daytonmn.gov/government/mayor_council.php",
+    verifiedAt: "2026-08-09",
+    verifiedAgainst: "https://www.daytonmn.gov/government/mayor_council.php",
+  },
+  // Hopkins (Hennepin) — "The City of Hopkins does not have wards or
+  // districts. All members of the City Council are elected from the city
+  // at-large," hopkinsmn.com/345/About-the-City-Council. Every field below
+  // verified twice (WebFetch + raw curl grep on the literal <img src> and
+  // mailto: markup); no discrepancies. No term-start dates are published,
+  // only "Term expires" years.
+  {
+    city: "Hopkins",
+    coordinates: [-93.413564, 44.9219727], // Hopkins City Hall
+    repName: "Patrick Hanlon",
+    repParty: NONPARTISAN,
+    repPhotoUrl: "https://www.hopkinsmn.com/ImageRepository/Document?documentId=5063",
+    repEmail: "phanlon@hopkinsmn.com",
+    repPhone: "612-440-9689",
+    termsOfService: [{ termStart: null, termEnd: null, current: true, sourceUrl: "https://www.hopkinsmn.com/1105/Patrick-Hanlon" }],
+    committees: ["Mayor of Hopkins"],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://www.hopkinsmn.com/1105/Patrick-Hanlon",
+    verifiedAt: "2026-08-09",
+    verifiedAgainst: "https://www.hopkinsmn.com/1105/Patrick-Hanlon",
+  },
+  {
+    city: "Hopkins",
+    coordinates: [-93.413564, 44.9219727],
+    role: "Council Member",
+    repName: "Heidi Garrido",
+    repParty: NONPARTISAN,
+    repPhotoUrl: "https://www.hopkinsmn.com/ImageRepository/Document?documentId=5061",
+    repEmail: "hgarrido@hopkinsmn.com",
+    repPhone: "952-395-1429",
+    termsOfService: [{ termStart: null, termEnd: null, current: true, sourceUrl: "https://www.hopkinsmn.com/1107/Heidi-Garrido" }],
+    committees: [],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://www.hopkinsmn.com/1107/Heidi-Garrido",
+    verifiedAt: "2026-08-09",
+    verifiedAgainst: "https://www.hopkinsmn.com/1107/Heidi-Garrido",
+  },
+  {
+    city: "Hopkins",
+    coordinates: [-93.413564, 44.9219727],
+    role: "Council Member",
+    repName: "Ben Goodlund",
+    repParty: NONPARTISAN,
+    repPhotoUrl: "https://www.hopkinsmn.com/ImageRepository/Document?documentId=5057",
+    repEmail: "bgoodlund@hopkinsmn.com",
+    repPhone: "651-236-0744",
+    termsOfService: [{ termStart: null, termEnd: null, current: true, sourceUrl: "https://www.hopkinsmn.com/1166/Ben-Goodlund" }],
+    committees: [],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://www.hopkinsmn.com/1166/Ben-Goodlund",
+    verifiedAt: "2026-08-09",
+    verifiedAgainst: "https://www.hopkinsmn.com/1166/Ben-Goodlund",
+  },
+  {
+    city: "Hopkins",
+    coordinates: [-93.413564, 44.9219727],
+    role: "Council Member",
+    repName: "Brian Hunke",
+    repParty: NONPARTISAN,
+    repPhotoUrl: "https://www.hopkinsmn.com/ImageRepository/Document?documentId=5058",
+    repEmail: "bhunke@hopkinsmn.com",
+    repPhone: "612-703-3180",
+    termsOfService: [{ termStart: null, termEnd: null, current: true, sourceUrl: "https://www.hopkinsmn.com/802/Brian-Hunke" }],
+    committees: [],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://www.hopkinsmn.com/802/Brian-Hunke",
+    verifiedAt: "2026-08-09",
+    verifiedAgainst: "https://www.hopkinsmn.com/802/Brian-Hunke",
+  },
+  {
+    city: "Hopkins",
+    coordinates: [-93.413564, 44.9219727],
+    role: "Council Member",
+    repName: "Aaron Kuznia",
+    repParty: NONPARTISAN,
+    repPhotoUrl: "https://www.hopkinsmn.com/ImageRepository/Document?documentId=5056",
+    repEmail: "akuznia@hopkinsmn.com",
+    repPhone: "952-913-6582",
+    termsOfService: [{ termStart: null, termEnd: null, current: true, sourceUrl: "https://www.hopkinsmn.com/1190/Aaron-Kuznia" }],
+    committees: [],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://www.hopkinsmn.com/1190/Aaron-Kuznia",
+    verifiedAt: "2026-08-09",
+    verifiedAgainst: "https://www.hopkinsmn.com/1190/Aaron-Kuznia",
+  },
+  // Deephaven (Hennepin) — no page states "at large" verbatim, but Code of
+  // Ordinances Ch. 2 (200.01: "The Council will consist of a Mayor and
+  // four Council Members") never mentions wards, and §225.04(a) states the
+  // city operates under "a Plan A form of municipal government," which
+  // elects at-large by default absent a separate ward ordinance (none
+  // found) — corroborated, not a direct quote. Data-quality anomaly worth
+  // flagging: the roster page's DISPLAYED email text for all five officials
+  // reads FirstinitialLast@deephaven.gov, but the underlying mailto: hrefs
+  // for four of five point to unrelated personal addresses (a Yahoo
+  // address, a realty-firm domain, a Gmail address, a personal business
+  // domain) — almost certainly a stale template bug on the city's own
+  // site, not this pipeline's error. Per AGENTS.md §1b, only the displayed
+  // @deephaven.gov-style text is used below; the personal-looking href
+  // values are never ingested. No individual phone or photo is published
+  // for anyone (only the city logo appears on the page).
+  {
+    city: "Deephaven",
+    coordinates: [-93.536875, 44.9226019], // Deephaven City Hall
+    repName: "Kent Carlson",
+    repParty: NONPARTISAN,
+    repPhotoUrl: null,
+    repEmail: "KentC@deephaven.gov",
+    repPhone: null,
+    termsOfService: [{ termStart: null, termEnd: null, current: true, sourceUrl: "https://deephaven.gov/city-council/" }],
+    committees: ["Mayor of Deephaven"],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://deephaven.gov/city-council/",
+    verifiedAt: "2026-08-09",
+    verifiedAgainst: "https://deephaven.gov/city-council/",
+  },
+  {
+    city: "Deephaven",
+    coordinates: [-93.536875, 44.9226019],
+    role: "Council Member",
+    repName: "Tom Erdmann",
+    repParty: NONPARTISAN,
+    repPhotoUrl: null,
+    repEmail: "TomE@deephaven.gov",
+    repPhone: null,
+    termsOfService: [{ termStart: null, termEnd: null, current: true, sourceUrl: "https://deephaven.gov/city-council/" }],
+    committees: [],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://deephaven.gov/city-council/",
+    verifiedAt: "2026-08-09",
+    verifiedAgainst: "https://deephaven.gov/city-council/",
+  },
+  {
+    city: "Deephaven",
+    coordinates: [-93.536875, 44.9226019],
+    role: "Council Member",
+    repName: "Tony Jewett",
+    repParty: NONPARTISAN,
+    repPhotoUrl: null,
+    repEmail: "TonyJ@deephaven.gov",
+    repPhone: null,
+    termsOfService: [{ termStart: null, termEnd: null, current: true, sourceUrl: "https://deephaven.gov/city-council/" }],
+    committees: [],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://deephaven.gov/city-council/",
+    verifiedAt: "2026-08-09",
+    verifiedAgainst: "https://deephaven.gov/city-council/",
+  },
+  {
+    city: "Deephaven",
+    coordinates: [-93.536875, 44.9226019],
+    role: "Council Member",
+    repName: "Emily Scherschligt",
+    repParty: NONPARTISAN,
+    repPhotoUrl: null,
+    repEmail: "EmilyS@deephaven.gov",
+    repPhone: null,
+    termsOfService: [{ termStart: null, termEnd: null, current: true, sourceUrl: "https://deephaven.gov/city-council/" }],
+    committees: [],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://deephaven.gov/city-council/",
+    verifiedAt: "2026-08-09",
+    verifiedAgainst: "https://deephaven.gov/city-council/",
+  },
+  {
+    city: "Deephaven",
+    coordinates: [-93.536875, 44.9226019],
+    role: "Council Member",
+    repName: "John Studer",
+    repParty: NONPARTISAN,
+    repPhotoUrl: null,
+    repEmail: "JohnS@deephaven.gov",
+    repPhone: null,
+    termsOfService: [{ termStart: null, termEnd: null, current: true, sourceUrl: "https://deephaven.gov/city-council/" }],
+    committees: [],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://deephaven.gov/city-council/",
+    verifiedAt: "2026-08-09",
+    verifiedAgainst: "https://deephaven.gov/city-council/",
+  },
+  // Medina (Hennepin) — "council members are elected at-large to serve
+  // four-year terms," medinamn.gov/Services/Elections-Voting/Candidate-Filing.
+  {
+    city: "Medina",
+    coordinates: [-93.574483, 45.0159359], // Medina City Hall
+    repName: "Todd Albers",
+    repParty: NONPARTISAN,
+    repPhotoUrl: "https://www.medinamn.gov/files/assets/city/v/5/admin/images/council-members/todd-albers.jpg",
+    repEmail: "todd.albers@medinamn.gov",
+    repPhone: "763-360-5532",
+    termsOfService: [{ termStart: null, termEnd: null, current: true, sourceUrl: "https://www.medinamn.gov/Government/City-Council/Elected-Officials/Todd-Albers" }],
+    committees: ["Mayor of Medina"],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://www.medinamn.gov/Government/City-Council/Elected-Officials/Todd-Albers",
+    verifiedAt: "2026-08-09",
+    verifiedAgainst: "https://www.medinamn.gov/Government/City-Council/Elected-Officials/Todd-Albers",
+  },
+  {
+    city: "Medina",
+    coordinates: [-93.574483, 45.0159359],
+    role: "Council Member",
+    repName: "Dino DesLauriers",
+    repParty: NONPARTISAN,
+    repPhotoUrl: "https://www.medinamn.gov/files/assets/city/v/4/admin/images/council-members/dino-deslauriers.jpg",
+    repEmail: "dino.deslauriers@medinamn.gov",
+    repPhone: "612-812-3290",
+    termsOfService: [{ termStart: null, termEnd: null, current: true, sourceUrl: "https://www.medinamn.gov/Government/City-Council/Elected-Officials/Dino-DesLauriers" }],
+    committees: [],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://www.medinamn.gov/Government/City-Council/Elected-Officials/Dino-DesLauriers",
+    verifiedAt: "2026-08-09",
+    verifiedAgainst: "https://www.medinamn.gov/Government/City-Council/Elected-Officials/Dino-DesLauriers",
+  },
+  {
+    city: "Medina",
+    coordinates: [-93.574483, 45.0159359],
+    role: "Council Member",
+    repName: "Braden Rhem",
+    repParty: NONPARTISAN,
+    repPhotoUrl: "https://www.medinamn.gov/files/assets/city/v/2/admin/images/council-members/braden-rhem.jpeg",
+    repEmail: "braden.rhem@medinamn.gov",
+    repPhone: "612-889-4477",
+    termsOfService: [{ termStart: null, termEnd: null, current: true, sourceUrl: "https://www.medinamn.gov/Government/City-Council/Elected-Officials/Braden-Rhem" }],
+    committees: [],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://www.medinamn.gov/Government/City-Council/Elected-Officials/Braden-Rhem",
+    verifiedAt: "2026-08-09",
+    verifiedAgainst: "https://www.medinamn.gov/Government/City-Council/Elected-Officials/Braden-Rhem",
+  },
+  {
+    city: "Medina",
+    coordinates: [-93.574483, 45.0159359],
+    role: "Council Member",
+    repName: "Mary Morrison",
+    repParty: NONPARTISAN,
+    repPhotoUrl: "https://www.medinamn.gov/files/assets/city/v/1/admin/images/council-members/mary-morrison.jpg",
+    repEmail: "mary.morrison@medinamn.gov",
+    // Genuinely absent from the source (confirmed no phone element on her
+    // roster row or her own profile page), not a scraping gap.
+    repPhone: null,
+    termsOfService: [{ termStart: null, termEnd: null, current: true, sourceUrl: "https://www.medinamn.gov/Government/City-Council/Elected-Officials/Mary-Morrison" }],
+    committees: [],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://www.medinamn.gov/Government/City-Council/Elected-Officials/Mary-Morrison",
+    verifiedAt: "2026-08-09",
+    verifiedAgainst: "https://www.medinamn.gov/Government/City-Council/Elected-Officials/Mary-Morrison",
+  },
+  {
+    city: "Medina",
+    coordinates: [-93.574483, 45.0159359],
+    role: "Council Member",
+    repName: "John Jacob",
+    repParty: NONPARTISAN,
+    repPhotoUrl: "https://www.medinamn.gov/files/assets/city/v/2/admin/images/council-members/john-jacob.jpeg",
+    repEmail: "john.jacob@medinamn.gov",
+    repPhone: "612-669-6094",
+    termsOfService: [{ termStart: null, termEnd: null, current: true, sourceUrl: "https://www.medinamn.gov/Government/City-Council/Elected-Officials/John-Jacob" }],
+    committees: [],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://www.medinamn.gov/Government/City-Council/Elected-Officials/John-Jacob",
+    verifiedAt: "2026-08-09",
+    verifiedAgainst: "https://www.medinamn.gov/Government/City-Council/Elected-Officials/John-Jacob",
+  },
+  // Hilltop (Anoka) — one of Minnesota's smallest cities (~950 residents,
+  // an enclave inside Columbia Heights). hilltopmn.gov never states
+  // "at large" (or "ward"), and its officials sub-pages are structurally
+  // empty stubs (title only, no contact fields at all) — at-large is
+  // corroborated via Minn. Stat. § 412.02 (mayor as a separately-elected
+  // office; wards are opt-in, none found for Hilltop) and the Anoka County
+  // Public Officials Guide, which lists Wiggin under his own "Mayor" row
+  // distinct from the four "Council Member" rows. Every contact field
+  // below is a genuine, confirmed-absent gap, not a fetch failure — the
+  // only phone found anywhere is the shared City Hall line
+  // (763-571-2023), not attributed to any individual.
+  {
+    city: "Hilltop",
+    coordinates: [-93.2503342, 45.0525289], // Hilltop City Hall
+    repName: "Terry Wiggin",
+    repParty: NONPARTISAN,
+    repPhotoUrl: null,
+    repEmail: null,
+    repPhone: null,
+    termsOfService: [{ termStart: null, termEnd: null, current: true, sourceUrl: "https://hilltopmn.gov/government" }],
+    committees: ["Mayor of Hilltop"],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://hilltopmn.gov/government",
+    verifiedAt: "2026-08-09",
+    verifiedAgainst: "https://hilltopmn.gov/government",
+  },
+  {
+    city: "Hilltop",
+    coordinates: [-93.2503342, 45.0525289],
+    role: "Council Member",
+    repName: "Linda Johnson",
+    repParty: NONPARTISAN,
+    repPhotoUrl: null,
+    repEmail: null,
+    repPhone: null,
+    termsOfService: [{ termStart: null, termEnd: null, current: true, sourceUrl: "https://hilltopmn.gov/government" }],
+    committees: [],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://hilltopmn.gov/government",
+    verifiedAt: "2026-08-09",
+    verifiedAgainst: "https://hilltopmn.gov/government",
+  },
+  {
+    city: "Hilltop",
+    coordinates: [-93.2503342, 45.0525289],
+    role: "Council Member",
+    repName: "James E. Shear",
+    repParty: NONPARTISAN,
+    repPhotoUrl: null,
+    repEmail: null,
+    repPhone: null,
+    termsOfService: [{ termStart: null, termEnd: null, current: true, sourceUrl: "https://hilltopmn.gov/government" }],
+    committees: [],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://hilltopmn.gov/government",
+    verifiedAt: "2026-08-09",
+    verifiedAgainst: "https://hilltopmn.gov/government",
+  },
+  {
+    city: "Hilltop",
+    coordinates: [-93.2503342, 45.0525289],
+    role: "Council Member",
+    repName: "Casey Gunter",
+    repParty: NONPARTISAN,
+    repPhotoUrl: null,
+    repEmail: null,
+    repPhone: null,
+    termsOfService: [{ termStart: null, termEnd: null, current: true, sourceUrl: "https://hilltopmn.gov/government" }],
+    committees: [],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://hilltopmn.gov/government",
+    verifiedAt: "2026-08-09",
+    verifiedAgainst: "https://hilltopmn.gov/government",
+  },
+  {
+    city: "Hilltop",
+    coordinates: [-93.2503342, 45.0525289],
+    role: "Council Member",
+    repName: "Betty Risdahl",
+    repParty: NONPARTISAN,
+    repPhotoUrl: null,
+    repEmail: null,
+    repPhone: null,
+    termsOfService: [{ termStart: null, termEnd: null, current: true, sourceUrl: "https://hilltopmn.gov/government" }],
+    committees: [],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://hilltopmn.gov/government",
+    verifiedAt: "2026-08-09",
+    verifiedAgainst: "https://hilltopmn.gov/government",
+  },
+  // Wayzata (Hennepin) — "the Council members are elected at-large,"
+  // wayzata.org/485/Wayzata-City-Council-Elections. Also the one city this
+  // batch where "elected on a non-partisan basis" appears as a direct
+  // quote on the city's own site, not just the statutory default.
+  {
+    city: "Wayzata",
+    coordinates: [-93.5122185, 44.970839], // Wayzata City Hall
+    repName: "Andrew Mullin",
+    repParty: NONPARTISAN,
+    repPhotoUrl: "https://www.wayzata.org/ImageRepository/Document?documentID=6428",
+    repEmail: "AMullin@wayzata.org",
+    repPhone: "952-404-5327",
+    termsOfService: [{ termStart: null, termEnd: null, current: true, sourceUrl: "https://www.wayzata.org/153/City-Council" }],
+    committees: ["Mayor of Wayzata"],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://www.wayzata.org/153/City-Council",
+    verifiedAt: "2026-08-09",
+    verifiedAgainst: "https://www.wayzata.org/153/City-Council",
+  },
+  {
+    city: "Wayzata",
+    coordinates: [-93.5122185, 44.970839],
+    role: "Council Member",
+    repName: "Dan Koch",
+    repParty: NONPARTISAN,
+    repPhotoUrl: "https://www.wayzata.org/ImageRepository/Document?documentID=6430",
+    repEmail: "dkoch@wayzata.org",
+    repPhone: "612-499-3145",
+    termsOfService: [{ termStart: null, termEnd: null, current: true, sourceUrl: "https://www.wayzata.org/153/City-Council" }],
+    committees: [],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://www.wayzata.org/153/City-Council",
+    verifiedAt: "2026-08-09",
+    verifiedAgainst: "https://www.wayzata.org/153/City-Council",
+  },
+  {
+    city: "Wayzata",
+    coordinates: [-93.5122185, 44.970839],
+    role: "Council Member",
+    repName: "Molly MacDonald",
+    repParty: NONPARTISAN,
+    repPhotoUrl: "https://www.wayzata.org/ImageRepository/Document?documentID=6432",
+    repEmail: "mmacdonald@wayzata.org",
+    repPhone: "612-384-0990",
+    termsOfService: [{ termStart: null, termEnd: null, current: true, sourceUrl: "https://www.wayzata.org/153/City-Council" }],
+    committees: [],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://www.wayzata.org/153/City-Council",
+    verifiedAt: "2026-08-09",
+    verifiedAgainst: "https://www.wayzata.org/153/City-Council",
+  },
+  {
+    city: "Wayzata",
+    coordinates: [-93.5122185, 44.970839],
+    role: "Council Member",
+    repName: "Alex Plechash",
+    repParty: NONPARTISAN,
+    repPhotoUrl: "https://www.wayzata.org/ImageRepository/Document?documentID=6429",
+    repEmail: "AlexPlechash@wayzata.org",
+    repPhone: "612-801-8222",
+    termsOfService: [{ termStart: null, termEnd: null, current: true, sourceUrl: "https://www.wayzata.org/153/City-Council" }],
+    committees: [],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://www.wayzata.org/153/City-Council",
+    verifiedAt: "2026-08-09",
+    verifiedAgainst: "https://www.wayzata.org/153/City-Council",
+  },
+  {
+    city: "Wayzata",
+    coordinates: [-93.5122185, 44.970839],
+    role: "Council Member",
+    repName: "Ken Sorensen",
+    repParty: NONPARTISAN,
+    repPhotoUrl: "https://www.wayzata.org/ImageRepository/Document?documentID=6431",
+    repEmail: "ksorensen@wayzata.org",
+    repPhone: "612-270-5258",
+    termsOfService: [{ termStart: null, termEnd: null, current: true, sourceUrl: "https://www.wayzata.org/153/City-Council" }],
+    committees: [],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://www.wayzata.org/153/City-Council",
+    verifiedAt: "2026-08-09",
+    verifiedAgainst: "https://www.wayzata.org/153/City-Council",
+  },
+  // Corcoran (Hennepin) — "City council members serve at large,"
+  // corcoranmn.gov/our_government/council. Emails decoded from the page's
+  // own Cloudflare email-obfuscation markup (same non-bypass decode as New
+  // Hope above). Photo filenames below carry literal duplicate/extra
+  // closing parentheses (e.g. "(final edit))).png") — verified live,
+  // 200 OK; a server-side authoring artifact, not a transcription error.
+  {
+    city: "Corcoran",
+    coordinates: [-93.5427607, 45.1021846], // Corcoran City Hall
+    repName: "Tom McKee",
+    repParty: NONPARTISAN,
+    repPhotoUrl:
+      "https://www.corcoranmn.gov/UserFiles/Servers/Server_15543680/Image/Our%20Community/Council/Mayor%20Tom%20McKee%20(final%20edit)).png",
+    repEmail: "tmckee@corcoranmn.gov",
+    repPhone: "612-803-8101",
+    termsOfService: [{ termStart: null, termEnd: null, current: true, sourceUrl: "https://www.corcoranmn.gov/our_government/council" }],
+    committees: ["Mayor of Corcoran"],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://www.corcoranmn.gov/our_government/council",
+    verifiedAt: "2026-08-09",
+    verifiedAgainst: "https://www.corcoranmn.gov/our_government/council",
+  },
+  {
+    city: "Corcoran",
+    coordinates: [-93.5427607, 45.1021846],
+    role: "Council Member",
+    repName: "Michelle Friedrich",
+    repParty: NONPARTISAN,
+    repPhotoUrl:
+      "https://www.corcoranmn.gov/UserFiles/Servers/Server_15543680/Image/Our%20Community/Council/Councilmember%20Michelle%20Friedrich%20(final%20edit).png",
+    repEmail: "michelle.friedrich@corcoranmn.gov",
+    repPhone: null,
+    termsOfService: [{ termStart: null, termEnd: null, current: true, sourceUrl: "https://www.corcoranmn.gov/our_government/council" }],
+    committees: [],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://www.corcoranmn.gov/our_government/council",
+    verifiedAt: "2026-08-09",
+    verifiedAgainst: "https://www.corcoranmn.gov/our_government/council",
+  },
+  {
+    city: "Corcoran",
+    coordinates: [-93.5427607, 45.1021846],
+    role: "Council Member",
+    repName: "Mark Lanterman",
+    repParty: NONPARTISAN,
+    repPhotoUrl:
+      "https://www.corcoranmn.gov/UserFiles/Servers/Server_15543680/Image/Our%20Community/Council/Councilmember%20Mark%20Lanterman%20(final%20edit)).png",
+    repEmail: "mlanterman@corcoranmn.gov",
+    repPhone: null,
+    termsOfService: [{ termStart: null, termEnd: null, current: true, sourceUrl: "https://www.corcoranmn.gov/our_government/council" }],
+    committees: [],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://www.corcoranmn.gov/our_government/council",
+    verifiedAt: "2026-08-09",
+    verifiedAgainst: "https://www.corcoranmn.gov/our_government/council",
+  },
+  {
+    city: "Corcoran",
+    coordinates: [-93.5427607, 45.1021846],
+    role: "Council Member",
+    repName: "Jeremy Nichols",
+    repParty: NONPARTISAN,
+    repPhotoUrl:
+      "https://www.corcoranmn.gov/UserFiles/Servers/Server_15543680/Image/Our%20Community/Council/Councilmember%20Jeremy%20Nichols%20(final%20edit).png",
+    repEmail: "jnichols@corcoranmn.gov",
+    repPhone: null,
+    termsOfService: [{ termStart: null, termEnd: null, current: true, sourceUrl: "https://www.corcoranmn.gov/our_government/council" }],
+    committees: [],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://www.corcoranmn.gov/our_government/council",
+    verifiedAt: "2026-08-09",
+    verifiedAgainst: "https://www.corcoranmn.gov/our_government/council",
+  },
+  {
+    city: "Corcoran",
+    coordinates: [-93.5427607, 45.1021846],
+    role: "Council Member",
+    repName: "Dean Vehrenkamp",
+    repParty: NONPARTISAN,
+    repPhotoUrl:
+      "https://www.corcoranmn.gov/UserFiles/Servers/Server_15543680/Image/Our%20Community/Council/Councilmember%20Dean%20Vehrenkamp%20(final%20edit)))).png",
+    repEmail: "dvehrenkamp@corcoranmn.gov",
+    repPhone: "612-309-1885",
+    termsOfService: [{ termStart: null, termEnd: null, current: true, sourceUrl: "https://www.corcoranmn.gov/our_government/council" }],
+    committees: [],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://www.corcoranmn.gov/our_government/council",
+    verifiedAt: "2026-08-09",
+    verifiedAgainst: "https://www.corcoranmn.gov/our_government/council",
+  },
+  // Brooklyn Center (Hennepin) — council-manager government, charter-
+  // established 1966: "mayor, elected to a four-year term, and four
+  // councilmembers, elected at large to four-year terms." Ballotpedia
+  // independently labels every seat "At-large" across 2022/2024/2026
+  // cycles. brooklyncentermn.gov returns HTTP 403 to every automated fetch
+  // (confirmed domain-wide: /, /government/city-charter, and a staff
+  // directory URL all 403); per AGENTS.md §2.2 this pipeline did not route
+  // around it. Sourced instead via the Internet Archive's own prior crawl
+  // of the same public pages (Wayback Machine, capture dated 2025-06-01 —
+  // the most recent 200-status capture the CDX index has) — a Tier 3
+  // republication of the city's own Tier 1 page per this project's
+  // sourcing standard, cited alongside the (currently unreachable)
+  // original. Every value cross-matched a second, independent retrieval
+  // (search-engine-indexed snippets of the live page) with zero
+  // discrepancies, and the current roster is independently corroborated as
+  // still accurate by 2026 election reporting (two of these five are
+  // sitting councilmembers now running for mayor). verifiedAt below
+  // reflects the archive capture date actually read, not today's date, per
+  // AGENTS.md §3.2 — this record should be re-verified against a live
+  // fetch once the site is reachable again. No photo exists in the
+  // archived markup for any of the five (only nav/social icons).
+  {
+    city: "Brooklyn Center",
+    coordinates: [-93.309613, 45.0683729], // Brooklyn Center City Hall
+    repName: "April Graves",
+    repParty: NONPARTISAN,
+    repPhotoUrl: null,
+    repEmail: "mayorgraves@brooklyncentermn.gov",
+    repPhone: "763-910-1783",
+    termsOfService: [{ termStart: "2023-01-01", termEnd: null, current: true, sourceUrl: "https://www.brooklyncentermn.gov/government/city-council" }],
+    committees: ["Mayor of Brooklyn Center"],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://www.brooklyncentermn.gov/government/city-council",
+    verifiedAt: "2025-06-01",
+    verifiedAgainst: "http://web.archive.org/web/20250601101528/https://www.brooklyncentermn.gov/government/city-council",
+  },
+  {
+    city: "Brooklyn Center",
+    coordinates: [-93.309613, 45.0683729],
+    role: "Council Member",
+    repName: "Dan Jerzak",
+    repParty: NONPARTISAN,
+    repPhotoUrl: null,
+    repEmail: "councilmemberjerzak@brooklyncentermn.gov",
+    repPhone: "763-336-0817",
+    termsOfService: [{ termStart: "2023-01-01", termEnd: null, current: true, sourceUrl: "https://www.brooklyncentermn.gov/government/city-council" }],
+    committees: [],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://www.brooklyncentermn.gov/government/city-council",
+    verifiedAt: "2025-06-01",
+    verifiedAgainst: "http://web.archive.org/web/20250601101528/https://www.brooklyncentermn.gov/government/city-council",
+  },
+  {
+    city: "Brooklyn Center",
+    coordinates: [-93.309613, 45.0683729],
+    role: "Council Member",
+    repName: "Teneshia Kragness",
+    repParty: NONPARTISAN,
+    repPhotoUrl: null,
+    repEmail: "councilmemberkragness@brooklyncentermn.gov",
+    repPhone: "763-910-1784",
+    termsOfService: [{ termStart: "2023-01-01", termEnd: null, current: true, sourceUrl: "https://www.brooklyncentermn.gov/government/city-council" }],
+    committees: [],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://www.brooklyncentermn.gov/government/city-council",
+    verifiedAt: "2025-06-01",
+    verifiedAgainst: "http://web.archive.org/web/20250601101528/https://www.brooklyncentermn.gov/government/city-council",
+  },
+  {
+    city: "Brooklyn Center",
+    coordinates: [-93.309613, 45.0683729],
+    role: "Council Member",
+    repName: "Kris Lawrence-Anderson",
+    repParty: NONPARTISAN,
+    repPhotoUrl: null,
+    repEmail: "councilmemberlawrence-anderson@brooklyncentermn.gov",
+    repPhone: "763-452-5215",
+    // Page states both a current-term-start (1/1/21) and "Held office
+    // since 1/1/13" — using the latter (continuous tenure start, not her
+    // latest re-election date), same convention Minneapolis's Frey entry
+    // above uses (termStart = when the officeholder's continuous run in
+    // this office began).
+    termsOfService: [{ termStart: "2013-01-01", termEnd: null, current: true, sourceUrl: "https://www.brooklyncentermn.gov/government/city-council" }],
+    committees: [],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://www.brooklyncentermn.gov/government/city-council",
+    verifiedAt: "2025-06-01",
+    verifiedAgainst: "http://web.archive.org/web/20250601101528/https://www.brooklyncentermn.gov/government/city-council",
+  },
+  {
+    city: "Brooklyn Center",
+    coordinates: [-93.309613, 45.0683729],
+    role: "Council Member",
+    repName: "Laurie Ann Moore",
+    repParty: NONPARTISAN,
+    repPhotoUrl: null,
+    repEmail: "councilmembermoore@brooklyncentermn.gov",
+    repPhone: "763-910-1788",
+    termsOfService: [{ termStart: "2025-01-01", termEnd: null, current: true, sourceUrl: "https://www.brooklyncentermn.gov/government/city-council" }],
+    committees: [],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://www.brooklyncentermn.gov/government/city-council",
+    verifiedAt: "2025-06-01",
+    verifiedAgainst: "http://web.archive.org/web/20250601101528/https://www.brooklyncentermn.gov/government/city-council",
+  },
+  // Loretto (Hennepin) — one of Minnesota's smallest cities (population
+  // under 500). lorettomn.gov/robots.txt blanket-disallows every crawler
+  // except six named exceptions (Googlebot, bingbot, ia_archiver,
+  // archive.org_bot, W3C-checklink, CCBot) via a trailing "User-agent: * /
+  // Disallow: /" — same class of conflict as cfb.mn.gov's flagged in
+  // commit e9f7f29 and Columbia Heights's above. This data is a one-time
+  // hand-transcription (this file's own stated model), not a target for a
+  // recurring automated fetcher, per AGENTS.md §2.2. No governing-
+  // structure statement ("at large"/"ward") was found on the one page
+  // read; MN's statutory-city default (Minn. Stat. § 412.02) is at-large
+  // absent a ward ordinance, none found for Loretto — corroborated, not
+  // confirmed. No photo, phone (beyond the numbers below, which the page
+  // does publish individually), or term-start date is published beyond
+  // what's listed.
+  {
+    city: "Loretto",
+    coordinates: [-93.6348163, 45.0550815], // Loretto City Hall
+    repName: "Kent Koch",
+    repParty: NONPARTISAN,
+    repPhotoUrl: null,
+    repEmail: "kkoch@ci.loretto.mn.us",
+    repPhone: "763-286-7138",
+    termsOfService: [{ termStart: null, termEnd: null, current: true, sourceUrl: "https://lorettomn.gov/officials" }],
+    committees: ["Mayor of Loretto"],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://lorettomn.gov/officials",
+    verifiedAt: "2026-08-09",
+    verifiedAgainst: "https://lorettomn.gov/officials",
+  },
+  {
+    city: "Loretto",
+    coordinates: [-93.6348163, 45.0550815],
+    role: "Council Member",
+    repName: "Brenda Daniels",
+    repParty: NONPARTISAN,
+    repPhotoUrl: null,
+    repEmail: "bdaniels@ci.loretto.mn.us",
+    repPhone: "763-479-6341",
+    termsOfService: [{ termStart: null, termEnd: null, current: true, sourceUrl: "https://lorettomn.gov/officials" }],
+    committees: [],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://lorettomn.gov/officials",
+    verifiedAt: "2026-08-09",
+    verifiedAgainst: "https://lorettomn.gov/officials",
+  },
+  {
+    city: "Loretto",
+    coordinates: [-93.6348163, 45.0550815],
+    role: "Council Member",
+    repName: "Jeff Leuer",
+    repParty: NONPARTISAN,
+    repPhotoUrl: null,
+    repEmail: "jleuer@ci.loretto.mn.us",
+    repPhone: "612-221-4963",
+    termsOfService: [{ termStart: null, termEnd: null, current: true, sourceUrl: "https://lorettomn.gov/officials" }],
+    committees: [],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://lorettomn.gov/officials",
+    verifiedAt: "2026-08-09",
+    verifiedAgainst: "https://lorettomn.gov/officials",
+  },
+  {
+    city: "Loretto",
+    coordinates: [-93.6348163, 45.0550815],
+    role: "Council Member",
+    repName: "Melissa Markham",
+    repParty: NONPARTISAN,
+    repPhotoUrl: null,
+    repEmail: "mmarkham@ci.loretto.mn.us",
+    repPhone: "612-968-7361",
+    termsOfService: [{ termStart: null, termEnd: null, current: true, sourceUrl: "https://lorettomn.gov/officials" }],
+    committees: [],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://lorettomn.gov/officials",
+    verifiedAt: "2026-08-09",
+    verifiedAgainst: "https://lorettomn.gov/officials",
+  },
+  {
+    city: "Loretto",
+    coordinates: [-93.6348163, 45.0550815],
+    role: "Council Member",
+    repName: "Ben Scanlon",
+    repParty: NONPARTISAN,
+    repPhotoUrl: null,
+    repEmail: "bscanlon@ci.loretto.mn.us",
+    repPhone: "612-325-0776",
+    termsOfService: [{ termStart: null, termEnd: null, current: true, sourceUrl: "https://lorettomn.gov/officials" }],
+    committees: [],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://lorettomn.gov/officials",
+    verifiedAt: "2026-08-09",
+    verifiedAgainst: "https://lorettomn.gov/officials",
+  },
+  // Woodland (Hennepin) — one of Minnesota's smallest cities (~386
+  // residents, on Lake Minnetonka). Code of Ordinances Ch. 2, §200.01
+  // ("The Council will consist of a Mayor and four additional
+  // Councilmembers") never mentions wards; corroborated at-large via the
+  // same Minn. Stat. § 412.02 default as Loretto/Deephaven above — the
+  // literal phrase "at large" does not appear on the city's own site.
+  // Coordinates are the city's population centroid, not a dedicated City
+  // Hall building — this pipeline found no such building; Woodland
+  // contracts its administrator/clerk/finance/police/fire functions out to
+  // Deephaven and the Wayzata Fire Department. The roster page also
+  // publishes what read as officials' home street addresses; per AGENTS.md
+  // §1b those are deliberately never ingested here, even though present on
+  // the source page. Vince Suerth's email is transcribed exactly as
+  // published, including a stray period before the @ that is almost
+  // certainly the city's own publishing typo — not "corrected" without
+  // confirming with the city.
+  {
+    city: "Woodland",
+    coordinates: [-93.5105087, 44.9484736],
+    repName: "Vince Suerth",
+    repParty: NONPARTISAN,
+    repPhotoUrl: null,
+    repEmail: "vsuerth.@cityofwoodlandmn.gov",
+    repPhone: "612-600-3346",
+    termsOfService: [{ termStart: null, termEnd: null, current: true, sourceUrl: "https://cityofwoodlandmn.gov/city-council-and-staff/" }],
+    committees: ["Mayor of Woodland"],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://cityofwoodlandmn.gov/city-council-and-staff/",
+    verifiedAt: "2026-08-09",
+    verifiedAgainst: "https://cityofwoodlandmn.gov/city-council-and-staff/",
+  },
+  {
+    city: "Woodland",
+    coordinates: [-93.5105087, 44.9484736],
+    role: "Council Member",
+    repName: "Tom Newberry",
+    repParty: NONPARTISAN,
+    repPhotoUrl: null,
+    repEmail: "tnewberry@cityofwoodlandmn.gov",
+    repPhone: "651-642-4242",
+    termsOfService: [{ termStart: null, termEnd: null, current: true, sourceUrl: "https://cityofwoodlandmn.gov/city-council-and-staff/" }],
+    committees: [],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://cityofwoodlandmn.gov/city-council-and-staff/",
+    verifiedAt: "2026-08-09",
+    verifiedAgainst: "https://cityofwoodlandmn.gov/city-council-and-staff/",
+  },
+  {
+    city: "Woodland",
+    coordinates: [-93.5105087, 44.9484736],
+    role: "Council Member",
+    repName: "Dave Daniels",
+    repParty: NONPARTISAN,
+    repPhotoUrl: null,
+    repEmail: "ddaniels@cityofwoodlandmn.gov",
+    repPhone: "952-484-5357",
+    termsOfService: [{ termStart: null, termEnd: null, current: true, sourceUrl: "https://cityofwoodlandmn.gov/city-council-and-staff/" }],
+    committees: [],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://cityofwoodlandmn.gov/city-council-and-staff/",
+    verifiedAt: "2026-08-09",
+    verifiedAgainst: "https://cityofwoodlandmn.gov/city-council-and-staff/",
+  },
+  {
+    city: "Woodland",
+    coordinates: [-93.5105087, 44.9484736],
+    role: "Council Member",
+    repName: "Juan Vazquez",
+    repParty: NONPARTISAN,
+    repPhotoUrl: null,
+    repEmail: "jvazquez@cityofwoodlandmn.gov",
+    repPhone: "612-295-6392",
+    termsOfService: [{ termStart: null, termEnd: null, current: true, sourceUrl: "https://cityofwoodlandmn.gov/city-council-and-staff/" }],
+    committees: [],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://cityofwoodlandmn.gov/city-council-and-staff/",
+    verifiedAt: "2026-08-09",
+    verifiedAgainst: "https://cityofwoodlandmn.gov/city-council-and-staff/",
+  },
+  {
+    city: "Woodland",
+    coordinates: [-93.5105087, 44.9484736],
+    role: "Council Member",
+    repName: "Hank Zucker",
+    repParty: NONPARTISAN,
+    repPhotoUrl: null,
+    repEmail: "hzucker@cityofwoodlandmn.gov",
+    repPhone: "952-300-8833",
+    termsOfService: [{ termStart: null, termEnd: null, current: true, sourceUrl: "https://cityofwoodlandmn.gov/city-council-and-staff/" }],
+    committees: [],
+    neighborhoods: [],
+    officeRoom: null,
+    profileUrl: "https://cityofwoodlandmn.gov/city-council-and-staff/",
+    verifiedAt: "2026-08-09",
+    verifiedAgainst: "https://cityofwoodlandmn.gov/city-council-and-staff/",
+  },
 ];
 
 async function main() {

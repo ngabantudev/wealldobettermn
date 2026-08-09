@@ -98,6 +98,41 @@ export const CITIES = [
   "Rochester",
   "Duluth",
   "St. Cloud",
+  // 2026-08 batch — 13 cities added from links the maintainer supplied
+  // directly during this session (not a population-ranked batch like the
+  // one above). All 13 are fully at-large (mayor + 4 council members
+  // elected citywide, no wards) — see fetch-mayors.mjs's own per-city
+  // comments for each one's sourcing, and AT_LARGE_CITIES below. A 14th
+  // city researched the same session, Rogers (Hennepin), is deliberately
+  // NOT added here: rogersmn.gov/robots.txt explicitly names and
+  // disallows both "ClaudeBot" and "anthropic-ai" — not a generic
+  // blanket block like Loretto's or Columbia Heights's below, but a
+  // directed refusal of this project's own tooling. Per AGENTS.md §2.2
+  // ("a source that cannot be fetched politely gets a knownGaps entry and
+  // a manual workflow, not a workaround") and §1d ("when in doubt, leave
+  // it out"), Rogers ships no officeholder data from this pipeline at
+  // all — see sourcesRegistry.ts's KNOWN_ROSTER_GAPS.
+  "Golden Valley",
+  "New Hope",
+  // Columbia Heights and Loretto (further below) both have a robots.txt
+  // that blanket-disallows every crawler except a short named allow-list
+  // (Columbia Heights: five commercial crawlers; Loretto: six, including
+  // archive bots) — unlike Rogers above, neither names Claude or
+  // Anthropic specifically. Flagged the same way commit e9f7f29 flagged
+  // cfb.mn.gov's contradictory robots.txt: this data is a one-time hand-
+  // transcription (this whole file's stated model), not a target for a
+  // recurring automated fetcher.
+  "Columbia Heights",
+  "Dayton",
+  "Hopkins",
+  "Deephaven",
+  "Medina",
+  "Hilltop",
+  "Wayzata",
+  "Corcoran",
+  "Brooklyn Center",
+  "Loretto",
+  "Woodland",
 ] as const;
 export type City = (typeof CITIES)[number];
 
@@ -110,6 +145,8 @@ export type City = (typeof CITIES)[number];
 // git history for scripts/fetch-at-large-boundaries.mjs, now removed).
 export const AT_LARGE_CITIES: readonly City[] = [
   "Woodbury", "Eagan", "Lakeville", "Maple Grove", "Apple Valley", "Burnsville", "Edina", "Eden Prairie",
+  "Golden Valley", "New Hope", "Columbia Heights", "Dayton", "Hopkins", "Deephaven", "Medina", "Hilltop",
+  "Wayzata", "Corcoran", "Brooklyn Center", "Loretto", "Woodland",
 ];
 
 // Dakota added alongside issue #65's batch — Eagan and Lakeville are this
@@ -131,9 +168,16 @@ export const AT_LARGE_CITIES: readonly City[] = [
 // spells this one out in full. Duluth's own display label elsewhere
 // ("St. Louis County," in WardMap.tsx's COMMISSIONER_LABEL_OVERRIDES) is a
 // free-text UI string, unrelated to this exact-match county key.
+// Wright added alongside the 2026-08 13-city batch above — Dayton's own
+// boundary carries a real (if small, 50-person per the CTU source) Wright
+// County sliver alongside its much larger Hennepin portion, the same
+// "real-but-empty, confirmed genuine before being kept" standard Blaine's
+// Ramsey County crossing already set (that one carries 0 population and
+// was still kept). Every other city in the 2026-08 batch is Hennepin or
+// Anoka, both already listed below.
 export const COUNTIES = [
   "Hennepin", "Ramsey", "Anoka", "Washington", "Dakota",
-  "Olmsted", "Saint Louis", "Stearns", "Sherburne", "Benton",
+  "Olmsted", "Saint Louis", "Stearns", "Sherburne", "Benton", "Wright",
 ] as const;
 export type County = (typeof COUNTIES)[number];
 

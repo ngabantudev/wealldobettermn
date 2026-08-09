@@ -87,6 +87,65 @@ export const CITY_COUNCIL_SOURCES: readonly SourceEntry[] = [
   { name: "Rochester", agency: "City of Rochester", url: "https://www.rochestermn.gov/council-administration/city-council/councilmembers/", tier: 1, script: "fetch-wards.mjs / fetch-mayors.mjs" },
   { name: "Duluth", agency: "City of Duluth", url: "https://duluthmn.gov/city-council/", tier: 1, script: "fetch-wards.mjs / fetch-mayors.mjs" },
   { name: "St. Cloud", agency: "City of St. Cloud", url: "https://www.ci.stcloud.mn.us/81/City-Council", tier: 1, script: "fetch-wards.mjs / fetch-mayors.mjs" },
+  // 2026-08 batch — mayors added for 5 cities that already had ward
+  // rosters above but no mayor entry until this batch (Champlin/Crystal/
+  // Robbinsdale/Fridley/Ramsey), plus 13 newly-covered at-large cities.
+  // See cities.ts's own comment on this batch and fetch-mayors.mjs for the
+  // per-city sourcing detail (robots.txt caveats, corroborated-vs-
+  // confirmed tiers, etc.) this table can't carry in one URL + a tier.
+  { name: "Champlin", agency: "City of Champlin", url: "https://www.champlinmn.gov/277/Mayor-City-Council", tier: 1, script: "fetch-mayors.mjs" },
+  { name: "Crystal", agency: "City of Crystal", url: "https://www.crystalmn.gov/government/city_council", tier: 1, script: "fetch-mayors.mjs" },
+  { name: "Robbinsdale", agency: "City of Robbinsdale", url: "https://www.robbinsdalemn.gov/m/directory/employee?eid=6", tier: 1, script: "fetch-mayors.mjs", note: EACH_MEMBER_OWN_PAGE },
+  {
+    name: "Fridley (Mayor)",
+    agency: "City of Fridley",
+    url: "https://www.fridleymn.gov/Your-Government/City-Council-Commissions/Meet-Your-Council/Dave-Ostwald",
+    tier: 1,
+    script: "fetch-mayors.mjs",
+    note: "fridleymn.gov returns HTTP 403 to automated fetches (same block as the council roster above). Name/email are corroborated via search-cached city-document text and local news, not a direct primary render — AGENTS.md §3.3 'corroborated' tier, not 'confirmed.'",
+  },
+  { name: "Ramsey (Mayor)", agency: "City of Ramsey", url: "https://www.cityoframseymn.gov/city-hall/council/elected-officials/", tier: 1, script: "fetch-mayors.mjs" },
+  { name: "Golden Valley", agency: "City of Golden Valley", url: "https://goldenvalleymn.gov/180/City-Council", tier: 1, script: "fetch-mayors.mjs" },
+  { name: "New Hope", agency: "City of New Hope", url: "https://www.newhopemn.gov/city_hall/city_council/council_members", tier: 1, script: "fetch-mayors.mjs" },
+  {
+    name: "Columbia Heights",
+    agency: "City of Columbia Heights",
+    url: "https://www.columbiaheightsmn.gov/city_council_commissions/city_council.php",
+    tier: 1,
+    script: "fetch-mayors.mjs",
+    note: "columbiaheightsmn.gov/robots.txt blanket-disallows every crawler except 5 named commercial ones — same class of conflict flagged for cfb.mn.gov in commit e9f7f29. This data is a one-time hand-transcription, not an automated-fetcher target; see AGENTS.md §2.2.",
+  },
+  { name: "Dayton", agency: "City of Dayton", url: "https://www.daytonmn.gov/government/mayor_council.php", tier: 1, script: "fetch-mayors.mjs" },
+  { name: "Hopkins", agency: "City of Hopkins", url: "https://www.hopkinsmn.com/1105/Patrick-Hanlon", tier: 1, script: "fetch-mayors.mjs", note: EACH_MEMBER_OWN_PAGE },
+  { name: "Deephaven", agency: "City of Deephaven", url: "https://deephaven.gov/city-council/", tier: 1, script: "fetch-mayors.mjs" },
+  { name: "Medina", agency: "City of Medina", url: "https://www.medinamn.gov/Government/City-Council/Elected-Officials", tier: 1, script: "fetch-mayors.mjs" },
+  { name: "Hilltop", agency: "City of Hilltop", url: "https://hilltopmn.gov/government", tier: 1, script: "fetch-mayors.mjs" },
+  { name: "Wayzata", agency: "City of Wayzata", url: "https://www.wayzata.org/153/City-Council", tier: 1, script: "fetch-mayors.mjs" },
+  { name: "Corcoran", agency: "City of Corcoran", url: "https://www.corcoranmn.gov/our_government/council", tier: 1, script: "fetch-mayors.mjs" },
+  {
+    name: "Brooklyn Center",
+    agency: "City of Brooklyn Center",
+    url: "https://www.brooklyncentermn.gov/government/city-council",
+    tier: 1,
+    script: "fetch-mayors.mjs",
+    note: "brooklyncentermn.gov returns HTTP 403 to automated fetches (domain-wide). Sourced via the Internet Archive's own prior crawl of this exact page (Wayback Machine capture dated 2025-06-01) — a Tier 3 republication of the city's Tier 1 original per this project's sourcing standard, cited here alongside the (currently unreachable) live URL. Re-verify against a live fetch once the site is reachable.",
+  },
+  {
+    name: "Loretto",
+    agency: "City of Loretto",
+    url: "https://lorettomn.gov/officials",
+    tier: 1,
+    script: "fetch-mayors.mjs",
+    note: "lorettomn.gov/robots.txt blanket-disallows every crawler except 6 named exceptions (major search/archive bots) — same class of conflict flagged for cfb.mn.gov in commit e9f7f29. One-time hand-transcription, not an automated-fetcher target; see AGENTS.md §2.2.",
+  },
+  {
+    name: "Woodland",
+    agency: "City of Woodland",
+    url: "https://cityofwoodlandmn.gov/city-council-and-staff/",
+    tier: 1,
+    script: "fetch-mayors.mjs",
+    note: "No dedicated City Hall building found — coordinates are the city's population centroid, not a geocoded municipal address, unlike every other entry in this table.",
+  },
 ] as const;
 
 // --- City & township ward/district GIS boundaries ------------------------
@@ -128,6 +187,11 @@ export const KNOWN_ROSTER_GAPS: readonly { name: string; url: string; note: stri
     name: "Stearns County Board of Commissioners",
     url: "https://www.stearnscountymn.gov/907/Board-of-Commissioners",
     note: "District boundaries are mapped; commissioner names are not yet confirmed against a primary source and ship blank rather than guessed.",
+  },
+  {
+    name: "City of Rogers (Mayor and City Council)",
+    url: "https://www.rogersmn.gov/citycouncil",
+    note: "Researched 2026-08-09 alongside the 13-city 2026-08 batch (see cities.ts) but deliberately not added: rogersmn.gov/robots.txt explicitly names and disallows both \"ClaudeBot\" and \"anthropic-ai\" — a directed refusal of this project's own tooling, not a generic blanket block like Columbia Heights's or Loretto's. hometownsource.com (the local paper covering Rogers' 2024/2022 elections) carries the identical explicit disallow. Per AGENTS.md §2.2 (\"a source that cannot be fetched politely gets a knownGaps entry and a manual workflow, not a workaround\") and §1d (\"when in doubt, leave it out\"), no officeholder data for Rogers ships from this pipeline. Adding this city requires a human maintainer manually reading rogersmn.gov in a browser (robots.txt governs automated agents, not human browsing) or the city's explicit permission — not an automated fetch under any identity.",
   },
 ] as const;
 
