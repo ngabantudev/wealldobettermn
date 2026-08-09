@@ -46,12 +46,17 @@ export interface RepProperties {
   city: string;
   county: string | null;
   ward: number | null;
-  // A handful of cities (Brooklyn Park's Central/East/West, currently) name
-  // their council districts instead of numbering them — their GIS source
-  // carries no ward number at all. `ward` still gets a synthetic, stable
-  // number in that case (fill-color cycling and click-identity matching
-  // both key off it), but display code should prefer this field when it's
-  // set so the UI says what the city actually calls the area, not "Ward 1."
+  // Set whenever a city's own term for its numbered/named council areas
+  // isn't plain "Ward N" — Brooklyn Park names them instead of numbering
+  // them (its GIS source carries no ward number at all: "ward" still gets a
+  // synthetic, stable number in that case, for fill-color cycling and
+  // click-identity, which both key off it regardless), Duluth numbers them
+  // but calls them "District N", not "Ward N". Either way `ward` keeps
+  // carrying its own real/synthetic number; wardName carries the COMPLETE
+  // override display string ("Central District", "District 1") used as-is
+  // wherever display code reads it — not a bare name with a suffix appended
+  // by the reader, since the suffix's position isn't the same for every
+  // city ("Central District" vs "District 1" read in opposite orders).
   // Same reasoning as stateDistrict below: a string sibling field rather
   // than changing what the numeric field means for every other city.
   wardName: string | null;

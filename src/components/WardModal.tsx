@@ -235,11 +235,28 @@ export function roleLabel(rep: RepProperties): string {
   // (see that function's own comment), so a mayor from a fetch script that
   // simply omits wardName would have it as undefined, not null, and
   // undefined !== null is true. A truthy check treats both as "absent."
-  if (rep.wardName) return `${rep.wardName} District`;
+  // wardName is the complete override label, used as-is — not just a name
+  // with " District" appended here, which assumed every city's own term
+  // reads as "{name} District" (true for Brooklyn Park's "Central District"
+  // etc., false for Duluth's "District 1", which reads the other way
+  // round). fetch-wards.mjs now bakes the full label in at the source
+  // instead (2026-08 Duluth batch) — see its own comment on this.
+  if (rep.wardName) return rep.wardName;
   if (rep.ward !== null) return `Ward ${rep.ward}`;
   if (rep.district !== null) return `District ${rep.district}`;
   if (rep.stateDistrict !== null) return `District ${rep.stateDistrict}`;
-  return "Mayor";
+  // No locator field at all: a Mayor (city-wide by definition, no locator
+  // needed) or an at-large Council Member (city-wide seat, same absence of
+  // a locator for the same reason) — the two are indistinguishable by
+  // locator fields alone, so fall back to `rep.role`, which every
+  // RepProperties always carries. Previously fell through to "Mayor"
+  // unconditionally, which mislabeled every at-large Council Member across
+  // every fully-at-large city (Woodbury, Eagan, Lakeville, Maple Grove,
+  // Apple Valley, Burnsville, Edina, Eden Prairie) as "Mayor" in this badge
+  // — found while scoping mixed ward + at-large councils (Rochester,
+  // Duluth, St. Cloud), where the same fallback would otherwise mislabel
+  // every at-large seat sitting alongside real ward seats too.
+  return rep.role === "Mayor" ? "Mayor" : "At-Large";
 }
 
 // Council members and mayors are identified by city; commissioners by
@@ -362,21 +379,6 @@ function IconChevron() {
   );
 }
 
-// Committees section's own header icon — the block below used to render
-// with no label at all (just chips), fine when it lived inside a "More
-// details" disclosure that named the whole group; now that that wrapper
-// is gone (see OfficialCard), every section needs its own heading, same
-// as Recent votes/Meetings already had.
-function IconUsers() {
-  return (
-    <svg viewBox="0 0 20 20" fill="none" className="h-4 w-4 shrink-0">
-      <circle cx="7" cy="7" r="2.5" stroke="currentColor" strokeWidth="1.5" />
-      <path d="M2.5 16c.5-3 2.3-4.5 4.5-4.5s4 1.5 4.5 4.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-      <circle cx="14" cy="7.5" r="2" stroke="currentColor" strokeWidth="1.5" />
-      <path d="M12.5 11.3c1.7.3 2.9 1.6 3.3 4.2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-    </svg>
-  );
-}
 
 // Recent votes starts expanded when there isn't much in it yet (today's
 // reality for almost every seat — most feeds carry a handful of votes at
@@ -513,6 +515,19 @@ function OfficialCard({ rep }: { rep: RepProperties }) {
             )}
           </h4>
           <div className="text-xs text-ink-3 mt-0.5">{currentTermLabel(rep)}</div>
+          {committees.length > 0 && (
+            <div className="flex flex-wrap gap-1.5 mt-2">
+              {committees.map((role) => (
+                <span
+                  key={role}
+                  className="text-[11px] font-medium px-2 py-1 rounded-full border"
+                  style={{ color: accent, borderColor: accentSoft, backgroundColor: accentSoft }}
+                >
+                  {role}
+                </span>
+              ))}
+            </div>
+          )}
         </div>
       </div>
 
@@ -601,26 +616,6 @@ function OfficialCard({ rep }: { rep: RepProperties }) {
                 </li>
               ))}
             </ul>
-          </div>
-        )}
-
-        {committees.length > 0 && (
-          <div className="border-t border-hair px-4 py-3">
-            <div className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-ink-3 mb-2.5">
-              <IconUsers />
-              Committees
-            </div>
-            <div className="flex flex-wrap gap-1.5">
-              {committees.map((role) => (
-                <span
-                  key={role}
-                  className="text-[11px] font-medium px-2 py-1 rounded-full border"
-                  style={{ color: accent, borderColor: accentSoft, backgroundColor: accentSoft }}
-                >
-                  {role}
-                </span>
-              ))}
-            </div>
           </div>
         )}
 
@@ -732,36 +727,41 @@ function OfficialCard({ rep }: { rep: RepProperties }) {
             section at all (isWard) — there's no ward-level "meetings
             feed" concept to honestly say we lack for a citywide role. */}
         {isWard && (
-          <div className="border-t border-hair px-4 py-3">
-            <div className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-ink-3 mb-2.5">
-              <IconCalendar />
-              Meetings
+          <details className="group border-t border-hair">
+            <summary className="flex list-none items-center justify-between gap-2 px-4 py-3 cursor-pointer select-none hover:bg-sidebar-hover [&::-webkit-details-marker]:hidden">
+              <span className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-ink-3">
+                <IconCalendar />
+                Meetings
+              </span>
+              <IconChevron />
+            </summary>
+            <div className="px-4 pb-3">
+              {/* St. Paul (issue #58) has a real wired Legistar feed now —
+                  every other city in CITY_MEETINGS_URL still gets the honest
+                  "no feed connected" copy below; NEXT_MEETING_TEASERS only
+                  has an entry for jurisdictions meetingsRegistry.ts actually
+                  lists. */}
+              {NEXT_MEETING_TEASERS[rep.city] !== undefined ? (
+                <NextMeetingTeaserLine teaser={NEXT_MEETING_TEASERS[rep.city]} />
+              ) : (
+                <p className="text-sm text-ink-3">No meetings feed connected yet for {rep.city}.</p>
+              )}
+              {CITY_MEETINGS_URL[rep.city] ? (
+                <a
+                  href={CITY_MEETINGS_URL[rep.city]}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 text-sm font-medium hover:underline mt-1"
+                  style={{ color: accent }}
+                >
+                  See {rep.city}&rsquo;s own meeting calendar
+                  <IconExternal />
+                </a>
+              ) : (
+                <p className="text-xs text-ink-4 mt-1">Check {rep.city}&rsquo;s official website for upcoming meetings.</p>
+              )}
             </div>
-            {/* St. Paul (issue #58) has a real wired Legistar feed now —
-                every other city in CITY_MEETINGS_URL still gets the honest
-                "no feed connected" copy below; NEXT_MEETING_TEASERS only
-                has an entry for jurisdictions meetingsRegistry.ts actually
-                lists. */}
-            {NEXT_MEETING_TEASERS[rep.city] !== undefined ? (
-              <NextMeetingTeaserLine teaser={NEXT_MEETING_TEASERS[rep.city]} />
-            ) : (
-              <p className="text-sm text-ink-3">No meetings feed connected yet for {rep.city}.</p>
-            )}
-            {CITY_MEETINGS_URL[rep.city] ? (
-              <a
-                href={CITY_MEETINGS_URL[rep.city]}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1 text-sm font-medium hover:underline mt-1"
-                style={{ color: accent }}
-              >
-                See {rep.city}&rsquo;s own meeting calendar
-                <IconExternal />
-              </a>
-            ) : (
-              <p className="text-xs text-ink-4 mt-1">Check {rep.city}&rsquo;s official website for upcoming meetings.</p>
-            )}
-          </div>
+          </details>
         )}
 
         {/* County tier equivalent of the block above — Hennepin County
@@ -771,13 +771,18 @@ function OfficialCard({ rep }: { rep: RepProperties }) {
             meetingsRegistry.ts doesn't cover just renders nothing, same
             as this card did for every county before this feed existed. */}
         {!isWard && rep.county && NEXT_MEETING_TEASERS[rep.county] && (
-          <div className="border-t border-hair px-4 py-3">
-            <div className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-ink-3 mb-2.5">
-              <IconCalendar />
-              Meetings
+          <details className="group border-t border-hair">
+            <summary className="flex list-none items-center justify-between gap-2 px-4 py-3 cursor-pointer select-none hover:bg-sidebar-hover [&::-webkit-details-marker]:hidden">
+              <span className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-ink-3">
+                <IconCalendar />
+                Meetings
+              </span>
+              <IconChevron />
+            </summary>
+            <div className="px-4 pb-3">
+              <NextMeetingTeaserLine teaser={NEXT_MEETING_TEASERS[rep.county]} />
             </div>
-            <NextMeetingTeaserLine teaser={NEXT_MEETING_TEASERS[rep.county]} />
-          </div>
+          </details>
         )}
 
         {(rep.officeRoom || neighborhoods.length > 0) && (
