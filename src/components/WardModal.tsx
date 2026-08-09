@@ -494,12 +494,11 @@ function OfficialCard({ rep }: { rep: RepProperties }) {
       <div className="flex items-start gap-3 px-4 pt-3 pb-3">
         <div className="h-16 w-16 text-xl">{avatar}</div>
         <div className="min-w-0 flex-1 pt-0.5">
-          <div
-            className="inline-block text-[11px] font-semibold uppercase tracking-wide px-2 py-0.5 rounded-full mb-1"
-            style={{ color: accent, backgroundColor: accentSoft }}
-          >
-            {areaLabel(rep)} &middot; {roleLabel(rep)}
-          </div>
+          {/* Name leads the card — a resident scanning up to six stacked
+              cards is looking for a person first, the office badge second
+              (PR review, 2026-08-09). Was previously the reverse (badge
+              above name); the badge now trails as a `mt-1` line under the
+              name instead of leading it. */}
           <h4 className="text-lg font-bold text-ink leading-tight truncate">
             {repName && rep.profileUrl ? (
               <a
@@ -514,7 +513,13 @@ function OfficialCard({ rep }: { rep: RepProperties }) {
               repName ?? "Vacant / TBD"
             )}
           </h4>
-          <div className="text-xs text-ink-3 mt-0.5">{currentTermLabel(rep)}</div>
+          <div
+            className="inline-block text-[11px] font-semibold uppercase tracking-wide px-2 py-0.5 rounded-full mt-1"
+            style={{ color: accent, backgroundColor: accentSoft }}
+          >
+            {areaLabel(rep)} &middot; {roleLabel(rep)}
+          </div>
+          <div className="text-xs text-ink-3 mt-1">{currentTermLabel(rep)}</div>
           {committees.length > 0 && (
             <div className="flex flex-wrap gap-1.5 mt-2">
               {committees.map((role) => (
