@@ -296,7 +296,7 @@ function GroupedList({
             <summary
               className={`flex list-none items-center justify-between gap-2 px-3 py-2 cursor-pointer select-none [&::-webkit-details-marker]:hidden focus:outline-none focus-visible:ring-2 focus-visible:-outline-offset-2 ${rowHoverClass(variant)} ${focusRingClass(variant)}`}
             >
-              <span className="flex items-center gap-2 text-xs font-semibold text-ink-2">
+              <span className="flex min-w-0 flex-1 items-center gap-2 text-xs font-semibold text-ink-2">
                 <svg
                   aria-hidden="true"
                   viewBox="0 0 20 20"
@@ -305,9 +305,20 @@ function GroupedList({
                 >
                   <path d="m5.5 7.5 4.5 5 4.5-5" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
-                {group.county}
-                <span className="font-normal normal-case text-ink-3">
-                  ({checkedCount} of {totalCount} shown)
+                <span className="truncate">{group.county}</span>
+                {/* "(n/m)" rather than "(n of m shown)" — short enough to
+                    never wrap onto its own line next to the county name at
+                    the sidebar's narrowest width, unlike the longer form
+                    (see git history for the wrap it used to cause).
+                    whitespace-nowrap + shrink-0 keep it intact as one
+                    unit even if the row itself gets tight; the full
+                    "n of m shown" phrasing survives for screen readers via
+                    the sr-only span below rather than being lost. */}
+                <span aria-hidden="true" className="shrink-0 whitespace-nowrap font-normal normal-case tabular-nums text-ink-3">
+                  ({checkedCount}/{totalCount})
+                </span>
+                <span className="sr-only">
+                  , {checkedCount} of {totalCount} shown
                 </span>
               </span>
               {/* Bulk toggle for just this county — stopPropagation isn't
@@ -316,7 +327,7 @@ function GroupedList({
                   fire the native open/close toggle; a <button> inside a
                   <summary> intercepts the click before it reaches the
                   summary's default action. */}
-              <span onClick={(e) => e.stopPropagation()}>
+              <span className="shrink-0" onClick={(e) => e.stopPropagation()}>
                 <BulkToggleButtons
                   variant={variant}
                   onAll={() => onSetCitiesVisible(group.cities, true)}
