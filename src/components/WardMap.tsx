@@ -3584,7 +3584,12 @@ export default function WardMap() {
           return;
         }
         if (selectedRef.current?.pinned && selectedIdentityRef.current === identity) {
-          deselect();
+          // A genuinely uncovered city (no ward, at-large, or mayor/
+          // council data at all) has nothing to step back to — same
+          // "leaving a city always lands at the reset-view level" rule as
+          // every other toggle-off in this hierarchy, rather than
+          // deselect()'s per-mode statewide extent.
+          resetView();
           return;
         }
         const point = toPoint(e.lngLat);
