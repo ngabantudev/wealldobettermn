@@ -259,10 +259,24 @@ function FlatList({
   onToggleCity: (city: City) => void;
 }) {
   const matches = cities.filter((city) => matchesCityQuery(query, labels[city] || city));
+  // Sidebar variant: flat — divide-y + a leading border-t, no drawn
+  // "card" box — matches GroupedList's own sidebar treatment (see that
+  // component's wrapperClass comment for why: "recessed surface, no
+  // drawn box," the same posture as the rest of this panel). This used
+  // to be a boxed `rounded-lg bg-panel-3` card, which read fine back when
+  // commissioners mode (this component's only grouped=false caller) was
+  // a 2-item list, but stood out as a mismatched leftover once County
+  // coverage grew past a handful of counties (2026-08 top-20 batch) —
+  // sitting directly below a City tab that had already dropped this
+  // exact look. Floating variant is unchanged: it still needs its own
+  // legible boxed edge against an arbitrary map background underneath it
+  // (same reasoning GroupedList's own floating variant keeps), and
+  // already matched GroupedList's floating treatment before this fix —
+  // this was purely a sidebar-variant gap.
   const listClass =
     variant === "floating"
       ? "max-h-[45vh] overflow-y-auto rounded-lg bg-panel-2/90 backdrop-blur-sm border border-hair shadow-lg shadow-(color:--shadow-panel) divide-y divide-hair text-sm text-ink-2"
-      : "rounded-lg bg-panel-3 divide-y divide-hair text-sm text-ink-2";
+      : "divide-y divide-hair border-t border-hair text-sm text-ink-2";
 
   if (matches.length === 0) return <NoMatches />;
 
