@@ -12,9 +12,54 @@
 // (cityMatch.ts) — this form never trusts its own city field, it's a
 // convenience, not a security boundary.
 
+import { Check, X } from "lucide-react";
 import { useSearchParams } from "next/navigation";
-import { useState, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import TurnstileWidget from "./TurnstileWidget";
+
+// Purely cosmetic — the real, single status update a screen reader gets
+// is the one aria-live announcement in useLoadingMessage below, not this
+// rotation itself (re-announcing a joke every few seconds would be
+// obnoxious, not fun, for anyone using a screen reader). {city} is
+// substituted in where present; a submission takes ~20-25s against real
+// Workers AI (measured live against several real city sites), long enough
+// that a static "Checking…" reads as broken rather than working.
+function buildLoadingMessages(city: string): string[] {
+  const name = city || "this city";
+  return [
+    "Politely knocking on City Hall's digital door…",
+    `Asking ${name} who's actually in charge…`,
+    "Untangling municipal red tape…",
+    "Cross-referencing with the real mayor, not just vibes…",
+    "Making sure nobody snuck in as “Supreme Overlord”…",
+    "Counting council members (should be more than zero)…",
+    "Fact-checking with the fervor of a nosy neighbor…",
+    "Verifying democracy, one paragraph at a time…",
+    `Double-checking this isn't just ${name}'s HOA newsletter…`,
+    "Consulting the archives (and possibly a raccoon)…",
+    "Summoning civic spirit — and a Workers AI model…",
+    "Reading the fine print so you don't have to…",
+  ];
+}
+
+/** Rotates through buildLoadingMessages while `active`; announces exactly once, on start, to screen readers. */
+function useLoadingMessage(active: boolean, city: string) {
+  const messages = buildLoadingMessages(city);
+  const [index, setIndex] = useState(0);
+
+  useEffect(() => {
+    // No reset-to-0 on deactivate: harmless to resume from wherever the
+    // rotation last landed next time, and setting state synchronously in
+    // an effect body (rather than from the interval callback below) is
+    // exactly what react-hooks/set-state-in-effect flags.
+    if (!active) return;
+    const interval = setInterval(() => setIndex((i) => (i + 1) % messages.length), 2800);
+    return () => clearInterval(interval);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [active]);
+
+  return messages[index];
+}
 
 interface ExtractedOfficial {
   role: "Mayor" | "Council Member";
@@ -63,6 +108,7 @@ export default function ContributeForm() {
   const [turnstileResetKey, setTurnstileResetKey] = useState(0);
   const [submitting, setSubmitting] = useState(false);
   const [result, setResult] = useState<SubmissionResponse | null>(null);
+  const loadingMessage = useLoadingMessage(submitting, cityName);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -167,8 +213,15 @@ export default function ContributeForm() {
           disabled={!turnstileToken || submitting || !sourceUrl.trim() || !cityName.trim()}
           className="rounded-lg bg-positive px-4 py-2.5 text-sm font-semibold text-on-positive hover:bg-positive-hover focus:outline-none focus-visible:ring-2 focus-visible:ring-accent disabled:cursor-not-allowed disabled:opacity-50"
         >
-          {submitting ? "Checking — this can take up to 30 seconds…" : "Submit"}
+          {submitting ? loadingMessage : "Submit"}
         </button>
+        {/* One calm, plain-language announcement on submit — not the
+            rotating joke text above, which would be tedious re-announced
+            every couple seconds. This is the only thing a screen reader
+            hears about the wait. */}
+        <p role="status" aria-live="polite" className="sr-only">
+          {submitting ? "Checking your submission — this can take up to 30 seconds." : ""}
+        </p>
       </form>
 
       <h2 className="mt-8 text-base font-semibold text-ink">Something not working?</h2>
@@ -209,13 +262,40 @@ function SubmissionSuccessSummary({ result }: { result: SubmissionSuccess }) {
         ))}
       </ul>
 
-      <dl className="mt-4 space-y-1 text-xs text-ink-3">
-        <div>
-          Source: {result.domainSafety.hostname}
-          {result.domainSafety.isGovernmentGatedTld ? " · .gov/.mn.us" : ""}
-          {result.domainSafety.hostnameContainsCityName ? " · domain matches city name" : ""}
-        </div>
-      </dl>
+      <h2 className="mt-6 text-sm font-semibold text-ink-2">What we checked</h2>
+      <p className="mt-1 text-xs text-ink-3">
+        Source: <span className="font-medium text-ink-2">{result.domainSafety.hostname}</span>. These are
+        plausibility signals, not proof — a green check makes a submission MORE likely to be legitimate, it
+        doesn&apos;t confirm it.
+      </p>
+      <ul className="mt-2 space-y-1.5">
+        <SignalRow passed={!result.domainSafety.isFlaggedMalicious} label="Not on a known malware/phishing list" />
+        <SignalRow
+          passed={result.domainSafety.isGovernmentGatedTld}
+          label=".gov or .mn.us domain (state/federally gated — not required, just a bonus)"
+        />
+        <SignalRow
+          passed={result.domainSafety.hostnameContainsCityName}
+          label={`Domain contains "${result.cityMatched}" (not required, just a bonus)`}
+        />
+      </ul>
     </>
+  );
+}
+
+function SignalRow({ passed, label }: { passed: boolean; label: string }) {
+  return (
+    <li className="flex items-start gap-1.5 text-xs text-ink-3">
+      {passed ? (
+        <Check aria-hidden="true" className="mt-0.5 h-3.5 w-3.5 shrink-0" style={{ color: "var(--vote-yes)" }} strokeWidth={2.25} />
+      ) : (
+        // Muted, not --vote-no red: absence of a bonus signal is NOT a
+        // failure (AGENTS.md §2.6 — the .gov/city-name-in-domain checks
+        // are additive-only, most legitimate small-city sites won't have
+        // either), so this deliberately doesn't read as an alarm.
+        <X aria-hidden="true" className="mt-0.5 h-3.5 w-3.5 shrink-0 text-ink-3" strokeWidth={2.25} />
+      )}
+      <span>{label}</span>
+    </li>
   );
 }

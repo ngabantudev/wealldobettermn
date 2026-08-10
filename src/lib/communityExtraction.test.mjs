@@ -292,3 +292,77 @@ test("buildExtractionPrompt names the city and instructs against staff/private i
   assert.match(system, /private individual/i);
   assert.match(user, /some page text/);
 });
+
+// --- regression: a "Staff Contact"-style page heading must not poison an
+// entire nearby roster (found via a real submission for Hugo, MN) --------
+
+test("a 'Staff Contact' section heading does not cause the denylist to reject real officials listed right after it", () => {
+  // Same shape as the real page that surfaced this: a "Staff Contact"
+  // label immediately followed by five real people in quick succession.
+  const pageText =
+    "Meetings are held monthly. Staff Contact Tom Weidt, Mayor Term Expires 12/31/26 651-955-1091 " +
+    "Mike Miron, Acting Mayor and Council Member At Large Term Expires 12/31/28 651-402-6492 " +
+    "Becky Petryk, Council Member Ward 1 Term Expires 12/31/26 651-398-8524 " +
+    "Ben Krull, Council Member Ward 2 Term Expires 12/31/28 612-210-2173 " +
+    "David Strub, Council Member Ward 3 Term Expires 12/31/26 651-402-8654";
+  const raw = [
+    { role: "Mayor", repName: "Tom Weidt", roleSourceQuote: "Tom Weidt, Mayor Term Expires 12/31/26 651-955-1091" },
+    {
+      role: "Council Member",
+      repName: "Mike Miron",
+      roleSourceQuote: "Mike Miron, Acting Mayor and Council Member At Large Term Expires 12/31/28 651-402-6492",
+    },
+    { role: "Council Member", repName: "Becky Petryk", roleSourceQuote: "Becky Petryk, Council Member Ward 1 Term Expires 12/31/26 651-398-8524" },
+    { role: "Council Member", repName: "Ben Krull", roleSourceQuote: "Ben Krull, Council Member Ward 2 Term Expires 12/31/28 612-210-2173" },
+    { role: "Council Member", repName: "David Strub", roleSourceQuote: "David Strub, Council Member Ward 3 Term Expires 12/31/26 651-402-8654" },
+  ];
+  const { officials, rejectedMentions } = validateExtraction(raw, pageText);
+  assert.deepEqual(
+    officials.map((o) => o.repName),
+    ["Tom Weidt", "Mike Miron", "Becky Petryk", "Ben Krull", "David Strub"],
+  );
+  assert.equal(rejectedMentions.length, 0);
+});
+
+test("a real, specific staff role (not the generic word 'staff') still gets denylisted right next to a roster", () => {
+  // Filler keeps the two quotes farther apart than DENYLIST_WINDOW_CHARS —
+  // same reasoning as the STAFF_MIXED_PAGE_HTML fixture above: a too-short
+  // fixture makes the "nearby" window spuriously span the whole page.
+  const filler =
+    "The city holds public meetings monthly, maintains parks and trails, and publishes " +
+    "agendas online for residents who want to follow along with upcoming decisions. " +
+    "A calendar of events and public notices is also posted every week for anyone " +
+    "curious about what's happening around town this season and beyond.";
+  const pageText = `Mayor Jane Smith leads the city. ${filler} City Clerk Pat Nguyen is also listed on this same page.`;
+  const raw = [
+    { role: "Mayor", repName: "Jane Smith", roleSourceQuote: "Mayor Jane Smith leads the city." },
+    { role: "Mayor", repName: "Pat Nguyen", roleSourceQuote: "City Clerk Pat Nguyen is also listed on this same page." },
+  ];
+  const { officials, rejectedMentions } = validateExtraction(raw, pageText);
+  assert.deepEqual(officials.map((o) => o.repName), ["Jane Smith"]);
+  assert.equal(rejectedMentions[0].reason, "denylist_keyword_nearby");
+});
+
+test("regression: 'Directory' (a page heading) does not trigger the 'director' denylist keyword via substring match", () => {
+  const pageText = "Staff Directory is below. Mayor Jane Smith leads the city government.";
+  const raw = [{ role: "Mayor", repName: "Jane Smith", roleSourceQuote: "Mayor Jane Smith leads the city government." }];
+  const { officials, rejectedMentions } = validateExtraction(raw, pageText);
+  assert.equal(officials.length, 1);
+  assert.equal(rejectedMentions.length, 0);
+});
+
+test("a real 'director' role, as its own word, is still denylisted", () => {
+  const filler =
+    "The city holds public meetings monthly, maintains parks and trails, and publishes " +
+    "agendas online for residents who want to follow along with upcoming decisions. " +
+    "A calendar of events and public notices is also posted every week for anyone " +
+    "curious about what's happening around town this season and beyond.";
+  const pageText = `Mayor Jane Smith leads the city. ${filler} Public Works Director John Doe also works here.`;
+  const raw = [
+    { role: "Mayor", repName: "Jane Smith", roleSourceQuote: "Mayor Jane Smith leads the city." },
+    { role: "Mayor", repName: "John Doe", roleSourceQuote: "Public Works Director John Doe also works here." },
+  ];
+  const { officials, rejectedMentions } = validateExtraction(raw, pageText);
+  assert.deepEqual(officials.map((o) => o.repName), ["Jane Smith"]);
+  assert.equal(rejectedMentions[0].reason, "denylist_keyword_nearby");
+});

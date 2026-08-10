@@ -83,6 +83,17 @@ export type ExtractionResult =
 // Checked against the text surrounding a surviving quote (see
 // hasDenylistKeywordNearby below) — catches a model that mislabels a name
 // it saw near "Mayor"/"Council Member" in a staff-directory table.
+//
+// Deliberately NOT "staff": a real submission (Hugo, MN's council page)
+// had a "Staff Contact" section LABEL sitting immediately before its
+// entire officials list — every one of five real, correctly-elected
+// council members and the mayor fell inside this window's reach of that
+// one heading, and three of five were wrongly rejected before this fix.
+// "staff" is a generic collective noun that shows up constantly as page
+// furniture ("Staff Directory," "Contact Staff") without describing any
+// specific person's role, unlike the other words here (a real "City
+// Clerk Jane Smith" or "City Manager John Doe" IS naming that person's
+// actual job). Caught in live testing, not a hypothetical.
 const DENYLIST_KEYWORDS = [
   "clerk",
   "administrator",
@@ -91,7 +102,6 @@ const DENYLIST_KEYWORDS = [
   "director",
   "attorney",
   "engineer",
-  "staff",
   "secretary",
   "superintendent",
 ];
@@ -195,6 +205,15 @@ export function parseModelOutput(raw: unknown): { officials: unknown[] } | null 
   return null;
 }
 
+// Word-boundary-aware, not a plain substring test: a naive
+// `window.includes("director")` also matches inside "Directory" (e.g. a
+// "Staff Directory" heading) — the same class of false positive the
+// "staff" removal above fixes, just via a different word. \b isn't
+// perfect for every case (won't catch a hyphenated or unusually-joined
+// form) but covers the realistic "keyword embedded in a longer, unrelated
+// word" case cheaply.
+const DENYLIST_KEYWORD_RE = new RegExp(`\\b(?:${DENYLIST_KEYWORDS.join("|")})\\b`);
+
 /**
  * `normalizedPage` is expected to already be `normalize()`d — computed
  * once by validateExtraction() below and reused across every candidate,
@@ -208,7 +227,7 @@ function hasDenylistKeywordNearby(normalizedPage: string, quote: string): boolea
   const start = Math.max(0, index - DENYLIST_WINDOW_CHARS);
   const end = Math.min(normalizedPage.length, index + normalizedQuote.length + DENYLIST_WINDOW_CHARS);
   const window = normalizedPage.slice(start, end);
-  return DENYLIST_KEYWORDS.some((keyword) => window.includes(keyword));
+  return DENYLIST_KEYWORD_RE.test(window);
 }
 
 interface RawCandidate {
