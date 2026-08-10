@@ -18,6 +18,25 @@ test("drops script and style blocks entirely, not just their tags", () => {
   assert.equal(htmlToVisibleText(html), "Council");
 });
 
+test("drops nav/header/footer chrome entirely, not just their tags — found via a real submission (Ham Lake, MN)", () => {
+  // Real page shape: a dense nav-menu breadcrumb lists the same roster in
+  // abbreviated form ("CM" for Council Member) right next to unrelated
+  // nav links like "Administration/Clerk" — close enough in raw character
+  // count to spuriously trip communityExtraction.ts's denylist, even
+  // though nobody on the page is actually a clerk. The real, well-formed
+  // roster lives in body content further down and should survive intact.
+  const html =
+    "<header class=\"header\"><nav role=\"navigation\">Departments Administration/Clerk Building/Inspections " +
+    "Government Mayor and City Council Mayor Brian Kirkham CM Jim Doyle</nav></header>" +
+    "<main><h1>Mayor and City Council</h1>" +
+    "<p>City Council Profiles Mayor Brian Kirkham Councilmember Jim Doyle</p></main>" +
+    "<footer id=\"footer\">City Hall (763) 434-9555</footer>";
+  const visible = htmlToVisibleText(html);
+  assert.equal(visible.includes("Administration/Clerk"), false);
+  assert.equal(visible.includes("(763) 434-9555"), false);
+  assert.equal(visible.includes("City Council Profiles Mayor Brian Kirkham Councilmember Jim Doyle"), true);
+});
+
 test("decodes common named and numeric entities", () => {
   const html = "<p>City &amp; County &mdash; est. 1875 &#39;Downtown&#39;</p>";
   assert.equal(htmlToVisibleText(html), "City & County — est. 1875 'Downtown'");

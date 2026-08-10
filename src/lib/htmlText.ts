@@ -15,6 +15,24 @@
 // handles honestly (AGENTS.md §3.3 "never fabricate or infer").
 
 const SCRIPT_STYLE_RE = /<(script|style|noscript|template)\b[^>]*>[\s\S]*?<\/\1>/gi;
+// Navigation chrome — menus, site header, site footer — is boilerplate,
+// never a real per-person role attribution, but it stays in the text
+// stream just like any other tag once stripped to plain text. Found live
+// (Ham Lake, MN): a dense nav-menu breadcrumb ("...Administration/Clerk
+// Building/Inspections...Mayor Brian Kirkham CM Jim Doyle...") crams many
+// short, unrelated link labels together with no real separation, so an
+// unrelated nav link like "Clerk" can land within communityExtraction.ts's
+// DENYLIST_WINDOW_CHARS of a real official's name purely from menu
+// density — not because anyone claimed that person IS a clerk. Stripping
+// this chrome removes that noise at the source, for every future page,
+// rather than chasing individual keyword collisions it causes one at a
+// time. Same "not a real HTML parser" tradeoff as SCRIPT_STYLE_RE above:
+// a page nesting a local, in-content <header> (rare, but valid HTML5)
+// could lose that heading's text too — the failure mode is always fewer
+// extracted records, never a wrong one, consistent with this file's
+// broader "good enough, not robust against adversarial/malformed markup"
+// posture.
+const NAV_CHROME_RE = /<(nav|header|footer)\b[^>]*>[\s\S]*?<\/\1>/gi;
 const TAG_RE = /<[^>]+>/g;
 const WHITESPACE_RE = /\s+/g;
 
@@ -50,7 +68,8 @@ function decodeEntities(text: string): string {
 /** Strips scripts/styles/tags and decodes entities, collapsing whitespace to single spaces. */
 export function htmlToVisibleText(html: string): string {
   const withoutScriptsAndStyles = html.replace(SCRIPT_STYLE_RE, " ");
-  const withoutTags = withoutScriptsAndStyles.replace(TAG_RE, " ");
+  const withoutChrome = withoutScriptsAndStyles.replace(NAV_CHROME_RE, " ");
+  const withoutTags = withoutChrome.replace(TAG_RE, " ");
   const decoded = decodeEntities(withoutTags);
   return decoded.replace(WHITESPACE_RE, " ").trim();
 }
