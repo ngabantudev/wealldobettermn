@@ -44,6 +44,7 @@ import { isBlockedHostname, looksLikeBareIp, serverFetch } from "@/lib/serverFet
 import { extractOfficials, type CommunityAiBinding } from "@/lib/communityExtraction";
 import {
   countRecentSubmissionAttempts,
+  DuplicateSubmissionError,
   getPendingSubmissionForCity,
   insertSubmission,
   recordSubmissionAttempt,
@@ -105,6 +106,21 @@ function duplicatePending(cityName: string, submissionId?: string) {
     409,
     submissionId ? { submissionId } : undefined,
   );
+}
+
+/**
+ * Runs checkDomainSafety and builds the (identically-shaped, differently-
+ * worded) rejection if it comes back flagged — called once for the
+ * originally-submitted hostname and once for the post-redirect
+ * fetchResult.finalUrl hostname (step 6's own comment explains why both
+ * need checking). Returns the raw domainSafety result too: the first
+ * call's result is what the success response ultimately reports back to
+ * the visitor, so the caller still needs it even when nothing's flagged.
+ */
+async function checkDomainSafetyOrReject(hostname: string, cityName: string, flaggedMessage: string) {
+  const domainSafety = await checkDomainSafety(hostname, cityName);
+  const rejection = domainSafety.isFlaggedMalicious ? rejected("domain_flagged_malicious", flaggedMessage, 400) : null;
+  return { domainSafety, rejection };
 }
 
 function getClientIp(request: NextRequest): string {
@@ -219,14 +235,12 @@ export async function POST(request: NextRequest) {
   if (isBlockedHostname(hostname)) {
     return rejected("blocked_hostname", "That hostname isn't a publicly reachable government site.", 400);
   }
-  const domainSafety = await checkDomainSafety(hostname, canonicalCityName);
-  if (domainSafety.isFlaggedMalicious) {
-    return rejected(
-      "domain_flagged_malicious",
-      "That site is on a known malware/phishing list and can't be accepted.",
-      400,
-    );
-  }
+  const { domainSafety, rejection: maliciousRejection } = await checkDomainSafetyOrReject(
+    hostname,
+    canonicalCityName,
+    "That site is on a known malware/phishing list and can't be accepted.",
+  );
+  if (maliciousRejection) return maliciousRejection;
 
   // 6. SSRF-safe fetch — see serverFetch.ts's own header for exactly what
   // this does and doesn't guarantee on this platform.
@@ -246,14 +260,12 @@ export async function POST(request: NextRequest) {
   // review.
   const finalHostname = new URL(fetchResult.finalUrl).hostname;
   if (finalHostname !== hostname) {
-    const finalDomainSafety = await checkDomainSafety(finalHostname, canonicalCityName);
-    if (finalDomainSafety.isFlaggedMalicious) {
-      return rejected(
-        "domain_flagged_malicious",
-        "That site redirected to a page on a known malware/phishing list and can't be accepted.",
-        400,
-      );
-    }
+    const { rejection: finalMaliciousRejection } = await checkDomainSafetyOrReject(
+      finalHostname,
+      canonicalCityName,
+      "That site redirected to a page on a known malware/phishing list and can't be accepted.",
+    );
+    if (finalMaliciousRejection) return finalMaliciousRejection;
   }
 
   // 7. Extraction behind the five-layer structural gate — see
@@ -281,9 +293,12 @@ export async function POST(request: NextRequest) {
   // has a pending submission" instead of a genuine server error, with no
   // log anywhere to diagnose it (unlike the ai.run() catch a few lines
   // up in communityExtraction.ts, which does log). Caught in code
-  // review: only treat it as the race this comment describes when the
-  // error actually looks like the unique-constraint violation it names;
-  // log and report anything else honestly as a server error.
+  // review: only treat it as the race this comment describes when
+  // insertSubmission itself recognized the unique-constraint violation
+  // it names (DuplicateSubmissionError, thrown right next to the SQL
+  // that defines the constraint — see that module's own comment on why
+  // it, not this route, is the right place to recognize it); log and
+  // report anything else honestly as a server error.
   const submissionId = randomUUID();
   try {
     await insertSubmission(db, {
@@ -295,8 +310,7 @@ export async function POST(request: NextRequest) {
       submittedAt: new Date().toISOString(),
     });
   } catch (err) {
-    const message = err instanceof Error ? err.message : String(err);
-    if (/unique/i.test(message)) {
+    if (err instanceof DuplicateSubmissionError) {
       return duplicatePending(canonicalCityName);
     }
     console.error("[api/submissions] insertSubmission failed:", err);

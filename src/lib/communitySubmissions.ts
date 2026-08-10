@@ -26,6 +26,32 @@ import {
 } from "./communityConfig.ts";
 import type { ValidatedOfficial } from "./communityExtraction.ts";
 
+/**
+ * Thrown by insertSubmission() specifically when the failure is
+ * idx_one_pending_per_city's unique-constraint violation — i.e. a
+ * genuine race with another concurrent submission for the same city,
+ * not some other D1 failure. This module is the one place that actually
+ * knows the constraint exists (it's defined a few lines below, in the
+ * same SQL insertSubmission runs), so it's the right place to recognize
+ * it too, rather than leaving a caller to guess from the raw driver
+ * error text at a distance (found in a /simplify pass: POST
+ * /api/submissions used to regex-match `/unique/i` against
+ * `err.message` itself). D1/SQLite's real error shape is still
+ * ultimately a string ("UNIQUE constraint failed: ...", confirmed
+ * against node:sqlite, the engine this module's own tests run against)
+ * — there's no structured error code in the narrow D1DatabaseLike
+ * interface below to check instead — but callers now only ever branch
+ * on `instanceof DuplicateSubmissionError`, never on message text.
+ */
+export class DuplicateSubmissionError extends Error {
+  readonly cityName: string;
+  constructor(cityName: string) {
+    super(`A pending submission for "${cityName}" already exists (idx_one_pending_per_city).`);
+    this.name = "DuplicateSubmissionError";
+    this.cityName = cityName;
+  }
+}
+
 export interface D1RunResult {
   success: boolean;
   meta: { changes: number; last_row_id?: number };
@@ -109,13 +135,21 @@ export interface InsertSubmissionParams {
  * not the pre-check (AGENTS.md §2.2-style defense in depth).
  */
 export async function insertSubmission(db: D1DatabaseLike, params: InsertSubmissionParams): Promise<void> {
-  await db
-    .prepare(
-      `INSERT INTO submissions (id, city_name, gnis_id, source_url, status, extracted_json, submitted_at)
-       VALUES (?, ?, ?, ?, 'pending', ?, ?)`,
-    )
-    .bind(params.id, params.cityName, params.gnisId, params.sourceUrl, JSON.stringify(params.officials), params.submittedAt)
-    .run();
+  try {
+    await db
+      .prepare(
+        `INSERT INTO submissions (id, city_name, gnis_id, source_url, status, extracted_json, submitted_at)
+         VALUES (?, ?, ?, ?, 'pending', ?, ?)`,
+      )
+      .bind(params.id, params.cityName, params.gnisId, params.sourceUrl, JSON.stringify(params.officials), params.submittedAt)
+      .run();
+  } catch (err) {
+    const message = err instanceof Error ? err.message : String(err);
+    if (/unique/i.test(message)) {
+      throw new DuplicateSubmissionError(params.cityName);
+    }
+    throw err;
+  }
 }
 
 export async function getPendingSubmissionForCity(db: D1DatabaseLike, cityName: string): Promise<SubmissionRecord | null> {

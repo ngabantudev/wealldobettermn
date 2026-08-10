@@ -276,19 +276,25 @@ export function parseModelOutput(raw: unknown): { officials: unknown[] } | null 
 const DENYLIST_KEYWORD_RE = new RegExp(`\\b(?:${DENYLIST_KEYWORDS.join("|")})\\b`);
 
 /**
- * `normalizedPage` is expected to already be `normalize()`d — computed
- * once by validateExtraction() below and reused across every candidate,
- * rather than each call re-normalizing the whole page from scratch.
+ * Slices the `windowChars`-radius substring around a quote's
+ * already-located position in the normalized page text — shared by
+ * hasDenylistKeywordNearby and hasRoleEvidenceNearby below, which differ
+ * only in window size and what pattern they test the result against.
+ * Takes the quote's index/length rather than the quote text itself so
+ * validateExtraction() can locate it exactly once per candidate (a quote
+ * check, a name check, a denylist check, and a role-evidence check used
+ * to each independently re-normalize the quote and re-scan the full page
+ * text for it — up to four full-page scans per candidate for one `indexOf`
+ * worth of information).
  */
-function hasDenylistKeywordNearby(normalizedPage: string, quote: string): boolean {
-  const normalizedQuote = normalize(quote);
-  if (!normalizedQuote) return false;
-  const index = normalizedPage.indexOf(normalizedQuote);
-  if (index === -1) return false; // caller already checked existence; defensive only
-  const start = Math.max(0, index - DENYLIST_WINDOW_CHARS);
-  const end = Math.min(normalizedPage.length, index + normalizedQuote.length + DENYLIST_WINDOW_CHARS);
-  const window = normalizedPage.slice(start, end);
-  return DENYLIST_KEYWORD_RE.test(window);
+function nearbyWindow(normalizedPage: string, quoteIndex: number, quoteLength: number, windowChars: number): string {
+  const start = Math.max(0, quoteIndex - windowChars);
+  const end = Math.min(normalizedPage.length, quoteIndex + quoteLength + windowChars);
+  return normalizedPage.slice(start, end);
+}
+
+function hasDenylistKeywordNearby(normalizedPage: string, quoteIndex: number, quoteLength: number): boolean {
+  return DENYLIST_KEYWORD_RE.test(nearbyWindow(normalizedPage, quoteIndex, quoteLength, DENYLIST_WINDOW_CHARS));
 }
 
 // The mechanical backstop for what buildExtractionPrompt's own comment
@@ -314,19 +320,12 @@ const ROLE_EVIDENCE_PATTERNS: Record<AllowedRole, RegExp> = {
   "Council Member": /\bcouncil\s*-?\s*(?:member|person)s?\b|\balderperson\b|\balder(?:man|woman)\b/,
 };
 
-/** Same windowing approach as hasDenylistKeywordNearby, but checking for
- * the PRESENCE of evidence for the claimed role rather than the absence
- * of a denylisted one — see this constant's own comment for why the
- * window is wider. */
-function hasRoleEvidenceNearby(normalizedPage: string, quote: string, role: AllowedRole): boolean {
-  const normalizedQuote = normalize(quote);
-  if (!normalizedQuote) return false;
-  const index = normalizedPage.indexOf(normalizedQuote);
-  if (index === -1) return false; // caller already checked existence; defensive only
-  const start = Math.max(0, index - ROLE_EVIDENCE_WINDOW_CHARS);
-  const end = Math.min(normalizedPage.length, index + normalizedQuote.length + ROLE_EVIDENCE_WINDOW_CHARS);
-  const window = normalizedPage.slice(start, end);
-  return ROLE_EVIDENCE_PATTERNS[role].test(window);
+/** Same nearbyWindow() as hasDenylistKeywordNearby, but checking for the
+ * PRESENCE of evidence for the claimed role rather than the absence of a
+ * denylisted one — see ROLE_EVIDENCE_WINDOW_CHARS's own comment for why
+ * the window is wider. */
+function hasRoleEvidenceNearby(normalizedPage: string, quoteIndex: number, quoteLength: number, role: AllowedRole): boolean {
+  return ROLE_EVIDENCE_PATTERNS[role].test(nearbyWindow(normalizedPage, quoteIndex, quoteLength, ROLE_EVIDENCE_WINDOW_CHARS));
 }
 
 interface RawCandidate {
@@ -371,7 +370,17 @@ export function validateExtraction(
       rejectedMentions.push({ repName, claimedRole, reason: "role_not_in_enum" });
       continue;
     }
-    if (!quote || !normalizedPageText.includes(normalize(quote))) {
+    if (!quote) {
+      rejectedMentions.push({ repName, claimedRole, reason: "quote_not_found_in_source" });
+      continue;
+    }
+    // Located exactly once here — normalizedQuote/quoteIndex are reused
+    // by every check below instead of each one independently
+    // re-normalizing the quote and re-scanning the full (uncapped)
+    // page text for it.
+    const normalizedQuote = normalize(quote);
+    const quoteIndex = normalizedPageText.indexOf(normalizedQuote);
+    if (!normalizedQuote || quoteIndex === -1) {
       rejectedMentions.push({ repName, claimedRole, reason: "quote_not_found_in_source" });
       continue;
     }
@@ -387,15 +396,15 @@ export function validateExtraction(
     // it, and it's exactly what buildExtractionPrompt's prompt asks for
     // ("that includes their name"), just mechanically enforced rather
     // than trusted.
-    if (!normalize(quote).includes(normalize(repName))) {
+    if (!normalizedQuote.includes(normalize(repName))) {
       rejectedMentions.push({ repName, claimedRole, reason: "quote_missing_person_name" });
       continue;
     }
-    if (hasDenylistKeywordNearby(normalizedPageText, quote)) {
+    if (hasDenylistKeywordNearby(normalizedPageText, quoteIndex, normalizedQuote.length)) {
       rejectedMentions.push({ repName, claimedRole, reason: "denylist_keyword_nearby" });
       continue;
     }
-    if (!hasRoleEvidenceNearby(normalizedPageText, quote, claimedRole as AllowedRole)) {
+    if (!hasRoleEvidenceNearby(normalizedPageText, quoteIndex, normalizedQuote.length, claimedRole as AllowedRole)) {
       rejectedMentions.push({ repName, claimedRole, reason: "role_not_evidenced_nearby" });
       continue;
     }

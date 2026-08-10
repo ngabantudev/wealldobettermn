@@ -21,6 +21,7 @@ import { fileURLToPath } from "node:url";
 import {
   castVote,
   countRecentSubmissionAttempts,
+  DuplicateSubmissionError,
   getPendingSubmissionForCity,
   getSubmissionById,
   insertSubmission,
@@ -101,10 +102,14 @@ test("insertSubmission round-trips through getPendingSubmissionForCity with offi
   assert.deepEqual(record.officials, SAMPLE_OFFICIALS);
 });
 
-test("idx_one_pending_per_city rejects a second concurrent pending submission for the same city", async () => {
+test("idx_one_pending_per_city rejects a second concurrent pending submission for the same city with a typed DuplicateSubmissionError", async () => {
+  // Asserts the specific error TYPE, not just "rejects" — this is what
+  // lets POST /api/submissions branch on `instanceof
+  // DuplicateSubmissionError` instead of regexing the raw driver error
+  // text (a /simplify-flagged fragility this class exists to remove).
   const db = freshDb();
   await insertSample(db, { id: "sub-1" });
-  await assert.rejects(() => insertSample(db, { id: "sub-2" }));
+  await assert.rejects(() => insertSample(db, { id: "sub-2" }), DuplicateSubmissionError);
 });
 
 test("a second pending submission for the same city is allowed once the first is no longer pending", async () => {

@@ -14,7 +14,7 @@
 
 import { Check, X } from "lucide-react";
 import { useSearchParams } from "next/navigation";
-import { useEffect, useState, type FormEvent } from "react";
+import { useEffect, useMemo, useState, type FormEvent } from "react";
 import CommunityOfficialsList, { type CommunityOfficial } from "./CommunityOfficialsList";
 import TurnstileWidget from "./TurnstileWidget";
 
@@ -45,7 +45,11 @@ function buildLoadingMessages(city: string): string[] {
 
 /** Rotates through buildLoadingMessages while `active`; announces exactly once, on start, to screen readers. */
 function useLoadingMessage(active: boolean, city: string) {
-  const messages = buildLoadingMessages(city);
+  // Only depends on `city` — memoized so every render of ContributeForm
+  // (every keystroke in the city/URL fields, not just submit-related
+  // state changes) doesn't reallocate this 12-element array for a value
+  // that's only ever read while `active` is true.
+  const messages = useMemo(() => buildLoadingMessages(city), [city]);
   const [index, setIndex] = useState(0);
 
   useEffect(() => {

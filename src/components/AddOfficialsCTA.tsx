@@ -39,7 +39,6 @@ import { UserPlus } from "lucide-react";
 import { useEffect, useState } from "react";
 import { fold } from "@/lib/addressSearch";
 import { CITIES } from "@/lib/cities";
-import { COMMUNITY_CONFIRMATIONS_REQUIRED } from "@/lib/communityConfig";
 import CommunityOfficialsList, { type CommunityOfficial } from "./CommunityOfficialsList";
 
 interface PendingSubmission {
@@ -113,7 +112,7 @@ export default function AddOfficialsCTA({ cityName }: AddOfficialsCTAProps) {
         <p role="status" className="mb-2 text-sm text-ink-3">
           {cityName} has a pending submission — found {pending.officials.length} official
           {pending.officials.length === 1 ? "" : "s"}, awaiting confirmation ({pending.confirmations}/
-          {pending.confirmationsNeeded || COMMUNITY_CONFIRMATIONS_REQUIRED}).
+          {pending.confirmationsNeeded}).
         </p>
         <CommunityOfficialsList officials={pending.officials} />
       </div>
