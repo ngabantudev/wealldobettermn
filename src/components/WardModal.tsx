@@ -1188,7 +1188,12 @@ function TierNode({ index, officials, onHeaderRef, onContentRef, headerHeight, h
           </div>
         ) : showAddOfficialsCta ? (
           <div className="px-4 pb-3">
-            <AddOfficialsCTA cityName={hoveredCityName!} />
+            {/* key={hoveredCityName} forces a fresh mount (and fresh
+                pending-submission check) whenever the panel switches to a
+                different uncovered city, rather than that component
+                needing to reset its own state mid-effect — see its own
+                header comment. */}
+            <AddOfficialsCTA key={hoveredCityName!} cityName={hoveredCityName!} />
           </div>
         ) : (
           <p className="px-4 pb-3 text-sm text-ink-3">{emptyNote}</p>

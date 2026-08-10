@@ -15,6 +15,7 @@
 import { Check, X } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState, type FormEvent } from "react";
+import CommunityOfficialsList, { type CommunityOfficial } from "./CommunityOfficialsList";
 import TurnstileWidget from "./TurnstileWidget";
 
 // Purely cosmetic — the real, single status update a screen reader gets
@@ -61,20 +62,6 @@ function useLoadingMessage(active: boolean, city: string) {
   return messages[index];
 }
 
-interface ExtractedOfficial {
-  role: "Mayor" | "Council Member";
-  repName: string;
-  repEmail: string | null;
-  repPhone: string | null;
-  // The ward/district/seat phrase as the source page itself states it, or
-  // null if the page doesn't say one — text only, never a resolved
-  // boundary. See communityExtraction.ts's ValidatedOfficial.wardLabel for
-  // why: this pipeline never ingests GIS/boundary data, so a
-  // community-submitted city always renders as a single point regardless
-  // of what this says.
-  wardLabel: string | null;
-}
-
 interface DomainSafetySummary {
   hostname: string;
   isGovernmentGatedTld: boolean;
@@ -86,7 +73,7 @@ interface SubmissionSuccess {
   status: "pending";
   submissionId: string;
   cityMatched: string;
-  extracted: { officials: ExtractedOfficial[] };
+  extracted: { officials: CommunityOfficial[] };
   confirmationsNeeded: number;
   domainSafety: DomainSafetySummary;
 }
@@ -258,17 +245,7 @@ function SubmissionSuccessSummary({ result }: { result: SubmissionSuccess }) {
         pending, until it&apos;s confirmed.
       </div>
 
-      <ul className="mt-4 divide-y divide-hair rounded-lg border border-hair">
-        {officials.map((official) => (
-          <li key={`${official.role}-${official.repName}`} className="px-4 py-3">
-            <p className="text-sm font-semibold text-ink">{official.repName}</p>
-            <p className="text-xs text-ink-3">
-              {official.wardLabel ? `${official.role}, ${official.wardLabel}` : official.role}
-              {official.repEmail ? ` — ${official.repEmail}` : ""}
-            </p>
-          </li>
-        ))}
-      </ul>
+      <CommunityOfficialsList officials={officials} />
 
       <h2 className="mt-6 text-sm font-semibold text-ink-2">What we checked</h2>
       <p className="mt-1 text-xs text-ink-3">
