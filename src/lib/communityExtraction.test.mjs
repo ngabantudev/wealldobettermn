@@ -366,3 +366,41 @@ test("a real 'director' role, as its own word, is still denylisted", () => {
   assert.deepEqual(officials.map((o) => o.repName), ["Jane Smith"]);
   assert.equal(rejectedMentions[0].reason, "denylist_keyword_nearby");
 });
+
+// --- wardLabel: a text-only label, never a resolved boundary --------------
+
+test("a wardLabel that actually appears on the page is captured and kept", () => {
+  const pageText = "Alex Rivera represents Ward 1 on the Example City Council.";
+  const raw = [{ role: "Council Member", repName: "Alex Rivera", roleSourceQuote: pageText, wardLabel: "Ward 1" }];
+  const { officials, rejectedMentions } = validateExtraction(raw, pageText);
+  assert.equal(officials.length, 1);
+  assert.equal(officials[0].wardLabel, "Ward 1");
+  assert.equal(rejectedMentions.length, 0);
+});
+
+test("a hallucinated wardLabel is dropped to null WITHOUT rejecting the whole official — it's supplementary, not proof of office", () => {
+  const pageText = "Jane Smith has served as Mayor of Example since 2022.";
+  const raw = [
+    {
+      role: "Mayor",
+      repName: "Jane Smith",
+      roleSourceQuote: pageText,
+      // "Ward 4" never appears anywhere in pageText — a fabricated label
+      // the mock model asserts anyway, same adversarial shape as the
+      // hallucinated-quote test above.
+      wardLabel: "Ward 4",
+    },
+  ];
+  const { officials, rejectedMentions } = validateExtraction(raw, pageText);
+  assert.equal(officials.length, 1);
+  assert.equal(officials[0].repName, "Jane Smith");
+  assert.equal(officials[0].wardLabel, null);
+  assert.equal(rejectedMentions.length, 0);
+});
+
+test("no wardLabel stated on the page (e.g. an at-large city) yields null, not an empty string or a guess", () => {
+  const pageText = "Jane Smith has served as Mayor of Example since 2022.";
+  const raw = [{ role: "Mayor", repName: "Jane Smith", roleSourceQuote: pageText, wardLabel: "" }];
+  const { officials } = validateExtraction(raw, pageText);
+  assert.equal(officials[0].wardLabel, null);
+});

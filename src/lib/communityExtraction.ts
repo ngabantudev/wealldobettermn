@@ -60,6 +60,25 @@ export interface ValidatedOfficial {
   repEmail: string | null;
   repPhone: string | null;
   roleSourceQuote: string;
+  // The ward/district/seat phrase as the page itself states it (e.g. "Ward
+  // 2", "District 3", "At Large"), or null if the page doesn't say one —
+  // NOT a resolved ward join key, and NOT backed by any polygon geometry.
+  // This pipeline only ever reads the text of the page a visitor submits;
+  // it never ingests a GIS/boundary file, and never will (see AGENTS.md
+  // §2.6's "never resolves ward-accurate boundaries" non-goal — a
+  // community-submitted city stays modeled as a single at-large point
+  // regardless of what this field says). A city hall's own site is
+  // usually the ONLY source that already states this in plain text next
+  // to each name, so it's free to capture here — verified the same way
+  // roleSourceQuote is (see validateExtraction below) — but unlike a bad
+  // roleSourceQuote, a wardLabel that can't be verified against the page
+  // just gets dropped to null rather than rejecting the whole official:
+  // it's supplementary, not load-bearing for whether this is a real
+  // office. Real ward-accurate boundary data for a graduated city, if it
+  // ever happens, is a separate, hand-researched effort — the same way
+  // Minneapolis/St. Paul's wards were built — never crowdsourced from a
+  // submitted URL.
+  wardLabel: string | null;
 }
 
 export type RejectReason =
@@ -134,6 +153,12 @@ const RESPONSE_JSON_SCHEMA = {
           // string the same as it would have treated null.
           repEmail: { type: "string" },
           repPhone: { type: "string" },
+          // The ward/district/seat phrase, copied verbatim from the page,
+          // or an empty string if the page doesn't state one for this
+          // person — same plain-string-not-union reasoning as repEmail/
+          // repPhone above. Never a resolved boundary; see
+          // ValidatedOfficial.wardLabel's own comment.
+          wardLabel: { type: "string" },
         },
         required: ["role", "repName", "roleSourceQuote"],
       },
@@ -153,7 +178,11 @@ export function buildExtractionPrompt(cityName: string, pageText: string) {
     `or table as the officials you do report. Never report a private individual who is ` +
     `merely mentioned, quoted, or thanked on the page. For every person you report, ` +
     `"roleSourceQuote" MUST be an exact, verbatim snippet copied from the page text below — ` +
-    `not a paraphrase or summary — that states their name and role together. Set repEmail/ ` +
+    `not a paraphrase or summary — that states their name and role together. If the page ` +
+    `states which ward, district, or seat this specific person represents (for example ` +
+    `"Ward 2", "District 3", or "At Large"), copy that phrase verbatim into "wardLabel" — ` +
+    `otherwise set "wardLabel" to an empty string. Never guess or infer a ward the page ` +
+    `doesn't explicitly state for that person. Set repEmail/ ` +
     `repPhone to an empty string unless the page clearly presents that contact as belonging ` +
     `to the official's office itself, not a personal or ambiguous listing. If the page names no ` +
     `current Mayor or Council Member of ${cityName} at all, return an empty officials array ` +
@@ -236,6 +265,7 @@ interface RawCandidate {
   roleSourceQuote?: unknown;
   repEmail?: unknown;
   repPhone?: unknown;
+  wardLabel?: unknown;
 }
 
 /**
@@ -279,6 +309,17 @@ export function validateExtraction(
       continue;
     }
 
+    // Same load-bearing idea as the quote check above, applied to a
+    // supplementary field: a wardLabel the model asserts but that never
+    // actually appears on the page (a hallucinated "Ward 4" for an
+    // at-large city, say) is dropped to null rather than trusted — but
+    // unlike roleSourceQuote, an unverifiable wardLabel does NOT reject
+    // the whole official. It's a bonus label, not proof of office; "when
+    // in doubt, leave it out" (AGENTS.md §1d) applies to the label, not
+    // to the person's entire record.
+    const rawWardLabel = typeof candidate.wardLabel === "string" ? candidate.wardLabel.trim() : "";
+    const wardLabel = rawWardLabel && normalizedPageText.includes(normalize(rawWardLabel)) ? rawWardLabel : null;
+
     officials.push({
       role: claimedRole as AllowedRole,
       repName,
@@ -288,6 +329,7 @@ export function validateExtraction(
       // a later audit can see exactly what was verified against — the
       // page's own text, not a normalized/lowercased copy of it.
       roleSourceQuote: quote,
+      wardLabel,
     });
   }
 

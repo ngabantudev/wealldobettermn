@@ -66,6 +66,13 @@ interface ExtractedOfficial {
   repName: string;
   repEmail: string | null;
   repPhone: string | null;
+  // The ward/district/seat phrase as the source page itself states it, or
+  // null if the page doesn't say one — text only, never a resolved
+  // boundary. See communityExtraction.ts's ValidatedOfficial.wardLabel for
+  // why: this pipeline never ingests GIS/boundary data, so a
+  // community-submitted city always renders as a single point regardless
+  // of what this says.
+  wardLabel: string | null;
 }
 
 interface DomainSafetySummary {
@@ -149,6 +156,13 @@ export default function ContributeForm() {
         malware/phishing list, and pull out the current mayor and council members — the result is checked
         mechanically before it&apos;s ever trusted, and stays flagged as pending until it&apos;s confirmed.
       </p>
+      <p className="mt-2 text-sm text-ink-3">
+        One page is all we need. We only read the text of the page you submit — never a GIS file, shapefile,
+        or boundary map, and we never ask you to find one. If your city has wards, we&apos;ll pick up each
+        person&apos;s ward from the page&apos;s own wording when it&apos;s stated there, but the map still
+        shows your city as a single point rather than ward-by-ward shapes — accurate ward boundaries are
+        added by hand, separately, later, the same way they were for the cities that already have them.
+      </p>
 
       <form onSubmit={handleSubmit} className="mt-6 space-y-4" noValidate>
         <div>
@@ -193,7 +207,8 @@ export default function ContributeForm() {
           <p className="mt-1 text-xs text-ink-3">
             Use the specific page listing the mayor and council members (often under &ldquo;Government&rdquo; or
             &ldquo;City Council&rdquo;) rather than the homepage — we read the page you give us, not the whole
-            site. This confirms the page is reachable, not on a known malware/phishing list, and mentions
+            site, and not any linked GIS/map file even if the page has one. This confirms the page is
+            reachable, not on a known malware/phishing list, and mentions
             {cityName ? ` ${cityName}` : " the city"} — it does not verify this is {cityName || "the city"}
             &apos;s official government website. That trust builds afterward, from other visitors confirming the
             result.
@@ -255,7 +270,7 @@ function SubmissionSuccessSummary({ result }: { result: SubmissionSuccess }) {
           <li key={`${official.role}-${official.repName}`} className="px-4 py-3">
             <p className="text-sm font-semibold text-ink">{official.repName}</p>
             <p className="text-xs text-ink-3">
-              {official.role}
+              {official.wardLabel ? `${official.role}, ${official.wardLabel}` : official.role}
               {official.repEmail ? ` — ${official.repEmail}` : ""}
             </p>
           </li>
