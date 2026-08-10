@@ -7,20 +7,34 @@
 // record. Nothing downstream re-checks its work — a record that survives
 // this module goes live on the map immediately, badged "pending."
 //
-// Four independent layers enforce AGENTS.md §1b/§1d's "no variant for a
+// Five independent layers enforce AGENTS.md §1b/§1d's "no variant for a
 // private individual, by construction" here, NOT one prompt:
 //   1. Schema-level restriction — the model's requested response schema
 //      types `role` as a two-value enum, "Mayor" | "Council Member" only.
 //   2. Quote verification — every record's `roleSourceQuote` is checked,
 //      server-side, as an actual substring of the fetched page's own
-//      visible text. A record whose quote can't be found is dropped
-//      regardless of what the model "meant" — this is the load-bearing
-//      check, because it means a hallucinated attribution physically
-//      cannot survive, independent of prompt compliance.
+//      visible text, AND as actually containing that specific person's
+//      own name (not just any real text from the page — Workers AI's
+//      smaller model, caught live against a real submission, will
+//      sometimes reuse one person's genuine quote for several others in
+//      the same list rather than relocating each one individually). A
+//      record whose quote can't be found, or doesn't name the person
+//      it's attached to, is dropped regardless of what the model
+//      "meant" — this is the load-bearing check, because it means a
+//      hallucinated OR misattributed record physically cannot survive,
+//      independent of prompt compliance.
 //   3. Keyword denylist — text surrounding a surviving quote is checked
 //      against staff/clerk/administrator terms, catching a model that
 //      mislabels a name it saw near "Mayor" in a staff-directory table.
-//   4. Minimum-viable-result gate — zero surviving records, or no mention
+//   4. Role-evidence check — text surrounding a surviving quote must
+//      actually contain the claimed role's own keyword ("mayor" /
+//      "council member"). Needed because many real city pages state a
+//      role only ONCE, as a heading over a list of names, rather than
+//      repeating it next to every person (found live against Grant,
+//      MN) — the prompt no longer asks the model to fabricate role
+//      wording that isn't there, so this mechanically covers what that
+//      used to (unreliably) guarantee.
+//   5. Minimum-viable-result gate — zero surviving records, or no mention
 //      of the submitted city's own name anywhere on the page, fails the
 //      whole submission with an explanation. Never a guess, never a
 //      partial publish (AGENTS.md §3.3 "never fabricate or infer").
@@ -85,7 +99,9 @@ export type RejectReason =
   | "empty_name"
   | "role_not_in_enum"
   | "quote_not_found_in_source"
-  | "denylist_keyword_nearby";
+  | "quote_missing_person_name"
+  | "denylist_keyword_nearby"
+  | "role_not_evidenced_nearby";
 
 export interface RejectedMention {
   repName: string;
@@ -138,8 +154,15 @@ const RESPONSE_JSON_SCHEMA = {
           role: { type: "string", enum: [...ALLOWED_ROLES] },
           repName: { type: "string" },
           // A verbatim snippet (a sentence or short phrase) from the
-          // page's own text that states this person's role — never
-          // paraphrased. This is what step 2 above verifies mechanically.
+          // page's own text that includes THIS person's own name — never
+          // paraphrased, and never reused across two different people's
+          // records (validateExtraction mechanically rejects both: see
+          // its quote_missing_person_name and quote_not_found_in_source
+          // checks). It does NOT need to also state their role in the
+          // same snippet — see buildExtractionPrompt's own comment on
+          // why, and validateExtraction's hasRoleEvidenceNearby for the
+          // mechanical check that covers what a per-person role
+          // statement otherwise would have.
           roleSourceQuote: { type: "string" },
           // Only the OFFICE's published contact, never anything that
           // reads as personal — the model is instructed to use an empty
@@ -178,7 +201,16 @@ export function buildExtractionPrompt(cityName: string, pageText: string) {
     `or table as the officials you do report. Never report a private individual who is ` +
     `merely mentioned, quoted, or thanked on the page. For every person you report, ` +
     `"roleSourceQuote" MUST be an exact, verbatim snippet copied from the page text below — ` +
-    `not a paraphrase or summary — that states their name and role together. If the page ` +
+    `not a paraphrase or summary — that includes THIS SPECIFIC PERSON'S OWN name. Every ` +
+    `person needs their own distinct quote copied from THEIR OWN part of the page — never ` +
+    `reuse the same snippet, or another person's snippet, for more than one person, even ` +
+    `if several people share one heading. Many city sites state a role only ONCE, as a ` +
+    `heading over a list of several names (for example a "Council Members" heading ` +
+    `followed by four different people with no role word repeated next to each one) — when ` +
+    `that's the case, quote each person's OWN name and the text immediately around THEIR ` +
+    `OWN entry (their own address, phone, or term info, not the heading or another person's ` +
+    `info); do NOT invent or paraphrase role wording that isn't literally sitting next to ` +
+    `their name, even if you're confident about their role from the heading above them. If the page ` +
     `states which ward, district, or seat this specific person represents (for example ` +
     `"Ward 2", "District 3", or "At Large"), copy that phrase verbatim into "wardLabel" — ` +
     `otherwise set "wardLabel" to an empty string. Never guess or infer a ward the page ` +
@@ -259,6 +291,44 @@ function hasDenylistKeywordNearby(normalizedPage: string, quote: string): boolea
   return DENYLIST_KEYWORD_RE.test(window);
 }
 
+// The mechanical backstop for what buildExtractionPrompt's own comment
+// explains: a real submission (Grant, MN's council page — found in live
+// testing) states "Council Members" ONCE, as a heading, followed by four
+// different people with no role word repeated next to any of them. The
+// prompt no longer asks the model to quote role wording it doesn't have,
+// so this fills the gap the removed requirement used to (badly) cover —
+// requiring, mechanically, that the claimed role's own keyword actually
+// appears somewhere near the quote, not just trusting the model's
+// unverified role field. Wider than DENYLIST_WINDOW_CHARS on purpose: a
+// shared heading can sit several people back from the last name in a
+// realistic roster (measured against Grant's real page: up to ~330
+// normalized characters from heading to 4th name), so a same-sized window
+// would just recreate this bug for anyone but the first person or two
+// after a heading. Still bounded, not "anywhere on the page" — an
+// unrelated name mentioned far from any Mayor/Council Member heading
+// still correctly fails this even with a verbatim, non-denylisted quote.
+const ROLE_EVIDENCE_WINDOW_CHARS = 800;
+
+const ROLE_EVIDENCE_PATTERNS: Record<AllowedRole, RegExp> = {
+  Mayor: /\bmayor\b/,
+  "Council Member": /\bcouncil\s*-?\s*(?:member|person)s?\b|\balderperson\b|\balder(?:man|woman)\b/,
+};
+
+/** Same windowing approach as hasDenylistKeywordNearby, but checking for
+ * the PRESENCE of evidence for the claimed role rather than the absence
+ * of a denylisted one — see this constant's own comment for why the
+ * window is wider. */
+function hasRoleEvidenceNearby(normalizedPage: string, quote: string, role: AllowedRole): boolean {
+  const normalizedQuote = normalize(quote);
+  if (!normalizedQuote) return false;
+  const index = normalizedPage.indexOf(normalizedQuote);
+  if (index === -1) return false; // caller already checked existence; defensive only
+  const start = Math.max(0, index - ROLE_EVIDENCE_WINDOW_CHARS);
+  const end = Math.min(normalizedPage.length, index + normalizedQuote.length + ROLE_EVIDENCE_WINDOW_CHARS);
+  const window = normalizedPage.slice(start, end);
+  return ROLE_EVIDENCE_PATTERNS[role].test(window);
+}
+
 interface RawCandidate {
   role?: unknown;
   repName?: unknown;
@@ -269,9 +339,10 @@ interface RawCandidate {
 }
 
 /**
- * Applies layers 1–3 (schema restriction, quote verification, denylist)
- * to the model's raw candidates against the page's own visible text.
- * Never trusts the model's output on its own — every record here is
+ * Applies layers 1–4 (schema restriction, quote verification — including
+ * the name-belongs-to-this-person check — denylist, and role-evidence) to
+ * the model's raw candidates against the page's own visible text. Never
+ * trusts the model's output on its own — every record here is
  * mechanically checked, not just prompt-compliant.
  */
 export function validateExtraction(
@@ -304,8 +375,28 @@ export function validateExtraction(
       rejectedMentions.push({ repName, claimedRole, reason: "quote_not_found_in_source" });
       continue;
     }
+    // A real quote existing on the page isn't the same as it being THIS
+    // person's quote — found in live testing against a real submission
+    // (Grant, MN): Workers AI's smaller instruct model, given several
+    // people to independently re-locate in a repetitive list, sometimes
+    // takes the cheap way out and reuses one person's genuine, verbatim
+    // quote for several OTHER candidates too, rather than doing the
+    // harder work of finding each person's own local text. Every check
+    // above this line still passes for a reused quote (it's real page
+    // text, not a hallucination) — this is the one that actually catches
+    // it, and it's exactly what buildExtractionPrompt's prompt asks for
+    // ("that includes their name"), just mechanically enforced rather
+    // than trusted.
+    if (!normalize(quote).includes(normalize(repName))) {
+      rejectedMentions.push({ repName, claimedRole, reason: "quote_missing_person_name" });
+      continue;
+    }
     if (hasDenylistKeywordNearby(normalizedPageText, quote)) {
       rejectedMentions.push({ repName, claimedRole, reason: "denylist_keyword_nearby" });
+      continue;
+    }
+    if (!hasRoleEvidenceNearby(normalizedPageText, quote, claimedRole as AllowedRole)) {
+      rejectedMentions.push({ repName, claimedRole, reason: "role_not_evidenced_nearby" });
       continue;
     }
 
@@ -346,8 +437,9 @@ export interface ExtractOfficialsParams {
 /**
  * Orchestrates the full extraction: cheap city-name pre-filter (saves an
  * inference call on obviously-wrong URLs), the model call, defensive
- * parsing, and the layers 1–4 structural gate. Never throws — every
- * failure mode is a typed, plain-language-ready result (AGENTS.md §3.3).
+ * parsing, and the full five-layer structural gate (see this module's own
+ * header). Never throws — every failure mode is a typed,
+ * plain-language-ready result (AGENTS.md §3.3).
  */
 export async function extractOfficials(params: ExtractOfficialsParams): Promise<ExtractionResult> {
   const { ai, pageHtml, cityName, model = AI_MODEL } = params;

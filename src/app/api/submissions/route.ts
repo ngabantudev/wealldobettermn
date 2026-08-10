@@ -16,7 +16,7 @@
 //      by a second domain-safety check against wherever it actually
 //      landed (fetchResult.finalUrl) if that differs from step 5's
 //      hostname — a redirect target never got the blocklist check otherwise
-//   7. extraction behind the four-layer structural gate (communityExtraction.ts)
+//   7. extraction behind the five-layer structural gate (communityExtraction.ts)
 //   8. insert the resulting `pending` row (communitySubmissions.ts)
 //
 // Every rejection returns a typed `reason` and a plain-language `message`
@@ -256,7 +256,7 @@ export async function POST(request: NextRequest) {
     }
   }
 
-  // 7. Extraction behind the four-layer structural gate — see
+  // 7. Extraction behind the five-layer structural gate — see
   // communityExtraction.ts's own header for what each layer catches.
   // extraction.rejectedMentions is NEVER included in the response below
   // (success or failure) — migrations/0001's own schema comment says so

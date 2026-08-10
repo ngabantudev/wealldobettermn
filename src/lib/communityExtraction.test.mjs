@@ -367,10 +367,97 @@ test("a real 'director' role, as its own word, is still denylisted", () => {
   assert.equal(rejectedMentions[0].reason, "denylist_keyword_nearby");
 });
 
+// --- regression: a role stated ONCE as a shared heading over several
+// names must not force everyone after the first person to be dropped
+// (found via a real submission for Grant, MN) -------------------------
+
+test("a 'Council Members' heading stated once, followed by four names with no role word repeated, extracts all four", () => {
+  // Same shape as the real page that surfaced this: "Council Members"
+  // appears exactly once, immediately before John Rog, then three more
+  // names follow in sequence with no role word anywhere near them —
+  // only the shared heading, well before the later names. Real distances
+  // measured against the live page (see ROLE_EVIDENCE_WINDOW_CHARS's own
+  // comment): up to ~330 normalized characters from heading to 4th name.
+  const pageText =
+    "Mayor Jeff Giefer 11922 Imperial Ave N, Grant MN 55038 Phone: 612-382-9034 jgiefer@cityofgrant.us Term expires: 2028 " +
+    "Council Members John Rog 111 Wildwood Road, Willernie, MN 55090 Phone: 612-867-1218 jrog@cityofgrant.us Term Expires: 2026 " +
+    "Greg Anderson 8660 Kimbro Lane N 612-720-5883 ganderson@cityofgrant.us Term expires: 2026 " +
+    "Ben Cornett 111 Wildwood Road, Willernie, MN 55090 Phone: 812-212-2310 bcornett@cityofgrant.us Term expires: 2028 " +
+    "Lindsay Cremona 11589 110th St N, Grant, MN 55082 Phone: 715-937-2764 lcremona@cityofgrant.us Term expires: 2028";
+  // Quotes below deliberately do NOT restate "Council Member" next to
+  // each name, matching what the current prompt actually asks the model
+  // to produce — the whole point under test is that the mechanical
+  // role-evidence check, not the quote's own content, is what lets these
+  // survive.
+  const raw = [
+    { role: "Mayor", repName: "Jeff Giefer", roleSourceQuote: "Mayor Jeff Giefer 11922 Imperial Ave N, Grant MN 55038" },
+    { role: "Council Member", repName: "John Rog", roleSourceQuote: "Council Members John Rog 111 Wildwood Road, Willernie, MN 55090" },
+    { role: "Council Member", repName: "Greg Anderson", roleSourceQuote: "Greg Anderson 8660 Kimbro Lane N 612-720-5883" },
+    { role: "Council Member", repName: "Ben Cornett", roleSourceQuote: "Ben Cornett 111 Wildwood Road, Willernie, MN 55090" },
+    { role: "Council Member", repName: "Lindsay Cremona", roleSourceQuote: "Lindsay Cremona 11589 110th St N, Grant, MN 55082" },
+  ];
+  const { officials, rejectedMentions } = validateExtraction(raw, pageText);
+  assert.deepEqual(
+    officials.map((o) => o.repName),
+    ["Jeff Giefer", "John Rog", "Greg Anderson", "Ben Cornett", "Lindsay Cremona"],
+  );
+  assert.equal(rejectedMentions.length, 0);
+});
+
+test("a quote genuinely belonging to a DIFFERENT real person on the page is rejected, not silently attributed to whoever the model claims it for", () => {
+  // Reproduces exactly what the real Workers AI model did live against
+  // Grant, MN's page: it correctly named all four council members, but
+  // for three of them it reused John Rog's own verbatim quote instead of
+  // relocating each person's own text — a real, non-hallucinated
+  // sentence, just attached to the wrong person. Every check BEFORE this
+  // one (quote-exists, denylist, role-evidence) still passes for a reused
+  // quote, since it's real, role-adjacent page text; only the
+  // name-belongs-to-this-person check catches it.
+  const pageText =
+    "Mayor Jeff Giefer leads the city. Council Members John Rog serves Ward 1. " +
+    "Greg Anderson also serves on the council but has no quote of his own here.";
+  const raw = [
+    { role: "Mayor", repName: "Jeff Giefer", roleSourceQuote: "Mayor Jeff Giefer leads the city." },
+    { role: "Council Member", repName: "John Rog", roleSourceQuote: "Council Members John Rog serves Ward 1." },
+    // Greg Anderson's own name IS on the page, but the model reused John
+    // Rog's quote instead of Greg's own sentence — the failure mode under
+    // test.
+    { role: "Council Member", repName: "Greg Anderson", roleSourceQuote: "Council Members John Rog serves Ward 1." },
+  ];
+  const { officials, rejectedMentions } = validateExtraction(raw, pageText);
+  assert.deepEqual(officials.map((o) => o.repName), ["Jeff Giefer", "John Rog"]);
+  assert.equal(rejectedMentions.length, 1);
+  assert.equal(rejectedMentions[0].repName, "Greg Anderson");
+  assert.equal(rejectedMentions[0].reason, "quote_missing_person_name");
+});
+
+test("a real, verbatim name with NO Mayor/Council Member evidence anywhere nearby is rejected, even with a clean quote and no denylist hit", () => {
+  // Proves the new check is a real backstop, not just a rubber stamp: a
+  // genuine substring match with zero denylist keywords nearby (so it
+  // would have survived every OTHER existing check) still correctly
+  // fails, because nothing on the page ever calls this person a Mayor or
+  // Council Member — a model hallucinating a role for someone it found
+  // in an unrelated part of the page.
+  const filler =
+    "The city holds public meetings monthly, maintains parks and trails, and publishes " +
+    "agendas online for residents who want to follow along with upcoming decisions. " +
+    "A calendar of events and public notices is also posted every week for anyone " +
+    "curious about what's happening around town this season and beyond, along with links " +
+    "to newsletters, volunteer opportunities, and other community programs residents can join.";
+  const pageText = `Mayor Jane Smith leads the city. ${filler} The summer newsletter was edited by Sam Lee this year.`;
+  const raw = [
+    { role: "Mayor", repName: "Jane Smith", roleSourceQuote: "Mayor Jane Smith leads the city." },
+    { role: "Council Member", repName: "Sam Lee", roleSourceQuote: "The summer newsletter was edited by Sam Lee this year." },
+  ];
+  const { officials, rejectedMentions } = validateExtraction(raw, pageText);
+  assert.deepEqual(officials.map((o) => o.repName), ["Jane Smith"]);
+  assert.equal(rejectedMentions[0].reason, "role_not_evidenced_nearby");
+});
+
 // --- wardLabel: a text-only label, never a resolved boundary --------------
 
 test("a wardLabel that actually appears on the page is captured and kept", () => {
-  const pageText = "Alex Rivera represents Ward 1 on the Example City Council.";
+  const pageText = "Council Member Alex Rivera represents Ward 1 on the Example City Council.";
   const raw = [{ role: "Council Member", repName: "Alex Rivera", roleSourceQuote: pageText, wardLabel: "Ward 1" }];
   const { officials, rejectedMentions } = validateExtraction(raw, pageText);
   assert.equal(officials.length, 1);
