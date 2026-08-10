@@ -6,13 +6,13 @@
 // coverage.ts empty-note text unconditionally; this component is never
 // rendered for those two tiers.
 //
-// `/contribute`'s actual submission pipeline (§2.6 — the SSRF-safe fetch,
-// the extraction gate, D1, the vote/graduation flow) is a later phase of
-// this project and doesn't exist yet as of this component landing —
-// `/contribute` itself is a real, honest "not live yet" page (see
-// src/components/ContributeComingSoon.tsx) rather than a 404, per
-// AGENTS.md §0.6. This component is the map-click *and* keyboard/search
-// entry point into that eventual flow, not the flow itself. Reachable by:
+// `/contribute`'s actual submission pipeline (§2.6 — the SSRF-safe
+// fetch, the extraction gate, D1) is live — POST /api/submissions and
+// the real form at src/components/ContributeForm.tsx both exist and
+// have been verified end to end. The vote/graduation routes are still a
+// later phase; a submission lands and stays flagged pending until those
+// land. This component is the map-click *and* keyboard/search entry
+// point into that flow, not the flow itself. Reachable by:
 //  - clicking/tapping the statewide city-boundaries backdrop layer for a
 //    city with no ward/mayor/at-large data (WardMap.tsx's click handler,
 //    CITY_BOUNDARIES_FILL_LAYER_ID branch), or

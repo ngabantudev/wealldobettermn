@@ -219,7 +219,7 @@ export async function POST(request: NextRequest) {
   if (isBlockedHostname(hostname)) {
     return rejected("blocked_hostname", "That hostname isn't a publicly reachable government site.", 400);
   }
-  const domainSafety = await checkDomainSafety(hostname);
+  const domainSafety = await checkDomainSafety(hostname, canonicalCityName);
   if (domainSafety.isFlaggedMalicious) {
     return rejected(
       "domain_flagged_malicious",
@@ -246,7 +246,7 @@ export async function POST(request: NextRequest) {
   // review.
   const finalHostname = new URL(fetchResult.finalUrl).hostname;
   if (finalHostname !== hostname) {
-    const finalDomainSafety = await checkDomainSafety(finalHostname);
+    const finalDomainSafety = await checkDomainSafety(finalHostname, canonicalCityName);
     if (finalDomainSafety.isFlaggedMalicious) {
       return rejected(
         "domain_flagged_malicious",

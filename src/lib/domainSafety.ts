@@ -71,14 +71,39 @@ export async function isDomainFlaggedMalicious(hostname: string, deps: DomainSaf
   return result.answers.some((a) => a.type === 1 && a.data === "0.0.0.0");
 }
 
+/**
+ * A third, additive-only structural SIGNAL, same posture as the `.gov`
+ * check above — never a rejection criterion on its own. A city's
+ * official domain often (not always) embeds the city's own name —
+ * `cityofgrant.us` for Grant, MN — so a match is corroborating evidence;
+ * absence is not a red flag (plenty of legitimate city sites use an
+ * abbreviation, a founder's name, or an unrelated brand). Compares
+ * alphanumeric-only, case-insensitive substrings — no word-boundary
+ * awareness, so a false positive on an unrelated hostname that happens
+ * to contain the same letters in sequence is possible and acceptable
+ * for a signal this soft.
+ */
+export function hostnameContainsCityName(hostname: string, cityName: string): boolean {
+  const alnumOnly = (s: string) => s.toLowerCase().replace(/[^a-z0-9]/g, "");
+  const foldedCity = alnumOnly(cityName);
+  if (!foldedCity) return false;
+  return alnumOnly(hostname).includes(foldedCity);
+}
+
 export interface DomainSafetyResult {
   hostname: string;
   isGovernmentGatedTld: boolean;
   isFlaggedMalicious: boolean;
+  hostnameContainsCityName: boolean;
 }
 
-/** Runs both checks for a submitted URL's hostname — see the two functions above for what each does and doesn't mean. */
-export async function checkDomainSafety(hostname: string, deps: DomainSafetyDeps = {}): Promise<DomainSafetyResult> {
+/** Runs all three checks for a submitted URL's hostname against the claimed city — see each function above for what it does and doesn't mean. */
+export async function checkDomainSafety(hostname: string, cityName: string, deps: DomainSafetyDeps = {}): Promise<DomainSafetyResult> {
   const isFlaggedMalicious = await isDomainFlaggedMalicious(hostname, deps);
-  return { hostname, isGovernmentGatedTld: isGovernmentGatedTld(hostname), isFlaggedMalicious };
+  return {
+    hostname,
+    isGovernmentGatedTld: isGovernmentGatedTld(hostname),
+    isFlaggedMalicious,
+    hostnameContainsCityName: hostnameContainsCityName(hostname, cityName),
+  };
 }

@@ -1,0 +1,221 @@
+"use client";
+
+// The real AGENTS.md §2.6 submission form — replaces the "not live yet"
+// placeholder (ContributeComingSoon.tsx) now that POST /api/submissions
+// actually exists and has been live-verified end to end. City is locked
+// to whatever the visitor arrived with (?city=, set by AddOfficialsCTA's
+// map-click/search entry points — see that component's own header) since
+// that's already a real, recognized, uncovered city the map/search
+// resolved; a visitor landing here with no city param (e.g. a bookmark,
+// a direct link) gets a free-text field instead, since the server
+// independently re-validates whatever name arrives either way
+// (cityMatch.ts) — this form never trusts its own city field, it's a
+// convenience, not a security boundary.
+
+import { useSearchParams } from "next/navigation";
+import { useState, type FormEvent } from "react";
+import TurnstileWidget from "./TurnstileWidget";
+
+interface ExtractedOfficial {
+  role: "Mayor" | "Council Member";
+  repName: string;
+  repEmail: string | null;
+  repPhone: string | null;
+}
+
+interface DomainSafetySummary {
+  hostname: string;
+  isGovernmentGatedTld: boolean;
+  isFlaggedMalicious: boolean;
+  hostnameContainsCityName: boolean;
+}
+
+interface SubmissionSuccess {
+  status: "pending";
+  submissionId: string;
+  cityMatched: string;
+  extracted: { officials: ExtractedOfficial[] };
+  confirmationsNeeded: number;
+  domainSafety: DomainSafetySummary;
+}
+
+interface SubmissionRejection {
+  status: "rejected";
+  reason: string;
+  message: string;
+  submissionId?: string;
+}
+
+type SubmissionResponse = SubmissionSuccess | SubmissionRejection;
+
+function isSubmissionResponse(value: unknown): value is SubmissionResponse {
+  return typeof value === "object" && value !== null && "status" in value;
+}
+
+export default function ContributeForm() {
+  const searchParams = useSearchParams();
+  const cityFromLink = searchParams.get("city");
+  const cityLocked = Boolean(cityFromLink);
+
+  const [cityName, setCityName] = useState(cityFromLink ?? "");
+  const [sourceUrl, setSourceUrl] = useState("");
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+  const [turnstileResetKey, setTurnstileResetKey] = useState(0);
+  const [submitting, setSubmitting] = useState(false);
+  const [result, setResult] = useState<SubmissionResponse | null>(null);
+
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    if (!turnstileToken || submitting) return;
+    setSubmitting(true);
+    setResult(null);
+    try {
+      const res = await fetch("/api/submissions", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ cityName, sourceUrl, turnstileToken }),
+      });
+      const data: unknown = await res.json();
+      if (isSubmissionResponse(data)) {
+        setResult(data);
+      } else {
+        setResult({ status: "rejected", reason: "unexpected_response", message: "Something went wrong reading the server's response — please try again." });
+      }
+    } catch {
+      setResult({ status: "rejected", reason: "network_error", message: "Couldn't reach the server — check your connection and try again." });
+    } finally {
+      setSubmitting(false);
+      // Turnstile tokens are single-use — always get a fresh one for the next attempt.
+      setTurnstileToken(null);
+      setTurnstileResetKey((k) => k + 1);
+    }
+  }
+
+  if (result?.status === "pending") {
+    return <SubmissionSuccessSummary result={result} />;
+  }
+
+  return (
+    <>
+      <h1 className="text-xl font-semibold text-ink">Add your city&apos;s officials</h1>
+      <p className="mt-2 text-sm text-ink-3">
+        Submit your city&apos;s official website. We&apos;ll check it&apos;s reachable, not on a known
+        malware/phishing list, and pull out the current mayor and council members — the result is checked
+        mechanically before it&apos;s ever trusted, and stays flagged as pending until it&apos;s confirmed.
+      </p>
+
+      <form onSubmit={handleSubmit} className="mt-6 space-y-4" noValidate>
+        <div>
+          <label htmlFor="contribute-city" className="block text-sm font-medium text-ink-2">
+            City
+          </label>
+          <input
+            id="contribute-city"
+            name="city"
+            type="text"
+            value={cityName}
+            onChange={(e) => setCityName(e.target.value)}
+            readOnly={cityLocked}
+            required
+            aria-describedby={cityLocked ? "contribute-city-locked-note" : undefined}
+            className={`mt-1 w-full rounded-lg border border-hair-strong px-3 py-2 text-sm text-ink focus:outline-none focus-visible:ring-2 focus-visible:ring-accent ${
+              cityLocked ? "bg-panel-3 text-ink-3" : "bg-panel"
+            }`}
+          />
+          {cityLocked && (
+            <p id="contribute-city-locked-note" className="mt-1 text-xs text-ink-3">
+              Set from the link you followed — go back to the map to pick a different city.
+            </p>
+          )}
+        </div>
+
+        <div>
+          <label htmlFor="contribute-url" className="block text-sm font-medium text-ink-2">
+            Official website URL
+          </label>
+          <input
+            id="contribute-url"
+            name="sourceUrl"
+            type="url"
+            inputMode="url"
+            placeholder="https://www.cityofexample.gov/"
+            value={sourceUrl}
+            onChange={(e) => setSourceUrl(e.target.value)}
+            required
+            className="mt-1 w-full rounded-lg border border-hair-strong bg-panel px-3 py-2 text-sm text-ink focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+          />
+          <p className="mt-1 text-xs text-ink-3">
+            Use the specific page listing the mayor and council members (often under &ldquo;Government&rdquo; or
+            &ldquo;City Council&rdquo;) rather than the homepage — we read the page you give us, not the whole
+            site. This confirms the page is reachable, not on a known malware/phishing list, and mentions
+            {cityName ? ` ${cityName}` : " the city"} — it does not verify this is {cityName || "the city"}
+            &apos;s official government website. That trust builds afterward, from other visitors confirming the
+            result.
+          </p>
+        </div>
+
+        <TurnstileWidget onToken={setTurnstileToken} resetKey={turnstileResetKey} />
+
+        {result?.status === "rejected" && (
+          <div role="alert" className="rounded-lg border px-3 py-2 text-sm" style={{ borderColor: "var(--vote-no)", backgroundColor: "var(--vote-no-soft)", color: "var(--vote-no)" }}>
+            {result.message}
+          </div>
+        )}
+
+        <button
+          type="submit"
+          disabled={!turnstileToken || submitting || !sourceUrl.trim() || !cityName.trim()}
+          className="rounded-lg bg-positive px-4 py-2.5 text-sm font-semibold text-on-positive hover:bg-positive-hover focus:outline-none focus-visible:ring-2 focus-visible:ring-accent disabled:cursor-not-allowed disabled:opacity-50"
+        >
+          {submitting ? "Checking — this can take up to 30 seconds…" : "Submit"}
+        </button>
+      </form>
+
+      <h2 className="mt-8 text-base font-semibold text-ink">Something not working?</h2>
+      <p className="mt-2 text-sm text-ink-3">
+        Open an issue naming the city and its official website on the{" "}
+        <a href="https://github.com/ngabantudev/wealldobettermn/issues" className="text-accent underline underline-offset-2">
+          issue tracker
+        </a>
+        , and it&apos;ll be added by hand instead.
+      </p>
+    </>
+  );
+}
+
+function SubmissionSuccessSummary({ result }: { result: SubmissionSuccess }) {
+  const officials = result.extracted.officials;
+  return (
+    <>
+      <h1 className="text-xl font-semibold text-ink">{result.cityMatched} is now pending</h1>
+      <div
+        role="status"
+        className="mt-4 rounded-lg border px-3 py-2 text-sm"
+        style={{ borderColor: "var(--vote-yes)", backgroundColor: "var(--vote-yes-soft)", color: "var(--vote-yes)" }}
+      >
+        Found {officials.length} official{officials.length === 1 ? "" : "s"}. This is live on the map now, labeled
+        pending, until it&apos;s confirmed.
+      </div>
+
+      <ul className="mt-4 divide-y divide-hair rounded-lg border border-hair">
+        {officials.map((official) => (
+          <li key={`${official.role}-${official.repName}`} className="px-4 py-3">
+            <p className="text-sm font-semibold text-ink">{official.repName}</p>
+            <p className="text-xs text-ink-3">
+              {official.role}
+              {official.repEmail ? ` — ${official.repEmail}` : ""}
+            </p>
+          </li>
+        ))}
+      </ul>
+
+      <dl className="mt-4 space-y-1 text-xs text-ink-3">
+        <div>
+          Source: {result.domainSafety.hostname}
+          {result.domainSafety.isGovernmentGatedTld ? " · .gov/.mn.us" : ""}
+          {result.domainSafety.hostnameContainsCityName ? " · domain matches city name" : ""}
+        </div>
+      </dl>
+    </>
+  );
+}

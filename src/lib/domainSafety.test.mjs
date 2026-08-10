@@ -6,7 +6,7 @@
 
 import assert from "node:assert/strict";
 import test from "node:test";
-import { checkDomainSafety, isDomainFlaggedMalicious, isGovernmentGatedTld } from "./domainSafety.ts";
+import { checkDomainSafety, hostnameContainsCityName, isDomainFlaggedMalicious, isGovernmentGatedTld } from "./domainSafety.ts";
 
 function mockFetch(handler) {
   const calls = [];
@@ -81,19 +81,46 @@ test("fails closed on a network error, never throws", async () => {
   });
 });
 
-// --- checkDomainSafety — combines both, independently ----------------------
+// --- hostnameContainsCityName — additive-only, never a rejection ----------
 
-test("checkDomainSafety reports both signals independently for a clean .gov domain", async () => {
+test("recognizes the city name embedded in a real-shaped city domain", () => {
+  assert.equal(hostnameContainsCityName("www.cityofgrant.us", "Grant"), true);
+});
+
+test("is alphanumeric-only and case-insensitive, so punctuation/case in the city name doesn't block a match", () => {
+  assert.equal(hostnameContainsCityName("stpaul.gov", "St. Paul"), true);
+  assert.equal(hostnameContainsCityName("STPAUL.GOV", "st. paul"), true);
+});
+
+test("does not false-positive when the city name simply isn't in the hostname", () => {
+  assert.equal(hostnameContainsCityName("cityhall.example.com", "Worthington"), false);
+});
+
+test("a blank city name never matches trivially", () => {
+  assert.equal(hostnameContainsCityName("cityofgrant.us", ""), false);
+});
+
+// --- checkDomainSafety — combines all three, independently ------------------
+
+test("checkDomainSafety reports every signal independently for a clean .gov domain that embeds the city name", async () => {
   const fetchImpl = mockFetch(() => dohResponse(0, [{ type: 1, data: "93.184.216.34" }]));
-  const result = await checkDomainSafety("city.example.gov", { fetchImpl });
+  const result = await checkDomainSafety("city.example.gov", "Example", { fetchImpl });
   assert.equal(result.hostname, "city.example.gov");
   assert.equal(result.isGovernmentGatedTld, true);
   assert.equal(result.isFlaggedMalicious, false);
+  assert.equal(result.hostnameContainsCityName, true);
 });
 
 test("checkDomainSafety reports a clean .com domain as no gated-TLD bonus but still not flagged", async () => {
   const fetchImpl = mockFetch(() => dohResponse(0, [{ type: 1, data: "93.184.216.34" }]));
-  const result = await checkDomainSafety("cityofexample.com", { fetchImpl });
+  const result = await checkDomainSafety("cityofexample.com", "Example", { fetchImpl });
   assert.equal(result.isGovernmentGatedTld, false);
   assert.equal(result.isFlaggedMalicious, false);
+  assert.equal(result.hostnameContainsCityName, true);
+});
+
+test("checkDomainSafety reports hostnameContainsCityName false when the domain doesn't embed the claimed city at all", async () => {
+  const fetchImpl = mockFetch(() => dohResponse(0, [{ type: 1, data: "93.184.216.34" }]));
+  const result = await checkDomainSafety("cityhall.example.com", "Worthington", { fetchImpl });
+  assert.equal(result.hostnameContainsCityName, false);
 });
