@@ -6,6 +6,8 @@
   "city-anchor-points.json": "01bc54e28f",
   "city-boundaries.geojson": "4c2fe06944",
   "commissioners.geojson": "2f0d933e56",
+  "county-anchor-points.json": "e96ce90127",
+  "county-boundaries.geojson": "ebddaf4d2d",
   "mayors.geojson": "6c469b2eaf",
   "mn-places.json": "27585c0d84",
   "state-legislature.geojson": "1fe1e1fe02",

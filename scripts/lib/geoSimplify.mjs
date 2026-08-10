@@ -50,6 +50,12 @@ export const SIMPLIFY_TOLERANCE = {
   // ~11m — statewide city-limits backdrop layer (~906 cities), viewed
   // both zoomed way out (whole state) and zoomed in on a single city.
   cityBoundaries: 0.0001,
+  // ~11m — statewide county-limits backdrop layer (87 counties). Same
+  // tolerance as cityBoundaries (same "whole state or one at a time"
+  // viewing pattern, and county shapes are larger/simpler so this is at
+  // least as safe), kept as its own named constant rather than reused
+  // directly so a future retune of one doesn't silently retune the other.
+  countyBoundaries: 0.0001,
 };
 
 // 6 decimal places ≈ 11cm at the equator, tighter everywhere in
