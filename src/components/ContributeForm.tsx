@@ -152,16 +152,12 @@ export default function ContributeForm() {
     <>
       <h1 className="text-xl font-semibold text-ink">Add your city&apos;s officials</h1>
       <p className="mt-2 text-sm text-ink-3">
-        Submit your city&apos;s official website. We&apos;ll check it&apos;s reachable, not on a known
-        malware/phishing list, and pull out the current mayor and council members — the result is checked
-        mechanically before it&apos;s ever trusted, and stays flagged as pending until it&apos;s confirmed.
+        Submit your city&apos;s official website. We&apos;ll check it&apos;s safe and pull out the mayor and
+        council — it stays flagged pending until confirmed.
       </p>
       <p className="mt-2 text-sm text-ink-3">
-        One page is all we need. We only read the text of the page you submit — never a GIS file, shapefile,
-        or boundary map, and we never ask you to find one. If your city has wards, we&apos;ll pick up each
-        person&apos;s ward from the page&apos;s own wording when it&apos;s stated there, but the map still
-        shows your city as a single point rather than ward-by-ward shapes — accurate ward boundaries are
-        added by hand, separately, later, the same way they were for the cities that already have them.
+        Just the page&apos;s text, nothing else — no GIS or map files needed. Your city shows as one point on
+        the map either way.
       </p>
 
       <form onSubmit={handleSubmit} className="mt-6 space-y-4" noValidate>
@@ -205,13 +201,10 @@ export default function ContributeForm() {
             className="mt-1 w-full rounded-lg border border-hair-strong bg-panel px-3 py-2 text-sm text-ink focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
           />
           <p className="mt-1 text-xs text-ink-3">
-            Use the specific page listing the mayor and council members (often under &ldquo;Government&rdquo; or
-            &ldquo;City Council&rdquo;) rather than the homepage — we read the page you give us, not the whole
-            site, and not any linked GIS/map file even if the page has one. This confirms the page is
-            reachable, not on a known malware/phishing list, and mentions
-            {cityName ? ` ${cityName}` : " the city"} — it does not verify this is {cityName || "the city"}
-            &apos;s official government website. That trust builds afterward, from other visitors confirming the
-            result.
+            Use the page listing the mayor and council (often under &ldquo;Government&rdquo; or &ldquo;City
+            Council&rdquo;), not the homepage. This checks the page is safe and mentions
+            {cityName ? ` ${cityName}` : " the city"} — it doesn&apos;t prove this is the real site. Other
+            visitors confirm that afterward.
           </p>
         </div>
 
