@@ -5,7 +5,7 @@ import type { BillVote, RepProperties } from "@/lib/types";
 import type { AreaOfficials } from "@/lib/officials";
 import { officialIdentity, officialSlug } from "@/lib/officials";
 import { useFocusTrap } from "@/hooks/useFocusTrap";
-import { useSwipeToDismiss } from "@/hooks/useSwipeToDismiss";
+import { useSheetSnapDrag, type SnapHeights, type SnapPoint } from "@/hooks/useSheetSnapDrag";
 import { touchTargetClass } from "@/lib/variantClasses";
 import Gloss from "@/components/Gloss";
 import type { GlossaryKey } from "@/lib/glossary";
@@ -1027,6 +1027,78 @@ const TIER_SECTIONS: TierSection[] = [
 // TIER_SECTIONS's render below for why that matters (#53/9665be0).
 type TierKey = TierSection["key"];
 
+// Peek is a fixed px value (drag handle + heading row + a one-line hint),
+// not viewport-proportional — it needs to reliably fit exactly that chrome
+// regardless of device height, unlike Half/Full below. Tuned to the actual
+// rendered heights of the drag-handle row and heading row elsewhere in this
+// file; adjust here if either one's own padding changes.
+const PEEK_HEIGHT_PX = 132;
+
+// Half/Full are viewport-relative but clamped against a margin from the
+// very top of the screen, not a bare vh value — on a short or landscape
+// mobile viewport, an un-clamped 88vh (plus --mobile-nav-height) can exceed
+// 100vh, pushing the drag-handle and Close button off the top of the
+// screen with nothing to scroll to reach them (this component's own
+// wrapper has no scroll of its own; only the tier-list region inside it
+// does). The margins below are a deliberate safety floor, not a
+// content-fit measurement.
+function computeSnapHeights(): SnapHeights {
+  const viewportHeight = window.innerHeight;
+  return {
+    peek: PEEK_HEIGHT_PX,
+    half: Math.min(viewportHeight * 0.5, viewportHeight - 140),
+    full: Math.min(viewportHeight * 0.88, viewportHeight - 80),
+  };
+}
+
+// Recomputed on resize (device rotation, on-screen keyboard, etc.) — same
+// "measure once, re-measure on resize" shape useTierStack's own
+// header-height effect already uses just below.
+function useSnapHeights(): SnapHeights {
+  const [heights, setHeights] = useState<SnapHeights>(computeSnapHeights);
+  useEffect(() => {
+    const onResize = () => setHeights(computeSnapHeights());
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
+  return heights;
+}
+
+// Which of Peek/Half/Full the mobile "sheet" variant is resting at.
+// Defaults to "half": map and panel both meaningfully visible, the actual
+// point of having three states instead of the old auto-height-to-content
+// model (collapsing/expanding the City/County/State disclosures used to
+// resize the sheet from ~80vh down to ~30vh, the bug this whole mechanism
+// replaces — those disclosures no longer touch sheet height at all now).
+// Resets to "half" on every new selection — during render, not inside a
+// useEffect (the same "compare against a value tracked from the previous
+// render" technique src/lib/mobileSheetCoordinator.tsx already uses for
+// its own per-navigation reset). A resident opening a *different* ward
+// should always land at Half, not wherever a previous selection was left.
+//
+// A dedicated hook, not inline state in WardModal itself, for the same
+// reason useTierStack's own expandTier is: react-hooks/set-state-in-effect
+// pattern-matches direct `useState` setter calls (and calls routed through
+// a function defined in the *same* component scope) inside an effect body,
+// but doesn't trace into a setter wrapper returned from a separately
+// defined hook — WardModal's own jumpToTier effect needs to call
+// revealFromPeek() from inside an effect exactly the way it already calls
+// expandTier() from inside the same effect, so this needs the same
+// structural shape to pass lint, not just the same naming convention.
+function useSnapPoint(selectionKey: string | null | undefined) {
+  const [snapPoint, setSnapPoint] = useState<SnapPoint>("half");
+  const [lastSelectionKey, setLastSelectionKey] = useState(selectionKey);
+  if (selectionKey !== lastSelectionKey) {
+    setLastSelectionKey(selectionKey);
+    setSnapPoint("half");
+  }
+  const revealFromPeek = () => setSnapPoint((current) => (current === "peek" ? "half" : current));
+  const cycleSnapPoint = () => {
+    setSnapPoint((current) => (current === "peek" ? "half" : current === "half" ? "full" : "peek"));
+  };
+  return { snapPoint, setSnapPoint, revealFromPeek, cycleSnapPoint };
+}
+
 function useTierStack() {
   const scrollRootRef = useRef<HTMLDivElement | null>(null);
   const headerRefs = useRef<Array<HTMLHeadingElement | null>>([]);
@@ -1466,6 +1538,12 @@ export default function WardModal({
   // and MapThemeSelector.tsx already use for this exact problem.
   const idPrefix = useId();
 
+  // Which of Peek/Half/Full this sheet is resting at (mobile "sheet"
+  // variant only — "sidebar" never reads this) — see useSnapPoint's own
+  // comment for the full reasoning.
+  const { snapPoint, setSnapPoint, revealFromPeek, cycleSnapPoint } = useSnapPoint(selectionKey);
+  const snapHeights = useSnapHeights();
+
   // Auto-scrolls to whichever tier the map's own hover/click just
   // resolved to (see WardModalProps.jumpToTier's own comment). Keyed on
   // selectionKey, not jumpToTier: two different wards both resolve to the
@@ -1482,12 +1560,16 @@ export default function WardModal({
   // expandTier runs first so a resident hovering a new tier never lands on
   // a collapsed, contentless section — see that function's own comment on
   // why it deliberately bypasses toggleCollapse's scrollTop compensation
-  // (the scrollToTier call right after supersedes it regardless).
+  // (the scrollToTier call right after supersedes it regardless). Forcing
+  // snapPoint off "peek" is the same idea one level up: the tier stack
+  // isn't even rendered at Peek (see the render below), so there's nothing
+  // for scrollToTier to scroll to until the sheet is at least Half.
   useEffect(() => {
     if (!jumpToTier || !selectionKey || !headerHeight) return;
     const index = TIER_SECTIONS.findIndex((tier) => tier.key === jumpToTier);
     if (index === -1) return;
     expandTier(jumpToTier);
+    revealFromPeek();
     scrollToTier(index);
     // scrollToTier and jumpToTier are read for their current values, not
     // to decide *whether* to re-run — selectionKey alone already
@@ -1504,10 +1586,18 @@ export default function WardModal({
   // positioning needs one unambiguous scrolling ancestor to dock against,
   // not two nested overflow-y-auto regions that only one of ever actually
   // engages.
+  //
+  // No height/max-height class on the "sheet" variant any more — useSheetSnapDrag
+  // is the sole owner of this wrapper's real `style.height`/`style.translate`
+  // (both for live drag feedback and for animating to a resting snap
+  // point), so nothing here sets either declaratively; doing so would fight
+  // that hook's own imperative writes the moment an unrelated re-render
+  // landed mid-drag. See that hook's own file comment for the full
+  // reasoning.
   const wrapperClass =
     variant === "sidebar"
       ? "pointer-events-auto flex h-full w-full flex-col overflow-hidden"
-      : "pointer-events-auto w-full sm:w-[380px] max-h-[75vh] sm:max-h-[80vh] flex flex-col rounded-t-2xl sm:rounded-2xl border border-hair bg-panel-2 shadow-2xl shadow-(color:--shadow-panel) overflow-hidden";
+      : "pointer-events-auto w-full sm:w-[380px] flex flex-col rounded-t-2xl sm:rounded-2xl border border-hair bg-panel-2 shadow-2xl shadow-(color:--shadow-panel) overflow-hidden";
 
   // "sidebar": no role here — it's mounted inside WardMap's own persistent
   // `<aside aria-label="Representatives for this location">`, which already
@@ -1533,34 +1623,57 @@ export default function WardModal({
   // for that variant, so it's safe to call unconditionally here.
   const { containerRef, onKeyDown } = useFocusTrap<HTMLDivElement>(variant === "sheet");
 
-  // Pull-to-dismiss (mobile "sheet" variant only) — grabbing the drag-
-  // handle below, or pulling down further once already scrolled to the
-  // top of the tier stack, dismisses this panel past a distance threshold.
+  // Peek/Half/Full drag-to-resize + pull-to-dismiss (mobile "sheet" variant
+  // only) — grabbing the drag-handle below, or pulling down further once
+  // already scrolled to the top of the tier stack, resizes this panel
+  // between its three snap heights; pulling past Peek dismisses it.
   // `enabled: variant === "sheet"` rather than a conditional hook call:
   // same "safe to call unconditionally, the hook itself no-ops" pattern
   // useFocusTrap already uses just above. Reuses containerRef (the same
-  // node the focus trap wraps) as the drag target rather than a second
-  // ref to the same element — see useSwipeToDismiss's own comment for why
-  // it moves this node via `translate`, not `transform`.
-  const dragHandleRef = useRef<HTMLDivElement | null>(null);
-  useSwipeToDismiss({
+  // node the focus trap wraps) as the drag target rather than a second ref
+  // to the same element — see useSheetSnapDrag's own comment for the full
+  // height/translate mechanics.
+  const dragHandleRef = useRef<HTMLButtonElement | null>(null);
+  useSheetSnapDrag({
     enabled: variant === "sheet",
     wrapperRef: containerRef,
     dragHandleRef,
     scrollRootRef,
+    heights: snapHeights,
+    snapPoint,
+    onSnapPointChange: setSnapPoint,
     onDismiss: onClose,
+    cancelKey: selectionKey,
   });
+
+  // Tap/keyboard equivalent for resizing — dragging alone isn't reachable
+  // by keyboard or switch-control users (AGENTS.md §4 "Keyboard Complete").
+  // A real <button>, not the plain <div> this affordance used to be, gets
+  // this for free via onClick (native Enter/Space activation) — the
+  // ghost-click guard living inside useSheetSnapDrag itself is what stops
+  // a completed *drag* release on this same button from ALSO firing this
+  // handler and cycling a second time. cycleSnapPoint itself comes from
+  // useSnapPoint above.
+  const snapPointLabel = { peek: "peeking", half: "half open", full: "fully open" }[snapPoint];
 
   return (
     <div ref={containerRef} onKeyDown={onKeyDown} className={wrapperClass} {...dialogProps}>
-      {/* Drag-handle affordance — bottom-sheet convention, mobile only.
-          Grabbing this directly always arms a dismiss-drag regardless of
-          scroll position (see useSwipeToDismiss); pulling down from
-          anywhere else in the panel only does the same once already
-          scrolled to the top. */}
-      <div ref={dragHandleRef} className="sm:hidden flex justify-center pt-2 pb-1 shrink-0">
-        <div className="h-1 w-9 rounded-full bg-hair-strong" />
-      </div>
+      {/* Drag-handle affordance — bottom-sheet convention, mobile only. A
+          real button now, not a plain div: grabbing it directly always
+          arms a resize/dismiss drag regardless of scroll position (see
+          useSheetSnapDrag); pulling down from anywhere else in the panel
+          only does the same once already scrolled to the top. Tapping (or
+          Enter/Space) cycles Peek → Half → Full → Peek — see
+          cycleSnapPoint's own comment. */}
+      <button
+        ref={dragHandleRef}
+        type="button"
+        onClick={cycleSnapPoint}
+        aria-label={`Resize panel — currently ${snapPointLabel}`}
+        className="sm:hidden flex w-full justify-center pt-2 pb-1 shrink-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent"
+      >
+        <span aria-hidden="true" className="h-1 w-9 rounded-full bg-hair-strong" />
+      </button>
 
       {/* No border under the header fill (a prior pass added one; see git
           history) — the color change from the header down to the panel's
@@ -1603,6 +1716,23 @@ export default function WardModal({
         </button>
       </div>
 
+      {/* Peek's own content — mobile "sheet" variant only, shown *instead
+          of* the tier stack below rather than alongside a clipped view of
+          it (see this line's own `hidden` toggle, and the tier stack's
+          inverse one just below). A real, separate line of content, not
+          the tier stack peeking through a small window onto it: keeping
+          the tier stack's own scroll region always mounted but `hidden`
+          (the same native-attribute technique already used for each
+          tier's own collapse state) removes it from the accessibility
+          tree/tab order while collapsed, exactly like a collapsed tier
+          already does — a resident tabbing through at Peek height never
+          lands on content that isn't visible. */}
+      {variant === "sheet" && (
+        <p hidden={snapPoint !== "peek"} className="sm:hidden px-4 pb-3 text-xs text-ink-3 shrink-0">
+          {officials.city.length + officials.county.length + officials.state.length} officials — drag up to view
+        </p>
+      )}
+
       {/* Three stacked sections (City/County/State, in the app's own
           question order — AGENTS.md Part 0) rather than tabs, and — unlike
           the old ARIA-tabs version issue #53 reverted — expanded by
@@ -1625,8 +1755,22 @@ export default function WardModal({
           at a glance, the same way the tab row's selected cell used to
           jump out — a small rounded badge sitting in open whitespace did
           that job far more weakly once there was no longer a tab strip
-          drawing the eye to this row in the first place. */}
-      <div ref={scrollRootRef} className="flex-1 min-h-0 overflow-y-auto no-scrollbar">
+          drawing the eye to this row in the first place.
+
+          `hidden` at Peek (mobile "sheet" only — the "sidebar" variant has
+          no snap states and always shows this) rather than unmounting it:
+          a Plan-agent finding caught that conditionally *unmounting* would
+          cycle scrollRootRef through null on every Peek round-trip, leaving
+          the spacer-height effect's ResizeObserver attached to stale,
+          detached DOM nodes after remounting — `hidden` keeps the same
+          node alive across every snap-state transition instead, so that
+          effect (and every other scrollRootRef/headerRefs/contentRefs
+          reader in useTierStack) never sees a real unmount at all. */}
+      <div
+        ref={scrollRootRef}
+        hidden={variant === "sheet" && snapPoint === "peek"}
+        className="flex-1 min-h-0 overflow-y-auto no-scrollbar"
+      >
         <TierNode
           index={0}
           officials={officials}
