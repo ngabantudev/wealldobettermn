@@ -1694,7 +1694,6 @@ export default function WardMap() {
     });
   }, []);
 
-
   const zoomToBounds = (bounds: maplibregl.LngLatBounds) => {
     const map = mapRef.current;
     if (!map) return;

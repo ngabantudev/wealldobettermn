@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useId, useLayoutEffect, useRef, useState } from "react";
 import type { BillVote, RepProperties } from "@/lib/types";
 import type { AreaOfficials } from "@/lib/officials";
 import { officialIdentity, officialSlug } from "@/lib/officials";
@@ -440,9 +440,23 @@ function IconExternal() {
 // genuinely grows without bound over time (§3.2's Legistar/Open States
 // integrations keep adding to it — see #57, #60), so it's the one place
 // still worth a collapsible disclosure at all.
-function IconChevron() {
+// className appends to (never replaces) the default `group-open:rotate-180`
+// — the Recent Votes disclosure above lives inside a native
+// `<details className="group">` and relies on that default to rotate
+// automatically; the tier-header disclosure below (see TierNode) isn't
+// inside a `<details>` at all (see that component's own comment on why —
+// a <summary> isn't a heading), so `group-open:` is simply inert there and
+// its own `rotate-180` toggle (passed via className, keyed off the real
+// `expanded` boolean) is what actually drives it. One glyph, two trigger
+// mechanisms, rather than two copies of the same SVG.
+function IconChevron({ className = "" }: { className?: string }) {
   return (
-    <svg viewBox="0 0 20 20" fill="none" className="h-3.5 w-3.5 shrink-0 transition-transform duration-150 group-open:rotate-180">
+    <svg
+      viewBox="0 0 20 20"
+      fill="none"
+      aria-hidden="true"
+      className={`h-3.5 w-3.5 shrink-0 transition-transform duration-150 motion-reduce:transition-none group-open:rotate-180 ${className}`}
+    >
       <path d="m5.5 7.5 4.5 5 4.5-5" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   );
@@ -1216,30 +1230,18 @@ interface TierNodeProps {
   // to each browser's own undefined tie-breaking behavior. Caught live via
   // Playwright — the disclosure button's own aria-controls target
   // literally couldn't be resolved unambiguously without this.
-  variant: "sheet" | "sidebar";
-}
-
-// Same chevron glyph this app already uses for every other collapsible row
-// (AreaFilterList's county groups, the Meetings/Recent Votes disclosures
-// below via this file's own IconChevron) — points down at rest, rotates to
-// point up once expanded. Not a shared component with that IconChevron:
-// this one takes an explicit `className` for the rotation state, since the
-// tier disclosure isn't nested inside a native `<details className="group">`
-// the way those are (see TierNode's own comment on why — a `<summary>`
-// isn't a heading, so this button can't be a `<details>` child without
-// losing heading navigation), so the `group-open:` variant that icon
-// relies on has nothing to attach to here.
-function IconTierChevron({ className = "" }: { className?: string }) {
-  return (
-    <svg
-      viewBox="0 0 20 20"
-      fill="none"
-      aria-hidden="true"
-      className={`h-3.5 w-3.5 shrink-0 transition-transform duration-150 motion-reduce:transition-none ${className}`}
-    >
-      <path d="m5.5 7.5 4.5 5 4.5-5" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
+  //
+  // A React useId() value, not the "sheet"/"sidebar" variant string — the
+  // uniqueness problem here is "two instances of this component," not
+  // "sheet vs. sidebar" specifically, and this codebase already has an
+  // established idiom for exactly that (Gloss.tsx, MastheadSaying.tsx,
+  // SearchBar.tsx, MobileSheet.tsx, CoverageNotice.tsx, MapThemeSelector.tsx
+  // all use useId() the same way). Generated once in WardModal and threaded
+  // down unchanged — same prop-drilling path headerHeight/collapsed/
+  // onToggleCollapse already use — rather than reinventing it as a two-value
+  // enum that would need a third value the moment a third simultaneous
+  // instance of this component ever exists.
+  idPrefix: string;
 }
 
 // Each tier nests the rest of the stack *inside* itself — County's
@@ -1256,12 +1258,12 @@ function IconTierChevron({ className = "" }: { className?: string }) {
 // the list, so City stays docked for as long as anything below it is still
 // scrolling — each header, once stuck, stays stuck for the remainder of
 // the scroll, only ever adding to the stack, never dropping out of it.
-function TierNode({ index, officials, onHeaderRef, onContentRef, headerHeight, collapsed, onToggleCollapse, variant }: TierNodeProps) {
+function TierNode({ index, officials, onHeaderRef, onContentRef, headerHeight, collapsed, onToggleCollapse, idPrefix }: TierNodeProps) {
   if (index >= TIER_SECTIONS.length) return null;
   const { key, label, emptyNote } = TIER_SECTIONS[index];
   const reps = officials[key];
-  const headingId = `officials-tier-${key}-heading-${variant}`;
-  const contentId = `officials-tier-${key}-content-${variant}`;
+  const headingId = `officials-tier-${key}-heading-${idPrefix}`;
+  const contentId = `officials-tier-${key}-content-${idPrefix}`;
   const expanded = !collapsed[key];
   return (
     <section aria-labelledby={headingId}>
@@ -1301,7 +1303,7 @@ function TierNode({ index, officials, onHeaderRef, onContentRef, headerHeight, c
           className="flex w-full items-center justify-between gap-2 px-4 py-2.5 sm:py-1.5 text-xs font-semibold uppercase tracking-wide text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent"
         >
           {label}
-          <IconTierChevron className={expanded ? "rotate-180" : ""} />
+          <IconChevron className={expanded ? "rotate-180" : ""} />
         </button>
       </h2>
       {/* Only the last tier's wrapper is measured for spacerHeight (see
@@ -1332,7 +1334,7 @@ function TierNode({ index, officials, onHeaderRef, onContentRef, headerHeight, c
         headerHeight={headerHeight}
         collapsed={collapsed}
         onToggleCollapse={onToggleCollapse}
-        variant={variant}
+        idPrefix={idPrefix}
       />
     </section>
   );
@@ -1435,6 +1437,12 @@ export default function WardModal({
 }: WardModalProps) {
   const { scrollRootRef, onHeaderRef, onContentRef, headerHeight, spacerHeight, scrollToTier, collapsed, toggleCollapse, expandTier } =
     useTierStack();
+  // Disambiguates tier heading/content DOM ids between this component's two
+  // simultaneously-mountable instances ("sheet" and "sidebar," see
+  // TierNodeProps' own comment) — the same useId() idiom Gloss.tsx,
+  // MastheadSaying.tsx, SearchBar.tsx, MobileSheet.tsx, CoverageNotice.tsx,
+  // and MapThemeSelector.tsx already use for this exact problem.
+  const idPrefix = useId();
 
   // Auto-scrolls to whichever tier the map's own hover/click just
   // resolved to (see WardModalProps.jumpToTier's own comment). Keyed on
@@ -1605,7 +1613,7 @@ export default function WardModal({
           headerHeight={headerHeight}
           collapsed={collapsed}
           onToggleCollapse={toggleCollapse}
-          variant={variant}
+          idPrefix={idPrefix}
         />
         {/* Reserves exactly enough extra scroll room for State's header to
             reach its dock line — no more. Sized in useTierStack from
