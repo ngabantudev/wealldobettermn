@@ -5,6 +5,7 @@ import type { BillVote, RepProperties } from "@/lib/types";
 import type { AreaOfficials } from "@/lib/officials";
 import { officialIdentity, officialSlug } from "@/lib/officials";
 import { useFocusTrap } from "@/hooks/useFocusTrap";
+import { touchTargetClass } from "@/lib/variantClasses";
 import Gloss from "@/components/Gloss";
 import type { GlossaryKey } from "@/lib/glossary";
 import { CITY_TIER_EMPTY_NOTE, COUNTY_TIER_EMPTY_NOTE, STATE_TIER_EMPTY_NOTE } from "@/lib/coverage";
@@ -1352,11 +1353,20 @@ export default function WardModal({
           that class's own comment in globals.css. */}
       <div className="band-sub flex items-center justify-between gap-2 px-4 pt-2 pb-2 sm:pt-4 shrink-0 bg-panel text-ink">
         <h2 className="text-2xl font-extrabold">{panelHeading(officials, hoveredCityName)}</h2>
+        {/* Visible circle stays h-9 w-9 (36px) — larger reads heavy against
+            the heading's own line height — but touchTargetClass grows the
+            tappable hit area to the AGENTS.md §4 44px floor on mobile; this
+            is the surface a resident is most likely to dismiss with a
+            thumb (mobile's raised sheet), so it gets the same floor
+            AreaFilterList/CoverageNotice's controls do rather than being
+            exempt as "just a modal chrome button." Collapses back to the
+            circle's own box at sm+, where this modal is a centered dialog,
+            not a sheet. */}
         <button
           type="button"
           onClick={onClose}
           aria-label="Close"
-          className="shrink-0 -mr-1 h-9 w-9 flex items-center justify-center rounded-full hover:bg-black/10 active:bg-black/15 focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent"
+          className={`shrink-0 -mr-1 h-9 w-9 flex items-center justify-center rounded-full hover:bg-black/10 active:bg-black/15 focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent ${touchTargetClass(36)}`}
         >
           <svg viewBox="0 0 20 20" fill="none" className="h-4 w-4">
             <path d="m5 5 10 10M15 5 5 15" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" />

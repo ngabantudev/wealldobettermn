@@ -35,7 +35,7 @@
 import { useState } from "react";
 import type { City, County } from "@/lib/cities";
 import { buildCityGroups, matchesCityQuery } from "@/lib/cityGroups";
-import { focusRingClass, rowHoverClass } from "@/lib/variantClasses";
+import { focusRingClass, rowHoverClass, touchTargetClass } from "@/lib/variantClasses";
 
 export interface AreaFilterListProps {
   // The full set of cities this list can ever offer — MODE_VISIBLE_CITIES
@@ -128,10 +128,21 @@ function BulkToggleButtons({
 }) {
   if (!onAll || !allLabel) {
     return (
+      // -my-2.5 py-2.5 sm:-my-1.5 sm:py-1.5: same 44px-on-mobile,
+      // tightened-on-desktop touch target CityRow establishes (see that
+      // component's own comment) — this is text, not a row, so the extra
+      // padding is clawed back with a matching negative margin rather than
+      // changing this control's visible size or its neighbors' spacing.
+      // Not touchTargetClass (variantClasses.ts): that helper's `before:`
+      // pseudo-element needs an absolutely-positioned sibling box to
+      // expand — inline text flowing next to "None"/the switch has no room
+      // for one without either overlapping them or forcing the whole
+      // group to stretch, so padding-plus-negative-margin is the actual
+      // one-off case here, not a fourth copy of the shared mechanism.
       <button
         type="button"
         onClick={onNone}
-        className={`rounded underline decoration-hair-strong underline-offset-2 text-[11px] font-medium uppercase tracking-wide text-ink-3 transition-colors hover:text-ink hover:decoration-current focus:outline-none focus-visible:ring-2 ${focusRingClass(variant)}`}
+        className={`-my-2.5 rounded px-1 py-2.5 underline decoration-hair-strong underline-offset-2 text-[11px] font-medium uppercase tracking-wide text-ink-3 transition-colors hover:text-ink hover:decoration-current focus:outline-none focus-visible:ring-2 sm:-my-1.5 sm:py-1.5 ${focusRingClass(variant)}`}
       >
         Clear all
       </button>
@@ -146,13 +157,22 @@ function BulkToggleButtons({
       <span aria-hidden="true" className={sideLabelClass(!allOn)}>
         None
       </span>
+      {/* The visible track stays the native-switch 20×36px size at every
+          breakpoint — scaling the track itself up to 44px would look
+          nothing like an iOS/macOS switch anymore. touchTargetClass grows
+          the *hit area* instead, via the same transparent `before:`
+          pseudo-element every other small control here uses (see that
+          function's own comment) — padded from the track's 36px width
+          (the larger of its two dimensions), collapsing back to the
+          track's own box at `sm`+ where a mouse/trackpad click has no
+          touch-target floor. */}
       <button
         type="button"
         role="switch"
         aria-checked={allOn}
         aria-label={groupLabel}
         onClick={() => (allOn ? onNone() : onAll?.())}
-        className={`relative inline-flex h-5 w-9 shrink-0 items-center rounded-full transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-1 ${focusRingClass(variant)} ${
+        className={`inline-flex h-5 w-9 shrink-0 items-center rounded-full transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-1 ${touchTargetClass(36)} ${focusRingClass(variant)} ${
           allOn ? "bg-positive" : "bg-sidebar-hover"
         }`}
       >
@@ -404,7 +424,12 @@ function GroupedList({
             }}
           >
             <summary
-              className={`flex list-none items-center justify-between gap-2 ${edgeToEdgeClass(variant)} py-2 cursor-pointer select-none [&::-webkit-details-marker]:hidden focus:outline-none focus-visible:ring-2 focus-visible:-outline-offset-2 ${rowHoverClass(variant)} ${focusRingClass(variant)}`}
+              // py-2.5 sm:py-2 — same mobile-touch-target-vs-desktop-density
+              // split as CityRow's own py-2.5 sm:py-1.5 (see that
+              // component's comment); kept a notch taller than CityRow at
+              // both breakpoints since this row also carries the reveal
+              // caret and the per-county switch, not just a label.
+              className={`flex list-none items-center justify-between gap-2 ${edgeToEdgeClass(variant)} py-2.5 cursor-pointer select-none [&::-webkit-details-marker]:hidden focus:outline-none focus-visible:ring-2 focus-visible:-outline-offset-2 sm:py-2 ${rowHoverClass(variant)} ${focusRingClass(variant)}`}
             >
               <span className="flex min-w-0 flex-1 items-center gap-2 text-xs font-semibold text-ink-2">
                 <svg
