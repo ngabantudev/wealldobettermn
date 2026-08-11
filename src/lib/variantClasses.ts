@@ -45,3 +45,39 @@ export function rowHoverClass(variant: FilterVariant): string {
 export function focusRingClass(variant: FilterVariant): string {
   return variant === "sidebar" ? "focus-visible:ring-sidebar-accent" : "focus-visible:ring-accent";
 }
+
+// AGENTS.md §4's 44px mobile touch-target floor, applied to a small round
+// control (an icon button, a switch) whose *visible* size should stay
+// smaller than that for visual weight — a 44px close button reads heavy
+// next to a modal heading, a 44px info glyph would dwarf the search icon
+// it sits beside. The fix used everywhere this applies is the same one:
+// keep the drawn box small, grow the invisible tappable region around it
+// with a `before:` pseudo-element, and collapse that pseudo-element back to
+// the box's own bounds at `sm`+, where a mouse/trackpad click has no
+// touch-target floor to satisfy.
+//
+// Centralized here (rather than three call sites each hand-picking their
+// own inset) after a review pass found two of the three hand-picked values
+// didn't actually reach 44px — one overshot to 56px, another was asymmetric
+// and overshot to 64px on one axis.
+//
+// Presets, not a computed inset: Tailwind v4's scanner needs complete,
+// literal class-name strings present in a file it scans — a string built
+// from `before:-inset-[${n}px]` never appears as text anywhere in the
+// source, so it silently never ships in the generated CSS. A lookup table
+// of the sizes this codebase's controls actually use keeps every class
+// name literal (grep-able, and visible to the scanner) while still giving
+// call sites one shared, correctness-checked source instead of three
+// independently hand-picked insets. Add a size here rather than reaching
+// for an inline `before:-inset-[...]` at the call site.
+const TOUCH_TARGET_PRESETS: Record<number, string> = {
+  // 24px visible (CoverageNotice's info glyph) -> 10px inset each side = 44px.
+  24: "relative before:absolute before:-inset-2.5 before:content-[''] sm:before:inset-0",
+  // 36px visible (WardModal's close button, AreaFilterList's switch track,
+  // whose 36px width is its larger dimension) -> 4px inset each side = 44px.
+  36: "relative before:absolute before:-inset-1 before:content-[''] sm:before:inset-0",
+};
+
+export function touchTargetClass(visiblePx: keyof typeof TOUCH_TARGET_PRESETS): string {
+  return TOUCH_TARGET_PRESETS[visiblePx];
+}

@@ -24,6 +24,7 @@
 import { Info } from "lucide-react";
 import { useCallback, useId, useState } from "react";
 import { useDismissable } from "@/hooks/useDismissable";
+import { touchTargetClass } from "@/lib/variantClasses";
 import {
   CITY_BOUNDARIES_NOTE,
   COMMISSIONER_COUNTIES_LIST,
@@ -45,6 +46,10 @@ export default function CoverageNotice() {
 
   return (
     <div ref={rootRef} className="relative shrink-0">
+      {/* Visible glyph stays a small 24×24px circle — matching the search
+          icon it sits next to in SearchBar's input row (see that file) —
+          but touchTargetClass grows the tappable hit area to 44px on
+          mobile, collapsing back to the glyph's own box at sm+. */}
       <button
         type="button"
         aria-haspopup="true"
@@ -52,7 +57,7 @@ export default function CoverageNotice() {
         aria-controls={panelId}
         aria-label="What this map covers"
         onClick={() => setOpen((o) => !o)}
-        className="flex h-6 w-6 items-center justify-center rounded-full text-ink-3 transition hover:bg-hover hover:text-ink focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+        className={`flex h-6 w-6 items-center justify-center rounded-full text-ink-3 transition hover:bg-hover hover:text-ink focus:outline-none focus-visible:ring-2 focus-visible:ring-accent ${touchTargetClass(24)}`}
       >
         <Info aria-hidden="true" className="h-4 w-4" strokeWidth={1.75} />
       </button>
@@ -74,7 +79,12 @@ export default function CoverageNotice() {
           // above the bottom nav with almost no room below at all. Same
           // flip MapThemeSelector's own popover uses, just inverted, since
           // that one's toggle sits at the opposite corner.
-          className="well absolute right-0 bottom-full z-20 mb-2 w-72 space-y-2 rounded-xl border p-3 text-xs text-ink-3 shadow-xl shadow-(color:--shadow-panel) sm:bottom-auto sm:top-full sm:mb-0 sm:mt-2"
+          // w-72 with a max-w viewport clamp — same idiom MastheadSaying's
+          // own info popover already uses (see that component) — so a
+          // right-0-anchored w-72 (288px) panel can't overflow the left
+          // edge of a narrow phone (e.g. iPhone SE's 320px width inside a
+          // px-3 mobile sheet leaves less than 288px of room).
+          className="well absolute right-0 bottom-full z-20 mb-2 w-72 max-w-[calc(100vw-2rem)] space-y-2 rounded-xl border p-3 text-xs text-ink-3 shadow-xl shadow-(color:--shadow-panel) sm:bottom-auto sm:top-full sm:mb-0 sm:mt-2"
         >
           <p>
             City and county rep data covers <strong className="font-semibold text-ink-2">{WARD_CITIES.length} Minnesota cities</strong>{" "}

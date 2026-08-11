@@ -92,13 +92,26 @@ export default function SiteHeader() {
           the only way off /bills, /about, or /privacy short of the
           browser's own Back button. `shrink-0`: MastheadSaying is the
           element designed to give up width (its own font-fit logic
-          measures whatever box the flex layout leaves it), not this. */}
-      <nav aria-label="Site" className="flex shrink-0 items-center gap-3 sm:gap-4">
+          measures whatever box the flex layout leaves it), not this.
+          Below `sm` there's no room to lay out all 7 links unwrapped next
+          to MastheadSaying without squeezing it toward its font-fit floor
+          or overflowing the header row — `overflow-x-auto` plus
+          `whitespace-nowrap` on each link turns that into a deliberate
+          horizontal scroll strip (same "never let the header wrap or grow
+          vertically" rule the `h-16` comment above already holds) rather
+          than either failure. `-mx-1 px-1` gives the scroll strip the same
+          few px of edge padding as a resting Link's own focus ring would
+          otherwise get clipped by. At `sm`+ this reverts to the plain
+          unscrollable row it always was — there's width to spare there. */}
+      <nav
+        aria-label="Site"
+        className="flex shrink-0 items-center gap-3 overflow-x-auto -mx-1 px-1 sm:mx-0 sm:gap-4 sm:overflow-x-visible sm:px-0"
+      >
         {NAV_LINKS.map((link) => (
           <Link
             key={link.href}
             href={link.href}
-            className="text-xs font-semibold tracking-wide text-ink-2 uppercase hover:text-ink hover:underline"
+            className="whitespace-nowrap text-xs font-semibold tracking-wide text-ink-2 uppercase hover:text-ink hover:underline"
           >
             {link.label}
           </Link>
