@@ -1,10 +1,11 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useId, useLayoutEffect, useRef, useState } from "react";
 import type { BillVote, RepProperties } from "@/lib/types";
 import type { AreaOfficials } from "@/lib/officials";
 import { officialIdentity, officialSlug } from "@/lib/officials";
 import { useFocusTrap } from "@/hooks/useFocusTrap";
+import { useSwipeToDismiss } from "@/hooks/useSwipeToDismiss";
 import { touchTargetClass } from "@/lib/variantClasses";
 import Gloss from "@/components/Gloss";
 import type { GlossaryKey } from "@/lib/glossary";
@@ -439,9 +440,23 @@ function IconExternal() {
 // genuinely grows without bound over time (§3.2's Legistar/Open States
 // integrations keep adding to it — see #57, #60), so it's the one place
 // still worth a collapsible disclosure at all.
-function IconChevron() {
+// className appends to (never replaces) the default `group-open:rotate-180`
+// — the Recent Votes disclosure above lives inside a native
+// `<details className="group">` and relies on that default to rotate
+// automatically; the tier-header disclosure below (see TierNode) isn't
+// inside a `<details>` at all (see that component's own comment on why —
+// a <summary> isn't a heading), so `group-open:` is simply inert there and
+// its own `rotate-180` toggle (passed via className, keyed off the real
+// `expanded` boolean) is what actually drives it. One glyph, two trigger
+// mechanisms, rather than two copies of the same SVG.
+function IconChevron({ className = "" }: { className?: string }) {
   return (
-    <svg viewBox="0 0 20 20" fill="none" className="h-3.5 w-3.5 shrink-0 transition-transform duration-150 group-open:rotate-180">
+    <svg
+      viewBox="0 0 20 20"
+      fill="none"
+      aria-hidden="true"
+      className={`h-3.5 w-3.5 shrink-0 transition-transform duration-150 motion-reduce:transition-none group-open:rotate-180 ${className}`}
+    >
       <path d="m5.5 7.5 4.5 5 4.5-5" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   );
@@ -1010,12 +1025,32 @@ const TIER_SECTIONS: TierSection[] = [
 // navigation still reaches every tier's officials regardless of scroll
 // position, same as before this feature existed — see the comment above
 // TIER_SECTIONS's render below for why that matters (#53/9665be0).
+type TierKey = TierSection["key"];
+
 function useTierStack() {
   const scrollRootRef = useRef<HTMLDivElement | null>(null);
   const headerRefs = useRef<Array<HTMLHeadingElement | null>>([]);
-  const lastContentRef = useRef<HTMLDivElement | null>(null);
+  // Tracks every tier's content div now, not just the last one — needed so
+  // toggleCollapse (below) can measure/compensate for any tier, not only
+  // State. The spacer effect still only reads the last slot.
+  const contentRefs = useRef<Array<HTMLDivElement | null>>([]);
   const [headerHeight, setHeaderHeight] = useState(0);
   const [spacerHeight, setSpacerHeight] = useState(0);
+  // Which tiers are manually collapsed — empty by default, meaning
+  // everything reads expanded (`!collapsed[key]`). Mirrors AreaFilterList's
+  // GroupedList `manualOverride` shape/naming. Nothing is ever hidden
+  // without the resident first choosing to hide it themselves — see this
+  // component's own header comment on why that distinction from issue #53
+  // is load-bearing, not stylistic.
+  const [collapsed, setCollapsed] = useState<Partial<Record<TierKey, boolean>>>({});
+  // Set by toggleCollapse just before its state update, read and cleared by
+  // the compensation effect right after — see both below.
+  const pendingCompensationRef = useRef<{
+    index: number;
+    heightBefore: number;
+    scrollTopBefore: number;
+    offsetTopBefore: number;
+  } | null>(null);
 
   useEffect(() => {
     const measure = () => {
@@ -1039,10 +1074,13 @@ function useTierStack() {
   // State already had. Measuring State's actual rendered height and
   // subtracting it fixes that, and re-measuring on resize means it stays
   // correct live as the panel's own width (and therefore each card's
-  // wrapped-text height) changes.
+  // wrapped-text height) changes. The ResizeObserver below also fires when
+  // State's own collapse toggle hides/shows its content (a `hidden`
+  // element reports a 0×0 box, same as any other resize) — collapsing
+  // State needs no special handling here beyond what already exists.
   useEffect(() => {
     const scrollRoot = scrollRootRef.current;
-    const lastContent = lastContentRef.current;
+    const lastContent = contentRefs.current[TIER_SECTIONS.length - 1];
     if (!scrollRoot || !lastContent || !headerHeight) return;
 
     const recompute = () => {
@@ -1068,7 +1106,7 @@ function useTierStack() {
     headerRefs.current[index] = el;
   };
   const onContentRef = (index: number, el: HTMLDivElement | null) => {
-    if (index === TIER_SECTIONS.length - 1) lastContentRef.current = el;
+    contentRefs.current[index] = el;
   };
 
   // Scrolls so tier `index`'s header sits exactly at its own dock line
@@ -1086,7 +1124,9 @@ function useTierStack() {
   // ever repositions the sticky element's own painted box, never its
   // non-sticky parent's — the section's top edge is exactly where its
   // header would sit if it weren't sticky at all, and stays that way
-  // whether or not the header is currently docked.
+  // whether or not the header is currently docked. Unaffected by that same
+  // tier's own collapse state, for the same reason: a section's top edge
+  // is set by content *above* it, never its own children.
   const scrollToTier = (index: number) => {
     const scrollRoot = scrollRootRef.current;
     const header = headerRefs.current[index];
@@ -1102,7 +1142,97 @@ function useTierStack() {
     });
   };
 
-  return { scrollRootRef, onHeaderRef, onContentRef, headerHeight, spacerHeight, scrollToTier };
+  // Manual, user-initiated collapse/expand — the disclosure button in each
+  // tier's header (see TierNode) calls this. Captures what's needed to
+  // compensate scrollTop *before* the state flips, so the layout effect
+  // below can correct for it once the DOM has actually updated.
+  //
+  // offsetTopBefore is measured off the tier's own <section> (via its
+  // header's parentElement, same technique scrollToTier uses), NOT off
+  // contentEl — a real bug, caught live: `getBoundingClientRect()` on a
+  // `hidden` element returns an all-zero rect, not its "would-be" natural
+  // position, so on the *expand* direction (contentEl is still `hidden` at
+  // the instant this measures "before") the old contentEl-based version
+  // read a bogus near-zero/negative offset, which wrongly satisfied the
+  // "already scrolled past" check below and immediately scrolled the
+  // just-reopened content back out of view — from a resident's side, the
+  // tier looked like it refused to reopen. The <section> itself is never
+  // hidden (only its content child is), so its own top position stays
+  // valid and measurable in both directions regardless of that tier's
+  // current collapse state.
+  const toggleCollapse = (key: TierKey, index: number) => {
+    const scrollRoot = scrollRootRef.current;
+    const contentEl = contentRefs.current[index];
+    const section = headerRefs.current[index]?.parentElement;
+    if (scrollRoot && contentEl && section) {
+      const sectionRect = section.getBoundingClientRect();
+      const scrollRootRect = scrollRoot.getBoundingClientRect();
+      pendingCompensationRef.current = {
+        index,
+        heightBefore: contentEl.getBoundingClientRect().height,
+        scrollTopBefore: scrollRoot.scrollTop,
+        offsetTopBefore: sectionRect.top - scrollRootRect.top + scrollRoot.scrollTop,
+      };
+    } else {
+      // Explicitly cleared, not left as whatever a *prior* toggle set it
+      // to — without this, a toggle whose refs weren't ready yet (or a
+      // rare same-commit double-toggle) could leave a stale entry for the
+      // wrong tier/index sitting here for the layout effect below to pick
+      // up and misapply on the next unrelated collapse state change.
+      pendingCompensationRef.current = null;
+    }
+    setCollapsed((prev) => ({ ...prev, [key]: !prev[key] }));
+  };
+
+  // Compensates scrollTop when toggleCollapse changed a tier's content
+  // height while that tier had already been scrolled past — without this,
+  // collapsing/expanding City or County while reading State removes (or
+  // adds) real document height *above* the resident's current scroll
+  // position, exactly the class of scroll-jank bug this hook's own file
+  // comment documents `position: sticky` was adopted to avoid (a prior
+  // version collapsed height via JS while the user was still scrolling
+  // through it; this is the same mechanism, just user-triggered rather
+  // than automatic — the fix is the same shape either way). State's own
+  // collapse doesn't strictly need this (the spacer effect above already
+  // compensates for it by construction), but applying the correction
+  // uniformly to all three tiers is simpler than special-casing State out,
+  // and harmless to run on a delta of 0.
+  //
+  // useLayoutEffect, not useEffect: must run and apply the scrollTop
+  // correction *before* the browser paints the new (collapsed/expanded)
+  // layout, or the correction itself would be visible as a jump — the
+  // exact symptom this exists to prevent.
+  useLayoutEffect(() => {
+    const pending = pendingCompensationRef.current;
+    if (!pending) return;
+    pendingCompensationRef.current = null;
+    const scrollRoot = scrollRootRef.current;
+    const contentEl = contentRefs.current[pending.index];
+    if (!scrollRoot || !contentEl) return;
+    const heightAfter = contentEl.getBoundingClientRect().height;
+    const delta = pending.heightBefore - heightAfter;
+    if (delta === 0) return;
+    // Only compensate if the toggled tier had already been scrolled past —
+    // a tier still below the current viewport changing height doesn't
+    // move anything currently on screen, the normal/expected case for any
+    // accordion.
+    if (pending.offsetTopBefore < pending.scrollTopBefore) {
+      scrollRoot.scrollTop = pending.scrollTopBefore - delta;
+    }
+  }, [collapsed]);
+
+  // Force-expands a tier without going through toggleCollapse/the
+  // compensation path above — used by WardModal's jumpToTier effect, which
+  // always calls scrollToTier immediately after this, superseding whatever
+  // scroll position this alone would have landed on. Bails out to the same
+  // object reference when already expanded, so hovering the same
+  // already-expanded tier repeatedly never triggers a needless
+  // re-render/compensation-effect pass.
+  const expandTier = (key: TierKey) => {
+    setCollapsed((prev) => (prev[key] ? { ...prev, [key]: false } : prev));
+  };
+
+  return { scrollRootRef, onHeaderRef, onContentRef, headerHeight, spacerHeight, scrollToTier, collapsed, toggleCollapse, expandTier };
 }
 
 interface TierNodeProps {
@@ -1111,6 +1241,29 @@ interface TierNodeProps {
   onHeaderRef: (index: number, el: HTMLHeadingElement | null) => void;
   onContentRef: (index: number, el: HTMLDivElement | null) => void;
   headerHeight: number;
+  collapsed: Partial<Record<TierKey, boolean>>;
+  onToggleCollapse: (key: TierKey, index: number) => void;
+  // Folded into headingId/contentId below — WardModal's "sidebar" instance
+  // (desktop, always mounted per WardMap.tsx's own comment on that) and its
+  // "sheet" instance (mobile, mounted only while something's selected) can
+  // both be present in the DOM at the same time, so a plain
+  // `officials-tier-${key}-heading` would collide: two elements sharing one
+  // id is invalid HTML and leaves aria-controls/aria-labelledby resolution
+  // to each browser's own undefined tie-breaking behavior. Caught live via
+  // Playwright — the disclosure button's own aria-controls target
+  // literally couldn't be resolved unambiguously without this.
+  //
+  // A React useId() value, not the "sheet"/"sidebar" variant string — the
+  // uniqueness problem here is "two instances of this component," not
+  // "sheet vs. sidebar" specifically, and this codebase already has an
+  // established idiom for exactly that (Gloss.tsx, MastheadSaying.tsx,
+  // SearchBar.tsx, MobileSheet.tsx, CoverageNotice.tsx, MapThemeSelector.tsx
+  // all use useId() the same way). Generated once in WardModal and threaded
+  // down unchanged — same prop-drilling path headerHeight/collapsed/
+  // onToggleCollapse already use — rather than reinventing it as a two-value
+  // enum that would need a third value the moment a third simultaneous
+  // instance of this component ever exists.
+  idPrefix: string;
 }
 
 // Each tier nests the rest of the stack *inside* itself — County's
@@ -1127,26 +1280,64 @@ interface TierNodeProps {
 // the list, so City stays docked for as long as anything below it is still
 // scrolling — each header, once stuck, stays stuck for the remainder of
 // the scroll, only ever adding to the stack, never dropping out of it.
-function TierNode({ index, officials, onHeaderRef, onContentRef, headerHeight }: TierNodeProps) {
+function TierNode({ index, officials, onHeaderRef, onContentRef, headerHeight, collapsed, onToggleCollapse, idPrefix }: TierNodeProps) {
   if (index >= TIER_SECTIONS.length) return null;
   const { key, label, emptyNote } = TIER_SECTIONS[index];
   const reps = officials[key];
-  const headingId = `officials-tier-${key}-heading`;
+  const headingId = `officials-tier-${key}-heading-${idPrefix}`;
+  const contentId = `officials-tier-${key}-content-${idPrefix}`;
+  const expanded = !collapsed[key];
   return (
     <section aria-labelledby={headingId}>
+      {/* The <h2> itself is unchanged from before this feature — same
+          className/style/ref/id, still `position: sticky` at the same
+          dock offset, still a real heading a screen-reader user can jump
+          to via heading navigation regardless of collapse state. The
+          disclosure control is a <button> *nested inside* it (the
+          standard WAI-ARIA "Disclosure" pattern) rather than converting
+          the header itself into a <summary> — a <summary> isn't a
+          heading, and swapping to one would silently remove the exact
+          heading-navigation property issue #53 was reverted to protect
+          (see this file's own header comment). The heading's accessible
+          name now comes from the button's text, which is what makes the
+          two roles (heading, toggle button) coexist correctly on one row
+          instead of conflicting. */}
       <h2
         ref={(el) => onHeaderRef(index, el)}
         id={headingId}
-        className="sticky z-10 border-t border-b border-hair px-4 py-2 text-xs font-semibold uppercase tracking-wide shadow-[0_1px_2px_rgba(0,0,0,0.15)]"
+        className="sticky z-10 border-t border-b border-hair shadow-[0_1px_2px_rgba(0,0,0,0.15)]"
         style={{ top: `${index * headerHeight}px`, backgroundColor: TIER_HEADER_BG, color: TIER_HEADER_TEXT }}
       >
-        {label}
+        {/* py-2.5 sm:py-1.5 — same mobile-touch-target-vs-desktop-density
+            split as AreaFilterList's CityRow (44px floor on mobile,
+            tightened on desktop where a click has no touch-target floor).
+            Not touchTargetClass's before:-inset trick: that's sized for a
+            small isolated icon button, not a full-width row like this
+            one. Padding moved from the <h2> onto this button so the two
+            wrap the same visible box; every tier's button renders
+            identical markup, so useTierStack's "only measure the first
+            header" assumption (headerHeight) stays valid. */}
+        <button
+          type="button"
+          onClick={() => onToggleCollapse(key, index)}
+          aria-expanded={expanded}
+          aria-controls={contentId}
+          className="flex w-full items-center justify-between gap-2 px-4 py-2.5 sm:py-1.5 text-xs font-semibold uppercase tracking-wide text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent"
+        >
+          {label}
+          <IconChevron className={expanded ? "rotate-180" : ""} />
+        </button>
       </h2>
-      {/* Only the last tier's wrapper is actually measured (see
-          useTierStack's onContentRef) — every tier gets one regardless, so
-          expanding which tier is last (were a 4th ever added) doesn't need
-          this markup to change too. */}
-      <div ref={(el) => onContentRef(index, el)}>
+      {/* Only the last tier's wrapper is measured for spacerHeight (see
+          useTierStack's onContentRef comment) — every tier gets one
+          regardless, so expanding which tier is last (were a 4th ever
+          added) doesn't need this markup to change too. `hidden`, not a
+          CSS class: removes it from the accessibility tree correctly (no
+          separate aria-hidden bookkeeping needed) and reports a 0×0 box to
+          ResizeObserver/getBoundingClientRect the same as any other
+          resize — both useTierStack's spacer effect and its own
+          scrollTop-compensation effect depend on that. */}
+      <div id={contentId} ref={(el) => onContentRef(index, el)} hidden={!expanded}>
         {reps.length > 0 ? (
           <div className="divide-y divide-hair">
             {reps.map((rep) => (
@@ -1163,6 +1354,9 @@ function TierNode({ index, officials, onHeaderRef, onContentRef, headerHeight }:
         onHeaderRef={onHeaderRef}
         onContentRef={onContentRef}
         headerHeight={headerHeight}
+        collapsed={collapsed}
+        onToggleCollapse={onToggleCollapse}
+        idPrefix={idPrefix}
       />
     </section>
   );
@@ -1263,7 +1457,14 @@ export default function WardModal({
   selectionKey = null,
   variant = "sheet",
 }: WardModalProps) {
-  const { scrollRootRef, onHeaderRef, onContentRef, headerHeight, spacerHeight, scrollToTier } = useTierStack();
+  const { scrollRootRef, onHeaderRef, onContentRef, headerHeight, spacerHeight, scrollToTier, collapsed, toggleCollapse, expandTier } =
+    useTierStack();
+  // Disambiguates tier heading/content DOM ids between this component's two
+  // simultaneously-mountable instances ("sheet" and "sidebar," see
+  // TierNodeProps' own comment) — the same useId() idiom Gloss.tsx,
+  // MastheadSaying.tsx, SearchBar.tsx, MobileSheet.tsx, CoverageNotice.tsx,
+  // and MapThemeSelector.tsx already use for this exact problem.
+  const idPrefix = useId();
 
   // Auto-scrolls to whichever tier the map's own hover/click just
   // resolved to (see WardModalProps.jumpToTier's own comment). Keyed on
@@ -1277,10 +1478,16 @@ export default function WardModal({
   // needs it; the header-measuring effect in useTierStack re-renders once
   // it resolves, which re-runs this one too for a selection that arrived
   // before that first measurement landed.
+  //
+  // expandTier runs first so a resident hovering a new tier never lands on
+  // a collapsed, contentless section — see that function's own comment on
+  // why it deliberately bypasses toggleCollapse's scrollTop compensation
+  // (the scrollToTier call right after supersedes it regardless).
   useEffect(() => {
     if (!jumpToTier || !selectionKey || !headerHeight) return;
     const index = TIER_SECTIONS.findIndex((tier) => tier.key === jumpToTier);
     if (index === -1) return;
+    expandTier(jumpToTier);
     scrollToTier(index);
     // scrollToTier and jumpToTier are read for their current values, not
     // to decide *whether* to re-run — selectionKey alone already
@@ -1326,10 +1533,32 @@ export default function WardModal({
   // for that variant, so it's safe to call unconditionally here.
   const { containerRef, onKeyDown } = useFocusTrap<HTMLDivElement>(variant === "sheet");
 
+  // Pull-to-dismiss (mobile "sheet" variant only) — grabbing the drag-
+  // handle below, or pulling down further once already scrolled to the
+  // top of the tier stack, dismisses this panel past a distance threshold.
+  // `enabled: variant === "sheet"` rather than a conditional hook call:
+  // same "safe to call unconditionally, the hook itself no-ops" pattern
+  // useFocusTrap already uses just above. Reuses containerRef (the same
+  // node the focus trap wraps) as the drag target rather than a second
+  // ref to the same element — see useSwipeToDismiss's own comment for why
+  // it moves this node via `translate`, not `transform`.
+  const dragHandleRef = useRef<HTMLDivElement | null>(null);
+  useSwipeToDismiss({
+    enabled: variant === "sheet",
+    wrapperRef: containerRef,
+    dragHandleRef,
+    scrollRootRef,
+    onDismiss: onClose,
+  });
+
   return (
     <div ref={containerRef} onKeyDown={onKeyDown} className={wrapperClass} {...dialogProps}>
-      {/* Drag-handle affordance — bottom-sheet convention, mobile only */}
-      <div className="sm:hidden flex justify-center pt-2 pb-1 shrink-0">
+      {/* Drag-handle affordance — bottom-sheet convention, mobile only.
+          Grabbing this directly always arms a dismiss-drag regardless of
+          scroll position (see useSwipeToDismiss); pulling down from
+          anywhere else in the panel only does the same once already
+          scrolled to the top. */}
+      <div ref={dragHandleRef} className="sm:hidden flex justify-center pt-2 pb-1 shrink-0">
         <div className="h-1 w-9 rounded-full bg-hair-strong" />
       </div>
 
@@ -1374,16 +1603,21 @@ export default function WardModal({
         </button>
       </div>
 
-      {/* Three stacked, always-visible sections (City/County/State, in the
-          app's own question order — AGENTS.md Part 0) rather than tabs.
-          Each section header is a real <h2> naming its tier, so a
-          screen-reader user can jump straight to "County" or "State" via
-          heading navigation without anything being hidden from the
-          accessibility tree first — the keyboard-completeness goal #53's
-          tablist chased, without #53's tradeoff of hiding two-thirds of a
-          resident's own representation behind a click. No `role`/`hidden`
-          bookkeeping needed: every section renders all the time, so
-          there's no active/inactive state to keep in sync.
+      {/* Three stacked sections (City/County/State, in the app's own
+          question order — AGENTS.md Part 0) rather than tabs, and — unlike
+          the old ARIA-tabs version issue #53 reverted — expanded by
+          default rather than one-at-a-time: nothing is hidden from a
+          resident until they actively choose to collapse it themselves via
+          the disclosure button each header now carries (see TierNode).
+          Each section header is still a real <h2> naming its tier
+          regardless of collapse state, so a screen-reader user can jump
+          straight to "County" or "State" via heading navigation without
+          anything being hidden from the accessibility tree first — the
+          keyboard-completeness goal #53's tablist chased, without #53's
+          tradeoff of hiding two-thirds of a resident's own representation
+          behind a click by default. `hidden`/`aria-expanded` bookkeeping
+          now lives in useTierStack's own `collapsed` state, synced through
+          each tier's disclosure button.
 
           Full-width navy band (the old active-tab fill, repurposed) rather
           than an inline pill: a resident scrolling through up to six
@@ -1393,7 +1627,16 @@ export default function WardModal({
           that job far more weakly once there was no longer a tab strip
           drawing the eye to this row in the first place. */}
       <div ref={scrollRootRef} className="flex-1 min-h-0 overflow-y-auto no-scrollbar">
-        <TierNode index={0} officials={officials} onHeaderRef={onHeaderRef} onContentRef={onContentRef} headerHeight={headerHeight} />
+        <TierNode
+          index={0}
+          officials={officials}
+          onHeaderRef={onHeaderRef}
+          onContentRef={onContentRef}
+          headerHeight={headerHeight}
+          collapsed={collapsed}
+          onToggleCollapse={toggleCollapse}
+          idPrefix={idPrefix}
+        />
         {/* Reserves exactly enough extra scroll room for State's header to
             reach its dock line — no more. Sized in useTierStack from
             State's own measured height (`viewport - stackHeight -

@@ -1,11 +1,13 @@
 "use client";
 
+import { useId } from "react";
 import Link from "next/link";
 import MastheadSaying from "./MastheadSaying";
 import SiteSearch from "./SiteSearch";
 import MobileSheet from "./MobileSheet";
 import { useMobileSheetCoordinator } from "@/lib/mobileSheetCoordinator";
 import { touchTargetClass } from "@/lib/variantClasses";
+import { useSearchGazetteers } from "@/lib/useSearchGazetteers";
 
 // Desktop/laptop-only chrome nav now (sm+) — Map (back to "/" from any of
 // the pages below), Meetings, Bills, Recap, Sources, About, Privacy. Kept
@@ -23,10 +25,10 @@ import { touchTargetClass } from "@/lib/variantClasses";
 // prior revision here tried to keep this exact row alive on mobile as a
 // horizontal-scroll strip, which worked but was strictly worse than an
 // actual bottom nav once one existed. About and Privacy — the two links
-// that don't fit a 5-item bottom nav — moved to the footer rendered by
-// src/app/(content)/layout.tsx instead (see that file), so nothing here
-// becomes an unreachable dead end on mobile; it's just reached from a
-// different place than on desktop now.
+// that don't fit a 5-item bottom nav — moved to the "More" trigger below
+// (this header, not a route-scoped footer — see that trigger's own comment
+// for why), so nothing here becomes an unreachable dead end on mobile;
+// they're just reached from a different place than on desktop now.
 const NAV_LINKS: { href: string; label: string }[] = [
   { href: "/", label: "Map" },
   { href: "/meetings", label: "Meetings" },
@@ -42,6 +44,18 @@ function IconSearch() {
     <svg viewBox="0 0 20 20" fill="none" className="h-5 w-5 shrink-0" aria-hidden="true">
       <circle cx="8.5" cy="8.5" r="5.5" stroke="currentColor" strokeWidth="1.6" />
       <path d="m17 17-4-4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+// A plain ellipsis — deliberately not a hamburger/menu glyph, since this
+// opens exactly two links (About, Privacy), not a navigation drawer.
+function IconMore() {
+  return (
+    <svg viewBox="0 0 20 20" fill="currentColor" className="h-5 w-5 shrink-0" aria-hidden="true">
+      <circle cx="4" cy="10" r="1.6" />
+      <circle cx="10" cy="10" r="1.6" />
+      <circle cx="16" cy="10" r="1.6" />
     </svg>
   );
 }
@@ -94,6 +108,14 @@ function IconSearch() {
 export default function SiteHeader() {
   const { openSheet, setOpenSheet } = useMobileSheetCoordinator();
   const searchOpen = openSheet === "search";
+  const searchSheetId = useId();
+  const moreOpen = openSheet === "more";
+  const moreSheetId = useId();
+  // Fetched once, here, and passed to both SiteSearch instances below —
+  // see SiteSearch.tsx's own comment for why calling this hook inside that
+  // component (its original shape) meant two independent fetches of the
+  // same two gazetteer files on mobile.
+  const gazetteers = useSearchGazetteers();
   return (
     // `h-16`, a fixed height rather than one that grows with content: an
     // earlier revision let a longer saying wrap onto two or three lines,
@@ -140,7 +162,7 @@ export default function SiteHeader() {
       {/* Desktop/laptop only — see the component comment above for the
           mobile equivalent (search-icon trigger, just right of this). */}
       <div className="hidden min-w-0 flex-1 sm:flex sm:justify-center">
-        <SiteSearch />
+        <SiteSearch addressManifest={gazetteers.addressManifest} mnPlaces={gazetteers.mnPlaces} />
       </div>
       {/* Mobile only — opens SiteSearch inside a MobileSheet raised above
           MobileBottomNav's bar. `sm:hidden` rather than living inside the
@@ -158,12 +180,51 @@ export default function SiteHeader() {
         type="button"
         onClick={() => setOpenSheet(searchOpen ? null : "search")}
         aria-expanded={searchOpen}
+        aria-controls={searchSheetId}
         aria-label={searchOpen ? "Close search" : "Search for an address, city, or county"}
         className={`sm:hidden ml-auto flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-ink transition hover:bg-hover focus:outline-none focus-visible:ring-2 focus-visible:ring-accent ${touchTargetClass(36)}`}
       >
         <IconSearch />
       </button>
-      <MobileSheet content={searchOpen ? <SiteSearch /> : null} onDismiss={() => setOpenSheet(null)} />
+      <MobileSheet content={searchOpen ? <SiteSearch addressManifest={gazetteers.addressManifest} mnPlaces={gazetteers.mnPlaces} /> : null} onDismiss={() => setOpenSheet(null)} contentId={searchSheetId} />
+      {/* Mobile only — the two links this header's own NAV_LINKS array
+          can't fit into MobileBottomNav's 5 slots. Lives in this global
+          header, not a route-scoped footer (an earlier version put them in
+          src/app/(content)/layout.tsx's own footer instead) — a real bug,
+          caught live in review: that footer only rendered on the 6 static
+          content pages, so a mobile resident on "/" (the map, which isn't
+          in that route group and has no scrollable page for a footer to
+          sit at the bottom of) had no way to reach About or Privacy at
+          all, reproducing the exact "orphan pages nobody can reach" bug
+          this header's desktop nav was originally built to fix — just for
+          a different route this time. A trigger in this always-mounted
+          header reaches every route uniformly, map included. */}
+      <button
+        type="button"
+        onClick={() => setOpenSheet(moreOpen ? null : "more")}
+        aria-expanded={moreOpen}
+        aria-controls={moreSheetId}
+        aria-label={moreOpen ? "Close more links" : "About and privacy"}
+        className={`sm:hidden flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-ink transition hover:bg-hover focus:outline-none focus-visible:ring-2 focus-visible:ring-accent ${touchTargetClass(36)}`}
+      >
+        <IconMore />
+      </button>
+      <MobileSheet
+        content={
+          moreOpen ? (
+            <nav aria-label="More" className="flex items-center justify-center gap-6 py-4 text-sm font-semibold uppercase tracking-wide">
+              <Link href="/about" className="text-ink-2 hover:text-ink hover:underline" onClick={() => setOpenSheet(null)}>
+                About
+              </Link>
+              <Link href="/privacy" className="text-ink-2 hover:text-ink hover:underline" onClick={() => setOpenSheet(null)}>
+                Privacy
+              </Link>
+            </nav>
+          ) : null
+        }
+        onDismiss={() => setOpenSheet(null)}
+        contentId={moreSheetId}
+      />
     </header>
   );
 }

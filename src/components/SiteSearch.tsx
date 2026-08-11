@@ -16,16 +16,31 @@
 // pick it up once its ward/city geometry has loaded (see WardMap.tsx's
 // own pending-selection effect). Either way, this component itself never
 // touches MapLibre, ward geometry, or the URL beyond that one navigation.
+//
+// addressManifest/mnPlaces come in as props now, not a useSearchGazetteers()
+// call inside this component — SiteHeader.tsx mounts two instances of
+// SiteSearch simultaneously on mobile (an always-present-but-CSS-hidden
+// desktop box, and a second one inside the mobile search MobileSheet), and
+// each instance calling the hook independently meant two full fetch+parse
+// cycles of the same two gazetteer files every time the mobile search sheet
+// opened, on top of the desktop instance's own fetch at page load — a real
+// bandwidth/battery waste on the throttled-3G/old-phone target device
+// AGENTS.md §4 cares about, caught in review. SiteHeader now calls the hook
+// once and passes the result to both instances.
 import { useRouter, usePathname } from "next/navigation";
 import SearchBar from "./SearchBar";
 import { useSearchCoordinator } from "@/lib/searchCoordinator";
-import { useSearchGazetteers } from "@/lib/useSearchGazetteers";
+import type { AddressGazetteerManifest, MnPlaces } from "@/lib/types";
 
-export default function SiteSearch() {
+interface SiteSearchProps {
+  addressManifest: AddressGazetteerManifest | null;
+  mnPlaces: MnPlaces | null;
+}
+
+export default function SiteSearch({ addressManifest, mnPlaces }: SiteSearchProps) {
   const router = useRouter();
   const pathname = usePathname();
   const { dispatchSelection } = useSearchCoordinator();
-  const { addressManifest, mnPlaces } = useSearchGazetteers();
 
   // dispatchSelection applies the selection immediately when WardMap is
   // mounted (we're already on "/") — only navigate when it wasn't, so a

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 import type { Feature, FeatureCollection, Geometry, Point } from "geojson";
@@ -1367,6 +1367,12 @@ export default function WardMap() {
   // always wins over whatever sheet was up" behavior as before, just
   // reaching one component further than it used to need to.
   const { openSheet, setOpenSheet } = useMobileSheetCoordinator();
+  // Passed to MobileSheet as contentId, and to the Filters trigger button
+  // below as aria-controls — the trigger lives here, not inside
+  // MobileSheet, so it needs this id in hand itself. Same fix as
+  // SiteHeader's own searchSheetId; see MobileSheet.tsx's own comment on
+  // why the id can't just be generated inside that component.
+  const filtersSheetId = useId();
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
   const mapRef = useRef<maplibregl.Map | null>(null);
   // Mount points for MapLibre's NavigationControl and AttributionControl
@@ -1693,7 +1699,6 @@ export default function WardMap() {
       });
     });
   }, []);
-
 
   const zoomToBounds = (bounds: maplibregl.LngLatBounds) => {
     const map = mapRef.current;
@@ -4439,6 +4444,7 @@ export default function WardMap() {
             type="button"
             onClick={handleFiltersTrigger}
             aria-expanded={openSheet === "filters" && !selected}
+            aria-controls={filtersSheetId}
             aria-label="Show map filters"
             title="Filters"
             // position: "absolute" as an inline style, not the `absolute`
@@ -4567,7 +4573,7 @@ export default function WardMap() {
               decides *what* goes in the sheet (mobileSheetContent above),
               not how it's shown — MobileSheet.tsx owns the scrim, raised-
               panel positioning, and focus trap. */}
-          <MobileSheet content={mobileSheetContent} onDismiss={closeMobileSheet} />
+          <MobileSheet content={mobileSheetContent} onDismiss={closeMobileSheet} contentId={filtersSheetId} />
         </div>
 
         {/* Right sidebar: the hovered/selected rep's detail panel —
