@@ -22,7 +22,7 @@ function mockStorage() {
 
 const SAMPLE = {
   cityName: "Hugo",
-  officials: [{ role: "Mayor", repName: "Tom Weidt", repEmail: null, repPhone: "651-955-1091", wardLabel: null }],
+  officials: [{ role: "Mayor", repName: "Tom Weidt", repEmail: null, repPhone: "651-955-1091", wardLabel: null, termExpires: "December 31, 2026" }],
   confirmations: 0,
   confirmationsNeeded: 1,
 };

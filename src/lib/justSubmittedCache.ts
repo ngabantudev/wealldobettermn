@@ -39,6 +39,7 @@ interface JustSubmittedOfficial {
   repEmail: string | null;
   repPhone: string | null;
   wardLabel: string | null;
+  termExpires: string | null;
 }
 
 export interface JustSubmittedPending {

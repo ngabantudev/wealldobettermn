@@ -37,6 +37,46 @@ test("drops nav/header/footer chrome entirely, not just their tags — found via
   assert.equal(visible.includes("City Council Profiles Mayor Brian Kirkham Councilmember Jim Doyle"), true);
 });
 
+test("exposes a mailto: link's real address, appended in parens to its visible label — found via a real submission (Oakdale, MN)", () => {
+  // Real page shape: the visible link text was just "Email Mayor Kevin
+  // Zabel" — a generic label — with the real address only ever present
+  // in href="mailto:...". Nothing downstream of tag-stripping (the model
+  // call, quote verification) could ever have seen it before this fix.
+  const html = '<p>Mayor Kevin Zabel <a href="mailto:kevin.zabel@oakdalemn.gov">Email Mayor Kevin Zabel</a></p>';
+  const visible = htmlToVisibleText(html);
+  assert.equal(visible, "Mayor Kevin Zabel Email Mayor Kevin Zabel (kevin.zabel@oakdalemn.gov)");
+});
+
+test("exposes a tel: link's real number the same way — the identical hidden-href failure mode, not unique to email", () => {
+  const html = '<a href="tel:+16515551234">Call City Hall</a>';
+  assert.equal(htmlToVisibleText(html), "Call City Hall (+16515551234)");
+});
+
+test("strips a mailto: link's ?subject=/&body= query string, keeping only the actual address", () => {
+  const html = '<a href="mailto:clerk@example.gov?subject=Records%20Request&body=Hello">Email the Clerk</a>';
+  assert.equal(htmlToVisibleText(html), "Email the Clerk (clerk@example.gov)");
+});
+
+test("a mailto: link with nested tags in its label still exposes the address correctly", () => {
+  const html = '<a href="mailto:mayor@example.gov"><span class="icon"></span><b>Email Mayor Smith</b></a>';
+  const visible = htmlToVisibleText(html);
+  assert.equal(visible, "Email Mayor Smith (mayor@example.gov)");
+});
+
+test("multiple mailto: links on the same page each expose their own distinct address", () => {
+  const html =
+    '<p>Council Member Kari Moore <a href="mailto:kari.moore@example.gov">Email Kari Moore</a></p>' +
+    '<p>Council Member Andy Morcomb <a href="mailto:andy.morcomb@example.gov">Email Andy Morcomb</a></p>';
+  const visible = htmlToVisibleText(html);
+  assert.equal(visible.includes("Email Kari Moore (kari.moore@example.gov)"), true);
+  assert.equal(visible.includes("Email Andy Morcomb (andy.morcomb@example.gov)"), true);
+});
+
+test("never throws on a malformed mailto: %-escape, falling back to the raw value", () => {
+  const html = '<a href="mailto:bad%escape@example.gov">Email</a>';
+  assert.doesNotThrow(() => htmlToVisibleText(html));
+});
+
 test("decodes common named and numeric entities", () => {
   const html = "<p>City &amp; County &mdash; est. 1875 &#39;Downtown&#39;</p>";
   assert.equal(htmlToVisibleText(html), "City & County — est. 1875 'Downtown'");

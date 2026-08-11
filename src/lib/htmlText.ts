@@ -14,6 +14,48 @@
 // extraction gate's "zero surviving records" fail-closed path already
 // handles honestly (AGENTS.md §3.3 "never fabricate or infer").
 
+// A real contact address hidden in an <a> tag's href — never visible in
+// the page's own rendered text — is invisible to everything downstream
+// of tag-stripping. Found live (Oakdale, MN): the page's visible text
+// for each official was just "Email Mayor Kevin Zabel" (a generic link
+// label), while the real address, kevin.zabel@oakdalemn.gov, lived only
+// in href="mailto:kevin.zabel@oakdalemn.gov" — invisible to
+// communityExtraction.ts's model call and to quote verification alike,
+// since both work from this file's plain-text output. The model, with no
+// real address to find, extracted the label text itself as repEmail —
+// wrong data shipped as fact, worse than leaving the field null.
+// Exposing the real address by appending it in parentheses to the link's
+// own visible label, run BEFORE any tag stripping (needs the raw href
+// attribute, which no longer exists once TAG_RE has run), fixes this at
+// the source rather than special-casing the extraction prompt around a
+// text shape the page's own markup never gave it a chance to see. Same
+// treatment for tel: — a phone number hidden the same way is the
+// identical failure mode, not something Oakdale happened not to hit.
+const MAILTO_LINK_RE = /<a\b[^>]*\bhref\s*=\s*["']mailto:([^"'?]+)[^"']*["'][^>]*>([\s\S]*?)<\/a>/gi;
+const TEL_LINK_RE = /<a\b[^>]*\bhref\s*=\s*["']tel:([^"']+)["'][^>]*>([\s\S]*?)<\/a>/gi;
+
+function decodeUriComponentSafe(value: string): string {
+  try {
+    return decodeURIComponent(value);
+  } catch {
+    // A malformed %-escape (rare, but not our job to reject a real
+    // government page over) — the raw, still-readable value is a better
+    // fallback than throwing and losing the whole page's extraction.
+    return value;
+  }
+}
+
+function exposeHiddenContactLinks(html: string): string {
+  const withEmailsExposed = html.replace(MAILTO_LINK_RE, (_match, rawAddress: string, label: string) => {
+    const address = decodeUriComponentSafe(rawAddress.split("?")[0]).trim();
+    return address ? `${label} (${address})` : label;
+  });
+  return withEmailsExposed.replace(TEL_LINK_RE, (_match, rawNumber: string, label: string) => {
+    const number = decodeUriComponentSafe(rawNumber.split("?")[0]).trim();
+    return number ? `${label} (${number})` : label;
+  });
+}
+
 const SCRIPT_STYLE_RE = /<(script|style|noscript|template)\b[^>]*>[\s\S]*?<\/\1>/gi;
 // Navigation chrome — menus, site header, site footer — is boilerplate,
 // never a real per-person role attribution, but it stays in the text
@@ -65,9 +107,33 @@ function decodeEntities(text: string): string {
   return decoded;
 }
 
+const TITLE_RE = /<title\b[^>]*>([\s\S]*?)<\/title>/i;
+
+/**
+ * The page's own <title> text, decoded and whitespace-collapsed the same
+ * way htmlToVisibleText treats everything else — null if the page has
+ * none. Used by communityExtraction.ts as a page-level (not proximity-
+ * bounded) signal for pages like Inver Grove Heights, MN's real "Mayor &
+ * Council" table: a Mayor's row says "Mayor," but the four Council
+ * Member rows underneath have no role word anywhere near them at all —
+ * not even far away, just genuinely absent — so no window size could
+ * ever bridge that gap. The page's own title, which the city itself
+ * wrote, is a real (if weaker, unbounded) signal in exactly that case.
+ */
+export function extractPageTitle(html: string): string | null {
+  const match = TITLE_RE.exec(html);
+  if (!match) return null;
+  const decoded = decodeEntities(match[1]);
+  const collapsed = decoded.replace(WHITESPACE_RE, " ").trim();
+  return collapsed || null;
+}
+
 /** Strips scripts/styles/tags and decodes entities, collapsing whitespace to single spaces. */
 export function htmlToVisibleText(html: string): string {
-  const withoutScriptsAndStyles = html.replace(SCRIPT_STYLE_RE, " ");
+  // Must run first — needs the raw <a href="mailto:...">/<a href="tel:...">
+  // markup intact, which every step below this one destroys.
+  const withContactsExposed = exposeHiddenContactLinks(html);
+  const withoutScriptsAndStyles = withContactsExposed.replace(SCRIPT_STYLE_RE, " ");
   const withoutChrome = withoutScriptsAndStyles.replace(NAV_CHROME_RE, " ");
   const withoutTags = withoutChrome.replace(TAG_RE, " ");
   const decoded = decodeEntities(withoutTags);
