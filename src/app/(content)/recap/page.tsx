@@ -13,11 +13,11 @@ import type { Bill, VoteEvent as BillVoteEvent } from "@/lib/types";
 // none of these six paths can be built from the registry constants above —
 // keep them in sync by hand if a data path ever moves, same constraint
 // those two pages already live with.
-import billsFileData from "../../../public/state-bills.json";
-import stpaulVotesData from "../../../public/legistar/stpaul.json";
-import hennepinmnVotesData from "../../../public/legistar/hennepinmn.json";
-import stpaulMeetingsData from "../../../public/legistar/stpaul-meetings.json";
-import hennepinmnMeetingsData from "../../../public/legistar/hennepinmn-meetings.json";
+import billsFileData from "../../../../public/state-bills.json";
+import stpaulVotesData from "../../../../public/legistar/stpaul.json";
+import hennepinmnVotesData from "../../../../public/legistar/hennepinmn.json";
+import stpaulMeetingsData from "../../../../public/legistar/stpaul-meetings.json";
+import hennepinmnMeetingsData from "../../../../public/legistar/hennepinmn-meetings.json";
 
 // FEATURES.md has no ticket number for this page as of authorship — it
 // answers AGENTS.md's question 2 ("What do they vote for?") across every

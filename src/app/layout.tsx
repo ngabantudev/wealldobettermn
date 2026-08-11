@@ -1,6 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import SiteHeader from "@/components/SiteHeader";
+import MobileBottomNav from "@/components/MobileBottomNav";
 import { SearchCoordinatorProvider } from "@/lib/searchCoordinator";
+import { MobileSheetCoordinatorProvider } from "@/lib/mobileSheetCoordinator";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -68,10 +70,20 @@ export default function RootLayout({
             searchCoordinator.tsx for the follow-up). The provider below
             is the seam that lets WardMap (mounted only on "/") still be
             the thing that actually applies a selection to the map. */}
-        <SearchCoordinatorProvider>
-          <SiteHeader />
-          <div className="min-h-0 flex-1">{children}</div>
-        </SearchCoordinatorProvider>
+        {/* MobileSheetCoordinatorProvider wraps both providers that need it
+            (SiteHeader's Search trigger and, inside children, WardMap's
+            Filters trigger) — see that module's own comment for why a
+            shared "only one raised sheet at a time" context exists now
+            that the bottom nav is global and Search/Filters are two
+            independently-mounted sheet owners instead of one map-page-only
+            tab bar. */}
+        <MobileSheetCoordinatorProvider>
+          <SearchCoordinatorProvider>
+            <SiteHeader />
+            <div className="min-h-0 flex-1">{children}</div>
+            <MobileBottomNav />
+          </SearchCoordinatorProvider>
+        </MobileSheetCoordinatorProvider>
       </body>
     </html>
   );

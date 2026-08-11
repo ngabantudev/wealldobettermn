@@ -1,7 +1,7 @@
 // Shared "floating vs. sidebar" Tailwind class mapping — the two flavors
 // every filter-adjacent control in the map UI can render as (see
 // AreaFilterList.tsx's own header comment on the two variants: "floating",
-// MobileNav's bottom-sheet/absolutely-positioned-over-the-map flavor, and
+// MobileSheet's absolutely-positioned-over-the-map flavor, and
 // "sidebar", the desktop left `<aside>`'s own panel chrome). Both flavors
 // sit on different background fills, so they need different hover/focus
 // tokens to stay legible against their own surface — --hover barely shows
@@ -61,6 +61,18 @@ export function focusRingClass(variant: FilterVariant): string {
 // didn't actually reach 44px — one overshot to 56px, another was asymmetric
 // and overshot to 64px on one axis.
 //
+// Every preset returns its own `relative` (the `before:` pseudo-element
+// needs something to position against) — if a caller ALSO needs
+// `position: absolute` for page-level floating placement (not just a
+// static-flow button), don't add an `absolute` Tailwind class alongside
+// this: `relative`/`absolute` set the same CSS `position` property, and
+// whichever rule Tailwind happens to generate later in its stylesheet wins
+// regardless of the order classes appear in the className string — this
+// silently drops the element to static position (caught live once, see
+// WardMap.tsx's mobile Filters trigger and its own comment). Set
+// `position: "absolute"` as an inline style instead; inline styles always
+// win over any class, sidestepping the ordering question entirely.
+//
 // Presets, not a computed inset: Tailwind v4's scanner needs complete,
 // literal class-name strings present in a file it scans — a string built
 // from `before:-inset-[${n}px]` never appears as text anywhere in the
@@ -73,6 +85,10 @@ export function focusRingClass(variant: FilterVariant): string {
 const TOUCH_TARGET_PRESETS: Record<number, string> = {
   // 24px visible (CoverageNotice's info glyph) -> 10px inset each side = 44px.
   24: "relative before:absolute before:-inset-2.5 before:content-[''] sm:before:inset-0",
+  // 29px visible (#map-corner-controls' buttons — sized to match MapLibre's
+  // own NavigationControl buttons, see those buttons' own comments) -> 7.5px
+  // inset each side = 44px.
+  29: "relative before:absolute before:-inset-[7.5px] before:content-[''] sm:before:inset-0",
   // 36px visible (WardModal's close button, AreaFilterList's switch track,
   // whose 36px width is its larger dimension) -> 4px inset each side = 44px.
   36: "relative before:absolute before:-inset-1 before:content-[''] sm:before:inset-0",

@@ -83,7 +83,7 @@ export function useDismissable<T extends HTMLElement>(active: boolean, onDismiss
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.key !== "Escape") return;
       // Nested dismissable surfaces (e.g. CoverageNotice's popover can
-      // render inside SearchBar inside MobileNav's own trapped sheet) —
+      // render inside SearchBar inside MobileSheet's own trapped panel) —
       // Escape should close only the innermost open surface, not bubble up
       // and close an ancestor dialog/sheet too. stopPropagation here
       // mirrors useFocusTrap.ts's own convention on its Tab handler (see
@@ -99,7 +99,7 @@ export function useDismissable<T extends HTMLElement>(active: boolean, onDismiss
       if (trigger && document.body.contains(trigger)) trigger.focus();
     };
     // capture:true so this runs before a bubbling handler on an ancestor
-    // dialog's own onKeyDown (WardModal/MobileNav's useFocusTrap listens
+    // dialog's own onKeyDown (WardModal/MobileSheet's useFocusTrap listens
     // via a React onKeyDown prop on their container, a bubble-phase
     // listener) — without capture, stopPropagation here wouldn't run in
     // time to stop that ancestor from also treating the same Escape press

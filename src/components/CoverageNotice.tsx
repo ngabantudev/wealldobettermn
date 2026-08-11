@@ -75,10 +75,11 @@ export default function CoverageNotice() {
           // Opens upward by default, downward at sm+ — this component only
           // ever renders in two places (see SearchBar.tsx): the header on
           // desktop, where the button sits near the top of the screen with
-          // room below it, or MobileNav's Search sheet, where it sits just
-          // above the bottom nav with almost no room below at all. Same
-          // flip MapThemeSelector's own popover uses, just inverted, since
-          // that one's toggle sits at the opposite corner.
+          // room below it, or SiteHeader's Search MobileSheet on mobile,
+          // where it sits just above the bottom nav with almost no room
+          // below at all. Same flip MapThemeSelector's own popover uses,
+          // just inverted, since that one's toggle sits at the opposite
+          // corner.
           // w-72 with a max-w viewport clamp — same idiom MastheadSaying's
           // own info popover already uses (see that component) — so a
           // right-0-anchored w-72 (288px) panel can't overflow the left

@@ -178,10 +178,10 @@ const POLLING_PLACE_FINDER_URL = "https://pollfinder.sos.mn.gov/";
 // Shared by every overlay panel below the input (the suggestions listbox,
 // the outcome message, the loading notice) — opens upward by default,
 // downward at sm+. This input only ever sits at the top of the screen
-// (SiteHeader, desktop) or right above MobileNav's nav bar (its Search
-// sheet, mobile); a downward-opening panel from the second position has
-// nowhere to go but on top of the nav bar itself. Same flip
-// CoverageNotice's own popover uses, for the same reason.
+// (SiteHeader, desktop) or right above MobileBottomNav's nav bar
+// (SiteHeader's Search MobileSheet, mobile); a downward-opening panel from
+// the second position has nowhere to go but on top of the nav bar itself.
+// Same flip CoverageNotice's own popover uses, for the same reason.
 const OVERLAY_POSITION_CLASSES = "absolute left-0 right-0 bottom-full z-10 mb-2 sm:bottom-auto sm:top-full sm:mb-0 sm:mt-2";
 
 export default function SearchBar({ manifest, allPlaces, onSelectWard, onSelectCity, onSelectCounty }: SearchBarProps) {
@@ -465,7 +465,7 @@ export default function SearchBar({ manifest, allPlaces, onSelectWard, onSelectC
     // instead (full width up to a cap), so it adapts to whatever's
     // actually available: the topbar's flexible middle slot on desktop
     // (SiteHeader), or the nearly-full-width sheet slot on mobile
-    // (MobileNav), rather than a viewport-relative guess that ignores
+    // (MobileSheet), rather than a viewport-relative guess that ignores
     // either. The `.well` recessed-surface treatment (see globals.css's
     // own comment on that token) is what gives this its Minnesota-flag
     // coloring for free: Night Sky Blue darkened a step further than the

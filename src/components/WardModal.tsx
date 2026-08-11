@@ -1319,7 +1319,7 @@ export default function WardModal({
   // selection, floating over MapLibre's scrim, closeable by Escape or the
   // close button above. Per AGENTS.md §4 "Keyboard Complete," a keyboard
   // user must not be able to Tab past it into whatever's behind it (the
-  // map, or — on mobile — MobileNav's own tab bar). "sidebar" never gets
+  // map, or — on mobile — MobileBottomNav's own bar). "sidebar" never gets
   // this: it's a persistent, always-mounted column, not a transient
   // overlay, so trapping focus in it would trap a keyboard user on every
   // hover, not just an explicit open. `active` no-ops the hook entirely

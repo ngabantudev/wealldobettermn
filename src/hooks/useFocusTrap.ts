@@ -3,8 +3,8 @@
 import { useEffect, useRef, type KeyboardEvent, type RefObject } from "react";
 
 // A small, dependency-free focus trap for the app's two hand-rolled
-// dialog-shaped surfaces — WardModal's "sheet" variant and MobileNav's
-// bottom sheet (see AGENTS.md §4 "Keyboard Complete" and issue #79, which
+// dialog-shaped surfaces — WardModal's "sheet" variant and MobileSheet's
+// raised panel (see AGENTS.md §4 "Keyboard Complete" and issue #79, which
 // rejected a shadcn/Radix retrofit for everything *except* this one real
 // bug). Deliberately not a generic "dialog manager": no portal, no
 // scroll-lock, no ARIA wiring — those are already handled per-component
@@ -83,8 +83,8 @@ export function useFocusTrap<T extends HTMLElement>(
       first.focus();
     }
     // Stops here rather than bubbling to an ancestor's own trap — WardModal
-    // renders nested inside MobileNav's sheet on mobile, and each owns its
-    // own instance of this hook. The innermost active trap (whichever
+    // renders nested inside MobileSheet's raised panel on mobile, and each
+    // owns its own instance of this hook. The innermost active trap (whichever
     // dialog Tab was actually pressed inside) is the one that should own
     // the keystroke.
     e.stopPropagation();

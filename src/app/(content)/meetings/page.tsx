@@ -16,8 +16,8 @@ import {
 // be built from MEETINGS_JURISDICTIONS's own `dataPath` field — the two
 // have to be kept in sync by hand if a data path ever moves, same
 // constraint that page's comment documents for BILLS_DATA_PATH.
-import stpaulMeetingsData from "../../../public/legistar/stpaul-meetings.json";
-import hennepinmnMeetingsData from "../../../public/legistar/hennepinmn-meetings.json";
+import stpaulMeetingsData from "../../../../public/legistar/stpaul-meetings.json";
+import hennepinmnMeetingsData from "../../../../public/legistar/hennepinmn-meetings.json";
 
 export const metadata: Metadata = {
   title: "Meetings & agendas — We All Do Better",
