@@ -308,6 +308,11 @@ export async function POST(request: NextRequest) {
       sourceUrl,
       officials: extraction.officials,
       submittedAt: new Date().toISOString(),
+      // Reused from step 1's rate-limit check, not recomputed — see
+      // CastVoteParams.voterIpHash's own comment for what this eventually
+      // gets compared against (POST /api/submissions/:id/vote's
+      // self-confirmation block).
+      submitterIpHash: ipHash,
     });
   } catch (err) {
     if (err instanceof DuplicateSubmissionError) {

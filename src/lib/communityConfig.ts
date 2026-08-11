@@ -133,3 +133,11 @@ export const COMMUNITY_FETCH_MAX_REDIRECTS = 3;
  * model call itself is capped.
  */
 export const COMMUNITY_EXTRACTION_MAX_CHARS = 20_000;
+
+/**
+ * The repo `POST /api/submissions/:id/vote` and `.../dispute` fire a
+ * `githubDispatch.ts` repository_dispatch event against — always this
+ * repo, never derived from a request or env var, so a GITHUB_DISPATCH_TOKEN
+ * leak can't be pointed at an attacker-controlled repository.
+ */
+export const GITHUB_REPO = "ngabantudev/wealldobettermn";

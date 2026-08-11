@@ -25,3 +25,15 @@ TURNSTILE_SECRET_KEY=1x0000000000000000000000000000000AA
 # production this is a real `wrangler secret put COMMUNITY_HASH_SALT`
 # value, generated once and never committed or logged.
 COMMUNITY_HASH_SALT=local-dev-salt-not-for-production
+
+# Fine-grained GitHub PAT scoped to ONLY this repo, with repository_dispatch
+# write and no other permission — used by POST /api/submissions/:id/vote
+# and .../dispute to hand off graduation/revert work to a GitHub Action
+# (src/lib/githubDispatch.ts). Left unset here on purpose: without it, both
+# routes still record the vote/dispute correctly in D1 and log a clear
+# "not configured" message instead of crashing the request — that's the
+# real, honest state of this repo until the graduation/revert Actions
+# themselves exist (see AGENTS.md §2.6 "Structural non-goals"). Set a real
+# value here only once you actually want to exercise a live dispatch call
+# against a real (ideally throwaway/test) repo.
+# GITHUB_DISPATCH_TOKEN=

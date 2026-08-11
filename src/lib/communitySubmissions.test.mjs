@@ -36,7 +36,9 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const MIGRATION_SQL =
   readFileSync(path.join(__dirname, "../../migrations/0001_community_submissions.sql"), "utf8") +
   "\n" +
-  readFileSync(path.join(__dirname, "../../migrations/0002_submission_rate_limit.sql"), "utf8");
+  readFileSync(path.join(__dirname, "../../migrations/0002_submission_rate_limit.sql"), "utf8") +
+  "\n" +
+  readFileSync(path.join(__dirname, "../../migrations/0003_submitter_ip_hash.sql"), "utf8");
 
 /** Wraps node:sqlite's synchronous API to match the async D1DatabaseLike interface communitySubmissions.ts expects. */
 function createD1LikeFromSqlite(sqliteDb) {
@@ -87,6 +89,12 @@ async function insertSample(db, overrides = {}) {
     sourceUrl: overrides.sourceUrl ?? "https://city.example.gov/",
     officials: overrides.officials ?? SAMPLE_OFFICIALS,
     submittedAt: overrides.submittedAt ?? "2026-08-09T00:00:00.000Z",
+    // Defaults to null (not e.g. "submitter-hash") so every EXISTING test
+    // below — none of which are testing self-confirmation — keeps working
+    // unchanged: a null submitterIpHash never blocks a vote (see
+    // migrations/0003's own comment). Tests exercising the block itself
+    // pass a real value explicitly.
+    submitterIpHash: overrides.submitterIpHash ?? null,
   });
 }
 
@@ -119,6 +127,73 @@ test("a second pending submission for the same city is allowed once the first is
   await insertSample(db, { id: "sub-2" });
   const record = await getPendingSubmissionForCity(db, "Example");
   assert.equal(record.id, "sub-2");
+});
+
+// --- castVote: self-confirmation block ----------------------------------
+
+test("a confirm vote from the same IP hash as the submitter is blocked, not recorded", async () => {
+  const db = freshDb();
+  await insertSample(db, { submitterIpHash: "submitter-hash" });
+  const result = await castVote(db, {
+    submissionId: "sub-1",
+    voteType: "confirm",
+    dedupKey: "voter-a-day1",
+    createdAt: "2026-08-09",
+    voterIpHash: "submitter-hash",
+  });
+  assert.equal(result.outcome, "self_confirmation_blocked");
+
+  const record = await getPendingSubmissionForCity(db, "Example");
+  assert.equal(record.confirmations, 0);
+  assert.equal(record.status, "pending"); // never graduated off a blocked self-confirm
+});
+
+test("a confirm vote from a DIFFERENT IP hash than the submitter is recorded normally", async () => {
+  const db = freshDb();
+  await insertSample(db, { submitterIpHash: "submitter-hash" });
+  const result = await castVote(db, {
+    submissionId: "sub-1",
+    voteType: "confirm",
+    dedupKey: "voter-a-day1",
+    createdAt: "2026-08-09",
+    voterIpHash: "someone-elses-hash",
+  });
+  assert.equal(result.outcome, "recorded");
+  assert.equal(result.confirmations, 1);
+});
+
+test("flagging your own submission is NOT blocked — the self-confirmation check only applies to confirm votes", async () => {
+  const db = freshDb();
+  await insertSample(db, { submitterIpHash: "submitter-hash" });
+  const result = await castVote(db, {
+    submissionId: "sub-1",
+    voteType: "flag",
+    dedupKey: "voter-a-day1",
+    createdAt: "2026-08-09",
+    voterIpHash: "submitter-hash",
+  });
+  assert.equal(result.outcome, "recorded");
+  assert.equal(result.flags, 1);
+});
+
+test("a NULL submitterIpHash (pre-migration row, or IP genuinely unavailable at submit time) never blocks a confirm vote", async () => {
+  const db = freshDb();
+  await insertSample(db, { submitterIpHash: null });
+  const result = await castVote(db, {
+    submissionId: "sub-1",
+    voteType: "confirm",
+    dedupKey: "voter-a-day1",
+    createdAt: "2026-08-09",
+    voterIpHash: "some-voter-hash",
+  });
+  assert.equal(result.outcome, "recorded");
+});
+
+test("an omitted voterIpHash behaves like null — never blocks, matching every pre-existing castVote call in this file", async () => {
+  const db = freshDb();
+  await insertSample(db, { submitterIpHash: "submitter-hash" });
+  const result = await castVote(db, { submissionId: "sub-1", voteType: "confirm", dedupKey: "voter-a-day1", createdAt: "2026-08-09" });
+  assert.equal(result.outcome, "recorded");
 });
 
 // --- castVote: dedup ---------------------------------------------------
