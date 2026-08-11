@@ -1173,6 +1173,13 @@ function useTierStack() {
         scrollTopBefore: scrollRoot.scrollTop,
         offsetTopBefore: sectionRect.top - scrollRootRect.top + scrollRoot.scrollTop,
       };
+    } else {
+      // Explicitly cleared, not left as whatever a *prior* toggle set it
+      // to — without this, a toggle whose refs weren't ready yet (or a
+      // rare same-commit double-toggle) could leave a stale entry for the
+      // wrong tier/index sitting here for the layout effect below to pick
+      // up and misapply on the next unrelated collapse state change.
+      pendingCompensationRef.current = null;
     }
     setCollapsed((prev) => ({ ...prev, [key]: !prev[key] }));
   };

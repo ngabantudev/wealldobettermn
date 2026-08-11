@@ -5,13 +5,22 @@
 // (2026-08-09) so the persistent header search box (SiteSearch.tsx) can
 // load them without depending on WardMap being mounted at all.
 //
-// SiteSearch.tsx is this hook's only consumer now — the mobile chrome
-// redesign deleted WardMap's own separate copy of this same fetch pair
-// (it used to feed a WardMap-owned duplicate SearchBar instance living in
-// the now-deleted MobileNav's Search tab). Mobile search is SiteSearch's
-// single implementation for every breakpoint now, reachable from
-// SiteHeader on all of them (see that file's own comment) — so there's
-// exactly one fetch of these two files per page load, not two.
+// Called once, in SiteHeader.tsx — not inside SiteSearch.tsx itself, even
+// though SiteSearch is the actual consumer of the data. SiteHeader mounts
+// two SiteSearch instances simultaneously on mobile (an always-present-
+// but-CSS-hidden desktop box, and a second one inside the mobile search
+// MobileSheet); calling this hook from inside SiteSearch (the original
+// shape) meant each instance fetched independently — two full fetch+parse
+// cycles of the same two files, a real bandwidth/battery cost on the
+// throttled-3G/old-phone target device AGENTS.md §4 cares about, caught in
+// review. SiteHeader now calls this once and passes the result down as
+// props to both SiteSearch instances, so there's exactly one fetch of
+// these two files per page load, not two.
+//
+// The mobile chrome redesign separately deleted WardMap's own copy of this
+// same fetch pair (it used to feed a WardMap-owned duplicate SearchBar
+// instance living in the now-deleted MobileNav's Search tab) — mobile
+// search is SiteSearch's single implementation for every breakpoint now.
 import { useEffect, useState } from "react";
 import { dataUrl } from "@/lib/dataUrl";
 import type { AddressGazetteerManifest, MnPlaces } from "@/lib/types";

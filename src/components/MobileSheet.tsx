@@ -28,11 +28,23 @@ interface MobileSheetProps {
   // show, no reason to make this component re-derive that.
   content: ReactNode;
   onDismiss: () => void;
+  // Caller-supplied, not generated internally via useId() — the trigger
+  // button that opens this sheet lives in a *different* component
+  // (SiteHeader, WardMap), so it needs this id in hand itself to set its
+  // own `aria-controls`. Generating the id inside MobileSheet (the
+  // original approach) left no way for the trigger to reference it,
+  // meaning the disclosure relationship assistive tech relies on
+  // (aria-expanded says "something changed," aria-controls says "here's
+  // what") was incomplete — caught live in a review pass. Optional only so
+  // a hypothetical future caller with no distinct trigger of its own isn't
+  // forced to invent one.
+  contentId?: string;
 }
 
-export default function MobileSheet({ content, onDismiss }: MobileSheetProps) {
+export default function MobileSheet({ content, onDismiss, contentId }: MobileSheetProps) {
   const open = content !== null;
-  const sheetId = useId();
+  const generatedId = useId();
+  const sheetId = contentId ?? generatedId;
 
   // Focus-trap gap fix (issue #79, carried over from MobileNav.tsx) — keeps
   // Tab/Shift+Tab inside this raised sheet while it's open, moves focus in
@@ -44,13 +56,29 @@ export default function MobileSheet({ content, onDismiss }: MobileSheetProps) {
   // useFocusTrap's own stopPropagation comment.
   const { containerRef, onKeyDown } = useFocusTrap<HTMLDivElement>(open);
 
+  // Not useDismissable.ts (this app's own shared Escape/outside-pointerdown
+  // hook) — that hook expects one `rootRef` wrapping both a surface's
+  // trigger and its panel, so a pointerdown on the trigger itself isn't
+  // mistaken for "outside." This sheet's trigger lives in a *different*
+  // component (SiteHeader's Search button, WardMap's Filters button) than
+  // this one, so there's no single root to wrap, and outside-dismiss is
+  // already correctly handled below via the scrim's own onClick — a
+  // full-viewport scrim makes "inside vs. outside" unambiguous without
+  // needing pointerdown tracking at all. What's still worth matching is
+  // useDismissable's own Escape convention specifically: capture phase plus
+  // `stopPropagation`, so a nested dismissable surface inside `content`
+  // (e.g. CoverageNotice's popover, reachable from the Search sheet's own
+  // SearchBar) closes only itself on Escape, not this sheet too — a real
+  // gap the previous bubble-phase version here didn't guard against.
   useEffect(() => {
     if (!open) return;
     const onKeyDownEscape = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onDismiss();
+      if (e.key !== "Escape") return;
+      e.stopPropagation();
+      onDismiss();
     };
-    document.addEventListener("keydown", onKeyDownEscape);
-    return () => document.removeEventListener("keydown", onKeyDownEscape);
+    document.addEventListener("keydown", onKeyDownEscape, true);
+    return () => document.removeEventListener("keydown", onKeyDownEscape, true);
   }, [open, onDismiss]);
 
   if (!open) return null;

@@ -11,17 +11,23 @@
 //
 // Only ever armed (allowed to start tracking a dismiss-drag) in two cases:
 // touchstart on the drag-handle itself, or touchstart anywhere else in the
-// wrapper while the scroll region's own scrollTop is already 0. That second
-// condition is what keeps this from ever hijacking ordinary mid-content
-// scrolling — a touch that starts below the very top of the scrolled
-// content is never armed, full stop, so a downward scroll deeper in the
-// list is never mistaken for a dismiss gesture. Once armed, a small
-// movement threshold (ARM_MOVE_THRESHOLD_PX) further distinguishes "a real
-// downward drag" from a tap or an upward scroll-back-up-to-top gesture —
-// only a clear positive deltaY (finger moving down the screen) past that
-// threshold ever calls preventDefault or shows live feedback; an upward
-// move is left completely alone, so scrolling normally from the top still
-// works exactly as before this hook existed.
+// wrapper while the scroll region's own scrollTop is already 0 — EXCEPT
+// when that touch starts on another interactive control (the Close button,
+// a tier's disclosure button). That exception was caught live: without it,
+// an ordinary tap-with-slight-finger-drift on those controls (routine touch
+// imprecision, not a deliberate drag) got hijacked into visibly translating
+// the whole sheet, or dismissing it outright if the drift crossed the
+// distance threshold. The scrollTop-0 condition itself is what keeps this
+// from ever hijacking ordinary mid-content scrolling — a touch that starts
+// below the very top of the scrolled content is never armed, full stop, so
+// a downward scroll deeper in the list is never mistaken for a dismiss
+// gesture. Once armed, a small movement threshold (ARM_MOVE_THRESHOLD_PX)
+// further distinguishes "a real downward drag" from a tap or an upward
+// scroll-back-up-to-top gesture — only a clear positive deltaY (finger
+// moving down the screen) past that threshold ever calls preventDefault or
+// shows live feedback; an upward move is left completely alone, so
+// scrolling normally from the top still works exactly as before this hook
+// existed.
 //
 // Live visual feedback uses the standalone CSS `translate` property, not
 // `transform: translateY(...)` — WardModal's own scroll container (and its
@@ -96,8 +102,18 @@ export function useSwipeToDismiss({ enabled, wrapperRef, dragHandleRef, scrollRo
       if (e.touches.length !== 1) return; // ignore multi-touch (pinch, etc.)
       const target = e.target as Node;
       const onHandle = dragHandleRef.current?.contains(target) ?? false;
+      // A touch that starts on an interactive control elsewhere in the
+      // wrapper (the Close button, a tier's disclosure button) is never
+      // armed, even at scrollTop 0 — caught live: without this, a normal
+      // tap-with-slight-finger-drift on those controls (ordinary touch
+      // imprecision, not a deliberate drag) got hijacked into visibly
+      // translating the whole sheet, or dismissing it outright if the
+      // drift happened to cross the distance threshold. The drag-handle
+      // itself is exempt from this check — it has no other interactive
+      // content, so `onHandle` alone already covers it correctly.
+      const onOtherControl = !onHandle && !!(target as HTMLElement).closest?.("button, a, input, select, textarea");
       const atTop = (scrollRootRef.current?.scrollTop ?? 0) === 0;
-      if (!onHandle && !atTop) return;
+      if (onOtherControl || (!onHandle && !atTop)) return;
       armed = true;
       dragging = false;
       startY = e.touches[0].clientY;
@@ -134,17 +150,29 @@ export function useSwipeToDismiss({ enabled, wrapperRef, dragHandleRef, scrollRo
       reset();
     };
 
+    // touchcancel fires for interruptions the resident didn't choose (an
+    // incoming call, the OS taking over the gesture, browser chrome
+    // stealing it) — never a deliberate release. Routing it through
+    // onTouchEnd's own threshold check used to mean an in-progress drag
+    // that happened to be past threshold at the moment of cancellation
+    // dismissed the sheet as if it had been released on purpose. This
+    // always settles back instead, regardless of currentOffset.
+    const onTouchCancel = () => {
+      if (dragging) settle();
+      reset();
+    };
+
     wrapper.addEventListener("touchstart", onTouchStart, { passive: true });
     // Not passive — onTouchMove conditionally calls preventDefault once a
     // drag is confirmed, which passive:true would silently disallow.
     wrapper.addEventListener("touchmove", onTouchMove, { passive: false });
     wrapper.addEventListener("touchend", onTouchEnd);
-    wrapper.addEventListener("touchcancel", onTouchEnd);
+    wrapper.addEventListener("touchcancel", onTouchCancel);
     return () => {
       wrapper.removeEventListener("touchstart", onTouchStart);
       wrapper.removeEventListener("touchmove", onTouchMove);
       wrapper.removeEventListener("touchend", onTouchEnd);
-      wrapper.removeEventListener("touchcancel", onTouchEnd);
+      wrapper.removeEventListener("touchcancel", onTouchCancel);
       wrapper.style.transition = "";
       wrapper.style.translate = "";
     };
