@@ -38,7 +38,9 @@ const MIGRATION_SQL =
   "\n" +
   readFileSync(path.join(__dirname, "../../migrations/0002_submission_rate_limit.sql"), "utf8") +
   "\n" +
-  readFileSync(path.join(__dirname, "../../migrations/0003_submitter_ip_hash.sql"), "utf8");
+  readFileSync(path.join(__dirname, "../../migrations/0003_submitter_ip_hash.sql"), "utf8") +
+  "\n" +
+  readFileSync(path.join(__dirname, "../../migrations/0004_dispute_dedup.sql"), "utf8");
 
 /** Wraps node:sqlite's synchronous API to match the async D1DatabaseLike interface communitySubmissions.ts expects. */
 function createD1LikeFromSqlite(sqliteDb) {
@@ -315,22 +317,56 @@ test("listLiveSubmissionsForMap includes pending and graduating, excludes gradua
 test("recordDispute only applies to graduated submissions, not pending ones", async () => {
   const db = freshDb();
   await insertSample(db);
-  const result = await recordDispute(db, "sub-1");
+  const result = await recordDispute(db, { submissionId: "sub-1", dedupKey: "disputer-a-day1", createdAt: "2026-08-09" });
   assert.equal(result, null);
 });
 
-test(`recordDispute reports triggeredRevertIssue at exactly ${COMMUNITY_GRADUATION_DISPUTE_THRESHOLD} disputes`, async () => {
+test(`recordDispute reports triggeredRevertIssue at exactly ${COMMUNITY_GRADUATION_DISPUTE_THRESHOLD} disputes from DISTINCT disputers`, async () => {
   const db = freshDb();
   await insertSample(db);
   await markGraduated(db, { id: "sub-1", graduatedAt: "2026-08-09", commitSha: "abc123" });
 
   for (let i = 0; i < COMMUNITY_GRADUATION_DISPUTE_THRESHOLD - 1; i++) {
-    const result = await recordDispute(db, "sub-1");
+    const result = await recordDispute(db, { submissionId: "sub-1", dedupKey: `disputer-${i}`, createdAt: "2026-08-09" });
+    assert.equal(result.outcome, "recorded");
     assert.equal(result.triggeredRevertIssue, false);
   }
-  const crossing = await recordDispute(db, "sub-1");
+  const crossing = await recordDispute(db, {
+    submissionId: "sub-1",
+    dedupKey: `disputer-${COMMUNITY_GRADUATION_DISPUTE_THRESHOLD - 1}`,
+    createdAt: "2026-08-09",
+  });
+  assert.equal(crossing.outcome, "recorded");
   assert.equal(crossing.disputeCount, COMMUNITY_GRADUATION_DISPUTE_THRESHOLD);
   assert.equal(crossing.triggeredRevertIssue, true);
+});
+
+// Regression: found live — before migrations/0004, recordDispute had no
+// per-voter dedup at all, so the SAME disputer calling this twice could
+// single-handedly reach COMMUNITY_GRADUATION_DISPUTE_THRESHOLD alone.
+test("a second dispute from the SAME dedup key is rejected as duplicate, not counted again", async () => {
+  const db = freshDb();
+  await insertSample(db);
+  await markGraduated(db, { id: "sub-1", graduatedAt: "2026-08-09", commitSha: "abc123" });
+
+  const first = await recordDispute(db, { submissionId: "sub-1", dedupKey: "disputer-a-day1", createdAt: "2026-08-09T00:00:00Z" });
+  assert.equal(first.outcome, "recorded");
+  assert.equal(first.disputeCount, 1);
+
+  const duplicate = await recordDispute(db, { submissionId: "sub-1", dedupKey: "disputer-a-day1", createdAt: "2026-08-09T00:01:00Z" });
+  assert.equal(duplicate.outcome, "duplicate");
+
+  // One real disputer, however many times they call this, is still one
+  // dispute — even calling it COMMUNITY_GRADUATION_DISPUTE_THRESHOLD
+  // times from the same dedup key must never cross the threshold alone.
+  for (let i = 0; i < COMMUNITY_GRADUATION_DISPUTE_THRESHOLD; i++) {
+    await recordDispute(db, { submissionId: "sub-1", dedupKey: "disputer-a-day1", createdAt: "2026-08-09T00:02:00Z" });
+  }
+  const stillOne = await recordDispute(db, { submissionId: "sub-1", dedupKey: "disputer-b-day1", createdAt: "2026-08-09" });
+  // The second REAL disputer (a distinct dedup key) is the 2nd genuine
+  // dispute — if the same-key spam above had counted, this would already
+  // be well past threshold instead of exactly crossing it now.
+  assert.equal(stillOne.disputeCount, 2);
 });
 
 // --- submission-creation rate limiting (migrations/0002) -------------------

@@ -321,30 +321,53 @@ export async function markGraduated(db: D1DatabaseLike, params: MarkGraduatedPar
     .run();
 }
 
-export interface RecordDisputeResult {
-  disputeCount: number;
-  triggeredRevertIssue: boolean;
+export type RecordDisputeResult =
+  | { outcome: "duplicate" }
+  | { outcome: "recorded"; disputeCount: number; triggeredRevertIssue: boolean };
+
+export interface RecordDisputeParams {
+  submissionId: string;
+  // Same salted, day-bucketed dedup_key shape as CastVoteParams — see
+  // migrations/0004's own comment on why this exists: without it, one
+  // person calling this endpoint twice could single-handedly reach
+  // COMMUNITY_GRADUATION_DISPUTE_THRESHOLD alone. Required, not optional
+  // like CastVoteParams.voterIpHash — there's no equivalent "existing
+  // tests that don't care" population to protect here, since this
+  // parameter didn't exist before this fix at all.
+  dedupKey: string;
+  createdAt: string;
 }
 
 /**
  * Post-graduation dispute (AGENTS.md §2.6's deliberately-asymmetric
  * mitigation for the zero-pre-commit-review risk acceptance). Only valid
- * against a `graduated` submission — increments `dispute_count`, and at
+ * against a `graduated` submission (returns null, not a RecordDisputeResult,
+ * for "doesn't exist or isn't graduated" — the caller treats that as a 404,
+ * same convention as before this fix). Increments `dispute_count`, and at
  * COMMUNITY_GRADUATION_DISPUTE_THRESHOLD tells the caller to open a
  * (human-merge-required) revert issue. Never flips status itself; nothing
  * about a graduated record auto-reverts.
  */
-export async function recordDispute(db: D1DatabaseLike, submissionId: string): Promise<RecordDisputeResult | null> {
-  const existing = await getSubmissionById(db, submissionId);
+export async function recordDispute(db: D1DatabaseLike, params: RecordDisputeParams): Promise<RecordDisputeResult | null> {
+  const existing = await getSubmissionById(db, params.submissionId);
   if (!existing || existing.status !== "graduated") return null;
+
+  const insertResult = await db
+    .prepare(`INSERT INTO submission_disputes (submission_id, dedup_key, created_at) VALUES (?, ?, ?)
+              ON CONFLICT (submission_id, dedup_key) DO NOTHING`)
+    .bind(params.submissionId, params.dedupKey, params.createdAt)
+    .run();
+  if (insertResult.meta.changes === 0) {
+    return { outcome: "duplicate" };
+  }
 
   const updated = await db
     .prepare(`UPDATE submissions SET dispute_count = dispute_count + 1 WHERE id = ? RETURNING dispute_count`)
-    .bind(submissionId)
+    .bind(params.submissionId)
     .first<{ dispute_count: number }>();
   const disputeCount = updated?.dispute_count ?? existing.disputeCount + 1;
 
-  return { disputeCount, triggeredRevertIssue: disputeCount >= COMMUNITY_GRADUATION_DISPUTE_THRESHOLD };
+  return { outcome: "recorded", disputeCount, triggeredRevertIssue: disputeCount >= COMMUNITY_GRADUATION_DISPUTE_THRESHOLD };
 }
 
 // --- Submission-creation rate limiting (migrations/0002) -------------------
