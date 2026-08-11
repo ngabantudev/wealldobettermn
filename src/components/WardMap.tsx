@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 import type { Feature, FeatureCollection, Geometry, Point } from "geojson";
-import type { AddressGazetteerManifest, MnPlaces, RepProperties, WardRef } from "@/lib/types";
+import type { RepProperties, WardRef } from "@/lib/types";
 import { dataUrl } from "@/lib/dataUrl";
 import type { AreaOfficials, CivicGeometrySources } from "@/lib/officials";
 import { officialIdentity, resolveAllCityOfficials, resolveOfficialsAtPoint } from "@/lib/officials";
@@ -31,24 +31,28 @@ import {
 } from "@/lib/mapStyles";
 import { getActiveTheme, setTheme, type SiteTheme } from "@/lib/siteTheme";
 import { useSearchCoordinator, type PendingSelection } from "@/lib/searchCoordinator";
+import { useMobileSheetCoordinator } from "@/lib/mobileSheetCoordinator";
 import { readStored, writeStored } from "@/lib/storage";
-import { focusRingClass, rowHoverClass } from "@/lib/variantClasses";
+import { focusRingClass, rowHoverClass, touchTargetClass } from "@/lib/variantClasses";
 import AreaFilterList from "./AreaFilterList";
 import MapThemeSelector from "./MapThemeSelector";
-import MobileNav, { IconSearch, IconSliders, type MobileNavTab } from "./MobileNav";
-import SearchBar from "./SearchBar";
+import MobileSheet from "./MobileSheet";
 import WardModal, { areaLabel, roleLabel } from "./WardModal";
 
-// The two destinations MobileNav's bottom bar offers — everything the
-// desktop chrome spreads across the header's search box and the top-left
-// mode/filter stack, folded into one tab bar below `sm`. The theme/basemap
-// popover isn't a third destination here: MapThemeSelector renders at the
-// same map corner on every breakpoint (see #map-corner-controls below)
-// rather than being tucked into a mobile-only tab, so there's nothing
-// mobile-specific left for this type to name for it. See MobileNav's own
-// comment for why a tab's sheet and the priority ward modal never compete
-// for the same slot.
-type MobileSheetId = "search" | "filters";
+// Mobile-only icon for the Filters trigger (see #map-corner-controls below)
+// and the desktop sidebar's own "Filters" section header just below it —
+// one definition, two call sites, same as before this component owned it
+// directly (it used to live in the now-deleted MobileNav.tsx, back when
+// that file's tab bar was this icon's only consumer).
+function IconSliders({ className = "h-5 w-5 shrink-0" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 20 20" fill="none" className={className}>
+      <path d="M3 6h5M12 6h5M3 14h2M9 14h8" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+      <circle cx="9.5" cy="6" r="2.2" stroke="currentColor" strokeWidth="1.6" />
+      <circle cx="6.5" cy="14" r="2.2" stroke="currentColor" strokeWidth="1.6" />
+    </svg>
+  );
+}
 
 const WARDS_SOURCE_ID = "wards-source";
 const WARDS_FILL_LAYER_ID = "wards-fill";
@@ -1352,6 +1356,17 @@ export default function WardMap() {
   // effects below, and searchCoordinator.tsx's own comment for why this
   // seam exists at all.
   const { registerMapHandlers, takePendingSelection } = useSearchCoordinator();
+  // openSheet/setOpenSheet: the shared "which mobile sheet is raised right
+  // now, if any" state (src/lib/mobileSheetCoordinator.tsx) — WardMap no
+  // longer keeps its own local activeMobileSheet state here, since Search
+  // moved to a completely different component (SiteHeader.tsx) and the two
+  // need a shared source of truth to stay mutually exclusive. Every call
+  // site below that used to clear this component's own local state now
+  // clears the shared one instead, which also correctly closes SiteHeader's
+  // Search sheet if that was the one open — same "the priority selection
+  // always wins over whatever sheet was up" behavior as before, just
+  // reaching one component further than it used to need to.
+  const { openSheet, setOpenSheet } = useMobileSheetCoordinator();
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
   const mapRef = useRef<maplibregl.Map | null>(null);
   // Mount points for MapLibre's NavigationControl and AttributionControl
@@ -1385,8 +1400,6 @@ export default function WardMap() {
   // every other reader of those two refs already tolerates them being
   // temporarily null (see addSourcesAndLayers/maybeStartPulseAnimation).
   const primaryCivicDataPromiseRef = useRef<Promise<PrimaryCivicData | null> | null>(null);
-  const [addressManifest, setAddressManifest] = useState<AddressGazetteerManifest | null>(null);
-  const [mnPlaces, setMnPlaces] = useState<MnPlaces | null>(null);
   const pinMarkersRef = useRef<PinMarker[]>([]);
   // The single "you searched here" pin — a plain ref rather than a slot in
   // pinMarkersRef, since it isn't a LayerMode-scoped officeholder pin and
@@ -1509,13 +1522,6 @@ export default function WardMap() {
   // screen reader with a sighted mouse user panning the map, so hover
   // updates `selected` (for sighted users) without ever touching this.
   const [announcement, setAnnouncement] = useState("");
-  // Mobile-only — which of MobileNav's three tabs (if any) currently has
-  // its sheet raised. Doesn't need a ref alongside selectedRef: the map
-  // effect below only ever *sets* this (clearing it back to null when a
-  // pin/polygon gets tapped), never reads its current value, so a stale
-  // closure over the setter is harmless — setState setters are stable
-  // across renders regardless of when the closure capturing them was made.
-  const [activeMobileSheet, setActiveMobileSheet] = useState<MobileSheetId | null>(null);
   const [layerMode, setLayerMode] = useState<LayerMode>("wards");
   const layerModeRef = useRef(layerMode);
   const [visibleCities, setVisibleCities] = useState<Record<City, boolean>>(
@@ -1688,51 +1694,6 @@ export default function WardMap() {
     });
   }, []);
 
-  // The address/ZIP gazetteer *manifest* (tens of KB — see
-  // scripts/fetch-addresses.mjs) that powers SearchBar's street-address
-  // and ZIP lookups. Fetched separately from wards/mayors/etc. above
-  // since SearchBar is the only consumer — city and county search work
-  // off wardsDataRef instead and don't need to wait on this at all.
-  //
-  // This used to fetch the whole gazetteer (a few MB, one flat file) up
-  // front. Per issue #70 / AGENTS.md §4's "chunked and lazily loaded so
-  // nobody downloads the whole state to find one ward," only the small
-  // manifest (every ZIP's ward list, plus the street->chunk routing
-  // table) loads here now — the actual per-county street/geometry
-  // payload is fetched lazily by SearchBar itself, only for the chunk(s)
-  // a *committed* query actually needs. See src/lib/addressChunks.ts.
-  useEffect(() => {
-    let cancelled = false;
-    fetch(dataUrl("address-index/manifest.json"))
-      .then((res) => res.json())
-      .then((data: AddressGazetteerManifest) => {
-        if (!cancelled) setAddressManifest(data);
-      })
-      .catch((err) => console.error("[WardMap] failed to load address gazetteer manifest", err));
-    return () => {
-      cancelled = true;
-    };
-  }, []);
-
-  // The full Minnesota city/county gazetteer (public/mn-places.json, a
-  // few dozen KB — see scripts/fetch-places.mjs) that lets SearchBar
-  // recognize *any* MN place name, not just the ones in src/lib/cities.ts
-  // this app has ward data for. Fetched separately for the same reason as
-  // address-index/manifest.json above: it's its own independent,
-  // lazily-loaded concern, and covered-city/-county search already works
-  // without it.
-  useEffect(() => {
-    let cancelled = false;
-    fetch(dataUrl("mn-places.json"))
-      .then((res) => res.json())
-      .then((data: MnPlaces) => {
-        if (!cancelled) setMnPlaces(data);
-      })
-      .catch((err) => console.error("[WardMap] failed to load MN place list", err));
-    return () => {
-      cancelled = true;
-    };
-  }, []);
 
   const zoomToBounds = (bounds: maplibregl.LngLatBounds) => {
     const map = mapRef.current;
@@ -2360,11 +2321,12 @@ export default function WardMap() {
     // resolution above for city/ZIP-level or ambiguous-free ward picks that
     // never had a precise point to begin with.
     setSearchPin(point ?? wardCenterPoint);
-    // Closes MobileNav's Search sheet on mobile so the ward modal (which
-    // takes over the sheet slot the instant `selected` is non-null) isn't
-    // left stacked behind it — a no-op on desktop, where nothing opened a
-    // mobile sheet to begin with.
-    setActiveMobileSheet(null);
+    // Closes whichever mobile sheet was open (Search, owned by SiteHeader,
+    // or Filters, owned here) via the shared coordinator, so the ward modal
+    // (which takes over the sheet slot the instant `selected` is non-null)
+    // isn't left stacked behind it — a no-op on desktop, where nothing
+    // opened a mobile sheet to begin with.
+    setOpenSheet(null);
     zoomToBounds(bounds);
   };
 
@@ -2404,7 +2366,7 @@ export default function WardMap() {
     // anchor a pin to, so any pin left over from a previous address search
     // is cleared rather than shown floating somewhere inside the new view.
     setSearchPin(null);
-    setActiveMobileSheet(null); // reveal the zoomed-to result instead of leaving the Search sheet up over it
+    setOpenSheet(null); // reveal the zoomed-to result instead of leaving the Search sheet up over it
     zoomToBoundsNoModal(bounds);
   };
 
@@ -2421,7 +2383,7 @@ export default function WardMap() {
     if (combined.length === 0) return;
     setSelected(null);
     setSearchPin(null); // same as applyCityZoom above — a county search has no single point to anchor to
-    setActiveMobileSheet(null); // same as applyCityZoom above
+    setOpenSheet(null); // same as applyCityZoom above
     zoomToBoundsNoModal(boundsFromFeatureCollection({ type: "FeatureCollection", features: combined }));
   };
 
@@ -2763,7 +2725,7 @@ export default function WardMap() {
         }
         selectPinned(resolveSelectionAtPoint(point, properties), identity, properties.city, tierForRole(properties.role));
         setHighlight(highlightTargetForRep(properties));
-        setActiveMobileSheet(null); // see applySearchResult's comment on this same call
+        setOpenSheet(null); // see applySearchResult's comment on this same call
         zoomToBounds(zoomBounds);
       });
 
@@ -3489,7 +3451,7 @@ export default function WardMap() {
           ? cityWards.filter((f) => f.id != null).map((f) => ({ source: WARDS_SOURCE_ID, id: f.id as string | number }))
           : fallbackHighlight,
       );
-      setActiveMobileSheet(null);
+      setOpenSheet(null);
       // boundsForCity reads whatever ward/at-large geometry has loaded so
       // far (see its own comment) and can briefly return null right after
       // mount; falling back to the clicked feature's own bounds — narrower
@@ -3683,7 +3645,7 @@ export default function WardMap() {
         const point = toPoint(e.lngLat);
         selectPinned(resolveSelectionAtPoint(point), identity, (hit.properties?.city as string | undefined) ?? null, "city");
         setHighlight(hit.id != null ? { source: hit.source, id: hit.id } : null);
-        setActiveMobileSheet(null);
+        setOpenSheet(null);
         const boundaryFeature = atLargeBoundariesDataRef.current?.features.find(
           (f) => f.properties?.city === hit.properties?.city,
         );
@@ -3765,7 +3727,7 @@ export default function WardMap() {
         const point = toPoint(e.lngLat);
         selectPinned(resolveSelectionAtPoint(point), identity, cityName ?? null, "city");
         setHighlight(hit.id != null ? { source: hit.source, id: hit.id } : null);
-        setActiveMobileSheet(null);
+        setOpenSheet(null);
         const boundaryFeature = cityBoundariesDataRef.current?.features.find(
           (f) => f.properties?.name === cityName,
         );
@@ -3849,7 +3811,7 @@ export default function WardMap() {
       }
       selectPinned(resolveSelectionAtPoint(point, known), identity, known.city, tierForRole(known.role));
       setHighlight(hit.id != null ? { source: hit.source, id: hit.id } : null);
-      setActiveMobileSheet(null); // see applySearchResult's comment on this same call
+      setOpenSheet(null); // see applySearchResult's comment on this same call
       zoomToBounds(boundsFromFeature((fullFeature ?? hit) as Feature<Geometry>));
     });
 
@@ -3893,35 +3855,26 @@ export default function WardMap() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // This instance is mobile-only now (MobileNav's Search tab) — the
-  // desktop search box in SiteHeader is SiteSearch.tsx's own independent
-  // instance, always mounted in the root layout rather than portaled in
-  // from here (see searchCoordinator.tsx). Mobile search stays scoped to
-  // "/" for now, same as MobileNav's bottom bar itself, which only renders
-  // inside this component's own return below.
-  const searchBar = (
-    <SearchBar
-      manifest={addressManifest}
-      allPlaces={mnPlaces}
-      onSelectWard={applySearchResult}
-      onSelectCity={applyCityZoom}
-      onSelectCounty={(_county, cities) => applyCountyZoom(cities)}
-    />
-  );
+  // Search itself no longer has a WardMap-owned instance — mobile chrome
+  // redesign consolidated it onto SiteSearch.tsx's single, route-independent
+  // instance (rendered once in SiteHeader.tsx, reachable on every
+  // breakpoint via searchCoordinator.tsx), which is what applySearchResult/
+  // applyCityZoom/applyCountyZoom just above are already built to serve —
+  // see that context's own comment.
 
   // Chrome for the mode switcher + city/chamber filter, in two flavors:
   //   "floating" — each group is its own translucent, blurred, shadowed
-  //   card, because this is what MobileNav's Filters tab drops straight
-  //   into its sheet slot, which sits directly over the dimmed map/scrim.
+  //   card, because this is what the mobile Filters trigger drops straight
+  //   into its MobileSheet, which sits directly over the dimmed map/scrim.
   //   "sidebar" — the desktop left `<aside>` below now mimics the right
   //   detail sidebar's own panel chrome (title bar, navy-fill segmented
   //   control — see sidebarTabRowClass/sidebarTabButtonClass below)
   //   instead of a bordered-row variant of the floating card, so this
   //   helper only still has a "floating" shape to produce.
   // Desktop used to mount the "floating" flavor top-left, absolutely
-  // positioned over the map, the same way MobileNav's sheet still does —
-  // see the left `<aside>` in the return below for where the sidebar
-  // flavor mounts now instead.
+  // positioned over the map, the same way the mobile Filters sheet still
+  // does — see the left `<aside>` in the return below for where the
+  // sidebar flavor mounts now instead.
   const filterGroupClass = () =>
     "flex rounded-lg bg-panel-2/90 backdrop-blur-sm border border-hair shadow-lg shadow-(color:--shadow-panel) p-1 text-sm";
   // Sidebar-only: a short Water Blue tick ahead of the label — the flag's
@@ -4004,7 +3957,7 @@ export default function WardMap() {
       </p>
     ) : null;
 
-  // filterControls (floating, for MobileNav's Filters tab) and
+  // filterControls (floating, for the mobile Filters trigger's sheet) and
   // sidebarFilterControls (for the desktop left `<aside>` below) render
   // the same two groups but are written out separately rather than
   // shared through one JSX-returning helper: a helper closing over
@@ -4147,32 +4100,32 @@ export default function WardMap() {
     </>
   );
 
-  const mobileTabs: MobileNavTab[] = [
-    { id: "search", label: "Search", icon: <IconSearch /> },
-    { id: "filters", label: "Filters", icon: <IconSliders /> },
-  ];
-
-  // The pinned ward/rep modal outranks any open tab — same priority
-  // mndatacenter's own facility sheet holds over its tab sheets (see
-  // MobileNav's file comment). Tapping a tab while the modal is up closes
-  // the modal *and* opens that tab in the same gesture (handleMobileTabSelect
-  // below), rather than leaving the first tap stranded doing nothing.
+  // The pinned ward/rep modal outranks the Filters sheet (this component's
+  // only remaining mobile sheet — Search moved to SiteHeader.tsx entirely,
+  // see applySearchResult's own comment above) — same priority mndatacenter's
+  // own facility sheet holds over its tab sheets. Tapping the Filters
+  // trigger while the modal is up closes the modal *and* opens Filters in
+  // the same gesture (handleFiltersTrigger below), rather than leaving the
+  // first tap stranded doing nothing.
   const mobileSheetContent = selected ? (
     <WardModal officials={selected.officials} onClose={resetView} hoveredCityName={selected.hoveredCityName} jumpToTier={selected.jumpToTier} selectionKey={selected.selectionKey} variant="sheet" />
-  ) : activeMobileSheet === "search" ? (
-    searchBar
-  ) : activeMobileSheet === "filters" ? (
+  ) : openSheet === "filters" ? (
     filterControls
   ) : null;
 
   const closeMobileSheet = () => {
     if (selected) deselect();
-    else setActiveMobileSheet(null);
+    else setOpenSheet(null);
   };
 
-  const handleMobileTabSelect = (id: string) => {
-    if (selected) deselect(); // the priority modal wins a tap; dismiss it before opening a tab
-    setActiveMobileSheet((current) => (current === id ? null : (id as MobileSheetId)));
+  const handleFiltersTrigger = () => {
+    if (selected) deselect(); // the priority modal wins a tap; dismiss it before opening Filters
+    // Direct value, not a functional updater — mobileSheetCoordinator's
+    // setOpenSheet is a plain setter over shared context state, not a raw
+    // useState setter, so it doesn't support the `(current) => ...` form.
+    // `openSheet` (already in scope from the hook above) is read directly
+    // instead.
+    setOpenSheet(openSheet === "filters" ? null : "filters");
   };
 
   // z-index scale for whatever actually floats *over* the map (lowest to
@@ -4196,41 +4149,61 @@ export default function WardMap() {
   //        winning, painting map pins over controls floating above the
   //        map. `isolate` forces the map div to own a stacking context,
   //        so "highest z-index" pins only ever mean "highest among pins."
-  //   20 — desktop-only (sm+) persistent controls floating over the map
-  //        itself: the bottom-right theme popover, and the two sidebar
-  //        collapse toggles (one pinned to each edge of the map's own
-  //        box — see the return below). Search doesn't need a rung here —
-  //        it lives in SiteHeader, outside this scale (see below) — and
-  //        neither do the sidebars themselves, for the same reason. The
-  //        metro-level hover tooltip (metroHoverTooltip, below) lives here
-  //        too — transient, not "persistent," but genuinely desktop-only
-  //        for a different reason (hover itself doesn't exist on a touch
-  //        device, gated by isDesktopHover — not a CSS breakpoint, so it
-  //        never needs a mobile-scrim workaround the way "Metro" at 40 does).
+  //   20 — persistent controls floating over the map's own corner
+  //        (#map-corner-controls, below): the theme popover, and MapLibre's
+  //        own zoom/attribution controls, rendered at every breakpoint from
+  //        this one rung — plus the two sidebar collapse toggles (one
+  //        pinned to each edge of the map's own box), which *are* desktop-
+  //        only. Search doesn't need a rung here — it lives in SiteHeader,
+  //        mostly outside this scale (see below) — and neither do the
+  //        sidebars themselves, for the same reason. The metro-level hover
+  //        tooltip (metroHoverTooltip, below) lives here too — transient,
+  //        not "persistent," genuinely desktop-only for a different reason
+  //        (hover itself doesn't exist on a touch device, gated by
+  //        isDesktopHover — not a CSS breakpoint, so it never needs a
+  //        mobile-scrim workaround the way "Metro" at 40 does). The mobile
+  //        Filters trigger visually sits near this cluster but is NOT a
+  //        member of it — see its own comment, near "Metro" below, on why
+  //        nesting it here was a real bug caught live.
   //   30 — mobile-only (below sm) scrim: a dimmed overlay behind whatever
-  //        MobileNav has open (a tab's sheet, or the priority ward modal),
-  //        blocking map interaction underneath it. See MobileNav's own
-  //        comment for why that's deliberate.
-  //   40 — mobile-only nav bar + its raised sheet (MobileNav). Above the
-  //        scrim at 30, and — since nothing above z-20 exists on desktop
-  //        and z-20 itself never renders on mobile — never actually
-  //        contends with the desktop rung it numerically outranks. The
-  //        "Metro" button (below, near the map container) also shares this
-  //        rung on mobile — deliberately, not a new rung — since it has to
-  //        clear the z-30 scrim to stay tappable (entering a city always
-  //        pins the detail panel on mobile, which raises that scrim the
-  //        same instant the button appears) and it never occupies the same
-  //        screen region as MobileNav's own bottom-anchored bar/sheet, so
-  //        there's nothing for the two to actually contend over.
+  //        MobileSheet has raised (the Filters sheet, or the priority ward
+  //        modal — either owned by this component; SiteHeader's own Search
+  //        sheet is a separate MobileSheet instance with its own scrim, see
+  //        below). See MobileSheet.tsx's own comment for why blocking
+  //        interaction underneath is deliberate.
+  //   40 — mobile-only global bottom nav (MobileBottomNav.tsx) + whichever
+  //        MobileSheet is raised above it. Above the scrim at 30, and —
+  //        since nothing above z-20 exists on desktop and z-20 itself
+  //        never renders on mobile — never actually contends with the
+  //        desktop rung it numerically outranks. The "Metro" button and the
+  //        mobile Filters trigger (both below, near the map container) also
+  //        share this rung on mobile — deliberately, not a new rung — since
+  //        each has to clear the z-30 scrim to stay tappable while the
+  //        priority ward modal is up, and neither occupies the same screen
+  //        region as the bottom nav/sheet, so there's nothing for any of
+  //        them to actually contend over.
   //
-  // SiteHeader and both sidebar `<aside>`s sit outside this scale
-  // entirely — they're normal static-flow flex siblings around the
-  // relative map wrapper that 0/20/30/40 live inside, not absolutely-
-  // positioned layers competing for a z-index rung. Every "absolute
-  // inset-0 / right-3 bottom-24" below is scoped to that inner wrapper's
-  // own box — the map's own box, narrower now than the full row since the
-  // sidebars are real flex siblings beside it, not overlays on top of it —
-  // so there's no overlap to resolve for anything outside it.
+  //        MobileBottomNav is the one rung-40 participant that ISN'T a
+  //        descendant of this component — it's a `layout.tsx` sibling of
+  //        SiteHeader, mounted globally rather than only while WardMap is.
+  //        It's pinned to z-40 explicitly (see that file's own comment)
+  //        specifically so it stays above WardMap's own z-30 scrim without
+  //        the two files needing to import from each other to agree on
+  //        that — cross-referenced here, and in globals.css next to
+  //        --mobile-nav-height, rather than only living in one place, since
+  //        this scale is no longer fully local to this file.
+  //
+  // Both sidebar `<aside>`s sit outside this scale entirely — they're
+  // normal static-flow flex siblings around the relative map wrapper that
+  // 0/20/30/40 live inside, not absolutely-positioned layers competing for
+  // a z-index rung. Every "absolute inset-0 / right-3 bottom-24" below is
+  // scoped to that inner wrapper's own box — the map's own box, narrower
+  // now than the full row since the sidebars are real flex siblings beside
+  // it, not overlays on top of it — so there's no overlap to resolve for
+  // anything outside it. SiteHeader itself is the same kind of static-flow
+  // sibling for its own box, but its Search MobileSheet instance is an
+  // absolutely-positioned layer like this scale's own, sharing rung 40 —
+  // see the note above.
   //
   // One exception: MastheadSaying's explanation popover (the third line
   // under the wordmark, inside SiteHeader) opens *downward*, past the
@@ -4255,10 +4228,10 @@ export default function WardMap() {
             filter sidebar, collapse toggle included (see AGENTS.md "Role
             in the wider project" for why this app's chrome already
             tracks that sister site). Below sm, the same controls
-            (filterControls, defined above) live in MobileNav's Filters
-            tab instead — a fixed sidebar column doesn't fit a phone-width
-            screen, so mobile keeps its own bottom-sheet pattern rather
-            than squeezing this in too.
+            (filterControls, defined above) live behind the mobile Filters
+            trigger's sheet instead — a fixed sidebar column doesn't fit a
+            phone-width screen, so mobile keeps its own bottom-sheet
+            pattern rather than squeezing this in too.
 
             Stays mounted (and its width transitions, rather than the
             element unmounting/remounting) whether collapsed or not, so
@@ -4415,15 +4388,16 @@ export default function WardMap() {
               Playwright pass against a real mobile viewport caught this):
               on mobile, entering a city always pins the detail panel too
               (there's no "city view without a panel" the way desktop's
-              sidebar column allows — MobileNav's own "priority ward modal"
-              always wins), which raises its z-30 full-viewport scrim the
-              instant this button would show. At z-20 the button was still
-              *visible* through the scrim's 25% opacity — a static
+              sidebar column allows — the priority ward modal, raised via
+              MobileSheet, always wins), which raises its z-30 full-viewport
+              scrim the instant this button would show. At z-20 the button
+              was still *visible* through the scrim's 25% opacity — a static
               screenshot alone would have missed this — but every tap
               landed on the scrim instead and never reached the button. z-40
-              matches MobileNav's own rung; safe to share since this button
-              (fixed top-left) and MobileNav's bar/sheet (fixed bottom)
-              never occupy the same screen region regardless of viewport. */}
+              matches MobileBottomNav's own rung; safe to share since this
+              button (fixed top-left) and the bottom nav/sheet (fixed
+              bottom) never occupy the same screen region regardless of
+              viewport. */}
           {activeCity && (
             <button
               type="button"
@@ -4437,6 +4411,52 @@ export default function WardMap() {
               Metro
             </button>
           )}
+
+          {/* Mobile-only Filters trigger — top-right, mirroring Metro's
+              top-left placement above. The desktop equivalent is the left
+              `<aside>` sidebar (sm+, see its own render below); below sm
+              there's no room for a persistent sidebar, so layer mode /
+              chamber toggle / city-county filters live behind this trigger
+              instead, raised in a MobileSheet the same way the priority
+              ward modal is (see mobileSheetContent above).
+              z-40, not z-20 — NOT grouped inside #map-corner-controls
+              below despite the visual similarity to that cluster's own
+              icon buttons. A first pass nested it there and a live
+              Playwright pass caught the exact bug Metro's own comment
+              above already documents: #map-corner-controls is z-20, a
+              *nested* stacking context (position:absolute + its own
+              z-index create one), so no child of it can ever out-rank a
+              z-30 sibling elsewhere on the page no matter what z-index the
+              child itself claims — the button was visible through the
+              scrim but every tap landed on the scrim instead, exactly
+              like Metro's own pre-fix bug. handleFiltersTrigger's own
+              "tap Filters while the modal is up closes the modal and
+              opens Filters in the same gesture" only works if the button
+              is actually reachable through that scrim, which requires
+              living outside #map-corner-controls entirely, same as Metro
+              does. */}
+          <button
+            type="button"
+            onClick={handleFiltersTrigger}
+            aria-expanded={openSheet === "filters" && !selected}
+            aria-label="Show map filters"
+            title="Filters"
+            // position: "absolute" as an inline style, not the `absolute`
+            // Tailwind class — touchTargetClass(29) below already includes
+            // its own `relative` (needed so its `before:` pseudo-element
+            // has something to position against), and `relative`/`absolute`
+            // both set the same CSS `position` property: whichever rule
+            // Tailwind happens to generate later in its stylesheet wins
+            // regardless of class-attribute order, which silently dropped
+            // this button to static-flow position (caught live — it
+            // rendered off-screen, past the bottom of the viewport). An
+            // inline style always wins over any class, so this sidesteps
+            // the ordering question entirely rather than depending on it.
+            style={{ position: "absolute", right: "var(--map-ctrl-edge)", top: "var(--map-ctrl-edge)" }}
+            className={`sm:hidden z-40 flex h-7.25 w-7.25 items-center justify-center rounded bg-panel-2/90 backdrop-blur-sm border border-hair shadow-lg shadow-(color:--shadow-panel) text-ink-3 hover:bg-hover hover:text-ink transition focus:outline-none focus-visible:ring-2 focus-visible:ring-accent ${touchTargetClass(29)}`}
+          >
+            <IconSliders className="h-3.5 w-3.5 shrink-0" />
+          </button>
 
           {/* Left sidebar's pull-tab — mndatacenter.org's own mechanism
               (a small tab stuck to the panel's edge, chevron flips
@@ -4482,7 +4502,7 @@ export default function WardMap() {
               29px zoom/theme buttons); `gap` gives every consecutive
               pair the same spacing, so "equally spaced" is structural,
               not three separately-tuned offsets that happen to agree.
-              `bottom` clears MobileNav's bar height on a phone
+              `bottom` clears MobileBottomNav's bar height on a phone
               (--mobile-nav-height, published by that component's own
               ResizeObserver) and falls back to just the edge margin
               above `sm`, where that bar doesn't render. The zoom and
@@ -4538,21 +4558,16 @@ export default function WardMap() {
             <IconChevron className={rightDetailCollapsed ? "" : "rotate-180"} />
           </button>
 
-          {/* Mobile (below sm): one bottom tab bar for Search/Filters,
-              plus whatever sheet is currently raised — a tab's own
-              content, or (taking priority) the pinned ward modal. Theme
-              isn't a tab here — MapThemeSelector above renders at the
-              same map corner on every breakpoint instead. See
-              MobileNav's own comment for the full reasoning; WardMap only
-              decides *what* goes in the sheet slot (mobileSheetContent
-              above), not how it's shown. */}
-          <MobileNav
-            tabs={mobileTabs}
-            activeTab={selected ? null : activeMobileSheet}
-            onSelectTab={handleMobileTabSelect}
-            onDismiss={closeMobileSheet}
-            sheetContent={mobileSheetContent}
-          />
+          {/* Mobile (below sm): the Filters sheet, raised above
+              MobileBottomNav's global bar when the corner trigger above is
+              tapped — or, taking priority over it, the pinned ward/rep
+              modal once something's selected. Search no longer raises here
+              at all; its own MobileSheet instance lives in SiteHeader.tsx
+              now (see applySearchResult's own comment above). WardMap only
+              decides *what* goes in the sheet (mobileSheetContent above),
+              not how it's shown — MobileSheet.tsx owns the scrim, raised-
+              panel positioning, and focus trap. */}
+          <MobileSheet content={mobileSheetContent} onDismiss={closeMobileSheet} />
         </div>
 
         {/* Right sidebar: the hovered/selected rep's detail panel —
@@ -4567,7 +4582,7 @@ export default function WardMap() {
             above, not a passive hover, so that reflow is expected there
             — see selectPinned's comment on why an explicit selection
             (unlike a hover) force-expands it back out. Below sm, the
-            same content (WardModal) lives in MobileNav's sheet slot
+            same content (WardModal) lives in MobileSheet's content prop
             instead — see mobileSheetContent above. */}
         <aside
           id="map-detail-sidebar"

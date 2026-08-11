@@ -3,12 +3,15 @@
 // The two small, map-independent files SearchBar needs to resolve city/
 // county/ZIP names and street suggestions — split out of WardMap.tsx
 // (2026-08-09) so the persistent header search box (SiteSearch.tsx) can
-// load them without depending on WardMap being mounted at all. WardMap
-// keeps its own copy of this same hook for the SearchBar instance it
-// still mounts inside MobileNav's Search tab (mobile search stays
-// map-route-scoped for now — see WardMap.tsx's own comment on that) —
-// two independent fetches of a few dozen KB total, not worth threading a
-// second context just to dedupe.
+// load them without depending on WardMap being mounted at all.
+//
+// SiteSearch.tsx is this hook's only consumer now — the mobile chrome
+// redesign deleted WardMap's own separate copy of this same fetch pair
+// (it used to feed a WardMap-owned duplicate SearchBar instance living in
+// the now-deleted MobileNav's Search tab). Mobile search is SiteSearch's
+// single implementation for every breakpoint now, reachable from
+// SiteHeader on all of them (see that file's own comment) — so there's
+// exactly one fetch of these two files per page load, not two.
 import { useEffect, useState } from "react";
 import { dataUrl } from "@/lib/dataUrl";
 import type { AddressGazetteerManifest, MnPlaces } from "@/lib/types";

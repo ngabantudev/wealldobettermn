@@ -2,7 +2,8 @@
 
 // AreaFilterList — the "Cities by County" / "Counties Shown" checklist
 // (WardMap.tsx's AREA_SECTION_LABEL) shared by that file's
-// desktop left `<aside>` sidebar and MobileNav's Filters sheet. A plain
+// desktop left `<aside>` sidebar and the mobile Filters trigger's
+// MobileSheet. A plain
 // presentational component: every visible-checked/labels/onToggle input
 // comes in as props, no ref and no closure over WardMap's own refs
 // (layerModeRef, visibleCitiesRef, etc.) — see WardMap.tsx's own comment

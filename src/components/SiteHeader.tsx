@@ -1,16 +1,32 @@
+"use client";
+
 import Link from "next/link";
 import MastheadSaying from "./MastheadSaying";
 import SiteSearch from "./SiteSearch";
+import MobileSheet from "./MobileSheet";
+import { useMobileSheetCoordinator } from "@/lib/mobileSheetCoordinator";
+import { touchTargetClass } from "@/lib/variantClasses";
 
-// The site's only persistent chrome nav: Map (back to "/" from any of the
-// pages below), Bills, Sources, About, Privacy. Kept small — text links,
-// not icons — since this bar's real estate is already spoken for by
-// MastheadSaying and (on sm+) the search box; see the render below for how
-// it fits between them. Exists because /bills, /about, and /privacy are
+// Desktop/laptop-only chrome nav now (sm+) — Map (back to "/" from any of
+// the pages below), Meetings, Bills, Recap, Sources, About, Privacy. Kept
+// small — text links, not icons — since this bar's real estate is already
+// spoken for by MastheadSaying and the search box; see the render below for
+// how it fits between them. Exists because /bills, /about, and /privacy are
 // otherwise dead ends with no way back except the browser's own Back
 // button — PR review, 2026-08-07 ("orphan pages nobody can reach"). /sources
 // (2026-08-08) follows the same rule from day one rather than needing its
 // own follow-up fix.
+//
+// Below `sm` this row doesn't render at all (mobile chrome redesign) — Map,
+// Meetings, Bills, Recap, and Sources moved to MobileBottomNav.tsx, a real
+// bottom-nav bar rather than a link row squeezed next to the masthead; a
+// prior revision here tried to keep this exact row alive on mobile as a
+// horizontal-scroll strip, which worked but was strictly worse than an
+// actual bottom nav once one existed. About and Privacy — the two links
+// that don't fit a 5-item bottom nav — moved to the footer rendered by
+// src/app/(content)/layout.tsx instead (see that file), so nothing here
+// becomes an unreachable dead end on mobile; it's just reached from a
+// different place than on desktop now.
 const NAV_LINKS: { href: string; label: string }[] = [
   { href: "/", label: "Map" },
   { href: "/meetings", label: "Meetings" },
@@ -21,16 +37,26 @@ const NAV_LINKS: { href: string; label: string }[] = [
   { href: "/privacy", label: "Privacy" },
 ];
 
+function IconSearch() {
+  return (
+    <svg viewBox="0 0 20 20" fill="none" className="h-5 w-5 shrink-0" aria-hidden="true">
+      <circle cx="8.5" cy="8.5" r="5.5" stroke="currentColor" strokeWidth="1.6" />
+      <path d="m17 17-4-4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+    </svg>
+  );
+}
+
 // The site's identity bar — visually matched to mndatacenter.org's own
 // navy/cyan header band (see globals.css's `.band` token overrides for
-// the mechanism). The controls that live here are the search bar
-// (desktop/laptop only — see the `search` prop below), which AGENTS.md
-// Part 4 calls "the primary interface, not the map," so it earns a
-// permanent spot in the chrome rather than floating over the map where a
+// the mechanism). The controls that live here are the search bar (inline
+// on desktop/laptop, an icon trigger on mobile — see below), which
+// AGENTS.md Part 4 calls "the primary interface, not the map," so it earns
+// a permanent spot in the chrome rather than floating over the map where a
 // resize or a tall panel could ever crowd it, and MastheadSaying's own
 // info trigger (see below). Map mode, filters, and the theme popover stay
-// off this bar — floating over the map on desktop, folded into
-// MobileNav's bottom tabs on mobile.
+// off this bar on every breakpoint — floating over the map on desktop,
+// their own mobile-only triggers on WardMap itself (Filters) or MapLibre's
+// own corner (theme) rather than living in this header.
 //
 // The masthead text *is* MastheadSaying: one of nine mottos — the site's
 // own English name plus eight from Minnesota's Indigenous, Somali, Hmong,
@@ -53,11 +79,21 @@ const NAV_LINKS: { href: string; label: string }[] = [
 // "/", which was the actual bug the 2026-08-09 "persistent chrome" fix
 // was supposed to close but didn't quite reach. SiteSearch reaches WardMap
 // through src/lib/searchCoordinator.tsx instead, so it works identically
-// whether or not the map route happens to be mounted. Hidden below `sm`
-// (see the wrapper's own className); mobile mounts a separate SearchBar
-// instance inside MobileNav's Search tab instead, so nothing rendering
-// here on mobile is expected, not a bug.
+// whether or not the map route happens to be mounted.
+//
+// Below `sm`, the inline SiteSearch box itself stays hidden (no room next
+// to the masthead at phone width) but a small search-icon trigger takes
+// its place, opening the same SiteSearch inside a MobileSheet raised above
+// MobileBottomNav's global bar — mobile chrome redesign. Before that
+// redesign, mobile search was a WardMap-owned duplicate SearchBar instance
+// living in the old MobileNav's Search tab; that duplicate (and the
+// gazetteer fetches that only existed to feed it) is gone now — SiteSearch
+// is the one search implementation for every breakpoint, reachable from
+// this same persistent header on all of them, per AGENTS.md Part 4
+// ("Search Is The Primary Interface, Not The Map").
 export default function SiteHeader() {
+  const { openSheet, setOpenSheet } = useMobileSheetCoordinator();
+  const searchOpen = openSheet === "search";
   return (
     // `h-16`, a fixed height rather than one that grows with content: an
     // earlier revision let a longer saying wrap onto two or three lines,
@@ -88,25 +124,9 @@ export default function SiteHeader() {
     // sibling can't actually promise anyway.
     <header className="band flex h-16 shrink-0 items-center gap-3 border-b border-hair bg-panel px-4 sm:gap-5 sm:px-6">
       <MastheadSaying />
-      {/* Always visible, every breakpoint — including on mobile, where it's
-          the only way off /bills, /about, or /privacy short of the
-          browser's own Back button. `shrink-0`: MastheadSaying is the
-          element designed to give up width (its own font-fit logic
-          measures whatever box the flex layout leaves it), not this.
-          Below `sm` there's no room to lay out all 7 links unwrapped next
-          to MastheadSaying without squeezing it toward its font-fit floor
-          or overflowing the header row — `overflow-x-auto` plus
-          `whitespace-nowrap` on each link turns that into a deliberate
-          horizontal scroll strip (same "never let the header wrap or grow
-          vertically" rule the `h-16` comment above already holds) rather
-          than either failure. `-mx-1 px-1` gives the scroll strip the same
-          few px of edge padding as a resting Link's own focus ring would
-          otherwise get clipped by. At `sm`+ this reverts to the plain
-          unscrollable row it always was — there's width to spare there. */}
-      <nav
-        aria-label="Site"
-        className="flex shrink-0 items-center gap-3 overflow-x-auto -mx-1 px-1 sm:mx-0 sm:gap-4 sm:overflow-x-visible sm:px-0"
-      >
+      {/* Desktop/laptop only now — see this array's own comment above for
+          where each of these 7 destinations lives on mobile instead. */}
+      <nav aria-label="Site" className="hidden shrink-0 items-center gap-4 sm:flex">
         {NAV_LINKS.map((link) => (
           <Link
             key={link.href}
@@ -117,18 +137,33 @@ export default function SiteHeader() {
           </Link>
         ))}
       </nav>
-      {/* Desktop/laptop only. Below `sm`, MobileNav's Search tab is the
-          reachable-in-one-tap equivalent — there's no width here to spare
-          for an inline search box once the bottom nav takes over, and
-          AGENTS.md Part 4 only asks that search stay one interaction away
-          on every breakpoint, not that it live in the same place on all of
-          them. Always rendered (this component no longer knows which route
-          mounted it), but only ever populated on the map route — WardMap
-          portals its SearchBar in here and cleans up on unmount, so on
-          every other route this stays an empty, invisible-by-CSS node. */}
+      {/* Desktop/laptop only — see the component comment above for the
+          mobile equivalent (search-icon trigger, just right of this). */}
       <div className="hidden min-w-0 flex-1 sm:flex sm:justify-center">
         <SiteSearch />
       </div>
+      {/* Mobile only — opens SiteSearch inside a MobileSheet raised above
+          MobileBottomNav's bar. `sm:hidden` rather than living inside the
+          `hidden sm:flex` wrapper above: that wrapper's job is hiding the
+          *inline* search box, not this trigger, so the two need opposite
+          breakpoint behavior rather than sharing a class. Token classes
+          (text-ink, hover:bg-hover, ring-accent), not hardcoded white —
+          `.band`'s own token overrides (globals.css) already resolve these
+          to the flag's white-on-navy pairing here, same as every other
+          control in this header, and stay correct if this header's theme
+          ever changes without a hunt for a hardcoded color. touchTargetClass
+          keeps the drawn glyph small while still meeting AGENTS.md §4's
+          44px floor on mobile — see that helper's own comment. */}
+      <button
+        type="button"
+        onClick={() => setOpenSheet(searchOpen ? null : "search")}
+        aria-expanded={searchOpen}
+        aria-label={searchOpen ? "Close search" : "Search for an address, city, or county"}
+        className={`sm:hidden ml-auto flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-ink transition hover:bg-hover focus:outline-none focus-visible:ring-2 focus-visible:ring-accent ${touchTargetClass(36)}`}
+      >
+        <IconSearch />
+      </button>
+      <MobileSheet content={searchOpen ? <SiteSearch /> : null} onDismiss={() => setOpenSheet(null)} />
     </header>
   );
 }

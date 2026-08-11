@@ -20,7 +20,7 @@ import { lookupGlossary, type GlossaryKey } from "@/lib/glossary";
 // billsRegistry.ts; a bundler import specifier must be a literal string,
 // so it can't be built from that constant — keep the two in sync by hand
 // if the output path ever moves.
-import billsFileData from "../../../public/state-bills.json";
+import billsFileData from "../../../../public/state-bills.json";
 
 // FEATURES.md "Phase 2 — State bills & roll-call votes." Static route
 // (AGENTS.md §2.1 "a route that can be a static file should be a static

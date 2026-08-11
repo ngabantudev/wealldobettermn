@@ -12,11 +12,14 @@
 // Renders at every breakpoint, in the same map corner, as one of
 // #map-corner-controls' flex children (see WardMap.tsx) — there's no
 // mobile-specific version of this control. It used to hide itself below
-// `sm` in favor of a duplicate copy of these same options living in
-// MobileNav's own tab bar; that duplication (two different places to find
-// "change the map's look," a phone visitor's only path in one of them)
-// wasn't worth avoiding a single popover click on a small screen, so the
-// mobile-only path was removed rather than kept in sync.
+// `sm` in favor of a duplicate copy of these same options living in the
+// old MobileNav's own tab bar; that duplication (two different places to
+// find "change the map's look," a phone visitor's only path in one of
+// them) wasn't worth avoiding a single popover click on a small screen, so
+// the mobile-only path was removed rather than kept in sync. Stayed
+// removed through the later mobile chrome redesign that replaced that old
+// tab bar with MobileBottomNav.tsx's direct-navigation links — a theme
+// tab wouldn't have fit that model any better than the old one.
 
 import { useCallback, useId, useState, type KeyboardEvent } from "react";
 import { useDismissable } from "@/hooks/useDismissable";
@@ -118,8 +121,9 @@ function onRadioGroupKeyDown(e: KeyboardEvent<HTMLDivElement>) {
 
 // The two option groups themselves — Site Theme radiogroup, then Map Theme
 // radiogroup — split out from the popover chrome around them mostly for
-// readability at this point (the popover below is its only caller now
-// that MobileNav no longer has a Theme tab of its own). `onSelectMapStyle`
+// readability at this point (the popover below is its only caller — see
+// this file's own header comment on why there's never been a separate
+// mobile Theme tab). `onSelectMapStyle`
 // here is exactly the callback the caller passed in; the popover composes
 // its own close-on-pick behavior into it below.
 //

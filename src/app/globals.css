@@ -13,10 +13,18 @@
    piece still worth naming: the wrapper's own distance from the map's
    true corner, matching MapLibre's own historical default control
    margin so this doesn't look like a new, arbitrary number.
-   --mobile-nav-height is published by MobileNav.tsx itself (a
+   --mobile-nav-height is published by MobileBottomNav.tsx itself (a
    ResizeObserver on its bar), so the wrapper can clear that bar on a
    phone instead of being covered by it — see that component's own
-   comment. */
+   comment. Also read by MobileSheet.tsx (positions itself directly above
+   the bar) and src/app/(content)/layout.tsx (reserves the same space as
+   bottom padding on the site's static content pages). MobileBottomNav is
+   pinned to the same z-40 rung WardMap.tsx's own z-index scale documents
+   for its mobile chrome (that file's own comment has the full reasoning,
+   including a live Playwright-confirmed bug from an earlier control that
+   used the wrong rung) — cross-referenced here since MobileBottomNav is a
+   layout.tsx sibling of SiteHeader, not a WardMap descendant, and the two
+   files need to agree on that rung without importing from each other. */
 :root {
   --map-ctrl-edge: 10px;
   --map-ctrl-gap: 10px;
