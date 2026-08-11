@@ -39,6 +39,7 @@ import { UserPlus } from "lucide-react";
 import { useEffect, useState } from "react";
 import { fold } from "@/lib/addressSearch";
 import { CITIES } from "@/lib/cities";
+import { consumeJustSubmitted } from "@/lib/justSubmittedCache";
 import CommunityOfficialsList, { type CommunityOfficial } from "./CommunityOfficialsList";
 
 interface PendingSubmission {
@@ -71,9 +72,26 @@ export default function AddOfficialsCTA({ cityName }: AddOfficialsCTAProps) {
   // this component with key={cityName}, so a city switch remounts it
   // fresh (this initializer runs again) rather than needing a synchronous
   // setState inside the effect body (react-hooks/set-state-in-effect).
-  const [pending, setPending] = useState<PendingSubmission | null | undefined>(undefined);
+  //
+  // The lazy initializer also checks consumeJustSubmitted() — a visitor
+  // arriving right after submitting THIS city already has the freshest
+  // possible copy of this data (the POST response their own browser just
+  // received), so use it directly instead of a fetch that could, briefly,
+  // hit GET /api/community-submissions' edge cache (s-maxage=30) and miss
+  // what they just added. See justSubmittedCache.ts's own header for the
+  // full reasoning. Computed once, here, rather than via setState inside
+  // the effect below — same react-hooks/set-state-in-effect reasoning as
+  // the rest of this initializer's own comment.
+  const [pending, setPending] = useState<PendingSubmission | null | undefined>(() => consumeJustSubmitted(cityName) ?? undefined);
 
   useEffect(() => {
+    // Already resolved via the lazy initializer's justSubmitted handoff
+    // above — key={cityName} guarantees this effect's own cityName never
+    // changes without a full remount (a fresh lazy-initializer run), so
+    // checking pending's value here, once, at mount, is safe without
+    // needing it in the dependency array.
+    if (pending !== undefined) return;
+
     let cancelled = false;
     fetch("/api/community-submissions")
       .then((res) => (res.ok ? (res.json() as Promise<CommunitySubmissionsResponse>) : null))
@@ -94,6 +112,9 @@ export default function AddOfficialsCTA({ cityName }: AddOfficialsCTAProps) {
     return () => {
       cancelled = true;
     };
+    // `pending` deliberately omitted — see this effect's own opening
+    // comment on why checking it once, at mount, is correct here.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cityName]);
 
   if (pending === undefined) {
