@@ -1146,17 +1146,32 @@ function useTierStack() {
   // tier's header (see TierNode) calls this. Captures what's needed to
   // compensate scrollTop *before* the state flips, so the layout effect
   // below can correct for it once the DOM has actually updated.
+  //
+  // offsetTopBefore is measured off the tier's own <section> (via its
+  // header's parentElement, same technique scrollToTier uses), NOT off
+  // contentEl — a real bug, caught live: `getBoundingClientRect()` on a
+  // `hidden` element returns an all-zero rect, not its "would-be" natural
+  // position, so on the *expand* direction (contentEl is still `hidden` at
+  // the instant this measures "before") the old contentEl-based version
+  // read a bogus near-zero/negative offset, which wrongly satisfied the
+  // "already scrolled past" check below and immediately scrolled the
+  // just-reopened content back out of view — from a resident's side, the
+  // tier looked like it refused to reopen. The <section> itself is never
+  // hidden (only its content child is), so its own top position stays
+  // valid and measurable in both directions regardless of that tier's
+  // current collapse state.
   const toggleCollapse = (key: TierKey, index: number) => {
     const scrollRoot = scrollRootRef.current;
     const contentEl = contentRefs.current[index];
-    if (scrollRoot && contentEl) {
-      const contentRect = contentEl.getBoundingClientRect();
+    const section = headerRefs.current[index]?.parentElement;
+    if (scrollRoot && contentEl && section) {
+      const sectionRect = section.getBoundingClientRect();
       const scrollRootRect = scrollRoot.getBoundingClientRect();
       pendingCompensationRef.current = {
         index,
-        heightBefore: contentRect.height,
+        heightBefore: contentEl.getBoundingClientRect().height,
         scrollTopBefore: scrollRoot.scrollTop,
-        offsetTopBefore: contentRect.top - scrollRootRect.top + scrollRoot.scrollTop,
+        offsetTopBefore: sectionRect.top - scrollRootRect.top + scrollRoot.scrollTop,
       };
     }
     setCollapsed((prev) => ({ ...prev, [key]: !prev[key] }));
