@@ -58,9 +58,22 @@ export type SearchOutcome =
   // See ParsedQuery's "ambiguous-name" kind above — the caller must show
   // both options, never auto-pick.
   | { status: "ambiguous-name"; city: City; county: County }
+  // A real Minnesota *city* (never a county — see below) this app has no
+  // ward/mayor data for, straight from ParsedQuery's "uncovered-place"
+  // kind. Kept as its own status rather than folded into "not-covered"
+  // (which it used to be) for the same reason "uncovered-place" is its
+  // own ParsedQuery kind and not "unparseable": a resident who typed a
+  // real city name gets an actionable next step — AGENTS.md §2.6's
+  // community-contribution entry point — not just an apology. `name` is
+  // the plain city string (never geocoded, never a point — see §2.5),
+  // exactly what the caller needs for a `/contribute?city=` link. County-
+  // level uncovered-place still falls through to plain "not-covered"
+  // below: §2.6 scopes the pipeline to brand-new *cities* only.
+  | { status: "uncovered-city"; name: string; reason: string }
   // Parsed as a real street/ZIP shape, and that street/ZIP exists in the
   // data, but every match falls outside every ward this app covers. Also
-  // covers a real MN city/county name this app just doesn't map yet.
+  // covers a real MN *county* name this app just doesn't map yet (city
+  // names split off into "uncovered-city" above).
   | { status: "not-covered"; reason: string }
   // Parsed as a real street/ZIP shape, but nothing in the data matches at
   // all (unknown street, or a house number outside any range on file).
@@ -71,16 +84,18 @@ export type SearchOutcome =
 // A person might type "Saint Paul" or "St Paul" for what CITIES spells
 // "St. Paul" — fold punctuation/case away and accept a couple of common
 // spellings, rather than growing CITIES itself into a matching table.
-// Exported for two independent consumers that both need this exact
+// Exported for several independent consumers that all need this exact
 // normalization: SearchBar.tsx reuses it for live typeahead prefix-
-// matching ("St" finding "Saint Paul" and vice versa), and WardMap.tsx's
-// click handler needs it for a different divergence between the same two
-// spellings — the statewide city-boundaries backdrop (MnDOT/MnGeo CTU
-// FeatureServer) spells some of these cities "Saint ___" in full, while
-// CITIES (and every per-city dataset keyed off it — wards.geojson,
+// matching ("St" finding "Saint Paul" and vice versa); WardMap.tsx's click
+// handler and its applyUncoveredCityZoom (the AGENTS.md §2.6 keyboard/
+// search entry point) both need it for a different divergence between the
+// same two spellings — the statewide city-boundaries backdrop (MnDOT/MnGeo
+// CTU FeatureServer) spells some of these cities "Saint ___" in full,
+// while CITIES (and every per-city dataset keyed off it — wards.geojson,
 // mayors.geojson) uses the abbreviated "St. ___" this file's own CITIES/
-// COUNTIES already do. See that call site's own comment for the bug this
-// fixes.
+// COUNTIES already do; and WardModal.tsx's showAddOfficialsCta guard needs
+// it for the same reason (see that file's own comment on the bug this
+// fixes).
 export function fold(s: string): string {
   return s
     .toUpperCase()
@@ -92,6 +107,21 @@ export function fold(s: string): string {
 
 const FOLDED_CITIES = new Map(CITIES.map((c) => [fold(c), c]));
 const FOLDED_COUNTIES = new Map(COUNTIES.map((c) => [fold(c), c]));
+
+/**
+ * Is `name` a city this app already has officials/ward data for, under
+ * either spelling divergence fold() reconciles (CTU "Saint ___" vs
+ * CITIES' "St. ___")? Exported so every "is this city already covered"
+ * call site — cityMatch.ts's `alreadyCovered`, WardModal.tsx's
+ * showAddOfficialsCta guard — shares this one FOLDED_CITIES lookup
+ * instead of each independently building its own `new
+ * Set(CITIES.map(fold))` literal, which is exactly how a raw-string
+ * (non-folded) comparison bug shipped once already — see WardModal.tsx's
+ * own comment on that fix.
+ */
+export function isCoveredCityName(name: string): boolean {
+  return FOLDED_CITIES.has(fold(name));
+}
 
 const ZIP_RE = /\b(\d{5})(?:-\d{4})?\s*$/;
 const MN_SUFFIX_RE = /,?\s*(MN|MINNESOTA)\s*$/i;
@@ -393,10 +423,12 @@ export function resolve(index: AddressIndex | null, parsed: ParsedQuery): Search
     case "uncovered-place": {
       const label = parsed.placeType === "county" ? `${parsed.name} County` : parsed.name;
       const kindWord = parsed.placeType === "county" ? "county" : "city";
-      return {
-        status: "not-covered",
-        reason: `${label} isn't a ${kindWord} this site has data for yet — it currently covers ${CITIES.join(", ")}.`,
-      };
+      const reason = `${label} isn't a ${kindWord} this site has data for yet — it currently covers ${CITIES.join(", ")}.`;
+      // Cities get the actionable status (see SearchOutcome's own comment
+      // on "uncovered-city") — counties stay "not-covered", since §2.6's
+      // contribution pipeline never accepts a county-level submission.
+      if (parsed.placeType === "city") return { status: "uncovered-city", name: parsed.name, reason };
+      return { status: "not-covered", reason };
     }
     case "address":
       if (!index) return { status: "not-found", reason: "Address and ZIP search are still loading — try again in a moment." };

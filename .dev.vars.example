@@ -1,0 +1,27 @@
+# .dev.vars.example — copy to .dev.vars (gitignored) for local testing.
+# `.dev.vars` is Wrangler's local-only secrets file — read by `npm run
+# preview` (OpenNext's Cloudflare preview, backed by Wrangler), never
+# committed, never used in production (real secrets there are set via
+# `wrangler secret put`, not this file).
+
+# Cloudflare's own published Turnstile TESTING secret key — "always
+# passes," documented at https://developers.cloudflare.com/turnstile/troubleshooting/testing/
+# Paired with test site key 1x00000000000000000000AA on the client side
+# once a real submission form exists. Verified directly against
+# challenges.cloudflare.com/turnstile/v0/siteverify: with this exact
+# secret key, siteverify returns success:true for ANY non-empty response
+# string (not just the documented `XXXX.DUMMY.TOKEN.XXXX` format) — that's
+# what makes curl testing of POST /api/submissions possible with no real
+# widget/browser challenge. Get the zero-count exactly right — a
+# one-character-off secret (e.g. missing a zero) fails with
+# "invalid-input-secret", a different and easy-to-misdiagnose error from
+# an actual bad *token*. NEVER use a testing key in a real deployment;
+# this is for `.dev.vars` only.
+TURNSTILE_SECRET_KEY=1x0000000000000000000000000000000AA
+
+# Any string works for local testing — this only needs to be stable
+# across requests within one dev session (it salts the IP hashes used for
+# vote dedup and submission rate limiting; see src/lib/voteDedup.ts). In
+# production this is a real `wrangler secret put COMMUNITY_HASH_SALT`
+# value, generated once and never committed or logged.
+COMMUNITY_HASH_SALT=local-dev-salt-not-for-production

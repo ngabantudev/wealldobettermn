@@ -8,6 +8,8 @@ import { useFocusTrap } from "@/hooks/useFocusTrap";
 import Gloss from "@/components/Gloss";
 import type { GlossaryKey } from "@/lib/glossary";
 import { CITY_TIER_EMPTY_NOTE, COUNTY_TIER_EMPTY_NOTE, STATE_TIER_EMPTY_NOTE } from "@/lib/coverage";
+import { isCoveredCityName } from "@/lib/addressSearch";
+import AddOfficialsCTA from "./AddOfficialsCTA";
 import {
   CONTESTED_COLOR,
   CONTESTED_COLOR_SOFT,
@@ -1110,6 +1112,11 @@ interface TierNodeProps {
   onHeaderRef: (index: number, el: HTMLHeadingElement | null) => void;
   onContentRef: (index: number, el: HTMLDivElement | null) => void;
   headerHeight: number;
+  // Threaded down purely for the City tier's own empty state — see the
+  // AddOfficialsCTA branch below. Passed to every level (County, State)
+  // even though only City ever reads it, same as `officials` itself is —
+  // simpler than a second, City-only prop path down a recursive component.
+  hoveredCityName?: string | null;
 }
 
 // Each tier nests the rest of the stack *inside* itself — County's
@@ -1126,11 +1133,38 @@ interface TierNodeProps {
 // the list, so City stays docked for as long as anything below it is still
 // scrolling — each header, once stuck, stays stuck for the remainder of
 // the scroll, only ever adding to the stack, never dropping out of it.
-function TierNode({ index, officials, onHeaderRef, onContentRef, headerHeight }: TierNodeProps) {
+function TierNode({ index, officials, onHeaderRef, onContentRef, headerHeight, hoveredCityName }: TierNodeProps) {
   if (index >= TIER_SECTIONS.length) return null;
   const { key, label, emptyNote } = TIER_SECTIONS[index];
   const reps = officials[key];
   const headingId = `officials-tier-${key}-heading`;
+  // The City tier's own empty state, only: a real, named city (see
+  // hoveredCityName's own comment on WardModalProps for exactly when
+  // it's set vs. null) with zero officials resolved is AGENTS.md §2.6's
+  // target case for the community-contribution pipeline — every other
+  // empty tier (County, State, or a City hover with no city name to
+  // offer at all) keeps the plain coverage.ts emptyNote text below,
+  // untouched. Reachable by click/tap on the map's city-boundaries layer
+  // and, per AGENTS.md Part 4 "Keyboard Complete," by typing the city's
+  // name into the search box (WardMap.tsx's applyUncoveredCityZoom) —
+  // both paths set hoveredCityName the same way, so this branch can't
+  // tell (and doesn't need to) which one got it here.
+  // Excludes a *covered* city that's merely hidden right now (WardMap's
+  // left-sidebar "Filters" legend can toggle a covered city's wards/mayor
+  // off, which empties officials.city for it the same way an uncovered
+  // city's does — see resolveSelectionAtPoint's filterHiddenCityOfficials
+  // call). Showing "we don't have this yet, help us add it" for a city
+  // this app already has on file, just hidden by the visitor's own
+  // filter, would be a coverage-honesty violation this guard exists to
+  // prevent — the CTA is only ever for a name CITIES doesn't contain at
+  // all. Checked via isCoveredCityName() (addressSearch.ts), the same
+  // fold()-based lookup cityMatch.ts's own `alreadyCovered` uses, rather
+  // than a second independently-maintained folded-CITIES set — a raw
+  // string check here previously showed this CTA for two of the app's
+  // best-covered cities ("Saint Paul"/"Saint Louis Park", CTU spelling)
+  // the moment either was hidden via the map's own city-filter toggle.
+  const showAddOfficialsCta =
+    key === "city" && reps.length === 0 && !!hoveredCityName && !isCoveredCityName(hoveredCityName);
   return (
     <section aria-labelledby={headingId}>
       <h2
@@ -1152,6 +1186,15 @@ function TierNode({ index, officials, onHeaderRef, onContentRef, headerHeight }:
               <OfficialCard key={officialIdentity(rep)} rep={rep} />
             ))}
           </div>
+        ) : showAddOfficialsCta ? (
+          <div className="px-4 pb-3">
+            {/* key={hoveredCityName} forces a fresh mount (and fresh
+                pending-submission check) whenever the panel switches to a
+                different uncovered city, rather than that component
+                needing to reset its own state mid-effect — see its own
+                header comment. */}
+            <AddOfficialsCTA key={hoveredCityName!} cityName={hoveredCityName!} />
+          </div>
         ) : (
           <p className="px-4 pb-3 text-sm text-ink-3">{emptyNote}</p>
         )}
@@ -1162,6 +1205,7 @@ function TierNode({ index, officials, onHeaderRef, onContentRef, headerHeight }:
         onHeaderRef={onHeaderRef}
         onContentRef={onContentRef}
         headerHeight={headerHeight}
+        hoveredCityName={hoveredCityName}
       />
     </section>
   );
@@ -1172,8 +1216,8 @@ export interface WardModalProps {
   onClose: () => void;
   // Which city-limit polygon the cursor/click is actually inside, per
   // WardMap's SelectedArea.hoveredCityName — see that field's own comment.
-  // Only ever consulted by panelHeading, and only when `officials.city`
-  // came back empty.
+  // Consulted by panelHeading, and by TierNode's own showAddOfficialsCta
+  // check, only when `officials.city` came back empty.
   hoveredCityName?: string | null;
   // Which tier (per WardMap's SelectedArea.jumpToTier, same "city" |
   // "county" | "state" keys as AreaOfficials/TIER_SECTIONS) the
@@ -1383,7 +1427,14 @@ export default function WardModal({
           that job far more weakly once there was no longer a tab strip
           drawing the eye to this row in the first place. */}
       <div ref={scrollRootRef} className="flex-1 min-h-0 overflow-y-auto no-scrollbar">
-        <TierNode index={0} officials={officials} onHeaderRef={onHeaderRef} onContentRef={onContentRef} headerHeight={headerHeight} />
+        <TierNode
+          index={0}
+          officials={officials}
+          onHeaderRef={onHeaderRef}
+          onContentRef={onContentRef}
+          headerHeight={headerHeight}
+          hoveredCityName={hoveredCityName}
+        />
         {/* Reserves exactly enough extra scroll room for State's header to
             reach its dock line — no more. Sized in useTierStack from
             State's own measured height (`viewport - stackHeight -

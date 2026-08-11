@@ -34,6 +34,14 @@ interface SearchBarProps {
   onSelectWard: (ref: WardRef, point: [number, number] | null) => void;
   onSelectCity: (city: City) => void;
   onSelectCounty: (county: County, cities: City[]) => void;
+  // A real MN city with no ward/mayor data at all (addressSearch.ts's
+  // "uncovered-city" SearchOutcome) — the search-box path onto AGENTS.md
+  // §2.6's community-contribution entry point, so the same detail panel
+  // (and its "Add {city}'s officials" CTA) a click on the map's
+  // city-boundaries backdrop opens is also reachable by typing and
+  // pressing Enter, per Part 4 "Keyboard Complete." `name` is the plain
+  // city string only — never a point, never geocoded (§2.5).
+  onSelectUncoveredCity: (name: string) => void;
 }
 
 // One of these per row in the dropdown while the user is still typing
@@ -184,7 +192,7 @@ const POLLING_PLACE_FINDER_URL = "https://pollfinder.sos.mn.gov/";
 // CoverageNotice's own popover uses, for the same reason.
 const OVERLAY_POSITION_CLASSES = "absolute left-0 right-0 bottom-full z-10 mb-2 sm:bottom-auto sm:top-full sm:mb-0 sm:mt-2";
 
-export default function SearchBar({ manifest, allPlaces, onSelectWard, onSelectCity, onSelectCounty }: SearchBarProps) {
+export default function SearchBar({ manifest, allPlaces, onSelectWard, onSelectCity, onSelectCounty, onSelectUncoveredCity }: SearchBarProps) {
   // Per issue #70: `manifest` (public/address-index/manifest.json) is
   // small and always fetched by WardMap.tsx up front. The actual
   // per-county street/geometry chunks (public/address-index/<key>.json)
@@ -316,6 +324,26 @@ export default function SearchBar({ manifest, allPlaces, onSelectWard, onSelectC
       case "ambiguous-name":
         setOutcome(next);
         setStatusMessage(`"${next.city}" is both a city and a county here — pick which one you meant.`);
+        break;
+      case "uncovered-city":
+        // Same shape as "city" above — the query box shows the resolved
+        // name, the map/panel side does the rest — except the handler
+        // opens WardModal on an empty-but-actionable city tier (the
+        // AddOfficialsCTA path) instead of zooming to ward polygons that
+        // don't exist for this city. No outcome bubble: the panel itself,
+        // not a second message down here, is what tells the resident
+        // what's going on and what they can do about it. The status
+        // message DOES need to say the panel opened and that there's an
+        // action available, though — every sighted visitor sees the
+        // shimmering "Add {city}'s officials" button the moment the panel
+        // opens; a screen-reader user only gets whatever's announced
+        // here, and `next.reason` alone states just the negative half
+        // (AGENTS.md Part 4 "Accessibility Sync" — the announced state
+        // has to match what's drawn, not just explain what's missing).
+        setQuery(next.name);
+        onSelectUncoveredCity(next.name);
+        setStatusMessage(`${next.reason} Opened ${next.name}'s panel — you can add its officials from there.`);
+        setOutcome(null);
         break;
       case "not-covered":
       case "not-found":

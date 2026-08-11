@@ -404,6 +404,70 @@
   .no-scrollbar::-webkit-scrollbar {
     display: none; /* Chrome/Safari/WebKit */
   }
+
+  /* AddOfficialsCTA.tsx's button — the AGENTS.md §2.6 community-
+     contribution entry point WardModal shows in place of the generic
+     "no officials data" note for a real, named city with none on file.
+     `overflow: hidden` + `position: relative` are unconditional (plain
+     layout, not motion) so the sweep below — added only under the
+     `prefers-reduced-motion: no-preference` media query further down —
+     has a clipped box to sweep across the moment it's allowed to exist,
+     with no separate "turn clipping on" step of its own.
+     No shimmer-specific color here: the button's own bg-positive/
+     text-on-positive/hover:bg-positive-hover Tailwind utilities (applied
+     directly in the component) already give it a solid, always-on green
+     identity, in *both* themes, with no motion involved at all — see the
+     ::after rule below for the sweep highlight's own color. */
+  .shimmer-cta {
+    position: relative;
+    overflow: hidden;
+  }
+}
+
+/* The sweep itself — the only @keyframes in this file (grep before adding
+   a second one; if this comment is stale, something else beat this one
+   here). Wrapped entirely in `prefers-reduced-motion: no-preference`
+   (AGENTS.md Part 4 "Respect prefers-reduced-motion") rather than the
+   motion-safe: Tailwind variant WardMap.tsx/WardModal.tsx already use
+   elsewhere for a togglable utility class (animate-spin) — this needs a
+   real @keyframes tied to a ::after pseudo-element no utility class can
+   express, so it gets the equivalent guard as a plain CSS media query
+   instead. A user who's asked for reduced motion gets .shimmer-cta's
+   plain solid --positive fill above with no ::after at all — never a
+   paused or slowed-down copy of the sweep. */
+@media (prefers-reduced-motion: no-preference) {
+  .shimmer-cta::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    /* A literal gloss/shine simulation, not a semantic UI color — this is
+       why it's a flat white-alpha overlay rather than a --positive-*
+       token: it used to reuse --positive-hover, which is exactly the
+       color the button's own `hover:bg-positive-hover` switches its
+       background to, so the sweep silently became invisible at the one
+       moment (mouse/keyboard focus) a visitor was actually looking at it.
+       White reads as a highlight against both --positive and
+       --positive-hover, and against both themes, without needing a
+       theme-specific value. */
+    background: linear-gradient(110deg, transparent 35%, rgba(255, 255, 255, 0.55) 50%, transparent 65%);
+    opacity: 0.6;
+    transform: translateX(-150%);
+    /* Bounded, not infinite (WCAG 2.2.2 "Pause, Stop, Hide" — moving
+       content that lasts more than a few seconds needs a way to stop, and
+       this button has none besides OS-level prefers-reduced-motion). This
+       fires when the panel first shows the CTA — enough sweeps to catch
+       the eye once, then it settles at its own resting (invisible, off
+       to the left) position rather than sweeping for as long as the panel
+       stays open, which for a city a resident lingers on could be
+       indefinitely. */
+    animation: shimmer-sweep 2.8s ease-in-out 3;
+  }
+}
+@keyframes shimmer-sweep {
+  to {
+    transform: translateX(150%);
+  }
 }
 
 body {
