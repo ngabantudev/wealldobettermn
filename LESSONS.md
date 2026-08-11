@@ -73,6 +73,22 @@ Format: `YYYY-MM-DD — [area] — what happened and how to avoid it`
 <!-- Add entries when the build behaves unexpectedly, deps conflict, or Cloudflare
 Workers edge cases surface. -->
 
+- 2026-08-11 — **[tailwind v4 — position collision]** — Applying both `relative` and
+  `absolute` as Tailwind classes on the same element is silently broken: they set the
+  same CSS `position` property, and whichever rule Tailwind happens to generate *later
+  in its stylesheet* wins — not whichever class appears later in the `className` string.
+  This bit `src/lib/variantClasses.ts`'s `touchTargetClass()` helper (returns its own
+  `relative`, for its `before:` pseudo-element) the first time a caller also needed
+  `position: absolute` for page-level floating placement (`WardMap.tsx`'s mobile Filters
+  trigger) — the element silently rendered at a static-flow position, off-screen, with
+  no error, no lint warning, and no visual sign short of checking `getBoundingClientRect()`
+  or `getComputedStyle().position`. A static screenshot at the wrong scroll position
+  could easily have missed it too. Fix: when a class you're applying needs
+  `position: absolute` alongside any other class/helper that also sets `position`
+  (`relative`, `sticky`, etc.), set `position: "absolute"` via inline `style` instead of
+  a class — inline styles always win over any class regardless of stylesheet order, so
+  it sidesteps the ordering question entirely rather than depending on it.
+
 - **[cloudflare]** — Cloudflare is a deployment target, not a dependency. The build must
   remain hostable elsewhere. Do not use Workers-specific APIs in the core app logic —
   keep them in the adapter layer only.
