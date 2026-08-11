@@ -51,7 +51,7 @@ export interface AreaFilterListProps {
   query: string;
   onQueryChange: (query: string) => void;
   onToggleCity: (city: City) => void;
-  onSetCitiesVisible: (cities: readonly City[], visible: boolean) => void;
+  onSetCitiesVisible: (cities: readonly City[], visible: boolean, options?: { resetToDefaultView?: boolean }) => void;
 }
 
 // Search input only earns its place once the list is long enough that
@@ -494,7 +494,11 @@ export default function AreaFilterList({
             variant={variant}
             onAll={() => onSetCitiesVisible(cities, true)}
             allLabel="All"
-            onNone={() => onSetCitiesVisible(cities, false)}
+            // resetToDefaultView: with every city about to be hidden,
+            // there's nothing left for the mode's usual "fit to what's
+            // visible" extent to frame — see WardMap.tsx's setCitiesVisible
+            // for why this lands on the map's actual opening view instead.
+            onNone={() => onSetCitiesVisible(cities, false, { resetToDefaultView: true })}
             groupLabel="Show or hide all areas"
             checkedCount={checkedCount}
             totalCount={totalCount}
@@ -509,7 +513,7 @@ export default function AreaFilterList({
           // scoped to that county's handful of cities.
           <BulkToggleButtons
             variant={variant}
-            onNone={() => onSetCitiesVisible(cities, false)}
+            onNone={() => onSetCitiesVisible(cities, false, { resetToDefaultView: true })}
             groupLabel="Clear all areas"
             checkedCount={checkedCount}
             totalCount={totalCount}

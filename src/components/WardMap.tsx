@@ -2138,22 +2138,37 @@ export default function WardMap() {
   // ref *before* setVisibleCities, not inside its updater — see that
   // function's own comment on why) and selected-panel re-filter/close
   // logic, for the same reasons documented there.
-  const setCitiesVisible = (cities: readonly City[], visible: boolean) => {
+  const setCitiesVisible = (cities: readonly City[], visible: boolean, { resetToDefaultView = false }: { resetToDefaultView?: boolean } = {}) => {
     const next = { ...visibleCitiesRef.current };
     for (const city of cities) next[city] = visible;
     visibleCitiesRef.current = next;
     applyCityFilter(next);
     setVisibleCities(next);
-    // Both "All" and "None" fly to the same place: the current mode's
-    // default extent — the exact same zoomToDefault() the "tap away"/
-    // panel-close deselect gesture already flies to (see deselect's own
-    // comment). Deliberately not a per-city-set union computed from just
-    // `cities` — that would put "All" and "None" at two different
-    // targets (the whole set's bounds vs. some other extent), and would
-    // disagree with what deselecting already shows for "nothing/
-    // everything selected." One shared "resting position" for every
-    // gesture that means "show me the default view" is the point.
-    zoomToDefault();
+    // "All" and per-county "None" fly to the current mode's default
+    // extent — the exact same zoomToDefault() the "tap away"/panel-close
+    // deselect gesture already flies to (see deselect's own comment).
+    // Deliberately not a per-city-set union computed from just `cities` —
+    // that would put "All" and "None" at two different targets (the whole
+    // set's bounds vs. some other extent), and would disagree with what
+    // deselecting already shows for "nothing/everything selected." One
+    // shared "resting position" for every gesture that means "show me the
+    // default view" is the point.
+    //
+    // resetToDefaultView is the one deliberate exception: the area
+    // checklist's own top-level "Clear all" link (AreaFilterList.tsx),
+    // which hides every city the current mode offers at once. Nothing is
+    // left visible afterward, so zoomToDefault()'s per-mode bounds (the
+    // full statewide extent of every covered city) would zoom the map out
+    // to frame a state with no wards drawn on it at all — same failure
+    // shape as fitting bounds to an empty set. resetView()'s own
+    // DEFAULT_VIEW_BOUNDS (the actual first-paint framing) is the honest
+    // target here: "nothing shown" reads the same as "just opened the
+    // map," not "zoomed out to look at everything you just hid."
+    if (resetToDefaultView) {
+      zoomToBoundsNoModal(DEFAULT_VIEW_BOUNDS);
+    } else {
+      zoomToDefault();
+    }
     if (selectedRef.current) {
       const current = selectedRef.current;
       const filtered = filterHiddenCityOfficials(current.officials, next);
