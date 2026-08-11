@@ -20,9 +20,11 @@
 //   - grouped=true (wards mode's ~23 cities): cities grouped by county
 //     (buildCityGroups, src/lib/cityGroups.ts) under collapsible
 //     <details>/<summary> headers, each with its own All/None switch, plus
-//     one top-level All/None switch spanning every county at once — same
-//     switch component and visual treatment as the per-county ones, just
-//     scoped to the full `cities` prop instead of one group.
+//     one top-level Clear-all link spanning every county at once — no
+//     top-level "All" side: turning on every county at once would render
+//     ward polygons statewide, a real perf cliff on a slow device. See
+//     BulkToggleButtons' own comment on the "no onAll" branch it reuses
+//     here.
 //
 // The filter-query text itself is NOT local state here — it's owned by
 // WardMap.tsx (query/onQueryChange props) so the floating (mobile sheet)
@@ -34,7 +36,6 @@ import { useState } from "react";
 import type { City, County } from "@/lib/cities";
 import { buildCityGroups, matchesCityQuery } from "@/lib/cityGroups";
 import { focusRingClass, rowHoverClass } from "@/lib/variantClasses";
-import ConfirmDialog from "@/components/ConfirmDialog";
 
 export interface AreaFilterListProps {
   // The full set of cities this list can ever offer — MODE_VISIBLE_CITIES
@@ -50,7 +51,7 @@ export interface AreaFilterListProps {
   query: string;
   onQueryChange: (query: string) => void;
   onToggleCity: (city: City) => void;
-  onSetCitiesVisible: (cities: readonly City[], visible: boolean) => void;
+  onSetCitiesVisible: (cities: readonly City[], visible: boolean, options?: { resetToDefaultView?: boolean }) => void;
 }
 
 // Search input only earns its place once the list is long enough that
@@ -116,7 +117,6 @@ function BulkToggleButtons({
   groupLabel,
   checkedCount,
   totalCount,
-  confirmAllMessage,
 }: {
   variant: "floating" | "sidebar";
   onAll?: () => void;
@@ -125,20 +125,7 @@ function BulkToggleButtons({
   groupLabel: string;
   checkedCount: number;
   totalCount: number;
-  // Only set on the grouped list's top-level switch — flipping "on" there
-  // means rendering ward polygons for every covered city in the state at
-  // once, a real perf cliff on a slow device (the whole reason a prior
-  // pass retired this switch's "All" side in the first place — see this
-  // file's own header comment history). A per-county switch or the short
-  // flat commissioners list never needs this: neither turns on more than a
-  // handful of cities. Routed through the shared ConfirmDialog component
-  // (src/components/ConfirmDialog.tsx) rather than window.confirm — styled
-  // to match the app instead of a native browser alert, and written
-  // generically enough that it isn't specific to this call site.
-  confirmAllMessage?: string;
 }) {
-  const [pendingAll, setPendingAll] = useState(false);
-
   if (!onAll || !allLabel) {
     return (
       <button
@@ -164,17 +151,7 @@ function BulkToggleButtons({
         role="switch"
         aria-checked={allOn}
         aria-label={groupLabel}
-        onClick={() => {
-          if (allOn) {
-            onNone();
-            return;
-          }
-          if (confirmAllMessage) {
-            setPendingAll(true);
-            return;
-          }
-          onAll?.();
-        }}
+        onClick={() => (allOn ? onNone() : onAll?.())}
         className={`relative inline-flex h-5 w-9 shrink-0 items-center rounded-full transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-1 ${focusRingClass(variant)} ${
           allOn ? "bg-positive" : "bg-sidebar-hover"
         }`}
@@ -192,20 +169,6 @@ function BulkToggleButtons({
       <span aria-hidden="true" className={sideLabelClass(allOn)}>
         {allLabel}
       </span>
-      {confirmAllMessage && (
-        <ConfirmDialog
-          open={pendingAll}
-          title="Show every county?"
-          message={confirmAllMessage}
-          confirmLabel="Show all"
-          cancelLabel="Cancel"
-          onConfirm={() => {
-            setPendingAll(false);
-            onAll?.();
-          }}
-          onCancel={() => setPendingAll(false)}
-        />
-      )}
     </div>
   );
 }
@@ -526,27 +489,34 @@ export default function AreaFilterList({
     <div>
       {showFilterInput && <FilterInput variant={variant} query={query} onQueryChange={onQueryChange} />}
       <div className="mb-1.5 flex items-center justify-end">
-        {!grouped && (
+        {!grouped ? (
           <BulkToggleButtons
             variant={variant}
             onAll={() => onSetCitiesVisible(cities, true)}
             allLabel="All"
-            onNone={() => onSetCitiesVisible(cities, false)}
+            // resetToDefaultView: with every city about to be hidden,
+            // there's nothing left for the mode's usual "fit to what's
+            // visible" extent to frame — see WardMap.tsx's setCitiesVisible
+            // for why this lands on the map's actual opening view instead.
+            onNone={() => onSetCitiesVisible(cities, false, { resetToDefaultView: true })}
             groupLabel="Show or hide all areas"
             checkedCount={checkedCount}
             totalCount={totalCount}
           />
-        )}
-        {grouped && (
+        ) : (
+          // Grouped (all-counties) list: no top-level All switch — turning
+          // on every county at once renders ward polygons statewide, a real
+          // perf cliff on a slow device (see BulkToggleButtons' own history
+          // on this). A plain Clear-all link is the honest affordance here:
+          // it can only ever remove wards, never add a statewide flood of
+          // them. Each county still gets its own All/None switch below,
+          // scoped to that county's handful of cities.
           <BulkToggleButtons
             variant={variant}
-            onAll={() => onSetCitiesVisible(cities, true)}
-            allLabel="All"
-            onNone={() => onSetCitiesVisible(cities, false)}
-            groupLabel="Show or hide all areas"
+            onNone={() => onSetCitiesVisible(cities, false, { resetToDefaultView: true })}
+            groupLabel="Clear all areas"
             checkedCount={checkedCount}
             totalCount={totalCount}
-            confirmAllMessage={`Show every ward in all ${buildCityGroups(cities).length} counties at once? This can slow down the map on older devices or slow connections.`}
           />
         )}
       </div>
