@@ -15,6 +15,7 @@ import test from "node:test";
 import {
   buildExtractionPrompt,
   extractOfficials,
+  pageTitleIndicatesMayorCouncilRoster,
   parseModelOutput,
   validateExtraction,
 } from "./communityExtraction.ts";
@@ -490,4 +491,107 @@ test("no wardLabel stated on the page (e.g. an at-large city) yields null, not a
   const raw = [{ role: "Mayor", repName: "Jane Smith", roleSourceQuote: pageText, wardLabel: "" }];
   const { officials } = validateExtraction(raw, pageText);
   assert.equal(officials[0].wardLabel, null);
+});
+
+// --- repEmail/repPhone: verified against the page, not blindly trusted ----
+// (found live, Oakdale MN, before the htmlText.ts mailto:/tel: fix)
+
+test("a repEmail/repPhone that actually appear on the page are kept", () => {
+  const pageText = "Mayor Jane Smith leads the city. Email Mayor Jane Smith (jane.smith@example.gov). Phone: 555-1234.";
+  const raw = [{ role: "Mayor", repName: "Jane Smith", roleSourceQuote: "Mayor Jane Smith leads the city.", repEmail: "jane.smith@example.gov", repPhone: "555-1234" }];
+  const { officials } = validateExtraction(raw, pageText);
+  assert.equal(officials[0].repEmail, "jane.smith@example.gov");
+  assert.equal(officials[0].repPhone, "555-1234");
+});
+
+test("a hallucinated repEmail/repPhone are dropped to null WITHOUT rejecting the whole official", () => {
+  const pageText = "Mayor Jane Smith leads the city.";
+  const raw = [
+    {
+      role: "Mayor",
+      repName: "Jane Smith",
+      roleSourceQuote: pageText,
+      // Neither of these appears anywhere in pageText.
+      repEmail: "jane.smith@example.gov",
+      repPhone: "555-1234",
+    },
+  ];
+  const { officials, rejectedMentions } = validateExtraction(raw, pageText);
+  assert.equal(officials.length, 1);
+  assert.equal(officials[0].repEmail, null);
+  assert.equal(officials[0].repPhone, null);
+  assert.equal(rejectedMentions.length, 0);
+});
+
+// --- termExpires: verified the same way as wardLabel ----------------------
+
+test("a termExpires that actually appears on the page is captured and kept", () => {
+  const pageText = "Mayor Jane Smith leads the city. Term Expires: December 31, 2028.";
+  const raw = [{ role: "Mayor", repName: "Jane Smith", roleSourceQuote: "Mayor Jane Smith leads the city.", termExpires: "December 31, 2028" }];
+  const { officials } = validateExtraction(raw, pageText);
+  assert.equal(officials[0].termExpires, "December 31, 2028");
+});
+
+test("a hallucinated termExpires is dropped to null WITHOUT rejecting the whole official", () => {
+  const pageText = "Mayor Jane Smith leads the city.";
+  const raw = [{ role: "Mayor", repName: "Jane Smith", roleSourceQuote: pageText, termExpires: "December 31, 2028" }];
+  const { officials, rejectedMentions } = validateExtraction(raw, pageText);
+  assert.equal(officials.length, 1);
+  assert.equal(officials[0].termExpires, null);
+  assert.equal(rejectedMentions.length, 0);
+});
+
+// --- page-title role-evidence fallback (Council Member only) --------------
+// Found live, Inver Grove Heights, MN: a real table roster had a Mayor row
+// saying "Mayor" right there, then four Council Member rows with NO role
+// word anywhere near them — not even far away, genuinely absent from the
+// whole page except an unrelated "Committees & Boards" section far below
+// that only names 2 of the 4 by a role word, well outside
+// ROLE_EVIDENCE_WINDOW_CHARS. The page's own <title>, "Mayor & Council |
+// Inver Grove Heights, MN", is the only real signal available.
+
+test("pageTitleIndicatesMayorCouncilRoster requires BOTH words, not a bare 'council'", () => {
+  assert.equal(pageTitleIndicatesMayorCouncilRoster("Mayor & Council | Inver Grove Heights, MN"), true);
+  assert.equal(pageTitleIndicatesMayorCouncilRoster("City Council Meetings | Example, MN"), false); // no "mayor"
+  assert.equal(pageTitleIndicatesMayorCouncilRoster("Planning Council | Example, MN"), false); // no "mayor"
+  assert.equal(pageTitleIndicatesMayorCouncilRoster(null), false);
+  assert.equal(pageTitleIndicatesMayorCouncilRoster(""), false);
+});
+
+test("a Council Member with NO role word anywhere on the page survives when the page's own title says 'Mayor & Council'", () => {
+  // Shaped exactly like the real Inver Grove Heights page: a Mayor row
+  // (with "Mayor" right there) followed by a Council Member with no role
+  // word anywhere near — or anywhere at all — on the rest of the page.
+  const pageText = "Mayor Brenda Dietrich Voicemail: 651-450-2503 Sue Gliva Voicemail: 651-450-2506 December 31, 2028";
+  const raw = [
+    { role: "Mayor", repName: "Brenda Dietrich", roleSourceQuote: "Mayor Brenda Dietrich Voicemail: 651-450-2503" },
+    { role: "Council Member", repName: "Sue Gliva", roleSourceQuote: "Sue Gliva Voicemail: 651-450-2506" },
+  ];
+  const { officials, rejectedMentions } = validateExtraction(raw, pageText, "Mayor & Council | Inver Grove Heights, MN");
+  assert.deepEqual(officials.map((o) => o.repName), ["Brenda Dietrich", "Sue Gliva"]);
+  assert.equal(rejectedMentions.length, 0);
+});
+
+test("the SAME page, without the pageTitle argument, correctly rejects the Council Member with no nearby role evidence — proves the fallback is doing real work, not masking a broken check", () => {
+  const pageText = "Mayor Brenda Dietrich Voicemail: 651-450-2503 Sue Gliva Voicemail: 651-450-2506 December 31, 2028";
+  const raw = [
+    { role: "Mayor", repName: "Brenda Dietrich", roleSourceQuote: "Mayor Brenda Dietrich Voicemail: 651-450-2503" },
+    { role: "Council Member", repName: "Sue Gliva", roleSourceQuote: "Sue Gliva Voicemail: 651-450-2506" },
+  ];
+  const { officials, rejectedMentions } = validateExtraction(raw, pageText); // no pageTitle arg
+  assert.deepEqual(officials.map((o) => o.repName), ["Brenda Dietrich"]);
+  assert.equal(rejectedMentions[0].reason, "role_not_evidenced_nearby");
+});
+
+test("the page-title fallback does NOT apply to Mayor — a mislabeled Mayor with no nearby 'mayor' text still correctly fails, even on a 'Mayor & Council' page", () => {
+  // Deliberately no "mayor" anywhere in the page BODY text (only in the
+  // separately-passed title) — if this test used a page body that
+  // happened to say "mayor" near the quote, the ordinary windowed check
+  // would pass it for an unrelated reason and this wouldn't actually
+  // prove the title fallback is Council-Member-only.
+  const pageText = "Sue Gliva is listed here on this roster page, alongside several other names and unrelated filler text.";
+  const raw = [{ role: "Mayor", repName: "Sue Gliva", roleSourceQuote: "Sue Gliva is listed here on this roster page" }];
+  const { officials, rejectedMentions } = validateExtraction(raw, pageText, "Mayor & Council | Example, MN");
+  assert.equal(officials.length, 0);
+  assert.equal(rejectedMentions[0].reason, "role_not_evidenced_nearby");
 });

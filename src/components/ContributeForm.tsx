@@ -12,10 +12,12 @@
 // (cityMatch.ts) — this form never trusts its own city field, it's a
 // convenience, not a security boundary.
 
-import { Check, X } from "lucide-react";
+import { ArrowLeft, Check, X } from "lucide-react";
+import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useState, type FormEvent } from "react";
 import CommunityOfficialsList, { type CommunityOfficial } from "./CommunityOfficialsList";
+import { storeJustSubmitted } from "@/lib/justSubmittedCache";
 import TurnstileWidget from "./TurnstileWidget";
 
 // Purely cosmetic — the real, single status update a screen reader gets
@@ -122,6 +124,18 @@ export default function ContributeForm() {
       const data: unknown = await res.json();
       if (isSubmissionResponse(data)) {
         setResult(data);
+        if (data.status === "pending") {
+          // Hands the fresh POST response straight to AddOfficialsCTA for
+          // when this visitor navigates back to the map — see
+          // justSubmittedCache.ts's own header for why this exists
+          // (GET /api/community-submissions is briefly edge-cached).
+          storeJustSubmitted({
+            cityName: data.cityMatched,
+            officials: data.extracted.officials,
+            confirmations: 0,
+            confirmationsNeeded: data.confirmationsNeeded,
+          });
+        }
       } else {
         setResult({ status: "rejected", reason: "unexpected_response", message: "Something went wrong reading the server's response — please try again." });
       }
@@ -268,6 +282,22 @@ function SubmissionSuccessSummary({ result }: { result: SubmissionSuccess }) {
           label={`Domain contains "${result.cityMatched}" (not required, just a bonus)`}
         />
       </ul>
+
+      {/* Real navigation (next/link), not a click handler — same
+          "focusable <a>, not a styled <div>" discipline as
+          AddOfficialsCTA's own CTA. Goes to `/`, the map/search home,
+          rather than anywhere city-specific: there's no deep-link
+          mechanism into a particular city's panel today, and the
+          justSubmittedCache.ts handoff means reopening {result.cityMatched}'s
+          own panel from here already shows this exact result instantly,
+          without needing a URL to encode it. */}
+      <Link
+        href="/"
+        className="mt-6 inline-flex items-center gap-1.5 rounded-lg border border-hair-strong px-4 py-2.5 text-sm font-semibold text-ink hover:bg-hover focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+      >
+        <ArrowLeft aria-hidden="true" className="h-4 w-4 shrink-0" strokeWidth={1.75} />
+        Back to map — add another city
+      </Link>
     </>
   );
 }

@@ -83,6 +83,12 @@ export interface SubmissionRecord {
   submittedAt: string;
   graduatedAt: string | null;
   graduationCommitSha: string | null;
+  // Salted hash of the submitter's own IP (migrations/0003) — null for
+  // rows inserted before this migration. Never exposed outside this
+  // module/castVote's self-confirmation check; GET /api/community-
+  // submissions and POST /api/submissions's own response never read this
+  // field off SubmissionRecord.
+  submitterIpHash: string | null;
 }
 
 interface SubmissionRow {
@@ -98,6 +104,7 @@ interface SubmissionRow {
   submitted_at: string;
   graduated_at: string | null;
   graduation_commit_sha: string | null;
+  submitter_ip_hash: string | null;
 }
 
 function mapRow(row: SubmissionRow): SubmissionRecord {
@@ -114,6 +121,7 @@ function mapRow(row: SubmissionRow): SubmissionRecord {
     submittedAt: row.submitted_at,
     graduatedAt: row.graduated_at,
     graduationCommitSha: row.graduation_commit_sha,
+    submitterIpHash: row.submitter_ip_hash,
   };
 }
 
@@ -124,6 +132,11 @@ export interface InsertSubmissionParams {
   sourceUrl: string;
   officials: ValidatedOfficial[];
   submittedAt: string;
+  // Same salted hashIp() value POST /api/submissions already computes for
+  // rate limiting — reused here, not recomputed, so this module never
+  // touches a raw IP itself. See CastVoteParams.voterIpHash for what this
+  // gets compared against later.
+  submitterIpHash: string | null;
 }
 
 /**
@@ -138,10 +151,18 @@ export async function insertSubmission(db: D1DatabaseLike, params: InsertSubmiss
   try {
     await db
       .prepare(
-        `INSERT INTO submissions (id, city_name, gnis_id, source_url, status, extracted_json, submitted_at)
-         VALUES (?, ?, ?, ?, 'pending', ?, ?)`,
+        `INSERT INTO submissions (id, city_name, gnis_id, source_url, status, extracted_json, submitted_at, submitter_ip_hash)
+         VALUES (?, ?, ?, ?, 'pending', ?, ?, ?)`,
       )
-      .bind(params.id, params.cityName, params.gnisId, params.sourceUrl, JSON.stringify(params.officials), params.submittedAt)
+      .bind(
+        params.id,
+        params.cityName,
+        params.gnisId,
+        params.sourceUrl,
+        JSON.stringify(params.officials),
+        params.submittedAt,
+        params.submitterIpHash,
+      )
       .run();
   } catch (err) {
     const message = err instanceof Error ? err.message : String(err);
@@ -188,6 +209,7 @@ export type CastVoteResult =
   | { outcome: "duplicate" }
   | { outcome: "not_found" }
   | { outcome: "already_settled"; status: SubmissionStatus }
+  | { outcome: "self_confirmation_blocked" }
   | { outcome: "recorded"; confirmations: number; flags: number; triggeredGraduation: boolean; triggeredPendingDispute: boolean };
 
 export interface CastVoteParams {
@@ -195,6 +217,18 @@ export interface CastVoteParams {
   voteType: VoteType;
   dedupKey: string;
   createdAt: string;
+  // The voter's own salted hashIp() value — compared against the
+  // submission's stored submitterIpHash so a submitter can't immediately
+  // confirm their own work (see migrations/0003's own comment on why
+  // that would make COMMUNITY_CONFIRMATIONS_REQUIRED=1 provide zero real
+  // independent verification). Only ever checked for "confirm" votes —
+  // there's no equivalent harm in someone flagging their own submission,
+  // and blocking that too would just be one more way a legitimate
+  // self-correction ("actually, I got the URL wrong") gets in its own way.
+  // Optional (not just nullable) so every existing/future test exercising
+  // unrelated castVote behavior doesn't have to think about this — an
+  // omitted voterIpHash behaves exactly like an explicit null.
+  voterIpHash?: string | null;
 }
 
 /**
@@ -214,6 +248,13 @@ export async function castVote(db: D1DatabaseLike, params: CastVoteParams): Prom
     // graduated/was disputed/rejected/expired isn't accepting confirms or
     // flags through this path (post-graduation uses recordDispute below).
     return { outcome: "already_settled", status: existing.status };
+  }
+  // A NULL submitterIpHash (a pre-migration row, or a submission created
+  // when the IP genuinely wasn't available) means "unknown" rather than
+  // "definitely someone else" — never blocks a vote on its own; see
+  // migrations/0003's own comment.
+  if (params.voteType === "confirm" && existing.submitterIpHash && params.voterIpHash === existing.submitterIpHash) {
+    return { outcome: "self_confirmation_blocked" };
   }
 
   const insertResult = await db
@@ -280,30 +321,53 @@ export async function markGraduated(db: D1DatabaseLike, params: MarkGraduatedPar
     .run();
 }
 
-export interface RecordDisputeResult {
-  disputeCount: number;
-  triggeredRevertIssue: boolean;
+export type RecordDisputeResult =
+  | { outcome: "duplicate" }
+  | { outcome: "recorded"; disputeCount: number; triggeredRevertIssue: boolean };
+
+export interface RecordDisputeParams {
+  submissionId: string;
+  // Same salted, day-bucketed dedup_key shape as CastVoteParams — see
+  // migrations/0004's own comment on why this exists: without it, one
+  // person calling this endpoint twice could single-handedly reach
+  // COMMUNITY_GRADUATION_DISPUTE_THRESHOLD alone. Required, not optional
+  // like CastVoteParams.voterIpHash — there's no equivalent "existing
+  // tests that don't care" population to protect here, since this
+  // parameter didn't exist before this fix at all.
+  dedupKey: string;
+  createdAt: string;
 }
 
 /**
  * Post-graduation dispute (AGENTS.md §2.6's deliberately-asymmetric
  * mitigation for the zero-pre-commit-review risk acceptance). Only valid
- * against a `graduated` submission — increments `dispute_count`, and at
+ * against a `graduated` submission (returns null, not a RecordDisputeResult,
+ * for "doesn't exist or isn't graduated" — the caller treats that as a 404,
+ * same convention as before this fix). Increments `dispute_count`, and at
  * COMMUNITY_GRADUATION_DISPUTE_THRESHOLD tells the caller to open a
  * (human-merge-required) revert issue. Never flips status itself; nothing
  * about a graduated record auto-reverts.
  */
-export async function recordDispute(db: D1DatabaseLike, submissionId: string): Promise<RecordDisputeResult | null> {
-  const existing = await getSubmissionById(db, submissionId);
+export async function recordDispute(db: D1DatabaseLike, params: RecordDisputeParams): Promise<RecordDisputeResult | null> {
+  const existing = await getSubmissionById(db, params.submissionId);
   if (!existing || existing.status !== "graduated") return null;
+
+  const insertResult = await db
+    .prepare(`INSERT INTO submission_disputes (submission_id, dedup_key, created_at) VALUES (?, ?, ?)
+              ON CONFLICT (submission_id, dedup_key) DO NOTHING`)
+    .bind(params.submissionId, params.dedupKey, params.createdAt)
+    .run();
+  if (insertResult.meta.changes === 0) {
+    return { outcome: "duplicate" };
+  }
 
   const updated = await db
     .prepare(`UPDATE submissions SET dispute_count = dispute_count + 1 WHERE id = ? RETURNING dispute_count`)
-    .bind(submissionId)
+    .bind(params.submissionId)
     .first<{ dispute_count: number }>();
   const disputeCount = updated?.dispute_count ?? existing.disputeCount + 1;
 
-  return { disputeCount, triggeredRevertIssue: disputeCount >= COMMUNITY_GRADUATION_DISPUTE_THRESHOLD };
+  return { outcome: "recorded", disputeCount, triggeredRevertIssue: disputeCount >= COMMUNITY_GRADUATION_DISPUTE_THRESHOLD };
 }
 
 // --- Submission-creation rate limiting (migrations/0002) -------------------

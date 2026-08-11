@@ -54,7 +54,7 @@
 // before relying on this in production, and adjust AI_MODEL/the request
 // shape there if Workers AI's actual behavior differs.
 
-import { htmlToVisibleText, normalize, normalizedIncludes } from "./htmlText.ts";
+import { extractPageTitle, htmlToVisibleText, normalize, normalizedIncludes } from "./htmlText.ts";
 import { COMMUNITY_EXTRACTION_MAX_CHARS } from "./communityConfig.ts";
 
 export const AI_MODEL = "@cf/meta/llama-3.3-70b-instruct-fp8-fast";
@@ -93,6 +93,19 @@ export interface ValidatedOfficial {
   // Minneapolis/St. Paul's wards were built — never crowdsourced from a
   // submitted URL.
   wardLabel: string | null;
+  // The term-expiration text as the page itself states it (e.g. "December
+  // 31, 2028", "Term Expires: 2026"), or null if the page doesn't say
+  // one — same verified-but-non-load-bearing treatment as wardLabel
+  // above: dropped to null rather than rejecting the whole official if
+  // it can't be found verbatim on the page. Stored as the page's own raw
+  // text, not a parsed Date — term-date formats vary too much across MN
+  // city sites to normalize reliably, and a wrong parse presented as
+  // confident structured data would be worse than an honest string. Any
+  // "is this term expired" comparison against today's date happens at
+  // render time (CommunityOfficialsList.tsx), not here — a term that
+  // hasn't expired yet at submission time could still expire before
+  // anyone reviews it.
+  termExpires: string | null;
 }
 
 export type RejectReason =
@@ -182,6 +195,11 @@ const RESPONSE_JSON_SCHEMA = {
           // repPhone above. Never a resolved boundary; see
           // ValidatedOfficial.wardLabel's own comment.
           wardLabel: { type: "string" },
+          // The term-expiration text, copied verbatim from the page, or
+          // an empty string if the page doesn't state one for this
+          // person — same plain-string-not-union reasoning as the fields
+          // above. See ValidatedOfficial.termExpires's own comment.
+          termExpires: { type: "string" },
         },
         required: ["role", "repName", "roleSourceQuote"],
       },
@@ -214,9 +232,17 @@ export function buildExtractionPrompt(cityName: string, pageText: string) {
     `states which ward, district, or seat this specific person represents (for example ` +
     `"Ward 2", "District 3", or "At Large"), copy that phrase verbatim into "wardLabel" — ` +
     `otherwise set "wardLabel" to an empty string. Never guess or infer a ward the page ` +
-    `doesn't explicitly state for that person. Set repEmail/ ` +
+    `doesn't explicitly state for that person. If the page states when this specific ` +
+    `person's term ends or expires (for example "Term Expires: 12/31/2026" or "December 31, ` +
+    `2028"), copy that text verbatim into "termExpires" — otherwise set "termExpires" to an ` +
+    `empty string. Never guess or infer a term date the page doesn't explicitly state for ` +
+    `that person. Set repEmail/ ` +
     `repPhone to an empty string unless the page clearly presents that contact as belonging ` +
-    `to the official's office itself, not a personal or ambiguous listing. If the page names no ` +
+    `to the official's office itself, not a personal or ambiguous listing. Some links show a ` +
+    `generic label like "Email Mayor Smith" with the real address in parentheses right after ` +
+    `it — e.g. "Email Mayor Smith (mayor.smith@example.gov)" — in that case, repEmail/repPhone ` +
+    `MUST be only the actual address or number in parentheses, never the label text before it. ` +
+    `If the page names no ` +
     `current Mayor or Council Member of ${cityName} at all, return an empty officials array ` +
     `— never guess or infer a person who isn't explicitly named with their role.`;
   const user = `Page text (from a website submitted as ${cityName}'s official site):\n\n${pageText}`;
@@ -328,6 +354,31 @@ function hasRoleEvidenceNearby(normalizedPage: string, quoteIndex: number, quote
   return ROLE_EVIDENCE_PATTERNS[role].test(nearbyWindow(normalizedPage, quoteIndex, quoteLength, ROLE_EVIDENCE_WINDOW_CHARS));
 }
 
+// A page-LEVEL (unbounded, not window-based) fallback for "Council
+// Member" only — found live (Inver Grove Heights, MN): a real table
+// listed a Mayor's row with "Mayor" right there, then four Council
+// Member rows underneath with NO role word anywhere near them, not even
+// far away — the page's ONLY textual signal that they're council members
+// is its own <title>, "Mayor & Council | Inver Grove Heights, MN". No
+// window size could bridge that gap, because there is nothing to find
+// within any distance — the word simply never occurs near those names at
+// all. A real government page whose own title explicitly frames itself
+// as "Mayor & Council" (both words, the city's own description of the
+// page) is real, if weaker, page-level evidence — deliberately NOT
+// applied to "Mayor" (which self-identifies reliably via the "Mayor"
+// prefix in every real case seen so far, so the tighter, proximity-bound
+// check is both sufficient and safer to keep there) and deliberately
+// requiring BOTH words together, not a bare "council" (which could just
+// as easily be a "Planning Council" or "council meetings" page with
+// nothing to do with the elected body).
+const MAYOR_WORD_RE = /\bmayor\b/i;
+const COUNCIL_WORD_RE = /\bcouncil\b/i;
+
+export function pageTitleIndicatesMayorCouncilRoster(pageTitle: string | null): boolean {
+  if (!pageTitle) return false;
+  return MAYOR_WORD_RE.test(pageTitle) && COUNCIL_WORD_RE.test(pageTitle);
+}
+
 interface RawCandidate {
   role?: unknown;
   repName?: unknown;
@@ -335,6 +386,7 @@ interface RawCandidate {
   repEmail?: unknown;
   repPhone?: unknown;
   wardLabel?: unknown;
+  termExpires?: unknown;
 }
 
 /**
@@ -347,6 +399,12 @@ interface RawCandidate {
 export function validateExtraction(
   rawOfficials: unknown[],
   visiblePageText: string,
+  // See pageTitleIndicatesMayorCouncilRoster's own comment — the page's
+  // <title>, used only as a Council Member-specific role-evidence
+  // fallback when the normal windowed check finds nothing nearby.
+  // Optional/defaulted so every existing call site (and every existing
+  // test) that doesn't care about this keeps working unchanged.
+  pageTitle: string | null = null,
 ): { officials: ValidatedOfficial[]; rejectedMentions: RejectedMention[] } {
   const officials: ValidatedOfficial[] = [];
   const rejectedMentions: RejectedMention[] = [];
@@ -355,6 +413,10 @@ export function validateExtraction(
   // several candidate officials was re-lowercasing/re-collapsing the
   // whole page text from scratch on every single one.
   const normalizedPageText = normalize(visiblePageText);
+  // Computed once, reused for every "Council Member" candidate that fails
+  // the normal windowed check — see pageTitleIndicatesMayorCouncilRoster's
+  // own comment.
+  const titleIndicatesRoster = pageTitleIndicatesMayorCouncilRoster(pageTitle);
 
   for (const entry of rawOfficials) {
     const candidate = (entry ?? {}) as RawCandidate;
@@ -404,7 +466,12 @@ export function validateExtraction(
       rejectedMentions.push({ repName, claimedRole, reason: "denylist_keyword_nearby" });
       continue;
     }
-    if (!hasRoleEvidenceNearby(normalizedPageText, quoteIndex, normalizedQuote.length, claimedRole as AllowedRole)) {
+    const roleEvidencedNearby = hasRoleEvidenceNearby(normalizedPageText, quoteIndex, normalizedQuote.length, claimedRole as AllowedRole);
+    // Page-level fallback, Council Member only — see
+    // pageTitleIndicatesMayorCouncilRoster's own comment on why "Mayor"
+    // doesn't get this same fallback.
+    const roleEvidenced = roleEvidencedNearby || (claimedRole === "Council Member" && titleIndicatesRoster);
+    if (!roleEvidenced) {
       rejectedMentions.push({ repName, claimedRole, reason: "role_not_evidenced_nearby" });
       continue;
     }
@@ -419,17 +486,32 @@ export function validateExtraction(
     // to the person's entire record.
     const rawWardLabel = typeof candidate.wardLabel === "string" ? candidate.wardLabel.trim() : "";
     const wardLabel = rawWardLabel && normalizedPageText.includes(normalize(rawWardLabel)) ? rawWardLabel : null;
+    const rawTermExpires = typeof candidate.termExpires === "string" ? candidate.termExpires.trim() : "";
+    const termExpires = rawTermExpires && normalizedPageText.includes(normalize(rawTermExpires)) ? rawTermExpires : null;
+
+    // Same "when in doubt, leave it out" treatment as wardLabel above,
+    // now applied to contact fields too — found live (Oakdale, MN, before
+    // the mailto:/tel: fix in htmlText.ts): a model with no real address
+    // visible to it will sometimes invent one rather than leave the
+    // field empty. Neither check rejects the whole official — a bad
+    // phone/email is a data-quality issue on one field, not proof the
+    // person isn't real.
+    const rawRepEmail = typeof candidate.repEmail === "string" ? candidate.repEmail.trim() : "";
+    const repEmail = rawRepEmail && normalizedPageText.includes(normalize(rawRepEmail)) ? rawRepEmail : null;
+    const rawRepPhone = typeof candidate.repPhone === "string" ? candidate.repPhone.trim() : "";
+    const repPhone = rawRepPhone && normalizedPageText.includes(normalize(rawRepPhone)) ? rawRepPhone : null;
 
     officials.push({
       role: claimedRole as AllowedRole,
       repName,
-      repEmail: typeof candidate.repEmail === "string" && candidate.repEmail.trim() ? candidate.repEmail.trim() : null,
-      repPhone: typeof candidate.repPhone === "string" && candidate.repPhone.trim() ? candidate.repPhone.trim() : null,
+      repEmail,
+      repPhone,
       // Stored verbatim (not the model's original casing/whitespace) so
       // a later audit can see exactly what was verified against — the
       // page's own text, not a normalized/lowercased copy of it.
       roleSourceQuote: quote,
       wardLabel,
+      termExpires,
     });
   }
 
@@ -453,6 +535,7 @@ export interface ExtractOfficialsParams {
 export async function extractOfficials(params: ExtractOfficialsParams): Promise<ExtractionResult> {
   const { ai, pageHtml, cityName, model = AI_MODEL } = params;
   const visiblePageText = htmlToVisibleText(pageHtml);
+  const pageTitle = extractPageTitle(pageHtml);
 
   if (!normalizedIncludes(visiblePageText, cityName)) {
     return {
@@ -503,7 +586,7 @@ export async function extractOfficials(params: ExtractOfficialsParams): Promise<
     };
   }
 
-  const { officials, rejectedMentions } = validateExtraction(parsed.officials, visiblePageText);
+  const { officials, rejectedMentions } = validateExtraction(parsed.officials, visiblePageText, pageTitle);
   if (officials.length === 0) {
     return {
       ok: false,

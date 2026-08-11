@@ -1,0 +1,24 @@
+-- migrations/0003_submitter_ip_hash.sql
+--
+-- Adds submissions.submitter_ip_hash — the missing piece that lets
+-- POST /api/submissions/:id/vote block a submitter from confirming their
+-- own submission. With COMMUNITY_CONFIRMATIONS_REQUIRED at 1 (see
+-- communityConfig.ts's own comment), a submitter free to confirm their
+-- own work would make the confirmation gate provide zero independent
+-- verification — functionally identical to no gate at all, since nothing
+-- stops the same browser/session that just submitted from immediately
+-- clicking Confirm. Nullable: existing pending rows created before this
+-- migration (e.g. Hugo, Grant, Ham Lake from earlier local testing) have
+-- no submitter IP on file, so the self-confirmation check treats NULL as
+-- "unknown, allow" rather than blocking every vote on old rows outright —
+-- see src/app/api/submissions/[id]/vote/route.ts's own comment.
+--
+-- Same salted-hash discipline as votes.dedup_key: never the raw IP,
+-- never derivable back to one. Not day-bucketed like dedup_key is (see
+-- migrations/0002's own comment on why rate limiting wants a plain
+-- rolling hash, not a bucketed one) — this needs to stay the SAME value
+-- for the lifetime of the submission so it can be compared against a
+-- voter's hash weeks later, unlike a vote's own dedup key which is
+-- deliberately short-lived.
+
+ALTER TABLE submissions ADD COLUMN submitter_ip_hash TEXT;

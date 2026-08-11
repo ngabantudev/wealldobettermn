@@ -1,5 +1,6 @@
 "use client";
 
+import { MapPinOff } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import type { BillVote, RepProperties } from "@/lib/types";
 import type { AreaOfficials } from "@/lib/officials";
@@ -1194,6 +1195,20 @@ function TierNode({ index, officials, onHeaderRef, onContentRef, headerHeight, h
                 needing to reset its own state mid-effect — see its own
                 header comment. */}
             <AddOfficialsCTA key={hoveredCityName!} cityName={hoveredCityName!} />
+          </div>
+        ) : key === "county" ? (
+          // No community-contribution pipeline exists for counties yet
+          // (a separate, larger, not-yet-started scope — see AGENTS.md
+          // §2.6's city-only Scope bullet) — this is presentational only,
+          // never implying a submit action. A dashed outline (rather than
+          // this tier's usual plain paragraph) reads as "nothing drawn
+          // here yet" rather than an error, and MapPinOff carries that
+          // meaning in the icon itself, not just via colour (AGENTS.md
+          // Part 4 "Colour Is Never The Only Signal") — the label text
+          // still says the same thing on its own.
+          <div className="mx-4 mb-3 flex items-start gap-2 rounded-lg border border-dashed border-hair-strong px-3 py-2.5">
+            <MapPinOff aria-hidden="true" className="mt-0.5 h-4 w-4 shrink-0 text-ink-4" strokeWidth={1.75} />
+            <p className="text-sm text-ink-3">{emptyNote}</p>
           </div>
         ) : (
           <p className="px-4 pb-3 text-sm text-ink-3">{emptyNote}</p>

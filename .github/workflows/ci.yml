@@ -1,12 +1,20 @@
 name: CI
 
-# Gate for every PR into main. AGENTS.md §0.8 ("outlive the author") and
-# the 2026-08-06 state-legislature.geojson outage are why this exists:
-# `next build` succeeding locally is not proof the site works once
-# deployed — that incident's crash only existed one layer further in,
-# inside the compiled Cloudflare Worker bundle, and nothing before that
-# PR merged ever built or ran that bundle. See LESSONS.md's Build &
-# Tooling section for the full writeup.
+# Gate for every PR, into main or otherwise. AGENTS.md §0.8 ("outlive the
+# author") and the 2026-08-06 state-legislature.geojson outage are why
+# this exists: `next build` succeeding locally is not proof the site
+# works once deployed — that incident's crash only existed one layer
+# further in, inside the compiled Cloudflare Worker bundle, and nothing
+# before that PR merged ever built or ran that bundle. See LESSONS.md's
+# Build & Tooling section for the full writeup.
+#
+# `pull_request` deliberately has NO `branches:` filter — stacked PRs
+# (one feature branch's PR targeting another feature branch, not main;
+# see #150/#151) need CI just as much as a PR into main does. A PR chain
+# is only as trustworthy as its weakest un-tested link. `push` stays
+# scoped to `main` only: that trigger exists as a direct-push safety net,
+# not as a "run CI on every branch's every commit" mechanism — PRs are
+# what actually need coverage, not every WIP commit before one exists.
 #
 # This workflow does NOT deploy anything. Deploys are Cloudflare Workers
 # Builds' own git integration (dashboard-configured, triggered directly
@@ -16,7 +24,6 @@ name: CI
 
 on:
   pull_request:
-    branches: [main]
   push:
     branches: [main]
   workflow_dispatch:
