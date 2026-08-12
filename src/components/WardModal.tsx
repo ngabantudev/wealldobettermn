@@ -315,6 +315,39 @@ const CITY_MEETINGS_URL: Partial<Record<string, string>> = {
   "Coon Rapids": "https://www.coonrapidsmn.gov/572/Agendas-Minutes",
 };
 
+// Verified official Facebook accounts, keyed per Minneapolis ward — not
+// per-official name, since these are ward-office accounts (survive a
+// change in who holds the seat, same as CITY_MEETINGS_URL above being
+// keyed by city, not by mayor). Confirmed live against all 13 wards' own
+// official bio pages on minneapolismn.gov (each links to its own
+// facebook.com/MinneapolisWard{N}) — Tier 1, the city's own site vouching
+// for the account, not a guess at which page belongs to whom. This is
+// intentionally the *office* account, not any individual councilmember's
+// own personal-but-public page (AGENTS.md §1b keeps a hard line on
+// personal social accounts; a city-run ward account sits squarely on the
+// §1a "official contact information as published by the office" side of
+// that line instead). Ramsey County's own board-of-commissioners pages
+// were checked the same way (all 7 commissioners) and link to none — no
+// entry for Ramsey here, an honest gap rather than a guess. St. Paul
+// isn't covered yet either: individual members' own accounts there would
+// need the same per-person human verification this table's Minneapolis
+// entries got from the city's own site, which nothing has supplied yet.
+const MINNEAPOLIS_WARD_FACEBOOK_URL: Partial<Record<number, string>> = {
+  1: "https://www.facebook.com/MinneapolisWard1",
+  2: "https://www.facebook.com/MinneapolisWard2",
+  3: "https://www.facebook.com/MinneapolisWard3",
+  4: "https://www.facebook.com/MinneapolisWard4",
+  5: "https://www.facebook.com/MinneapolisWard5",
+  6: "https://www.facebook.com/MinneapolisWard6",
+  7: "https://www.facebook.com/MinneapolisWard7",
+  8: "https://www.facebook.com/MinneapolisWard8",
+  9: "https://www.facebook.com/MinneapolisWard9",
+  10: "https://www.facebook.com/MinneapolisWard10",
+  11: "https://www.facebook.com/MinneapolisWard11",
+  12: "https://www.facebook.com/MinneapolisWard12",
+  13: "https://www.facebook.com/MinneapolisWard13",
+};
+
 // Every covered city's general official government homepage — a lower,
 // honestly-labeled fallback tier under CITY_MEETINGS_URL above: when this
 // app hasn't (yet) pinned down a city's specific meetings/agenda sub-page,
@@ -744,52 +777,75 @@ function OfficialCard({ rep }: { rep: RepProperties }) {
           ("every record ends in an action"), how to reach this person has
           to survive collapsing the card down to its shortest state, not
           live inside the "more detail" a resident might never open. */}
-      {(rep.repEmail || rep.repPhone || rep.officeRoom) && (
-        <div className="px-4 pb-3 space-y-2">
-          {(rep.repEmail || rep.repPhone) && (
-            <div className="flex items-center gap-2">
-              {rep.repEmail && (
-                <a
-                  href={`mailto:${rep.repEmail}`}
-                  // hover:bg-sidebar-hover, not hover:bg-hover: this chip is
-                  // one of the sidebar's own interactive rows (this card
-                  // renders inside WardMap's right `<aside>` in the
-                  // "sidebar" variant) — see --sidebar-hover's comment in
-                  // globals.css for why the generic token barely shows.
-                  className="flex items-center gap-1.5 text-xs font-medium text-ink-2 border border-hair rounded-full px-3 py-1.5 hover:bg-sidebar-hover active:bg-hair-strong"
-                >
-                  <IconMail />
-                  Email
-                </a>
+      {(() => {
+        const facebookUrl = rep.city === "Minneapolis" && rep.ward != null ? MINNEAPOLIS_WARD_FACEBOOK_URL[rep.ward] : undefined;
+        return (
+          (rep.repEmail || rep.repPhone || rep.officeRoom || facebookUrl) && (
+            <div className="px-4 pb-3 space-y-2">
+              {(rep.repEmail || rep.repPhone || facebookUrl) && (
+                <div className="flex flex-wrap items-center gap-2">
+                  {rep.repEmail && (
+                    <a
+                      href={`mailto:${rep.repEmail}`}
+                      // hover:bg-sidebar-hover, not hover:bg-hover: this chip is
+                      // one of the sidebar's own interactive rows (this card
+                      // renders inside WardMap's right `<aside>` in the
+                      // "sidebar" variant) — see --sidebar-hover's comment in
+                      // globals.css for why the generic token barely shows.
+                      className="flex items-center gap-1.5 text-xs font-medium text-ink-2 border border-hair rounded-full px-3 py-1.5 hover:bg-sidebar-hover active:bg-hair-strong"
+                    >
+                      <IconMail />
+                      Email
+                    </a>
+                  )}
+                  {rep.repPhone && (
+                    <a
+                      href={`tel:${rep.repPhone.replace(/[^\d+]/g, "")}`}
+                      className="flex items-center gap-1.5 text-xs font-medium text-ink-2 border border-hair rounded-full px-3 py-1.5 hover:bg-sidebar-hover active:bg-hair-strong"
+                    >
+                      <IconPhone />
+                      {rep.repPhone}
+                    </a>
+                  )}
+                  {facebookUrl && (
+                    // Ward-office account, not the individual's own
+                    // personal-but-public page — see
+                    // MINNEAPOLIS_WARD_FACEBOOK_URL's own comment on why
+                    // that distinction matters here (AGENTS.md §1b vs
+                    // §1a). "Verified" means confirmed live against the
+                    // city's own official bio page for this ward, not a
+                    // guess at which account belongs to whom.
+                    <a
+                      href={facebookUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-1.5 text-xs font-medium text-ink-2 border border-hair rounded-full px-3 py-1.5 hover:bg-sidebar-hover active:bg-hair-strong"
+                    >
+                      <IconExternal />
+                      Verified Facebook Page
+                    </a>
+                  )}
+                </div>
               )}
-              {rep.repPhone && (
-                <a
-                  href={`tel:${rep.repPhone.replace(/[^\d+]/g, "")}`}
-                  className="flex items-center gap-1.5 text-xs font-medium text-ink-2 border border-hair rounded-full px-3 py-1.5 hover:bg-sidebar-hover active:bg-hair-strong"
-                >
-                  <IconPhone />
-                  {rep.repPhone}
-                </a>
+              {/* Office address now lives with Email/Phone — all three are the
+                  same "how do I reach this person" action (AGENTS.md §0.6) —
+                  rather than in its own section down past committees/votes/
+                  meetings, where it used to sit alongside neighborhoods (a
+                  different kind of fact entirely: what the seat covers, not
+                  how to contact it). Neighborhoods keeps its own section below,
+                  unchanged. */}
+              {rep.officeRoom && (
+                <div className="flex items-start gap-1.5 text-xs text-ink-3">
+                  <span className="mt-0.5">
+                    <IconBuilding />
+                  </span>
+                  <span>{rep.officeRoom}</span>
+                </div>
               )}
             </div>
-          )}
-          {/* Office address now lives with Email/Phone — all three are the
-              same "how do I reach this person" action (AGENTS.md §0.6) —
-              rather than in its own section down past committees/votes/
-              meetings, where it used to sit alongside neighborhoods (a
-              different kind of fact entirely: what the seat covers, not
-              how to contact it). Neighborhoods keeps its own section below,
-              unchanged. */}
-          {rep.officeRoom && (
-            <div className="flex items-start gap-1.5 text-xs text-ink-3">
-              <span className="mt-0.5">
-                <IconBuilding />
-              </span>
-              <span>{rep.officeRoom}</span>
-            </div>
-          )}
-        </div>
-      )}
+          )
+        );
+      })()}
 
       {/* Everything below — contested-race candidates, committees, party
           unity, recent votes, meetings, office/profile links — used to
