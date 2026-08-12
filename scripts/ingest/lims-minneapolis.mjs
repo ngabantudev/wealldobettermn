@@ -119,6 +119,11 @@ const PRIMARY_SOURCE_URL = "https://lims.minneapolismn.gov/";
 
 const BASE_URL = "https://lims.minneapolismn.gov/api/v1";
 
+// Per-file public record page. Unlike Legistar's Gateway.aspx redirect
+// (scripts/ingest/legistar.mjs), LIMS's file-record URL is a direct,
+// predictable pattern keyed on FileNumber — no API resolution needed.
+const FILE_URL_BASE = "https://lims.minneapolismn.gov/File";
+
 // Only the two endpoints the shipped meetings/agenda feature needs —
 // see the file header's RATE-LIMIT / SCOPE POSTURE note for why the
 // confirmed-live referenceList/* endpoints (CouncilMembers, CouncilTerm,
@@ -412,6 +417,9 @@ function mapFileItemToAgendaItems(item, itemIndex, meetingLookup, unmatchedMeeti
       matterFile: item.FileNumber || null,
       matterId: null, // LIMS exposes FileNumber (string), not a numeric matter id
       matterType: item.FileType || null,
+      // The bill's own public record page — not the meeting agenda it was
+      // heard at. See FILE_URL_BASE comment above.
+      fileUrl: item.FileNumber ? `${FILE_URL_BASE}/${item.FileNumber}` : null,
       // Raw member-name + vote-value pairs, kept as LIMS reports them
       // (confirmed vocabulary: Aye/Nay/Absent/Abstain — see LESSONS.md) —
       // normalization into this site's shared BillVote option vocabulary
