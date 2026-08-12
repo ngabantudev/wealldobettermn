@@ -110,10 +110,16 @@ export default function ParticipationLegend({
           turnoutActiveYear — general elections are always even years and
           city elections are always odd years, so this doesn't need to be
           threaded per-year the way electionHeading is. */}
-      <div className="text-xs leading-relaxed text-ink-3">
+      <div className="space-y-1 text-xs leading-relaxed text-ink-3">
         <p className="font-semibold text-ink-2">General Elections</p>
-        <p>Federal, State, and County elections are held in even-year cycles (2020, 2022, 2024, etc.)</p>
-        <p className="italic text-ink-4">City elections (Minneapolis/St. Paul) are held in odd-year cycles (2021, 2023, 2025, etc.)</p>
+        <p>
+          <strong className="font-semibold text-ink-2">Federal, State, and County</strong> elections are held in
+          even-year cycles (2020, 2022, 2024, etc.)
+        </p>
+        <p>
+          <strong className="font-semibold text-ink-2">City and municipal</strong> elections (Minneapolis/St. Paul)
+          are held in odd-year cycles (2021, 2023, 2025, etc.)
+        </p>
       </div>
 
       {/* Plain-language metric definition, verbatim (content-wise) from
