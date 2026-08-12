@@ -955,13 +955,23 @@ async function main() {
     // still lives in provenance.cvap.vintage and knownGaps in each
     // year's own city file and in SOURCES.md — this note just tells a
     // reader those exist, not how to look them up.
+    //
+    // Three paragraphs, joined with a blank line (\n\n) rather than
+    // shipped as separate array entries — this keeps the field's type a
+    // plain string (no schemaVersion bump; a downstream consumer that
+    // already treats this as opaque prose per §2.4's published contract
+    // sees the same shape, just with paragraph breaks in it now).
+    // ParticipationLegend.tsx splits on \n\n to render each as its own
+    // <p> and bolds the literal words "Registered"/"CVAP" — see that
+    // component's own comment for why the bolding lives in presentation,
+    // not baked into this string as markup.
     denominatorMethodologyNote:
-      "\"Registered\" compares how many people voted to how many people were signed up to vote by " +
-      "the time the polls closed that day — including anyone who signed up right at their polling place, " +
-      "which Minnesota allows. \"CVAP\" compares how many people voted to an estimate of how many " +
-      "adult U.S. citizens live in that city. That estimate comes from a U.S. Census Bureau survey, not an " +
-      "exact count, so it has a small margin of error. For a few cities each year, we don't have this estimate " +
-      "at all — instead of guessing, we leave it blank.",
+      "\"Registered\" = how many people voted compared to how many people were signed up to vote — including " +
+      "anyone who signed up right at their polling place, which Minnesota allows.\n\n" +
+      "\"CVAP\" = how many people voted compared to an estimate of how many adult U.S. citizens live in that " +
+      "city. That estimate comes from a U.S. Census Bureau survey, not an exact count, so it has a small " +
+      "margin of error.\n\n" +
+      "For a few cities each year, we don't have this estimate at all — instead of guessing, we leave it blank.",
   };
   await writeFile(MANIFEST_PATH, JSON.stringify(manifest));
 
