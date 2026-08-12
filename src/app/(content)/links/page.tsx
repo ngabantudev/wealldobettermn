@@ -55,8 +55,38 @@ export default function LinksPage() {
       }}
     >
       <div className="w-full max-w-[480px] pt-14 pb-10 sm:pt-16">
-        {/* Signature element: rising heat gauge */}
+        {/* Signature element: rising heat gauge. The dot at its base emits
+            slow ripple rings — three copies of the same ring, staggered by
+            animation-delay so one is always mid-fade as the next begins,
+            rather than three re-triggering in lockstep. Kept to a plain
+            <style> tag (not a Tailwind utility) since the keyframes need a
+            named animation; respects prefers-reduced-motion per AGENTS.md
+            §4 by dropping straight to the static dot with no rings. */}
+        <style>{`
+          @keyframes links-ripple {
+            0% { transform: translate(-50%, -50%) scale(1); opacity: 0.5; }
+            100% { transform: translate(-50%, -50%) scale(4.5); opacity: 0; }
+          }
+          .links-ripple {
+            animation: links-ripple 3.6s cubic-bezier(0.2, 0.6, 0.4, 1) infinite;
+          }
+          @media (prefers-reduced-motion: reduce) {
+            .links-ripple { animation: none; display: none; }
+          }
+        `}</style>
         <div className="relative mx-auto mb-7 h-14 w-[3px] rounded-full bg-gradient-to-b from-[#e8672a] via-[#c1440e] to-transparent sm:h-16">
+          <span
+            className="links-ripple absolute bottom-[0.5px] left-1/2 h-2.75 w-2.75 rounded-full border border-[#e8672a]"
+            style={{ animationDelay: "0s" }}
+          />
+          <span
+            className="links-ripple absolute bottom-[0.5px] left-1/2 h-2.75 w-2.75 rounded-full border border-[#e8672a]"
+            style={{ animationDelay: "1.2s" }}
+          />
+          <span
+            className="links-ripple absolute bottom-[0.5px] left-1/2 h-2.75 w-2.75 rounded-full border border-[#e8672a]"
+            style={{ animationDelay: "2.4s" }}
+          />
           <span
             className="absolute -bottom-[5px] left-1/2 h-[11px] w-[11px] -translate-x-1/2 animate-pulse rounded-full bg-[#e8672a]"
             style={{ boxShadow: "0 0 14px 3px rgba(232,103,42,0.55)" }}
