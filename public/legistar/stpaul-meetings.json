@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "client": "stpaul",
   "jurisdiction": "St. Paul City Council",
-  "generatedAt": "2026-08-12T05:33:50.187Z",
+  "generatedAt": "2026-08-12T07:11:42.406Z",
   "status": "ingested",
   "note": "15 meeting(s) (15/15 event(s) in window) and 229 agenda item(s) ingested for 2026-07-29–2026-11-10.",
   "provenance": {
@@ -11,7 +11,7 @@
     "documentType": "Legistar Web API — Events/EventItems",
     "documentId": null,
     "issuedDate": null,
-    "fetchedAt": "2026-08-12T05:33:50.187Z",
+    "fetchedAt": "2026-08-12T07:11:42.406Z",
     "licence": "Public records served via Legistar InSite; no separate machine-reuse licence published by the host jurisdiction as of this writing.",
     "contentHash": "cd534b6d08ef7476b3141147a4bf7d94f703e765b7b5ae5bb932290ba2348f0b"
   },
@@ -3211,107 +3211,11 @@
     }
   ],
   "diff": {
-    "addedIds": [
-      "legistar-stpaul-meeting-7729",
-      "legistar-stpaul-meeting-7730"
-    ],
-    "removedIds": [
-      "legistar-stpaul-meeting-7714"
-    ],
-    "changed": [
-      {
-        "id": "legistar-stpaul-meeting-7715",
-        "field": "time",
-        "from": "2:00 PM",
-        "to": "14:00"
-      },
-      {
-        "id": "legistar-stpaul-meeting-7716",
-        "field": "time",
-        "from": "12:00 PM",
-        "to": "12:00"
-      },
-      {
-        "id": "legistar-stpaul-meeting-7717",
-        "field": "time",
-        "from": "1:00 PM",
-        "to": "13:00"
-      },
-      {
-        "id": "legistar-stpaul-meeting-7718",
-        "field": "time",
-        "from": "2:00 PM",
-        "to": "14:00"
-      },
-      {
-        "id": "legistar-stpaul-meeting-7719",
-        "field": "time",
-        "from": "3:30 PM",
-        "to": "15:30"
-      },
-      {
-        "id": "legistar-stpaul-meeting-7720",
-        "field": "time",
-        "from": "10:00 AM",
-        "to": "10:00"
-      },
-      {
-        "id": "legistar-stpaul-meeting-7721",
-        "field": "time",
-        "from": "10:00 AM",
-        "to": "10:00"
-      },
-      {
-        "id": "legistar-stpaul-meeting-7721",
-        "field": "minutesUrl",
-        "from": null,
-        "to": "https://legistar1.granicus.com/StPaul/meetings/2026/8/7721_M_Legislative_Hearings_26-08-04_Minutes_-_Final.pdf"
-      },
-      {
-        "id": "legistar-stpaul-meeting-7722",
-        "field": "time",
-        "from": "3:00 PM",
-        "to": "15:00"
-      },
-      {
-        "id": "legistar-stpaul-meeting-7722",
-        "field": "minutesUrl",
-        "from": null,
-        "to": "https://legistar1.granicus.com/StPaul/meetings/2026/8/7722_M_Rent_Stabilization_Appeal_Hearings_26-08-06_Meeting_Minutes.pdf"
-      },
-      {
-        "id": "legistar-stpaul-meeting-7723",
-        "field": "time",
-        "from": "2:00 PM",
-        "to": "14:00"
-      },
-      {
-        "id": "legistar-stpaul-meeting-7724",
-        "field": "time",
-        "from": "3:30 PM",
-        "to": "15:30"
-      },
-      {
-        "id": "legistar-stpaul-meeting-7726",
-        "field": "time",
-        "from": "9:00 AM",
-        "to": "09:00"
-      },
-      {
-        "id": "legistar-stpaul-meeting-7727",
-        "field": "time",
-        "from": "10:00 AM",
-        "to": "10:00"
-      },
-      {
-        "id": "legistar-stpaul-meeting-7728",
-        "field": "time",
-        "from": "12:00 PM",
-        "to": "12:00"
-      }
-    ]
+    "addedIds": [],
+    "removedIds": [],
+    "changed": []
   },
-  "previousGeneratedAt": "2026-08-08T15:53:06.103Z",
+  "previousGeneratedAt": "2026-08-12T05:33:50.187Z",
   "knownGaps": [
     "Consent-agenda flagging uses Legistar's own EventItemConsent field only (35 of 229 agenda item(s) in this window flagged). \"No discussion\" / \"no public comment\" are NOT flagged — this API exposes no comparably reliable field for either, and AGENTS.md §3.3 rules out inferring one from absence."
   ]

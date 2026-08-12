@@ -121,6 +121,14 @@ export interface Meeting {
   videoStatus: string | null;
   sourceUrl: string | null;
   lastModifiedUtc: string | null;
+  // Optional: populated only by scripts/ingest/lims-minneapolis.mjs, from
+  // LIMS's meetingCalendar MembersList — the body's roster as of this
+  // meeting (who serves on it, not a confirmed-attendance record; neither
+  // upstream tracks actual per-meeting attendance). Legistar's own
+  // /events object has no equivalent field (confirmed live against the
+  // full response shape) — St. Paul/Hennepin meetings just omit this
+  // rather than a required array every producer would need to populate.
+  members?: { id: number; name: string; type: string | null }[];
 }
 
 export interface MeetingAgendaItem {

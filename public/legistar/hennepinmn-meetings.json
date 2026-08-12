@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "client": "hennepinmn",
   "jurisdiction": "Hennepin County Board",
-  "generatedAt": "2026-08-12T05:34:45.949Z",
+  "generatedAt": "2026-08-12T07:13:48.846Z",
   "status": "ingested",
   "note": "9 meeting(s) (9/9 event(s) in window) and 142 agenda item(s) ingested for 2026-07-29–2026-11-10.",
   "provenance": {
@@ -11,7 +11,7 @@
     "documentType": "Legistar Web API — Events/EventItems",
     "documentId": null,
     "issuedDate": null,
-    "fetchedAt": "2026-08-12T05:34:45.949Z",
+    "fetchedAt": "2026-08-12T07:13:48.846Z",
     "licence": "Public records served via Legistar InSite; no separate machine-reuse licence published by the host jurisdiction as of this writing.",
     "contentHash": "16d5f821b24ae3b9d79f2bc1e9425adfa89a4d1b799b4bc52a286902f054fa9a"
   },
@@ -1997,72 +1997,10 @@
   ],
   "diff": {
     "addedIds": [],
-    "removedIds": [
-      "legistar-hennepinmn-meeting-1440",
-      "legistar-hennepinmn-meeting-1441",
-      "legistar-hennepinmn-meeting-1442",
-      "legistar-hennepinmn-meeting-1443",
-      "legistar-hennepinmn-meeting-1444",
-      "legistar-hennepinmn-meeting-1445"
-    ],
-    "changed": [
-      {
-        "id": "legistar-hennepinmn-meeting-1447",
-        "field": "time",
-        "from": "1:30 PM",
-        "to": "13:30"
-      },
-      {
-        "id": "legistar-hennepinmn-meeting-1448",
-        "field": "time",
-        "from": "9:30 AM",
-        "to": "09:30"
-      },
-      {
-        "id": "legistar-hennepinmn-meeting-1449",
-        "field": "time",
-        "from": "1:30 PM",
-        "to": "13:30"
-      },
-      {
-        "id": "legistar-hennepinmn-meeting-1450",
-        "field": "time",
-        "from": "1:30 PM",
-        "to": "13:30"
-      },
-      {
-        "id": "legistar-hennepinmn-meeting-1451",
-        "field": "time",
-        "from": "1:30 PM",
-        "to": "13:30"
-      },
-      {
-        "id": "legistar-hennepinmn-meeting-1452",
-        "field": "time",
-        "from": "1:30 PM",
-        "to": "13:30"
-      },
-      {
-        "id": "legistar-hennepinmn-meeting-1453",
-        "field": "time",
-        "from": "1:30 PM",
-        "to": "13:30"
-      },
-      {
-        "id": "legistar-hennepinmn-meeting-1454",
-        "field": "time",
-        "from": "1:30 PM",
-        "to": "13:30"
-      },
-      {
-        "id": "legistar-hennepinmn-meeting-1455",
-        "field": "time",
-        "from": "1:30 PM",
-        "to": "13:30"
-      }
-    ]
+    "removedIds": [],
+    "changed": []
   },
-  "previousGeneratedAt": "2026-08-08T15:54:00.265Z",
+  "previousGeneratedAt": "2026-08-12T05:34:45.949Z",
   "knownGaps": [
     "Consent-agenda flagging uses Legistar's own EventItemConsent field only (16 of 142 agenda item(s) in this window flagged). \"No discussion\" / \"no public comment\" are NOT flagged — this API exposes no comparably reliable field for either, and AGENTS.md §3.3 rules out inferring one from absence."
   ]

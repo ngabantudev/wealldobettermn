@@ -235,6 +235,14 @@ function mapMeetingCalendarRow(row) {
   // raw format independently, so a sort or display bug in one vendor's
   // data can't reappear unnoticed in the other's.
   const rawTime = typeof row.MeetingDateTime === "string" ? row.MeetingDateTime.slice(11, 16) || null : null;
+  // LIMS's own membership roster for this meeting — who serves on the
+  // body, not a confirmed-attendance record (LIMS doesn't track actual
+  // attendance any more than Legistar does). Empty array (never omitted)
+  // when MembersList is absent/empty, so consumers can rely on it always
+  // being an array rather than checking for undefined too.
+  const members = (row.MembersList ?? [])
+    .filter((m) => m.MemberId && m.MemberName)
+    .map((m) => ({ id: m.MemberId, name: m.MemberName, type: m.MemberType || null }));
   return {
     id,
     body_id: bodyId,
@@ -248,6 +256,7 @@ function mapMeetingCalendarRow(row) {
     videoStatus: null, // not present in meetingCalendar's response
     sourceUrl: normalizeUrl(row.AgendaURL),
     lastModifiedUtc: null, // not present in meetingCalendar's response
+    members,
   };
 }
 
@@ -636,15 +645,12 @@ async function main() {
 
     await mkdir(OUTPUT_DIR, { recursive: true });
     await writeFile(OUTPUT_PATH, `${JSON.stringify(state, null, 2)}\n`, "utf8");
-    // Never include a cancelled meeting (LIMS's IsCancelled ->
-    // agendaStatus "Cancelled") in the teaser WardModal.tsx renders as
-    // "this week's meetings" — a resident reading that card has no other
-    // cancellation signal, and this feed's UI doesn't surface
-    // agendaStatus anywhere else (same gap Legistar's own agendaStatus
-    // field has site-wide, but this teaser is the one spot that actively
-    // tells someone to show up).
-    const teaserCandidates = meetings.filter((m) => m.agendaStatus !== "Cancelled");
-    const meetingsThisWeek = selectMeetingsThisWeek({ client: CLIENT, jurisdiction: JURISDICTION }, teaserCandidates, today);
+    // Cancelled meetings are included, not filtered out —
+    // selectMeetingsThisWeek() derives isCancelled from agendaStatus and
+    // WardModal.tsx renders it explicitly, so a resident sees "this one's
+    // cancelled" instead of the meeting silently vanishing with no
+    // explanation.
+    const meetingsThisWeek = selectMeetingsThisWeek({ client: CLIENT, jurisdiction: JURISDICTION }, meetings, today);
     await writeMeetingsThisWeekTeaser(meetingsThisWeek);
     console.log(
       `[lims-minneapolis] wrote ${OUTPUT_PATH}. meetings this week: ${meetingsThisWeek.length}. Wrote ${MEETINGS_THIS_WEEK_PATH}`,

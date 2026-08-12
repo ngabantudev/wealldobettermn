@@ -1083,6 +1083,20 @@ async function writeClientMeetingsOutput(clientConfig, state) {
 // and sourced, and picking one by body name over date hides the truly
 // soonest one. Returns every meeting in the window instead, chronological
 // order, letting the resident see (and judge relevance of) all of them.
+// Cancelled meetings are included, not filtered out — a resident who
+// expected a meeting to happen benefits from seeing "cancelled" more
+// than from the meeting silently vanishing with no explanation (AGENTS.md
+// §0.6). isCancelled is derived from agendaStatus === "Cancelled" here
+// (LIMS's own IsCancelled flag, mapped in scripts/ingest/
+// lims-minneapolis.mjs's mapMeetingCalendarRow()) rather than exposing
+// the free-text agendaStatus field itself — Legistar's own
+// EventAgendaStatusName never carries a "Cancelled" value in the live
+// data checked (only "Final"/"Final-revised"/"Preliminary" — an agenda
+// publication state, not a happen/didn't-happen signal), so this is
+// always false for St. Paul/Hennepin meetings, not a guess.
+//
+// `members` passes through only when the source Meeting has one (LIMS
+// only — see that type's own comment in meetingsRegistry.ts).
 export function selectMeetingsThisWeek(clientConfig, meetings, runIso, windowDays = 7) {
   const windowEndIso = addDays(new Date(`${runIso}T00:00:00Z`), windowDays - 1);
   return meetings
@@ -1097,6 +1111,8 @@ export function selectMeetingsThisWeek(clientConfig, meetings, runIso, windowDay
       location: m.location,
       sourceUrl: m.sourceUrl,
       agendaUrl: m.agendaUrl,
+      isCancelled: m.agendaStatus === "Cancelled",
+      ...(m.members ? { members: m.members } : {}),
     }));
 }
 

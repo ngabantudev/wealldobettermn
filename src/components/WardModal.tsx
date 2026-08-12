@@ -56,6 +56,17 @@ interface WeekMeeting {
   location: string | null;
   sourceUrl: string | null;
   agendaUrl: string | null;
+  // isCancelled: derived server-side in scripts/ingest/legistar.mjs's
+  // selectMeetingsThisWeek() from agendaStatus === "Cancelled" — real for
+  // Minneapolis (LIMS's own IsCancelled flag); always false for St. Paul/
+  // Hennepin, since Legistar's EventAgendaStatusName never carries a
+  // "Cancelled" value in the confirmed live data (only Final/Preliminary
+  // — an agenda-publication state, not a happen/didn't-happen signal).
+  isCancelled: boolean;
+  // members: the body's roster as of this meeting (who serves on it, not
+  // a confirmed-attendance record — neither upstream tracks actual
+  // per-meeting attendance). LIMS-only; absent for Legistar meetings.
+  members?: { id: number; name: string; type: string | null }[];
 }
 
 // Keyed by the same city/county display strings RepProperties already
@@ -100,9 +111,12 @@ function formatTeaserDate(iso: string): string {
 // Legistar (St. Paul/Hennepin) does; LIMS's meetingCalendar endpoint
 // doesn't return a location field at all (confirmed live against the
 // real API), so Minneapolis cards never show a location line yet — a
-// real API gap being chased separately, not a rendering bug. Always
-// links out to /meetings for the full agenda browser rather than
-// rendering any agenda content itself.
+// real API gap being chased separately, not a rendering bug. Cancellation
+// (isCancelled) and body membership (members) are each rendered only
+// when the underlying data actually has them, per the WeekMeeting type's
+// own comments on which upstream provides what — never a guess filled in
+// for the vendor that doesn't. Always links out to /meetings for the
+// full agenda browser rather than rendering any agenda content itself.
 function MeetingsThisWeekList({ meetings }: { meetings: WeekMeeting[] | undefined }) {
   if (!meetings) return null;
   if (meetings.length === 0) {
@@ -116,7 +130,17 @@ function MeetingsThisWeekList({ meetings }: { meetings: WeekMeeting[] | undefine
             key={`${meeting.bodyName ?? "meeting"}-${meeting.date ?? ""}-${meeting.time ?? index}`}
             className="rounded-lg border border-hair-strong bg-panel-2 p-3 text-sm"
           >
-            <p className="font-medium text-ink-2 wrap-break-word">{meeting.bodyName ?? "Meeting"}</p>
+            <div className="flex flex-wrap items-start justify-between gap-2">
+              <p className="font-medium text-ink-2 wrap-break-word">{meeting.bodyName ?? "Meeting"}</p>
+              {meeting.isCancelled && (
+                <span
+                  className="shrink-0 rounded-full px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide"
+                  style={{ color: STALE_COLOR, backgroundColor: STALE_COLOR_SOFT }}
+                >
+                  Cancelled
+                </span>
+              )}
+            </div>
             {meeting.date && (
               <p className="mt-0.5 text-ink-3">
                 {formatTeaserDate(meeting.date)}
@@ -124,6 +148,14 @@ function MeetingsThisWeekList({ meetings }: { meetings: WeekMeeting[] | undefine
               </p>
             )}
             {meeting.location && <p className="mt-0.5 text-xs text-ink-4 wrap-break-word">{meeting.location}</p>}
+            {meeting.members && meeting.members.length > 0 && (
+              <p className="mt-1 text-xs text-ink-4 wrap-break-word">
+                <span className="font-medium text-ink-3">Members:</span>{" "}
+                {meeting.members
+                  .map((m) => (m.type && m.type !== "Council Member" ? `${m.name} (${m.type})` : m.name))
+                  .join(", ")}
+              </p>
+            )}
           </li>
         ))}
       </ul>

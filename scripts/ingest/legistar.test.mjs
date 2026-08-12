@@ -420,3 +420,28 @@ test("selectMeetingsThisWeek excludes past meetings and anything beyond the wind
 test("selectMeetingsThisWeek returns [] (not null) when nothing is in the window", () => {
   assert.deepEqual(selectMeetingsThisWeek(clientConfig, [], "2026-08-12"), []);
 });
+
+test("selectMeetingsThisWeek derives isCancelled from agendaStatus and includes cancelled meetings rather than dropping them", () => {
+  const meetings = [
+    { id: "m1", bodyName: "City Council", date: "2026-08-13", time: "09:30", agendaStatus: "Cancelled", sourceUrl: null, agendaUrl: null },
+    { id: "m2", bodyName: "City Council", date: "2026-08-13", time: "13:00", agendaStatus: "Final", sourceUrl: null, agendaUrl: null },
+  ];
+
+  const week = selectMeetingsThisWeek(clientConfig, meetings, "2026-08-12");
+
+  assert.equal(week.length, 2, "cancelled meetings are included, not filtered out");
+  assert.equal(week[0].isCancelled, true);
+  assert.equal(week[1].isCancelled, false);
+});
+
+test("selectMeetingsThisWeek passes members through only when the source Meeting has them", () => {
+  const withMembers = [
+    { id: "m1", bodyName: "City Council", date: "2026-08-13", time: "09:30", members: [{ id: 1, name: "Elliott Payne", type: "President" }] },
+  ];
+  const withoutMembers = [{ id: "m2", bodyName: "City Council", date: "2026-08-13", time: "09:30" }];
+
+  assert.deepEqual(selectMeetingsThisWeek(clientConfig, withMembers, "2026-08-12")[0].members, [
+    { id: 1, name: "Elliott Payne", type: "President" },
+  ]);
+  assert.equal("members" in selectMeetingsThisWeek(clientConfig, withoutMembers, "2026-08-12")[0], false);
+});
