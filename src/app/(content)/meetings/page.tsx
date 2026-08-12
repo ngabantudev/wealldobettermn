@@ -98,8 +98,19 @@ function groupMeetingsByBody(meetings: Meeting[]): BodyGroup[] {
 // MAX_MATTERS_PER_CLIENT already uses for a different request-volume
 // concern — never a silent drop (AGENTS.md §3.3): each cap renders an
 // explicit "+N more — see the full record/feed" note when it bites.
-const MAX_AGENDA_ITEMS_PER_MEETING = 10;
-const MAX_UPCOMING_MEETINGS_PER_BODY = 4;
+//
+// Set conservatively, not just "small enough to pass a local test":
+// Cloudflare's resource limit is CPU *time*, not wall-clock time —
+// local/curl measurements include network and cold-start overhead that
+// doesn't count against that budget, so a locally-fast response isn't
+// proof of a safe CPU-ms cost on whatever plan this deploys under
+// (unconfirmed from here whether that's Cloudflare's free-tier CPU
+// budget or a more generous paid one). Erring low until this is
+// confirmed against the real account's limits over a few real days of
+// traffic, rather than tuning to the edge of a number that can't be
+// fully verified from a local/preview test alone.
+const MAX_AGENDA_ITEMS_PER_MEETING = 5;
+const MAX_UPCOMING_MEETINGS_PER_BODY = 2;
 
 function agendaItemsFor(feed: MeetingsFeed, meetingId: string): { items: MeetingAgendaItem[]; totalCount: number } {
   const all = feed.agendaItems

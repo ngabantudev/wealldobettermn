@@ -64,9 +64,17 @@ function formatTeaserDate(iso: string): string {
 // browser rather than rendering any agenda content itself.
 function NextMeetingTeaserLine({ teaser }: { teaser: NextMeetingTeaser | null | undefined }) {
   if (!teaser || !teaser.date) return null;
+  // Always names the body/meeting (e.g. "City Council", "Committee of the
+  // Whole") rather than suppressing it for the primary body — a bare
+  // "Next meeting: Aug 13, 09:30" with no name told a resident when but
+  // not what, which is the exact thing AGENTS.md §0.6 ("every record
+  // ends in an action") exists to avoid. isPrimaryBody still exists on
+  // the type/data (selectNextMeeting() in scripts/ingest/legistar.mjs)
+  // for any caller that wants to distinguish the primary body, but this
+  // line no longer branches its own copy on it.
   return (
     <p className="mt-1.5 text-sm">
-      Next {teaser.isPrimaryBody ? "meeting" : `meeting (${teaser.bodyName ?? "a related body"})`}:{" "}
+      Next meeting ({teaser.bodyName ?? "body unknown"}):{" "}
       <span className="font-medium text-ink-2">
         {formatTeaserDate(teaser.date)}
         {teaser.time ? `, ${teaser.time}` : ""}
