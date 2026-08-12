@@ -77,6 +77,22 @@ export default function ParticipationLegend({
           turnoutActiveYear state), never a hardcoded string. */}
       {electionHeading && <p className="text-sm font-semibold text-ink">{electionHeading}</p>}
 
+      {/* What "general election" means and why the map's years are all
+          even — this is real, user-raised confusion (a resident could
+          easily read "2024 turnout" as covering their city council race,
+          which it does not: Minneapolis/St. Paul run on a separate
+          odd-year municipal cycle entirely out of this feature's scope,
+          per FEATURES.md/the original spec's own "Municipal (odd-year)
+          election turnout — see PR 2" note). Static, not derived from
+          turnoutActiveYear — general elections are always even years and
+          city elections are always odd years, so this doesn't need to be
+          threaded per-year the way electionHeading is. */}
+      <div className="text-xs leading-relaxed text-ink-3">
+        <p className="font-semibold text-ink-2">General Elections</p>
+        <p>Federal, State, and County elections are held in even-year cycles (2020, 2022, 2024, etc.)</p>
+        <p className="italic text-ink-4">City elections (Minneapolis/St. Paul) are held in odd-year cycles (2021, 2023, 2025, etc.)</p>
+      </div>
+
       {/* Plain-language metric definition, verbatim from
           public/turnout/manifest.json's own denominatorMethodologyNote —
           never re-worded here, so the map's own legend text can't

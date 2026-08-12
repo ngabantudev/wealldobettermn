@@ -671,7 +671,7 @@ function summarizeParticipation(city: ParticipationCityProperties, townshipOrUno
     return `${city.name}: ${formatCount(city.ballotsCast)} ballots cast. Fewer than 200 registered voters — percentage too small to shade reliably.`;
   }
   const pct = city.turnoutOfRegistered !== null ? `${Math.round(city.turnoutOfRegistered * 1000) / 10}%` : "unknown";
-  return `${city.name}: ${formatCount(city.ballotsCast)} ballots cast out of ${formatCount((city.registeredAt7am ?? 0) + (city.electionDayRegistrations ?? 0))} registered voters, ${pct} turnout of registered, 2024 general election.`;
+  return `${city.name}: ${formatCount(city.ballotsCast)} ballots cast out of ${formatCount((city.registeredAt7am ?? 0) + (city.electionDayRegistrations ?? 0))} registered voters, ${pct} Registered, 2024 general election.`;
 }
 
 function boundsFromFeature(feature: Feature<Geometry>): maplibregl.LngLatBounds {
@@ -5265,12 +5265,12 @@ export default function WardMap() {
                   ) : (
                     <p className="mt-0.5 tabular-nums text-ink-2">
                       {participationPanel.city.turnoutOfRegistered !== null
-                        ? `${Math.round(participationPanel.city.turnoutOfRegistered * 1000) / 10}% turnout of registered`
+                        ? `${Math.round(participationPanel.city.turnoutOfRegistered * 1000) / 10}% Registered`
                         : null}
                       {participationPanel.city.turnoutOfCVAP !== null && (
                         <>
                           {" "}
-                          &middot; {Math.round(participationPanel.city.turnoutOfCVAP * 1000) / 10}% of CVAP
+                          &middot; {Math.round(participationPanel.city.turnoutOfCVAP * 1000) / 10}% CVAP
                         </>
                       )}
                     </p>
