@@ -1795,6 +1795,23 @@ export default function WardMap() {
   // starting both checked would cost nothing render-wise).
   const [visibleChambers, setVisibleChambers] = useState<Record<Chamber, boolean>>(() => ({ house: false, senate: true }));
   const visibleChambersRef = useRef(visibleChambers);
+  // Accordion open/closed state for the three left-sidebar sections
+  // (Government Level / Voter Turnout / Cities-by-County-or-Chambers) —
+  // shared between the floating (mobile Filters sheet) and sidebar
+  // (desktop <aside>) flavors, same as visibleCities/areaFilterQuery
+  // above already are. Plain useState, never persisted: this matches
+  // AreaFilterList.tsx's own per-county <details> open state
+  // (`manualOverride`, that file's own comment above its useState), which
+  // is the closer precedent for "expand/collapse state inside this filter
+  // panel" than LEFT_FILTERS_COLLAPSED_KEY below — collapsing the *entire*
+  // sidebar to reclaim map width is a deliberate, sticky choice a resident
+  // returns to; collapsing one section inside it is closer to
+  // AreaFilterList's own transient county-row toggles, which the areaFilterQuery
+  // comment just above already documents as unpersisted. All three default
+  // open so nothing is hidden on first paint.
+  const [govLevelSectionOpen, setGovLevelSectionOpen] = useState(true);
+  const [turnoutSectionOpen, setTurnoutSectionOpen] = useState(true);
+  const [areaSectionOpen, setAreaSectionOpen] = useState(true);
   // Sidebar collapse state — see LEFT_FILTERS_COLLAPSED_KEY's own comment.
   // Both default to false (expanded) here rather than reading storage in
   // the initializer, same SSR-safety reasoning as mapStyleId/siteTheme
@@ -2497,6 +2514,18 @@ export default function WardMap() {
   const switchMode = (mode: LayerMode) => {
     if (mode === layerModeRef.current) return;
     setLayerMode(mode);
+    // Picking Turnout wants to see its own controls (task requirement:
+    // mode selection and section collapse are orthogonal, EXCEPT this one
+    // deliberate direction — choosing a mode never collapses a section,
+    // only ever opens the one that mode now needs). Reading
+    // turnoutSectionOpen directly (not a ref) is safe here: switchMode is
+    // a fresh closure every render (called only from onClick handlers
+    // rendered inline below), never from a stale event-handler registered
+    // once inside the map-construction effect, so it always sees the
+    // latest state — same reasoning as switchMode's own pre-existing
+    // reads of `layerModeRef` only where MapLibre callbacks (not React
+    // renders) are the caller.
+    if (mode === "participation" && !turnoutSectionOpen) setTurnoutSectionOpen(true);
     setSelected(null);
     // A city "entered" in wards mode has no meaning in commissioners/
     // state-legislature mode (they don't consult activeCityRef at all) —
@@ -4515,13 +4544,61 @@ export default function WardMap() {
   // container so a label sitting beside AreaFilterList's own bulk-toggle
   // row doesn't pick up a second, misaligning gap from a margin baked
   // into the label itself.
-  const filterSectionLabel = (variant: "floating" | "sidebar", text: string) =>
-    variant === "sidebar" ? (
-      <h3 className="flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wide text-ink-3">
-        <span aria-hidden="true" className="h-2.5 w-1 shrink-0 rounded-full bg-sidebar-accent" />
-        {text}
-      </h3>
-    ) : null;
+  // Accordion wrapper for each of the three top-level sidebar sections
+  // (Government Level / Voter Turnout / Cities by County or Chambers
+  // Shown) — same shape for both the floating (mobile Filters sheet) and
+  // sidebar (desktop `<aside>`) flavors. Native `<details>/<summary>`
+  // rather than hand-rolled ARIA: keyboard toggling (Enter/Space) and the
+  // open/closed state exposed to assistive tech both come for free (a
+  // `<summary>`'s implicit role is "button" with its own accessible
+  // open/closed state — no separate `aria-expanded` to keep in sync by
+  // hand). Mirrors AreaFilterList.tsx's own per-county `<details>` exactly
+  // — same `group` + `group-open:rotate-180` chevron, same
+  // `motion-reduce:transition-none` gate (AGENTS.md §4) — rather than
+  // inventing a second pattern for the same interaction one level up.
+  // `open` is a controlled prop (not `defaultOpen`) so callers — namely
+  // switchMode's own "picking Turnout auto-expands its section" — can
+  // force a section open from outside a click on its own summary; the
+  // section's contents (AreaFilterList, ParticipationRecordList, etc.)
+  // stay mounted in the DOM either way, since `<details>` only ever
+  // visually hides a closed body rather than removing it, which is what
+  // keeps the accessible record lists reachable per AGENTS.md §4 even
+  // while their section is visually collapsed.
+  //
+  // Floating previously rendered no heading at all here (filterSectionLabel,
+  // this helper's predecessor, returned `null` for "floating") — a
+  // collapsible section needs a visible, clickable label to collapse
+  // *by*, so floating now gets one too; kept visually lighter (text-ink-2,
+  // no accent tick) than sidebar's tick+text-ink-3 treatment so it still
+  // reads as secondary chrome floating over the map rather than a second
+  // sidebar identity.
+  const filterAccordionSection = (
+    variant: "floating" | "sidebar",
+    text: string,
+    open: boolean,
+    onOpenChange: (open: boolean) => void,
+    children: React.ReactNode,
+  ) => (
+    <details open={open} onToggle={(e) => onOpenChange(e.currentTarget.open)} className="group">
+      <summary
+        className={`mb-1.5 flex list-none items-center gap-1.5 rounded-sm cursor-pointer select-none [&::-webkit-details-marker]:hidden focus:outline-none focus-visible:ring-2 focus-visible:-outline-offset-2 ${focusRingClass(variant)}`}
+      >
+        {variant === "sidebar" && <span aria-hidden="true" className="h-2.5 w-1 shrink-0 rounded-full bg-sidebar-accent" />}
+        <span className={`flex-1 text-[11px] font-semibold uppercase tracking-wide ${variant === "sidebar" ? "text-ink-3" : "text-ink-2"}`}>
+          {text}
+        </span>
+        <svg
+          aria-hidden="true"
+          viewBox="0 0 20 20"
+          fill="none"
+          className="h-3.5 w-3.5 shrink-0 text-ink-3 transition-transform duration-150 motion-reduce:transition-none group-open:rotate-180"
+        >
+          <path d="m5.5 7.5 4.5 5 4.5-5" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      </summary>
+      {children}
+    </details>
+  );
 
   // Sidebar-only tab look for the Level (City/County/State) and Chamber
   // groups — a flat segmented control (rounded-lg track, rounded-md
@@ -4586,114 +4663,211 @@ export default function WardMap() {
       </p>
     ) : null;
 
-  // filterControls (floating, for the mobile Filters trigger's sheet) and
-  // sidebarFilterControls (for the desktop left `<aside>` below) render
-  // the same two groups but are written out separately rather than
-  // shared through one JSX-returning helper: a helper closing over
-  // switchMode/toggleChamber (both of which read a ref) and called twice
-  // during this component's own render reads, to the react-hooks/refs
-  // lint rule, as those refs being touched somewhere other than an event
-  // handler — even though the buttons below only ever call them from
-  // onClick, same as this file did before either flavor existed. Two
-  // direct blocks side-step the false positive.
-  const filterControls = (
-    <>
-      <div>
-        {filterSectionLabel("floating", "Government Level")}
-        <div role="group" aria-label="Choose government level" className={filterGroupClass()}>
-          {(["wards", "commissioners", "state-legislature", "participation"] as const).map((mode) => (
-            <button
-              key={mode}
-              type="button"
-              onClick={() => switchMode(mode)}
-              // rowHoverClass/focusRingClass("floating") — shared with
-              // AreaFilterList.tsx's own row/summary chrome (src/lib/
-              // variantClasses.ts) rather than this file re-deriving the
-              // same "floating uses --hover/--accent, sidebar uses
-              // --sidebar-hover/--sidebar-accent" choice inline a second
-              // time (this button and the Chamber one just below it used
-              // to each hardcode the identical literal).
-              className={`px-3 py-1.5 rounded-md font-medium transition-colors focus:outline-none focus-visible:ring-2 ${focusRingClass("floating")} ${
-                layerMode === mode ? "bg-accent text-on-accent" : `text-ink-3 hover:text-ink ${rowHoverClass("floating")}`
-              }`}
-            >
-              {mode === "participation" ? participationModeLabel(turnoutActiveYear) : MODE_LABELS[mode]}
-            </button>
-          ))}
-        </div>
-        {secondaryDataNotice}
-      </div>
+  // Standalone on/off control for the Voter Turnout section — replaces
+  // "Turnout" as a fourth cell of the Government Level segmented control
+  // (issue: turnout is a distinct data mode, not a government tier — a
+  // city's turnout figures aren't tied to any office, same reasoning
+  // LayerMode's own comment already gives for handling "participation" as
+  // its own branch everywhere else in this file). `role="switch"` +
+  // `aria-checked` is the correct ARIA shape for a single persistent
+  // on/off toggle (distinct from the Government Level buttons just below,
+  // which are `role="group"` mutually-exclusive picks); the visible
+  // "On"/"Off" text is the real signal for a colorblind resident
+  // (AGENTS.md §4 "Colour Is Never The Only Signal") — the accent fill is
+  // decoration on top of it, not instead of it. Turning it off returns to
+  // "wards" (the default tier) rather than leaving no mode active, same
+  // as picking any other Government Level cell always did.
+  const turnoutToggleButtonClass = (variant: "floating" | "sidebar", active: boolean) =>
+    variant === "sidebar"
+      ? `flex w-full items-center justify-between gap-2 rounded-md bg-panel-3 px-3 py-2.5 text-left text-xs font-semibold uppercase tracking-wide transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-sidebar-accent ${
+          active ? "" : "text-ink-3 hover:bg-sidebar-hover hover:text-ink"
+        }`
+      : `flex w-full items-center justify-between gap-2 rounded-lg border border-hair bg-panel-2/90 backdrop-blur-sm px-3 py-2 text-left text-sm font-medium shadow-lg shadow-(color:--shadow-panel) transition-colors focus:outline-none focus-visible:ring-2 ${focusRingClass(
+          "floating",
+        )} ${active ? "border-transparent bg-accent text-on-accent" : `text-ink-3 hover:text-ink ${rowHoverClass("floating")}`}`;
 
-      <div>
-        {layerMode === "state-legislature" && filterSectionLabel("floating", "Chambers Shown")}
-        {layerMode === "state-legislature" ? (
-          // A district doesn't cleanly belong to one Twin City, so this
-          // offers the two chambers instead of the Minneapolis/St. Paul
-          // checkboxes below — same pill-button look as the Government
-          // Level switcher just above, but each independently toggleable
-          // rather than exclusive (see ChamberToggleButtons's own comment).
-          <ChamberToggleButtons visibleChambers={visibleChambers} variant="floating" onToggleChamber={toggleChamber} />
-        ) : layerMode === "participation" ? (
-          <>
-            <TurnoutYearSlider
-              variant="floating"
-              years={turnoutYears}
-              activeYear={turnoutActiveYear?.year ?? null}
-              loading={turnoutYearLoading}
-              onChangeYear={switchTurnoutYear}
-            />
-            <ParticipationLegend
-              variant="floating"
-              electionHeading={formatElectionHeading(turnoutActiveYear)}
-              denominatorNote={turnoutDenominatorNote}
-              populationWeighted={participationPopulationWeighted}
-              onTogglePopulationWeighted={toggleParticipationPopulationWeighted}
-            />
-            <div className="mt-3">
-              <ParticipationRecordList
-                cities={participationCities}
-                variant="floating"
-                electionHeading={formatElectionHeading(turnoutActiveYear)}
-                onSelectCity={selectParticipationCity}
-              />
-            </div>
-          </>
-        ) : (
-          <AreaFilterList
-            cities={MODE_VISIBLE_CITIES[layerMode]}
-            visibleCities={visibleCities}
-            labels={MODE_FILTER_LABELS[layerMode]}
-            accents={CITY_ACCENT}
-            variant="floating"
-            grouped={layerMode === "wards"}
-            query={areaFilterQuery}
-            onQueryChange={setAreaFilterQuery}
-            onToggleCity={toggleCity}
-            onSetCitiesVisible={setCitiesVisible}
-          />
-        )}
+  const turnoutToggle = (variant: "floating" | "sidebar") => {
+    const active = layerMode === "participation";
+    return (
+      <button
+        type="button"
+        role="switch"
+        aria-checked={active}
+        onClick={() => switchMode(active ? "wards" : "participation")}
+        className={turnoutToggleButtonClass(variant, active)}
+        style={variant === "sidebar" && active ? { backgroundColor: TIER_HEADER_BG, color: TIER_HEADER_TEXT } : undefined}
+      >
+        <span>{participationModeLabel(turnoutActiveYear)}</span>
+        <span aria-hidden="true" className="shrink-0 text-[10px] font-semibold uppercase tracking-wide opacity-80">
+          {active ? "On" : "Off"}
+        </span>
+      </button>
+    );
+  };
+
+  // Full contents of the Voter Turnout section once its switch is on —
+  // identical for both flavors modulo `variant`, so this is the one place
+  // that assembles TurnoutYearSlider + ParticipationLegend +
+  // ParticipationRecordList rather than duplicating the trio at each of
+  // the two call sites below.
+  const turnoutActiveControls = (variant: "floating" | "sidebar") => (
+    <>
+      <TurnoutYearSlider
+        variant={variant}
+        years={turnoutYears}
+        activeYear={turnoutActiveYear?.year ?? null}
+        loading={turnoutYearLoading}
+        onChangeYear={switchTurnoutYear}
+      />
+      <ParticipationLegend
+        variant={variant}
+        electionHeading={formatElectionHeading(turnoutActiveYear)}
+        denominatorNote={turnoutDenominatorNote}
+        populationWeighted={participationPopulationWeighted}
+        onTogglePopulationWeighted={toggleParticipationPopulationWeighted}
+      />
+      {/* AGENTS.md §4 — the accessible DOM record list for this mode,
+          always mounted (not behind a toggle) so a keyboard/screen-reader
+          resident reaches every city's turnout figures without ever
+          touching the map canvas. Stays mounted even if this section's
+          own <details> is collapsed — see filterAccordionSection's own
+          comment on why a closed <details> only ever hides visually. */}
+      <div className="mt-3">
+        <ParticipationRecordList
+          cities={participationCities}
+          variant={variant}
+          electionHeading={formatElectionHeading(turnoutActiveYear)}
+          onSelectCity={selectParticipationCity}
+        />
       </div>
     </>
   );
 
-  // Rendered as the first item inside the padded content column below
-  // (see the left `<aside>`'s own comment) — inset with room for the
+  // Heading + body for the third section — "Cities by County" (wards),
+  // "Counties Shown" (commissioners), or "Chambers Shown" (state
+  // legislature), via AREA_SECTION_LABEL for the first two. Turnout no
+  // longer routes through this section at all (it has its own, above) —
+  // when Turnout is the active LayerMode, none of City/County/State is
+  // "the current tier" for this section to filter, so it renders an
+  // honest note pointing back at Government Level rather than an
+  // AreaFilterList with zero checkboxes in it (MODE_VISIBLE_CITIES.
+  // participation is `[]`), matching AGENTS.md §3.1's general preference
+  // for a plain empty-state sentence over a control that quietly does
+  // nothing.
+  const areaSectionHeading =
+    layerMode === "state-legislature"
+      ? "Chambers Shown"
+      : layerMode === "wards" || layerMode === "commissioners"
+        ? AREA_SECTION_LABEL[layerMode]
+        : "Areas Shown";
+
+  const areaSectionBody = (variant: "floating" | "sidebar") =>
+    layerMode === "state-legislature" ? (
+      // A district doesn't cleanly belong to one Twin City, so this
+      // offers the two chambers instead of the Minneapolis/St. Paul
+      // checkboxes below — each independently toggleable rather than
+      // exclusive (see ChamberToggleButtons's own comment).
+      <ChamberToggleButtons visibleChambers={visibleChambers} variant={variant} onToggleChamber={toggleChamber} />
+    ) : layerMode === "participation" ? (
+      <p className="text-xs text-ink-3">Switch to City, County, or State above to filter areas shown on the map.</p>
+    ) : (
+      <AreaFilterList
+        cities={MODE_VISIBLE_CITIES[layerMode]}
+        visibleCities={visibleCities}
+        labels={MODE_FILTER_LABELS[layerMode]}
+        accents={CITY_ACCENT}
+        variant={variant}
+        grouped={layerMode === "wards"}
+        query={areaFilterQuery}
+        onQueryChange={setAreaFilterQuery}
+        onToggleCity={toggleCity}
+        onSetCitiesVisible={setCitiesVisible}
+      />
+    );
+
+  // filterControls (floating, for the mobile Filters trigger's sheet) and
+  // the three sidebarXSection variables below (for the desktop left
+  // `<aside>`) render the same three sections but are written out
+  // separately rather than shared through one JSX-returning helper: a
+  // helper closing over switchMode/toggleChamber (both of which read a
+  // ref) and called twice during this component's own render reads, to
+  // the react-hooks/refs lint rule, as those refs being touched somewhere
+  // other than an event handler — even though the buttons below only ever
+  // call them from onClick, same as this file did before either flavor
+  // existed. Direct blocks side-step the false positive.
+  //
+  // Section order — Government Level, then Voter Turnout, then the area
+  // filter — is fixed here and in the sidebar `<aside>`'s own render
+  // below: Turnout sits between the other two because it's a distinct
+  // data mode, not a geography filter that belongs inside either.
+  const filterControls = (
+    <>
+      {filterAccordionSection(
+        "floating",
+        "Government Level",
+        govLevelSectionOpen,
+        setGovLevelSectionOpen,
+        <>
+          <div role="group" aria-label="Choose government level" className={filterGroupClass()}>
+            {(["wards", "commissioners", "state-legislature"] as const).map((mode) => (
+              <button
+                key={mode}
+                type="button"
+                onClick={() => switchMode(mode)}
+                // rowHoverClass/focusRingClass("floating") — shared with
+                // AreaFilterList.tsx's own row/summary chrome (src/lib/
+                // variantClasses.ts) rather than this file re-deriving the
+                // same "floating uses --hover/--accent, sidebar uses
+                // --sidebar-hover/--sidebar-accent" choice inline a second
+                // time (this button and the Chamber one just below it used
+                // to each hardcode the identical literal).
+                className={`px-3 py-1.5 rounded-md font-medium transition-colors focus:outline-none focus-visible:ring-2 ${focusRingClass("floating")} ${
+                  layerMode === mode ? "bg-accent text-on-accent" : `text-ink-3 hover:text-ink ${rowHoverClass("floating")}`
+                }`}
+              >
+                {MODE_LABELS[mode]}
+              </button>
+            ))}
+          </div>
+          {secondaryDataNotice}
+        </>,
+      )}
+
+      {filterAccordionSection(
+        "floating",
+        "Voter Turnout",
+        turnoutSectionOpen,
+        setTurnoutSectionOpen,
+        <>
+          {turnoutToggle("floating")}
+          {layerMode === "participation" && <div className="mt-3">{turnoutActiveControls("floating")}</div>}
+        </>,
+      )}
+
+      {filterAccordionSection("floating", areaSectionHeading, areaSectionOpen, setAreaSectionOpen, areaSectionBody("floating"))}
+    </>
+  );
+
+  // Rendered as the first three items inside the padded content column
+  // below (see the left `<aside>`'s own comment) — inset with room for the
   // segmented control's own rounded corners, rather than the old
-  // full-bleed placement flush against the header. Now carries its own
-  // "Government Level" heading (see filterSectionLabel above and this
-  // block's own comment on sidebarTabRowClass) — City/County/State by
-  // itself, sitting directly above WardModal's own City/County/State
-  // section headings on the other side of the screen, read as the same
-  // control duplicated; naming the heading after what it picks makes it
-  // legible at a glance as "what's drawn" rather than "which tier of my rep
-  // to show." Renamed from "Map layer," which read as map jargon rather
-  // than the plain-language question a resident actually has (AGENTS.md
-  // §0.9).
-  const sidebarLevelTabs = (
-    <div>
-      <div className="mb-1.5">{filterSectionLabel("sidebar", "Government Level")}</div>
+  // full-bleed placement flush against the header. Government Level keeps
+  // its own heading (see filterAccordionSection above and this block's own
+  // comment on sidebarTabRowClass) — City/County/State by itself, sitting
+  // directly above WardModal's own City/County/State section headings on
+  // the other side of the screen, read as the same control duplicated;
+  // naming the heading after what it picks makes it legible at a glance as
+  // "what's drawn" rather than "which tier of my rep to show." Renamed
+  // from "Map layer," which read as map jargon rather than the
+  // plain-language question a resident actually has (AGENTS.md §0.9).
+  const sidebarGovLevelSection = filterAccordionSection(
+    "sidebar",
+    "Government Level",
+    govLevelSectionOpen,
+    setGovLevelSectionOpen,
+    <>
       <div role="group" aria-label="Choose government level" className={sidebarTabRowClass}>
-        {(["wards", "commissioners", "state-legislature", "participation"] as const).map((mode) => (
+        {(["wards", "commissioners", "state-legislature"] as const).map((mode) => (
           <button
             key={mode}
             type="button"
@@ -4701,90 +4875,38 @@ export default function WardMap() {
             className={sidebarTabButtonClass(layerMode === mode)}
             style={layerMode === mode ? { backgroundColor: TIER_HEADER_BG, color: TIER_HEADER_TEXT } : undefined}
           >
-            {mode === "participation" ? participationModeLabel(turnoutActiveYear) : MODE_LABELS[mode]}
+            {MODE_LABELS[mode]}
           </button>
         ))}
       </div>
       {secondaryDataNotice}
-    </div>
+    </>,
+  );
+
+  const sidebarTurnoutSection = filterAccordionSection(
+    "sidebar",
+    "Voter Turnout",
+    turnoutSectionOpen,
+    setTurnoutSectionOpen,
+    <>
+      {turnoutToggle("sidebar")}
+      {layerMode === "participation" && <div className="mt-3">{turnoutActiveControls("sidebar")}</div>}
+    </>,
   );
 
   // No card border around this group (a prior pass tried boxing it in
   // border-hair-strong; see git history) — mndatacenter.org's own filter
   // groups read as "contained" from generous vertical spacing and the
-  // section label's accent tick (filterSectionLabel above) plus the
+  // section label's accent tick (filterAccordionSection above) plus the
   // recessed fill under the tab row/checkbox list, not from a drawn
   // rectangle around the whole thing. The gap-5 on the padded content
   // column below does that spacing job between sections.
-  //
-  // Heading text is mode-specific (AREA_SECTION_LABEL above), not one bare
-  // "Areas shown" for both wards and commissioners modes — that read as
-  // ambiguous about what the checklist below it actually lists.
-  // State-legislature keeps its own "Chambers Shown" heading, with a
-  // pill-button pair below it (ChamberToggleButtons) rather than
-  // AreaFilterList's checkbox-row list — see that component's own comment
-  // for why the row/checkbox pattern was a thinner fit for two fixed
-  // items than it looked.
-  const sidebarFilterControls = (
-    <>
-      <div>
-        <div className="mb-1.5 flex items-center justify-between gap-2">
-          {filterSectionLabel(
-            "sidebar",
-            layerMode === "state-legislature"
-              ? "Chambers Shown"
-              : layerMode === "participation"
-                ? participationModeLabel(turnoutActiveYear)
-                : AREA_SECTION_LABEL[layerMode],
-          )}
-        </div>
-        {layerMode === "state-legislature" ? (
-          <ChamberToggleButtons visibleChambers={visibleChambers} variant="sidebar" onToggleChamber={toggleChamber} />
-        ) : layerMode === "participation" ? (
-          <>
-            <TurnoutYearSlider
-              variant="sidebar"
-              years={turnoutYears}
-              activeYear={turnoutActiveYear?.year ?? null}
-              loading={turnoutYearLoading}
-              onChangeYear={switchTurnoutYear}
-            />
-            <ParticipationLegend
-              variant="sidebar"
-              electionHeading={formatElectionHeading(turnoutActiveYear)}
-              denominatorNote={turnoutDenominatorNote}
-              populationWeighted={participationPopulationWeighted}
-              onTogglePopulationWeighted={toggleParticipationPopulationWeighted}
-            />
-            {/* AGENTS.md §4 — the accessible DOM record list for this
-                mode, always mounted (not behind a toggle) so a
-                keyboard/screen-reader resident reaches every city's
-                turnout figures without ever touching the map canvas. */}
-            <div className="mt-3">
-              <ParticipationRecordList
-                cities={participationCities}
-                variant="sidebar"
-                electionHeading={formatElectionHeading(turnoutActiveYear)}
-                onSelectCity={selectParticipationCity}
-              />
-            </div>
-          </>
-        ) : (
-          <AreaFilterList
-            cities={MODE_VISIBLE_CITIES[layerMode]}
-            visibleCities={visibleCities}
-            labels={MODE_FILTER_LABELS[layerMode]}
-            accents={CITY_ACCENT}
-            variant="sidebar"
-            grouped={layerMode === "wards"}
-            query={areaFilterQuery}
-            onQueryChange={setAreaFilterQuery}
-            onToggleCity={toggleCity}
-            onSetCitiesVisible={setCitiesVisible}
-          />
-        )}
-      </div>
-    </>
+  const sidebarAreaSection = filterAccordionSection(
+    "sidebar",
+    areaSectionHeading,
+    areaSectionOpen,
+    setAreaSectionOpen,
+    areaSectionBody("sidebar"),
   );
 
   // The pinned ward/rep modal outranks the Filters sheet (this component's
@@ -5002,8 +5124,9 @@ export default function WardMap() {
                 square strip flush under the header (see
                 sidebarTabRowClass's own comment for why). */}
             <div className="flex flex-1 flex-col gap-5 overflow-y-auto no-scrollbar px-4 py-5">
-              {sidebarLevelTabs}
-              {sidebarFilterControls}
+              {sidebarGovLevelSection}
+              {sidebarTurnoutSection}
+              {sidebarAreaSection}
             </div>
             {/* Foot of the sidebar, modeled on mndatacenter.org's own
                 "Last updated: [date]" line in the same spot. shrink-0 and
