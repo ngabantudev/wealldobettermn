@@ -5263,17 +5263,18 @@ export default function WardMap() {
                   {participationPanel.city.belowThreshold ? (
                     <p className="mt-0.5 text-ink-3">Fewer than 200 registered voters — too small to shade reliably.</p>
                   ) : (
-                    <p className="mt-0.5 tabular-nums text-ink-2">
-                      {participationPanel.city.turnoutOfRegistered !== null
-                        ? `${Math.round(participationPanel.city.turnoutOfRegistered * 1000) / 10}% Registered`
-                        : null}
-                      {participationPanel.city.turnoutOfCVAP !== null && (
-                        <>
-                          {" "}
-                          &middot; {Math.round(participationPanel.city.turnoutOfCVAP * 1000) / 10}% CVAP
-                        </>
+                    <>
+                      {participationPanel.city.turnoutOfRegistered !== null && (
+                        <p className="mt-0.5 tabular-nums text-ink-2">
+                          {Math.round(participationPanel.city.turnoutOfRegistered * 1000) / 10}% Registered
+                        </p>
                       )}
-                    </p>
+                      {participationPanel.city.turnoutOfCVAP !== null && (
+                        <p className="mt-0.5 tabular-nums text-ink-2">
+                          {Math.round(participationPanel.city.turnoutOfCVAP * 1000) / 10}% CVAP
+                        </p>
+                      )}
+                    </>
                   )}
                 </>
               )}

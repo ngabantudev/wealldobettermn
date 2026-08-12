@@ -69,7 +69,10 @@ function RecordRow({
         ) : city.belowThreshold ? (
           <span className="shrink-0 text-ink-4">too small to shade</span>
         ) : (
-          <span className="shrink-0 tabular-nums font-medium text-ink">{formatPercent(city.turnoutOfRegistered)}</span>
+          <span className="flex shrink-0 flex-col items-end tabular-nums">
+            <span className="font-medium text-ink">{formatPercent(city.turnoutOfRegistered)} Registered</span>
+            {city.turnoutOfCVAP !== null && <span className="text-ink-4">{formatPercent(city.turnoutOfCVAP)} CVAP</span>}
+          </span>
         )}
       </button>
     </li>
