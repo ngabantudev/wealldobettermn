@@ -121,13 +121,18 @@ export interface Meeting {
   videoStatus: string | null;
   sourceUrl: string | null;
   lastModifiedUtc: string | null;
-  // Optional: populated only by scripts/ingest/lims-minneapolis.mjs, from
-  // LIMS's meetingCalendar MembersList — the body's roster as of this
-  // meeting (who serves on it, not a confirmed-attendance record; neither
-  // upstream tracks actual per-meeting attendance). Legistar's own
-  // /events object has no equivalent field (confirmed live against the
-  // full response shape) — St. Paul/Hennepin meetings just omit this
-  // rather than a required array every producer would need to populate.
+  // Optional: the body's current roster (who serves on it, not a
+  // confirmed-attendance record — neither upstream tracks actual
+  // per-meeting attendance). LIMS gets this for free from
+  // meetingCalendar's own MembersList (scripts/ingest/
+  // lims-minneapolis.mjs's mapMeetingCalendarRow()). Legistar's /events
+  // object has no equivalent field (confirmed live against the full
+  // response shape), so scripts/ingest/legistar.mjs's main() derives it
+  // instead by cross-referencing the same officerecords-derived holdings
+  // already fetched for the votes feature (buildMembersByBody()) — real,
+  // sourced data either way, just resolved differently per vendor.
+  // Optional (not a required empty array) only because a client with no
+  // wired roster ingest at all would have nothing to populate it from.
   members?: { id: number; name: string; type: string | null }[];
 }
 

@@ -591,6 +591,45 @@ export function findHoldingForVote(holdings, legistarPersonId, bodyId, actionDat
   return candidates[0];
 }
 
+// Meeting.members equivalent for Legistar (LIMS gets it for free from
+// meetingCalendar's own MembersList — see scripts/ingest/
+// lims-minneapolis.mjs's mapMeetingCalendarRow()). Legistar's /events
+// object has no per-meeting membership field at all (checked the full
+// live response shape), but this repo already fetches each body's
+// full current roster for the votes feature (buildOfficesPersonsHoldings()
+// above) — this just re-groups that same, already-fetched data by body,
+// rather than a second fetch or a scrape of Legistar's own calendar UI
+// (which, separately confirmed, only loads real meeting data via JS/AJAX
+// calls back to this same API anyway — nothing extra to gain there).
+// Keyed by the exact `legistar-{client}-body-{BodyId}` string
+// mapEventToMeeting() already produces as Meeting.body_id, so callers can
+// look a meeting's members up with no further parsing.
+//
+// "asOfIso" is deliberately a single date (the run date), not resolved
+// per meeting: holding term ranges are typically multi-year, so a
+// membership change landing exactly inside one 7-day this-week window is
+// a vanishingly rare edge case, and "who's on this committee as of
+// today" is itself an accurate, sourced fact even in that case — not
+// worth the complexity of a per-meeting date resolution pass.
+export function buildMembersByBody(clientConfig, offices, persons, holdings, asOfIso) {
+  const officesById = new Map(offices.map((o) => [o.id, o]));
+  const personsById = new Map(persons.map((p) => [p.id, p]));
+  const byBody = new Map(); // body_id string -> members[]
+
+  for (const holding of holdings) {
+    if (holding.term_start > asOfIso) continue;
+    if (holding.term_end !== null && holding.term_end < asOfIso) continue;
+    const office = officesById.get(holding.office_id);
+    const person = personsById.get(holding.person_id);
+    if (!office || !person || holding._bodyId == null) continue;
+
+    const bodyId = `legistar-${clientConfig.client}-body-${holding._bodyId}`;
+    if (!byBody.has(bodyId)) byBody.set(bodyId, []);
+    byBody.get(bodyId).push({ id: holding._legistarPersonId, name: person.official_name, type: office.seat_label ?? null });
+  }
+  return byBody;
+}
+
 const sleepBriefly = () => sleep(75); // light inter-request pacing, on top of legistarGet's own 429 backoff
 
 // The two-hop vote walk, bounded to one recent window on one body (the
@@ -1238,6 +1277,15 @@ async function ingestClient(clientConfig) {
   knownGaps.push(...voteResult.knownGaps);
   contentHashEntries.push(...voteResult.contentHashEntries);
 
+  // Computed from the pre-stripInternal offices/persons/holdings (needs
+  // _bodyId/_legistarPersonId, which the public, stripped arrays below
+  // don't carry) — see buildMembersByBody()'s own comment. Threaded
+  // through main() to attach onto each meeting after
+  // ingestMeetingsForClient() builds them, since meetings/agenda ingest
+  // stays its own independent try/catch (a roster-ingest failure must
+  // never block or be masked by meetings ingest, or vice versa).
+  const membersByBodyId = buildMembersByBody(clientConfig, offices, persons, holdings, runIso);
+
   return {
     jurisdictionId: jurisdictionMeta.jurisdictionId,
     bodies,
@@ -1248,6 +1296,7 @@ async function ingestClient(clientConfig) {
     agendaItems: voteResult.agendaItems,
     voteEvents: voteResult.voteEvents,
     votes: voteResult.votes,
+    membersByBodyId,
     knownGaps,
     voteWindow: {
       primaryBodyName,
@@ -1378,11 +1427,20 @@ async function main() {
 
   for (const clientConfig of LEGISTAR_CLIENTS) {
     console.log(`[legistar:${clientConfig.client}] probing ${clientConfig.jurisdiction}...`);
+    // Threaded into the meetings ingest below to attach each meeting's
+    // body membership (buildMembersByBody()'s own comment) — stays an
+    // empty Map, not a thrown error, if the roster+votes ingest below
+    // fails, so meetings ingest can still proceed with meetings simply
+    // carrying no members rather than being blocked by an unrelated
+    // failure (same independence the two try/catches already guarantee
+    // for everything else).
+    let membersByBodyId = new Map();
     try {
       const sampleCount = await probeClient(clientConfig);
       console.log(`[legistar:${clientConfig.client}] reachable (sample bodies page returned ${sampleCount} row(s)). Starting full ingest...`);
 
       const ingest = await ingestClient(clientConfig);
+      membersByBodyId = ingest.membersByBodyId;
       const state = buildIngestedState(clientConfig, ingest);
       const outputPath = await writeClientOutput(clientConfig, state);
       console.log(
@@ -1409,6 +1467,14 @@ async function main() {
     console.log(`[legistar:${clientConfig.client}] starting meetings/agenda ingest...`);
     try {
       const meetingsIngest = await ingestMeetingsForClient(clientConfig);
+      // Attach body membership (from the roster ingest above, or [] if
+      // that failed/found nothing for this body — e.g. "Legislative
+      // Hearings" has no elected-officeholder holdings at all, per
+      // buildOfficesPersonsHoldings()'s own title/body allowlist) before
+      // either the full feed or the this-week teaser reads .members.
+      for (const meeting of meetingsIngest.meetings) {
+        meeting.members = membersByBodyId.get(meeting.body_id) ?? [];
+      }
       const meetingsState = buildMeetingsIngestedState(clientConfig, meetingsIngest);
       const meetingsPath = await writeClientMeetingsOutput(clientConfig, meetingsState);
       const diffNote = meetingsIngest.diff

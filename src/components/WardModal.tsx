@@ -65,9 +65,22 @@ interface WeekMeeting {
   isCancelled: boolean;
   // members: the body's roster as of this meeting (who serves on it, not
   // a confirmed-attendance record — neither upstream tracks actual
-  // per-meeting attendance). LIMS-only; absent for Legistar meetings.
+  // per-meeting attendance). LIMS gets this for free from
+  // meetingCalendar's own MembersList; Legistar has no per-meeting
+  // membership field, so scripts/ingest/legistar.mjs derives it by
+  // cross-referencing the same roster already fetched for the votes
+  // feature — real, sourced data for every wired jurisdiction, not a
+  // LIMS-only feature.
   members?: { id: number; name: string; type: string | null }[];
 }
+
+// Generic member titles not worth calling out inline — every plain
+// member gets one of these depending on the vendor's own vocabulary
+// (LIMS: "Council Member"; Legistar: "Councilmember"/"Commissioner"/
+// "Board Member", see ROLE_TITLE_ALLOWLIST in scripts/ingest/
+// legistar.mjs) — only genuinely distinguishing titles (President, Vice-
+// President, Majority/Minority Leader, Chair, ...) render inline.
+const GENERIC_MEMBER_TITLES = new Set(["Council Member", "Councilmember", "Commissioner", "Board Member"]);
 
 // Keyed by the same city/county display strings RepProperties already
 // carries (rep.city / rep.county) — see MEETINGS_THIS_WEEK's two call
@@ -112,11 +125,14 @@ function formatTeaserDate(iso: string): string {
 // doesn't return a location field at all (confirmed live against the
 // real API), so Minneapolis cards never show a location line yet — a
 // real API gap being chased separately, not a rendering bug. Cancellation
-// (isCancelled) and body membership (members) are each rendered only
-// when the underlying data actually has them, per the WeekMeeting type's
-// own comments on which upstream provides what — never a guess filled in
-// for the vendor that doesn't. Always links out to /meetings for the
-// full agenda browser rather than rendering any agenda content itself.
+// (isCancelled) is real for Minneapolis and always false for St. Paul/
+// Hennepin (Legistar has no equivalent concept in the live data checked).
+// Membership (members), unlike the other two, is real for *every* wired
+// jurisdiction — LIMS via meetingCalendar's own MembersList, Legistar via
+// a roster cross-reference (see meetingsRegistry.ts's Meeting.members
+// comment) — so it's the one field here not vendor-gated. Always links
+// out to /meetings for the full agenda browser rather than rendering any
+// agenda content itself.
 function MeetingsThisWeekList({ meetings }: { meetings: WeekMeeting[] | undefined }) {
   if (!meetings) return null;
   if (meetings.length === 0) {
@@ -152,7 +168,7 @@ function MeetingsThisWeekList({ meetings }: { meetings: WeekMeeting[] | undefine
               <p className="mt-1 text-xs text-ink-4 wrap-break-word">
                 <span className="font-medium text-ink-3">Members:</span>{" "}
                 {meeting.members
-                  .map((m) => (m.type && m.type !== "Council Member" ? `${m.name} (${m.type})` : m.name))
+                  .map((m) => (m.type && !GENERIC_MEMBER_TITLES.has(m.type) ? `${m.name} (${m.type})` : m.name))
                   .join(", ")}
               </p>
             )}

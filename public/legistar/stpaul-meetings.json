@@ -2,18 +2,18 @@
   "schemaVersion": 1,
   "client": "stpaul",
   "jurisdiction": "St. Paul City Council",
-  "generatedAt": "2026-08-12T07:11:42.406Z",
+  "generatedAt": "2026-08-12T17:30:14.513Z",
   "status": "ingested",
-  "note": "15 meeting(s) (15/15 event(s) in window) and 229 agenda item(s) ingested for 2026-07-29–2026-11-10.",
+  "note": "15 meeting(s) (15/15 event(s) in window) and 230 agenda item(s) ingested for 2026-07-29–2026-11-10.",
   "provenance": {
     "primarySourceUrl": "https://webapi.legistar.com/v1/stpaul/events",
     "sourceAgency": "St. Paul City Council",
     "documentType": "Legistar Web API — Events/EventItems",
     "documentId": null,
     "issuedDate": null,
-    "fetchedAt": "2026-08-12T07:11:42.406Z",
+    "fetchedAt": "2026-08-12T17:30:14.513Z",
     "licence": "Public records served via Legistar InSite; no separate machine-reuse licence published by the host jurisdiction as of this writing.",
-    "contentHash": "cd534b6d08ef7476b3141147a4bf7d94f703e765b7b5ae5bb932290ba2348f0b"
+    "contentHash": "cc8dc25611025781c384b19008488dcf3f65b114eba4abed99fb783b5e8d8bb1"
   },
   "window": {
     "startIso": "2026-07-29",
@@ -32,7 +32,8 @@
       "minutesUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/7/7715_M_Licensing_Hearing_26-07-30_Meeting_Minutes_-_Action_Only.pdf",
       "videoStatus": "Public",
       "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7715&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
-      "lastModifiedUtc": "2026-08-05T16:25:39.3"
+      "lastModifiedUtc": "2026-08-05T16:25:39.3",
+      "members": []
     },
     {
       "id": "legistar-stpaul-meeting-7716",
@@ -46,7 +47,44 @@
       "minutesUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/8/7716_M_City_Council_26-08-04_Meeting_Minutes_-_Action_Only.pdf",
       "videoStatus": "Public",
       "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7716&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
-      "lastModifiedUtc": "2026-08-04T17:58:58.89"
+      "lastModifiedUtc": "2026-08-04T17:58:58.89",
+      "members": [
+        {
+          "id": 6692,
+          "name": "Rebecca Noecker",
+          "type": "Councilmember"
+        },
+        {
+          "id": 6859,
+          "name": "Nelsie Yang",
+          "type": "Councilmember"
+        },
+        {
+          "id": 6785,
+          "name": "HwaJeong Kim",
+          "type": "Councilmember"
+        },
+        {
+          "id": 7038,
+          "name": "Anika Bowie",
+          "type": "Councilmember"
+        },
+        {
+          "id": 7039,
+          "name": "Saura Jost",
+          "type": "Councilmember"
+        },
+        {
+          "id": 7040,
+          "name": "Cheniqua Johnson",
+          "type": "Councilmember"
+        },
+        {
+          "id": 7108,
+          "name": "Molly Coleman",
+          "type": "Councilmember"
+        }
+      ]
     },
     {
       "id": "legistar-stpaul-meeting-7717",
@@ -60,7 +98,44 @@
       "minutesUrl": null,
       "videoStatus": "Public",
       "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7717&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
-      "lastModifiedUtc": "2026-07-31T21:04:38.133"
+      "lastModifiedUtc": "2026-07-31T21:04:38.133",
+      "members": [
+        {
+          "id": 6692,
+          "name": "Rebecca Noecker",
+          "type": "Board Member"
+        },
+        {
+          "id": 6859,
+          "name": "Nelsie Yang",
+          "type": "Board Member"
+        },
+        {
+          "id": 7038,
+          "name": "Anika Bowie",
+          "type": "Board Member"
+        },
+        {
+          "id": 7040,
+          "name": "Cheniqua Johnson",
+          "type": "Board Member"
+        },
+        {
+          "id": 7039,
+          "name": "Saura Jost",
+          "type": "Board Member"
+        },
+        {
+          "id": 6785,
+          "name": "HwaJeong Kim",
+          "type": "Board Member"
+        },
+        {
+          "id": 7108,
+          "name": "Molly Coleman",
+          "type": "Board Member"
+        }
+      ]
     },
     {
       "id": "legistar-stpaul-meeting-7718",
@@ -74,7 +149,44 @@
       "minutesUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/8/7718_M_Housing___Redevelopment_Authority_26-08-05_Meeting_Minutes.pdf",
       "videoStatus": "Public",
       "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7718&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
-      "lastModifiedUtc": "2026-08-05T21:01:29.377"
+      "lastModifiedUtc": "2026-08-05T21:01:29.377",
+      "members": [
+        {
+          "id": 6692,
+          "name": "Rebecca Noecker",
+          "type": "Commissioner"
+        },
+        {
+          "id": 6859,
+          "name": "Nelsie Yang",
+          "type": "Commissioner"
+        },
+        {
+          "id": 7038,
+          "name": "Anika Bowie",
+          "type": "Commissioner"
+        },
+        {
+          "id": 7040,
+          "name": "Cheniqua Johnson",
+          "type": "Commissioner"
+        },
+        {
+          "id": 7039,
+          "name": "Saura Jost",
+          "type": "Commissioner"
+        },
+        {
+          "id": 6785,
+          "name": "HwaJeong Kim",
+          "type": "Commissioner"
+        },
+        {
+          "id": 7108,
+          "name": "Molly Coleman",
+          "type": "Commissioner"
+        }
+      ]
     },
     {
       "id": "legistar-stpaul-meeting-7719",
@@ -88,7 +200,44 @@
       "minutesUrl": null,
       "videoStatus": "Public",
       "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7719&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
-      "lastModifiedUtc": "2026-08-05T19:41:20.427"
+      "lastModifiedUtc": "2026-08-05T19:41:20.427",
+      "members": [
+        {
+          "id": 6692,
+          "name": "Rebecca Noecker",
+          "type": "Councilmember"
+        },
+        {
+          "id": 6859,
+          "name": "Nelsie Yang",
+          "type": "Councilmember"
+        },
+        {
+          "id": 6785,
+          "name": "HwaJeong Kim",
+          "type": "Councilmember"
+        },
+        {
+          "id": 7038,
+          "name": "Anika Bowie",
+          "type": "Councilmember"
+        },
+        {
+          "id": 7039,
+          "name": "Saura Jost",
+          "type": "Councilmember"
+        },
+        {
+          "id": 7040,
+          "name": "Cheniqua Johnson",
+          "type": "Councilmember"
+        },
+        {
+          "id": 7108,
+          "name": "Molly Coleman",
+          "type": "Councilmember"
+        }
+      ]
     },
     {
       "id": "legistar-stpaul-meeting-7720",
@@ -102,7 +251,44 @@
       "minutesUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/8/7720_M_Budget_Committee_26-08-05_Meeting_Minutes_-_Action_Only.pdf",
       "videoStatus": "Public",
       "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7720&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
-      "lastModifiedUtc": "2026-08-05T16:24:28.19"
+      "lastModifiedUtc": "2026-08-05T16:24:28.19",
+      "members": [
+        {
+          "id": 6692,
+          "name": "Rebecca Noecker",
+          "type": "Councilmember"
+        },
+        {
+          "id": 6859,
+          "name": "Nelsie Yang",
+          "type": "Councilmember"
+        },
+        {
+          "id": 7038,
+          "name": "Anika Bowie",
+          "type": "Councilmember"
+        },
+        {
+          "id": 7040,
+          "name": "Cheniqua Johnson",
+          "type": "Councilmember"
+        },
+        {
+          "id": 7039,
+          "name": "Saura Jost",
+          "type": "Councilmember"
+        },
+        {
+          "id": 6785,
+          "name": "HwaJeong Kim",
+          "type": "Councilmember"
+        },
+        {
+          "id": 7108,
+          "name": "Molly Coleman",
+          "type": "Councilmember"
+        }
+      ]
     },
     {
       "id": "legistar-stpaul-meeting-7721",
@@ -116,7 +302,8 @@
       "minutesUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/8/7721_M_Legislative_Hearings_26-08-04_Minutes_-_Final.pdf",
       "videoStatus": "Public",
       "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7721&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
-      "lastModifiedUtc": "2026-08-10T20:32:47.39"
+      "lastModifiedUtc": "2026-08-10T20:32:47.39",
+      "members": []
     },
     {
       "id": "legistar-stpaul-meeting-7722",
@@ -127,10 +314,11 @@
       "location": "Room 41 City Hall & Court House",
       "agendaStatus": "Final",
       "agendaUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/8/7722_A_Rent_Stabilization_Appeal_Hearings_26-08-06_Meeting_Agenda.pdf",
-      "minutesUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/8/7722_M_Rent_Stabilization_Appeal_Hearings_26-08-06_Meeting_Minutes.pdf",
+      "minutesUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/8/7722_M_Rent_Stabilization_Appeal_Hearings_26-08-06_Minutes_-_Final.pdf",
       "videoStatus": "Public",
       "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7722&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
-      "lastModifiedUtc": "2026-08-11T22:31:03.817"
+      "lastModifiedUtc": "2026-08-12T15:13:37.787",
+      "members": []
     },
     {
       "id": "legistar-stpaul-meeting-7723",
@@ -144,7 +332,44 @@
       "minutesUrl": null,
       "videoStatus": "Public",
       "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7723&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
-      "lastModifiedUtc": "2026-08-10T20:00:06.327"
+      "lastModifiedUtc": "2026-08-10T20:00:06.327",
+      "members": [
+        {
+          "id": 6692,
+          "name": "Rebecca Noecker",
+          "type": "Commissioner"
+        },
+        {
+          "id": 6859,
+          "name": "Nelsie Yang",
+          "type": "Commissioner"
+        },
+        {
+          "id": 7038,
+          "name": "Anika Bowie",
+          "type": "Commissioner"
+        },
+        {
+          "id": 7040,
+          "name": "Cheniqua Johnson",
+          "type": "Commissioner"
+        },
+        {
+          "id": 7039,
+          "name": "Saura Jost",
+          "type": "Commissioner"
+        },
+        {
+          "id": 6785,
+          "name": "HwaJeong Kim",
+          "type": "Commissioner"
+        },
+        {
+          "id": 7108,
+          "name": "Molly Coleman",
+          "type": "Commissioner"
+        }
+      ]
     },
     {
       "id": "legistar-stpaul-meeting-7724",
@@ -158,7 +383,44 @@
       "minutesUrl": null,
       "videoStatus": "Public",
       "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7724&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
-      "lastModifiedUtc": "2026-08-06T19:01:36.043"
+      "lastModifiedUtc": "2026-08-12T16:00:44.353",
+      "members": [
+        {
+          "id": 6692,
+          "name": "Rebecca Noecker",
+          "type": "Councilmember"
+        },
+        {
+          "id": 6859,
+          "name": "Nelsie Yang",
+          "type": "Councilmember"
+        },
+        {
+          "id": 6785,
+          "name": "HwaJeong Kim",
+          "type": "Councilmember"
+        },
+        {
+          "id": 7038,
+          "name": "Anika Bowie",
+          "type": "Councilmember"
+        },
+        {
+          "id": 7039,
+          "name": "Saura Jost",
+          "type": "Councilmember"
+        },
+        {
+          "id": 7040,
+          "name": "Cheniqua Johnson",
+          "type": "Councilmember"
+        },
+        {
+          "id": 7108,
+          "name": "Molly Coleman",
+          "type": "Councilmember"
+        }
+      ]
     },
     {
       "id": "legistar-stpaul-meeting-7726",
@@ -172,7 +434,8 @@
       "minutesUrl": null,
       "videoStatus": "Public",
       "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7726&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
-      "lastModifiedUtc": "2026-08-07T17:55:15.14"
+      "lastModifiedUtc": "2026-08-07T17:55:15.14",
+      "members": []
     },
     {
       "id": "legistar-stpaul-meeting-7727",
@@ -183,10 +446,47 @@
       "location": "Council Chambers, City Hall",
       "agendaStatus": "Final",
       "agendaUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/8/7727_A_Policy_Committee_26-08-12_ADA_Meeting_Agenda.pdf",
-      "minutesUrl": null,
+      "minutesUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/8/7727_M_Policy_Committee_26-08-12_Meeting_Minutes_-_Action_Only.pdf",
       "videoStatus": "Public",
       "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7727&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
-      "lastModifiedUtc": "2026-08-11T17:52:17.363"
+      "lastModifiedUtc": "2026-08-12T16:42:02.773",
+      "members": [
+        {
+          "id": 6692,
+          "name": "Rebecca Noecker",
+          "type": "Councilmember"
+        },
+        {
+          "id": 7038,
+          "name": "Anika Bowie",
+          "type": "Councilmember"
+        },
+        {
+          "id": 7108,
+          "name": "Molly Coleman",
+          "type": "Councilmember"
+        },
+        {
+          "id": 7039,
+          "name": "Saura Jost",
+          "type": "Councilmember"
+        },
+        {
+          "id": 7040,
+          "name": "Cheniqua Johnson",
+          "type": "Councilmember"
+        },
+        {
+          "id": 6859,
+          "name": "Nelsie Yang",
+          "type": "Councilmember"
+        },
+        {
+          "id": 6785,
+          "name": "HwaJeong Kim",
+          "type": "Councilmember"
+        }
+      ]
     },
     {
       "id": "legistar-stpaul-meeting-7728",
@@ -200,7 +500,44 @@
       "minutesUrl": null,
       "videoStatus": "Public",
       "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7728&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
-      "lastModifiedUtc": "2026-08-10T19:21:38.5"
+      "lastModifiedUtc": "2026-08-12T16:04:19.783",
+      "members": [
+        {
+          "id": 6645,
+          "name": "Mara Humphrey",
+          "type": "Commissioner"
+        },
+        {
+          "id": 6990,
+          "name": "Rebecca Cave",
+          "type": "Commissioner"
+        },
+        {
+          "id": 7039,
+          "name": "Saura Jost",
+          "type": "Commissioner"
+        },
+        {
+          "id": 6550,
+          "name": "Chris Tolbert",
+          "type": "Commissioner"
+        },
+        {
+          "id": 7108,
+          "name": "Molly Coleman",
+          "type": "Commissioner"
+        },
+        {
+          "id": 7136,
+          "name": "Stephanie Levine",
+          "type": "Commissioner"
+        },
+        {
+          "id": 6859,
+          "name": "Nelsie Yang",
+          "type": "Commissioner"
+        }
+      ]
     },
     {
       "id": "legistar-stpaul-meeting-7729",
@@ -214,7 +551,8 @@
       "minutesUrl": null,
       "videoStatus": "Public",
       "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7729&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
-      "lastModifiedUtc": "2026-08-10T17:51:41.263"
+      "lastModifiedUtc": "2026-08-10T17:51:41.263",
+      "members": []
     },
     {
       "id": "legistar-stpaul-meeting-7730",
@@ -228,7 +566,8 @@
       "minutesUrl": null,
       "videoStatus": "Public",
       "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7730&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
-      "lastModifiedUtc": "2026-08-10T22:33:15.72"
+      "lastModifiedUtc": "2026-08-10T22:33:15.72",
+      "members": []
     }
   ],
   "agendaItems": [
@@ -1225,7 +1564,7 @@
       "meeting_id": "legistar-stpaul-meeting-7719",
       "sequence": 63,
       "agendaNumber": "56",
-      "title": "Ordering the rehabilitation or razing and removal of the structures at 594-596 REANEY AVENUE within fifteen (15) days after the July 15, 2026, City Council Public Hearing.  (Continued Public Hearing to August 5, 2026)",
+      "title": "Ordering the rehabilitation or razing and removal of the structures at 594-596 REANEY AVENUE within fifteen (15) days after the July 15, 2026, City Council Public Hearing.  (Amend to grant 180 days)",
       "isConsent": true,
       "actionName": "Continue Public Hearing",
       "passedFlagName": "Pass",
@@ -1889,7 +2228,7 @@
       "sequence": 5,
       "agendaNumber": "2",
       "title": "Requesting City Council approval of amendments to the 2024 adopted Special Assessment Policies.",
-      "isConsent": false,
+      "isConsent": true,
       "actionName": null,
       "passedFlagName": null,
       "matterFile": "RES 26-692",
@@ -1902,7 +2241,7 @@
       "sequence": 6,
       "agendaNumber": "3",
       "title": "Approving the City’s cost of providing Repair of Sanitary Sewer Service Line on Private Properties and setting date of City Council public hearing for September 16, 2026 to consider and levy the assessments against individual properties. (File No. SWRP2603, Assessment No. 263002)",
-      "isConsent": false,
+      "isConsent": true,
       "actionName": null,
       "passedFlagName": null,
       "matterFile": "RES 26-1216",
@@ -1915,7 +2254,7 @@
       "sequence": 7,
       "agendaNumber": "4",
       "title": "Preliminary Order setting the date of Public Hearing for September 16, 2026, to consider approval of the Seventh Place Mall operation and maintenance costs for 2025.  File No. 18428-25, Assessment No. 257200.",
-      "isConsent": false,
+      "isConsent": true,
       "actionName": null,
       "passedFlagName": null,
       "matterFile": "RES 26-1230",
@@ -1928,7 +2267,7 @@
       "sequence": 8,
       "agendaNumber": "5",
       "title": "Preliminary Order setting the date of Public Hearing for September 16, 2026, to consider approval of the Seventh Place Mall operation and maintenance costs for 2026.  File No. 18428-26, Assessment No. 267200.",
-      "isConsent": false,
+      "isConsent": true,
       "actionName": null,
       "passedFlagName": null,
       "matterFile": "RES 26-1232",
@@ -1941,7 +2280,7 @@
       "sequence": 9,
       "agendaNumber": "6",
       "title": "Authorizing the Police Department to submit an application to the FY 2026 LEMHWA Grants Program from the U.S. Department of Justice.",
-      "isConsent": false,
+      "isConsent": true,
       "actionName": null,
       "passedFlagName": null,
       "matterFile": "RES 26-1267",
@@ -1954,7 +2293,7 @@
       "sequence": 10,
       "agendaNumber": "7",
       "title": "Preliminary Order setting the date of City Council public hearing for September 16, 2026 to consider approval for the Grand/Snelling parking lot operation and maintenance costs for 2027.  File No. 18746-26, Assessment No. 267202.",
-      "isConsent": false,
+      "isConsent": true,
       "actionName": null,
       "passedFlagName": null,
       "matterFile": "RES 26-1270",
@@ -1967,7 +2306,7 @@
       "sequence": 11,
       "agendaNumber": "8",
       "title": "Authorizing the City to enter into an agreement with the Minnesota Department of Transportation (MnDOT) for traffic signal system interconnect construction on Trunk Highway 61 from Burns Avenue to Third Street.",
-      "isConsent": false,
+      "isConsent": true,
       "actionName": null,
       "passedFlagName": null,
       "matterFile": "RES 26-1279",
@@ -1980,7 +2319,7 @@
       "sequence": 12,
       "agendaNumber": "9",
       "title": "Authorizing approval of settlement and payment in full and final settlement of the lawsuit captioned, Jon Berry v. City of St. Paul, and St. Paul City Council Member Anika Bowie in her individual capacity, Ramsey County District Court File Number, 27-CV-25-5519.",
-      "isConsent": false,
+      "isConsent": true,
       "actionName": null,
       "passedFlagName": null,
       "matterFile": "RES 26-1296",
@@ -1993,7 +2332,7 @@
       "sequence": 13,
       "agendaNumber": "10",
       "title": "Approving the Mayor’s appointment of Elisa Rasmussen and reappointment of Amanda Heu to the Visit Saint Paul Board of Directors.",
-      "isConsent": false,
+      "isConsent": true,
       "actionName": null,
       "passedFlagName": null,
       "matterFile": "RES 26-1305",
@@ -2006,7 +2345,7 @@
       "sequence": 14,
       "agendaNumber": "11",
       "title": "Approving the Mayor’s reappointment of Kristin Beckmann to the Public Housing Agency (PHA).",
-      "isConsent": false,
+      "isConsent": true,
       "actionName": null,
       "passedFlagName": null,
       "matterFile": "RES 26-1306",
@@ -2019,7 +2358,7 @@
       "sequence": 15,
       "agendaNumber": "12",
       "title": "Finding that ST. PAWS LLC violated Legislative Code, Chapters 224 and 233, and imposing restitution in the amount of $40,201.23.",
-      "isConsent": false,
+      "isConsent": true,
       "actionName": null,
       "passedFlagName": null,
       "matterFile": "RES 26-1311",
@@ -2032,7 +2371,7 @@
       "sequence": 16,
       "agendaNumber": "13",
       "title": "Approving the Collective Bargaining Agreement (January 1, 2026 - December 31, 2028) and Memorandum of Agreement between the City of Saint Paul and the International Association of Fire Fighters, AFL-CIO Local 21.",
-      "isConsent": false,
+      "isConsent": true,
       "actionName": null,
       "passedFlagName": null,
       "matterFile": "RES 26-1177",
@@ -2045,7 +2384,7 @@
       "sequence": 17,
       "agendaNumber": "14",
       "title": "Approving the Collective Bargaining Agreement (January 1, 2026 - December 31, 2026) between the City of Saint Paul and the Law Enforcement Labor Services Local No. 635 representing Deputy Chiefs and Memorandums of Agreement.",
-      "isConsent": false,
+      "isConsent": true,
       "actionName": null,
       "passedFlagName": null,
       "matterFile": "RES 26-1251",
@@ -2058,7 +2397,7 @@
       "sequence": 18,
       "agendaNumber": "15",
       "title": "Approving the Memorandum of Agreement between the City of Saint Paul and the International Brotherhood of Electrical Workers, Local 110, for the purpose of establishing mandatory contributions for the utilization of the Minnesota Paid Leave program.",
-      "isConsent": false,
+      "isConsent": true,
       "actionName": null,
       "passedFlagName": null,
       "matterFile": "RES 26-1262",
@@ -2278,7 +2617,7 @@
       "meeting_id": "legistar-stpaul-meeting-7724",
       "sequence": 41,
       "agendaNumber": "33",
-      "title": "Ordering the rehabilitation or razing and removal of the structures at 594-596 REANEY AVENUE within fifteen (15) days after the July 15, 2026, City Council Public Hearing.  (Continued Public Hearing to August 5, 2026)",
+      "title": "Ordering the rehabilitation or razing and removal of the structures at 594-596 REANEY AVENUE within fifteen (15) days after the July 15, 2026, City Council Public Hearing.  (Amend to grant 180 days)",
       "isConsent": false,
       "actionName": null,
       "passedFlagName": null,
@@ -2292,7 +2631,7 @@
       "sequence": 39,
       "agendaNumber": "31",
       "title": "Appeal of Jade L. Nilo to a Fire Inspection Report at 1400 HEWITT AVENUE.",
-      "isConsent": false,
+      "isConsent": true,
       "actionName": null,
       "passedFlagName": null,
       "matterFile": "RLH VO 26-36",
@@ -2305,7 +2644,7 @@
       "sequence": 37,
       "agendaNumber": "29",
       "title": "Appeal of Lucky Tiger Jack Rosenbloom to a Summary Abatement Order at 369 DALE STREET NORTH.",
-      "isConsent": false,
+      "isConsent": true,
       "actionName": null,
       "passedFlagName": null,
       "matterFile": "RLH SAO 26-62",
@@ -2318,7 +2657,7 @@
       "sequence": 38,
       "agendaNumber": "30",
       "title": "Making finding on the appealed of Katherine Werner to a nuisance abatement ordered for 2177 FAIRMOUNT AVENUE in Council File RLH SAO 26-57.",
-      "isConsent": false,
+      "isConsent": true,
       "actionName": null,
       "passedFlagName": null,
       "matterFile": "RLH SAO 26-65",
@@ -2383,7 +2722,7 @@
       "sequence": 19,
       "agendaNumber": "16",
       "title": "Amending RES 25-192, as amended, to integrate the responsibilities of the Administrative Citations Legislative Advisory Committee into a public Administrative Citations Implementation Working Group.",
-      "isConsent": false,
+      "isConsent": true,
       "actionName": null,
       "passedFlagName": null,
       "matterFile": "RES 26-1314",
@@ -2592,7 +2931,7 @@
       "agendaNumber": "1",
       "title": "Sustainable Building Ordinance update presentation",
       "isConsent": false,
-      "actionName": null,
+      "actionName": "Received and Filed",
       "passedFlagName": null,
       "matterFile": "SR 26-166",
       "matterId": 52615,
@@ -2605,7 +2944,7 @@
       "agendaNumber": "2",
       "title": "Tenant Bill of Rights presentation",
       "isConsent": false,
-      "actionName": null,
+      "actionName": "Received and Filed",
       "passedFlagName": null,
       "matterFile": "SR 26-167",
       "matterId": 52616,
@@ -2682,8 +3021,8 @@
       "sequence": 3,
       "agendaNumber": "1",
       "title": "Approving the minutes of the July 14, 2026 meeting.",
-      "isConsent": false,
-      "actionName": null,
+      "isConsent": true,
+      "actionName": "Adopted",
       "passedFlagName": null,
       "matterFile": "Min 26-25",
       "matterId": 52554,
@@ -2695,9 +3034,9 @@
       "sequence": 4,
       "agendaNumber": "2",
       "title": "Approving the Financial Statements for the month of June 2026.",
-      "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
+      "isConsent": true,
+      "actionName": "Adopted",
+      "passedFlagName": "Pass",
       "matterFile": "RES 26-1285",
       "matterId": 52555,
       "matterType": "Resolution"
@@ -2708,9 +3047,9 @@
       "sequence": 5,
       "agendaNumber": "3",
       "title": "Pertaining to the issuance of a water revenue note in an original aggregate principal amount not to exceed $10,000,000.",
-      "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
+      "isConsent": true,
+      "actionName": "Adopted",
+      "passedFlagName": "Pass",
       "matterFile": "RES 26-1286",
       "matterId": 52556,
       "matterType": "Resolution"
@@ -2721,9 +3060,9 @@
       "sequence": 6,
       "agendaNumber": "4",
       "title": "Pertaining to a Joint Powers Agreement between the Board of Water Commissioners and Dakota County for Dakota County Project No. 63-033 and No. 04-018.",
-      "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
+      "isConsent": true,
+      "actionName": "Adopted",
+      "passedFlagName": "Pass",
       "matterFile": "RES 26-1287",
       "matterId": 52557,
       "matterType": "Resolution"
@@ -2735,8 +3074,8 @@
       "agendaNumber": "5",
       "title": "Pertaining to Professional Services Agreement with SEH to perform engineering services for the Hillcrest and West Side Reservoir Overflow Reconfiguration Project.",
       "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
+      "actionName": "Adopted",
+      "passedFlagName": "Pass",
       "matterFile": "RES 26-1288",
       "matterId": 52558,
       "matterType": "Resolution"
@@ -2748,7 +3087,7 @@
       "agendaNumber": "7",
       "title": "General Manager's Report",
       "isConsent": false,
-      "actionName": null,
+      "actionName": "Received and Filed",
       "passedFlagName": null,
       "matterFile": "CO 26-33",
       "matterId": 52560,
@@ -2761,7 +3100,7 @@
       "agendaNumber": "8",
       "title": "Employee Injury Summary - 1st Quarter 2026",
       "isConsent": false,
-      "actionName": null,
+      "actionName": "Received and Filed",
       "passedFlagName": null,
       "matterFile": "CO 26-34",
       "matterId": 52561,
@@ -2774,7 +3113,7 @@
       "agendaNumber": "9",
       "title": "Vehicle Accident Summary - 1st Quarter 2026",
       "isConsent": false,
-      "actionName": null,
+      "actionName": "Received and Filed",
       "passedFlagName": null,
       "matterFile": "CO 26-35",
       "matterId": 52562,
@@ -2787,7 +3126,7 @@
       "agendaNumber": "10",
       "title": "Pipeline Express",
       "isConsent": false,
-      "actionName": null,
+      "actionName": "Received and Filed",
       "passedFlagName": null,
       "matterFile": "CO 26-36",
       "matterId": 52563,
@@ -2800,7 +3139,7 @@
       "agendaNumber": "6",
       "title": "2027 Budget Presentation and Proposal",
       "isConsent": false,
-      "actionName": null,
+      "actionName": "Received and Filed",
       "passedFlagName": null,
       "matterFile": "CO 26-37",
       "matterId": 52593,
@@ -2828,6 +3167,19 @@
       "isConsent": false,
       "actionName": null,
       "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-stpaul-eventitem-216167",
+      "meeting_id": "legistar-stpaul-meeting-7728",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Approval of the Consent Agenda",
+      "isConsent": true,
+      "actionName": "Adopted Consent Agenda",
+      "passedFlagName": "Pass",
       "matterFile": null,
       "matterId": null,
       "matterType": null
@@ -3213,10 +3565,23 @@
   "diff": {
     "addedIds": [],
     "removedIds": [],
-    "changed": []
+    "changed": [
+      {
+        "id": "legistar-stpaul-meeting-7722",
+        "field": "minutesUrl",
+        "from": "https://legistar1.granicus.com/StPaul/meetings/2026/8/7722_M_Rent_Stabilization_Appeal_Hearings_26-08-06_Meeting_Minutes.pdf",
+        "to": "https://legistar1.granicus.com/StPaul/meetings/2026/8/7722_M_Rent_Stabilization_Appeal_Hearings_26-08-06_Minutes_-_Final.pdf"
+      },
+      {
+        "id": "legistar-stpaul-meeting-7727",
+        "field": "minutesUrl",
+        "from": null,
+        "to": "https://legistar1.granicus.com/StPaul/meetings/2026/8/7727_M_Policy_Committee_26-08-12_Meeting_Minutes_-_Action_Only.pdf"
+      }
+    ]
   },
-  "previousGeneratedAt": "2026-08-12T05:33:50.187Z",
+  "previousGeneratedAt": "2026-08-12T07:11:42.406Z",
   "knownGaps": [
-    "Consent-agenda flagging uses Legistar's own EventItemConsent field only (35 of 229 agenda item(s) in this window flagged). \"No discussion\" / \"no public comment\" are NOT flagged — this API exposes no comparably reliable field for either, and AGENTS.md §3.3 rules out inferring one from absence."
+    "Consent-agenda flagging uses Legistar's own EventItemConsent field only (58 of 230 agenda item(s) in this window flagged). \"No discussion\" / \"no public comment\" are NOT flagged — this API exposes no comparably reliable field for either, and AGENTS.md §3.3 rules out inferring one from absence."
   ]
 }

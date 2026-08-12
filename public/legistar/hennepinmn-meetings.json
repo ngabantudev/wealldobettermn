@@ -2,18 +2,18 @@
   "schemaVersion": 1,
   "client": "hennepinmn",
   "jurisdiction": "Hennepin County Board",
-  "generatedAt": "2026-08-12T07:13:48.846Z",
+  "generatedAt": "2026-08-12T17:31:10.961Z",
   "status": "ingested",
-  "note": "9 meeting(s) (9/9 event(s) in window) and 142 agenda item(s) ingested for 2026-07-29–2026-11-10.",
+  "note": "9 meeting(s) (9/9 event(s) in window) and 148 agenda item(s) ingested for 2026-07-29–2026-11-10.",
   "provenance": {
     "primarySourceUrl": "https://webapi.legistar.com/v1/hennepinmn/events",
     "sourceAgency": "Hennepin County Board",
     "documentType": "Legistar Web API — Events/EventItems",
     "documentId": null,
     "issuedDate": null,
-    "fetchedAt": "2026-08-12T07:13:48.846Z",
+    "fetchedAt": "2026-08-12T17:31:10.961Z",
     "licence": "Public records served via Legistar InSite; no separate machine-reuse licence published by the host jurisdiction as of this writing.",
-    "contentHash": "16d5f821b24ae3b9d79f2bc1e9425adfa89a4d1b799b4bc52a286902f054fa9a"
+    "contentHash": "ae8f2df6c2f4ecbe10e8c1e6b80d056fb41d1f3dcdaa5aac489d323dac034c9b"
   },
   "window": {
     "startIso": "2026-07-29",
@@ -32,7 +32,44 @@
       "minutesUrl": null,
       "videoStatus": "Public",
       "sourceUrl": "https://hennepinmn.legistar.com/MeetingDetail.aspx?LEGID=1447&GID=953&G=BA9AD5D7-E82F-425B-B72E-ABFEC8B35879",
-      "lastModifiedUtc": "2026-08-03T20:44:16.543"
+      "lastModifiedUtc": "2026-08-03T20:44:16.543",
+      "members": [
+        {
+          "id": 508,
+          "name": "Irene Fernando",
+          "type": "Commissioner"
+        },
+        {
+          "id": 573,
+          "name": "Marion Greene",
+          "type": "Commissioner"
+        },
+        {
+          "id": 454,
+          "name": "Angela Conley",
+          "type": "Commissioner"
+        },
+        {
+          "id": 517,
+          "name": "Jeff Lunde",
+          "type": "Commissioner"
+        },
+        {
+          "id": 698,
+          "name": "Heather Edelson",
+          "type": "Commissioner"
+        },
+        {
+          "id": 544,
+          "name": "Kevin Anderson",
+          "type": "Commissioner"
+        },
+        {
+          "id": 490,
+          "name": "Debbie Goettel",
+          "type": "Commissioner"
+        }
+      ]
     },
     {
       "id": "legistar-hennepinmn-meeting-1448",
@@ -46,7 +83,24 @@
       "minutesUrl": null,
       "videoStatus": "Public",
       "sourceUrl": "https://hennepinmn.legistar.com/MeetingDetail.aspx?LEGID=1448&GID=953&G=BA9AD5D7-E82F-425B-B72E-ABFEC8B35879",
-      "lastModifiedUtc": "2026-07-30T21:06:59.22"
+      "lastModifiedUtc": "2026-07-30T21:06:59.22",
+      "members": [
+        {
+          "id": 698,
+          "name": "Heather Edelson",
+          "type": "Commissioner"
+        },
+        {
+          "id": 490,
+          "name": "Debbie Goettel",
+          "type": "Commissioner"
+        },
+        {
+          "id": 454,
+          "name": "Angela Conley",
+          "type": "Commissioner"
+        }
+      ]
     },
     {
       "id": "legistar-hennepinmn-meeting-1449",
@@ -60,7 +114,44 @@
       "minutesUrl": null,
       "videoStatus": "Public",
       "sourceUrl": "https://hennepinmn.legistar.com/MeetingDetail.aspx?LEGID=1449&GID=953&G=BA9AD5D7-E82F-425B-B72E-ABFEC8B35879",
-      "lastModifiedUtc": "2026-08-03T20:40:59.173"
+      "lastModifiedUtc": "2026-08-03T20:40:59.173",
+      "members": [
+        {
+          "id": 517,
+          "name": "Jeff Lunde",
+          "type": "Commissioner"
+        },
+        {
+          "id": 454,
+          "name": "Angela Conley",
+          "type": "Commissioner"
+        },
+        {
+          "id": 490,
+          "name": "Debbie Goettel",
+          "type": "Commissioner"
+        },
+        {
+          "id": 698,
+          "name": "Heather Edelson",
+          "type": "Commissioner"
+        },
+        {
+          "id": 508,
+          "name": "Irene Fernando",
+          "type": "Commissioner"
+        },
+        {
+          "id": 573,
+          "name": "Marion Greene",
+          "type": "Commissioner"
+        },
+        {
+          "id": 544,
+          "name": "Kevin Anderson",
+          "type": "Commissioner"
+        }
+      ]
     },
     {
       "id": "legistar-hennepinmn-meeting-1450",
@@ -69,12 +160,49 @@
       "date": "2026-08-13",
       "time": "13:30",
       "location": "Government Center - County Board Chambers",
-      "agendaStatus": "Preliminary",
+      "agendaStatus": "Final",
       "agendaUrl": "https://hennepinmn.legistar1.com/hennepinmn/meetings/2026/8/1450_A_Administration%2C_Operations_and_Budget_Committee_26-08-13_COMMITTEE_AGENDA.pdf",
       "minutesUrl": null,
       "videoStatus": "Public",
       "sourceUrl": "https://hennepinmn.legistar.com/MeetingDetail.aspx?LEGID=1450&GID=953&G=BA9AD5D7-E82F-425B-B72E-ABFEC8B35879",
-      "lastModifiedUtc": "2026-08-07T21:12:06.063"
+      "lastModifiedUtc": "2026-08-07T21:12:06.063",
+      "members": [
+        {
+          "id": 508,
+          "name": "Irene Fernando",
+          "type": "Commissioner"
+        },
+        {
+          "id": 573,
+          "name": "Marion Greene",
+          "type": "Commissioner"
+        },
+        {
+          "id": 454,
+          "name": "Angela Conley",
+          "type": "Commissioner"
+        },
+        {
+          "id": 490,
+          "name": "Debbie Goettel",
+          "type": "Commissioner"
+        },
+        {
+          "id": 698,
+          "name": "Heather Edelson",
+          "type": "Commissioner"
+        },
+        {
+          "id": 517,
+          "name": "Jeff Lunde",
+          "type": "Commissioner"
+        },
+        {
+          "id": 544,
+          "name": "Kevin Anderson",
+          "type": "Commissioner"
+        }
+      ]
     },
     {
       "id": "legistar-hennepinmn-meeting-1451",
@@ -83,12 +211,49 @@
       "date": "2026-08-13",
       "time": "13:30",
       "location": "Government Center - County",
-      "agendaStatus": "Preliminary",
+      "agendaStatus": "Final",
       "agendaUrl": "https://hennepinmn.legistar1.com/hennepinmn/meetings/2026/8/1451_A_Health_Committee_26-08-13_COMMITTEE_AGENDA.pdf",
       "minutesUrl": null,
       "videoStatus": "Public",
       "sourceUrl": "https://hennepinmn.legistar.com/MeetingDetail.aspx?LEGID=1451&GID=953&G=BA9AD5D7-E82F-425B-B72E-ABFEC8B35879",
-      "lastModifiedUtc": "2026-08-07T21:14:24.52"
+      "lastModifiedUtc": "2026-08-07T21:14:24.52",
+      "members": [
+        {
+          "id": 454,
+          "name": "Angela Conley",
+          "type": "Commissioner"
+        },
+        {
+          "id": 698,
+          "name": "Heather Edelson",
+          "type": "Commissioner"
+        },
+        {
+          "id": 508,
+          "name": "Irene Fernando",
+          "type": "Commissioner"
+        },
+        {
+          "id": 573,
+          "name": "Marion Greene",
+          "type": "Commissioner"
+        },
+        {
+          "id": 490,
+          "name": "Debbie Goettel",
+          "type": "Commissioner"
+        },
+        {
+          "id": 517,
+          "name": "Jeff Lunde",
+          "type": "Commissioner"
+        },
+        {
+          "id": 544,
+          "name": "Kevin Anderson",
+          "type": "Commissioner"
+        }
+      ]
     },
     {
       "id": "legistar-hennepinmn-meeting-1452",
@@ -97,12 +262,49 @@
       "date": "2026-08-13",
       "time": "13:30",
       "location": "Government Center - County Board Chambers",
-      "agendaStatus": "Preliminary",
+      "agendaStatus": "Final",
       "agendaUrl": "https://hennepinmn.legistar1.com/hennepinmn/meetings/2026/8/1452_A_Human_Services_Committee_26-08-13_COMMITTEE_AGENDA.pdf",
       "minutesUrl": null,
       "videoStatus": "Public",
       "sourceUrl": "https://hennepinmn.legistar.com/MeetingDetail.aspx?LEGID=1452&GID=953&G=BA9AD5D7-E82F-425B-B72E-ABFEC8B35879",
-      "lastModifiedUtc": "2026-08-07T21:13:48.043"
+      "lastModifiedUtc": "2026-08-07T21:13:48.043",
+      "members": [
+        {
+          "id": 454,
+          "name": "Angela Conley",
+          "type": "Commissioner"
+        },
+        {
+          "id": 508,
+          "name": "Irene Fernando",
+          "type": "Commissioner"
+        },
+        {
+          "id": 573,
+          "name": "Marion Greene",
+          "type": "Commissioner"
+        },
+        {
+          "id": 490,
+          "name": "Debbie Goettel",
+          "type": "Commissioner"
+        },
+        {
+          "id": 517,
+          "name": "Jeff Lunde",
+          "type": "Commissioner"
+        },
+        {
+          "id": 544,
+          "name": "Kevin Anderson",
+          "type": "Commissioner"
+        },
+        {
+          "id": 698,
+          "name": "Heather Edelson",
+          "type": "Commissioner"
+        }
+      ]
     },
     {
       "id": "legistar-hennepinmn-meeting-1453",
@@ -111,12 +313,49 @@
       "date": "2026-08-13",
       "time": "13:30",
       "location": "Government Center - County Board Chambers",
-      "agendaStatus": "Preliminary",
+      "agendaStatus": "Final",
       "agendaUrl": "https://hennepinmn.legistar1.com/hennepinmn/meetings/2026/8/1453_A_Public_Works_Committee_26-08-13_COMMITTEE_AGENDA.pdf",
       "minutesUrl": null,
       "videoStatus": "Public",
       "sourceUrl": "https://hennepinmn.legistar.com/MeetingDetail.aspx?LEGID=1453&GID=953&G=BA9AD5D7-E82F-425B-B72E-ABFEC8B35879",
-      "lastModifiedUtc": "2026-08-07T21:16:55.233"
+      "lastModifiedUtc": "2026-08-07T21:16:55.233",
+      "members": [
+        {
+          "id": 573,
+          "name": "Marion Greene",
+          "type": "Commissioner"
+        },
+        {
+          "id": 508,
+          "name": "Irene Fernando",
+          "type": "Commissioner"
+        },
+        {
+          "id": 454,
+          "name": "Angela Conley",
+          "type": "Commissioner"
+        },
+        {
+          "id": 698,
+          "name": "Heather Edelson",
+          "type": "Commissioner"
+        },
+        {
+          "id": 490,
+          "name": "Debbie Goettel",
+          "type": "Commissioner"
+        },
+        {
+          "id": 517,
+          "name": "Jeff Lunde",
+          "type": "Commissioner"
+        },
+        {
+          "id": 544,
+          "name": "Kevin Anderson",
+          "type": "Commissioner"
+        }
+      ]
     },
     {
       "id": "legistar-hennepinmn-meeting-1454",
@@ -125,12 +364,49 @@
       "date": "2026-08-13",
       "time": "13:30",
       "location": "Government Center - County Board Chambers",
-      "agendaStatus": "Preliminary",
+      "agendaStatus": "Final",
       "agendaUrl": "https://hennepinmn.legistar1.com/hennepinmn/meetings/2026/8/1454_A_Resident_Services_Committee_26-08-13_COMMITTEE_AGENDA.pdf",
       "minutesUrl": null,
       "videoStatus": "Public",
       "sourceUrl": "https://hennepinmn.legistar.com/MeetingDetail.aspx?LEGID=1454&GID=953&G=BA9AD5D7-E82F-425B-B72E-ABFEC8B35879",
-      "lastModifiedUtc": "2026-08-07T21:18:44.533"
+      "lastModifiedUtc": "2026-08-07T21:18:44.533",
+      "members": [
+        {
+          "id": 454,
+          "name": "Angela Conley",
+          "type": "Commissioner"
+        },
+        {
+          "id": 490,
+          "name": "Debbie Goettel",
+          "type": "Commissioner"
+        },
+        {
+          "id": 698,
+          "name": "Heather Edelson",
+          "type": "Commissioner"
+        },
+        {
+          "id": 508,
+          "name": "Irene Fernando",
+          "type": "Commissioner"
+        },
+        {
+          "id": 517,
+          "name": "Jeff Lunde",
+          "type": "Commissioner"
+        },
+        {
+          "id": 544,
+          "name": "Kevin Anderson",
+          "type": "Commissioner"
+        },
+        {
+          "id": 573,
+          "name": "Marion Greene",
+          "type": "Commissioner"
+        }
+      ]
     },
     {
       "id": "legistar-hennepinmn-meeting-1455",
@@ -139,12 +415,49 @@
       "date": "2026-08-13",
       "time": "13:30",
       "location": "Government Center - County Board Chambers",
-      "agendaStatus": "Preliminary",
+      "agendaStatus": "Final",
       "agendaUrl": "https://hennepinmn.legistar1.com/hennepinmn/meetings/2026/8/1455_A_Hennepin_County_Housing_and_Redevelopment_Authority_26-08-13_Authority_Agenda.pdf",
       "minutesUrl": null,
       "videoStatus": "Public",
       "sourceUrl": "https://hennepinmn.legistar.com/MeetingDetail.aspx?LEGID=1455&GID=953&G=BA9AD5D7-E82F-425B-B72E-ABFEC8B35879",
-      "lastModifiedUtc": "2026-08-07T21:34:08.783"
+      "lastModifiedUtc": "2026-08-07T21:34:08.783",
+      "members": [
+        {
+          "id": 508,
+          "name": "Irene Fernando",
+          "type": "Commissioner"
+        },
+        {
+          "id": 573,
+          "name": "Marion Greene",
+          "type": "Commissioner"
+        },
+        {
+          "id": 454,
+          "name": "Angela Conley",
+          "type": "Commissioner"
+        },
+        {
+          "id": 490,
+          "name": "Debbie Goettel",
+          "type": "Commissioner"
+        },
+        {
+          "id": 698,
+          "name": "Heather Edelson",
+          "type": "Commissioner"
+        },
+        {
+          "id": 517,
+          "name": "Jeff Lunde",
+          "type": "Commissioner"
+        },
+        {
+          "id": 544,
+          "name": "Kevin Anderson",
+          "type": "Commissioner"
+        }
+      ]
     }
   ],
   "agendaItems": [
@@ -1329,7 +1642,7 @@
       "passedFlagName": "Pass",
       "matterFile": "26-HCRRA-0011",
       "matterId": 4669,
-      "matterType": "RRA New Business"
+      "matterType": "Resolution"
     },
     {
       "id": "legistar-hennepinmn-eventitem-36146",
@@ -1342,7 +1655,7 @@
       "passedFlagName": null,
       "matterFile": "26-HCRRA-0012",
       "matterId": 4709,
-      "matterType": "RRA New Business"
+      "matterType": "Resolution"
     },
     {
       "id": "legistar-hennepinmn-eventitem-36156",
@@ -1394,7 +1707,7 @@
       "passedFlagName": "Pass",
       "matterFile": "26-HCRRA-0012R1",
       "matterId": 4713,
-      "matterType": "RRA New Business"
+      "matterType": "Resolution"
     },
     {
       "id": "legistar-hennepinmn-eventitem-36161",
@@ -1583,7 +1896,7 @@
       "meeting_id": "legistar-hennepinmn-meeting-1450",
       "sequence": 15,
       "agendaNumber": "3.G.",
-      "title": "Direct County Administration to explore cost sharing, shared service or joint delivery models with state and local government entities and to develop a report that details plans, processes and recommendations for the County Board on opportunities to achieve tangible cost savings, improved service delivery or enhanced operational efficiency through formal partnerships\n\nWHEREAS:",
+      "title": "Direct County Administration to explore cost sharing, shared service or joint delivery models with state and local government entities and to develop a report that details plans, processes and recommendations for the County Board on opportunities to achieve tangible cost savings, improved service delivery or enhanced operational efficiency through formal partnerships",
       "isConsent": false,
       "actionName": null,
       "passedFlagName": null,
@@ -1629,6 +1942,32 @@
       "matterFile": "TMP-26-0608",
       "matterId": 4721,
       "matterType": "Minutes"
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-36255",
+      "meeting_id": "legistar-hennepinmn-meeting-1451",
+      "sequence": 5,
+      "agendaNumber": "2.A.",
+      "title": "Amd 10 to Agmt PR00001249 with Wakely Consulting Group LLC, a subsidiary of Health Management Associates, Inc., for actuarial and consulting services to Hennepin Health, 09/01/26-08/31/29, incr NTE by $2,298,384",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "26-0288",
+      "matterId": 4650,
+      "matterType": "Resolution"
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-36256",
+      "meeting_id": "legistar-hennepinmn-meeting-1451",
+      "sequence": 4,
+      "agendaNumber": null,
+      "title": "Addendum",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
     },
     {
       "id": "legistar-hennepinmn-eventitem-36176",
@@ -1930,7 +2269,7 @@
       "matterType": null
     },
     {
-      "id": "legistar-hennepinmn-eventitem-36212",
+      "id": "legistar-hennepinmn-eventitem-36257",
       "meeting_id": "legistar-hennepinmn-meeting-1455",
       "sequence": 1,
       "agendaNumber": "1.",
@@ -1943,7 +2282,7 @@
       "matterType": null
     },
     {
-      "id": "legistar-hennepinmn-eventitem-36213",
+      "id": "legistar-hennepinmn-eventitem-36258",
       "meeting_id": "legistar-hennepinmn-meeting-1455",
       "sequence": 2,
       "agendaNumber": "2.",
@@ -1956,7 +2295,7 @@
       "matterType": null
     },
     {
-      "id": "legistar-hennepinmn-eventitem-36214",
+      "id": "legistar-hennepinmn-eventitem-36259",
       "meeting_id": "legistar-hennepinmn-meeting-1455",
       "sequence": 3,
       "agendaNumber": "2.A.",
@@ -1969,7 +2308,7 @@
       "matterType": "Minutes"
     },
     {
-      "id": "legistar-hennepinmn-eventitem-36215",
+      "id": "legistar-hennepinmn-eventitem-36260",
       "meeting_id": "legistar-hennepinmn-meeting-1455",
       "sequence": 4,
       "agendaNumber": "3.",
@@ -1982,9 +2321,22 @@
       "matterType": null
     },
     {
-      "id": "legistar-hennepinmn-eventitem-36217",
+      "id": "legistar-hennepinmn-eventitem-36261",
       "meeting_id": "legistar-hennepinmn-meeting-1455",
       "sequence": 5,
+      "agendaNumber": "3.A.",
+      "title": "Claims Register for the period ending July 31, 2026",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "TMP-26-0601",
+      "matterId": 4714,
+      "matterType": "HRA Claims Register"
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-36262",
+      "meeting_id": "legistar-hennepinmn-meeting-1455",
+      "sequence": 6,
       "agendaNumber": "4.",
       "title": "New Business",
       "isConsent": false,
@@ -1993,15 +2345,91 @@
       "matterFile": null,
       "matterId": null,
       "matterType": null
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-36264",
+      "meeting_id": "legistar-hennepinmn-meeting-1455",
+      "sequence": 7,
+      "agendaNumber": "4.A.",
+      "title": "Amd 1 to Agmt PR00006154 with 2116 Nicollet LLLP for the 2116 Nicollet project, ext term to 12/31/83, no change to NTE",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "26-HCHRA-0025",
+      "matterId": 4704,
+      "matterType": "HRA New Business"
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-36265",
+      "meeting_id": "legistar-hennepinmn-meeting-1455",
+      "sequence": 8,
+      "agendaNumber": "4.B.",
+      "title": "Terminate and forgive AHIF Agmts A091088 and A101057, with Alliance Housing for the Scattered Site 8 Portfolio in Mpls",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "26-HCHRA-0026",
+      "matterId": 4705,
+      "matterType": "HRA New Business"
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-36266",
+      "meeting_id": "legistar-hennepinmn-meeting-1455",
+      "sequence": 9,
+      "agendaNumber": "4.C.",
+      "title": "Neg Amds to Agmts with NextStage; Neg Agmts to provide small business recovery funding",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "26-HCHRA-0027",
+      "matterId": 4723,
+      "matterType": "HRA New Business"
     }
   ],
   "diff": {
     "addedIds": [],
     "removedIds": [],
-    "changed": []
+    "changed": [
+      {
+        "id": "legistar-hennepinmn-meeting-1450",
+        "field": "agendaStatus",
+        "from": "Preliminary",
+        "to": "Final"
+      },
+      {
+        "id": "legistar-hennepinmn-meeting-1451",
+        "field": "agendaStatus",
+        "from": "Preliminary",
+        "to": "Final"
+      },
+      {
+        "id": "legistar-hennepinmn-meeting-1452",
+        "field": "agendaStatus",
+        "from": "Preliminary",
+        "to": "Final"
+      },
+      {
+        "id": "legistar-hennepinmn-meeting-1453",
+        "field": "agendaStatus",
+        "from": "Preliminary",
+        "to": "Final"
+      },
+      {
+        "id": "legistar-hennepinmn-meeting-1454",
+        "field": "agendaStatus",
+        "from": "Preliminary",
+        "to": "Final"
+      },
+      {
+        "id": "legistar-hennepinmn-meeting-1455",
+        "field": "agendaStatus",
+        "from": "Preliminary",
+        "to": "Final"
+      }
+    ]
   },
-  "previousGeneratedAt": "2026-08-12T05:34:45.949Z",
+  "previousGeneratedAt": "2026-08-12T07:13:48.846Z",
   "knownGaps": [
-    "Consent-agenda flagging uses Legistar's own EventItemConsent field only (16 of 142 agenda item(s) in this window flagged). \"No discussion\" / \"no public comment\" are NOT flagged — this API exposes no comparably reliable field for either, and AGENTS.md §3.3 rules out inferring one from absence."
+    "Consent-agenda flagging uses Legistar's own EventItemConsent field only (16 of 148 agenda item(s) in this window flagged). \"No discussion\" / \"no public comment\" are NOT flagged — this API exposes no comparably reliable field for either, and AGENTS.md §3.3 rules out inferring one from absence."
   ]
 }

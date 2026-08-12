@@ -14,6 +14,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import {
   addDays,
+  buildMembersByBody,
   buildOfficesPersonsHoldings,
   combineSnapshotHashes,
   dateRangeFilter,
@@ -255,6 +256,34 @@ test("findHoldingForVote returns null when no holding covers the person/body/dat
   assert.equal(findHoldingForVote(holdings, 999, 138, "2020-01-01"), null, "wrong person");
   assert.equal(findHoldingForVote(holdings, 176, 1, "2020-01-01"), null, "wrong body");
   assert.equal(findHoldingForVote(holdings, 176, 138, "2010-01-01"), null, "before term start");
+});
+
+// --- buildMembersByBody (Meeting.members for Legistar, follow-up to #102) --
+
+test("buildMembersByBody groups current holdings by body_id, joined to person name and seat title", () => {
+  const rows = [
+    officeRecord(), // Melvin Carter III, Councilmember, body 138
+    officeRecord({ OfficeRecordId: 570, OfficeRecordPersonId: 177, OfficeRecordFullName: "Amy Brendmoen", OfficeRecordTitle: "City Council President" }),
+  ];
+  const { offices, persons, holdings } = buildOfficesPersonsHoldings(clientConfig, rows, "legistar-stpaul", RUN_ISO, SOURCE_URL);
+
+  const byBody = buildMembersByBody(clientConfig, offices, persons, holdings, "2010-01-01");
+
+  const members = byBody.get("legistar-stpaul-body-138");
+  assert.equal(members.length, 2);
+  assert.deepEqual(
+    members.map((m) => m.name).sort(),
+    ["Amy Brendmoen", "Melvin Carter III"],
+  );
+  assert.ok(members.find((m) => m.name === "Amy Brendmoen").type === "City Council President");
+});
+
+test("buildMembersByBody excludes a holding whose term hasn't started or has already ended as of the given date", () => {
+  const rows = [officeRecord()]; // term_start 2008-01-01, term_end 2013-07-05
+  const { offices, persons, holdings } = buildOfficesPersonsHoldings(clientConfig, rows, "legistar-stpaul", RUN_ISO, SOURCE_URL);
+
+  assert.equal(buildMembersByBody(clientConfig, offices, persons, holdings, "2005-01-01").has("legistar-stpaul-body-138"), false);
+  assert.equal(buildMembersByBody(clientConfig, offices, persons, holdings, "2020-01-01").has("legistar-stpaul-body-138"), false);
 });
 
 // --- isConsentAgendaItem / mapEventToMeeting / mapEventItemToAgendaItem ----
