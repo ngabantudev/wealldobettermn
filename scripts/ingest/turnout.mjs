@@ -946,12 +946,22 @@ async function main() {
       electionType: "general",
       dataPath: `/turnout/city/${year}.json`,
     })),
+    // Plain-language rewrite (aimed at a 6th-grade reading level, per
+    // AGENTS.md §0.9) — this is the one denominator explanation the
+    // legend and record list actually show a reader, so it carries the
+    // "not exact / some cities missing" caveats in words a resident
+    // doesn't need a civics background to follow. The precise technical
+    // trail (which Census vintage, which city's join failed and why)
+    // still lives in provenance.cvap.vintage and knownGaps in each
+    // year's own city file and in SOURCES.md — this note just tells a
+    // reader those exist, not how to look them up.
     denominatorMethodologyNote:
-      "\"Turnout of registered\" divides ballots cast by everyone registered to vote by the time polls closed " +
-      "(pre-registered voters plus same-day registrants). \"Turnout of CVAP\" divides ballots cast by the " +
-      "citywide citizen voting-age population, a Census Bureau 5-year survey estimate (vintage varies by year — " +
-      "see provenance.cvap.vintage in each year's own city file) with its own margin of error — it is not an " +
-      "exact count, and is null for cities a given year's join could not resolve (see that year's own knownGaps).",
+      "\"Turnout of registered\" compares how many people voted to how many people were signed up to vote by " +
+      "the time the polls closed that day — including anyone who signed up right at their polling place, " +
+      "which Minnesota allows. \"Turnout of CVAP\" compares how many people voted to an estimate of how many " +
+      "adult U.S. citizens live in that city. That estimate comes from a U.S. Census Bureau survey, not an " +
+      "exact count, so it has a small margin of error. For a few cities each year, we don't have this estimate " +
+      "at all — instead of guessing, we leave it blank.",
   };
   await writeFile(MANIFEST_PATH, JSON.stringify(manifest));
 
