@@ -69,46 +69,68 @@ const MEETINGS_THIS_WEEK: Partial<Record<string, WeekMeeting[]>> = {
   Minneapolis: (minneapolisMeetingsThisWeek as { meetingsThisWeek: WeekMeeting[] }).meetingsThisWeek,
 };
 
+// Weekday included (not just "Aug 12") — this list spans up to 7 days
+// across every body a resident might not track by heart, so "which day
+// of the week is that" is a real question a bare month/day leaves
+// unanswered, unlike a single "next meeting" pick where today's context
+// made the weekday obvious.
 function formatTeaserDate(iso: string): string {
-  return new Date(`${iso}T00:00:00Z`).toLocaleDateString("en-US", { month: "short", day: "numeric", timeZone: "UTC" });
+  return new Date(`${iso}T00:00:00Z`).toLocaleDateString("en-US", {
+    weekday: "short",
+    month: "short",
+    day: "numeric",
+    timeZone: "UTC",
+  });
 }
 
 // This week's meetings (any body), issue #58/#102 — AGENTS.md §0.6
 // "every record ends in an action": a resident needs to know *what* is
-// meeting and *where*, not just when. Each row names the meeting
-// directly (no "Next meeting:" label — the body name is the headline),
-// e.g. "Mayor Frey's 2027 Budget Address" / "Aug 12, 11:00 AM" / "Room
-// 100, Public Service Building". Location is only shown when the
-// upstream feed actually has one — LIMS's meetingCalendar endpoint
-// doesn't return a location field at all (confirmed live), so
-// Minneapolis rows never show a location line; that's a real API gap,
-// not a rendering bug. Always links out to /meetings for the full
-// agenda browser rather than rendering any agenda content itself.
+// meeting and *where*, not just when. Each meeting is its own card
+// (bg-panel-2, a level up from WardModal's own .well surface, per
+// globals.css's "raised content surfaces: cards, dropdowns" — visually
+// distinct from its neighbors without introducing a new surface token)
+// rather than plain stacked rows, since this list can run to several
+// same-week entries across very different bodies (a Council meeting next
+// to a food council next to a budget address) that read as one
+// undifferentiated block otherwise. No fixed widths/truncation anywhere
+// — WardModal itself is a narrow sheet on mobile (useSheetSnapDrag), so
+// long body/location names wrap rather than overflow or clip.
+//
+// Location is only shown when the upstream feed actually has one —
+// Legistar (St. Paul/Hennepin) does; LIMS's meetingCalendar endpoint
+// doesn't return a location field at all (confirmed live against the
+// real API), so Minneapolis cards never show a location line yet — a
+// real API gap being chased separately, not a rendering bug. Always
+// links out to /meetings for the full agenda browser rather than
+// rendering any agenda content itself.
 function MeetingsThisWeekList({ meetings }: { meetings: WeekMeeting[] | undefined }) {
   if (!meetings) return null;
   if (meetings.length === 0) {
     return <p className="mt-1.5 text-sm text-ink-3">No meetings scheduled this week.</p>;
   }
   return (
-    <ul className="mt-1.5 space-y-2 text-sm">
-      {meetings.map((meeting, index) => (
-        <li key={`${meeting.bodyName ?? "meeting"}-${meeting.date ?? ""}-${meeting.time ?? index}`}>
-          <p className="font-medium text-ink-2">{meeting.bodyName ?? "Meeting"}</p>
-          {meeting.date && (
-            <p className="text-ink-3">
-              {formatTeaserDate(meeting.date)}
-              {meeting.time ? `, ${formatMeetingTime(meeting.time)}` : ""}
-            </p>
-          )}
-          {meeting.location && <p className="text-xs text-ink-4">{meeting.location}</p>}
-        </li>
-      ))}
-      <li>
-        <a href="/meetings" className="text-accent underline underline-offset-2">
-          See the full agenda
-        </a>
-      </li>
-    </ul>
+    <>
+      <ul className="mt-1.5 space-y-2">
+        {meetings.map((meeting, index) => (
+          <li
+            key={`${meeting.bodyName ?? "meeting"}-${meeting.date ?? ""}-${meeting.time ?? index}`}
+            className="rounded-lg border border-hair-strong bg-panel-2 p-3 text-sm"
+          >
+            <p className="font-medium text-ink-2 wrap-break-word">{meeting.bodyName ?? "Meeting"}</p>
+            {meeting.date && (
+              <p className="mt-0.5 text-ink-3">
+                {formatTeaserDate(meeting.date)}
+                {meeting.time ? ` — ${formatMeetingTime(meeting.time)}` : ""}
+              </p>
+            )}
+            {meeting.location && <p className="mt-0.5 text-xs text-ink-4 wrap-break-word">{meeting.location}</p>}
+          </li>
+        ))}
+      </ul>
+      <a href="/meetings" className="mt-2 inline-block text-sm text-accent underline underline-offset-2">
+        See the full agenda
+      </a>
+    </>
   );
 }
 
