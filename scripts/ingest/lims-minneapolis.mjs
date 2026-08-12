@@ -255,6 +255,43 @@ function buildMeetingLookup(meetings) {
   return byKey;
 }
 
+// LIMS returns free-text fields (ItemTitle, FileSubject, Action) with
+// literal HTML entities still encoded ("Mayor&#39;s nomination",
+// "Council&rsquo;s legislative process") rather than decoded text —
+// confirmed live against a full year of FileItemSearch data (26/225
+// in-window agenda items affected). React text nodes don't decode HTML
+// entities (that's the correct, safe default — text content isn't parsed
+// as markup), so left as-is these would render as the literal
+// "&#39;"/"&rsquo;" characters instead of an apostrophe/quote. Named-
+// entity table covers what's actually been observed; numeric entities
+// (decimal and hex) are decoded generically since LIMS's source system
+// is evidently passing through whatever its own rich-text editor stored.
+const HTML_ENTITIES = {
+  amp: "&",
+  lt: "<",
+  gt: ">",
+  quot: '"',
+  apos: "'",
+  nbsp: " ",
+  mdash: "—",
+  ndash: "–",
+  lsquo: "‘",
+  rsquo: "’",
+  ldquo: "“",
+  rdquo: "”",
+};
+
+function decodeHtmlEntities(value) {
+  if (typeof value !== "string" || !value.includes("&")) return value;
+  return value.replace(/&(#\d+|#x[0-9a-fA-F]+|[a-zA-Z]+);/g, (match, entity) => {
+    if (entity[0] === "#") {
+      const codePoint = entity[1] === "x" || entity[1] === "X" ? parseInt(entity.slice(2), 16) : parseInt(entity.slice(1), 10);
+      return Number.isFinite(codePoint) ? String.fromCodePoint(codePoint) : match;
+    }
+    return HTML_ENTITIES[entity] ?? match; // unrecognized named entity — leave as-is, never guess
+  });
+}
+
 function toIsoFromMdY(value) {
   // LegislativeHistory's ActionDate comes back "M/D/YYYY" — different
   // format from meetingCalendar's ISO MeetingDateTime.
@@ -297,10 +334,10 @@ function mapFileItemToAgendaItems(item, itemIndex, meetingLookup, unmatchedMeeti
       meeting_id: meetingId,
       sequence: null, // not present in FileItemSearch's response
       agendaNumber: item.ActNumber || null,
-      title: item.ItemTitle || item.FileSubject || `File ${item.FileNumber}`,
+      title: decodeHtmlEntities(item.ItemTitle || item.FileSubject || `File ${item.FileNumber}`),
       // Not implemented — see file header. Left false, never guessed.
       isConsent: false,
-      actionName: historyRow.Action || null,
+      actionName: decodeHtmlEntities(historyRow.Action) || null,
       passedFlagName: historyRow.VotingInformation?.VoteResult || null,
       matterFile: item.FileNumber || null,
       matterId: null, // LIMS exposes FileNumber (string), not a numeric matter id
