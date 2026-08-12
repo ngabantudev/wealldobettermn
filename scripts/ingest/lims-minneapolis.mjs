@@ -25,6 +25,25 @@
 // to get real data. It never crashes the build and never fabricates
 // council, meeting, term, or vote records to fill the gap.
 //
+// RATE-LIMIT / SCOPE POSTURE: this script is a build-time ingest, not a
+// runtime dependency — every visitor to /meetings, WardModal's next-
+// meeting teaser, and /recap reads the static JSON this script commits
+// to public/lims/, via Cloudflare's ASSETS binding. No site visitor ever
+// triggers a live LIMS request; only a maintainer (or a future scheduled
+// CI job — none exists yet) running `npm run data:minneapolis-lims`
+// does, so user traffic can never approach LIMS's (undocumented) rate
+// limit. MIN_REFETCH_INTERVAL_MS below guards the one remaining risk:
+// this script itself being re-run repeatedly in a short window (a retry
+// loop, a misconfigured cron, running it twice by hand). This key is
+// also structurally single-city: BASE_URL is hardcoded to
+// lims.minneapolismn.gov, Minneapolis's own LIMS/DataNet deployment —
+// unlike Legistar (a SaaS vendor multiple cities separately subscribe to
+// under their own {client}.legistar.com subdomain), LIMS isn't shared
+// regional infrastructure, so there's no other jurisdiction this key
+// could be pointed at even by mistake. public/jurisdiction-platform-
+// inventory.json confirms every other tracked city is still platform
+// "unknown" (never probed) — none are known to run LIMS.
+//
 // CONFIRMED LIVE 2026-08-11 (first registered key, cross-checked against
 // LIMS's own published docs at lims.minneapolismn.gov/v2/api — that page
 // sits behind a Cloudflare managed JS challenge no scripted client can
@@ -35,7 +54,9 @@
 // param and not `Ocp-Apim-Subscription-Key`. See LESSONS.md's LIMS entry
 // for the full path-guessing history this superseded.
 //
-// Two endpoint families:
+// Two endpoint families (documenting the full confirmed surface, even
+// though ENDPOINTS below only lists the two this script actually calls
+// — see RATE-LIMIT / SCOPE POSTURE above for why):
 //   - referenceList/* — GET, no request body. CouncilMembers, CouncilTerm
 //     (singular — CouncilTerms 404s), MeetingBodies, FileItemStatus,
 //     FileTypes.
@@ -55,14 +76,22 @@
 //     agenda item here ships isConsent: false rather than a guess — same
 //     honesty call St. Paul/Hennepin's own registry coverage note makes
 //     for "no discussion" / "no public comment" flags neither has either.
-//   - Diff-on-refresh (AGENTS.md §0.5): scripts/ingest/legistar.mjs's
-//     diffMeetings() is real engineering against a shape this script
-//     doesn't share closely enough to reuse directly. Follow-up, not
-//     silently skipped — flagged in knownGaps on every live run.
 //   - Per-member Holding/Vote resolution into the canonical models.ts
-//     shape (what buildVotesForWindow() does for Legistar): out of scope
-//     for the meetings/agenda page itself, which only needs Meeting[] and
-//     MeetingAgendaItem[].
+//     shape (what buildVotesForWindow() does for Legistar): still out of
+//     scope for this file's own output — meetings/agendaItems only.
+//     scripts/lib/limsRecentVotes.mjs does resolve the raw memberName/
+//     value pairs this file writes on each agenda item into
+//     RepProperties.recentVotes (surname-matched, same convention
+//     scripts/lib/legistarRecentVotes.mjs already uses for St. Paul/
+//     Hennepin) — that's real per-councilmember vote data reaching
+//     WardModal.tsx, just not yet the canonical models.ts Holding/Vote
+//     shape a future roster-diff/holdings pass would need.
+//
+// Diff-on-refresh (AGENTS.md §0.5) IS implemented, reusing
+// scripts/ingest/legistar.mjs's exported diffMeetings() — its
+// MEETING_DIFF_FIELDS (date/time/location/agendaStatus/agendaUrl/
+// minutesUrl) are exactly the fields mapMeetingCalendarRow() below
+// produces, so no LIMS-specific reimplementation was needed.
 
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
@@ -70,7 +99,12 @@ import { fileURLToPath } from "node:url";
 // Shared with the Legistar ingest rather than reimplemented — both are
 // plain pure functions with no live-fetch side effects on import (see
 // legistar.mjs's own entry-point guard at the bottom of that file).
-import { slugify, addDays as addDaysToDate, selectNextMeeting as selectNextMeetingFor } from "./legistar.mjs";
+import {
+  slugify,
+  addDays as addDaysToDate,
+  selectNextMeeting as selectNextMeetingFor,
+  diffMeetings,
+} from "./legistar.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const OUTPUT_DIR = path.join(__dirname, "../../public/lims");
@@ -89,12 +123,12 @@ const PRIMARY_SOURCE_URL = "https://lims.minneapolismn.gov/";
 
 const BASE_URL = "https://lims.minneapolismn.gov/api/v1";
 
+// Only the two endpoints the shipped meetings/agenda feature needs —
+// see the file header's RATE-LIMIT / SCOPE POSTURE note for why the
+// confirmed-live referenceList/* endpoints (CouncilMembers, CouncilTerm,
+// MeetingBodies, FileItemStatus, FileTypes) aren't called here. Revisit
+// this list when a future PR maps them into holdings.
 const ENDPOINTS = {
-  councilMembers: "/referenceList/CouncilMembers",
-  councilTerm: "/referenceList/CouncilTerm",
-  meetingBodies: "/referenceList/MeetingBodies",
-  fileItemStatus: "/referenceList/FileItemStatus",
-  fileTypes: "/referenceList/FileTypes",
   meetingCalendar: "/search/meetingCalendar",
   fileItemSearch: "/search/FileItemSearch",
 };
@@ -108,6 +142,15 @@ const USER_AGENT =
 // comment, not by import, since the two scripts don't share a module.
 const LOOKBACK_DAYS = 14;
 const LOOKAHEAD_DAYS = 90;
+
+// Refuses a live re-fetch within this long of the previous successful
+// run — the "run it twice by hand" / "misconfigured cron" guard the file
+// header's RATE-LIMIT / SCOPE POSTURE note describes. 30 minutes is
+// generous relative to how often this data actually changes (agenda
+// items publish ~2 hours after a meeting per FEATURES.md's own Phase 3
+// notes) while still letting a maintainer force a near-immediate re-run
+// by deleting/renaming the output file if they genuinely need to.
+const MIN_REFETCH_INTERVAL_MS = 30 * 60 * 1000;
 
 // meetingCalendar/FileItemSearch are scoped by whole calendar year, so a
 // day-precision window can straddle a year boundary (e.g. a lookback into
@@ -128,36 +171,16 @@ function addDays(dateIso, days) {
 }
 
 /**
- * GET a referenceList endpoint.
- * @param {string} pathname
- * @param {string} apiKey
- */
-async function getLims(pathname, apiKey) {
-  // Not `new URL(pathname, base)` — a leading "/" in pathname resolves
-  // absolute-from-origin and silently drops BASE_URL's "/api/v1", which
-  // 403s in a way that looks like an auth failure rather than a routing
-  // bug (cost real debugging time before this comment existed).
-  const url = new URL(`${BASE_URL}${pathname}`);
-  const res = await fetch(url, {
-    headers: {
-      "User-Agent": USER_AGENT,
-      Accept: "application/json",
-      Authorization: `Bearer ${apiKey}`,
-    },
-  });
-  if (!res.ok) {
-    throw new Error(`LIMS GET failed: ${res.status} ${res.statusText} — ${url}`);
-  }
-  return res.json();
-}
-
-/**
  * POST a search endpoint with a JSON body.
  * @param {string} pathname
  * @param {string} apiKey
  * @param {Record<string, unknown>} body
  */
 async function postLims(pathname, apiKey, body) {
+  // Not `new URL(pathname, base)` — a leading "/" in pathname resolves
+  // absolute-from-origin and silently drops BASE_URL's "/api/v1", which
+  // 403s in a way that looks like an auth failure rather than a routing
+  // bug (cost real debugging time before this comment existed).
   const url = new URL(`${BASE_URL}${pathname}`);
   const res = await fetch(url, {
     method: "POST",
@@ -246,13 +269,33 @@ function normalizeBodyName(name) {
     .trim();
 }
 
+/**
+ * Keyed by (body, date) only — FileItemSearch's LegislativeHistory rows
+ * carry a date but no time, so a same-day second session for the same
+ * body (a recessed/continued meeting — real, if uncommon) can't be
+ * disambiguated from the agenda-item side no matter how this lookup is
+ * keyed. What this function controls is which of the colliding meetings
+ * wins the lookup slot: `meetings` is sorted by time first, so the
+ * earliest same-day session wins deterministically (arbitrary but
+ * reproducible) rather than "whichever the API happened to return last"
+ * silently overwriting. Collisions are counted and returned so the
+ * caller can flag them in knownGaps rather than let the ambiguity pass
+ * unnoticed.
+ */
 function buildMeetingLookup(meetings) {
   const byKey = new Map();
-  for (const m of meetings) {
+  let collisions = 0;
+  const sorted = [...meetings].sort((a, b) => (a.time ?? "").localeCompare(b.time ?? ""));
+  for (const m of sorted) {
     if (!m.bodyName || !m.date) continue;
-    byKey.set(`${normalizeBodyName(m.bodyName)}|${m.date}`, m.id);
+    const key = `${normalizeBodyName(m.bodyName)}|${m.date}`;
+    if (byKey.has(key)) {
+      collisions += 1;
+      continue; // keep the earlier (already-stored) session for this body/date
+    }
+    byKey.set(key, m.id);
   }
-  return byKey;
+  return { byKey, collisions };
 }
 
 // LIMS returns free-text fields (ItemTitle, FileSubject, Action) with
@@ -312,16 +355,27 @@ function mapFileItemToAgendaItems(item, itemIndex, meetingLookup, unmatchedMeeti
     // FileItemSearch is fetched for the whole calendar year (its own
     // filter granularity), but meetings[] only covers the rolling
     // LOOKBACK_DAYS/LOOKAHEAD_DAYS window — without this, most items
-    // would get a synthesized meeting_id that never matches a real
-    // Meeting record, bloating the output with agenda items the page can
-    // never actually attach to a rendered meeting.
+    // would reference a meeting outside meetings[], bloating the output
+    // with agenda items the page can never actually attach to a
+    // rendered meeting.
     if (actionDateIso < windowStartIso || actionDateIso > windowEndIso) return;
 
     const lookupKey = `${normalizeBodyName(historyRow.CommitteeName)}|${actionDateIso}`;
-    let meetingId = meetingLookup.get(lookupKey);
+    const meetingId = meetingLookup.get(lookupKey);
     if (!meetingId) {
-      meetingId = `lims-${CLIENT}-meeting-${slugify(historyRow.CommitteeName)}-${actionDateIso}T00:00:00`;
+      // No real Meeting record for this (committee, date) — a committee-
+      // name mismatch between meetingCalendar and FileItemSearch, or a
+      // meeting the calendar endpoint simply didn't return. Per AGENTS.md
+      // §3.1 ("no placeholder data ships as fact"), this item is dropped
+      // rather than given a synthesized meeting_id that would look
+      // exactly like a real one in the committed JSON with nothing
+      // marking it synthetic — a synthesized foreign key is itself a
+      // small fabrication, and every consumer (meetings/recap pages)
+      // already null-checks a missing meeting, so dropping degrades
+      // gracefully instead of rendering "date unknown, no source link"
+      // for what may be a real, dated action. Counted for knownGaps.
       unmatchedMeetings.add(`${historyRow.CommitteeName} (${actionDateIso})`);
+      return;
     }
 
     agendaItems.push({
@@ -342,31 +396,57 @@ function mapFileItemToAgendaItems(item, itemIndex, meetingLookup, unmatchedMeeti
       matterFile: item.FileNumber || null,
       matterId: null, // LIMS exposes FileNumber (string), not a numeric matter id
       matterType: item.FileType || null,
+      // Raw member-name + vote-value pairs, kept as LIMS reports them
+      // (confirmed vocabulary: Aye/Nay/Absent/Abstain — see LESSONS.md) —
+      // normalization into this site's shared BillVote option vocabulary
+      // happens in scripts/lib/limsRecentVotes.mjs, same layering
+      // scripts/ingest/legistar.mjs's raw VoteValueName + scripts/lib/
+      // legistarRecentVotes.mjs's second mapping pass already use. Empty
+      // array (never omitted) when this history row has no roll call.
+      votes: (historyRow.VotingInformation?.Votes ?? [])
+        .filter((v) => v.MemberName && v.Vote)
+        .map((v) => ({ memberName: v.MemberName, value: v.Vote })),
     });
   });
   return agendaItems;
 }
 
 /**
- * True if OUTPUT_PATH already holds a real ingested run. Guards
- * writeEmptyState() from silently wiping known-good data if this script
- * ever runs again without LIMS_API_KEY set (secret rotation glitch, env
- * var typo) after a previous run succeeded — same "never overwrite
- * known-good data with a worse result" rule the catch block in main()
- * already follows for a failed live fetch.
+ * Reads and parses OUTPUT_PATH's previous run, or null if it doesn't
+ * exist / isn't valid JSON. Shared by writeEmptyState()'s overwrite
+ * guard, main()'s refetch-interval guard, and the diff-on-refresh step
+ * below — one disk read per script invocation, not three.
  */
-async function hasExistingRealData() {
+async function readExistingState() {
   try {
     const raw = await readFile(OUTPUT_PATH, "utf8");
-    const parsed = JSON.parse(raw);
-    return parsed.status === "ingested" && Array.isArray(parsed.meetings) && parsed.meetings.length > 0;
+    return JSON.parse(raw);
   } catch {
-    return false; // file doesn't exist yet, or isn't valid JSON — safe to write the empty state
+    return null; // file doesn't exist yet, or isn't valid JSON
   }
 }
 
+/**
+ * True if OUTPUT_PATH already holds a real ingested run — status
+ * "ingested" alone, deliberately NOT also requiring meetings.length > 0:
+ * a genuinely empty rolling window (a council recess) is a valid
+ * ingested result, not "no real data" — requiring a nonzero meetings
+ * count here would let writeEmptyState() overwrite exactly that valid
+ * result the next time LIMS_API_KEY goes missing, discarding real
+ * provenance/knownGaps for a false "never completed a live fetch" state.
+ * Guards writeEmptyState() from silently wiping known-good data if this
+ * script ever runs again without LIMS_API_KEY set (secret rotation
+ * glitch, env var typo) after a previous run succeeded — same "never
+ * overwrite known-good data with a worse result" rule the catch block in
+ * main() already follows for a failed live fetch.
+ */
+function isRealIngestedState(parsed) {
+  return parsed?.status === "ingested" && Array.isArray(parsed?.meetings);
+}
+
 async function writeEmptyState(reason) {
-  if (await hasExistingRealData()) {
+  const existing = await readExistingState();
+  if (isRealIngestedState(existing)) {
     console.log(
       `[lims-minneapolis] LIMS_API_KEY is not set, but ${OUTPUT_PATH} already holds a real ingested run — ` +
         "leaving it untouched rather than overwriting known-good data with an empty state.",
@@ -418,6 +498,25 @@ async function main() {
     return;
   }
 
+  const previous = await readExistingState();
+
+  // MIN_REFETCH_INTERVAL_MS guard — see file header's RATE-LIMIT / SCOPE
+  // POSTURE note. Only skips a genuinely-ingested previous run; an
+  // "auth_required" empty state or a run more than the interval old
+  // still triggers a live fetch normally.
+  if (isRealIngestedState(previous) && typeof previous.generatedAt === "string") {
+    const ageMs = Date.now() - new Date(previous.generatedAt).getTime();
+    if (Number.isFinite(ageMs) && ageMs >= 0 && ageMs < MIN_REFETCH_INTERVAL_MS) {
+      console.log(
+        `[lims-minneapolis] last live fetch was ${Math.round(ageMs / 1000)}s ago, under the ` +
+          `${MIN_REFETCH_INTERVAL_MS / 1000}s minimum refetch interval — skipping this run rather than ` +
+          "hitting LIMS again. Delete public/lims/minneapolis-meetings.json first if you genuinely need an " +
+          "immediate re-run.",
+      );
+      return;
+    }
+  }
+
   console.log("[lims-minneapolis] LIMS_API_KEY present — starting live fetch.");
 
   const today = new Date().toISOString().slice(0, 10);
@@ -427,42 +526,37 @@ async function main() {
   const knownGaps = [
     "Consent-agenda flagging not implemented — LIMS has no field structurally equivalent to Legistar's " +
       "EventItemConsent; every agenda item ships isConsent: false rather than a guess.",
-    "Diff-on-refresh (AGENTS.md §0.5) not implemented yet for this feed — roster/meeting changes between " +
-      "runs aren't surfaced the way St. Paul/Hennepin's Legistar feed does.",
   ];
 
   try {
-    // Fetched to confirm connectivity/shape and logged below, but not
-    // written to public/lims/minneapolis-meetings.json: this is
-    // officeholder/roster data (AGENTS.md §1d/§3.2 require verifiedAt +
-    // sourceUrl per record, and the UI to surface the verification date,
-    // before a person record ships anywhere public) — mapping these into
-    // real Holding rows is the follow-up this file's header already flags
-    // as not implemented, not something to half-ship unverified.
-    const [councilMembers, councilTerm, meetingBodies, fileItemStatus, fileTypes] = await Promise.all([
-      getLims(ENDPOINTS.councilMembers, apiKey),
-      getLims(ENDPOINTS.councilTerm, apiKey),
-      getLims(ENDPOINTS.meetingBodies, apiKey),
-      getLims(ENDPOINTS.fileItemStatus, apiKey),
-      getLims(ENDPOINTS.fileTypes, apiKey),
-    ]);
-    const countOf = (value) => (Array.isArray(value) ? value.length : "?");
-    console.log(
-      `[lims-minneapolis] reference lists: ${countOf(councilMembers)} council member(s), ${countOf(councilTerm)} term(s), ` +
-        `${countOf(meetingBodies)} meeting body(ies), ${countOf(fileItemStatus)} file item status(es), ${countOf(fileTypes)} file type(s).`,
-    );
-
-    // Sequential, not parallel, across years — no documented LIMS
-    // rate-limit policy to design a concurrency budget against (AGENTS.md
-    // §2.2 Good-Citizen Fetcher / LESSONS.md's Legistar rate-limit entry,
-    // same caution applied to a new API).
+    // Sequential, not parallel, across years and across the two
+    // endpoints within a year — no documented LIMS rate-limit policy to
+    // design a concurrency budget against (AGENTS.md §2.2 Good-Citizen
+    // Fetcher / LESSONS.md's Legistar rate-limit entry, same caution
+    // applied to a new API). Only the two endpoints the shipped
+    // meetings/agenda feature actually needs are called — the five
+    // referenceList/* endpoints (CouncilMembers, CouncilTerm,
+    // MeetingBodies, FileItemStatus, FileTypes) aren't fetched here at
+    // all: they'd be four extra requests per run powering nothing
+    // downstream (meetingCalendar's own MeetingBody string is what
+    // mapMeetingCalendarRow() uses, not a separate MeetingBodies lookup),
+    // which is exactly the kind of request volume §2.2 asks scripts to
+    // avoid. Revisit when a future PR actually maps them into holdings.
     const allMeetingRows = [];
     const allFileItems = [];
     for (const year of years) {
       const calendarRows = await postLims(ENDPOINTS.meetingCalendar, apiKey, { CalendarYear: year });
-      if (Array.isArray(calendarRows)) allMeetingRows.push(...calendarRows);
+      if (Array.isArray(calendarRows)) {
+        allMeetingRows.push(...calendarRows);
+      } else {
+        knownGaps.push(`meetingCalendar for ${year} returned a non-array response — treated as 0 rows, not silently ignored.`);
+      }
       const fileItems = await postLims(ENDPOINTS.fileItemSearch, apiKey, { CalendarYear: year });
-      if (Array.isArray(fileItems)) allFileItems.push(...fileItems);
+      if (Array.isArray(fileItems)) {
+        allFileItems.push(...fileItems);
+      } else {
+        knownGaps.push(`FileItemSearch for ${year} returned a non-array response — treated as 0 rows, not silently ignored.`);
+      }
     }
     console.log(
       `[lims-minneapolis] fetched ${allMeetingRows.length} calendar row(s) and ${allFileItems.length} file item(s) ` +
@@ -474,7 +568,14 @@ async function main() {
       .map(mapMeetingCalendarRow)
       .filter((m) => m.date && m.date >= windowStartIso && m.date <= windowEndIso);
 
-    const meetingLookup = buildMeetingLookup(meetings);
+    const { byKey: meetingLookup, collisions } = buildMeetingLookup(meetings);
+    if (collisions) {
+      knownGaps.push(
+        `${collisions} same-day, same-body meeting collision(s) in this window — FileItemSearch's LegislativeHistory ` +
+          "carries a date but no time, so a second same-day session for the same body can't be disambiguated; the " +
+          "earliest session for each colliding (body, date) pair was used.",
+      );
+    }
     const unmatchedMeetings = new Set();
     const agendaItems = allFileItems.flatMap((item, itemIndex) =>
       mapFileItemToAgendaItems(item, itemIndex, meetingLookup, unmatchedMeetings, windowStartIso, windowEndIso),
@@ -483,10 +584,17 @@ async function main() {
     if (unmatchedMeetings.size) {
       knownGaps.push(
         `${unmatchedMeetings.size} agenda item legislative-history row(s) referenced a committee/date not present in ` +
-          `this run's meeting window; a synthesized meeting id was used for these so the agenda items still render: ` +
+          `this run's meeting window and were dropped rather than given a fabricated meeting link (AGENTS.md §3.1): ` +
           `${[...unmatchedMeetings].slice(0, 10).join("; ")}${unmatchedMeetings.size > 10 ? ", …" : ""}.`,
       );
     }
+
+    // Diff-on-refresh (AGENTS.md §0.5) — reuses legistar.mjs's
+    // diffMeetings() directly; mapMeetingCalendarRow()'s output shares
+    // every field MEETING_DIFF_FIELDS compares (date/time/location/
+    // agendaStatus/agendaUrl/minutesUrl).
+    const diff = isRealIngestedState(previous) ? diffMeetings(previous.meetings, meetings) : null;
+    const previousGeneratedAt = previous?.generatedAt ?? null;
 
     const state = {
       schemaVersion: 1,
@@ -514,8 +622,8 @@ async function main() {
       window: { startIso: windowStartIso, endIso: windowEndIso },
       meetings,
       agendaItems,
-      diff: null,
-      previousGeneratedAt: null,
+      diff,
+      previousGeneratedAt,
       knownGaps,
     };
 
@@ -541,11 +649,20 @@ async function main() {
       "[lims-minneapolis] leaving the existing public/lims/minneapolis-meetings.json untouched " +
         "rather than overwriting known-good (or honestly empty) data with a partial result.",
     );
-    process.exitCode = 1;
+    // Not process.exitCode = 1: an unreachable/erroring upstream API is a
+    // refresh-mechanism failure, never a build failure (AGENTS.md §0.8/
+    // §3.2) — same convention scripts/ingest/legistar.mjs's own
+    // per-client catch follows, explicit in that file's own comment.
   }
 }
 
 main().catch((err) => {
-  console.error("[fatal]", err);
-  process.exit(1);
+  // Should be unreachable — every expected failure mode is caught in
+  // main()'s own try/catch above — but if something truly unexpected
+  // happens (e.g. writeEmptyState()'s mkdir/writeFile throwing on a
+  // permissions or disk-space issue before that block's own try starts),
+  // still don't take the build down with it. Mirrors legistar.mjs's
+  // matching top-level guard.
+  console.error("[lims-minneapolis] unexpected top-level error (not fabricating output):", err);
+  process.exit(0);
 });

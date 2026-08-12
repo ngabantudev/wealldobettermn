@@ -47,15 +47,24 @@ export interface LayerRegistryEntry {
   knownGaps: string[];
 }
 
-// FEATURES.md Phase 3 — Minneapolis (LIMS API). Meeting attendance and
-// full voting record for the 13 Minneapolis councilmembers + mayor, back
-// to 2014, sourced from lims.minneapolismn.gov's LIMS API v1.
+// FEATURES.md Phase 3 — Minneapolis (LIMS API). scripts/ingest/
+// lims-minneapolis.mjs's first PR (#102/#160) shipped meetings and
+// agenda items over a rolling 14-days-back/90-days-ahead window (not the
+// full 2014+ historical backfill FEATURES.md's original Phase 3 sketch
+// described — that's still a real gap, tracked below). A follow-up in
+// the same phase (scripts/lib/limsRecentVotes.mjs) resolves the
+// per-member roll call LIMS embeds on each agenda item into
+// RepProperties.recentVotes for every Minneapolis councilmember,
+// surname-matched the same way scripts/lib/legistarRecentVotes.mjs
+// already does for St. Paul/Hennepin — real per-councilmember vote data
+// reaches WardModal.tsx, just not yet resolved into this site's
+// canonical models.ts Holding/Vote shape (see knownGaps).
 //
-// status is "empty": scripts/ingest/lims-minneapolis.mjs requires
+// status is "partial": scripts/ingest/lims-minneapolis.mjs requires
 // LIMS_API_KEY (a free, registered key — AGENTS.md §3.2 keyed-API
-// pattern) and exits cleanly, writing the honest empty state below,
-// whenever that key is absent. No councilmember, meeting, or vote record
-// ships until a real key is provisioned and the script is run against it.
+// pattern) and exits cleanly, writing the honest empty state, whenever
+// that key is absent — but a real key has now been provisioned and the
+// live feed is wired.
 export const MINNEAPOLIS_MEETINGS_VOTES_LAYER: LayerRegistryEntry = {
   id: "minneapolis-meetings-votes",
   label: "Minneapolis Council Meetings & Votes",
@@ -65,13 +74,12 @@ export const MINNEAPOLIS_MEETINGS_VOTES_LAYER: LayerRegistryEntry = {
   publicDataPath: "/lims/minneapolis-meetings.json",
   status: "partial",
   coverage:
-    "Minneapolis City Council, its committees/subcommittees, and boards/commissions LIMS's meetingCalendar returns. No meeting data for St. Paul, any suburb, any county board, or the state legislature (those are separate layers). No per-councilmember roll-call vote/Holding data yet — agenda items carry the item-level pass/fail result (passedFlagName) but not who voted which way; that resolution is the outstanding gap versus the Legistar-sourced layers. No consent-agenda flagging — LIMS has no field equivalent to Legistar's EventItemConsent.",
+    "Minneapolis City Council, its committees/subcommittees, and boards/commissions LIMS's meetingCalendar returns. No meeting data for St. Paul, any suburb, any county board, or the state legislature (those are separate layers). Per-councilmember roll-call votes ARE resolved into WardModal.tsx's recentVotes (scripts/lib/limsRecentVotes.mjs, surname-matched — same convention St. Paul/Hennepin's own recentVotes use), but not yet into this site's canonical models.ts Holding/Vote shape; that fuller resolution is the outstanding gap versus the Legistar-sourced layers. No consent-agenda flagging — LIMS has no field equivalent to Legistar's EventItemConsent.",
   primarySourceUrl: "https://lims.minneapolismn.gov/",
   sourceAgency: "City of Minneapolis, Office of the City Clerk",
   knownGaps: [
-    "Per-councilmember roll-call vote resolution (mapping LIMS's VotingInformation.Votes into this site's canonical Holding/Vote model) is not implemented yet — see scripts/ingest/lims-minneapolis.mjs's file header.",
+    "Per-councilmember votes reach WardModal.tsx's recentVotes (surname-matched, scripts/lib/limsRecentVotes.mjs) but aren't resolved into this site's canonical Holding/Vote model (models.ts) yet — see scripts/ingest/lims-minneapolis.mjs's file header.",
     "No consent-agenda flagging — every agenda item ships isConsent: false rather than a guess (LIMS has no field structurally equivalent to Legistar's EventItemConsent).",
-    "No diff-on-refresh (AGENTS.md §0.5) yet — roster/meeting changes between runs aren't surfaced the way the Legistar-sourced layers are.",
   ],
 };
 

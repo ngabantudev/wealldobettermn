@@ -67,11 +67,10 @@ export const MEETINGS_JURISDICTIONS: readonly MeetingsJurisdiction[] = [
     calendarUrl: "https://lims.minneapolismn.gov/Calendar/all/upcoming",
     coverage:
       "Every body LIMS's meetingCalendar returns (Council, its committees and subcommittees, boards and commissions), " +
-      "same 14-days-back/90-days-ahead rolling window as St. Paul and Hennepin County. Two gaps vs. the Legistar feeds " +
-      "above, both explicit in this feed's own knownGaps on every run rather than silently absent: (1) no consent-agenda " +
-      "flagging — LIMS has no field equivalent to Legistar's EventItemConsent, so isConsent is always false here, not a " +
-      "guess; (2) no diff-on-refresh yet — roster/meeting changes between runs aren't surfaced the way the Legistar feeds " +
-      "do.",
+      "same 14-days-back/90-days-ahead rolling window and diff-on-refresh as St. Paul and Hennepin County. One gap vs. " +
+      "the Legistar feeds above, explicit in this feed's own knownGaps on every run rather than silently absent: no " +
+      "consent-agenda flagging — LIMS has no field equivalent to Legistar's EventItemConsent, so isConsent is always " +
+      "false here, not a guess.",
   },
 ] as const;
 
@@ -136,6 +135,18 @@ export interface MeetingAgendaItem {
   matterFile: string | null;
   matterId: number | null;
   matterType: string | null;
+  // Optional: populated only by scripts/ingest/lims-minneapolis.mjs (LIMS
+  // embeds the per-member roll call directly on each agenda item).
+  // Legistar's own agendaItems don't carry this field at all — that vote
+  // data lives in public/legistar/{client}.json's separate votes[]/
+  // voteEvents[] tables instead, joined via scripts/lib/
+  // legistarRecentVotes.mjs — so this can't be a required array without
+  // breaking the `as MeetingsFeed` cast on every already-committed
+  // Legistar JSON file. Raw memberName/value as the upstream API reports
+  // them, never normalized here — scripts/lib/limsRecentVotes.mjs does
+  // that mapping. LIMS's own producer always writes an empty array
+  // (never omits the field) when an item had no roll call.
+  votes?: { memberName: string; value: string }[];
 }
 
 export interface MeetingsProvenance {

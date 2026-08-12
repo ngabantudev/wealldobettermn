@@ -14,6 +14,7 @@ import { fileURLToPath } from "node:url";
 import { union } from "@turf/union";
 import { featureCollection } from "@turf/helpers";
 import { recentVotesFromLegistar } from "./lib/legistarRecentVotes.mjs";
+import { recentVotesFromLims } from "./lib/limsRecentVotes.mjs";
 import { simplifyAndRound, SIMPLIFY_TOLERANCE } from "./lib/geoSimplify.mjs";
 import { updateDataManifest } from "./lib/dataManifest.mjs";
 
@@ -642,7 +643,7 @@ async function fetchMinneapolisWards() {
         candidates: [],
         isContested: false,
         partyUnityPercent: null,
-        recentVotes: [],
+        recentVotes: MINNEAPOLIS_ROSTER[wardNum] ? recentVotesFromLims(MINNEAPOLIS_ROSTER[wardNum]) : [],
       },
     };
   });
