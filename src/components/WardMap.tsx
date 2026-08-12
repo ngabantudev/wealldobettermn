@@ -5232,7 +5232,7 @@ export default function WardMap() {
                   : { left: participationPanel.x, top: participationPanel.y, transform: "translate(14px, -100%)" }
               }
               className={`absolute z-20 max-w-xs rounded border border-hair bg-panel-2/95 px-3 py-2 text-xs text-ink shadow-lg shadow-(color:--shadow-panel) backdrop-blur-sm ${
-                participationPanel.pinned ? "" : "pointer-events-none whitespace-nowrap"
+                participationPanel.pinned ? "" : "pointer-events-none"
               }`}
             >
               {participationPanel.pinned && (

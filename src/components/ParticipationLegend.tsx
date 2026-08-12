@@ -46,17 +46,39 @@ export interface ParticipationLegendProps {
 const BOLD_NOTE_TERMS = ["Registered", "CVAP"];
 const BOLD_NOTE_PATTERN = new RegExp(`\\b(${BOLD_NOTE_TERMS.join("|")})\\b`, "g");
 
+// "CVAP" specifically also becomes a real glossary term here, not just
+// bold — of the two, it's the one a reader is unlikely to already know
+// the expansion of ("citizen voting-age population"), and the entry
+// already exists in src/lib/glossary.ts (term: "cvap") but had never
+// actually been wired to a <Gloss> anywhere despite this file's own
+// header comment claiming it was. Same shared mechanism the swatch
+// header below already uses for "registered voters" (AGENTS.md §0.9) —
+// styled to still read as the bolded term the rest of this helper
+// produces, not as a differently-weighted button. Sidebar-only by
+// design: the map's own pinned city panel (WardMap.tsx) shows a bare
+// "CVAP" label with no gloss, since that surface isn't meant to carry
+// this kind of explanatory disclosure.
+const CVAP_GLOSS_CLASSNAME =
+  "font-semibold text-ink-2 underline decoration-dotted decoration-ink-4 underline-offset-2 cursor-help bg-transparent p-0 m-0 align-baseline focus:outline-none focus-visible:ring-2 focus-visible:ring-inset rounded-sm";
+
 function renderNoteParagraph(paragraph: string, keyPrefix: string) {
   const parts = paragraph.split(BOLD_NOTE_PATTERN);
-  return parts.map((part, i) =>
-    BOLD_NOTE_TERMS.includes(part) ? (
+  return parts.map((part, i) => {
+    if (part === "CVAP") {
+      return (
+        <Gloss key={`${keyPrefix}-${i}`} term="cvap" className={CVAP_GLOSS_CLASSNAME}>
+          {part}
+        </Gloss>
+      );
+    }
+    return BOLD_NOTE_TERMS.includes(part) ? (
       <strong key={`${keyPrefix}-${i}`} className="font-semibold text-ink-2">
         {part}
       </strong>
     ) : (
       <span key={`${keyPrefix}-${i}`}>{part}</span>
-    ),
-  );
+    );
+  });
 }
 
 function SwatchRow({ color, label, hatched }: { color: string; label: string; hatched?: boolean }) {
