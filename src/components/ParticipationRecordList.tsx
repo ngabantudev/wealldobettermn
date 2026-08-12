@@ -111,7 +111,13 @@ export default function ParticipationRecordList({ cities, variant, electionHeadi
       {matches.length === 0 ? (
         <p className="px-3 py-3 text-sm text-ink-3">No city matches that search.</p>
       ) : (
-        <ul role="list" aria-label="Cities with 2024 general election turnout data, alphabetical" className={listClass}>
+        <ul
+          role="list"
+          aria-label={
+            electionHeading ? `Cities with ${electionHeading} turnout data, alphabetical` : "Cities with turnout data, alphabetical"
+          }
+          className={listClass}
+        >
           {matches.map((city) => (
             <RecordRow key={`${city.cityId ?? city.name}-${city.county ?? ""}`} city={city} variant={variant} onSelect={() => onSelectCity(city)} />
           ))}
