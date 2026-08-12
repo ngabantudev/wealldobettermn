@@ -136,7 +136,7 @@ function MeetingCard({ feed, meeting }: { feed: MeetingsFeed; meeting: Meeting }
   const hiddenCount = totalCount - items.length;
 
   return (
-    <li id={meeting.id} className="well rounded-xl border border-hair p-4">
+    <li id={meeting.id} className="well rounded-lg border border-hair-strong p-4">
       <div className="flex flex-wrap items-baseline justify-between gap-2">
         <p className="font-semibold text-ink">{meeting.date ? formatMeetingDate(meeting.date) : "Date unknown"}</p>
         {meeting.time && <p className="text-sm text-ink-3">{formatMeetingTime(meeting.time)}</p>}
@@ -257,7 +257,7 @@ function JurisdictionSection({
       )}
 
       {!isLive ? (
-        <div role="status" className="well mt-3 space-y-2 rounded-xl border border-hair-strong p-4 text-sm text-ink-3">
+        <div role="status" className="well mt-3 space-y-2 rounded-lg border border-hair-strong p-4 text-sm text-ink-3">
           <p className="font-medium text-ink-2">
             {feed.status === "ingested" ? "No meetings in the current window." : "No meetings feed connected right now."}
           </p>
@@ -362,7 +362,7 @@ export default function MeetingsPage() {
           </p>
           <ul className="mt-3 space-y-3">
             {UNWIRED_MEETINGS_JURISDICTIONS.map((entry) => (
-              <li key={entry.jurisdiction} className="well rounded-xl border border-hair-strong p-4 text-sm">
+              <li key={entry.jurisdiction} className="well rounded-lg border border-hair-strong p-4 text-sm">
                 <p className="font-medium text-ink-2">{entry.jurisdiction}</p>
                 <p className="mt-1 text-ink-3">{entry.reason}</p>
                 <a href={entry.calendarUrl} target="_blank" rel="noopener noreferrer" className="mt-1 inline-block text-accent underline underline-offset-2">
