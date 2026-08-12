@@ -63,6 +63,13 @@ export type GlossaryKey =
   | "interim-ordinance"
   | "committee-of-the-whole"
   | "independent-expenditure"
+  // (a2) Civic-participation-turnout terms — public/turnout/city/<year>.json
+  // and turnoutConfig.mjs's own vocabulary, glossed here per AGENTS.md §0.9
+  // rather than left as unexplained acronyms on the participation map's
+  // legend/DOM record list.
+  | "cvap"
+  | "registered-voter"
+  | "below-threshold-turnout"
   // (b) Open States' BillAction.classification tags, restricted to the
   // set that actually appears in public/state-bills.json as of this
   // commit (confirmed by reading the file, not guessed from Open States'
@@ -136,6 +143,20 @@ export const GLOSSARY: Record<GlossaryKey, GlossaryEntry> = {
   "independent-expenditure": {
     term: "Independent expenditure",
     gloss: "Money spent to support or oppose a candidate by a person or group not coordinating with that candidate's own campaign. Reported separately from campaign contributions because it isn't given to the candidate directly.",
+  },
+
+  // --- (a2) Civic-participation-turnout terms --------------------------
+  cvap: {
+    term: "Citizen voting-age population (CVAP)",
+    gloss: "A Census Bureau estimate (from a 5-year survey average, not an exact count) of how many people in a place are both US citizens and 18 or older — the population usually used as the denominator for a turnout rate, since it excludes people too young to vote or not eligible to. It comes with its own margin of error and can lag recent growth or incorporation.",
+  },
+  "registered-voter": {
+    term: "Registered voter",
+    gloss: "Someone on the official voter rolls as of a given point in time. This site's \"turnout of registered\" figure counts everyone registered by the time polls closed election day — including people who registered same-day, which Minnesota has allowed since 1974 — not just those pre-registered a week before.",
+  },
+  "below-threshold-turnout": {
+    term: "Too small to shade reliably",
+    gloss: "This city has fewer than 200 registered voters, the point where a single voter can swing the published percentage by several points. The raw vote counts are still shown in full — only the percentage is flagged as noisy rather than precise.",
   },
 
   // --- (b) Open States bill-action classification tags ----------------

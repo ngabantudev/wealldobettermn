@@ -31,6 +31,7 @@ import {
   MEETINGS_NOTE,
   NOT_COVERED_ANYWHERE,
   STATE_LEGISLATURE_NOTE,
+  TURNOUT_NOTE,
   WARD_CITIES,
 } from "@/lib/coverage";
 
@@ -111,6 +112,9 @@ export default function CoverageNotice() {
                 /meetings
               </a>{" "}
               for the full browser.
+            </p>
+            <p>
+              <span className="font-medium text-ink-2">Election turnout</span> — {TURNOUT_NOTE}
             </p>
             <p>
               <span className="font-medium text-ink-2">Not covered anywhere yet</span> — {NOT_COVERED_ANYWHERE.join("; ")}.

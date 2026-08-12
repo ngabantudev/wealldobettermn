@@ -220,10 +220,74 @@ export const ECONOMIC_INTEREST_LAYER: LayerRegistryEntry = {
   ],
 };
 
+// Statewide township/unorganized-territory backdrop — the CTU_CLASS
+// complement of CITY_BOUNDARIES_LAYER above, from the same MnDOT/MnGeo
+// FeatureServer and dataset (scripts/fetch-township-unorg-boundaries.mjs
+// is a sibling script to fetch-city-boundaries.mjs). Exists specifically
+// so the civic-participation-turnout choropleth (TURNOUT_LAYER below) has
+// a real, non-blank class to render for land outside every incorporated
+// city — "no city government here, county and state layers apply" is a
+// fact about Minnesota's government structure, not a coverage gap to
+// paper over with an empty map area.
+export const TOWNSHIP_UNORG_BOUNDARIES_LAYER: LayerRegistryEntry = {
+  id: "township-unorg-boundaries",
+  label: "Townships & Unorganized Territory (statewide)",
+  description:
+    "Boundary of every Minnesota township and unorganized-territory area, statewide — a plain outline backdrop (like CITY_BOUNDARIES_LAYER, but the complementary CTU_CLASS values) marking land with no city government, not a roster.",
+  ingestScript: "scripts/fetch-township-unorg-boundaries.mjs",
+  publicDataPath: "/township-unorg-boundaries.geojson",
+  status: "live",
+  coverage:
+    "Every Minnesota township and unorganized-territory area's corporate/legal boundary, statewide (1,837 features at time of writing: 1,775 townships + 62 unorganized-territory areas). Boundary only — no township board roster, meeting, or contact data of any kind; townships have no ward/council layer on this site at all.",
+  primarySourceUrl: "https://gisdata.mn.gov/dataset/bdry-mn-city-township-unorg",
+  sourceAgency: "Minnesota Department of Transportation / MnGeo",
+  knownGaps: [
+    "No township board officeholder data of any kind — this is boundary geometry only, same posture as CITY_BOUNDARIES_LAYER.",
+    "A small number of upstream CTU_CLASS rows are null (an upstream data-quality artifact, not a third governance category) and are deliberately excluded from this layer rather than guessed at — see the ingest script's own WHERE_CLAUSE comment.",
+  ],
+};
+
+// City-level general-election turnout choropleth — WardMap.tsx's
+// "participation" LayerMode. Sourced from scripts/ingest/turnout.mjs
+// (public/turnout/city/<year>.json, public/turnout/manifest.json); this
+// registry entry is the map/legend/coverage-notice wiring per §2.1, not a
+// second copy of that ingest script's own provenance (see
+// public/turnout/city/2024.json's own `provenance` field for the SOS/CVAP
+// source records each city's figures trace to).
+//
+// AGENTS.md §1c applies directly here: this layer shows a fact (ballots
+// cast over a denominator, per city, per year) and nothing else — no
+// ranked "highest/lowest turnout" list, no computed score, no causal
+// claim about why a city's turnout is what it is. See
+// src/lib/turnoutColors.ts's own header for why the choropleth's color
+// ramp is deliberately never red/blue.
+export const TURNOUT_LAYER: LayerRegistryEntry = {
+  id: "turnout",
+  label: "Election Turnout by City",
+  description:
+    "Ballots cast as a share of registered voters (and, where resolvable, citizen voting-age population) per Minnesota city, per general election. City-level only; joined at render time against city-boundaries.geojson via src/lib/turnoutJoin.ts.",
+  ingestScript: "scripts/ingest/turnout.mjs",
+  publicDataPath: "/turnout/manifest.json",
+  status: "partial",
+  coverage:
+    "855 of Minnesota's statutory cities have a 2024 general-election turnout record. County-level aggregation is not built yet. Only the 2024 general election is covered so far — no other year, and no special/primary elections. Townships and unorganized territory have no turnout record to join against at all (they have no city government — see TOWNSHIP_UNORG_BOUNDARIES_LAYER above, rendered as its own distinct map class rather than left blank). turnoutOfCVAP is null for at least one city (Empire) where the join to Census CVAP data failed to resolve — see public/turnout/city/2024.json's own knownGaps for the full, current list.",
+  primarySourceUrl: "https://www.sos.state.mn.us/",
+  sourceAgency: "Office of the Minnesota Secretary of State; US Census Bureau (CVAP)",
+  knownGaps: [
+    "County-level aggregation is not built yet — city-level only, this PR's scope.",
+    "Only the 2024 general election is covered — other years/election types are a follow-up.",
+    "turnoutOfCVAP denominator (Census CVAP, a 5-year modeled estimate with its own margin of error) is not interchangeable with turnoutOfRegistered's denominator — see src/lib/turnoutConfig.mjs's TURNOUT_OF_REGISTERED_DENOMINATOR for why, and cvapMarginOfError per city for the estimate's own uncertainty.",
+    "Cities with fewer than 200 registered voters (turnoutConfig.mjs's MIN_REGISTERED_THRESHOLD) render their percentage as belowThreshold — 'too small to shade reliably' on the map — rather than a falsely precise figure; the underlying raw counts are still published in full.",
+    "The city-boundaries <-> turnout join (src/lib/turnoutJoin.ts) can fail to resolve a boundary polygon to a turnout record (a name/county mismatch) — an unresolved polygon renders as a distinct 'no data' class on the map rather than silently guessing which turnout record it belongs to; see that module's own header for the real St. Anthony/Saint Anthony same-name-different-county collision it exists to handle correctly.",
+  ],
+};
+
 export const LAYER_REGISTRY: readonly LayerRegistryEntry[] = [
   MINNEAPOLIS_MEETINGS_VOTES_LAYER,
   CAMPAIGN_FINANCE_LAYER,
   ECONOMIC_INTEREST_LAYER,
   CITY_BOUNDARIES_LAYER,
   STATE_LEGISLATURE_BIO_LAYER,
+  TOWNSHIP_UNORG_BOUNDARIES_LAYER,
+  TURNOUT_LAYER,
 ];

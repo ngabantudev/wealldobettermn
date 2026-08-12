@@ -138,3 +138,13 @@ export const NOT_COVERED_ANYWHERE: readonly string[] = [
 // src/lib/meetingsRegistry.ts's UNWIRED_MEETINGS_JURISDICTIONS for the
 // itemized list /meetings itself renders.
 export const MEETINGS_NOTE = MEETINGS_COVERAGE_NOTE;
+
+// Civic-participation-turnout layer (WardMap.tsx's "participation" mode) —
+// mirrors src/lib/layers.ts's TURNOUT_LAYER.coverage/knownGaps, same
+// hand-sync relationship COMMISSIONER_COUNTIES/CITY_BOUNDARIES_NOTE above
+// have with their own registry entries. Kept as its own exported note
+// (not folded into NOT_COVERED_ANYWHERE) since this layer is genuinely
+// partial, not entirely absent — a blanket "not covered" line would
+// itself be a Coverage Honesty violation once a real feed exists.
+export const TURNOUT_NOTE =
+  "Election turnout is mapped for 855 Minnesota cities, 2024 general election only — no other year or election type yet, and no county-level aggregation. Cities under 200 registered voters show a raw vote count but no percentage (too small to shade reliably). \"Turnout of CVAP\" is null for at least one city (Empire) where the join to Census citizen-voting-age-population data didn't resolve. Townships and unorganized territory have no city government and so no turnout figure to show — they're marked on the map as their own distinct class rather than left blank.";
