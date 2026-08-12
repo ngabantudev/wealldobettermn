@@ -22,6 +22,10 @@
 import { readFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+// Shared with scripts/lib/limsRecentVotes.mjs — see that file's own
+// comment for why the normalization itself is shared but the
+// warn-on-mismatch behavior stays per-caller.
+import { normalizeSurname } from "./surnameMatch.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -60,14 +64,6 @@ function mapLegistarVoteValue(rawValue) {
 // unlikely; matchRecentVotes() below warns rather than guessing further
 // if a name genuinely doesn't resolve, so a bad match is visible, not
 // silent.
-function normalizeSurname(fullName) {
-  const cleaned = String(fullName ?? "")
-    .replace(/^councilmember\s+/i, "")
-    .replace(/\b(jr\.?|sr\.?|ii|iii|iv)\b/gi, "")
-    .trim();
-  const parts = cleaned.split(/\s+/).filter(Boolean);
-  return parts.length ? parts[parts.length - 1].toLowerCase() : "";
-}
 
 // One JSON parse per client per script run, not per rep.
 const clientIndexCache = new Map();

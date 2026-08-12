@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Gloss from "@/components/Gloss";
+import { formatMeetingTime } from "@/lib/meetingTime";
 import {
   MEETINGS_JURISDICTIONS,
   UNWIRED_MEETINGS_JURISDICTIONS,
@@ -39,6 +40,7 @@ interface BodyGroup {
   bodyId: string;
   bodyName: string;
   upcoming: Meeting[];
+  upcomingHiddenCount: number;
   recent: Meeting[];
 }
 
@@ -48,6 +50,10 @@ interface BodyGroup {
 // bucket for a meeting with no parseable date; those are dropped from
 // display (they'd render as "Invalid Date" otherwise) but stay counted in
 // the raw meetings array the page's own numbers are derived from.
+// `upcoming` is capped at MAX_UPCOMING_MEETINGS_PER_BODY (soonest first,
+// so the cap never hides the immediately-next meeting) — see that
+// constant's own comment for why; `recent` is left uncapped since a
+// rolling 14-day lookback naturally bounds it to a handful per body.
 function groupMeetingsByBody(meetings: Meeting[]): BodyGroup[] {
   const today = todayIso();
   const byBody = new Map<string, BodyGroup>();
@@ -56,7 +62,7 @@ function groupMeetingsByBody(meetings: Meeting[]): BodyGroup[] {
     if (!meeting.date) continue;
     const key = meeting.body_id;
     if (!byBody.has(key)) {
-      byBody.set(key, { bodyId: key, bodyName: meeting.bodyName ?? "Unnamed body", upcoming: [], recent: [] });
+      byBody.set(key, { bodyId: key, bodyName: meeting.bodyName ?? "Unnamed body", upcoming: [], upcomingHiddenCount: 0, recent: [] });
     }
     const group = byBody.get(key);
     if (!group) continue;
@@ -67,15 +73,51 @@ function groupMeetingsByBody(meetings: Meeting[]): BodyGroup[] {
   for (const group of byBody.values()) {
     group.upcoming.sort((a, b) => (a.date ?? "").localeCompare(b.date ?? ""));
     group.recent.sort((a, b) => (b.date ?? "").localeCompare(a.date ?? ""));
+    if (group.upcoming.length > MAX_UPCOMING_MEETINGS_PER_BODY) {
+      group.upcomingHiddenCount = group.upcoming.length - MAX_UPCOMING_MEETINGS_PER_BODY;
+      group.upcoming = group.upcoming.slice(0, MAX_UPCOMING_MEETINGS_PER_BODY);
+    }
   }
 
   return [...byBody.values()].sort((a, b) => a.bodyName.localeCompare(b.bodyName));
 }
 
-function agendaItemsFor(feed: MeetingsFeed, meetingId: string): MeetingAgendaItem[] {
-  return feed.agendaItems
+// A single Minneapolis City Council meeting can carry 100+ agenda items
+// (a real regular-meeting agenda — officer elections, appointments,
+// routine business — not a data bug; confirmed live, one July 2026
+// meeting alone had 121). Minneapolis's LIMS feed also structurally
+// covers ~26 distinct bodies (Council + every committee/subcommittee/
+// board/commission LIMS tracks) in the same rolling window Legistar's
+// St. Paul/Hennepin clients cover with 2-3 bodies each — so even before
+// any single meeting's agenda size, the *number* of meetings rendered is
+// 5-10x larger for Minneapolis. Together these pushed /meetings past 1MB
+// on a route OpenNext serves through the Worker on every request (not
+// the static ASSETS binding — confirmed via `.open-next/assets` not
+// containing meetings.html), which tripped Cloudflare Workers' resource
+// limits in production (error 1102). Both caps below are the same
+// visible-truncation pattern scripts/ingest/legistar.mjs's own
+// MAX_MATTERS_PER_CLIENT already uses for a different request-volume
+// concern — never a silent drop (AGENTS.md §3.3): each cap renders an
+// explicit "+N more — see the full record/feed" note when it bites.
+//
+// Set conservatively, not just "small enough to pass a local test":
+// Cloudflare's resource limit is CPU *time*, not wall-clock time —
+// local/curl measurements include network and cold-start overhead that
+// doesn't count against that budget, so a locally-fast response isn't
+// proof of a safe CPU-ms cost on whatever plan this deploys under
+// (unconfirmed from here whether that's Cloudflare's free-tier CPU
+// budget or a more generous paid one). Erring low until this is
+// confirmed against the real account's limits over a few real days of
+// traffic, rather than tuning to the edge of a number that can't be
+// fully verified from a local/preview test alone.
+const MAX_AGENDA_ITEMS_PER_MEETING = 5;
+const MAX_UPCOMING_MEETINGS_PER_BODY = 2;
+
+function agendaItemsFor(feed: MeetingsFeed, meetingId: string): { items: MeetingAgendaItem[]; totalCount: number } {
+  const all = feed.agendaItems
     .filter((item) => item.meeting_id === meetingId)
     .sort((a, b) => (a.sequence ?? 0) - (b.sequence ?? 0));
+  return { items: all.slice(0, MAX_AGENDA_ITEMS_PER_MEETING), totalCount: all.length };
 }
 
 function formatMeetingDate(iso: string): string {
@@ -89,14 +131,15 @@ function formatMeetingDate(iso: string): string {
 }
 
 function MeetingCard({ feed, meeting }: { feed: MeetingsFeed; meeting: Meeting }) {
-  const items = agendaItemsFor(feed, meeting.id);
+  const { items, totalCount } = agendaItemsFor(feed, meeting.id);
   const consentCount = items.filter((item) => item.isConsent).length;
+  const hiddenCount = totalCount - items.length;
 
   return (
     <li id={meeting.id} className="well rounded-xl border border-hair p-4">
       <div className="flex flex-wrap items-baseline justify-between gap-2">
         <p className="font-semibold text-ink">{meeting.date ? formatMeetingDate(meeting.date) : "Date unknown"}</p>
-        {meeting.time && <p className="text-sm text-ink-3">{meeting.time}</p>}
+        {meeting.time && <p className="text-sm text-ink-3">{formatMeetingTime(meeting.time)}</p>}
       </div>
       {meeting.location && <p className="mt-0.5 text-sm text-ink-3">{meeting.location}</p>}
 
@@ -118,10 +161,10 @@ function MeetingCard({ feed, meeting }: { feed: MeetingsFeed; meeting: Meeting }
         )}
       </div>
 
-      {items.length > 0 ? (
+      {totalCount > 0 ? (
         <details className="mt-3">
           <summary className="cursor-pointer text-sm font-medium text-ink-2">
-            {items.length} agenda item{items.length === 1 ? "" : "s"}
+            {totalCount} agenda item{totalCount === 1 ? "" : "s"}
             {consentCount > 0 && (
               <span className="ml-1 text-xs text-ink-4">
                 ({consentCount} on consent — passed as a group, per AGENTS.md §0.4)
@@ -155,6 +198,18 @@ function MeetingCard({ feed, meeting }: { feed: MeetingsFeed; meeting: Meeting }
               </li>
             ))}
           </ul>
+          {hiddenCount > 0 && (
+            <p className="mt-2 text-xs text-ink-4">
+              +{hiddenCount} more item{hiddenCount === 1 ? "" : "s"} not shown here.{" "}
+              {meeting.sourceUrl ? (
+                <a href={meeting.sourceUrl} target="_blank" rel="noopener noreferrer" className="text-accent underline underline-offset-2">
+                  See the full record
+                </a>
+              ) : (
+                "See the raw feed link below for the full record."
+              )}
+            </p>
+          )}
         </details>
       ) : (
         <p className="mt-2 text-xs text-ink-4">No agenda items on file for this meeting yet.</p>
@@ -228,6 +283,16 @@ function JurisdictionSection({
                       <MeetingCard key={meeting.id} feed={feed} meeting={meeting} />
                     ))}
                   </ul>
+                  {group.upcomingHiddenCount > 0 && (
+                    <p className="mt-1.5 text-xs text-ink-4">
+                      +{group.upcomingHiddenCount} more upcoming meeting{group.upcomingHiddenCount === 1 ? "" : "s"} for{" "}
+                      {group.bodyName}.{" "}
+                      <a href={calendarUrl} target="_blank" rel="noopener noreferrer" className="text-accent underline underline-offset-2">
+                        See {jurisdiction}&rsquo;s own meeting calendar
+                      </a>
+                      .
+                    </p>
+                  )}
                 </>
               )}
               {group.recent.length > 0 && (

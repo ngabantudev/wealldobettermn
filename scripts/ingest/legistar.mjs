@@ -591,6 +591,45 @@ export function findHoldingForVote(holdings, legistarPersonId, bodyId, actionDat
   return candidates[0];
 }
 
+// Meeting.members equivalent for Legistar (LIMS gets it for free from
+// meetingCalendar's own MembersList — see scripts/ingest/
+// lims-minneapolis.mjs's mapMeetingCalendarRow()). Legistar's /events
+// object has no per-meeting membership field at all (checked the full
+// live response shape), but this repo already fetches each body's
+// full current roster for the votes feature (buildOfficesPersonsHoldings()
+// above) — this just re-groups that same, already-fetched data by body,
+// rather than a second fetch or a scrape of Legistar's own calendar UI
+// (which, separately confirmed, only loads real meeting data via JS/AJAX
+// calls back to this same API anyway — nothing extra to gain there).
+// Keyed by the exact `legistar-{client}-body-{BodyId}` string
+// mapEventToMeeting() already produces as Meeting.body_id, so callers can
+// look a meeting's members up with no further parsing.
+//
+// "asOfIso" is deliberately a single date (the run date), not resolved
+// per meeting: holding term ranges are typically multi-year, so a
+// membership change landing exactly inside one 7-day this-week window is
+// a vanishingly rare edge case, and "who's on this committee as of
+// today" is itself an accurate, sourced fact even in that case — not
+// worth the complexity of a per-meeting date resolution pass.
+export function buildMembersByBody(clientConfig, offices, persons, holdings, asOfIso) {
+  const officesById = new Map(offices.map((o) => [o.id, o]));
+  const personsById = new Map(persons.map((p) => [p.id, p]));
+  const byBody = new Map(); // body_id string -> members[]
+
+  for (const holding of holdings) {
+    if (holding.term_start > asOfIso) continue;
+    if (holding.term_end !== null && holding.term_end < asOfIso) continue;
+    const office = officesById.get(holding.office_id);
+    const person = personsById.get(holding.person_id);
+    if (!office || !person || holding._bodyId == null) continue;
+
+    const bodyId = `legistar-${clientConfig.client}-body-${holding._bodyId}`;
+    if (!byBody.has(bodyId)) byBody.set(bodyId, []);
+    byBody.get(bodyId).push({ id: holding._legistarPersonId, name: person.official_name, type: office.seat_label ?? null });
+  }
+  return byBody;
+}
+
 const sleepBriefly = () => sleep(75); // light inter-request pacing, on top of legistarGet's own 429 backoff
 
 // The two-hop vote walk, bounded to one recent window on one body (the
@@ -783,13 +822,41 @@ async function buildVotesForWindow(clientConfig, token, { primaryBodyId, primary
 // has *already* voted on). EventInSiteURL is a direct field on /events —
 // unlike resolveLegislationUrl() for individual matters, no Gateway.aspx
 // scrape is needed to get a citable public source_url for a meeting.
+// Legistar's EventTime comes back "3:30 PM" (12-hour, AM/PM); LIMS's own
+// MeetingDateTime slice (scripts/ingest/lims-minneapolis.mjs) is already
+// zero-padded 24-hour "15:30". Normalizing both to 24-hour at ingest time
+// — rather than displaying whatever format each upstream happened to
+// use — means every consumer (this week's teaser, /meetings) gets a
+// single consistent shape to sort and format, instead of two vendors'
+// raw conventions leaking into the UI (a lexical sort of "9:00 AM" vs.
+// "10:00 AM" is wrong — '1' < '9' — the exact bug this exists to avoid).
+// Returns the input unchanged (never guessed) if it doesn't match either
+// known shape.
+export function normalizeTimeTo24h(rawTime) {
+  if (typeof rawTime !== "string" || !rawTime.trim()) return null;
+  const ampmMatch = rawTime.match(/^(\d{1,2}):(\d{2})\s*(AM|PM)$/i);
+  if (ampmMatch) {
+    let [, h, m, meridiem] = ampmMatch;
+    let hour = Number(h);
+    if (meridiem.toUpperCase() === "PM" && hour !== 12) hour += 12;
+    if (meridiem.toUpperCase() === "AM" && hour === 12) hour = 0;
+    return `${String(hour).padStart(2, "0")}:${m}`;
+  }
+  const h24Match = rawTime.match(/^(\d{1,2}):(\d{2})$/);
+  if (h24Match) {
+    const [, h, m] = h24Match;
+    return `${h.padStart(2, "0")}:${m}`;
+  }
+  return rawTime; // unrecognized shape — pass through rather than guess
+}
+
 export function mapEventToMeeting(client, event) {
   return {
     id: `legistar-${client}-meeting-${event.EventId}`,
     body_id: `legistar-${client}-body-${event.EventBodyId}`,
     bodyName: event.EventBodyName || null,
     date: toIsoDate(event.EventDate),
-    time: event.EventTime || null,
+    time: normalizeTimeTo24h(event.EventTime),
     location: event.EventLocation || null,
     agendaStatus: event.EventAgendaStatusName || null,
     agendaUrl: event.EventAgendaFile || null,
@@ -1036,38 +1103,62 @@ async function writeClientMeetingsOutput(clientConfig, state) {
   return outputPath;
 }
 
-// A tiny, separate file with just the soonest upcoming meeting (or null),
-// written alongside the full {client}-meetings.json above. Exists purely
-// so WardModal.tsx's sidebar "next meeting" teaser (issue #58) can import
-// a few hundred bytes rather than the full meetings+agendaItems feed
-// (hundreds of KB) into the client bundle it ships to every visitor —
-// AGENTS.md §0.7's "fast on old phones and bad connections" budget. Full
-// browsing still reads {client}-meetings.json via /meetings.
-export function selectNextMeeting(clientConfig, meetings, runIso, primaryBodyName = null) {
-  const upcoming = meetings.filter((m) => m.date && m.date >= runIso).sort((a, b) => (a.date ?? "").localeCompare(b.date ?? ""));
-  // Prefer the primary legislative body's own next meeting when we know
-  // which body that is; otherwise fall back to whichever body meets
-  // soonest (still real, still sourced — just not guaranteed to be the
-  // full Council/Board specifically).
-  const primaryUpcoming = primaryBodyName ? upcoming.filter((m) => m.bodyName === primaryBodyName) : [];
-  const next = primaryUpcoming[0] ?? upcoming[0];
-  if (!next) return null;
-  return {
-    client: clientConfig.client,
-    jurisdiction: clientConfig.jurisdiction,
-    bodyName: next.bodyName,
-    isPrimaryBody: primaryBodyName != null && next.bodyName === primaryBodyName,
-    date: next.date,
-    time: next.time,
-    sourceUrl: next.sourceUrl,
-    agendaUrl: next.agendaUrl,
-  };
+// A tiny, separate file with every meeting (any body) in the next
+// `windowDays` days, written alongside the full {client}-meetings.json
+// above. Exists purely so WardModal.tsx's sidebar "meetings this week"
+// teaser (issue #58) can import a few hundred bytes to a few KB rather
+// than the full meetings+agendaItems feed (hundreds of KB) into the
+// client bundle it ships to every visitor — AGENTS.md §0.7's "fast on
+// old phones and bad connections" budget. Full browsing still reads
+// {client}-meetings.json via /meetings.
+//
+// Used to prefer a "primary body" (City Council/County Board) over
+// whichever body met soonest, picking exactly one meeting — reported
+// live against Minneapolis's real calendar: a resident would see "Next
+// meeting: City Council, Aug 13" while Mayor Frey's 2027 Budget Address
+// (a genuinely more significant event) sat un-mentioned the day before,
+// because it happened not to be the primary body. That's backwards for
+// a feed covering ~26 real bodies (Minneapolis) — every meeting is real
+// and sourced, and picking one by body name over date hides the truly
+// soonest one. Returns every meeting in the window instead, chronological
+// order, letting the resident see (and judge relevance of) all of them.
+// Cancelled meetings are included, not filtered out — a resident who
+// expected a meeting to happen benefits from seeing "cancelled" more
+// than from the meeting silently vanishing with no explanation (AGENTS.md
+// §0.6). isCancelled is derived from agendaStatus === "Cancelled" here
+// (LIMS's own IsCancelled flag, mapped in scripts/ingest/
+// lims-minneapolis.mjs's mapMeetingCalendarRow()) rather than exposing
+// the free-text agendaStatus field itself — Legistar's own
+// EventAgendaStatusName never carries a "Cancelled" value in the live
+// data checked (only "Final"/"Final-revised"/"Preliminary" — an agenda
+// publication state, not a happen/didn't-happen signal), so this is
+// always false for St. Paul/Hennepin meetings, not a guess.
+//
+// `members` passes through only when the source Meeting has one (LIMS
+// only — see that type's own comment in meetingsRegistry.ts).
+export function selectMeetingsThisWeek(clientConfig, meetings, runIso, windowDays = 7) {
+  const windowEndIso = addDays(new Date(`${runIso}T00:00:00Z`), windowDays - 1);
+  return meetings
+    .filter((m) => m.date && m.date >= runIso && m.date <= windowEndIso)
+    .sort((a, b) => (a.date ?? "").localeCompare(b.date ?? "") || (a.time ?? "").localeCompare(b.time ?? ""))
+    .map((m) => ({
+      client: clientConfig.client,
+      jurisdiction: clientConfig.jurisdiction,
+      bodyName: m.bodyName,
+      date: m.date,
+      time: m.time,
+      location: m.location,
+      sourceUrl: m.sourceUrl,
+      agendaUrl: m.agendaUrl,
+      isCancelled: m.agendaStatus === "Cancelled",
+      ...(m.members ? { members: m.members } : {}),
+    }));
 }
 
-async function writeNextMeetingTeaser(clientConfig, nextMeeting) {
+async function writeMeetingsThisWeekTeaser(clientConfig, meetingsThisWeek) {
   await mkdir(OUTPUT_DIR, { recursive: true });
-  const outputPath = path.join(OUTPUT_DIR, `${clientConfig.client}-next-meeting.json`);
-  await writeFile(outputPath, JSON.stringify({ generatedAt: new Date().toISOString(), nextMeeting }, null, 2) + "\n");
+  const outputPath = path.join(OUTPUT_DIR, `${clientConfig.client}-meetings-this-week.json`);
+  await writeFile(outputPath, JSON.stringify({ generatedAt: new Date().toISOString(), meetingsThisWeek }, null, 2) + "\n");
   return outputPath;
 }
 
@@ -1186,6 +1277,15 @@ async function ingestClient(clientConfig) {
   knownGaps.push(...voteResult.knownGaps);
   contentHashEntries.push(...voteResult.contentHashEntries);
 
+  // Computed from the pre-stripInternal offices/persons/holdings (needs
+  // _bodyId/_legistarPersonId, which the public, stripped arrays below
+  // don't carry) — see buildMembersByBody()'s own comment. Threaded
+  // through main() to attach onto each meeting after
+  // ingestMeetingsForClient() builds them, since meetings/agenda ingest
+  // stays its own independent try/catch (a roster-ingest failure must
+  // never block or be masked by meetings ingest, or vice versa).
+  const membersByBodyId = buildMembersByBody(clientConfig, offices, persons, holdings, runIso);
+
   return {
     jurisdictionId: jurisdictionMeta.jurisdictionId,
     bodies,
@@ -1196,6 +1296,7 @@ async function ingestClient(clientConfig) {
     agendaItems: voteResult.agendaItems,
     voteEvents: voteResult.voteEvents,
     votes: voteResult.votes,
+    membersByBodyId,
     knownGaps,
     voteWindow: {
       primaryBodyName,
@@ -1326,21 +1427,20 @@ async function main() {
 
   for (const clientConfig of LEGISTAR_CLIENTS) {
     console.log(`[legistar:${clientConfig.client}] probing ${clientConfig.jurisdiction}...`);
-    // Threaded into the next-meeting teaser below so it prefers the primary
-    // legislative body (City Council / County Board) over some other body
-    // that merely happens to meet sooner (e.g. a Legislative Hearings
-    // officer) — a resident looking at their council member's card should
-    // see their council's next meeting, not whichever body meets first.
-    // Stays null if the roster+votes ingest above failed or never
-    // determined one; selectNextMeeting() falls back to "soonest of any
-    // body" in that case, documented on the teaser file itself.
-    let primaryBodyName = null;
+    // Threaded into the meetings ingest below to attach each meeting's
+    // body membership (buildMembersByBody()'s own comment) — stays an
+    // empty Map, not a thrown error, if the roster+votes ingest below
+    // fails, so meetings ingest can still proceed with meetings simply
+    // carrying no members rather than being blocked by an unrelated
+    // failure (same independence the two try/catches already guarantee
+    // for everything else).
+    let membersByBodyId = new Map();
     try {
       const sampleCount = await probeClient(clientConfig);
       console.log(`[legistar:${clientConfig.client}] reachable (sample bodies page returned ${sampleCount} row(s)). Starting full ingest...`);
 
       const ingest = await ingestClient(clientConfig);
-      primaryBodyName = ingest.voteWindow?.primaryBodyName ?? null;
+      membersByBodyId = ingest.membersByBodyId;
       const state = buildIngestedState(clientConfig, ingest);
       const outputPath = await writeClientOutput(clientConfig, state);
       console.log(
@@ -1367,6 +1467,14 @@ async function main() {
     console.log(`[legistar:${clientConfig.client}] starting meetings/agenda ingest...`);
     try {
       const meetingsIngest = await ingestMeetingsForClient(clientConfig);
+      // Attach body membership (from the roster ingest above, or [] if
+      // that failed/found nothing for this body — e.g. "Legislative
+      // Hearings" has no elected-officeholder holdings at all, per
+      // buildOfficesPersonsHoldings()'s own title/body allowlist) before
+      // either the full feed or the this-week teaser reads .members.
+      for (const meeting of meetingsIngest.meetings) {
+        meeting.members = membersByBodyId.get(meeting.body_id) ?? [];
+      }
       const meetingsState = buildMeetingsIngestedState(clientConfig, meetingsIngest);
       const meetingsPath = await writeClientMeetingsOutput(clientConfig, meetingsState);
       const diffNote = meetingsIngest.diff
@@ -1377,16 +1485,9 @@ async function main() {
         `[legistar:${clientConfig.client}] ingested ${meetingsIngest.meetings.length} meeting(s), ` +
           `${meetingsIngest.agendaItems.length} agenda item(s) (${diffNote}). Wrote ${meetingsPath}`,
       );
-      const nextMeeting = selectNextMeeting(
-        clientConfig,
-        meetingsIngest.meetings,
-        new Date().toISOString().slice(0, 10),
-        primaryBodyName,
-      );
-      const teaserPath = await writeNextMeetingTeaser(clientConfig, nextMeeting);
-      console.log(
-        `[legistar:${clientConfig.client}] next-meeting teaser: ${nextMeeting ? nextMeeting.date : "none upcoming"}. Wrote ${teaserPath}`,
-      );
+      const meetingsThisWeek = selectMeetingsThisWeek(clientConfig, meetingsIngest.meetings, new Date().toISOString().slice(0, 10));
+      const teaserPath = await writeMeetingsThisWeekTeaser(clientConfig, meetingsThisWeek);
+      console.log(`[legistar:${clientConfig.client}] meetings-this-week teaser: ${meetingsThisWeek.length} meeting(s). Wrote ${teaserPath}`);
     } catch (err) {
       anyFailures = true;
       const isAuthError = err instanceof LegistarAuthError;
@@ -1401,7 +1502,7 @@ async function main() {
       });
       const meetingsPath = await writeClientMeetingsOutput(clientConfig, meetingsState);
       console.log(`[legistar:${clientConfig.client}] left honest meetings empty-state in place at ${meetingsPath}`);
-      await writeNextMeetingTeaser(clientConfig, null);
+      await writeMeetingsThisWeekTeaser(clientConfig, []);
     }
   }
 

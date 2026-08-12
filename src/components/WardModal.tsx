@@ -19,64 +19,166 @@ import {
   TIER_HEADER_TEXT,
 } from "@/lib/cityTheme";
 import { isStale } from "@/lib/electionConfig";
-// Tiny (few-hundred-byte) bundler-resolved JSON imports — not the full
-// {client}-meetings.json feed src/app/meetings/page.tsx reads, which runs
-// into the hundreds of KB across all three clients' meetings+agendaItems.
-// This component ships to every visitor on every hover/click, so it only
-// ever carries the one soonest-meeting summary scripts/ingest/legistar.mjs
-// (St. Paul/Hennepin) and scripts/ingest/lims-minneapolis.mjs
-// (Minneapolis) each write their own writeNextMeetingTeaser() equivalent
-// for (AGENTS.md §0.7's 3G/old-phone budget) — full browsing lives at
-// /meetings, linked below, never duplicated here (issue #58: "teaser
-// only, not a duplicate of the full view").
-import stpaulNextMeeting from "../../public/legistar/stpaul-next-meeting.json";
-import hennepinmnNextMeeting from "../../public/legistar/hennepinmn-next-meeting.json";
-import minneapolisNextMeeting from "../../public/lims/minneapolis-next-meeting.json";
+import { formatMeetingTime } from "@/lib/meetingTime";
+// Tiny (few-hundred-byte to low-KB) bundler-resolved JSON imports — not
+// the full {client}-meetings.json feed src/app/meetings/page.tsx reads,
+// which runs into the hundreds of KB across all three clients'
+// meetings+agendaItems. This component ships to every visitor on every
+// hover/click, so it only ever carries this week's meetings (any body)
+// scripts/ingest/legistar.mjs (St. Paul/Hennepin) and scripts/ingest/
+// lims-minneapolis.mjs (Minneapolis) each write via their shared
+// selectMeetingsThisWeek()/writeMeetingsThisWeekTeaser() (AGENTS.md
+// §0.7's 3G/old-phone budget) — full browsing lives at /meetings, linked
+// below, never duplicated here (issue #58: "teaser only, not a duplicate
+// of the full view").
+//
+// Previously a single "next meeting" pick that preferred the primary
+// body (City Council/County Board) over any other body that happened to
+// meet sooner. Reported live against Minneapolis's real calendar: a
+// resident would see "Next meeting: City Council, Aug 13" while Mayor
+// Frey's 2027 Budget Address — a real, genuinely significant meeting —
+// sat unmentioned the day before, purely because it wasn't the primary
+// body. Minneapolis's LIMS feed covers ~26 real bodies, so picking one by
+// name over date routinely hid the actually-soonest meeting. Now shows
+// every meeting (any body) in the next 7 days, chronological — anything
+// further out is exactly what the "see the city's own calendar" link
+// right below this component (CITY_MEETINGS_URL) is for.
+import stpaulMeetingsThisWeek from "../../public/legistar/stpaul-meetings-this-week.json";
+import hennepinmnMeetingsThisWeek from "../../public/legistar/hennepinmn-meetings-this-week.json";
+import minneapolisMeetingsThisWeek from "../../public/lims/minneapolis-meetings-this-week.json";
 
-interface NextMeetingTeaser {
+interface WeekMeeting {
   client: string;
   jurisdiction: string;
   bodyName: string | null;
-  isPrimaryBody: boolean;
   date: string | null;
   time: string | null;
+  location: string | null;
   sourceUrl: string | null;
   agendaUrl: string | null;
+  // isCancelled: derived server-side in scripts/ingest/legistar.mjs's
+  // selectMeetingsThisWeek() from agendaStatus === "Cancelled" — real for
+  // Minneapolis (LIMS's own IsCancelled flag); always false for St. Paul/
+  // Hennepin, since Legistar's EventAgendaStatusName never carries a
+  // "Cancelled" value in the confirmed live data (only Final/Preliminary
+  // — an agenda-publication state, not a happen/didn't-happen signal).
+  isCancelled: boolean;
+  // members: the body's roster as of this meeting (who serves on it, not
+  // a confirmed-attendance record — neither upstream tracks actual
+  // per-meeting attendance). LIMS gets this for free from
+  // meetingCalendar's own MembersList; Legistar has no per-meeting
+  // membership field, so scripts/ingest/legistar.mjs derives it by
+  // cross-referencing the same roster already fetched for the votes
+  // feature — real, sourced data for every wired jurisdiction, not a
+  // LIMS-only feature.
+  members?: { id: number; name: string; type: string | null }[];
 }
+
+// Generic member titles not worth calling out inline — every plain
+// member gets one of these depending on the vendor's own vocabulary
+// (LIMS: "Council Member"; Legistar: "Councilmember"/"Commissioner"/
+// "Board Member", see ROLE_TITLE_ALLOWLIST in scripts/ingest/
+// legistar.mjs) — only genuinely distinguishing titles (President, Vice-
+// President, Majority/Minority Leader, Chair, ...) render inline.
+const GENERIC_MEMBER_TITLES = new Set(["Council Member", "Councilmember", "Commissioner", "Board Member"]);
 
 // Keyed by the same city/county display strings RepProperties already
-// carries (rep.city / rep.county) — see NEXT_MEETING_TEASERS's two call
-// sites below. Only jurisdictions with a real wired Legistar feed appear
-// here (src/lib/meetingsRegistry.ts's MEETINGS_JURISDICTIONS); every other
+// carries (rep.city / rep.county) — see MEETINGS_THIS_WEEK's two call
+// sites below. Only jurisdictions with a real wired feed appear here
+// (src/lib/meetingsRegistry.ts's MEETINGS_JURISDICTIONS); every other
 // city/county keeps rendering the existing honest "no feed" copy.
-const NEXT_MEETING_TEASERS: Partial<Record<string, NextMeetingTeaser | null>> = {
-  "St. Paul": (stpaulNextMeeting as { nextMeeting: NextMeetingTeaser | null }).nextMeeting,
-  Hennepin: (hennepinmnNextMeeting as { nextMeeting: NextMeetingTeaser | null }).nextMeeting,
-  Minneapolis: (minneapolisNextMeeting as { nextMeeting: NextMeetingTeaser | null }).nextMeeting,
+const MEETINGS_THIS_WEEK: Partial<Record<string, WeekMeeting[]>> = {
+  "St. Paul": (stpaulMeetingsThisWeek as { meetingsThisWeek: WeekMeeting[] }).meetingsThisWeek,
+  Hennepin: (hennepinmnMeetingsThisWeek as { meetingsThisWeek: WeekMeeting[] }).meetingsThisWeek,
+  Minneapolis: (minneapolisMeetingsThisWeek as { meetingsThisWeek: WeekMeeting[] }).meetingsThisWeek,
 };
 
+// Weekday included (not just "Aug 12") — this list spans up to 7 days
+// across every body a resident might not track by heart, so "which day
+// of the week is that" is a real question a bare month/day leaves
+// unanswered, unlike a single "next meeting" pick where today's context
+// made the weekday obvious.
 function formatTeaserDate(iso: string): string {
-  return new Date(`${iso}T00:00:00Z`).toLocaleDateString("en-US", { month: "short", day: "numeric", timeZone: "UTC" });
+  return new Date(`${iso}T00:00:00Z`).toLocaleDateString("en-US", {
+    weekday: "short",
+    month: "short",
+    day: "numeric",
+    timeZone: "UTC",
+  });
 }
 
-// One-line "next meeting" teaser (issue #58, AGENTS.md §0.6 "every record
-// ends in an action") — always links to /meetings for the full agenda
-// browser rather than rendering any agenda content itself.
-function NextMeetingTeaserLine({ teaser }: { teaser: NextMeetingTeaser | null | undefined }) {
-  if (!teaser || !teaser.date) return null;
+// This week's meetings (any body), issue #58/#102 — AGENTS.md §0.6
+// "every record ends in an action": a resident needs to know *what* is
+// meeting and *where*, not just when. Each meeting is its own card
+// (bg-panel-2, a level up from WardModal's own .well surface, per
+// globals.css's "raised content surfaces: cards, dropdowns" — visually
+// distinct from its neighbors without introducing a new surface token)
+// rather than plain stacked rows, since this list can run to several
+// same-week entries across very different bodies (a Council meeting next
+// to a food council next to a budget address) that read as one
+// undifferentiated block otherwise. No fixed widths/truncation anywhere
+// — WardModal itself is a narrow sheet on mobile (useSheetSnapDrag), so
+// long body/location names wrap rather than overflow or clip.
+//
+// Location is only shown when the upstream feed actually has one —
+// Legistar (St. Paul/Hennepin) does; LIMS's meetingCalendar endpoint
+// doesn't return a location field at all (confirmed live against the
+// real API), so Minneapolis cards never show a location line yet — a
+// real API gap being chased separately, not a rendering bug. Cancellation
+// (isCancelled) is real for Minneapolis and always false for St. Paul/
+// Hennepin (Legistar has no equivalent concept in the live data checked).
+// Membership (members), unlike the other two, is real for *every* wired
+// jurisdiction — LIMS via meetingCalendar's own MembersList, Legistar via
+// a roster cross-reference (see meetingsRegistry.ts's Meeting.members
+// comment) — so it's the one field here not vendor-gated. Always links
+// out to /meetings for the full agenda browser rather than rendering any
+// agenda content itself.
+function MeetingsThisWeekList({ meetings }: { meetings: WeekMeeting[] | undefined }) {
+  if (!meetings) return null;
+  if (meetings.length === 0) {
+    return <p className="mt-1.5 text-sm text-ink-3">No meetings scheduled this week.</p>;
+  }
   return (
-    <p className="mt-1.5 text-sm">
-      Next {teaser.isPrimaryBody ? "meeting" : `meeting (${teaser.bodyName ?? "a related body"})`}:{" "}
-      <span className="font-medium text-ink-2">
-        {formatTeaserDate(teaser.date)}
-        {teaser.time ? `, ${teaser.time}` : ""}
-      </span>{" "}
-      —{" "}
-      <a href="/meetings" className="text-accent underline underline-offset-2">
-        see the full agenda
+    <>
+      <ul className="mt-1.5 space-y-2">
+        {meetings.map((meeting, index) => (
+          <li
+            key={`${meeting.bodyName ?? "meeting"}-${meeting.date ?? ""}-${meeting.time ?? index}`}
+            className="rounded-lg border border-hair-strong bg-panel-2 p-3 text-sm"
+          >
+            <div className="flex flex-wrap items-start justify-between gap-2">
+              <p className="font-medium text-ink-2 wrap-break-word">{meeting.bodyName ?? "Meeting"}</p>
+              {meeting.isCancelled && (
+                <span
+                  className="shrink-0 rounded-full px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide"
+                  style={{ color: STALE_COLOR, backgroundColor: STALE_COLOR_SOFT }}
+                >
+                  Cancelled
+                </span>
+              )}
+            </div>
+            {meeting.date && (
+              <p className="mt-0.5 text-ink-3">
+                {formatTeaserDate(meeting.date)}
+                {meeting.time ? ` — ${formatMeetingTime(meeting.time)}` : ""}
+              </p>
+            )}
+            {meeting.location && <p className="mt-0.5 text-xs text-ink-4 wrap-break-word">{meeting.location}</p>}
+            {meeting.members && meeting.members.length > 0 && (
+              <p className="mt-1 text-xs text-ink-4 wrap-break-word">
+                <span className="font-medium text-ink-3">Members:</span>{" "}
+                {meeting.members
+                  .map((m) => (m.type && !GENERIC_MEMBER_TITLES.has(m.type) ? `${m.name} (${m.type})` : m.name))
+                  .join(", ")}
+              </p>
+            )}
+          </li>
+        ))}
+      </ul>
+      <a href="/meetings" className="mt-2 inline-block text-sm text-accent underline underline-offset-2">
+        See the full agenda
       </a>
-      .
-    </p>
+    </>
   );
 }
 
@@ -213,6 +315,39 @@ const CITY_MEETINGS_URL: Partial<Record<string, string>> = {
   "Coon Rapids": "https://www.coonrapidsmn.gov/572/Agendas-Minutes",
 };
 
+// Verified official Facebook accounts, keyed per Minneapolis ward — not
+// per-official name, since these are ward-office accounts (survive a
+// change in who holds the seat, same as CITY_MEETINGS_URL above being
+// keyed by city, not by mayor). Confirmed live against all 13 wards' own
+// official bio pages on minneapolismn.gov (each links to its own
+// facebook.com/MinneapolisWard{N}) — Tier 1, the city's own site vouching
+// for the account, not a guess at which page belongs to whom. This is
+// intentionally the *office* account, not any individual councilmember's
+// own personal-but-public page (AGENTS.md §1b keeps a hard line on
+// personal social accounts; a city-run ward account sits squarely on the
+// §1a "official contact information as published by the office" side of
+// that line instead). Ramsey County's own board-of-commissioners pages
+// were checked the same way (all 7 commissioners) and link to none — no
+// entry for Ramsey here, an honest gap rather than a guess. St. Paul
+// isn't covered yet either: individual members' own accounts there would
+// need the same per-person human verification this table's Minneapolis
+// entries got from the city's own site, which nothing has supplied yet.
+const MINNEAPOLIS_WARD_FACEBOOK_URL: Partial<Record<number, string>> = {
+  1: "https://www.facebook.com/MinneapolisWard1",
+  2: "https://www.facebook.com/MinneapolisWard2",
+  3: "https://www.facebook.com/MinneapolisWard3",
+  4: "https://www.facebook.com/MinneapolisWard4",
+  5: "https://www.facebook.com/MinneapolisWard5",
+  6: "https://www.facebook.com/MinneapolisWard6",
+  7: "https://www.facebook.com/MinneapolisWard7",
+  8: "https://www.facebook.com/MinneapolisWard8",
+  9: "https://www.facebook.com/MinneapolisWard9",
+  10: "https://www.facebook.com/MinneapolisWard10",
+  11: "https://www.facebook.com/MinneapolisWard11",
+  12: "https://www.facebook.com/MinneapolisWard12",
+  13: "https://www.facebook.com/MinneapolisWard13",
+};
+
 // Every covered city's general official government homepage — a lower,
 // honestly-labeled fallback tier under CITY_MEETINGS_URL above: when this
 // app hasn't (yet) pinned down a city's specific meetings/agenda sub-page,
@@ -275,7 +410,7 @@ const CITY_OFFICIAL_WEBSITE_URL: Partial<Record<string, string>> = {
 // the chamber's own calendar), keyed by rep.chamber rather than rep.city.
 // Neither chamber has a wired Legistar-style feed the way St. Paul/
 // Hennepin do, so this always falls through to the plain-link branch, not
-// the NextMeetingTeaserLine one — there is no NEXT_MEETING_TEASERS entry
+// the MeetingsThisWeekList one — there is no MEETINGS_THIS_WEEK entry
 // for "house"/"senate" and none should be added until a real feed exists.
 const STATE_CHAMBER_MEETINGS_URL: Record<"house" | "senate", string> = {
   house: "https://www.house.mn.gov/schedules/dayonfloor",
@@ -642,52 +777,75 @@ function OfficialCard({ rep }: { rep: RepProperties }) {
           ("every record ends in an action"), how to reach this person has
           to survive collapsing the card down to its shortest state, not
           live inside the "more detail" a resident might never open. */}
-      {(rep.repEmail || rep.repPhone || rep.officeRoom) && (
-        <div className="px-4 pb-3 space-y-2">
-          {(rep.repEmail || rep.repPhone) && (
-            <div className="flex items-center gap-2">
-              {rep.repEmail && (
-                <a
-                  href={`mailto:${rep.repEmail}`}
-                  // hover:bg-sidebar-hover, not hover:bg-hover: this chip is
-                  // one of the sidebar's own interactive rows (this card
-                  // renders inside WardMap's right `<aside>` in the
-                  // "sidebar" variant) — see --sidebar-hover's comment in
-                  // globals.css for why the generic token barely shows.
-                  className="flex items-center gap-1.5 text-xs font-medium text-ink-2 border border-hair rounded-full px-3 py-1.5 hover:bg-sidebar-hover active:bg-hair-strong"
-                >
-                  <IconMail />
-                  Email
-                </a>
+      {(() => {
+        const facebookUrl = rep.city === "Minneapolis" && rep.ward != null ? MINNEAPOLIS_WARD_FACEBOOK_URL[rep.ward] : undefined;
+        return (
+          (rep.repEmail || rep.repPhone || rep.officeRoom || facebookUrl) && (
+            <div className="px-4 pb-3 space-y-2">
+              {(rep.repEmail || rep.repPhone || facebookUrl) && (
+                <div className="flex flex-wrap items-center gap-2">
+                  {rep.repEmail && (
+                    <a
+                      href={`mailto:${rep.repEmail}`}
+                      // hover:bg-sidebar-hover, not hover:bg-hover: this chip is
+                      // one of the sidebar's own interactive rows (this card
+                      // renders inside WardMap's right `<aside>` in the
+                      // "sidebar" variant) — see --sidebar-hover's comment in
+                      // globals.css for why the generic token barely shows.
+                      className="flex items-center gap-1.5 text-xs font-medium text-ink-2 border border-hair rounded-full px-3 py-1.5 hover:bg-sidebar-hover active:bg-hair-strong"
+                    >
+                      <IconMail />
+                      Email
+                    </a>
+                  )}
+                  {rep.repPhone && (
+                    <a
+                      href={`tel:${rep.repPhone.replace(/[^\d+]/g, "")}`}
+                      className="flex items-center gap-1.5 text-xs font-medium text-ink-2 border border-hair rounded-full px-3 py-1.5 hover:bg-sidebar-hover active:bg-hair-strong"
+                    >
+                      <IconPhone />
+                      {rep.repPhone}
+                    </a>
+                  )}
+                  {facebookUrl && (
+                    // Ward-office account, not the individual's own
+                    // personal-but-public page — see
+                    // MINNEAPOLIS_WARD_FACEBOOK_URL's own comment on why
+                    // that distinction matters here (AGENTS.md §1b vs
+                    // §1a). "Verified" means confirmed live against the
+                    // city's own official bio page for this ward, not a
+                    // guess at which account belongs to whom.
+                    <a
+                      href={facebookUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-1.5 text-xs font-medium text-ink-2 border border-hair rounded-full px-3 py-1.5 hover:bg-sidebar-hover active:bg-hair-strong"
+                    >
+                      <IconExternal />
+                      Verified Facebook Page
+                    </a>
+                  )}
+                </div>
               )}
-              {rep.repPhone && (
-                <a
-                  href={`tel:${rep.repPhone.replace(/[^\d+]/g, "")}`}
-                  className="flex items-center gap-1.5 text-xs font-medium text-ink-2 border border-hair rounded-full px-3 py-1.5 hover:bg-sidebar-hover active:bg-hair-strong"
-                >
-                  <IconPhone />
-                  {rep.repPhone}
-                </a>
+              {/* Office address now lives with Email/Phone — all three are the
+                  same "how do I reach this person" action (AGENTS.md §0.6) —
+                  rather than in its own section down past committees/votes/
+                  meetings, where it used to sit alongside neighborhoods (a
+                  different kind of fact entirely: what the seat covers, not
+                  how to contact it). Neighborhoods keeps its own section below,
+                  unchanged. */}
+              {rep.officeRoom && (
+                <div className="flex items-start gap-1.5 text-xs text-ink-3">
+                  <span className="mt-0.5">
+                    <IconBuilding />
+                  </span>
+                  <span>{rep.officeRoom}</span>
+                </div>
               )}
             </div>
-          )}
-          {/* Office address now lives with Email/Phone — all three are the
-              same "how do I reach this person" action (AGENTS.md §0.6) —
-              rather than in its own section down past committees/votes/
-              meetings, where it used to sit alongside neighborhoods (a
-              different kind of fact entirely: what the seat covers, not
-              how to contact it). Neighborhoods keeps its own section below,
-              unchanged. */}
-          {rep.officeRoom && (
-            <div className="flex items-start gap-1.5 text-xs text-ink-3">
-              <span className="mt-0.5">
-                <IconBuilding />
-              </span>
-              <span>{rep.officeRoom}</span>
-            </div>
-          )}
-        </div>
-      )}
+          )
+        );
+      })()}
 
       {/* Everything below — contested-race candidates, committees, party
           unity, recent votes, meetings, office/profile links — used to
@@ -838,7 +996,7 @@ function OfficialCard({ rep }: { rep: RepProperties }) {
             feed relabeled as real.
 
             Lives on the Mayor's card only, not every Council Member's —
-            NEXT_MEETING_TEASERS/CITY_MEETINGS_URL are keyed by rep.city,
+            MEETINGS_THIS_WEEK/CITY_MEETINGS_URL are keyed by rep.city,
             never by ward or member, because a city council has exactly
             one meeting calendar. This used to gate on isWard instead
             (every ward Council Member got an identical copy, the Mayor
@@ -869,11 +1027,11 @@ function OfficialCard({ rep }: { rep: RepProperties }) {
               {/* St. Paul (issue #58) and Minneapolis (issue #102) have a
                   real wired feed now (Legistar and LIMS respectively) —
                   every other city in CITY_MEETINGS_URL still gets the honest
-                  "no feed connected" copy below; NEXT_MEETING_TEASERS only
+                  "no feed connected" copy below; MEETINGS_THIS_WEEK only
                   has an entry for jurisdictions meetingsRegistry.ts actually
                   lists. */}
-              {NEXT_MEETING_TEASERS[rep.city] !== undefined ? (
-                <NextMeetingTeaserLine teaser={NEXT_MEETING_TEASERS[rep.city]} />
+              {MEETINGS_THIS_WEEK[rep.city] !== undefined ? (
+                <MeetingsThisWeekList meetings={MEETINGS_THIS_WEEK[rep.city]} />
               ) : (
                 <p className="text-sm text-ink-3">No meetings feed connected yet for {rep.city}.</p>
               )}
@@ -919,7 +1077,7 @@ function OfficialCard({ rep }: { rep: RepProperties }) {
             commissioner card with nothing to show for a county
             meetingsRegistry.ts doesn't cover just renders nothing, same
             as this card did for every county before this feed existed. */}
-        {!isWard && rep.county && NEXT_MEETING_TEASERS[rep.county] && (
+        {!isWard && rep.county && MEETINGS_THIS_WEEK[rep.county] && (
           <details className="group border-t border-hair">
             <summary className="flex list-none items-center justify-between gap-2 px-4 py-3 cursor-pointer select-none hover:bg-sidebar-hover [&::-webkit-details-marker]:hidden">
               <span className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-ink-3">
@@ -929,7 +1087,7 @@ function OfficialCard({ rep }: { rep: RepProperties }) {
               <IconChevron />
             </summary>
             <div className="px-4 pb-3">
-              <NextMeetingTeaserLine teaser={NEXT_MEETING_TEASERS[rep.county]} />
+              <MeetingsThisWeekList meetings={MEETINGS_THIS_WEEK[rep.county]} />
             </div>
           </details>
         )}
@@ -937,7 +1095,7 @@ function OfficialCard({ rep }: { rep: RepProperties }) {
         {/* State-chamber equivalent of the City/County Meetings blocks
             above (issue: state cards had no Meetings section at all,
             unlike City/County). Same honest-link pattern as the City
-            block — always renders, no NextMeetingTeaserLine branch, since
+            block — always renders, no MeetingsThisWeekList branch, since
             neither chamber has a wired feed the way St. Paul/Hennepin do
             (see STATE_CHAMBER_MEETINGS_URL's own comment). */}
         {rep.chamber !== null && (
