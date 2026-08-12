@@ -36,11 +36,13 @@ import { readStored, writeStored } from "@/lib/storage";
 import { focusRingClass, rowHoverClass, touchTargetClass } from "@/lib/variantClasses";
 import { deriveParticipationBoundaries, type ParticipationCityProperties, type TurnoutCityRecord } from "@/lib/turnoutJoin";
 import { turnoutStepColorExpression, BELOW_THRESHOLD_COLOR, NO_MATCH_COLOR, TOWNSHIP_UNORG_BASE_COLOR } from "@/lib/turnoutColors";
+import { resolveYearDataPath, type TurnoutManifestYear } from "@/lib/turnoutYears";
 import AreaFilterList from "./AreaFilterList";
 import MapThemeSelector from "./MapThemeSelector";
 import MobileSheet from "./MobileSheet";
 import ParticipationLegend from "./ParticipationLegend";
 import ParticipationRecordList from "./ParticipationRecordList";
+import TurnoutYearSlider from "./TurnoutYearSlider";
 import WardModal, { areaLabel, roleLabel } from "./WardModal";
 
 // Mobile-only icon for the Filters trigger (see #map-corner-controls below)
@@ -1107,13 +1109,21 @@ interface SecondaryCivicData {
   turnoutDenominatorNote: string;
   turnoutKnownGaps: string[];
   turnoutActiveYear: TurnoutActiveYear | null;
+  // Every entry in manifest.json's own `years[]` array, in the order the
+  // manifest lists them (oldest-to-newest, per scripts/ingest/turnout.mjs's
+  // own convention) — the full set the year slider below renders as
+  // discrete stops. Today this is exactly one entry (2024); it grows the
+  // moment a future ingest run adds more, with no code change required
+  // here (see TurnoutYearSlider.tsx's own header).
+  turnoutYears: TurnoutManifestYear[];
 }
 
 // The election year/type currently driving the participation choropleth —
 // always read from public/turnout/manifest.json's own `years` array
-// (fetchTurnoutData below), never hardcoded, so this stays correct once a
-// future ingest run adds a second year and a multi-year slider (a
-// separate, already-planned follow-up PR) lets a resident pick among them.
+// (fetchTurnoutData below), never hardcoded. Kept as its own type
+// (distinct from TurnoutManifestYear, which also carries `dataPath`)
+// since most readers of "the active year" — the mode label, the legend
+// heading — only ever need year/electionType, not the data file path.
 interface TurnoutActiveYear {
   year: string;
   electionType: string;
@@ -1192,6 +1202,7 @@ const EMPTY_TURNOUT_STATE = {
   turnoutDenominatorNote: "",
   turnoutKnownGaps: [] as string[],
   turnoutActiveYear: null as TurnoutActiveYear | null,
+  turnoutYears: [] as TurnoutManifestYear[],
 };
 
 // Reads public/turnout/manifest.json to find the most recent year's data
@@ -1208,6 +1219,7 @@ async function fetchTurnoutData(): Promise<{
   turnoutDenominatorNote: string;
   turnoutKnownGaps: string[];
   turnoutActiveYear: TurnoutActiveYear | null;
+  turnoutYears: TurnoutManifestYear[];
 }> {
   try {
     const [manifestRes, townshipUnorgRes] = await Promise.all([
@@ -1215,7 +1227,14 @@ async function fetchTurnoutData(): Promise<{
       fetch(dataUrl("township-unorg-boundaries.geojson")),
     ]);
     const [manifest, townshipUnorgBoundaries] = await Promise.all([manifestRes.json(), townshipUnorgRes.json()]);
-    const years: { year: string; electionType: string; dataPath: string }[] = manifest.years ?? [];
+    const years: TurnoutManifestYear[] = manifest.years ?? [];
+    // Initial paint always loads the most recent year — the *last* entry
+    // in manifest.json's own `years` array (that file's own ordering
+    // convention, oldest-to-newest), never a hardcoded "2024". Once
+    // loaded, a resident can move the slider (TurnoutYearSlider.tsx,
+    // WardMap.tsx's switchTurnoutYear) to any other year the manifest
+    // lists, which re-fetches that year's own city data file on demand
+    // rather than this function eagerly fetching all of them up front.
     const latestYear = years[years.length - 1];
     if (!latestYear) return { ...EMPTY_TURNOUT_STATE, townshipUnorgBoundaries };
     const cityDataRes = await fetch(dataUrl(latestYear.dataPath.replace(/^\//, "")));
@@ -1225,12 +1244,8 @@ async function fetchTurnoutData(): Promise<{
       turnoutCities: cityData.cities ?? [],
       turnoutDenominatorNote: manifest.denominatorMethodologyNote ?? "",
       turnoutKnownGaps: cityData.knownGaps ?? [],
-      // Forward-compatible with a future multi-year slider (a separate,
-      // already-planned follow-up PR): always the *last* entry in
-      // manifest.json's own `years` array — never a hardcoded "2024" —
-      // so the displayed year tracks whichever year is currently active
-      // without a code change here once a second year is ingested.
       turnoutActiveYear: { year: latestYear.year, electionType: latestYear.electionType ?? "" },
+      turnoutYears: years,
     };
   } catch (err) {
     console.error("[WardMap] failed to load turnout data", err);
@@ -1583,6 +1598,19 @@ export default function WardMap() {
   // header) reads from this single piece of state rather than each
   // re-deriving or hardcoding "2024" independently.
   const [turnoutActiveYear, setTurnoutActiveYear] = useState<TurnoutActiveYear | null>(null);
+  // Every year the slider can move to (TurnoutYearSlider.tsx) — the full
+  // manifest.json `years[]` list, set once at initial secondary-data load
+  // and never mutated afterward (switching years only changes
+  // turnoutActiveYear/participationCities, never this list itself).
+  const [turnoutYears, setTurnoutYears] = useState<TurnoutManifestYear[]>([]);
+  // True only while a slider-triggered year switch's own city-data fetch
+  // is in flight (task requirement 6's loading indicator) — distinct from
+  // secondaryDataPending, which covers the *initial* commissioners/
+  // state-legislature/participation load and has already settled by the
+  // time a resident can touch the slider at all (the slider only renders
+  // once turnoutYears has more than one entry, which requires that first
+  // load to have finished).
+  const [turnoutYearLoading, setTurnoutYearLoading] = useState(false);
   // The in-flight/settled fetchPrimaryCivicData() call — a ref (not
   // state) because the map-setup effect below needs to `await` this
   // exact promise instance rather than re-fetch, and refs (unlike state)
@@ -1912,6 +1940,7 @@ export default function WardMap() {
         setParticipationCities(participationDataRef.current.features.map((f) => f.properties));
         setTurnoutDenominatorNote(secondary.turnoutDenominatorNote);
         setTurnoutActiveYear(secondary.turnoutActiveYear);
+        setTurnoutYears(secondary.turnoutYears);
         const commissionersBounds = boundsFromFeatureCollection(secondary.commissioners);
         const stateLegBounds = boundsFromFeatureCollection(secondary.stateLeg);
         if (!commissionersBounds.isEmpty()) commissionersBoundsRef.current = commissionersBounds;
@@ -2544,6 +2573,59 @@ export default function WardMap() {
       }
     }
     setAnnouncement(summarizeParticipation(city));
+  };
+
+  // TurnoutYearSlider's onChangeYear — moves the participation choropleth
+  // to a different election year already listed in manifest.json's own
+  // `years[]` (turnoutYears state). Re-fetches only that one year's city
+  // data file (never the whole manifest again) and re-runs the exact same
+  // join (deriveParticipationBoundaries, src/lib/turnoutJoin.ts) the
+  // initial load used, against the SAME city-boundaries polygons already
+  // in cityBoundariesDataRef — task requirement 4: township/unorganized-
+  // territory geometry is year-invariant, so this never touches
+  // TOWNSHIP_UNORG_SOURCE_ID, and city-boundaries.geojson itself (the
+  // polygon shapes) isn't re-fetched either, only re-joined against new
+  // turnout figures.
+  //
+  // `year` is always a real manifest entry — TurnoutYearSlider only ever
+  // calls this with a `years[i].year` it read directly off the same
+  // `years` array passed in as a prop, never free-typed input — but
+  // resolveYearDataPath still returns null defensively rather than
+  // guessing a path if it somehow isn't (a stale closure, an empty
+  // `years`), and this bails out rather than fetching a constructed URL.
+  const switchTurnoutYear = (year: string) => {
+    if (turnoutYearLoading) return; // one in-flight year switch at a time
+    if (turnoutActiveYear?.year === year) return; // already showing this year
+    const dataPath = resolveYearDataPath(turnoutYears, year);
+    const cityBoundaries = cityBoundariesDataRef.current;
+    const entry = turnoutYears.find((y) => y.year === year);
+    if (!dataPath || !cityBoundaries || !entry) return;
+
+    setTurnoutYearLoading(true);
+    fetch(dataUrl(dataPath.replace(/^\//, "")))
+      .then((res) => res.json())
+      .then((cityData: { cities?: TurnoutCityRecord[]; knownGaps?: string[] }) => {
+        const turnoutCities = cityData.cities ?? [];
+        participationDataRef.current = deriveParticipationBoundaries(cityBoundaries, turnoutCities);
+        setParticipationCities(participationDataRef.current.features.map((f) => f.properties));
+        setTurnoutActiveYear({ year: entry.year, electionType: entry.electionType ?? "" });
+        const map = mapRef.current;
+        (map?.getSource(PARTICIPATION_SOURCE_ID) as maplibregl.GeoJSONSource | undefined)?.setData(
+          participationDataRef.current as unknown as FeatureCollection,
+        );
+        // A pinned/hovered participationPanel is holding the PREVIOUS
+        // year's own ballotsCast/turnout figures for whichever city it
+        // names — leaving it open would silently show stale numbers
+        // under the new year's heading. Closed rather than
+        // re-resolved: re-deriving it would need the same city's new-year
+        // feature and re-run the same x/y placement logic the map click/
+        // hover handlers own, for a panel the resident can simply reopen.
+        setParticipationPanel(null);
+      })
+      .catch((err) => {
+        console.error("[WardMap] failed to load turnout year", year, err);
+      })
+      .finally(() => setTurnoutYearLoading(false));
   };
 
   // Ensures wards mode is showing and the target city is visible before
@@ -4553,6 +4635,13 @@ export default function WardMap() {
           <ChamberToggleButtons visibleChambers={visibleChambers} variant="floating" onToggleChamber={toggleChamber} />
         ) : layerMode === "participation" ? (
           <>
+            <TurnoutYearSlider
+              variant="floating"
+              years={turnoutYears}
+              activeYear={turnoutActiveYear?.year ?? null}
+              loading={turnoutYearLoading}
+              onChangeYear={switchTurnoutYear}
+            />
             <ParticipationLegend
               variant="floating"
               electionHeading={formatElectionHeading(turnoutActiveYear)}
@@ -4653,6 +4742,13 @@ export default function WardMap() {
           <ChamberToggleButtons visibleChambers={visibleChambers} variant="sidebar" onToggleChamber={toggleChamber} />
         ) : layerMode === "participation" ? (
           <>
+            <TurnoutYearSlider
+              variant="sidebar"
+              years={turnoutYears}
+              activeYear={turnoutActiveYear?.year ?? null}
+              loading={turnoutYearLoading}
+              onChangeYear={switchTurnoutYear}
+            />
             <ParticipationLegend
               variant="sidebar"
               electionHeading={formatElectionHeading(turnoutActiveYear)}
