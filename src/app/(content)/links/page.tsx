@@ -69,9 +69,9 @@ export default function LinksPage() {
           </div>
 
           <h1 className="mb-4 text-[34px] leading-[0.98] font-black tracking-tight text-[#eef2ef] sm:text-[44px] md:text-[48px]">
-            the frog would jump.
+            real frogs jump.
             <br />
-            would we?
+            so should we.
           </h1>
 
           <p className="mb-5 font-mono text-[12px] tracking-[0.06em] text-[#e8672a] sm:text-[13px]">
