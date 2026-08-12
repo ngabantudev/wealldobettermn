@@ -21,15 +21,17 @@ import {
 import { isStale } from "@/lib/electionConfig";
 // Tiny (few-hundred-byte) bundler-resolved JSON imports — not the full
 // {client}-meetings.json feed src/app/meetings/page.tsx reads, which runs
-// into the hundreds of KB across both clients' meetings+agendaItems. This
-// component ships to every visitor on every hover/click, so it only ever
-// carries the one soonest-meeting summary scripts/ingest/legistar.mjs's
-// writeNextMeetingTeaser() produces (AGENTS.md §0.7's 3G/old-phone
-// budget) — full browsing lives at /meetings, linked below, never
-// duplicated here (issue #58: "teaser only, not a duplicate of the full
-// view").
+// into the hundreds of KB across all three clients' meetings+agendaItems.
+// This component ships to every visitor on every hover/click, so it only
+// ever carries the one soonest-meeting summary scripts/ingest/legistar.mjs
+// (St. Paul/Hennepin) and scripts/ingest/lims-minneapolis.mjs
+// (Minneapolis) each write their own writeNextMeetingTeaser() equivalent
+// for (AGENTS.md §0.7's 3G/old-phone budget) — full browsing lives at
+// /meetings, linked below, never duplicated here (issue #58: "teaser
+// only, not a duplicate of the full view").
 import stpaulNextMeeting from "../../public/legistar/stpaul-next-meeting.json";
 import hennepinmnNextMeeting from "../../public/legistar/hennepinmn-next-meeting.json";
+import minneapolisNextMeeting from "../../public/lims/minneapolis-next-meeting.json";
 
 interface NextMeetingTeaser {
   client: string;
@@ -50,6 +52,7 @@ interface NextMeetingTeaser {
 const NEXT_MEETING_TEASERS: Partial<Record<string, NextMeetingTeaser | null>> = {
   "St. Paul": (stpaulNextMeeting as { nextMeeting: NextMeetingTeaser | null }).nextMeeting,
   Hennepin: (hennepinmnNextMeeting as { nextMeeting: NextMeetingTeaser | null }).nextMeeting,
+  Minneapolis: (minneapolisNextMeeting as { nextMeeting: NextMeetingTeaser | null }).nextMeeting,
 };
 
 function formatTeaserDate(iso: string): string {
@@ -863,7 +866,8 @@ function OfficialCard({ rep }: { rep: RepProperties }) {
               <IconChevron />
             </summary>
             <div className="px-4 pb-3">
-              {/* St. Paul (issue #58) has a real wired Legistar feed now —
+              {/* St. Paul (issue #58) and Minneapolis (issue #102) have a
+                  real wired feed now (Legistar and LIMS respectively) —
                   every other city in CITY_MEETINGS_URL still gets the honest
                   "no feed connected" copy below; NEXT_MEETING_TEASERS only
                   has an entry for jurisdictions meetingsRegistry.ts actually

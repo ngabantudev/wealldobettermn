@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { BILLS_COVERAGE_NOTE, BILLS_INGEST_STATUS } from "@/lib/billsRegistry";
 import { LEGISTAR_JURISDICTIONS, type LegistarFullIngestFeed } from "@/lib/legistarJurisdictions";
-import { MEETINGS_JURISDICTIONS, UNWIRED_MEETINGS_JURISDICTIONS, type MeetingsFeed } from "@/lib/meetingsRegistry";
+import { MEETINGS_JURISDICTIONS, type MeetingsFeed } from "@/lib/meetingsRegistry";
 import { MINNEAPOLIS_MEETINGS_VOTES_LAYER } from "@/lib/layers";
 import type { Bill, VoteEvent as BillVoteEvent } from "@/lib/types";
 // Bundler-resolved static JSON imports, not readFileSync — see
@@ -18,6 +18,7 @@ import stpaulVotesData from "../../../../public/legistar/stpaul.json";
 import hennepinmnVotesData from "../../../../public/legistar/hennepinmn.json";
 import stpaulMeetingsData from "../../../../public/legistar/stpaul-meetings.json";
 import hennepinmnMeetingsData from "../../../../public/legistar/hennepinmn-meetings.json";
+import minneapolisMeetingsData from "../../../../public/lims/minneapolis-meetings.json";
 
 // FEATURES.md has no ticket number for this page as of authorship — it
 // answers AGENTS.md's question 2 ("What do they vote for?") across every
@@ -37,8 +38,8 @@ import hennepinmnMeetingsData from "../../../../public/legistar/hennepinmn-meeti
 // meetingsRegistry.ts, layers.ts's MINNEAPOLIS_MEETINGS_VOTES_LAYER) — per
 // AGENTS.md §2.1's registry pattern, the underlying coverage facts
 // (BILLS_COVERAGE_NOTE, MEETINGS_COVERAGE_NOTE's constituent lists,
-// UNWIRED_MEETINGS_JURISDICTIONS, MINNEAPOLIS_MEETINGS_VOTES_LAYER's
-// knownGaps) are quoted from those single sources of truth rather than
+// MINNEAPOLIS_MEETINGS_VOTES_LAYER's coverage/knownGaps) are quoted from
+// those single sources of truth rather than
 // re-described by hand here, so this page can't drift from /bills or
 // /meetings about the same underlying gap.
 
@@ -52,9 +53,7 @@ const STPAUL_ENTRY = LEGISTAR_JURISDICTIONS.find((j) => j.client === "stpaul");
 const HENNEPIN_ENTRY = LEGISTAR_JURISDICTIONS.find((j) => j.client === "hennepinmn");
 const STPAUL_MEETINGS_ENTRY = MEETINGS_JURISDICTIONS.find((j) => j.client === "stpaul");
 const HENNEPIN_MEETINGS_ENTRY = MEETINGS_JURISDICTIONS.find((j) => j.client === "hennepinmn");
-const MINNEAPOLIS_UNWIRED_ENTRY = UNWIRED_MEETINGS_JURISDICTIONS.find(
-  (j) => j.jurisdiction === "Minneapolis City Council",
-);
+const MINNEAPOLIS_MEETINGS_ENTRY = MEETINGS_JURISDICTIONS.find((j) => j.client === "minneapolis");
 
 function loadBills(): Bill[] {
   // Same defensiveness as src/app/bills/page.tsx's loadBills(): an empty
@@ -358,33 +357,98 @@ function LegistarJurisdictionSection({
   );
 }
 
-function MinneapolisSection() {
+// Minneapolis's LIMS feed carries agenda-item-level pass/fail results
+// (passedFlagName) but not per-councilmember Holding/Vote data or a
+// consent-agenda flag the way the Legistar feeds do (see
+// MINNEAPOLIS_MEETINGS_VOTES_LAYER's knownGaps) — LegistarJurisdictionSection
+// above assumes both exist, so this is a purpose-built (not shared)
+// rendering rather than a mismatched reuse of that component.
+function MinneapolisSection({ meetingsFeed }: { meetingsFeed: MeetingsFeed | undefined }) {
+  const today = new Date().toISOString().slice(0, 10);
+  const recentActions = meetingsFeed
+    ? meetingsFeed.agendaItems
+        .filter((item) => item.passedFlagName)
+        .map((item) => ({ item, meeting: meetingsFeed.meetings.find((m) => m.id === item.meeting_id) ?? null }))
+        .filter((row) => row.meeting?.date && row.meeting.date < today)
+        .sort((a, b) => (b.meeting?.date ?? "").localeCompare(a.meeting?.date ?? ""))
+        .slice(0, 8)
+    : [];
+  const isLive = meetingsFeed?.status === "ingested" && recentActions.length > 0;
+
   return (
     <section aria-labelledby="recap-minneapolis" className="mt-10">
       <h2 id="recap-minneapolis" className="text-lg font-bold text-ink">
         Minneapolis City Council
       </h2>
-      <div role="status" className="well mt-3 space-y-2 rounded-xl border border-hair-strong p-4 text-sm text-ink-3">
-        <p className="font-medium text-ink-2">Not connected yet.</p>
-        {/* Quoted from UNWIRED_MEETINGS_JURISDICTIONS in meetingsRegistry.ts
-            (the same registry entry src/app/meetings/page.tsx renders) and
-            MINNEAPOLIS_MEETINGS_VOTES_LAYER in layers.ts, rather than a
-            third hand-written description of the same LIMS-API-key gap. */}
-        {MINNEAPOLIS_UNWIRED_ENTRY && <p>{MINNEAPOLIS_UNWIRED_ENTRY.reason}</p>}
-        <p>{MINNEAPOLIS_MEETINGS_VOTES_LAYER.description}</p>
-        <p>
-          See{" "}
-          <a
-            href={MINNEAPOLIS_UNWIRED_ENTRY?.calendarUrl ?? MINNEAPOLIS_MEETINGS_VOTES_LAYER.primarySourceUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-accent underline underline-offset-2"
-          >
-            Minneapolis&rsquo;s own LIMS council record
-          </a>{" "}
-          in the meantime.
-        </p>
-      </div>
+      <p className="mt-1 text-sm text-ink-3">{MINNEAPOLIS_MEETINGS_VOTES_LAYER.coverage}</p>
+
+      {!isLive ? (
+        <div role="status" className="well mt-3 space-y-2 rounded-xl border border-hair-strong p-4 text-sm text-ink-3">
+          <p className="font-medium text-ink-2">No recent agenda action on file right now.</p>
+          <p>
+            See{" "}
+            <a
+              href={MINNEAPOLIS_MEETINGS_ENTRY?.calendarUrl ?? MINNEAPOLIS_MEETINGS_VOTES_LAYER.primarySourceUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-accent underline underline-offset-2"
+            >
+              Minneapolis&rsquo;s own LIMS council record
+            </a>{" "}
+            in the meantime.
+          </p>
+        </div>
+      ) : (
+        <>
+          <div className="mt-3">
+            <h3 className="text-sm font-semibold uppercase tracking-wide text-ink-3">Recent agenda action</h3>
+            <p className="mt-1 text-xs text-ink-4">
+              Item-level result only — LIMS doesn&rsquo;t expose which councilmember voted which way the way Legistar does
+              for St. Paul and Hennepin County above, and has no consent-agenda flag equivalent (see coverage note).
+            </p>
+            <ul className="mt-2 space-y-2">
+              {recentActions.map(({ item, meeting }) => (
+                <li key={item.id} className="well rounded-xl border border-hair p-3 text-sm">
+                  <p className="text-ink-2">
+                    {item.matterFile ? <span className="font-medium">{item.matterFile}</span> : null}
+                    {item.matterFile ? " — " : ""}
+                    {item.title}
+                  </p>
+                  <p className="mt-0.5 text-xs text-ink-4">
+                    {item.passedFlagName} · {meeting?.date ? formatDate(meeting.date) : "date unknown"}
+                  </p>
+                  {meeting?.sourceUrl && (
+                    <a
+                      href={meeting.sourceUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mt-1 inline-block text-accent underline underline-offset-2"
+                    >
+                      Official meeting record
+                    </a>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {meetingsFeed && (
+            <p className="mt-3 text-xs text-ink-4">
+              Meeting/agenda data from {meetingsFeed.provenance.sourceAgency} via the LIMS API, fetched{" "}
+              {meetingsFeed.provenance.fetchedAt ?? "unknown time"}. See{" "}
+              <a
+                href={meetingsFeed.provenance.primarySourceUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline underline-offset-2"
+              >
+                the raw feed
+              </a>
+              .
+            </p>
+          )}
+        </>
+      )}
     </section>
   );
 }
@@ -420,6 +484,7 @@ export default function RecapPage() {
   const hennepinVotes = hennepinmnVotesData as LegistarFullIngestFeed;
   const stpaulMeetings = stpaulMeetingsData as MeetingsFeed;
   const hennepinMeetings = hennepinmnMeetingsData as MeetingsFeed;
+  const minneapolisMeetings = minneapolisMeetingsData as MeetingsFeed;
 
   return (
     <main className="mx-auto max-w-3xl px-4 py-10 sm:px-6">
@@ -448,7 +513,7 @@ export default function RecapPage() {
         votesCoverage={HENNEPIN_ENTRY?.coverage ?? ""}
       />
 
-      <MinneapolisSection />
+      <MinneapolisSection meetingsFeed={minneapolisMeetings} />
 
       <CongressSection />
     </main>

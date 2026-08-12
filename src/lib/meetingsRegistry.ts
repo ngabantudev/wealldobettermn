@@ -13,12 +13,12 @@
 // County Board (`hennepinmn`); Minneapolis has never had a working
 // Legistar client here (LESSONS.md's probe-legistar entry, and this repo's
 // own public/jurisdiction-platform-inventory.json, both show Minneapolis
-// as platform "unknown" — it runs a different vendor, LIMS/DataNet, itself
-// still blocked on API-key approval per scripts/ingest/lims-minneapolis.mjs
-// and LESSONS.md). This registry lists the two clients that actually have
-// a wired feed; every other jurisdiction (Minneapolis included) renders
-// through UNWIRED_MEETINGS_JURISDICTIONS below instead of being silently
-// left out of the page.
+// as platform "unknown" — it runs a different vendor, LIMS/DataNet). #102
+// wired Minneapolis's own feed via scripts/ingest/lims-minneapolis.mjs
+// instead — this registry now lists all three clients that have a wired
+// feed; every other jurisdiction renders through
+// UNWIRED_MEETINGS_JURISDICTIONS below instead of being silently left out
+// of the page.
 
 export interface MeetingsJurisdiction {
   // Legistar's own client path segment (webapi.legistar.com/v1/{client}) —
@@ -60,6 +60,19 @@ export const MEETINGS_JURISDICTIONS: readonly MeetingsJurisdiction[] = [
       "Every body Legistar returns for this client (the full Board and its standing committees), same rolling window and " +
       "consent-only flagging as St. Paul above.",
   },
+  {
+    client: "minneapolis",
+    jurisdiction: "Minneapolis City Council",
+    dataPath: "/lims/minneapolis-meetings.json",
+    calendarUrl: "https://lims.minneapolismn.gov/Calendar/all/upcoming",
+    coverage:
+      "Every body LIMS's meetingCalendar returns (Council, its committees and subcommittees, boards and commissions), " +
+      "same 14-days-back/90-days-ahead rolling window as St. Paul and Hennepin County. Two gaps vs. the Legistar feeds " +
+      "above, both explicit in this feed's own knownGaps on every run rather than silently absent: (1) no consent-agenda " +
+      "flagging — LIMS has no field equivalent to Legistar's EventItemConsent, so isConsent is always false here, not a " +
+      "guess; (2) no diff-on-refresh yet — roster/meeting changes between runs aren't surfaced the way the Legistar feeds " +
+      "do.",
+  },
 ] as const;
 
 // Bodies this page structurally cannot see a real feed for. Rendered as an
@@ -74,13 +87,6 @@ export interface UnwiredMeetingsJurisdiction {
 }
 
 export const UNWIRED_MEETINGS_JURISDICTIONS: readonly UnwiredMeetingsJurisdiction[] = [
-  {
-    jurisdiction: "Minneapolis City Council",
-    reason:
-      "Minneapolis runs a different meetings platform (LIMS/DataNet, not Legistar). scripts/ingest/lims-minneapolis.mjs " +
-      "is blocked pending an approved API key (LESSONS.md) — no meetings/agenda feed is connected for Minneapolis yet.",
-    calendarUrl: "https://lims.minneapolismn.gov/Calendar/all/upcoming",
-  },
   {
     jurisdiction: "Ramsey County Board",
     reason: "No Legistar (or other structured) feed identified for Ramsey County as of this writing.",
@@ -168,4 +174,10 @@ export interface MeetingsFeed {
 // Plain-language summary for coverage.ts's CoverageNotice (AGENTS.md §3.3)
 // — derived from the lists above rather than hand-typed a second time, so
 // this can't drift from what MEETINGS_JURISDICTIONS actually lists.
-export const MEETINGS_COVERAGE_NOTE = `Upcoming meetings and agendas are connected for ${MEETINGS_JURISDICTIONS.map((j) => j.jurisdiction).join(" and ")} only (a rolling 14-days-back/90-days-ahead window from Legistar). No meetings feed is connected for Minneapolis or any other mapped jurisdiction yet.`;
+function joinWithAnd(items: readonly string[]): string {
+  if (items.length <= 1) return items.join("");
+  if (items.length === 2) return items.join(" and ");
+  return `${items.slice(0, -1).join(", ")}, and ${items[items.length - 1]}`;
+}
+
+export const MEETINGS_COVERAGE_NOTE = `Upcoming meetings and agendas are connected for ${joinWithAnd(MEETINGS_JURISDICTIONS.map((j) => j.jurisdiction))} only (a rolling 14-days-back/90-days-ahead window). No meetings feed is connected for any other mapped jurisdiction yet.`;

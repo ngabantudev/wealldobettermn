@@ -1,12 +1,15 @@
 #!/usr/bin/env node
 // scripts/ingest/lims-minneapolis.mjs
 //
-// FEATURES.md Phase 3 — Minneapolis (LIMS API). Skeleton ingest for
-// lims.minneapolismn.gov's LIMS API v1: CouncilMembers, CouncilTerms,
-// MeetingBodies, voting records, and file items (agenda items), back to
-// 2014. This is the reference implementation for the canonical `Holding`
-// entity (src/lib/models.ts) — see that file's comment for the shape
-// this script's output is meant to map onto.
+// Minneapolis meetings/agenda ingest — LIMS API v1 (lims.minneapolismn.gov).
+// Issue #102: Minneapolis runs LIMS/DataNet, not Legistar, so it needs its
+// own ingest script rather than an extra client in scripts/ingest/
+// legistar.mjs. Writes public/lims/minneapolis-meetings.json in the same
+// MeetingsFeed shape src/lib/meetingsRegistry.ts declares (Meeting[] /
+// MeetingAgendaItem[]), so src/app/(content)/meetings/page.tsx can render
+// it exactly like the St. Paul and Hennepin County Legistar feeds — see
+// that file's own comment on why the import path has to be a literal
+// string kept in sync with MEETINGS_JURISDICTIONS by hand.
 //
 // Dependency-free by design (AGENTS.md §0.8): only Node built-ins and the
 // global `fetch` (Node 18+), no npm packages. Deterministic and
@@ -22,176 +25,381 @@
 // to get real data. It never crashes the build and never fabricates
 // council, meeting, term, or vote records to fill the gap.
 //
-// NOTE ON ENDPOINT SHAPE: exact base URL casing, auth header name, and
-// per-field response shape are not yet confirmed against live LIMS API
-// docs (no key has been registered as of this commit) — FEATURES.md's
-// Phase 3 excerpt names the endpoints below, not their full request/
-// response contract. Treat BASE_URL, the endpoint paths, and the request
-// helper's auth header as best-effort scaffolding to verify and correct
-// against the real API docs once a key exists, not as confirmed fact.
-// Nothing here is executed unless LIMS_API_KEY is set, so there is no
-// live behavior to get wrong yet.
+// CONFIRMED LIVE 2026-08-11 (first registered key, cross-checked against
+// LIMS's own published docs at lims.minneapolismn.gov/v2/api — that page
+// sits behind a Cloudflare managed JS challenge no scripted client can
+// solve, see LESSONS.md; a maintainer read it in a browser and pasted the
+// route list back). Base URL is lowercase `/api/v1` (FEATURES.md's
+// `/API/v1` 403s — looks like an auth failure, is actually routing). Auth
+// is a plain `Authorization: Bearer <key>` header, not an `api_key` query
+// param and not `Ocp-Apim-Subscription-Key`. See LESSONS.md's LIMS entry
+// for the full path-guessing history this superseded.
+//
+// Two endpoint families:
+//   - referenceList/* — GET, no request body. CouncilMembers, CouncilTerm
+//     (singular — CouncilTerms 404s), MeetingBodies, FileItemStatus,
+//     FileTypes.
+//   - search/* — POST, JSON request body, year-scoped. meetingCalendar
+//     (meetings by CalendarYear, 2017+), FileItemSearch (agenda items by
+//     CalendarYear, 2014+, each with embedded LegislativeHistory +
+//     VotingInformation), CouncilMemberVotingRecord (per-member, not used
+//     here — FileItemSearch's embedded voting info already covers what
+//     the meetings page needs without a second per-member fetch loop),
+//     OrdinancesIntroductions / LatestEnactedOrdinances (last-30-days,
+//     no year param — not used here; the meetings/agenda page needs the
+//     year-scoped feeds, not a rolling 30-day ordinance list).
+//
+// NOT IMPLEMENTED YET, left as known gaps rather than guessed at:
+//   - Consent-agenda flagging: LIMS's FileItemSearch response has no
+//     field structurally equivalent to Legistar's EventItemConsent. Every
+//     agenda item here ships isConsent: false rather than a guess — same
+//     honesty call St. Paul/Hennepin's own registry coverage note makes
+//     for "no discussion" / "no public comment" flags neither has either.
+//   - Diff-on-refresh (AGENTS.md §0.5): scripts/ingest/legistar.mjs's
+//     diffMeetings() is real engineering against a shape this script
+//     doesn't share closely enough to reuse directly. Follow-up, not
+//     silently skipped — flagged in knownGaps on every live run.
+//   - Per-member Holding/Vote resolution into the canonical models.ts
+//     shape (what buildVotesForWindow() does for Legistar): out of scope
+//     for the meetings/agenda page itself, which only needs Meeting[] and
+//     MeetingAgendaItem[].
 
-import { mkdir, writeFile } from "node:fs/promises";
+import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+// Shared with the Legistar ingest rather than reimplemented — both are
+// plain pure functions with no live-fetch side effects on import (see
+// legistar.mjs's own entry-point guard at the bottom of that file).
+import { slugify, addDays as addDaysToDate, selectNextMeeting as selectNextMeetingFor } from "./legistar.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const OUTPUT_PATH = path.join(__dirname, "../../public/minneapolis-meetings.json");
+const OUTPUT_DIR = path.join(__dirname, "../../public/lims");
+const OUTPUT_PATH = path.join(OUTPUT_DIR, "minneapolis-meetings.json");
+const NEXT_MEETING_PATH = path.join(OUTPUT_DIR, "minneapolis-next-meeting.json");
 
+// The full City Council (as opposed to a committee/subcommittee/board) —
+// mirrors legistar.mjs's primaryBodyName concept for selectNextMeeting()
+// below, and WardModal.tsx's NEXT_MEETING_TEASERS isPrimaryBody labeling.
+const PRIMARY_BODY_NAME = "City Council";
+
+const CLIENT = "minneapolis";
+const JURISDICTION = "Minneapolis City Council";
 const SOURCE_AGENCY = "City of Minneapolis, Office of the City Clerk";
 const PRIMARY_SOURCE_URL = "https://lims.minneapolismn.gov/";
 
-// TODO(verify): confirm exact base path/casing against LIMS API docs once
-// a key is registered — this is FEATURES.md's stated host, not a URL
-// this script has ever successfully called.
-const BASE_URL = "https://lims.minneapolismn.gov/API/v1";
+const BASE_URL = "https://lims.minneapolismn.gov/api/v1";
 
-// Endpoint paths exactly as named in FEATURES.md's Phase 3 excerpt.
 const ENDPOINTS = {
   councilMembers: "/referenceList/CouncilMembers",
-  councilTerms: "/referenceList/CouncilTerms",
+  councilTerm: "/referenceList/CouncilTerm",
   meetingBodies: "/referenceList/MeetingBodies",
   fileItemStatus: "/referenceList/FileItemStatus",
   fileTypes: "/referenceList/FileTypes",
-  ordinanceIntroductions: "/search/OrdinancesIntroductions",
-  latestEnactedOrdinances: "/search/LatestEnactedOrdinances",
-  // Voting records and file items are queried by year/term/body/member
-  // per FEATURES.md ("voting records by year/term back to 2014; file
-  // items (agenda items) from 2014 onward; meetings by body or by
-  // member") — parameterized below rather than a single fixed path.
-  votingRecordsByYear: (year) => `/votingRecords/${year}`,
-  fileItemsByYear: (year) => `/fileItems/${year}`,
-  meetingsByBody: (bodyId) => `/meetings/body/${bodyId}`,
-  meetingsByMember: (memberId) => `/meetings/member/${memberId}`,
+  meetingCalendar: "/search/meetingCalendar",
+  fileItemSearch: "/search/FileItemSearch",
 };
 
 // AGENTS.md §2.2 Good-Citizen Fetcher — descriptive User-Agent + contact.
 const USER_AGENT =
   "wealldobettermn-ingest/1.0 (+https://github.com/ngabantudev/wealldobettermn; civic transparency data pull, low volume, contact via repo issues)";
 
-const FIRST_YEAR_WITH_DATA = 2014;
+// Same rolling-window convention as scripts/ingest/legistar.mjs's
+// MEETINGS_LOOKBACK_DAYS/MEETINGS_LOOKAHEAD_DAYS — kept in sync by
+// comment, not by import, since the two scripts don't share a module.
+const LOOKBACK_DAYS = 14;
+const LOOKAHEAD_DAYS = 90;
+
+// meetingCalendar/FileItemSearch are scoped by whole calendar year, so a
+// day-precision window can straddle a year boundary (e.g. a lookback into
+// December from early January). Collects every year touched by the
+// window rather than assuming "this year" is enough.
+function yearsInWindow(windowStartIso, windowEndIso) {
+  const startYear = Number(windowStartIso.slice(0, 4));
+  const endYear = Number(windowEndIso.slice(0, 4));
+  const years = [];
+  for (let y = startYear; y <= endYear; y += 1) years.push(y);
+  return years;
+}
+
+// legistar.mjs's addDays() takes a Date, not an ISO string — this repo's
+// two ingest scripts' window math differs by that one input type.
+function addDays(dateIso, days) {
+  return addDaysToDate(new Date(`${dateIso}T00:00:00Z`), days);
+}
 
 /**
- * Fetch one LIMS endpoint. Sends the API key as both a header and a query
- * param — TODO(verify): LIMS's actual auth mechanism (subscription-key
- * header vs. query param vs. both) is unconfirmed without a live key;
- * this belt-and-suspenders approach is scaffolding to correct once real
- * docs/responses are available, not a claim that either works today.
- *
+ * GET a referenceList endpoint.
  * @param {string} pathname
  * @param {string} apiKey
- * @returns {Promise<unknown>}
  */
-async function fetchLims(pathname, apiKey) {
-  const url = new URL(pathname, BASE_URL);
-  url.searchParams.set("api_key", apiKey);
-
+async function getLims(pathname, apiKey) {
+  // Not `new URL(pathname, base)` — a leading "/" in pathname resolves
+  // absolute-from-origin and silently drops BASE_URL's "/api/v1", which
+  // 403s in a way that looks like an auth failure rather than a routing
+  // bug (cost real debugging time before this comment existed).
+  const url = new URL(`${BASE_URL}${pathname}`);
   const res = await fetch(url, {
     headers: {
       "User-Agent": USER_AGENT,
       Accept: "application/json",
-      // TODO(verify): confirm the real subscription-key header name.
-      "Ocp-Apim-Subscription-Key": apiKey,
+      Authorization: `Bearer ${apiKey}`,
     },
   });
-
   if (!res.ok) {
-    throw new Error(`LIMS request failed: ${res.status} ${res.statusText} — ${url}`);
+    throw new Error(`LIMS GET failed: ${res.status} ${res.statusText} — ${url}`);
   }
   return res.json();
 }
 
 /**
+ * POST a search endpoint with a JSON body.
+ * @param {string} pathname
  * @param {string} apiKey
+ * @param {Record<string, unknown>} body
  */
-async function fetchCouncilMembers(apiKey) {
-  return fetchLims(ENDPOINTS.councilMembers, apiKey);
+async function postLims(pathname, apiKey, body) {
+  const url = new URL(`${BASE_URL}${pathname}`);
+  const res = await fetch(url, {
+    method: "POST",
+    headers: {
+      "User-Agent": USER_AGENT,
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${apiKey}`,
+    },
+    body: JSON.stringify(body),
+  });
+  if (!res.ok) {
+    const text = await res.text().catch(() => "");
+    throw new Error(`LIMS POST failed: ${res.status} ${res.statusText} — ${url} — ${text}`);
+  }
+  return res.json();
 }
 
 /**
- * @param {string} apiKey
+ * meetingCalendar rows include non-meeting calendar placeholders (city
+ * holidays, "Select Meeting Type" rows with AgendaURL pointing at file id
+ * 0 and no MembersList) — these are LIMS's own calendar noise, not real
+ * meetings, and are dropped rather than rendered as fake meetings
+ * (AGENTS.md §3.1).
  */
-async function fetchCouncilTerms(apiKey) {
-  return fetchLims(ENDPOINTS.councilTerms, apiKey);
+function isRealMeeting(row) {
+  if (row.MeetingType === "Select Meeting Type" && (row.MembersList ?? []).length === 0) return false;
+  return true;
+}
+
+function normalizeUrl(url) {
+  if (!url || typeof url !== "string") return null;
+  // Placeholder AgendaURL/MinutesPDFURL values end in "/0" (no real file
+  // id behind them) — same reasoning as isRealMeeting() above.
+  if (/\/0$/.test(url)) return null;
+  return url;
+}
+
+async function writeNextMeetingTeaser(nextMeeting) {
+  await mkdir(OUTPUT_DIR, { recursive: true });
+  await writeFile(NEXT_MEETING_PATH, `${JSON.stringify({ generatedAt: new Date().toISOString(), nextMeeting }, null, 2)}\n`, "utf8");
+}
+
+function mapMeetingCalendarRow(row) {
+  const dateIso = typeof row.MeetingDateTime === "string" ? row.MeetingDateTime.slice(0, 10) : null;
+  const bodyId = `lims-${CLIENT}-body-${slugify(row.MeetingBody)}`;
+  const id = `lims-${CLIENT}-meeting-${slugify(row.MeetingBody)}-${row.MeetingDateTime}`;
+  return {
+    id,
+    body_id: bodyId,
+    bodyName: row.MeetingBody || null,
+    date: dateIso,
+    time: typeof row.MeetingDateTime === "string" ? row.MeetingDateTime.slice(11, 16) || null : null,
+    location: null, // not present in meetingCalendar's response
+    agendaStatus: row.IsCancelled ? "Cancelled" : null,
+    agendaUrl: normalizeUrl(row.AgendaURL),
+    minutesUrl: normalizeUrl(row.MinutesPDFURL),
+    videoStatus: null, // not present in meetingCalendar's response
+    sourceUrl: normalizeUrl(row.AgendaURL),
+    lastModifiedUtc: null, // not present in meetingCalendar's response
+  };
 }
 
 /**
- * @param {string} apiKey
+ * Builds a lookup from (committee name, action date) to a real meeting id
+ * from the already-ingested meetings list, so FileItemSearch's
+ * LegislativeHistory rows — which carry a committee name + date but no
+ * meeting id of their own — link to the right Meeting record. Falls back
+ * to a synthesized meeting id (never a fabricated one — same
+ * name+date-derived id a real meetingCalendar row for that committee/date
+ * would have gotten) when no matching row was in this run's meeting
+ * window, which is flagged in knownGaps rather than silently dropped.
  */
-async function fetchMeetingBodies(apiKey) {
-  return fetchLims(ENDPOINTS.meetingBodies, apiKey);
+// meetingCalendar's MeetingBody and FileItemSearch's CommitteeName are
+// both free-text names from the same underlying LIMS body records, but
+// nothing guarantees byte-identical strings between the two endpoints —
+// normalizing "&" to "and" and collapsing whitespace/case catches the one
+// inconsistency actually observed in LIMS's own data without attempting
+// a full alias table for a mismatch that hasn't been confirmed to exist
+// beyond this.
+function normalizeBodyName(name) {
+  return String(name)
+    .toLowerCase()
+    .replace(/&/g, "and")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function buildMeetingLookup(meetings) {
+  const byKey = new Map();
+  for (const m of meetings) {
+    if (!m.bodyName || !m.date) continue;
+    byKey.set(`${normalizeBodyName(m.bodyName)}|${m.date}`, m.id);
+  }
+  return byKey;
+}
+
+// LIMS returns free-text fields (ItemTitle, FileSubject, Action) with
+// literal HTML entities still encoded ("Mayor&#39;s nomination",
+// "Council&rsquo;s legislative process") rather than decoded text —
+// confirmed live against a full year of FileItemSearch data (26/225
+// in-window agenda items affected). React text nodes don't decode HTML
+// entities (that's the correct, safe default — text content isn't parsed
+// as markup), so left as-is these would render as the literal
+// "&#39;"/"&rsquo;" characters instead of an apostrophe/quote. Named-
+// entity table covers what's actually been observed; numeric entities
+// (decimal and hex) are decoded generically since LIMS's source system
+// is evidently passing through whatever its own rich-text editor stored.
+const HTML_ENTITIES = {
+  amp: "&",
+  lt: "<",
+  gt: ">",
+  quot: '"',
+  apos: "'",
+  nbsp: " ",
+  mdash: "—",
+  ndash: "–",
+  lsquo: "‘",
+  rsquo: "’",
+  ldquo: "“",
+  rdquo: "”",
+};
+
+function decodeHtmlEntities(value) {
+  if (typeof value !== "string" || !value.includes("&")) return value;
+  return value.replace(/&(#\d+|#x[0-9a-fA-F]+|[a-zA-Z]+);/g, (match, entity) => {
+    if (entity[0] === "#") {
+      const codePoint = entity[1] === "x" || entity[1] === "X" ? parseInt(entity.slice(2), 16) : parseInt(entity.slice(1), 10);
+      return Number.isFinite(codePoint) ? String.fromCodePoint(codePoint) : match;
+    }
+    return HTML_ENTITIES[entity] ?? match; // unrecognized named entity — leave as-is, never guess
+  });
+}
+
+function toIsoFromMdY(value) {
+  // LegislativeHistory's ActionDate comes back "M/D/YYYY" — different
+  // format from meetingCalendar's ISO MeetingDateTime.
+  if (typeof value !== "string") return null;
+  const match = value.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+  if (!match) return null;
+  const [, m, d, y] = match;
+  return `${y}-${m.padStart(2, "0")}-${d.padStart(2, "0")}`;
+}
+
+function mapFileItemToAgendaItems(item, itemIndex, meetingLookup, unmatchedMeetings, windowStartIso, windowEndIso) {
+  const agendaItems = [];
+  const history = Array.isArray(item.LegislativeHistory) ? item.LegislativeHistory : [];
+  history.forEach((historyRow, index) => {
+    if (!historyRow.CommitteeName) return; // e.g. "Published" rows carry no committee/vote — not agenda items
+    const actionDateIso = toIsoFromMdY(historyRow.ActionDate);
+    if (!actionDateIso) return;
+    // FileItemSearch is fetched for the whole calendar year (its own
+    // filter granularity), but meetings[] only covers the rolling
+    // LOOKBACK_DAYS/LOOKAHEAD_DAYS window — without this, most items
+    // would get a synthesized meeting_id that never matches a real
+    // Meeting record, bloating the output with agenda items the page can
+    // never actually attach to a rendered meeting.
+    if (actionDateIso < windowStartIso || actionDateIso > windowEndIso) return;
+
+    const lookupKey = `${normalizeBodyName(historyRow.CommitteeName)}|${actionDateIso}`;
+    let meetingId = meetingLookup.get(lookupKey);
+    if (!meetingId) {
+      meetingId = `lims-${CLIENT}-meeting-${slugify(historyRow.CommitteeName)}-${actionDateIso}T00:00:00`;
+      unmatchedMeetings.add(`${historyRow.CommitteeName} (${actionDateIso})`);
+    }
+
+    agendaItems.push({
+      // Not FileNumber alone: FileItemSearch returns multiple distinct
+      // items sharing one FileNumber (e.g. several officer-election
+      // resolutions all filed under the same organizational-meeting file
+      // number) — itemIndex (this item's position in the full response)
+      // plus the history-row index is what's actually unique per item.
+      id: `lims-${CLIENT}-fileitem-${itemIndex}-${index}`,
+      meeting_id: meetingId,
+      sequence: null, // not present in FileItemSearch's response
+      agendaNumber: item.ActNumber || null,
+      title: decodeHtmlEntities(item.ItemTitle || item.FileSubject || `File ${item.FileNumber}`),
+      // Not implemented — see file header. Left false, never guessed.
+      isConsent: false,
+      actionName: decodeHtmlEntities(historyRow.Action) || null,
+      passedFlagName: historyRow.VotingInformation?.VoteResult || null,
+      matterFile: item.FileNumber || null,
+      matterId: null, // LIMS exposes FileNumber (string), not a numeric matter id
+      matterType: item.FileType || null,
+    });
+  });
+  return agendaItems;
 }
 
 /**
- * Voting records for one year, 2014 onward per FEATURES.md.
- *
- * @param {string} apiKey
- * @param {number} year
+ * True if OUTPUT_PATH already holds a real ingested run. Guards
+ * writeEmptyState() from silently wiping known-good data if this script
+ * ever runs again without LIMS_API_KEY set (secret rotation glitch, env
+ * var typo) after a previous run succeeded — same "never overwrite
+ * known-good data with a worse result" rule the catch block in main()
+ * already follows for a failed live fetch.
  */
-async function fetchVotingRecordsForYear(apiKey, year) {
-  return fetchLims(ENDPOINTS.votingRecordsByYear(year), apiKey);
+async function hasExistingRealData() {
+  try {
+    const raw = await readFile(OUTPUT_PATH, "utf8");
+    const parsed = JSON.parse(raw);
+    return parsed.status === "ingested" && Array.isArray(parsed.meetings) && parsed.meetings.length > 0;
+  } catch {
+    return false; // file doesn't exist yet, or isn't valid JSON — safe to write the empty state
+  }
 }
 
-/**
- * File items (agenda items) for one year, 2014 onward per FEATURES.md.
- *
- * @param {string} apiKey
- * @param {number} year
- */
-async function fetchFileItemsForYear(apiKey, year) {
-  return fetchLims(ENDPOINTS.fileItemsByYear(year), apiKey);
-}
-
-/**
- * TODO: once real response shapes are confirmed, map raw LIMS
- * CouncilMembers + CouncilTerms rows onto src/lib/models.ts's canonical
- * `Holding` shape (id, office_id, person_id, term_start, term_end,
- * source_url, first_seen, last_seen, verifiedAt, verifiedAgainst) — this
- * is the reference implementation the churn/roster-diff model
- * (AGENTS.md §2.1, scripts/ingest/roster-diff.mjs on
- * feature/phase5-roster-churn-detection) is meant to consume. Left
- * unimplemented here: no live response has been seen yet to map against,
- * and inventing a mapping from the field *names* alone risks getting it
- * wrong in a way nobody would catch until a real key exists. Note that
- * `office_id`/`person_id` are foreign keys into models.ts's `Office`/
- * `Person` tables, not raw LIMS ids directly — this implementation will
- * need to resolve (or create) those rows too, not just reshape the LIMS
- * response.
- *
- * @param {unknown} _rawCouncilMembers
- * @param {unknown} _rawCouncilTerms
- * @returns {import("../../src/lib/models.js").Holding[]}
- */
-function toHoldings(_rawCouncilMembers, _rawCouncilTerms) {
-  throw new Error(
-    "toHoldings: not implemented — response shape unconfirmed without a live LIMS_API_KEY. " +
-      "Implement this against real API responses before wiring it into main().",
-  );
-}
-
-/**
- * Writes the honest empty-state contract file — same shape a populated
- * run would produce, with every collection empty and `reason` explaining
- * why. Never overwrites a file that already has real data in it.
- */
 async function writeEmptyState(reason) {
+  if (await hasExistingRealData()) {
+    console.log(
+      `[lims-minneapolis] LIMS_API_KEY is not set, but ${OUTPUT_PATH} already holds a real ingested run — ` +
+        "leaving it untouched rather than overwriting known-good data with an empty state.",
+    );
+    return null;
+  }
   const emptyState = {
     schemaVersion: 1,
-    generatedAt: null,
-    status: "empty",
-    reason,
-    sourceAgency: SOURCE_AGENCY,
-    primarySourceUrl: PRIMARY_SOURCE_URL,
-    councilMembers: [],
-    councilTerms: [],
-    meetingBodies: [],
+    client: CLIENT,
+    jurisdiction: JURISDICTION,
+    generatedAt: new Date().toISOString(),
+    status: "auth_required",
+    note: reason,
+    provenance: {
+      primarySourceUrl: PRIMARY_SOURCE_URL,
+      sourceAgency: SOURCE_AGENCY,
+      documentType: "LIMS API v1 — meetingCalendar/FileItemSearch",
+      documentId: null,
+      issuedDate: null,
+      fetchedAt: new Date().toISOString(),
+      licence: "Public records served via the City of Minneapolis LIMS API; no separate machine-reuse licence published as of this writing.",
+      contentHash: null,
+    },
+    window: null,
     meetings: [],
-    votes: [],
-    fileItems: [],
+    agendaItems: [],
+    diff: null,
+    previousGeneratedAt: null,
+    knownGaps: [reason],
   };
-  await mkdir(path.dirname(OUTPUT_PATH), { recursive: true });
+  await mkdir(OUTPUT_DIR, { recursive: true });
   await writeFile(OUTPUT_PATH, `${JSON.stringify(emptyState, null, 2)}\n`, "utf8");
+  await writeNextMeetingTeaser(null);
   return emptyState;
 }
 
@@ -201,76 +409,136 @@ async function main() {
   if (!apiKey) {
     console.log(
       "[lims-minneapolis] LIMS_API_KEY is not set — skipping live fetch.\n" +
-        "  This is expected until a free registered key is obtained from " +
-        `${PRIMARY_SOURCE_URL}.\n` +
-        "  Writing an honest empty state to " +
-        `${OUTPUT_PATH} (AGENTS.md §3.1) instead of failing the build or\n` +
-        "  fabricating council/meeting/vote data. Set LIMS_API_KEY and re-run " +
-        "once a key is available.",
+        "  Register a key at https://lims.minneapolismn.gov/ and set LIMS_API_KEY " +
+        "to run a live fetch.\n" +
+        `  Writing an honest empty state to ${OUTPUT_PATH} (AGENTS.md §3.1) unless it already holds a real ` +
+        "ingested run, instead of failing the build or fabricating meeting/agenda data.",
     );
-    await writeEmptyState(
-      "No LIMS_API_KEY provisioned yet — this script has never completed a live fetch.",
-    );
+    await writeEmptyState("No LIMS_API_KEY provisioned — this run has never completed a live fetch.");
     return;
   }
 
-  // Live path: fetch reference lists, then per-year voting records and
-  // file items back to FIRST_YEAR_WITH_DATA. Left as straight-line
-  // scaffolding — no retry/backoff, no pagination handling, no snapshot
-  // diffing yet (AGENTS.md §2.2's "Snapshot, Don't Overwrite" and §0.5's
-  // diff-on-refresh are follow-up work once real responses are in hand
-  // to design pagination/backoff against).
   console.log("[lims-minneapolis] LIMS_API_KEY present — starting live fetch.");
 
-  const currentYear = new Date().getUTCFullYear();
-  const years = [];
-  for (let year = FIRST_YEAR_WITH_DATA; year <= currentYear; year += 1) {
-    years.push(year);
-  }
+  const today = new Date().toISOString().slice(0, 10);
+  const windowStartIso = addDays(today, -LOOKBACK_DAYS);
+  const windowEndIso = addDays(today, LOOKAHEAD_DAYS);
+  const years = yearsInWindow(windowStartIso, windowEndIso);
+  const knownGaps = [
+    "Consent-agenda flagging not implemented — LIMS has no field structurally equivalent to Legistar's " +
+      "EventItemConsent; every agenda item ships isConsent: false rather than a guess.",
+    "Diff-on-refresh (AGENTS.md §0.5) not implemented yet for this feed — roster/meeting changes between " +
+      "runs aren't surfaced the way St. Paul/Hennepin's Legistar feed does.",
+  ];
 
   try {
-    const [councilMembers, councilTerms, meetingBodies] = await Promise.all([
-      fetchCouncilMembers(apiKey),
-      fetchCouncilTerms(apiKey),
-      fetchMeetingBodies(apiKey),
+    // Fetched to confirm connectivity/shape and logged below, but not
+    // written to public/lims/minneapolis-meetings.json: this is
+    // officeholder/roster data (AGENTS.md §1d/§3.2 require verifiedAt +
+    // sourceUrl per record, and the UI to surface the verification date,
+    // before a person record ships anywhere public) — mapping these into
+    // real Holding rows is the follow-up this file's header already flags
+    // as not implemented, not something to half-ship unverified.
+    const [councilMembers, councilTerm, meetingBodies, fileItemStatus, fileTypes] = await Promise.all([
+      getLims(ENDPOINTS.councilMembers, apiKey),
+      getLims(ENDPOINTS.councilTerm, apiKey),
+      getLims(ENDPOINTS.meetingBodies, apiKey),
+      getLims(ENDPOINTS.fileItemStatus, apiKey),
+      getLims(ENDPOINTS.fileTypes, apiKey),
     ]);
-
+    const countOf = (value) => (Array.isArray(value) ? value.length : "?");
     console.log(
-      `[lims-minneapolis] fetched reference lists: ${Array.isArray(councilMembers) ? councilMembers.length : "?"} council member(s), ` +
-        `${Array.isArray(councilTerms) ? councilTerms.length : "?"} term row(s), ` +
-        `${Array.isArray(meetingBodies) ? meetingBodies.length : "?"} meeting body(ies).`,
+      `[lims-minneapolis] reference lists: ${countOf(councilMembers)} council member(s), ${countOf(councilTerm)} term(s), ` +
+        `${countOf(meetingBodies)} meeting body(ies), ${countOf(fileItemStatus)} file item status(es), ${countOf(fileTypes)} file type(s).`,
     );
 
-    // Per-year voting records and file items, 2014 onward. Fetched
-    // sequentially rather than in parallel, out of caution for a
-    // rate-limit policy that isn't documented anywhere this script's
-    // author could confirm — see AGENTS.md §2.2's Good-Citizen Fetcher
-    // and LESSONS.md's Legistar rate-limit entry for the same reasoning
-    // applied to a different API.
-    const votingRecordsByYear = {};
-    const fileItemsByYear = {};
+    // Sequential, not parallel, across years — no documented LIMS
+    // rate-limit policy to design a concurrency budget against (AGENTS.md
+    // §2.2 Good-Citizen Fetcher / LESSONS.md's Legistar rate-limit entry,
+    // same caution applied to a new API).
+    const allMeetingRows = [];
+    const allFileItems = [];
     for (const year of years) {
-      votingRecordsByYear[year] = await fetchVotingRecordsForYear(apiKey, year);
-      fileItemsByYear[year] = await fetchFileItemsForYear(apiKey, year);
+      const calendarRows = await postLims(ENDPOINTS.meetingCalendar, apiKey, { CalendarYear: year });
+      if (Array.isArray(calendarRows)) allMeetingRows.push(...calendarRows);
+      const fileItems = await postLims(ENDPOINTS.fileItemSearch, apiKey, { CalendarYear: year });
+      if (Array.isArray(fileItems)) allFileItems.push(...fileItems);
     }
     console.log(
-      `[lims-minneapolis] fetched voting records + file items for ${years.length} year(s) ` +
-        `(${years[0]}-${years[years.length - 1]}).`,
+      `[lims-minneapolis] fetched ${allMeetingRows.length} calendar row(s) and ${allFileItems.length} file item(s) ` +
+        `across year(s) ${years.join(", ")}.`,
     );
 
-    // Mapping raw LIMS rows onto the public Holding contract is not
-    // implemented yet (see toHoldings()'s own note) — this call is
-    // expected to throw until that mapping is written against real
-    // response shapes. Caught here (rather than left to propagate) so the
-    // log above about what *did* fetch successfully isn't lost.
-    toHoldings(councilMembers, councilTerms);
-  } catch (err) {
-    console.error(
-      "[lims-minneapolis] live fetch did not complete:",
-      err instanceof Error ? err.message : err,
+    const meetings = allMeetingRows
+      .filter(isRealMeeting)
+      .map(mapMeetingCalendarRow)
+      .filter((m) => m.date && m.date >= windowStartIso && m.date <= windowEndIso);
+
+    const meetingLookup = buildMeetingLookup(meetings);
+    const unmatchedMeetings = new Set();
+    const agendaItems = allFileItems.flatMap((item, itemIndex) =>
+      mapFileItemToAgendaItems(item, itemIndex, meetingLookup, unmatchedMeetings, windowStartIso, windowEndIso),
     );
+
+    if (unmatchedMeetings.size) {
+      knownGaps.push(
+        `${unmatchedMeetings.size} agenda item legislative-history row(s) referenced a committee/date not present in ` +
+          `this run's meeting window; a synthesized meeting id was used for these so the agenda items still render: ` +
+          `${[...unmatchedMeetings].slice(0, 10).join("; ")}${unmatchedMeetings.size > 10 ? ", …" : ""}.`,
+      );
+    }
+
+    const state = {
+      schemaVersion: 1,
+      client: CLIENT,
+      jurisdiction: JURISDICTION,
+      generatedAt: new Date().toISOString(),
+      status: "ingested",
+      note: `${meetings.length} meeting(s) and ${agendaItems.length} agenda item(s) ingested for ${windowStartIso}–${windowEndIso}.`,
+      provenance: {
+        // Not a raw ENDPOINTS URL: search/meetingCalendar is POST-only and
+        // needs a bearer token, so it 404s/401s for anyone who clicks the
+        // "raw feed" link the meetings/recap pages render from this field
+        // (AGENTS.md §3.3: "a citation that 404s in eighteen months is not
+        // a citation" — this one would 404 immediately, not eighteen
+        // months from now). PRIMARY_SOURCE_URL is the public LIMS site.
+        primarySourceUrl: PRIMARY_SOURCE_URL,
+        sourceAgency: SOURCE_AGENCY,
+        documentType: "LIMS API v1 — meetingCalendar/FileItemSearch",
+        documentId: null,
+        issuedDate: null,
+        fetchedAt: new Date().toISOString(),
+        licence: "Public records served via the City of Minneapolis LIMS API; no separate machine-reuse licence published as of this writing.",
+        contentHash: null,
+      },
+      window: { startIso: windowStartIso, endIso: windowEndIso },
+      meetings,
+      agendaItems,
+      diff: null,
+      previousGeneratedAt: null,
+      knownGaps,
+    };
+
+    await mkdir(OUTPUT_DIR, { recursive: true });
+    await writeFile(OUTPUT_PATH, `${JSON.stringify(state, null, 2)}\n`, "utf8");
+    // Never promote a cancelled meeting (LIMS's IsCancelled ->
+    // agendaStatus "Cancelled") to the teaser WardModal.tsx renders as
+    // "Next meeting" — a resident reading that card has no other
+    // cancellation signal, and this feed's UI doesn't surface
+    // agendaStatus anywhere else (same gap Legistar's own agendaStatus
+    // field has site-wide, but the next-meeting teaser is the one spot
+    // that actively tells someone to show up).
+    const nextMeetingCandidates = meetings.filter((m) => m.agendaStatus !== "Cancelled");
+    const nextMeeting = selectNextMeetingFor({ client: CLIENT, jurisdiction: JURISDICTION }, nextMeetingCandidates, today, PRIMARY_BODY_NAME);
+    await writeNextMeetingTeaser(nextMeeting);
+    console.log(
+      `[lims-minneapolis] wrote ${OUTPUT_PATH}. next meeting: ${nextMeeting ? nextMeeting.date : "none upcoming"}. ` +
+        `Wrote ${NEXT_MEETING_PATH}`,
+    );
+  } catch (err) {
+    console.error("[lims-minneapolis] live fetch did not complete:", err instanceof Error ? err.message : err);
     console.error(
-      "[lims-minneapolis] leaving the existing public/minneapolis-meetings.json untouched " +
+      "[lims-minneapolis] leaving the existing public/lims/minneapolis-meetings.json untouched " +
         "rather than overwriting known-good (or honestly empty) data with a partial result.",
     );
     process.exitCode = 1;

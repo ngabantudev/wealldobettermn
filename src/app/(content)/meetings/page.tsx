@@ -18,6 +18,7 @@ import {
 // constraint that page's comment documents for BILLS_DATA_PATH.
 import stpaulMeetingsData from "../../../../public/legistar/stpaul-meetings.json";
 import hennepinmnMeetingsData from "../../../../public/legistar/hennepinmn-meetings.json";
+import minneapolisMeetingsData from "../../../../public/lims/minneapolis-meetings.json";
 
 export const metadata: Metadata = {
   title: "Meetings & agendas — We All Do Better",
@@ -27,6 +28,7 @@ export const metadata: Metadata = {
 const FEEDS_BY_CLIENT: Record<string, MeetingsFeed> = {
   stpaul: stpaulMeetingsData as MeetingsFeed,
   hennepinmn: hennepinmnMeetingsData as MeetingsFeed,
+  minneapolis: minneapolisMeetingsData as MeetingsFeed,
 };
 
 function todayIso(): string {
@@ -161,6 +163,16 @@ function MeetingCard({ feed, meeting }: { feed: MeetingsFeed; meeting: Meeting }
   );
 }
 
+// St. Paul/Hennepin run through Legistar; Minneapolis runs through LIMS —
+// this component is shared across both vendors (MeetingsFeed's shape is
+// vendor-agnostic), so the "via {vendor}" citation in its footer can't be
+// a single hardcoded string. Keyed by `client` since that's the one field
+// every feed already carries and the registry already uses to route
+// data-path imports (meetingsRegistry.ts, FEEDS_BY_CLIENT above).
+function apiLabelFor(client: string): string {
+  return client === "minneapolis" ? "the LIMS API" : "the Legistar public API";
+}
+
 function JurisdictionSection({
   jurisdiction,
   calendarUrl,
@@ -233,7 +245,7 @@ function JurisdictionSection({
             </div>
           ))}
           <p className="text-xs text-ink-4">
-            Data from {feed.provenance.sourceAgency} via the Legistar public API, fetched {feed.provenance.fetchedAt ?? "unknown time"}
+            Data from {feed.provenance.sourceAgency} via {apiLabelFor(feed.client)}, fetched {feed.provenance.fetchedAt ?? "unknown time"}
             . See{" "}
             <a href={feed.provenance.primarySourceUrl} target="_blank" rel="noopener noreferrer" className="underline underline-offset-2">
               the raw feed
