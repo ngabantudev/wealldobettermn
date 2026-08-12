@@ -36,6 +36,29 @@ export interface ParticipationLegendProps {
   onTogglePopulationWeighted: () => void;
 }
 
+// Bolds the literal words "Registered"/"CVAP" wherever they appear in a
+// denominatorNote paragraph, without baking markup into the data file
+// itself (see this component's denominatorNote render for why — the
+// manifest ships plain prose per §2.4's published-contract rule, and
+// this is the one place that prose becomes rich text). Word-boundary
+// matched so this can't accidentally bold a substring inside a longer
+// word.
+const BOLD_NOTE_TERMS = ["Registered", "CVAP"];
+const BOLD_NOTE_PATTERN = new RegExp(`\\b(${BOLD_NOTE_TERMS.join("|")})\\b`, "g");
+
+function renderNoteParagraph(paragraph: string, keyPrefix: string) {
+  const parts = paragraph.split(BOLD_NOTE_PATTERN);
+  return parts.map((part, i) =>
+    BOLD_NOTE_TERMS.includes(part) ? (
+      <strong key={`${keyPrefix}-${i}`} className="font-semibold text-ink-2">
+        {part}
+      </strong>
+    ) : (
+      <span key={`${keyPrefix}-${i}`}>{part}</span>
+    ),
+  );
+}
+
 function SwatchRow({ color, label, hatched }: { color: string; label: string; hatched?: boolean }) {
   return (
     <div className="flex items-center gap-2 py-0.5 text-xs text-ink-2">
@@ -93,12 +116,23 @@ export default function ParticipationLegend({
         <p className="italic text-ink-4">City elections (Minneapolis/St. Paul) are held in odd-year cycles (2021, 2023, 2025, etc.)</p>
       </div>
 
-      {/* Plain-language metric definition, verbatim from
+      {/* Plain-language metric definition, verbatim (content-wise) from
           public/turnout/manifest.json's own denominatorMethodologyNote —
           never re-worded here, so the map's own legend text can't
           quietly drift from what the ingest script's methodology
-          actually says (AGENTS.md §2.2/§3.3). */}
-      <p className="text-xs leading-relaxed text-ink-3">{denominatorNote}</p>
+          actually says (AGENTS.md §2.2/§3.3). The string ships as three
+          \n\n-separated paragraphs (still a plain string — no manifest
+          schema change); this is the one place that plain text becomes
+          rendered paragraphs with "Registered"/"CVAP" bolded, via
+          renderNoteParagraph above. Falls back to a single paragraph
+          with no bolding if a note ever arrives without \n\n breaks
+          (e.g. an older cached manifest), so this never throws on an
+          unexpected shape. */}
+      <div className="space-y-2 text-xs leading-relaxed text-ink-3">
+        {denominatorNote.split("\n\n").map((paragraph, i) => (
+          <p key={i}>{renderNoteParagraph(paragraph, `note-${i}`)}</p>
+        ))}
+      </div>
 
       <div>
         <p className="mb-1 text-[11px] font-semibold uppercase tracking-wide text-ink-3">
