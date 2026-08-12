@@ -58,6 +58,14 @@ function IconBills() {
   );
 }
 
+function IconResults() {
+  return (
+    <svg viewBox="0 0 20 20" fill="none" className="h-5 w-5 shrink-0" aria-hidden="true">
+      <path d="M4 16V9M10 16V4M16 16v-6.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
 function IconRecap() {
   return (
     <svg viewBox="0 0 20 20" fill="none" className="h-5 w-5 shrink-0" aria-hidden="true">
@@ -84,6 +92,7 @@ const NAV_ITEMS: NavItem[] = [
   { href: "/", label: "Map", icon: <IconMap /> },
   { href: "/meetings", label: "Meetings", icon: <IconMeetings /> },
   { href: "/bills", label: "Bills", icon: <IconBills /> },
+  { href: "/election-results", label: "Results", icon: <IconResults /> },
   { href: "/recap", label: "Recap", icon: <IconRecap /> },
   { href: "/sources", label: "Sources", icon: <IconSources /> },
 ];
@@ -137,7 +146,7 @@ export default function MobileBottomNav() {
       // button documents a live Playwright-caught bug when a similar
       // element used z-20 instead — the scrim visually let it show through
       // at 25% opacity but ate every tap before it reached the button.
-      className="band bg-panel sm:hidden fixed inset-x-0 bottom-0 z-40 grid grid-cols-5 border-t border-hair rounded-t-2xl shadow-[0_-2px_16px_rgba(0,0,0,0.12)] pb-[env(safe-area-inset-bottom)]"
+      className="band bg-panel sm:hidden fixed inset-x-0 bottom-0 z-40 grid grid-cols-6 border-t border-hair rounded-t-2xl shadow-[0_-2px_16px_rgba(0,0,0,0.12)] pb-[env(safe-area-inset-bottom)]"
     >
       {NAV_ITEMS.map((item) => {
         // Map (/) only reads active on an exact match — every other route

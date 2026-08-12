@@ -138,3 +138,13 @@ export const NOT_COVERED_ANYWHERE: readonly string[] = [
 // src/lib/meetingsRegistry.ts's UNWIRED_MEETINGS_JURISDICTIONS for the
 // itemized list /meetings itself renders.
 export const MEETINGS_NOTE = MEETINGS_COVERAGE_NOTE;
+
+// Mirrors src/lib/layers.ts's ELECTION_RESULTS_LAYER.coverage field — same
+// hand-sync relationship CITY_BOUNDARIES_NOTE has with CITY_BOUNDARIES_LAYER
+// above. Called out unprompted per the earlier scoping research: a resident
+// checking this site for a Minneapolis or St. Paul city race on the 2026
+// primary ballot is the single most likely point of confusion this layer
+// creates, since both cities' own municipal elections happen on a separate,
+// odd-year cycle this ballot has nothing to do with.
+export const ELECTION_RESULTS_NOTE =
+  "2026 MN state primary results (Aug 11, 2026) only — county, state legislature, and federal contests, statewide/district-level, not precinct-level. No Minneapolis or St. Paul city races appear on this ballot: both cities hold their own municipal elections in odd years (2025, 2029, ...), a separate cycle this primary has nothing to do with. Results are unofficial until the county and State Canvassing Boards certify them.";
