@@ -128,7 +128,7 @@ function BillRow({ bill, voteEvent }: { bill: Bill; voteEvent: BillVoteEvent | n
   const voteUrl = voteEvent?.sources.find((s) => s.url)?.url ?? tally?.url ?? null;
 
   return (
-    <li className="well rounded-lg border border-hair-strong p-4">
+    <li className="well rounded-xl border border-hair p-4">
       <p className="font-medium text-ink-2">
         {bill.identifier} — {bill.title}
       </p>
@@ -195,7 +195,7 @@ function StateLegislatureSection() {
           </ul>
         </>
       ) : (
-        <div role="status" className="well mt-3 space-y-2 rounded-lg border border-hair-strong p-4 text-sm text-ink-3">
+        <div role="status" className="well mt-3 space-y-2 rounded-xl border border-hair-strong p-4 text-sm text-ink-3">
           <p className="font-medium text-ink-2">No bill data ingested yet.</p>
           {/* BILLS_COVERAGE_NOTE quoted verbatim from billsRegistry.ts, per
               this page's own task brief, so this empty state can't drift
@@ -267,7 +267,7 @@ function LegistarJurisdictionSection({
       <p className="mt-1 text-sm text-ink-3">{votesCoverage}</p>
 
       {!anyLive ? (
-        <div role="status" className="well mt-3 space-y-2 rounded-lg border border-hair-strong p-4 text-sm text-ink-3">
+        <div role="status" className="well mt-3 space-y-2 rounded-xl border border-hair-strong p-4 text-sm text-ink-3">
           <p className="font-medium text-ink-2">No recent votes or consent-agenda action on file right now.</p>
           <p>
             See{" "}
@@ -287,7 +287,7 @@ function LegistarJurisdictionSection({
                   const agendaItem = votesFeed?.agendaItems.find((a) => a.id === voteEvent.agenda_item_id) ?? null;
                   const href = agendaItem?.source_url ?? votesFeed?.provenance.primarySourceUrl ?? calendarUrl;
                   return (
-                    <li key={voteEvent.id} className="well rounded-lg border border-hair-strong p-3 text-sm">
+                    <li key={voteEvent.id} className="well rounded-xl border border-hair p-3 text-sm">
                       <p className="text-ink-2">
                         {agendaItem?.file_number ? <span className="font-medium">{agendaItem.file_number}</span> : null}
                         {agendaItem?.file_number ? " — " : ""}
@@ -315,7 +315,7 @@ function LegistarJurisdictionSection({
               </p>
               <ul className="mt-2 space-y-2">
                 {recentConsentItems.map(({ item, meeting }) => (
-                  <li key={item.id} className="well rounded-lg border border-hair-strong p-3 text-sm">
+                  <li key={item.id} className="well rounded-xl border border-hair p-3 text-sm">
                     <div className="flex items-start gap-2">
                       <ConsentPill />
                       <span className="text-ink-2">
@@ -383,7 +383,7 @@ function MinneapolisSection({ meetingsFeed }: { meetingsFeed: MeetingsFeed | und
       <p className="mt-1 text-sm text-ink-3">{MINNEAPOLIS_MEETINGS_VOTES_LAYER.coverage}</p>
 
       {!isLive ? (
-        <div role="status" className="well mt-3 space-y-2 rounded-lg border border-hair-strong p-4 text-sm text-ink-3">
+        <div role="status" className="well mt-3 space-y-2 rounded-xl border border-hair-strong p-4 text-sm text-ink-3">
           <p className="font-medium text-ink-2">No recent agenda action on file right now.</p>
           <p>
             See{" "}
@@ -408,7 +408,7 @@ function MinneapolisSection({ meetingsFeed }: { meetingsFeed: MeetingsFeed | und
             </p>
             <ul className="mt-2 space-y-2">
               {recentActions.map(({ item, meeting }) => (
-                <li key={item.id} className="well rounded-lg border border-hair-strong p-3 text-sm">
+                <li key={item.id} className="well rounded-xl border border-hair p-3 text-sm">
                   <p className="text-ink-2">
                     {item.matterFile ? <span className="font-medium">{item.matterFile}</span> : null}
                     {item.matterFile ? " — " : ""}
@@ -459,7 +459,7 @@ function CongressSection() {
       <h2 id="recap-congress" className="text-lg font-bold text-ink">
         U.S. Congress
       </h2>
-      <div role="status" className="well mt-3 space-y-2 rounded-lg border border-hair-strong p-4 text-sm text-ink-3">
+      <div role="status" className="well mt-3 space-y-2 rounded-xl border border-hair-strong p-4 text-sm text-ink-3">
         <p className="font-medium text-ink-2">Not connected yet.</p>
         <p>
           No ingest script or data file exists in this repo for federal roll-call votes, bills, or sponsorships. AGENTS.md
