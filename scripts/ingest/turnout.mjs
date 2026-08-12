@@ -956,9 +956,9 @@ async function main() {
     // year's own city file and in SOURCES.md — this note just tells a
     // reader those exist, not how to look them up.
     denominatorMethodologyNote:
-      "\"Turnout of registered\" compares how many people voted to how many people were signed up to vote by " +
+      "\"Registered\" compares how many people voted to how many people were signed up to vote by " +
       "the time the polls closed that day — including anyone who signed up right at their polling place, " +
-      "which Minnesota allows. \"Turnout of CVAP\" compares how many people voted to an estimate of how many " +
+      "which Minnesota allows. \"CVAP\" compares how many people voted to an estimate of how many " +
       "adult U.S. citizens live in that city. That estimate comes from a U.S. Census Bureau survey, not an " +
       "exact count, so it has a small margin of error. For a few cities each year, we don't have this estimate " +
       "at all — instead of guessing, we leave it blank.",
