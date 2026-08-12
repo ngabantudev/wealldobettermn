@@ -25,6 +25,12 @@ import { focusRingClass, rowHoverClass } from "@/lib/variantClasses";
 export interface ParticipationRecordListProps {
   cities: readonly ParticipationCityProperties[];
   variant: "floating" | "sidebar";
+  // "2024 General Election" — same string as ParticipationLegend's own
+  // electionHeading prop (WardMap.tsx's formatElectionHeading), shown
+  // above this list so the 855-city record list is unambiguous about
+  // which election its figures come from, not just the column values.
+  // null only while the manifest fetch hasn't resolved yet (or failed).
+  electionHeading: string | null;
   onSelectCity: (city: ParticipationCityProperties) => void;
 }
 
@@ -70,7 +76,7 @@ function RecordRow({
   );
 }
 
-export default function ParticipationRecordList({ cities, variant, onSelectCity }: ParticipationRecordListProps) {
+export default function ParticipationRecordList({ cities, variant, electionHeading, onSelectCity }: ParticipationRecordListProps) {
   const [query, setQuery] = useState("");
 
   // Alphabetical, never by turnout value — see this file's own header,
@@ -89,6 +95,7 @@ export default function ParticipationRecordList({ cities, variant, onSelectCity 
 
   return (
     <div>
+      {electionHeading && <p className="mb-1.5 text-sm font-semibold text-ink">{electionHeading}</p>}
       <label className="sr-only" htmlFor={`participation-list-query-${variant}`}>
         Search for a city&apos;s turnout record
       </label>

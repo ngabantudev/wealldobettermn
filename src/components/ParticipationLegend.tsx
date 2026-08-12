@@ -17,6 +17,11 @@ import { TURNOUT_COLOR_STOPS, BELOW_THRESHOLD_COLOR, NO_MATCH_COLOR, TOWNSHIP_UN
 
 export interface ParticipationLegendProps {
   variant: "floating" | "sidebar";
+  // "2024 General Election" — built by WardMap.tsx's formatElectionHeading
+  // from public/turnout/manifest.json's own years[].year/electionType,
+  // never hardcoded here. null only while the manifest fetch hasn't
+  // resolved yet (or failed) — see EMPTY_TURNOUT_STATE in WardMap.tsx.
+  electionHeading: string | null;
   denominatorNote: string;
   populationWeighted: boolean;
   onTogglePopulationWeighted: () => void;
@@ -42,6 +47,7 @@ function SwatchRow({ color, label, hatched }: { color: string; label: string; ha
 
 export default function ParticipationLegend({
   variant,
+  electionHeading,
   denominatorNote,
   populationWeighted,
   onTogglePopulationWeighted,
@@ -53,6 +59,14 @@ export default function ParticipationLegend({
 
   return (
     <div className={boxClass}>
+      {/* Which election this choropleth shades — previously the "2024"
+          appeared nowhere except the prior-art citation links at the
+          bottom of this component. Forward-compatible with a future
+          multi-year slider: electionHeading is always derived from
+          whichever year is currently active (WardMap.tsx's
+          turnoutActiveYear state), never a hardcoded string. */}
+      {electionHeading && <p className="text-sm font-semibold text-ink">{electionHeading}</p>}
+
       {/* Plain-language metric definition, verbatim from
           public/turnout/manifest.json's own denominatorMethodologyNote —
           never re-worded here, so the map's own legend text can't

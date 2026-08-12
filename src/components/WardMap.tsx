@@ -336,6 +336,27 @@ const MODE_LABELS: Record<LayerMode, string> = {
   participation: "Turnout",
 };
 
+// The participation mode's own label carries its election year once the
+// turnout manifest has loaded (e.g. "Turnout (2024)") rather than the bare
+// "Turnout" in MODE_LABELS above — the election year otherwise appeared
+// nowhere in the mode toggle itself, only buried in ParticipationLegend's
+// prior-art citation links. Reads from TurnoutActiveYear state (always the
+// *current* active year, never a hardcoded "2024") so this stays correct
+// once a future multi-year slider lets a resident pick a different year.
+function participationModeLabel(activeYear: TurnoutActiveYear | null): string {
+  return activeYear ? `Turnout (${activeYear.year})` : "Turnout";
+}
+
+// "2024 General Election" — the plain-language election heading shown
+// above ParticipationLegend's denominator note and above
+// ParticipationRecordList's city list, built from manifest.json's own
+// `years[].year`/`years[].electionType`, never a hardcoded string.
+function formatElectionHeading(activeYear: TurnoutActiveYear | null): string | null {
+  if (!activeYear) return null;
+  const type = activeYear.electionType.length > 0 ? activeYear.electionType.charAt(0).toUpperCase() + activeYear.electionType.slice(1) : "";
+  return type.length > 0 ? `${activeYear.year} ${type} Election` : `${activeYear.year} Election`;
+}
+
 // Sidebar heading over the area checklist, one per mode that actually uses
 // it (state-legislature has its own "Chambers Shown" heading instead — see
 // the two call sites below). Previously one bare "Areas shown" for both, which read
@@ -1085,6 +1106,17 @@ interface SecondaryCivicData {
   turnoutCities: TurnoutCityRecord[];
   turnoutDenominatorNote: string;
   turnoutKnownGaps: string[];
+  turnoutActiveYear: TurnoutActiveYear | null;
+}
+
+// The election year/type currently driving the participation choropleth —
+// always read from public/turnout/manifest.json's own `years` array
+// (fetchTurnoutData below), never hardcoded, so this stays correct once a
+// future ingest run adds a second year and a multi-year slider (a
+// separate, already-planned follow-up PR) lets a resident pick among them.
+interface TurnoutActiveYear {
+  year: string;
+  electionType: string;
 }
 
 // Fetches wards/mayors independently of the MapLibre instance —
@@ -1159,6 +1191,7 @@ const EMPTY_TURNOUT_STATE = {
   turnoutCities: [] as TurnoutCityRecord[],
   turnoutDenominatorNote: "",
   turnoutKnownGaps: [] as string[],
+  turnoutActiveYear: null as TurnoutActiveYear | null,
 };
 
 // Reads public/turnout/manifest.json to find the most recent year's data
@@ -1174,6 +1207,7 @@ async function fetchTurnoutData(): Promise<{
   turnoutCities: TurnoutCityRecord[];
   turnoutDenominatorNote: string;
   turnoutKnownGaps: string[];
+  turnoutActiveYear: TurnoutActiveYear | null;
 }> {
   try {
     const [manifestRes, townshipUnorgRes] = await Promise.all([
@@ -1181,7 +1215,7 @@ async function fetchTurnoutData(): Promise<{
       fetch(dataUrl("township-unorg-boundaries.geojson")),
     ]);
     const [manifest, townshipUnorgBoundaries] = await Promise.all([manifestRes.json(), townshipUnorgRes.json()]);
-    const years: { year: string; dataPath: string }[] = manifest.years ?? [];
+    const years: { year: string; electionType: string; dataPath: string }[] = manifest.years ?? [];
     const latestYear = years[years.length - 1];
     if (!latestYear) return { ...EMPTY_TURNOUT_STATE, townshipUnorgBoundaries };
     const cityDataRes = await fetch(dataUrl(latestYear.dataPath.replace(/^\//, "")));
@@ -1191,6 +1225,12 @@ async function fetchTurnoutData(): Promise<{
       turnoutCities: cityData.cities ?? [],
       turnoutDenominatorNote: manifest.denominatorMethodologyNote ?? "",
       turnoutKnownGaps: cityData.knownGaps ?? [],
+      // Forward-compatible with a future multi-year slider (a separate,
+      // already-planned follow-up PR): always the *last* entry in
+      // manifest.json's own `years` array — never a hardcoded "2024" —
+      // so the displayed year tracks whichever year is currently active
+      // without a code change here once a second year is ingested.
+      turnoutActiveYear: { year: latestYear.year, electionType: latestYear.electionType ?? "" },
     };
   } catch (err) {
     console.error("[WardMap] failed to load turnout data", err);
@@ -1537,6 +1577,12 @@ export default function WardMap() {
   const townshipUnorgDataRef = useRef<FeatureCollection | null>(null);
   const [participationCities, setParticipationCities] = useState<ParticipationCityProperties[]>([]);
   const [turnoutDenominatorNote, setTurnoutDenominatorNote] = useState("");
+  // Forward-compatible with a future multi-year slider — see
+  // TurnoutActiveYear's own comment. Every "which year is this" label in
+  // the participation UI (mode toggle, legend heading, record list
+  // header) reads from this single piece of state rather than each
+  // re-deriving or hardcoding "2024" independently.
+  const [turnoutActiveYear, setTurnoutActiveYear] = useState<TurnoutActiveYear | null>(null);
   // The in-flight/settled fetchPrimaryCivicData() call — a ref (not
   // state) because the map-setup effect below needs to `await` this
   // exact promise instance rather than re-fetch, and refs (unlike state)
@@ -1865,6 +1911,7 @@ export default function WardMap() {
         participationDataRef.current = deriveParticipationBoundaries(secondary.cityBoundaries, secondary.turnoutCities);
         setParticipationCities(participationDataRef.current.features.map((f) => f.properties));
         setTurnoutDenominatorNote(secondary.turnoutDenominatorNote);
+        setTurnoutActiveYear(secondary.turnoutActiveYear);
         const commissionersBounds = boundsFromFeatureCollection(secondary.commissioners);
         const stateLegBounds = boundsFromFeatureCollection(secondary.stateLeg);
         if (!commissionersBounds.isEmpty()) commissionersBoundsRef.current = commissionersBounds;
@@ -4488,7 +4535,7 @@ export default function WardMap() {
                 layerMode === mode ? "bg-accent text-on-accent" : `text-ink-3 hover:text-ink ${rowHoverClass("floating")}`
               }`}
             >
-              {MODE_LABELS[mode]}
+              {mode === "participation" ? participationModeLabel(turnoutActiveYear) : MODE_LABELS[mode]}
             </button>
           ))}
         </div>
@@ -4508,12 +4555,18 @@ export default function WardMap() {
           <>
             <ParticipationLegend
               variant="floating"
+              electionHeading={formatElectionHeading(turnoutActiveYear)}
               denominatorNote={turnoutDenominatorNote}
               populationWeighted={participationPopulationWeighted}
               onTogglePopulationWeighted={toggleParticipationPopulationWeighted}
             />
             <div className="mt-3">
-              <ParticipationRecordList cities={participationCities} variant="floating" onSelectCity={selectParticipationCity} />
+              <ParticipationRecordList
+                cities={participationCities}
+                variant="floating"
+                electionHeading={formatElectionHeading(turnoutActiveYear)}
+                onSelectCity={selectParticipationCity}
+              />
             </div>
           </>
         ) : (
@@ -4559,7 +4612,7 @@ export default function WardMap() {
             className={sidebarTabButtonClass(layerMode === mode)}
             style={layerMode === mode ? { backgroundColor: TIER_HEADER_BG, color: TIER_HEADER_TEXT } : undefined}
           >
-            {MODE_LABELS[mode]}
+            {mode === "participation" ? participationModeLabel(turnoutActiveYear) : MODE_LABELS[mode]}
           </button>
         ))}
       </div>
@@ -4592,7 +4645,7 @@ export default function WardMap() {
             layerMode === "state-legislature"
               ? "Chambers Shown"
               : layerMode === "participation"
-                ? "Turnout"
+                ? participationModeLabel(turnoutActiveYear)
                 : AREA_SECTION_LABEL[layerMode],
           )}
         </div>
@@ -4602,6 +4655,7 @@ export default function WardMap() {
           <>
             <ParticipationLegend
               variant="sidebar"
+              electionHeading={formatElectionHeading(turnoutActiveYear)}
               denominatorNote={turnoutDenominatorNote}
               populationWeighted={participationPopulationWeighted}
               onTogglePopulationWeighted={toggleParticipationPopulationWeighted}
@@ -4611,7 +4665,12 @@ export default function WardMap() {
                 keyboard/screen-reader resident reaches every city's
                 turnout figures without ever touching the map canvas. */}
             <div className="mt-3">
-              <ParticipationRecordList cities={participationCities} variant="sidebar" onSelectCity={selectParticipationCity} />
+              <ParticipationRecordList
+                cities={participationCities}
+                variant="sidebar"
+                electionHeading={formatElectionHeading(turnoutActiveYear)}
+                onSelectCity={selectParticipationCity}
+              />
             </div>
           </>
         ) : (
