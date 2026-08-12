@@ -28,6 +28,7 @@ import { touchTargetClass } from "@/lib/variantClasses";
 import {
   CITY_BOUNDARIES_NOTE,
   COMMISSIONER_COUNTIES_LIST,
+  ELECTION_RESULTS_NOTE,
   MEETINGS_NOTE,
   NOT_COVERED_ANYWHERE,
   STATE_LEGISLATURE_NOTE,
@@ -111,6 +112,13 @@ export default function CoverageNotice() {
                 /meetings
               </a>{" "}
               for the full browser.
+            </p>
+            <p>
+              <span className="font-medium text-ink-2">2026 state primary results</span> — {ELECTION_RESULTS_NOTE} See{" "}
+              <a href="/election-results" className="underline underline-offset-2 hover:text-ink-2">
+                /election-results
+              </a>{" "}
+              for the full contest list.
             </p>
             <p>
               <span className="font-medium text-ink-2">Not covered anywhere yet</span> — {NOT_COVERED_ANYWHERE.join("; ")}.

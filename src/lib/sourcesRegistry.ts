@@ -260,4 +260,12 @@ export const OTHER_SOURCES: readonly SourceEntry[] = [
     tier: 1,
     script: "mn-campaign-finance.mjs",
   },
+  {
+    name: "2026 MN state primary results",
+    agency: "Office of the Minnesota Secretary of State",
+    url: "https://electionresults.sos.mn.gov/Select/MediaFiles/Index?ersElectionId=200",
+    tier: 1,
+    script: "mn-election-results.mjs",
+    note: "This page (electionresults.sos.mn.gov) is the official public results index, cited here as the primary source, but it sits behind a bot-management wall this project won't evade — this script does not fetch it directly. Real results are instead fetched automatically at build time from electionresultsfiles.sos.mn.gov, a separate, unwalled static file host serving the same underlying data (confirmed live; URL pattern found by direct inspection, not officially documented, so it could change without notice — see mn-election-results.mjs's own header comment and knownGaps). A manual-drop fallback (scripts/ingest/data/mn-election-results-raw/README.md, --from-manual-drop) remains available if that file host ever goes away.",
+  },
 ] as const;
