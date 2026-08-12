@@ -95,10 +95,11 @@ function buildIndex(data) {
         option: mapLimsVoteValue(vote.value),
         result: (item.passedFlagName ?? "").toLowerCase(),
         date: meeting.date,
-        // LIMS doesn't resolve a per-item public record URL the way
-        // Legistar's InSite Gateway.aspx redirect does — the meeting's
-        // own agenda/source link is the closest real citation available.
-        sourceUrl: meeting.sourceUrl ?? null,
+        // The bill's own LIMS record page (lims-minneapolis.mjs derives
+        // this directly from FileNumber). Falls back to the meeting's
+        // agenda link only for older records ingested before fileUrl
+        // existed, or items with no FileNumber at all.
+        sourceUrl: item.fileUrl ?? meeting.sourceUrl ?? null,
       };
       if (!bySurname.has(surname)) bySurname.set(surname, []);
       bySurname.get(surname).push(billVote);

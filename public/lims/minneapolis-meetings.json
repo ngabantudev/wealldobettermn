@@ -6058,7 +6058,8 @@
       "matterFile": "2026-00215",
       "matterId": null,
       "matterType": "Receive & File",
-      "votes": []
+      "votes": [],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00215"
     },
     {
       "id": "lims-minneapolis-fileitem-716-7",
@@ -6072,7 +6073,8 @@
       "matterFile": "2026-00268",
       "matterId": null,
       "matterType": "Ordinance",
-      "votes": []
+      "votes": [],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00268"
     },
     {
       "id": "lims-minneapolis-fileitem-1281-1",
@@ -6086,7 +6088,8 @@
       "matterFile": "2026-00438",
       "matterId": null,
       "matterType": "Action",
-      "votes": []
+      "votes": [],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00438"
     },
     {
       "id": "lims-minneapolis-fileitem-1306-0",
@@ -6100,7 +6103,8 @@
       "matterFile": "2026-00456",
       "matterId": null,
       "matterType": "Receive & File",
-      "votes": []
+      "votes": [],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00456"
     },
     {
       "id": "lims-minneapolis-fileitem-1352-0",
@@ -6114,7 +6118,8 @@
       "matterFile": "2026-00464",
       "matterId": null,
       "matterType": "Action",
-      "votes": []
+      "votes": [],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00464"
     },
     {
       "id": "lims-minneapolis-fileitem-1512-0",
@@ -6128,7 +6133,8 @@
       "matterFile": "2026-00550",
       "matterId": null,
       "matterType": "Receive & File",
-      "votes": []
+      "votes": [],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00550"
     },
     {
       "id": "lims-minneapolis-fileitem-1624-2",
@@ -6195,7 +6201,8 @@
           "memberName": "Jamison Whiting",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00609"
     },
     {
       "id": "lims-minneapolis-fileitem-1705-1",
@@ -6262,7 +6269,8 @@
           "memberName": "Jamison Whiting",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00653"
     },
     {
       "id": "lims-minneapolis-fileitem-1750-0",
@@ -6276,7 +6284,8 @@
       "matterFile": "2026-00667",
       "matterId": null,
       "matterType": "Action",
-      "votes": []
+      "votes": [],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00667"
     },
     {
       "id": "lims-minneapolis-fileitem-1879-2",
@@ -6343,7 +6352,8 @@
           "memberName": "Jamison Whiting",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00698"
     },
     {
       "id": "lims-minneapolis-fileitem-1929-0",
@@ -6386,7 +6396,8 @@
           "memberName": "Soren Stevenson",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00725"
     },
     {
       "id": "lims-minneapolis-fileitem-2027-3",
@@ -6453,7 +6464,8 @@
           "memberName": "Linea Palmisano",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00775"
     },
     {
       "id": "lims-minneapolis-fileitem-2029-1",
@@ -6520,7 +6532,8 @@
           "memberName": "Linea Palmisano",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00777"
     },
     {
       "id": "lims-minneapolis-fileitem-2043-3",
@@ -6587,7 +6600,8 @@
           "memberName": "Linea Palmisano",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00791"
     },
     {
       "id": "lims-minneapolis-fileitem-2056-1",
@@ -6654,7 +6668,8 @@
           "memberName": "Linea Palmisano",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00801"
     },
     {
       "id": "lims-minneapolis-fileitem-2057-1",
@@ -6721,7 +6736,8 @@
           "memberName": "Linea Palmisano",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00801"
     },
     {
       "id": "lims-minneapolis-fileitem-2058-1",
@@ -6788,7 +6804,8 @@
           "memberName": "Linea Palmisano",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00801"
     },
     {
       "id": "lims-minneapolis-fileitem-2062-1",
@@ -6855,7 +6872,8 @@
           "memberName": "Jamison Whiting",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00806"
     },
     {
       "id": "lims-minneapolis-fileitem-2062-2",
@@ -6869,7 +6887,8 @@
       "matterFile": "2026-00806",
       "matterId": null,
       "matterType": "Ordinance",
-      "votes": []
+      "votes": [],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00806"
     },
     {
       "id": "lims-minneapolis-fileitem-2065-1",
@@ -6936,7 +6955,8 @@
           "memberName": "Linea Palmisano",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00808"
     },
     {
       "id": "lims-minneapolis-fileitem-2066-1",
@@ -7003,7 +7023,8 @@
           "memberName": "Jamison Whiting",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00809"
     },
     {
       "id": "lims-minneapolis-fileitem-2066-2",
@@ -7017,7 +7038,8 @@
       "matterFile": "2026-00809",
       "matterId": null,
       "matterType": "Ordinance",
-      "votes": []
+      "votes": [],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00809"
     },
     {
       "id": "lims-minneapolis-fileitem-2067-1",
@@ -7084,7 +7106,8 @@
           "memberName": "Jamison Whiting",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00809"
     },
     {
       "id": "lims-minneapolis-fileitem-2067-2",
@@ -7098,7 +7121,8 @@
       "matterFile": "2026-00809",
       "matterId": null,
       "matterType": "Ordinance",
-      "votes": []
+      "votes": [],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00809"
     },
     {
       "id": "lims-minneapolis-fileitem-2068-1",
@@ -7165,7 +7189,8 @@
           "memberName": "Jamison Whiting",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00809"
     },
     {
       "id": "lims-minneapolis-fileitem-2068-2",
@@ -7179,7 +7204,8 @@
       "matterFile": "2026-00809",
       "matterId": null,
       "matterType": "Ordinance",
-      "votes": []
+      "votes": [],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00809"
     },
     {
       "id": "lims-minneapolis-fileitem-2069-1",
@@ -7246,7 +7272,8 @@
           "memberName": "Jamison Whiting",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00809"
     },
     {
       "id": "lims-minneapolis-fileitem-2069-2",
@@ -7260,7 +7287,8 @@
       "matterFile": "2026-00809",
       "matterId": null,
       "matterType": "Ordinance",
-      "votes": []
+      "votes": [],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00809"
     },
     {
       "id": "lims-minneapolis-fileitem-2070-1",
@@ -7327,7 +7355,8 @@
           "memberName": "Jamison Whiting",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00809"
     },
     {
       "id": "lims-minneapolis-fileitem-2070-2",
@@ -7341,7 +7370,8 @@
       "matterFile": "2026-00809",
       "matterId": null,
       "matterType": "Ordinance",
-      "votes": []
+      "votes": [],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00809"
     },
     {
       "id": "lims-minneapolis-fileitem-2071-1",
@@ -7408,7 +7438,8 @@
           "memberName": "Linea Palmisano",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00810"
     },
     {
       "id": "lims-minneapolis-fileitem-2072-1",
@@ -7475,7 +7506,8 @@
           "memberName": "Linea Palmisano",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00810"
     },
     {
       "id": "lims-minneapolis-fileitem-2073-1",
@@ -7542,7 +7574,8 @@
           "memberName": "Linea Palmisano",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00810"
     },
     {
       "id": "lims-minneapolis-fileitem-2074-1",
@@ -7609,7 +7642,8 @@
           "memberName": "Linea Palmisano",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00810"
     },
     {
       "id": "lims-minneapolis-fileitem-2075-1",
@@ -7676,7 +7710,8 @@
           "memberName": "Linea Palmisano",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00810"
     },
     {
       "id": "lims-minneapolis-fileitem-2076-1",
@@ -7743,7 +7778,8 @@
           "memberName": "Linea Palmisano",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00811"
     },
     {
       "id": "lims-minneapolis-fileitem-2077-1",
@@ -7810,7 +7846,8 @@
           "memberName": "Linea Palmisano",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00812"
     },
     {
       "id": "lims-minneapolis-fileitem-2078-1",
@@ -7877,7 +7914,8 @@
           "memberName": "Linea Palmisano",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00813"
     },
     {
       "id": "lims-minneapolis-fileitem-2079-1",
@@ -7944,7 +7982,8 @@
           "memberName": "Linea Palmisano",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00813"
     },
     {
       "id": "lims-minneapolis-fileitem-2080-1",
@@ -8011,7 +8050,8 @@
           "memberName": "Linea Palmisano",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00813"
     },
     {
       "id": "lims-minneapolis-fileitem-2081-1",
@@ -8078,7 +8118,8 @@
           "memberName": "Linea Palmisano",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00813"
     },
     {
       "id": "lims-minneapolis-fileitem-2082-1",
@@ -8145,7 +8186,8 @@
           "memberName": "Linea Palmisano",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00813"
     },
     {
       "id": "lims-minneapolis-fileitem-2083-1",
@@ -8212,7 +8254,8 @@
           "memberName": "Linea Palmisano",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00813"
     },
     {
       "id": "lims-minneapolis-fileitem-2084-1",
@@ -8279,7 +8322,8 @@
           "memberName": "Linea Palmisano",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00813"
     },
     {
       "id": "lims-minneapolis-fileitem-2085-1",
@@ -8346,7 +8390,8 @@
           "memberName": "Linea Palmisano",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00813"
     },
     {
       "id": "lims-minneapolis-fileitem-2086-1",
@@ -8413,7 +8458,8 @@
           "memberName": "Linea Palmisano",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00813"
     },
     {
       "id": "lims-minneapolis-fileitem-2087-1",
@@ -8480,7 +8526,8 @@
           "memberName": "Linea Palmisano",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00813"
     },
     {
       "id": "lims-minneapolis-fileitem-2088-1",
@@ -8547,7 +8594,8 @@
           "memberName": "Linea Palmisano",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00813"
     },
     {
       "id": "lims-minneapolis-fileitem-2089-1",
@@ -8614,7 +8662,8 @@
           "memberName": "Linea Palmisano",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00813"
     },
     {
       "id": "lims-minneapolis-fileitem-2090-1",
@@ -8681,7 +8730,8 @@
           "memberName": "Linea Palmisano",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00813"
     },
     {
       "id": "lims-minneapolis-fileitem-2091-1",
@@ -8748,7 +8798,8 @@
           "memberName": "Linea Palmisano",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00813"
     },
     {
       "id": "lims-minneapolis-fileitem-2092-1",
@@ -8815,7 +8866,8 @@
           "memberName": "Linea Palmisano",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00813"
     },
     {
       "id": "lims-minneapolis-fileitem-2093-1",
@@ -8882,7 +8934,8 @@
           "memberName": "Linea Palmisano",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00813"
     },
     {
       "id": "lims-minneapolis-fileitem-2094-1",
@@ -8949,7 +9002,8 @@
           "memberName": "Linea Palmisano",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00813"
     },
     {
       "id": "lims-minneapolis-fileitem-2095-1",
@@ -9016,7 +9070,8 @@
           "memberName": "Linea Palmisano",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00813"
     },
     {
       "id": "lims-minneapolis-fileitem-2096-1",
@@ -9083,7 +9138,8 @@
           "memberName": "Linea Palmisano",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00813"
     },
     {
       "id": "lims-minneapolis-fileitem-2097-1",
@@ -9150,7 +9206,8 @@
           "memberName": "Linea Palmisano",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00813"
     },
     {
       "id": "lims-minneapolis-fileitem-2098-1",
@@ -9164,7 +9221,8 @@
       "matterFile": "2026-00813",
       "matterId": null,
       "matterType": "Action",
-      "votes": []
+      "votes": [],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00813"
     },
     {
       "id": "lims-minneapolis-fileitem-2099-1",
@@ -9231,7 +9289,8 @@
           "memberName": "Linea Palmisano",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00813"
     },
     {
       "id": "lims-minneapolis-fileitem-2100-1",
@@ -9298,7 +9357,8 @@
           "memberName": "Linea Palmisano",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00813"
     },
     {
       "id": "lims-minneapolis-fileitem-2101-1",
@@ -9365,7 +9425,8 @@
           "memberName": "Linea Palmisano",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00813"
     },
     {
       "id": "lims-minneapolis-fileitem-2102-1",
@@ -9432,7 +9493,8 @@
           "memberName": "Linea Palmisano",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00813"
     },
     {
       "id": "lims-minneapolis-fileitem-2103-1",
@@ -9499,7 +9561,8 @@
           "memberName": "Linea Palmisano",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00813"
     },
     {
       "id": "lims-minneapolis-fileitem-2104-1",
@@ -9566,7 +9629,8 @@
           "memberName": "Linea Palmisano",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00813"
     },
     {
       "id": "lims-minneapolis-fileitem-2105-1",
@@ -9633,7 +9697,8 @@
           "memberName": "Linea Palmisano",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00813"
     },
     {
       "id": "lims-minneapolis-fileitem-2106-1",
@@ -9700,7 +9765,8 @@
           "memberName": "Linea Palmisano",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00813"
     },
     {
       "id": "lims-minneapolis-fileitem-2107-1",
@@ -9767,7 +9833,8 @@
           "memberName": "Linea Palmisano",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00813"
     },
     {
       "id": "lims-minneapolis-fileitem-2108-1",
@@ -9834,7 +9901,8 @@
           "memberName": "Linea Palmisano",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00813"
     },
     {
       "id": "lims-minneapolis-fileitem-2109-1",
@@ -9901,7 +9969,8 @@
           "memberName": "Linea Palmisano",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00813"
     },
     {
       "id": "lims-minneapolis-fileitem-2110-1",
@@ -9968,7 +10037,8 @@
           "memberName": "Linea Palmisano",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00813"
     },
     {
       "id": "lims-minneapolis-fileitem-2112-1",
@@ -10035,7 +10105,8 @@
           "memberName": "Linea Palmisano",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00815"
     },
     {
       "id": "lims-minneapolis-fileitem-2113-2",
@@ -10102,7 +10173,8 @@
           "memberName": "Jamison Whiting",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00816"
     },
     {
       "id": "lims-minneapolis-fileitem-2114-1",
@@ -10169,7 +10241,8 @@
           "memberName": "Linea Palmisano",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00817"
     },
     {
       "id": "lims-minneapolis-fileitem-2115-1",
@@ -10236,7 +10309,8 @@
           "memberName": "Linea Palmisano",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00818"
     },
     {
       "id": "lims-minneapolis-fileitem-2116-1",
@@ -10303,7 +10377,8 @@
           "memberName": "Linea Palmisano",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00819"
     },
     {
       "id": "lims-minneapolis-fileitem-2118-1",
@@ -10370,7 +10445,8 @@
           "memberName": "Linea Palmisano",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00821"
     },
     {
       "id": "lims-minneapolis-fileitem-2119-1",
@@ -10437,7 +10513,8 @@
           "memberName": "Linea Palmisano",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00822"
     },
     {
       "id": "lims-minneapolis-fileitem-2120-1",
@@ -10504,7 +10581,8 @@
           "memberName": "Linea Palmisano",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00823"
     },
     {
       "id": "lims-minneapolis-fileitem-2122-1",
@@ -10571,7 +10649,8 @@
           "memberName": "Linea Palmisano",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00826"
     },
     {
       "id": "lims-minneapolis-fileitem-2123-1",
@@ -10638,7 +10717,8 @@
           "memberName": "Linea Palmisano",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00827"
     },
     {
       "id": "lims-minneapolis-fileitem-2124-1",
@@ -10705,7 +10785,8 @@
           "memberName": "Linea Palmisano",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00828"
     },
     {
       "id": "lims-minneapolis-fileitem-2125-1",
@@ -10772,7 +10853,8 @@
           "memberName": "Linea Palmisano",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00829"
     },
     {
       "id": "lims-minneapolis-fileitem-2126-1",
@@ -10839,7 +10921,8 @@
           "memberName": "Linea Palmisano",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00829"
     },
     {
       "id": "lims-minneapolis-fileitem-2127-1",
@@ -10906,7 +10989,8 @@
           "memberName": "Linea Palmisano",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00830"
     },
     {
       "id": "lims-minneapolis-fileitem-2128-1",
@@ -10973,7 +11057,8 @@
           "memberName": "Linea Palmisano",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00832"
     },
     {
       "id": "lims-minneapolis-fileitem-2129-2",
@@ -11040,7 +11125,8 @@
           "memberName": "Jamison Whiting",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00833"
     },
     {
       "id": "lims-minneapolis-fileitem-2130-1",
@@ -11107,7 +11193,8 @@
           "memberName": "Linea Palmisano",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00834"
     },
     {
       "id": "lims-minneapolis-fileitem-2132-1",
@@ -11174,7 +11261,8 @@
           "memberName": "Linea Palmisano",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00836"
     },
     {
       "id": "lims-minneapolis-fileitem-2133-1",
@@ -11241,7 +11329,8 @@
           "memberName": "Linea Palmisano",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00837"
     },
     {
       "id": "lims-minneapolis-fileitem-2134-1",
@@ -11308,7 +11397,8 @@
           "memberName": "Linea Palmisano",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00838"
     },
     {
       "id": "lims-minneapolis-fileitem-2135-2",
@@ -11375,7 +11465,8 @@
           "memberName": "Jamison Whiting",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00839"
     },
     {
       "id": "lims-minneapolis-fileitem-2137-1",
@@ -11442,7 +11533,8 @@
           "memberName": "Linea Palmisano",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00841"
     },
     {
       "id": "lims-minneapolis-fileitem-2138-1",
@@ -11509,7 +11601,8 @@
           "memberName": "Linea Palmisano",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00841"
     },
     {
       "id": "lims-minneapolis-fileitem-2139-1",
@@ -11576,7 +11669,8 @@
           "memberName": "Linea Palmisano",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00842"
     },
     {
       "id": "lims-minneapolis-fileitem-2140-2",
@@ -11643,7 +11737,8 @@
           "memberName": "Jamison Whiting",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00843"
     },
     {
       "id": "lims-minneapolis-fileitem-2141-1",
@@ -11710,7 +11805,8 @@
           "memberName": "Linea Palmisano",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00844"
     },
     {
       "id": "lims-minneapolis-fileitem-2142-1",
@@ -11777,7 +11873,8 @@
           "memberName": "Linea Palmisano",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00844"
     },
     {
       "id": "lims-minneapolis-fileitem-2143-1",
@@ -11844,7 +11941,8 @@
           "memberName": "Linea Palmisano",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00844"
     },
     {
       "id": "lims-minneapolis-fileitem-2144-1",
@@ -11911,7 +12009,8 @@
           "memberName": "Linea Palmisano",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00844"
     },
     {
       "id": "lims-minneapolis-fileitem-2145-1",
@@ -11978,7 +12077,8 @@
           "memberName": "Linea Palmisano",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00844"
     },
     {
       "id": "lims-minneapolis-fileitem-2146-1",
@@ -12045,7 +12145,8 @@
           "memberName": "Linea Palmisano",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00845"
     },
     {
       "id": "lims-minneapolis-fileitem-2147-1",
@@ -12112,7 +12213,8 @@
           "memberName": "Linea Palmisano",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00846"
     },
     {
       "id": "lims-minneapolis-fileitem-2148-1",
@@ -12179,7 +12281,8 @@
           "memberName": "Linea Palmisano",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00847"
     },
     {
       "id": "lims-minneapolis-fileitem-2149-1",
@@ -12246,7 +12349,8 @@
           "memberName": "Linea Palmisano",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00848"
     },
     {
       "id": "lims-minneapolis-fileitem-2150-1",
@@ -12313,7 +12417,8 @@
           "memberName": "Linea Palmisano",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00848"
     },
     {
       "id": "lims-minneapolis-fileitem-2151-1",
@@ -12380,7 +12485,8 @@
           "memberName": "Linea Palmisano",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00848"
     },
     {
       "id": "lims-minneapolis-fileitem-2152-1",
@@ -12447,7 +12553,8 @@
           "memberName": "Linea Palmisano",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00848"
     },
     {
       "id": "lims-minneapolis-fileitem-2153-1",
@@ -12514,7 +12621,8 @@
           "memberName": "Linea Palmisano",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00849"
     },
     {
       "id": "lims-minneapolis-fileitem-2154-1",
@@ -12581,7 +12689,8 @@
           "memberName": "Linea Palmisano",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00850"
     },
     {
       "id": "lims-minneapolis-fileitem-2156-1",
@@ -12648,7 +12757,8 @@
           "memberName": "Linea Palmisano",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00852"
     },
     {
       "id": "lims-minneapolis-fileitem-2157-1",
@@ -12715,7 +12825,8 @@
           "memberName": "Linea Palmisano",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00853"
     },
     {
       "id": "lims-minneapolis-fileitem-2158-1",
@@ -12782,7 +12893,8 @@
           "memberName": "Linea Palmisano",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00854"
     },
     {
       "id": "lims-minneapolis-fileitem-2162-1",
@@ -12849,7 +12961,8 @@
           "memberName": "Linea Palmisano",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00858"
     },
     {
       "id": "lims-minneapolis-fileitem-2163-1",
@@ -12863,7 +12976,8 @@
       "matterFile": "2026-00859",
       "matterId": null,
       "matterType": "Action",
-      "votes": []
+      "votes": [],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00859"
     },
     {
       "id": "lims-minneapolis-fileitem-2164-1",
@@ -12930,7 +13044,8 @@
           "memberName": "Linea Palmisano",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00860"
     },
     {
       "id": "lims-minneapolis-fileitem-2167-1",
@@ -12997,7 +13112,8 @@
           "memberName": "Linea Palmisano",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00863"
     },
     {
       "id": "lims-minneapolis-fileitem-2168-1",
@@ -13064,7 +13180,8 @@
           "memberName": "Linea Palmisano",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00863"
     },
     {
       "id": "lims-minneapolis-fileitem-2169-1",
@@ -13131,7 +13248,8 @@
           "memberName": "Linea Palmisano",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00863"
     },
     {
       "id": "lims-minneapolis-fileitem-2170-1",
@@ -13198,7 +13316,8 @@
           "memberName": "Linea Palmisano",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00863"
     },
     {
       "id": "lims-minneapolis-fileitem-2171-1",
@@ -13265,7 +13384,8 @@
           "memberName": "Jamison Whiting",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00864"
     },
     {
       "id": "lims-minneapolis-fileitem-2171-2",
@@ -13279,7 +13399,8 @@
       "matterFile": "2026-00864",
       "matterId": null,
       "matterType": "Ordinance",
-      "votes": []
+      "votes": [],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00864"
     },
     {
       "id": "lims-minneapolis-fileitem-2172-2",
@@ -13346,7 +13467,8 @@
           "memberName": "Jamison Whiting",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00865"
     },
     {
       "id": "lims-minneapolis-fileitem-2173-2",
@@ -13413,7 +13535,8 @@
           "memberName": "Jamison Whiting",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00865"
     },
     {
       "id": "lims-minneapolis-fileitem-2174-2",
@@ -13480,7 +13603,8 @@
           "memberName": "Jamison Whiting",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00865"
     },
     {
       "id": "lims-minneapolis-fileitem-2175-0",
@@ -13494,7 +13618,8 @@
       "matterFile": "2026-00866",
       "matterId": null,
       "matterType": "Receive & File",
-      "votes": []
+      "votes": [],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00866"
     },
     {
       "id": "lims-minneapolis-fileitem-2176-0",
@@ -13508,7 +13633,8 @@
       "matterFile": "2026-00869",
       "matterId": null,
       "matterType": "Receive & File",
-      "votes": []
+      "votes": [],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00869"
     },
     {
       "id": "lims-minneapolis-fileitem-2180-1",
@@ -13575,7 +13701,8 @@
           "memberName": "Jamison Whiting",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00871"
     },
     {
       "id": "lims-minneapolis-fileitem-2180-2",
@@ -13589,7 +13716,8 @@
       "matterFile": "2026-00871",
       "matterId": null,
       "matterType": "Ordinance",
-      "votes": []
+      "votes": [],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00871"
     },
     {
       "id": "lims-minneapolis-fileitem-2181-0",
@@ -13603,7 +13731,8 @@
       "matterFile": "2026-00872",
       "matterId": null,
       "matterType": "Action",
-      "votes": []
+      "votes": [],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00872"
     },
     {
       "id": "lims-minneapolis-fileitem-2182-0",
@@ -13617,7 +13746,8 @@
       "matterFile": "2026-00872",
       "matterId": null,
       "matterType": "Resolution",
-      "votes": []
+      "votes": [],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00872"
     },
     {
       "id": "lims-minneapolis-fileitem-2183-0",
@@ -13631,7 +13761,8 @@
       "matterFile": "2026-00873",
       "matterId": null,
       "matterType": "Action",
-      "votes": []
+      "votes": [],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00873"
     },
     {
       "id": "lims-minneapolis-fileitem-2184-0",
@@ -13645,7 +13776,8 @@
       "matterFile": "2026-00873",
       "matterId": null,
       "matterType": "Resolution",
-      "votes": []
+      "votes": [],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00873"
     },
     {
       "id": "lims-minneapolis-fileitem-2185-1",
@@ -13712,7 +13844,8 @@
           "memberName": "Linea Palmisano",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00874"
     },
     {
       "id": "lims-minneapolis-fileitem-2186-1",
@@ -13779,7 +13912,8 @@
           "memberName": "Linea Palmisano",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00874"
     },
     {
       "id": "lims-minneapolis-fileitem-2187-1",
@@ -13846,7 +13980,8 @@
           "memberName": "Linea Palmisano",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00874"
     },
     {
       "id": "lims-minneapolis-fileitem-2188-1",
@@ -13913,7 +14048,8 @@
           "memberName": "Linea Palmisano",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00874"
     },
     {
       "id": "lims-minneapolis-fileitem-2189-1",
@@ -13980,7 +14116,8 @@
           "memberName": "Linea Palmisano",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00875"
     },
     {
       "id": "lims-minneapolis-fileitem-2191-1",
@@ -14047,7 +14184,8 @@
           "memberName": "Linea Palmisano",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00878"
     },
     {
       "id": "lims-minneapolis-fileitem-2194-1",
@@ -14114,7 +14252,8 @@
           "memberName": "Linea Palmisano",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00881"
     },
     {
       "id": "lims-minneapolis-fileitem-2196-0",
@@ -14128,7 +14267,8 @@
       "matterFile": "2026-00883",
       "matterId": null,
       "matterType": "Action",
-      "votes": []
+      "votes": [],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00883"
     },
     {
       "id": "lims-minneapolis-fileitem-2197-0",
@@ -14142,7 +14282,8 @@
       "matterFile": "2026-00884",
       "matterId": null,
       "matterType": "Action",
-      "votes": []
+      "votes": [],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00884"
     },
     {
       "id": "lims-minneapolis-fileitem-2198-0",
@@ -14156,7 +14297,8 @@
       "matterFile": "2026-00885",
       "matterId": null,
       "matterType": "Resolution",
-      "votes": []
+      "votes": [],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00885"
     },
     {
       "id": "lims-minneapolis-fileitem-2199-0",
@@ -14170,7 +14312,8 @@
       "matterFile": "2026-00886",
       "matterId": null,
       "matterType": "Resolution",
-      "votes": []
+      "votes": [],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00886"
     },
     {
       "id": "lims-minneapolis-fileitem-2200-0",
@@ -14184,7 +14327,8 @@
       "matterFile": "2026-00887",
       "matterId": null,
       "matterType": "Action",
-      "votes": []
+      "votes": [],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00887"
     },
     {
       "id": "lims-minneapolis-fileitem-2201-0",
@@ -14198,7 +14342,8 @@
       "matterFile": "2026-00887",
       "matterId": null,
       "matterType": "Ordinance",
-      "votes": []
+      "votes": [],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00887"
     },
     {
       "id": "lims-minneapolis-fileitem-2202-0",
@@ -14212,7 +14357,8 @@
       "matterFile": "2026-00888",
       "matterId": null,
       "matterType": "Resolution",
-      "votes": []
+      "votes": [],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00888"
     },
     {
       "id": "lims-minneapolis-fileitem-2203-0",
@@ -14226,7 +14372,8 @@
       "matterFile": "2026-00889",
       "matterId": null,
       "matterType": "Ordinance",
-      "votes": []
+      "votes": [],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00889"
     },
     {
       "id": "lims-minneapolis-fileitem-2204-1",
@@ -14293,7 +14440,8 @@
           "memberName": "Linea Palmisano",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00890"
     },
     {
       "id": "lims-minneapolis-fileitem-2205-1",
@@ -14360,7 +14508,8 @@
           "memberName": "Linea Palmisano",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00891"
     },
     {
       "id": "lims-minneapolis-fileitem-2206-0",
@@ -14374,7 +14523,8 @@
       "matterFile": "2026-00892",
       "matterId": null,
       "matterType": "Action",
-      "votes": []
+      "votes": [],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00892"
     },
     {
       "id": "lims-minneapolis-fileitem-2207-0",
@@ -14388,7 +14538,8 @@
       "matterFile": "2026-00892",
       "matterId": null,
       "matterType": "Action",
-      "votes": []
+      "votes": [],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00892"
     },
     {
       "id": "lims-minneapolis-fileitem-2208-0",
@@ -14402,7 +14553,8 @@
       "matterFile": "2026-00893",
       "matterId": null,
       "matterType": "Action",
-      "votes": []
+      "votes": [],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00893"
     },
     {
       "id": "lims-minneapolis-fileitem-2209-0",
@@ -14416,7 +14568,8 @@
       "matterFile": "2026-00893",
       "matterId": null,
       "matterType": "Action",
-      "votes": []
+      "votes": [],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00893"
     },
     {
       "id": "lims-minneapolis-fileitem-2210-0",
@@ -14430,7 +14583,8 @@
       "matterFile": "2026-00893",
       "matterId": null,
       "matterType": "Action",
-      "votes": []
+      "votes": [],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00893"
     },
     {
       "id": "lims-minneapolis-fileitem-2211-0",
@@ -14444,7 +14598,8 @@
       "matterFile": "2026-00893",
       "matterId": null,
       "matterType": "Action",
-      "votes": []
+      "votes": [],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00893"
     },
     {
       "id": "lims-minneapolis-fileitem-2212-0",
@@ -14458,7 +14613,8 @@
       "matterFile": "2026-00893",
       "matterId": null,
       "matterType": "Action",
-      "votes": []
+      "votes": [],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00893"
     },
     {
       "id": "lims-minneapolis-fileitem-2213-0",
@@ -14472,7 +14628,8 @@
       "matterFile": "2026-00893",
       "matterId": null,
       "matterType": "Action",
-      "votes": []
+      "votes": [],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00893"
     },
     {
       "id": "lims-minneapolis-fileitem-2214-0",
@@ -14486,7 +14643,8 @@
       "matterFile": "2026-00893",
       "matterId": null,
       "matterType": "Action",
-      "votes": []
+      "votes": [],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00893"
     },
     {
       "id": "lims-minneapolis-fileitem-2215-0",
@@ -14500,7 +14658,8 @@
       "matterFile": "2026-00893",
       "matterId": null,
       "matterType": "Action",
-      "votes": []
+      "votes": [],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00893"
     },
     {
       "id": "lims-minneapolis-fileitem-2216-0",
@@ -14514,7 +14673,8 @@
       "matterFile": "2026-00893",
       "matterId": null,
       "matterType": "Action",
-      "votes": []
+      "votes": [],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00893"
     },
     {
       "id": "lims-minneapolis-fileitem-2217-0",
@@ -14528,7 +14688,8 @@
       "matterFile": "2026-00893",
       "matterId": null,
       "matterType": "Action",
-      "votes": []
+      "votes": [],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00893"
     },
     {
       "id": "lims-minneapolis-fileitem-2218-0",
@@ -14542,7 +14703,8 @@
       "matterFile": "2026-00893",
       "matterId": null,
       "matterType": "Action",
-      "votes": []
+      "votes": [],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00893"
     },
     {
       "id": "lims-minneapolis-fileitem-2219-0",
@@ -14556,7 +14718,8 @@
       "matterFile": "2026-00893",
       "matterId": null,
       "matterType": "Action",
-      "votes": []
+      "votes": [],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00893"
     },
     {
       "id": "lims-minneapolis-fileitem-2220-0",
@@ -14570,7 +14733,8 @@
       "matterFile": "2026-00893",
       "matterId": null,
       "matterType": "Action",
-      "votes": []
+      "votes": [],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00893"
     },
     {
       "id": "lims-minneapolis-fileitem-2221-0",
@@ -14584,7 +14748,8 @@
       "matterFile": "2026-00893",
       "matterId": null,
       "matterType": "Action",
-      "votes": []
+      "votes": [],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00893"
     },
     {
       "id": "lims-minneapolis-fileitem-2222-0",
@@ -14598,7 +14763,8 @@
       "matterFile": "2026-00893",
       "matterId": null,
       "matterType": "Action",
-      "votes": []
+      "votes": [],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00893"
     },
     {
       "id": "lims-minneapolis-fileitem-2223-0",
@@ -14612,7 +14778,8 @@
       "matterFile": "2026-00894",
       "matterId": null,
       "matterType": "Action",
-      "votes": []
+      "votes": [],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00894"
     },
     {
       "id": "lims-minneapolis-fileitem-2224-0",
@@ -14626,7 +14793,8 @@
       "matterFile": "2026-00894",
       "matterId": null,
       "matterType": "Action",
-      "votes": []
+      "votes": [],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00894"
     },
     {
       "id": "lims-minneapolis-fileitem-2225-0",
@@ -14640,7 +14808,8 @@
       "matterFile": "2026-00895",
       "matterId": null,
       "matterType": "Action",
-      "votes": []
+      "votes": [],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00895"
     },
     {
       "id": "lims-minneapolis-fileitem-2226-0",
@@ -14654,7 +14823,8 @@
       "matterFile": "2026-00895",
       "matterId": null,
       "matterType": "Action",
-      "votes": []
+      "votes": [],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00895"
     },
     {
       "id": "lims-minneapolis-fileitem-2227-0",
@@ -14668,7 +14838,8 @@
       "matterFile": "2026-00895",
       "matterId": null,
       "matterType": "Action",
-      "votes": []
+      "votes": [],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00895"
     },
     {
       "id": "lims-minneapolis-fileitem-2228-0",
@@ -14682,7 +14853,8 @@
       "matterFile": "2026-00895",
       "matterId": null,
       "matterType": "Action",
-      "votes": []
+      "votes": [],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00895"
     },
     {
       "id": "lims-minneapolis-fileitem-2229-0",
@@ -14696,7 +14868,8 @@
       "matterFile": "2026-00896",
       "matterId": null,
       "matterType": "Action",
-      "votes": []
+      "votes": [],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00896"
     },
     {
       "id": "lims-minneapolis-fileitem-2230-0",
@@ -14710,7 +14883,8 @@
       "matterFile": "2026-00896",
       "matterId": null,
       "matterType": "Action",
-      "votes": []
+      "votes": [],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00896"
     },
     {
       "id": "lims-minneapolis-fileitem-2231-0",
@@ -14724,7 +14898,8 @@
       "matterFile": "2026-00897",
       "matterId": null,
       "matterType": "Action",
-      "votes": []
+      "votes": [],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00897"
     },
     {
       "id": "lims-minneapolis-fileitem-2232-0",
@@ -14738,7 +14913,8 @@
       "matterFile": "2026-00897",
       "matterId": null,
       "matterType": "Action",
-      "votes": []
+      "votes": [],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00897"
     },
     {
       "id": "lims-minneapolis-fileitem-2233-0",
@@ -14752,7 +14928,8 @@
       "matterFile": "2026-00898",
       "matterId": null,
       "matterType": "Action",
-      "votes": []
+      "votes": [],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00898"
     },
     {
       "id": "lims-minneapolis-fileitem-2234-0",
@@ -14766,7 +14943,8 @@
       "matterFile": "2026-00899",
       "matterId": null,
       "matterType": "Action",
-      "votes": []
+      "votes": [],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00899"
     },
     {
       "id": "lims-minneapolis-fileitem-2235-0",
@@ -14780,7 +14958,8 @@
       "matterFile": "2026-00900",
       "matterId": null,
       "matterType": "Action",
-      "votes": []
+      "votes": [],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00900"
     },
     {
       "id": "lims-minneapolis-fileitem-2235-1",
@@ -14794,7 +14973,8 @@
       "matterFile": "2026-00900",
       "matterId": null,
       "matterType": "Action",
-      "votes": []
+      "votes": [],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00900"
     },
     {
       "id": "lims-minneapolis-fileitem-2236-0",
@@ -14808,7 +14988,8 @@
       "matterFile": "2026-00902",
       "matterId": null,
       "matterType": "Action",
-      "votes": []
+      "votes": [],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00902"
     },
     {
       "id": "lims-minneapolis-fileitem-2237-0",
@@ -14822,7 +15003,8 @@
       "matterFile": "2026-00903",
       "matterId": null,
       "matterType": "Action",
-      "votes": []
+      "votes": [],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00903"
     },
     {
       "id": "lims-minneapolis-fileitem-2238-0",
@@ -14836,7 +15018,8 @@
       "matterFile": "2026-00904",
       "matterId": null,
       "matterType": "Action",
-      "votes": []
+      "votes": [],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00904"
     },
     {
       "id": "lims-minneapolis-fileitem-2239-0",
@@ -14850,7 +15033,8 @@
       "matterFile": "2026-00905",
       "matterId": null,
       "matterType": "Action",
-      "votes": []
+      "votes": [],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00905"
     },
     {
       "id": "lims-minneapolis-fileitem-2240-0",
@@ -14864,7 +15048,8 @@
       "matterFile": "2026-00906",
       "matterId": null,
       "matterType": "Action",
-      "votes": []
+      "votes": [],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00906"
     },
     {
       "id": "lims-minneapolis-fileitem-2241-0",
@@ -14878,7 +15063,8 @@
       "matterFile": "2026-00907",
       "matterId": null,
       "matterType": "Action",
-      "votes": []
+      "votes": [],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00907"
     },
     {
       "id": "lims-minneapolis-fileitem-2242-0",
@@ -14892,7 +15078,8 @@
       "matterFile": "2026-00909",
       "matterId": null,
       "matterType": "Resolution",
-      "votes": []
+      "votes": [],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00909"
     },
     {
       "id": "lims-minneapolis-fileitem-2243-0",
@@ -14906,7 +15093,8 @@
       "matterFile": "2026-00909",
       "matterId": null,
       "matterType": "Action",
-      "votes": []
+      "votes": [],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00909"
     },
     {
       "id": "lims-minneapolis-fileitem-2244-0",
@@ -14920,7 +15108,8 @@
       "matterFile": "2026-00910",
       "matterId": null,
       "matterType": "Action",
-      "votes": []
+      "votes": [],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00910"
     },
     {
       "id": "lims-minneapolis-fileitem-2245-0",
@@ -14934,7 +15123,8 @@
       "matterFile": "2026-00911",
       "matterId": null,
       "matterType": "Action",
-      "votes": []
+      "votes": [],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00911"
     },
     {
       "id": "lims-minneapolis-fileitem-2246-0",
@@ -14948,7 +15138,8 @@
       "matterFile": "2026-00912",
       "matterId": null,
       "matterType": "Action",
-      "votes": []
+      "votes": [],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00912"
     },
     {
       "id": "lims-minneapolis-fileitem-2247-0",
@@ -14962,7 +15153,8 @@
       "matterFile": "2026-00912",
       "matterId": null,
       "matterType": "Action",
-      "votes": []
+      "votes": [],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00912"
     },
     {
       "id": "lims-minneapolis-fileitem-2248-0",
@@ -14976,7 +15168,8 @@
       "matterFile": "2026-00912",
       "matterId": null,
       "matterType": "Resolution",
-      "votes": []
+      "votes": [],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00912"
     },
     {
       "id": "lims-minneapolis-fileitem-2249-0",
@@ -14990,7 +15183,8 @@
       "matterFile": "2026-00913",
       "matterId": null,
       "matterType": "Resolution",
-      "votes": []
+      "votes": [],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00913"
     },
     {
       "id": "lims-minneapolis-fileitem-2250-0",
@@ -15004,7 +15198,8 @@
       "matterFile": "2026-00914",
       "matterId": null,
       "matterType": "Action",
-      "votes": []
+      "votes": [],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00914"
     },
     {
       "id": "lims-minneapolis-fileitem-2251-0",
@@ -15018,7 +15213,8 @@
       "matterFile": "2026-00915",
       "matterId": null,
       "matterType": "Action",
-      "votes": []
+      "votes": [],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00915"
     },
     {
       "id": "lims-minneapolis-fileitem-2252-0",
@@ -15032,7 +15228,8 @@
       "matterFile": "2026-00916",
       "matterId": null,
       "matterType": "Action",
-      "votes": []
+      "votes": [],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00916"
     },
     {
       "id": "lims-minneapolis-fileitem-2253-0",
@@ -15046,7 +15243,8 @@
       "matterFile": "2026-00917",
       "matterId": null,
       "matterType": "Action",
-      "votes": []
+      "votes": [],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00917"
     },
     {
       "id": "lims-minneapolis-fileitem-2254-0",
@@ -15060,7 +15258,8 @@
       "matterFile": "2026-00918",
       "matterId": null,
       "matterType": "Action",
-      "votes": []
+      "votes": [],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00918"
     },
     {
       "id": "lims-minneapolis-fileitem-2255-0",
@@ -15074,7 +15273,8 @@
       "matterFile": "2026-00919",
       "matterId": null,
       "matterType": "Action",
-      "votes": []
+      "votes": [],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00919"
     },
     {
       "id": "lims-minneapolis-fileitem-2256-0",
@@ -15088,7 +15288,8 @@
       "matterFile": "2026-00920",
       "matterId": null,
       "matterType": "Action",
-      "votes": []
+      "votes": [],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00920"
     },
     {
       "id": "lims-minneapolis-fileitem-2257-0",
@@ -15102,7 +15303,8 @@
       "matterFile": "2026-00920",
       "matterId": null,
       "matterType": "Action",
-      "votes": []
+      "votes": [],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00920"
     },
     {
       "id": "lims-minneapolis-fileitem-2258-0",
@@ -15116,7 +15318,8 @@
       "matterFile": "2026-00921",
       "matterId": null,
       "matterType": "Action",
-      "votes": []
+      "votes": [],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00921"
     },
     {
       "id": "lims-minneapolis-fileitem-2259-0",
@@ -15130,7 +15333,8 @@
       "matterFile": "2026-00921",
       "matterId": null,
       "matterType": "Action",
-      "votes": []
+      "votes": [],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00921"
     },
     {
       "id": "lims-minneapolis-fileitem-2260-0",
@@ -15144,7 +15348,8 @@
       "matterFile": "2026-00922",
       "matterId": null,
       "matterType": "Action",
-      "votes": []
+      "votes": [],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00922"
     },
     {
       "id": "lims-minneapolis-fileitem-2261-0",
@@ -15158,7 +15363,8 @@
       "matterFile": "2026-00923",
       "matterId": null,
       "matterType": "Action",
-      "votes": []
+      "votes": [],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00923"
     },
     {
       "id": "lims-minneapolis-fileitem-2262-0",
@@ -15172,7 +15378,8 @@
       "matterFile": "2026-00924",
       "matterId": null,
       "matterType": "Action",
-      "votes": []
+      "votes": [],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00924"
     },
     {
       "id": "lims-minneapolis-fileitem-2263-0",
@@ -15186,7 +15393,8 @@
       "matterFile": "2026-00925",
       "matterId": null,
       "matterType": "Action",
-      "votes": []
+      "votes": [],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00925"
     },
     {
       "id": "lims-minneapolis-fileitem-2264-0",
@@ -15200,7 +15408,8 @@
       "matterFile": "2026-00926",
       "matterId": null,
       "matterType": "Action",
-      "votes": []
+      "votes": [],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00926"
     },
     {
       "id": "lims-minneapolis-fileitem-2265-0",
@@ -15214,7 +15423,8 @@
       "matterFile": "2026-00927",
       "matterId": null,
       "matterType": "Action",
-      "votes": []
+      "votes": [],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00927"
     },
     {
       "id": "lims-minneapolis-fileitem-2266-0",
@@ -15228,7 +15438,8 @@
       "matterFile": "2026-00928",
       "matterId": null,
       "matterType": "Action",
-      "votes": []
+      "votes": [],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00928"
     },
     {
       "id": "lims-minneapolis-fileitem-2267-0",
@@ -15242,7 +15453,8 @@
       "matterFile": "2026-00929",
       "matterId": null,
       "matterType": "Action",
-      "votes": []
+      "votes": [],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00929"
     },
     {
       "id": "lims-minneapolis-fileitem-2268-0",
@@ -15256,7 +15468,8 @@
       "matterFile": "2026-00930",
       "matterId": null,
       "matterType": "Action",
-      "votes": []
+      "votes": [],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00930"
     },
     {
       "id": "lims-minneapolis-fileitem-2269-0",
@@ -15270,7 +15483,8 @@
       "matterFile": "2026-00932",
       "matterId": null,
       "matterType": "Action",
-      "votes": []
+      "votes": [],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00932"
     },
     {
       "id": "lims-minneapolis-fileitem-2270-0",
@@ -15284,7 +15498,8 @@
       "matterFile": "2026-00932",
       "matterId": null,
       "matterType": "Action",
-      "votes": []
+      "votes": [],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00932"
     },
     {
       "id": "lims-minneapolis-fileitem-2271-0",
@@ -15298,7 +15513,8 @@
       "matterFile": "2026-00933",
       "matterId": null,
       "matterType": "Action",
-      "votes": []
+      "votes": [],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00933"
     },
     {
       "id": "lims-minneapolis-fileitem-2272-0",
@@ -15312,7 +15528,8 @@
       "matterFile": "2026-00933",
       "matterId": null,
       "matterType": "Resolution",
-      "votes": []
+      "votes": [],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00933"
     },
     {
       "id": "lims-minneapolis-fileitem-2273-0",
@@ -15326,7 +15543,8 @@
       "matterFile": "2026-00934",
       "matterId": null,
       "matterType": "Resolution",
-      "votes": []
+      "votes": [],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00934"
     },
     {
       "id": "lims-minneapolis-fileitem-2274-0",
@@ -15340,7 +15558,8 @@
       "matterFile": "2026-00935",
       "matterId": null,
       "matterType": "Resolution",
-      "votes": []
+      "votes": [],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00935"
     },
     {
       "id": "lims-minneapolis-fileitem-2275-0",
@@ -15354,7 +15573,8 @@
       "matterFile": "2026-00936",
       "matterId": null,
       "matterType": "Ordinance",
-      "votes": []
+      "votes": [],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00936"
     },
     {
       "id": "lims-minneapolis-fileitem-2276-0",
@@ -15368,7 +15588,8 @@
       "matterFile": "2026-00937",
       "matterId": null,
       "matterType": "Ordinance",
-      "votes": []
+      "votes": [],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00937"
     },
     {
       "id": "lims-minneapolis-fileitem-2277-0",
@@ -15435,7 +15656,8 @@
           "memberName": "Linea Palmisano",
           "value": "Aye"
         }
-      ]
+      ],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00938"
     },
     {
       "id": "lims-minneapolis-fileitem-2278-0",
@@ -15449,7 +15671,8 @@
       "matterFile": "2026-00939",
       "matterId": null,
       "matterType": "Resolution",
-      "votes": []
+      "votes": [],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00939"
     },
     {
       "id": "lims-minneapolis-fileitem-2279-0",
@@ -15463,7 +15686,8 @@
       "matterFile": "2026-00940",
       "matterId": null,
       "matterType": "Action",
-      "votes": []
+      "votes": [],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00940"
     },
     {
       "id": "lims-minneapolis-fileitem-2280-0",
@@ -15477,7 +15701,8 @@
       "matterFile": "2026-00943",
       "matterId": null,
       "matterType": "Action",
-      "votes": []
+      "votes": [],
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00943"
     }
   ],
   "diff": {

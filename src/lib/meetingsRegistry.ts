@@ -148,6 +148,12 @@ export interface MeetingAgendaItem {
   matterFile: string | null;
   matterId: number | null;
   matterType: string | null;
+  // Optional: populated only by scripts/ingest/lims-minneapolis.mjs — the
+  // bill's own public LIMS record page (https://lims.minneapolismn.gov/File/{FileNumber}),
+  // as opposed to the meeting agenda it was heard at. Legistar clients
+  // (St. Paul, Hennepin) already resolve a real per-item source_url via
+  // Gateway.aspx (scripts/ingest/legistar.mjs) and don't need this.
+  fileUrl?: string | null;
   // Optional: populated only by scripts/ingest/lims-minneapolis.mjs (LIMS
   // embeds the per-member roll call directly on each agenda item).
   // Legistar's own agendaItems don't carry this field at all — that vote
