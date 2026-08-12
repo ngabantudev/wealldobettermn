@@ -641,6 +641,15 @@ function summarizeOfficials(officials: AreaOfficials): string {
   return `Showing representatives for this location: ${parts.join(", ")}.`;
 }
 
+// Thousands-separated vote/registration counts (144028 -> "144,028") —
+// every raw count this mode displays (sr-only announcement and the
+// visible pinned panel below) reads through this, so the two can't drift
+// into inconsistent formatting. Percentages are handled separately by
+// formatPercent-style rounding elsewhere; this is for counts only.
+function formatCount(value: number | null | undefined): string {
+  return (value ?? 0).toLocaleString("en-US");
+}
+
 // Plain-language sr-only announcement for a participation-mode selection
 // (map click or ParticipationRecordList row activation) — same role as
 // summarizeOfficials just above, for the mode that has no officeholders
@@ -654,10 +663,10 @@ function summarizeParticipation(city: ParticipationCityProperties, townshipOrUno
     return `${city.name}: no 2024 general election turnout record found for this city.`;
   }
   if (city.belowThreshold) {
-    return `${city.name}: ${city.ballotsCast ?? 0} ballots cast. Fewer than 200 registered voters — percentage too small to shade reliably.`;
+    return `${city.name}: ${formatCount(city.ballotsCast)} ballots cast. Fewer than 200 registered voters — percentage too small to shade reliably.`;
   }
   const pct = city.turnoutOfRegistered !== null ? `${Math.round(city.turnoutOfRegistered * 1000) / 10}%` : "unknown";
-  return `${city.name}: ${city.ballotsCast ?? 0} ballots cast out of ${(city.registeredAt7am ?? 0) + (city.electionDayRegistrations ?? 0)} registered voters, ${pct} turnout of registered, 2024 general election.`;
+  return `${city.name}: ${formatCount(city.ballotsCast)} ballots cast out of ${formatCount((city.registeredAt7am ?? 0) + (city.electionDayRegistrations ?? 0))} registered voters, ${pct} turnout of registered, 2024 general election.`;
 }
 
 function boundsFromFeature(feature: Feature<Geometry>): maplibregl.LngLatBounds {
@@ -5223,8 +5232,8 @@ export default function WardMap() {
               ) : (
                 <>
                   <p className="mt-0.5 tabular-nums text-ink-2">
-                    {participationPanel.city.ballotsCast ?? 0} ballots cast /{" "}
-                    {(participationPanel.city.registeredAt7am ?? 0) + (participationPanel.city.electionDayRegistrations ?? 0)}{" "}
+                    {formatCount(participationPanel.city.ballotsCast)} ballots cast /{" "}
+                    {formatCount((participationPanel.city.registeredAt7am ?? 0) + (participationPanel.city.electionDayRegistrations ?? 0))}{" "}
                     registered
                   </p>
                   {participationPanel.city.belowThreshold ? (
