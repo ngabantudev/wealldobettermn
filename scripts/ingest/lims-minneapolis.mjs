@@ -102,19 +102,15 @@ import { fileURLToPath } from "node:url";
 import {
   slugify,
   addDays as addDaysToDate,
-  selectNextMeeting as selectNextMeetingFor,
+  normalizeTimeTo24h,
+  selectMeetingsThisWeek,
   diffMeetings,
 } from "./legistar.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const OUTPUT_DIR = path.join(__dirname, "../../public/lims");
 const OUTPUT_PATH = path.join(OUTPUT_DIR, "minneapolis-meetings.json");
-const NEXT_MEETING_PATH = path.join(OUTPUT_DIR, "minneapolis-next-meeting.json");
-
-// The full City Council (as opposed to a committee/subcommittee/board) —
-// mirrors legistar.mjs's primaryBodyName concept for selectNextMeeting()
-// below, and WardModal.tsx's NEXT_MEETING_TEASERS isPrimaryBody labeling.
-const PRIMARY_BODY_NAME = "City Council";
+const MEETINGS_THIS_WEEK_PATH = path.join(OUTPUT_DIR, "minneapolis-meetings-this-week.json");
 
 const CLIENT = "minneapolis";
 const JURISDICTION = "Minneapolis City Council";
@@ -219,21 +215,32 @@ function normalizeUrl(url) {
   return url;
 }
 
-async function writeNextMeetingTeaser(nextMeeting) {
+async function writeMeetingsThisWeekTeaser(meetingsThisWeek) {
   await mkdir(OUTPUT_DIR, { recursive: true });
-  await writeFile(NEXT_MEETING_PATH, `${JSON.stringify({ generatedAt: new Date().toISOString(), nextMeeting }, null, 2)}\n`, "utf8");
+  await writeFile(
+    MEETINGS_THIS_WEEK_PATH,
+    `${JSON.stringify({ generatedAt: new Date().toISOString(), meetingsThisWeek }, null, 2)}\n`,
+    "utf8",
+  );
 }
 
 function mapMeetingCalendarRow(row) {
   const dateIso = typeof row.MeetingDateTime === "string" ? row.MeetingDateTime.slice(0, 10) : null;
   const bodyId = `lims-${CLIENT}-body-${slugify(row.MeetingBody)}`;
   const id = `lims-${CLIENT}-meeting-${slugify(row.MeetingBody)}-${row.MeetingDateTime}`;
+  // LIMS's MeetingDateTime slice is already zero-padded 24-hour
+  // ("15:30"), but routed through the same normalizer legistar.mjs's
+  // mapEventToMeeting() uses for Legistar's 12-hour "3:30 PM" strings —
+  // one shared normalization point rather than trusting each upstream's
+  // raw format independently, so a sort or display bug in one vendor's
+  // data can't reappear unnoticed in the other's.
+  const rawTime = typeof row.MeetingDateTime === "string" ? row.MeetingDateTime.slice(11, 16) || null : null;
   return {
     id,
     body_id: bodyId,
     bodyName: row.MeetingBody || null,
     date: dateIso,
-    time: typeof row.MeetingDateTime === "string" ? row.MeetingDateTime.slice(11, 16) || null : null,
+    time: normalizeTimeTo24h(rawTime),
     location: null, // not present in meetingCalendar's response
     agendaStatus: row.IsCancelled ? "Cancelled" : null,
     agendaUrl: normalizeUrl(row.AgendaURL),
@@ -479,7 +486,7 @@ async function writeEmptyState(reason) {
   };
   await mkdir(OUTPUT_DIR, { recursive: true });
   await writeFile(OUTPUT_PATH, `${JSON.stringify(emptyState, null, 2)}\n`, "utf8");
-  await writeNextMeetingTeaser(null);
+  await writeMeetingsThisWeekTeaser([]);
   return emptyState;
 }
 
@@ -629,19 +636,18 @@ async function main() {
 
     await mkdir(OUTPUT_DIR, { recursive: true });
     await writeFile(OUTPUT_PATH, `${JSON.stringify(state, null, 2)}\n`, "utf8");
-    // Never promote a cancelled meeting (LIMS's IsCancelled ->
-    // agendaStatus "Cancelled") to the teaser WardModal.tsx renders as
-    // "Next meeting" — a resident reading that card has no other
+    // Never include a cancelled meeting (LIMS's IsCancelled ->
+    // agendaStatus "Cancelled") in the teaser WardModal.tsx renders as
+    // "this week's meetings" — a resident reading that card has no other
     // cancellation signal, and this feed's UI doesn't surface
     // agendaStatus anywhere else (same gap Legistar's own agendaStatus
-    // field has site-wide, but the next-meeting teaser is the one spot
-    // that actively tells someone to show up).
-    const nextMeetingCandidates = meetings.filter((m) => m.agendaStatus !== "Cancelled");
-    const nextMeeting = selectNextMeetingFor({ client: CLIENT, jurisdiction: JURISDICTION }, nextMeetingCandidates, today, PRIMARY_BODY_NAME);
-    await writeNextMeetingTeaser(nextMeeting);
+    // field has site-wide, but this teaser is the one spot that actively
+    // tells someone to show up).
+    const teaserCandidates = meetings.filter((m) => m.agendaStatus !== "Cancelled");
+    const meetingsThisWeek = selectMeetingsThisWeek({ client: CLIENT, jurisdiction: JURISDICTION }, teaserCandidates, today);
+    await writeMeetingsThisWeekTeaser(meetingsThisWeek);
     console.log(
-      `[lims-minneapolis] wrote ${OUTPUT_PATH}. next meeting: ${nextMeeting ? nextMeeting.date : "none upcoming"}. ` +
-        `Wrote ${NEXT_MEETING_PATH}`,
+      `[lims-minneapolis] wrote ${OUTPUT_PATH}. meetings this week: ${meetingsThisWeek.length}. Wrote ${MEETINGS_THIS_WEEK_PATH}`,
     );
   } catch (err) {
     console.error("[lims-minneapolis] live fetch did not complete:", err instanceof Error ? err.message : err);

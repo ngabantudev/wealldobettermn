@@ -1,0 +1,85 @@
+{
+  "generatedAt": "2026-08-12T05:31:29.235Z",
+  "meetingsThisWeek": [
+    {
+      "client": "minneapolis",
+      "jurisdiction": "Minneapolis City Council",
+      "bodyName": "Homegrown Minneapolis Food Council",
+      "date": "2026-08-12",
+      "time": "17:30",
+      "location": null,
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/HMFC/6146",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/HMFC/6146"
+    },
+    {
+      "client": "minneapolis",
+      "jurisdiction": "Minneapolis City Council",
+      "bodyName": "City Council",
+      "date": "2026-08-13",
+      "time": "09:30",
+      "location": null,
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/Council/6159",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/Council/6159"
+    },
+    {
+      "client": "minneapolis",
+      "jurisdiction": "Minneapolis City Council",
+      "bodyName": "Minneapolis Advisory Committee on Housing",
+      "date": "2026-08-13",
+      "time": "15:00",
+      "location": null,
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/MACH/6160",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/MACH/6160"
+    },
+    {
+      "client": "minneapolis",
+      "jurisdiction": "Minneapolis City Council",
+      "bodyName": "Enterprise & Labor Relations Committee",
+      "date": "2026-08-17",
+      "time": "13:30",
+      "location": null,
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/ELR/6154",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/ELR/6154"
+    },
+    {
+      "client": "minneapolis",
+      "jurisdiction": "Minneapolis City Council",
+      "bodyName": "Civil Rights Commission Engagement & Research Subcommittee",
+      "date": "2026-08-17",
+      "time": "17:00",
+      "location": null,
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/MCCR-ER/",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/MCCR-ER/"
+    },
+    {
+      "client": "minneapolis",
+      "jurisdiction": "Minneapolis City Council",
+      "bodyName": "Civil Rights Commission",
+      "date": "2026-08-17",
+      "time": "18:00",
+      "location": null,
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/MCCR/",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/MCCR/"
+    },
+    {
+      "client": "minneapolis",
+      "jurisdiction": "Minneapolis City Council",
+      "bodyName": "Business, Housing & Zoning Committee",
+      "date": "2026-08-18",
+      "time": "13:30",
+      "location": null,
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/BHZ/6152",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/BHZ/6152"
+    },
+    {
+      "client": "minneapolis",
+      "jurisdiction": "Minneapolis City Council",
+      "bodyName": "Bicycle Advisory Committee",
+      "date": "2026-08-18",
+      "time": "16:00",
+      "location": null,
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/BAC/",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/BAC/"
+    }
+  ]
+}

@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "client": "minneapolis",
   "jurisdiction": "Minneapolis City Council",
-  "generatedAt": "2026-08-12T01:43:59.485Z",
+  "generatedAt": "2026-08-12T05:31:29.226Z",
   "status": "ingested",
   "note": "122 meeting(s) and 225 agenda item(s) ingested for 2026-07-29–2026-11-10.",
   "provenance": {
@@ -11,7 +11,7 @@
     "documentType": "LIMS API v1 — meetingCalendar/FileItemSearch",
     "documentId": null,
     "issuedDate": null,
-    "fetchedAt": "2026-08-12T01:43:59.485Z",
+    "fetchedAt": "2026-08-12T05:31:29.226Z",
     "licence": "Public records served via the City of Minneapolis LIMS API; no separate machine-reuse licence published as of this writing.",
     "contentHash": null
   },
@@ -11164,8 +11164,12 @@
       "votes": []
     }
   ],
-  "diff": null,
-  "previousGeneratedAt": null,
+  "diff": {
+    "addedIds": [],
+    "removedIds": [],
+    "changed": []
+  },
+  "previousGeneratedAt": "2026-08-12T01:43:59.485Z",
   "knownGaps": [
     "Consent-agenda flagging not implemented — LIMS has no field structurally equivalent to Legistar's EventItemConsent; every agenda item ships isConsent: false rather than a guess."
   ]

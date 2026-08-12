@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Gloss from "@/components/Gloss";
+import { formatMeetingTime } from "@/lib/meetingTime";
 import {
   MEETINGS_JURISDICTIONS,
   UNWIRED_MEETINGS_JURISDICTIONS,
@@ -138,7 +139,7 @@ function MeetingCard({ feed, meeting }: { feed: MeetingsFeed; meeting: Meeting }
     <li id={meeting.id} className="well rounded-xl border border-hair p-4">
       <div className="flex flex-wrap items-baseline justify-between gap-2">
         <p className="font-semibold text-ink">{meeting.date ? formatMeetingDate(meeting.date) : "Date unknown"}</p>
-        {meeting.time && <p className="text-sm text-ink-3">{meeting.time}</p>}
+        {meeting.time && <p className="text-sm text-ink-3">{formatMeetingTime(meeting.time)}</p>}
       </div>
       {meeting.location && <p className="mt-0.5 text-sm text-ink-3">{meeting.location}</p>}
 

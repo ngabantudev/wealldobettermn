@@ -24,7 +24,8 @@ import {
   mapEventItemToAgendaItem,
   mapEventToMeeting,
   mapVoteValue,
-  selectNextMeeting,
+  normalizeTimeTo24h,
+  selectMeetingsThisWeek,
   sha256Hex,
   slugify,
   stripInternal,
@@ -287,6 +288,7 @@ test("mapEventToMeeting carries EventInSiteURL through as sourceUrl with no scra
   assert.equal(meeting.id, "legistar-stpaul-meeting-7663");
   assert.equal(meeting.body_id, "legistar-stpaul-body-138");
   assert.equal(meeting.date, "2026-06-03");
+  assert.equal(meeting.time, "15:30", "EventTime's 12-hour '3:30 PM' is normalized to 24-hour at ingest");
   assert.equal(meeting.sourceUrl, event.EventInSiteURL);
   assert.equal(meeting.agendaUrl, event.EventAgendaFile);
   assert.equal(meeting.minutesUrl, null);
@@ -350,34 +352,71 @@ test("diffMeetings is a no-op when nothing changed", () => {
   assert.deepEqual(diff, { addedIds: [], removedIds: [], changed: [] });
 });
 
-// --- selectNextMeeting (WardModal sidebar teaser, issue #58) ---------------
+// --- normalizeTimeTo24h -----------------------------------------------------
 
-test("selectNextMeeting prefers the primary body's next meeting over a sooner non-primary body", () => {
-  const meetings = [
-    { id: "m1", bodyName: "Legislative Hearings", date: "2026-08-05", time: "9:00 AM", sourceUrl: "u1", agendaUrl: "a1" },
-    { id: "m2", bodyName: "City Council", date: "2026-08-12", time: "3:30 PM", sourceUrl: "u2", agendaUrl: "a2" },
-  ];
-
-  const next = selectNextMeeting(clientConfig, meetings, "2026-08-01", "City Council");
-
-  assert.equal(next.date, "2026-08-12");
-  assert.equal(next.bodyName, "City Council");
-  assert.equal(next.isPrimaryBody, true);
+test("normalizeTimeTo24h converts Legistar's 12-hour AM/PM strings to zero-padded 24-hour", () => {
+  assert.equal(normalizeTimeTo24h("3:30 PM"), "15:30");
+  assert.equal(normalizeTimeTo24h("9:00 AM"), "09:00");
+  assert.equal(normalizeTimeTo24h("12:00 PM"), "12:00", "noon stays 12, not 24");
+  assert.equal(normalizeTimeTo24h("12:00 AM"), "00:00", "midnight becomes 0, not 12");
 });
 
-test("selectNextMeeting falls back to the soonest meeting of any body when no primary body is known", () => {
-  const meetings = [
-    { id: "m1", bodyName: "Legislative Hearings", date: "2026-08-05", time: "9:00 AM", sourceUrl: "u1", agendaUrl: "a1" },
-    { id: "m2", bodyName: "City Council", date: "2026-08-12", time: "3:30 PM", sourceUrl: "u2", agendaUrl: "a2" },
-  ];
-
-  const next = selectNextMeeting(clientConfig, meetings, "2026-08-01", null);
-
-  assert.equal(next.date, "2026-08-05");
-  assert.equal(next.isPrimaryBody, false);
+test("normalizeTimeTo24h passes an already-24-hour string through zero-padded", () => {
+  assert.equal(normalizeTimeTo24h("9:30"), "09:30");
+  assert.equal(normalizeTimeTo24h("15:30"), "15:30");
 });
 
-test("selectNextMeeting excludes past meetings and returns null when nothing is upcoming", () => {
-  const meetings = [{ id: "m1", bodyName: "City Council", date: "2026-07-01", time: null, sourceUrl: null, agendaUrl: null }];
-  assert.equal(selectNextMeeting(clientConfig, meetings, "2026-08-01", "City Council"), null);
+test("normalizeTimeTo24h returns null for empty input and passes through anything unrecognized", () => {
+  assert.equal(normalizeTimeTo24h(null), null);
+  assert.equal(normalizeTimeTo24h(""), null);
+  assert.equal(normalizeTimeTo24h("TBD"), "TBD", "unrecognized shape is passed through, never guessed at");
+});
+
+// --- selectMeetingsThisWeek (WardModal sidebar teaser, issue #58, revised
+// after #102's follow-up: no longer picks one "primary body" meeting —
+// every meeting in the window, any body, chronological) -------------------
+
+test("selectMeetingsThisWeek returns every meeting in the window in chronological order, any body", () => {
+  const meetings = [
+    { id: "m1", bodyName: "City Council", date: "2026-08-13", time: "09:30", sourceUrl: "u1", agendaUrl: "a1" },
+    { id: "m2", bodyName: "Mayor's Budget Address", date: "2026-08-12", time: "11:00", sourceUrl: "u2", agendaUrl: "a2" },
+  ];
+
+  const week = selectMeetingsThisWeek(clientConfig, meetings, "2026-08-12");
+
+  // The earlier, non-Council meeting comes first — this is the exact
+  // bug reported live against Minneapolis's real calendar: the old
+  // primary-body-preferring selectNextMeeting() would have shown "City
+  // Council, Aug 13" and never mentioned the Aug 12 Budget Address.
+  assert.deepEqual(
+    week.map((m) => m.bodyName),
+    ["Mayor's Budget Address", "City Council"],
+  );
+});
+
+test("selectMeetingsThisWeek sorts same-day meetings by time, not just date", () => {
+  const meetings = [
+    { id: "m1", bodyName: "Late Committee", date: "2026-08-12", time: "16:30", sourceUrl: null, agendaUrl: null },
+    { id: "m2", bodyName: "Early Committee", date: "2026-08-12", time: "09:00", sourceUrl: null, agendaUrl: null },
+  ];
+
+  const week = selectMeetingsThisWeek(clientConfig, meetings, "2026-08-12");
+
+  assert.deepEqual(
+    week.map((m) => m.bodyName),
+    ["Early Committee", "Late Committee"],
+  );
+});
+
+test("selectMeetingsThisWeek excludes past meetings and anything beyond the window", () => {
+  const meetings = [
+    { id: "m1", bodyName: "City Council", date: "2026-08-01", time: "09:00", sourceUrl: null, agendaUrl: null }, // past
+    { id: "m2", bodyName: "City Council", date: "2026-08-25", time: "09:00", sourceUrl: null, agendaUrl: null }, // beyond 7-day window
+  ];
+
+  assert.deepEqual(selectMeetingsThisWeek(clientConfig, meetings, "2026-08-12"), []);
+});
+
+test("selectMeetingsThisWeek returns [] (not null) when nothing is in the window", () => {
+  assert.deepEqual(selectMeetingsThisWeek(clientConfig, [], "2026-08-12"), []);
 });
