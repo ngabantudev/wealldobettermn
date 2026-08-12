@@ -36,6 +36,35 @@
 // the polygon itself is still rendered (as the below-threshold/no-data
 // class), per this file's own callers in WardMap.tsx.
 
+// One named upstream document behind a turnout year file — the shape
+// public/turnout/city/<year>.json's own top-level `provenance.sos` and
+// `provenance.cvap` entries actually carry today (scripts/ingest/turnout.mjs).
+// Only the fields the "Original Source" citation (ParticipationLegend.tsx)
+// renders are declared here — documentId/fetchedAt/licence/contentHash exist
+// in the real file too but have no UI consumer yet, so they're left off
+// rather than typed and unused. Every field but the URL/agency pair is
+// optional so a differently-shaped future year file (or a hand-authored
+// fixture) degrades instead of failing to type-check.
+export interface TurnoutProvenanceSource {
+  primarySourceUrl: string;
+  landingPageUrl?: string;
+  sourceAgency: string;
+  documentType?: string;
+  issuedDate?: string | null;
+}
+
+// public/turnout/city/<year>.json's own top-level `provenance` field. Per
+// AGENTS.md §3.3, this is the *actual* data-source citation (SOS precinct
+// results + Census CVAP) — distinct from ParticipationLegend's separate
+// "See Also" prior-art callout. Absent entirely on a turnout year file that
+// predates this field (see turnoutJoin.ts callers for the fallback), and
+// `sos`/`cvap` are each independently optional in case a future ingest run
+// only has one of the two ready.
+export interface TurnoutProvenance {
+  sos?: TurnoutProvenanceSource;
+  cvap?: TurnoutProvenanceSource;
+}
+
 /** The subset of a public/turnout/city/<year>.json city record this join needs. */
 export interface TurnoutCityRecord {
   cityId: string;

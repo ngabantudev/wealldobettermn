@@ -34,7 +34,12 @@ import { useSearchCoordinator, type PendingSelection } from "@/lib/searchCoordin
 import { useMobileSheetCoordinator } from "@/lib/mobileSheetCoordinator";
 import { readStored, writeStored } from "@/lib/storage";
 import { focusRingClass, rowHoverClass, touchTargetClass } from "@/lib/variantClasses";
-import { deriveParticipationBoundaries, type ParticipationCityProperties, type TurnoutCityRecord } from "@/lib/turnoutJoin";
+import {
+  deriveParticipationBoundaries,
+  type ParticipationCityProperties,
+  type TurnoutCityRecord,
+  type TurnoutProvenance,
+} from "@/lib/turnoutJoin";
 import { turnoutStepColorExpression, BELOW_THRESHOLD_COLOR, NO_MATCH_COLOR, TOWNSHIP_UNORG_BASE_COLOR } from "@/lib/turnoutColors";
 import { resolveYearDataPath, type TurnoutManifestYear } from "@/lib/turnoutYears";
 import AreaFilterList from "./AreaFilterList";
@@ -1125,6 +1130,12 @@ interface SecondaryCivicData {
   // moment a future ingest run adds more, with no code change required
   // here (see TurnoutYearSlider.tsx's own header).
   turnoutYears: TurnoutManifestYear[];
+  // The active year's own top-level `provenance` field (SOS precinct
+  // results + Census CVAP citation) — ParticipationLegend's "Original
+  // Source" section. null on a year file that predates this field, or on
+  // a fetch failure; the legend degrades to whatever it can build from
+  // that instead of fabricating a citation (AGENTS.md §3.3).
+  turnoutProvenance: TurnoutProvenance | null;
 }
 
 // The election year/type currently driving the participation choropleth —
@@ -1212,6 +1223,7 @@ const EMPTY_TURNOUT_STATE = {
   turnoutKnownGaps: [] as string[],
   turnoutActiveYear: null as TurnoutActiveYear | null,
   turnoutYears: [] as TurnoutManifestYear[],
+  turnoutProvenance: null as TurnoutProvenance | null,
 };
 
 // Reads public/turnout/manifest.json to find the most recent year's data
@@ -1229,6 +1241,7 @@ async function fetchTurnoutData(): Promise<{
   turnoutKnownGaps: string[];
   turnoutActiveYear: TurnoutActiveYear | null;
   turnoutYears: TurnoutManifestYear[];
+  turnoutProvenance: TurnoutProvenance | null;
 }> {
   try {
     const [manifestRes, townshipUnorgRes] = await Promise.all([
@@ -1247,7 +1260,8 @@ async function fetchTurnoutData(): Promise<{
     const latestYear = years[years.length - 1];
     if (!latestYear) return { ...EMPTY_TURNOUT_STATE, townshipUnorgBoundaries };
     const cityDataRes = await fetch(dataUrl(latestYear.dataPath.replace(/^\//, "")));
-    const cityData = await cityDataRes.json();
+    const cityData: { cities?: TurnoutCityRecord[]; knownGaps?: string[]; provenance?: TurnoutProvenance } =
+      await cityDataRes.json();
     return {
       townshipUnorgBoundaries,
       turnoutCities: cityData.cities ?? [],
@@ -1255,6 +1269,7 @@ async function fetchTurnoutData(): Promise<{
       turnoutKnownGaps: cityData.knownGaps ?? [],
       turnoutActiveYear: { year: latestYear.year, electionType: latestYear.electionType ?? "" },
       turnoutYears: years,
+      turnoutProvenance: cityData.provenance ?? null,
     };
   } catch (err) {
     console.error("[WardMap] failed to load turnout data", err);
@@ -1612,6 +1627,12 @@ export default function WardMap() {
   // and never mutated afterward (switching years only changes
   // turnoutActiveYear/participationCities, never this list itself).
   const [turnoutYears, setTurnoutYears] = useState<TurnoutManifestYear[]>([]);
+  // The active year's own `provenance` citation (SOS + CVAP source
+  // records) — ParticipationLegend's "Original Source" section. Updated
+  // alongside turnoutActiveYear both on initial load and on every
+  // switchTurnoutYear call, so the citation never shows a different
+  // year's sources than the one currently on screen.
+  const [turnoutProvenance, setTurnoutProvenance] = useState<TurnoutProvenance | null>(null);
   // True only while a slider-triggered year switch's own city-data fetch
   // is in flight (task requirement 6's loading indicator) — distinct from
   // secondaryDataPending, which covers the *initial* commissioners/
@@ -1967,6 +1988,7 @@ export default function WardMap() {
         setTurnoutDenominatorNote(secondary.turnoutDenominatorNote);
         setTurnoutActiveYear(secondary.turnoutActiveYear);
         setTurnoutYears(secondary.turnoutYears);
+        setTurnoutProvenance(secondary.turnoutProvenance);
         const commissionersBounds = boundsFromFeatureCollection(secondary.commissioners);
         const stateLegBounds = boundsFromFeatureCollection(secondary.stateLeg);
         if (!commissionersBounds.isEmpty()) commissionersBoundsRef.current = commissionersBounds;
@@ -2642,11 +2664,12 @@ export default function WardMap() {
     setTurnoutYearLoading(true);
     fetch(dataUrl(dataPath.replace(/^\//, "")))
       .then((res) => res.json())
-      .then((cityData: { cities?: TurnoutCityRecord[]; knownGaps?: string[] }) => {
+      .then((cityData: { cities?: TurnoutCityRecord[]; knownGaps?: string[]; provenance?: TurnoutProvenance }) => {
         const turnoutCities = cityData.cities ?? [];
         participationDataRef.current = deriveParticipationBoundaries(cityBoundaries, turnoutCities);
         setParticipationCities(participationDataRef.current.features.map((f) => f.properties));
         setTurnoutActiveYear({ year: entry.year, electionType: entry.electionType ?? "" });
+        setTurnoutProvenance(cityData.provenance ?? null);
         const map = mapRef.current;
         (map?.getSource(PARTICIPATION_SOURCE_ID) as maplibregl.GeoJSONSource | undefined)?.setData(
           participationDataRef.current as unknown as FeatureCollection,
@@ -4732,6 +4755,7 @@ export default function WardMap() {
         variant={variant}
         electionHeading={formatElectionHeading(turnoutActiveYear)}
         denominatorNote={turnoutDenominatorNote}
+        provenance={turnoutProvenance}
         populationWeighted={participationPopulationWeighted}
         onTogglePopulationWeighted={toggleParticipationPopulationWeighted}
       />
