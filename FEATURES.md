@@ -86,21 +86,41 @@ link to the bill, and every bill shows its full roll call.
 ## Phase 3 — Minneapolis (LIMS API)
 
 **Source:** `lims.minneapolismn.gov` LIMS API v1, free registered key,
-JSON. Endpoints: `referenceList/CouncilMembers` (current and former
-members), `referenceList/CouncilTerms` (term start/end),
-`referenceList/MeetingBodies`, `referenceList/FileItemStatus`,
-`/FileTypes`; voting records by year/term back to 2014; file items
-(agenda items) from 2014 onward; meetings by body or by member; official
-acts; `search/OrdinancesIntroductions` and `search/LatestEnactedOrdinances`
-(last 30 days).
+JSON, base path `/api/v1` (lowercase — see LESSONS.md's 2026-08-11 entry
+for the routing/auth gotchas the first live key surfaced). Confirmed live
+endpoints: `referenceList/{CouncilMembers,CouncilTerm,MeetingBodies,
+FileItemStatus,FileTypes}` (GET — note singular `CouncilTerm`, not
+`CouncilTerms`); `search/{meetingCalendar,FileItemSearch,
+CouncilMemberVotingRecord,OrdinancesIntroductions,LatestEnactedOrdinances}`
+(**POST** with a JSON body, year-scoped via `CalendarYear` where
+applicable, 2014+ for `FileItemSearch`/`CouncilMemberVotingRecord`).
 
-**Ship:** 13 councilmembers + mayor, profiles, wards on the map; meetings
-attended per member; full voting record per member back to 2014.
+**Shipped (issue #102, this phase's first PR):** `meetingCalendar` +
+`FileItemSearch` wired into `scripts/ingest/lims-minneapolis.mjs`, feeding
+`src/lib/meetingsRegistry.ts`'s `MEETINGS_JURISDICTIONS` the same way
+St. Paul/Hennepin's Legistar feed does — meetings, agenda items with
+item-level pass/fail results, a rolling 14-days-back/90-days-ahead
+window, a WardModal.tsx next-meeting teaser. Reference lists
+(CouncilMembers, CouncilTerm, MeetingBodies, FileItemStatus, FileTypes)
+are fetched and written alongside the meetings feed but not yet mapped
+into canonical `Holding` rows — see `toHoldings()`'s removal note in that
+script's git history and `MINNEAPOLIS_MEETINGS_VOTES_LAYER`'s knownGaps
+in `src/lib/layers.ts`.
 
-**Notes:** CouncilMembers + CouncilTerms give real `holding` rows for free
-— reference implementation for the churn model. Actions publish within
-~2 hours of a meeting ending, nightly poll is plenty. Data starts 2014,
-say so on the page.
+**Not yet shipped:** per-councilmember roll-call vote resolution (mapping
+`FileItemSearch`'s embedded `LegislativeHistory[].VotingInformation.Votes`
+— or a per-member `CouncilMemberVotingRecord` pull — into this site's
+canonical Holding/Vote model, the way `scripts/ingest/legistar.mjs`'s
+`buildVotesForWindow()` does for St. Paul/Hennepin); consent-agenda
+flagging (LIMS has no field structurally equivalent to Legistar's
+`EventItemConsent`); diff-on-refresh (AGENTS.md §0.5); 13 councilmembers +
+mayor profile pages / wards-on-map parity with Phase 1+2.
+
+**Notes:** CouncilMembers + CouncilTerm give real `holding` rows for free
+— reference implementation for the churn model, once mapped. Actions
+publish within ~2 hours of a meeting ending, nightly poll is plenty. Data
+starts 2014, say so on the page. `FileItemSearch`'s `FileNumber` is not a
+unique key across the response array — see LESSONS.md.
 
 **Done when:** Minneapolis matches Phase 1+2 feature parity at city level.
 
@@ -151,7 +171,7 @@ votes. Surface changes in an admin review queue before publishing.
 official election results (ground truth for who won, covers every city
 and county including ones with no meeting API); `openstates/people` git
 history (the commit log is the change log for state legislators);
-Minneapolis LIMS CouncilTerms; Legistar `/officerecords`.
+Minneapolis LIMS CouncilTerm; Legistar `/officerecords`.
 
 **Edge cases to handle explicitly:** mid-term resignation, appointed
 replacement, special election, redistricting (office identity changes,

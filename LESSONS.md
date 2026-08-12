@@ -34,6 +34,37 @@ Format: `YYYY-MM-DD — [area] — what happened and how to avoid it`
   the way Legistar and MN CFB have been. Don't assume the scaffold's shape is correct
   until that happens.
 
+- 2026-08-11 — **[lims / minneapolis]** — First registered key confirmed live against
+  `lims.minneapolismn.gov`. Two gotchas that cost real debugging time, both looked like
+  auth failures and were actually routing/URL-construction bugs:
+  1. Base path is **lowercase** `/api/v1` — `/API/v1` (what FEATURES.md's prose used)
+     403s. Auth is a plain `Authorization: Bearer <key>` header, not an `api_key` query
+     param and not `Ocp-Apim-Subscription-Key` (both silently accepted then 403'd under
+     the wrong path casing, which is what made this look like an auth problem first).
+  2. `new URL(pathname, base)` where `pathname` starts with `/` resolves **absolute from
+     origin** and silently drops the base path's `/api/v1` — build request URLs with
+     plain string concatenation (`${BASE_URL}${pathname}`) instead, or strip the leading
+     slash before passing to `new URL(path, base)`.
+  Confirmed live endpoints: `referenceList/{CouncilMembers,CouncilTerm,MeetingBodies,
+  FileItemStatus,FileTypes}` (GET, singular `CouncilTerm` — `CouncilTerms` 404s) and
+  `search/{meetingCalendar,FileItemSearch,CouncilMemberVotingRecord,
+  OrdinancesIntroductions,LatestEnactedOrdinances}` (**POST** with a JSON body —
+  FEATURES.md's prose didn't specify method and GET 404s on all of these).
+  `meetingCalendar`/`FileItemSearch` are scoped by whole `CalendarYear`, not a date
+  range — filter client-side to whatever window you actually want, and to the *same*
+  window on both, or `FileItemSearch`'s `LegislativeHistory` rows will reference dates a
+  narrower `meetings[]` window doesn't cover (see next point). `FileItemSearch`'s
+  `FileNumber` is **not a unique key** across the response array — multiple distinct
+  items can share one file number (e.g. several officer-election resolutions filed under
+  one organizational-meeting file number); derive record ids from array position, not
+  `FileNumber`. The full route list lives behind a Cloudflare managed JS challenge at
+  `lims.minneapolismn.gov/v2/api` that no scripted client (curl, a bearer token in a
+  header) can solve — don't try to automate past it (AGENTS.md §2.2 bars block evasion);
+  read it in a real browser and copy the route list by hand, which is how the `search/*`
+  endpoint names above were actually confirmed. No consent-agenda-equivalent field found
+  in `FileItemSearch`'s response (nothing structurally like Legistar's
+  `EventItemConsent`) — don't invent one.
+
 - 2026-08-06 — **[legistar]** — St. Paul (`stpaul`) and Hennepin County (`hennepinmn`)
   clients are both reachable with **zero auth token**, confirmed live (an earlier report
   of a 403 didn't reproduce). When a token *is* required, Legistar returns `403 "Key or

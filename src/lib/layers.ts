@@ -60,17 +60,18 @@ export const MINNEAPOLIS_MEETINGS_VOTES_LAYER: LayerRegistryEntry = {
   id: "minneapolis-meetings-votes",
   label: "Minneapolis Council Meetings & Votes",
   description:
-    "Meeting attendance and full voting record for Minneapolis's 13 councilmembers and the mayor, sourced from the city's LIMS API. Records begin in 2014 — the LIMS API's own history does not extend earlier.",
+    "Meetings and agenda items for Minneapolis City Council and its committees/boards, sourced from the city's LIMS API — a rolling 14-days-back/90-days-ahead window, same as St. Paul and Hennepin County's Legistar feeds.",
   ingestScript: "scripts/ingest/lims-minneapolis.mjs",
-  publicDataPath: "/minneapolis-meetings.json",
-  status: "empty",
+  publicDataPath: "/lims/minneapolis-meetings.json",
+  status: "partial",
   coverage:
-    "Minneapolis City Council and mayor only. No meeting or voting data for St. Paul, any suburb, any county board, or the state legislature. Nothing before 2014.",
+    "Minneapolis City Council, its committees/subcommittees, and boards/commissions LIMS's meetingCalendar returns. No meeting data for St. Paul, any suburb, any county board, or the state legislature (those are separate layers). No per-councilmember roll-call vote/Holding data yet — agenda items carry the item-level pass/fail result (passedFlagName) but not who voted which way; that resolution is the outstanding gap versus the Legistar-sourced layers. No consent-agenda flagging — LIMS has no field equivalent to Legistar's EventItemConsent.",
   primarySourceUrl: "https://lims.minneapolismn.gov/",
   sourceAgency: "City of Minneapolis, Office of the City Clerk",
   knownGaps: [
-    "No LIMS_API_KEY has been provisioned yet — public/minneapolis-meetings.json is a deliberate empty state (AGENTS.md §3.1), not fabricated data.",
-    "Data starts in 2014 per the LIMS API's own history; nothing earlier will ever be available from this source.",
+    "Per-councilmember roll-call vote resolution (mapping LIMS's VotingInformation.Votes into this site's canonical Holding/Vote model) is not implemented yet — see scripts/ingest/lims-minneapolis.mjs's file header.",
+    "No consent-agenda flagging — every agenda item ships isConsent: false rather than a guess (LIMS has no field structurally equivalent to Legistar's EventItemConsent).",
+    "No diff-on-refresh (AGENTS.md §0.5) yet — roster/meeting changes between runs aren't surfaced the way the Legistar-sourced layers are.",
   ],
 };
 
