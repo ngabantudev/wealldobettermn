@@ -712,8 +712,53 @@ type ParticipationFeatureCollection = {
 // the SAME matched city correctly counts as "the same city," not a
 // change), else name+county (the per-polygon identity an unmatched
 // feature still needs, since it has no cityId to fall back to).
+//
+// BUG FIXED (confirmed live via a /bug-fix review pass): this used to
+// unconditionally append `:${city.county ?? ""}` even for a matched
+// city, which contradicted the comment above and its own purpose — two
+// polygons of the same multi-county city (Mankato: Blue Earth/Nicollet/
+// Le Sueur) produced DIFFERENT identities, so hovering across the
+// internal county seam re-triggered the panel/announcement on every
+// crossing, and clicking a second county-polygon of an already-pinned
+// multi-county city re-pinned instead of toggling off. County is now
+// only part of the key for unmatched features (which have no cityId to
+// group by and are correctly treated as distinct per-polygon).
 function participationIdentity(city: ParticipationCityProperties): string {
-  return `participation:${city.cityId ?? city.name}:${city.county ?? ""}`;
+  return city.matched && city.cityId ? `participation:${city.cityId}` : `participation:${city.name}:${city.county ?? ""}`;
+}
+
+// MapLibre GeoJSON sources round-trip a feature's properties through an
+// internal vector-tile-like representation that (per the vector tile
+// spec) only supports string/number/boolean values — array-valued
+// properties don't survive that round trip as real arrays.
+// `ParticipationCityProperties.counties` (the only array-valued field on
+// this type, added for multi-county cities like Mankato) is exactly this
+// case: reading it straight off a `queryRenderedFeatures()`/hover result
+// and calling `.join(", ")` on it — as both the pinned panel and the
+// record list already safely do for JS-side data — crashed the whole
+// map with `TypeError: ...counties.join is not a function` the moment a
+// resident hovered or clicked a matched city in Turnout mode (confirmed
+// live via a headless-browser repro during a /bug-fix review pass; this
+// is what the user-reported "Something went wrong" error was). Every
+// site that builds a ParticipationCityProperties from a MapLibre query
+// result must go through this normalizer instead of a bare
+// `as unknown as ParticipationCityProperties` cast.
+function normalizeQueriedParticipationProps(raw: Record<string, unknown> | null | undefined): ParticipationCityProperties {
+  const props = (raw ?? {}) as unknown as ParticipationCityProperties;
+  const rawCounties: unknown = raw?.counties;
+  let counties: readonly string[] = [];
+  if (Array.isArray(rawCounties)) {
+    counties = rawCounties.filter((c): c is string => typeof c === "string");
+  } else if (typeof rawCounties === "string") {
+    try {
+      const parsed: unknown = JSON.parse(rawCounties);
+      if (Array.isArray(parsed)) counties = parsed.filter((c): c is string => typeof c === "string");
+    } catch {
+      // Not JSON-parseable — leave counties empty rather than guess at
+      // its contents (AGENTS.md §0.1: never a guess, never a crash).
+    }
+  }
+  return { ...props, counties };
 }
 
 // A township/unorganized-territory feature has no turnout record to join
@@ -4204,7 +4249,7 @@ export default function WardMap() {
       // pipeline, into participationPanel instead of selected/
       // metroHoverTooltip.
       if (feature.layer.id === PARTICIPATION_FILL_LAYER_ID || feature.layer.id === PARTICIPATION_CIRCLE_LAYER_ID) {
-        const props = feature.properties as unknown as ParticipationCityProperties;
+        const props = normalizeQueriedParticipationProps(feature.properties as Record<string, unknown> | null | undefined);
         const hoverIdentity = participationIdentity(props);
         if (hoverIdentity === lastHoverIdentityRef.current) return;
         lastHoverIdentityRef.current = hoverIdentity;
@@ -4395,7 +4440,7 @@ export default function WardMap() {
       // same "second click on the same feature un-pins" convention the
       // at-large branch just below uses for `selected`.
       if (hit.layer.id === PARTICIPATION_FILL_LAYER_ID || hit.layer.id === PARTICIPATION_CIRCLE_LAYER_ID) {
-        const props = hit.properties as unknown as ParticipationCityProperties;
+        const props = normalizeQueriedParticipationProps(hit.properties as Record<string, unknown> | null | undefined);
         const identity = participationIdentity(props);
         const current = participationPanelRef.current;
         if (current?.pinned && participationIdentity(current.city) === identity) {

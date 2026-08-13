@@ -80,10 +80,16 @@ export default function ParticipationRecordList({ cities, variant, electionHeadi
   // Alphabetical, never by turnout value — see this file's own header,
   // AGENTS.md §1c.
   const sorted = useMemo(() => [...cities].sort((a, b) => a.name.localeCompare(b.name)), [cities]);
+  // Searches the full `counties` list (every county a multi-county city
+  // like Mankato actually touches — Blue Earth, Nicollet, Le Sueur), not
+  // just the deduped row's single leftover `county` field (whichever one
+  // polygon happened to survive dedup in deriveParticipationCities —
+  // confirmed via a /bug-fix review pass: the row visibly displays all
+  // three counties but searching "Nicollet" previously found nothing).
   const matches = useMemo(() => {
     const q = fold(query);
     if (q.length === 0) return sorted;
-    return sorted.filter((c) => fold(c.name).includes(q) || (c.county && fold(c.county).includes(q)));
+    return sorted.filter((c) => fold(c.name).includes(q) || c.counties.some((county) => fold(county).includes(q)));
   }, [sorted, query]);
 
   const listClass =
