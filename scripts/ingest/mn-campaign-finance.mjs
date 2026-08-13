@@ -56,6 +56,7 @@ import {
   suppressSmallCount,
   suppressTotalReceipts,
 } from "../../src/lib/campaignFinanceConfig.mjs";
+import { splitCsvLine } from "./lib/csv.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -205,39 +206,12 @@ function mapDonorType(rawContribType) {
   return CFB_DONOR_TYPE_MAP[rawContribType];
 }
 
-// Minimal RFC-4180-ish CSV line splitter — handles double-quoted fields
-// containing commas (e.g. `"Davids, Gregory M House Committee"`) and
-// escaped `""` quotes, which the real CFB export uses throughout. No
-// dependency added, per this repo's scripts/*.mjs convention.
-function splitCsvLine(line) {
-  const fields = [];
-  let cur = "";
-  let inQuotes = false;
-  for (let i = 0; i < line.length; i++) {
-    const ch = line[i];
-    if (inQuotes) {
-      if (ch === '"') {
-        if (line[i + 1] === '"') {
-          cur += '"';
-          i++;
-        } else {
-          inQuotes = false;
-        }
-      } else {
-        cur += ch;
-      }
-    } else if (ch === '"') {
-      inQuotes = true;
-    } else if (ch === ",") {
-      fields.push(cur);
-      cur = "";
-    } else {
-      cur += ch;
-    }
-  }
-  fields.push(cur);
-  return fields;
-}
+// splitCsvLine (handles double-quoted fields containing commas — e.g.
+// `"Davids, Gregory M House Committee"` — and escaped `""` quotes, which
+// the real CFB export uses throughout) now lives in
+// scripts/ingest/lib/csv.mjs, shared with turnout.mjs, which
+// independently arrived at the same implementation — see that file's own
+// header for why the extraction happened.
 
 /**
  * Parses one CFB bulk-download CSV into RawContributionRow[]. Confirmed
