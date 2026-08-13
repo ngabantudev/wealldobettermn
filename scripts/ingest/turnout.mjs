@@ -154,6 +154,8 @@ import {
   TURNOUT_OF_REGISTERED_DENOMINATOR,
   isBelowRegisteredThreshold,
 } from "../../src/lib/turnoutConfig.mjs";
+import { splitCsvLine } from "./lib/csv.mjs";
+import { slugify } from "./legistar.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -443,40 +445,12 @@ function parseDbf(buffer) {
 
 // --- Minimal CSV line splitter ----------------------------------------------
 //
-// Same RFC-4180-ish approach as mn-campaign-finance.mjs's splitCsvLine():
-// handles double-quoted fields containing commas (the CVAP file's geoname
-// column, e.g. `"St. Anthony city (Hennepin and Ramsey Counties), Minnesota"`)
-// and escaped `""` quotes. Duplicated here rather than imported from that
-// script, matching this repo's convention of self-contained ingest scripts.
-function splitCsvLine(line) {
-  const fields = [];
-  let cur = "";
-  let inQuotes = false;
-  for (let i = 0; i < line.length; i++) {
-    const ch = line[i];
-    if (inQuotes) {
-      if (ch === '"') {
-        if (line[i + 1] === '"') {
-          cur += '"';
-          i++;
-        } else {
-          inQuotes = false;
-        }
-      } else {
-        cur += ch;
-      }
-    } else if (ch === '"') {
-      inQuotes = true;
-    } else if (ch === ",") {
-      fields.push(cur);
-      cur = "";
-    } else {
-      cur += ch;
-    }
-  }
-  fields.push(cur);
-  return fields;
-}
+// splitCsvLine (handles double-quoted fields containing commas — the
+// CVAP file's geoname column, e.g. `"St. Anthony city (Hennepin and
+// Ramsey Counties), Minnesota"` — and escaped `""` quotes) now lives in
+// scripts/ingest/lib/csv.mjs, shared with mn-campaign-finance.mjs, which
+// independently arrived at the same implementation — see that file's own
+// header for why the extraction happened.
 
 /**
  * Parses a CVAP Place.csv into a map keyed by 5-digit MN place FIPS code,
@@ -591,12 +565,38 @@ export function normalizePrecinctRows(dbfRows, vtdIdField) {
 
 // --- Fetch + snapshot -------------------------------------------------------
 
-async function fetchAndSnapshot(url, snapshotFilename) {
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+// 429 backoff, honoring Retry-After — same shape as
+// scripts/ingest/legistar.mjs's legistarGet and scripts/ingest/
+// state-bills.mjs's fetchJson (both cite that convention explicitly).
+// This script pulls several multi-megabyte archives per run from
+// gisdata.mn.gov/census.gov (up to ~55MB each per this file's own
+// header); a transient rate-limit response previously aborted the whole
+// ingest with no retry, forcing a full manual re-run.
+async function fetchAndSnapshot(url, snapshotFilename, attempt = 1) {
   const res = await fetch(url, { headers: { "User-Agent": USER_AGENT } });
+
+  if (res.status === 429 && attempt <= 5) {
+    const retryAfter = Number(res.headers.get("retry-after"));
+    const delayMs = Number.isFinite(retryAfter) && retryAfter > 0 ? retryAfter * 1000 : attempt * 2000;
+    console.log(`[turnout] rate limited fetching ${url}, waiting ${Math.round(delayMs / 1000)}s (attempt ${attempt})...`);
+    await sleep(delayMs);
+    return fetchAndSnapshot(url, snapshotFilename, attempt + 1);
+  }
+
   if (!res.ok) throw new Error(`[turnout] HTTP ${res.status} ${res.statusText} for ${url}`);
   const buffer = Buffer.from(await res.arrayBuffer());
   await mkdir(SNAPSHOT_DIR, { recursive: true });
-  await writeFile(path.join(SNAPSHOT_DIR, snapshotFilename), buffer);
+  // Snapshot, don't overwrite (AGENTS.md §2.2/§0.5) — same convention as
+  // scripts/ingest/legistar.mjs's snapshotRaw() and scripts/ingest/
+  // state-bills.mjs's dated snapshot filenames. Every run's raw download
+  // gets its own timestamped file rather than clobbering the prior run's
+  // snapshot; a correction the SOS or Census republishes under the same
+  // upstream filename is now a diffable event, not a silent loss.
+  const fetchedAt = new Date().toISOString().replace(/[:.]/g, "-");
+  const datedFilename = snapshotFilename.replace(/(\.[^.]+)$/, `-${fetchedAt}$1`);
+  await writeFile(path.join(SNAPSHOT_DIR, datedFilename), buffer);
   return buffer;
 }
 
@@ -606,18 +606,19 @@ async function fetchAndSnapshot(url, snapshotFilename) {
  * Deterministic filename-safe slug for a city name — this feature's
  * `cityId`. No existing city-slug convention was found elsewhere in this
  * repo (src/lib/cities.ts stores plain display names, no ids) — this
- * establishes one, following the same lowercase/hyphen-separated shape
- * scripts/ingest/legistar.mjs's slugify() already uses for office titles.
+ * establishes one, composed from scripts/ingest/legistar.mjs's own
+ * slugify() (already used for office titles) plus an NFKD diacritic-
+ * strip pass legistar.mjs's own callers never needed. Confirmed
+ * byte-identical to the previous standalone implementation against
+ * every real committed public/turnout/city/<year>.json cityName across
+ * all 7 years (5,975 records, 0 mismatches) before making this change —
+ * a real cityId is a published part of this feature's public data
+ * contract (AGENTS.md §2.4), so this was verified, not assumed.
  * @param {string} name
  * @returns {string}
  */
 export function slugifyCityName(name) {
-  return String(name)
-    .toLowerCase()
-    .normalize("NFKD")
-    .replace(/[̀-ͯ]/g, "") // strip combining diacritics after NFKD decomposition
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "");
+  return slugify(String(name).normalize("NFKD").replace(/[̀-ͯ]/g, "")); // strip combining diacritics after NFKD decomposition
 }
 
 /**
