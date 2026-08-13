@@ -19,6 +19,8 @@ import {
   normalizeCountyKey,
   joinCityBoundaryToTurnout,
   joinAllCityBoundaries,
+  deriveParticipationBoundaries,
+  deriveParticipationCities,
 } from "./turnoutJoin.ts";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -156,6 +158,86 @@ test("joinAllCityBoundaries returns one result per feature, matched or not, neve
   assert.equal(results[2].turnout, null);
 });
 
+// A real class of case, not a made-up edge: 48 Minnesota cities span more
+// than one county and so own more than one city-boundaries.geojson
+// polygon (Mankato: Blue Earth, Nicollet, Le Sueur — a real example,
+// mirrored here as a synthetic fixture rather than depending on which
+// real city happens to be multi-county in a given year's data).
+const MULTI_COUNTY_TURNOUT_CITY = {
+  cityId: "multi-city",
+  cityName: "Multi City",
+  counties: ["County A", "County B", "County C"],
+  turnoutOfRegistered: 0.75,
+  turnoutOfCVAP: 0.7,
+  belowThreshold: false,
+  ballotsCast: 21879,
+  registeredAt7am: 27000,
+  electionDayRegistrations: 1000,
+};
+
+function multiCountyBoundaryFeature(county) {
+  return { type: "Feature", geometry: { type: "Point", coordinates: [0, 0] }, properties: { name: "Multi City", county } };
+}
+
+test("deriveParticipationBoundaries gives every polygon of a multi-county city the SAME full counties list, not just its own single county", () => {
+  const boundaries = {
+    type: "FeatureCollection",
+    features: [
+      multiCountyBoundaryFeature("County A"),
+      multiCountyBoundaryFeature("County B"),
+      multiCountyBoundaryFeature("County C"),
+    ],
+  };
+  const result = deriveParticipationBoundaries(boundaries, [MULTI_COUNTY_TURNOUT_CITY]);
+  assert.equal(result.features.length, 3);
+  for (const feature of result.features) {
+    assert.equal(feature.properties.cityId, "multi-city");
+    assert.deepEqual(feature.properties.counties, ["County A", "County B", "County C"]);
+  }
+  // `county` (singular) stays the per-polygon value — the map's own
+  // choropleth fill and hover/click-to-pin behavior still need to know
+  // which specific polygon a given feature is.
+  assert.equal(result.features[0].properties.county, "County A");
+  assert.equal(result.features[1].properties.county, "County B");
+  assert.equal(result.features[2].properties.county, "County C");
+});
+
+test("deriveParticipationCities collapses a multi-county city's several polygons into ONE row", () => {
+  const boundaries = {
+    type: "FeatureCollection",
+    features: [
+      multiCountyBoundaryFeature("County A"),
+      multiCountyBoundaryFeature("County B"),
+      multiCountyBoundaryFeature("County C"),
+    ],
+  };
+  const joined = deriveParticipationBoundaries(boundaries, [MULTI_COUNTY_TURNOUT_CITY]);
+  const deduped = deriveParticipationCities(joined);
+  assert.equal(deduped.length, 1);
+  assert.equal(deduped[0].cityId, "multi-city");
+  assert.deepEqual(deduped[0].counties, ["County A", "County B", "County C"]);
+});
+
+test("deriveParticipationCities does NOT collapse unmatched features that merely share a name — each is a genuinely distinct unresolved boundary", () => {
+  const boundaries = {
+    type: "FeatureCollection",
+    features: [
+      { type: "Feature", geometry: { type: "Point", coordinates: [0, 0] }, properties: { name: "Unresolved Town", county: "County X" } },
+      { type: "Feature", geometry: { type: "Point", coordinates: [0, 0] }, properties: { name: "Unresolved Town", county: "County Y" } },
+    ],
+  };
+  const joined = deriveParticipationBoundaries(boundaries, []); // no turnout cities at all -> both unmatched
+  const deduped = deriveParticipationCities(joined);
+  assert.equal(deduped.length, 2, "two distinct unmatched boundaries (different counties) should NOT be deduped into one");
+  assert.equal(deduped[0].matched, false);
+  assert.equal(deduped[1].matched, false);
+});
+
+test("deriveParticipationCities returns an empty array for null/undefined input rather than throwing", () => {
+  assert.deepEqual(deriveParticipationCities(null), []);
+  assert.deepEqual(deriveParticipationCities(undefined), []);
+});
+
 // Integration-style sanity check against the real committed data files —
 // confirms the fixture above matches production reality, and that the
 // join resolves every real St. Anthony/Saint Anthony boundary polygon
@@ -189,4 +271,33 @@ test("real city-boundaries.geojson + turnout/city/2024.json: every Saint Anthony
     const stearnsResult = joinCityBoundaryToTurnout(stearns.properties, turnout.cities);
     assert.notEqual(hennepinResult.turnout?.cityId, stearnsResult.turnout?.cityId);
   }
+});
+
+// Real multi-county-city sanity check (confirmed live against the
+// committed files: Mankato — Blue Earth, Nicollet, Le Sueur, 3 real
+// polygons, 1 real turnout record) — same skip-gracefully posture as the
+// Saint Anthony integration test above.
+test("real city-boundaries.geojson + turnout/city/2024.json: Mankato's 3 county polygons dedupe to exactly 1 record-list row", (t) => {
+  let boundaries;
+  let turnout;
+  try {
+    boundaries = JSON.parse(readFileSync(path.join(__dirname, "../../public/city-boundaries.geojson"), "utf8"));
+    turnout = JSON.parse(readFileSync(path.join(__dirname, "../../public/turnout/city/2024.json"), "utf8"));
+  } catch {
+    t.skip("public/city-boundaries.geojson or public/turnout/city/2024.json not present in this checkout");
+    return;
+  }
+
+  const mankatoFeatures = boundaries.features.filter((f) => f.properties.name === "Mankato");
+  assert.ok(mankatoFeatures.length >= 2, "expected at least 2 real Mankato boundary polygons (a multi-county city)");
+
+  const joined = deriveParticipationBoundaries({ type: "FeatureCollection", features: mankatoFeatures }, turnout.cities);
+  assert.equal(joined.features.length, mankatoFeatures.length, "every Mankato polygon should still be present for the map's own choropleth fill");
+  for (const feature of joined.features) {
+    assert.equal(feature.properties.matched, true, "every real Mankato polygon should resolve to a turnout record");
+    assert.ok(feature.properties.counties.length >= 2, "Mankato's counties list should carry all of its real counties, not just one polygon's");
+  }
+
+  const deduped = deriveParticipationCities(joined);
+  assert.equal(deduped.length, 1, "Mankato should collapse to exactly one record-list row, not one per county polygon");
 });

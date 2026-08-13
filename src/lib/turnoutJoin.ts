@@ -202,7 +202,24 @@ export interface ParticipationCityProperties {
   // else city-boundaries' own full-spelled name, so an unmatched city
   // still has a real, readable label.
   name: string;
+  // The SPECIFIC boundary polygon's own single county — every polygon in
+  // city-boundaries.geojson has exactly one (a multi-county city gets one
+  // polygon feature per county it touches, per this file's own header).
+  // Kept single-valued and untouched by the multi-county fix below
+  // because the map's own per-polygon rendering, hover, and click-to-pin
+  // behavior all key off "which specific polygon is this," which is
+  // still genuinely one county each.
   county: string | null;
+  // The city's FULL county list when matched (turnout's own `counties`
+  // array — every county the city's precincts fall in, e.g. Mankato:
+  // ["Blue Earth", "Nicollet", "Le Sueur"]), vs. this one polygon's own
+  // single `county` above. Consumers that describe "this city" as a whole
+  // (ParticipationRecordList's deduped rows, the pinned panel) should
+  // show `counties`, not `county` — showing only the polygon-of-the-
+  // moment's single county for a multi-county city undercounts it.
+  // Falls back to `[county]` (or `[]`) when unmatched, since there's no
+  // turnout record to source a full list from.
+  counties: readonly string[];
   cityId: string | null;
   matched: boolean;
   belowThreshold: boolean;
@@ -242,6 +259,7 @@ export function deriveParticipationBoundaries<G>(
       const properties: ParticipationCityProperties = {
         name: turnout?.cityName ?? props.name ?? "",
         county: props.county ?? null,
+        counties: turnout ? turnout.counties : props.county ? [props.county] : [],
         cityId: turnout?.cityId ?? null,
         matched: turnout !== null,
         belowThreshold: turnout?.belowThreshold ?? false,
@@ -255,4 +273,38 @@ export function deriveParticipationBoundaries<G>(
       return { type: "Feature" as const, geometry: f.geometry, properties };
     }),
   };
+}
+
+// deriveParticipationBoundaries above returns one feature per city-
+// boundaries.geojson POLYGON (906 statewide) — correct for the map's own
+// choropleth fill, since every polygon of a multi-county city (48 real
+// Minnesota cities span more than one county — Mankato: Blue Earth,
+// Nicollet, Le Sueur, three polygons, one turnout record) should shade
+// the same. It is NOT correct for a consumer describing "the list of
+// cities" rather than "the list of polygons" — WardMap.tsx's
+// ParticipationRecordList feed and its selectParticipationCity bounds
+// lookup both need one row per real city, not one per polygon (a
+// resident picking "Mankato" from an alphabetical list shouldn't see it
+// three times with identical numbers under three different single-county
+// labels). This is that dedup step: matched cities collapse to one row
+// per cityId (they're identical across polygons — same turnout record,
+// only `county`/geometry differ per polygon); unmatched features have no
+// cityId to group by and are left exactly as deriveParticipationBoundaries
+// produced them, one row per unresolved polygon — each is a genuinely
+// distinct boundary that failed its own join, not a duplicate, so
+// deduping by name+county here is a no-op for them, not a fix.
+export function deriveParticipationCities(
+  data: { features: readonly { properties: ParticipationCityProperties }[] } | null | undefined,
+): ParticipationCityProperties[] {
+  if (!data) return [];
+  const seen = new Set<string>();
+  const result: ParticipationCityProperties[] = [];
+  for (const feature of data.features) {
+    const props = feature.properties;
+    const key = props.matched && props.cityId ? `city:${props.cityId}` : `polygon:${props.name}:${props.county ?? ""}`;
+    if (seen.has(key)) continue;
+    seen.add(key);
+    result.push(props);
+  }
+  return result;
 }

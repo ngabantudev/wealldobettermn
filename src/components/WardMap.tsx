@@ -36,6 +36,7 @@ import { readStored, writeStored } from "@/lib/storage";
 import { focusRingClass, rowHoverClass, touchTargetClass } from "@/lib/variantClasses";
 import {
   deriveParticipationBoundaries,
+  deriveParticipationCities,
   type ParticipationCityProperties,
   type TurnoutCityRecord,
   type TurnoutProvenance,
@@ -689,6 +690,28 @@ function summarizeParticipation(city: ParticipationCityProperties, activeYear: T
   }
   const pct = city.turnoutOfRegistered !== null ? `${Math.round(city.turnoutOfRegistered * 1000) / 10}%` : "unknown";
   return `${city.name}: ${formatCount(city.ballotsCast)} ballots cast out of ${formatCount((city.registeredAt7am ?? 0) + (city.electionDayRegistrations ?? 0))} registered voters, ${pct} Registered, ${election}.`;
+}
+
+// A township/unorganized-territory feature has no turnout record to join
+// against at all (see TOWNSHIP_UNORG_FILL_LAYER_ID handling) — this
+// builds the placeholder ParticipationCityProperties both the hover and
+// click handlers below need, so the same 10-field literal isn't
+// hand-duplicated at both sites (it previously was, byte-for-byte).
+function buildTownshipUnorgCity(name: string, county: string | null): ParticipationCityProperties {
+  return {
+    name,
+    county,
+    counties: county ? [county] : [],
+    cityId: null,
+    matched: false,
+    belowThreshold: false,
+    turnoutOfRegistered: null,
+    turnoutOfCVAP: null,
+    ballotsCast: null,
+    registeredAt7am: null,
+    electionDayRegistrations: null,
+    population: null,
+  };
 }
 
 function boundsFromFeature(feature: Feature<Geometry>): maplibregl.LngLatBounds {
@@ -2001,7 +2024,7 @@ export default function WardMap() {
         atLargeBoundariesDataRef.current = deriveAtLargeBoundaries(secondary.cityBoundaries);
         townshipUnorgDataRef.current = secondary.townshipUnorgBoundaries;
         participationDataRef.current = deriveParticipationBoundaries(secondary.cityBoundaries, secondary.turnoutCities);
-        setParticipationCities(participationDataRef.current.features.map((f) => f.properties));
+        setParticipationCities(deriveParticipationCities(participationDataRef.current));
         setTurnoutDenominatorNote(secondary.turnoutDenominatorNote);
         setTurnoutActiveYear(secondary.turnoutActiveYear);
         setTurnoutYears(secondary.turnoutYears);
@@ -2634,16 +2657,34 @@ export default function WardMap() {
   // that doesn't depend on a mouse's e.point.x/y at all, unlike the map
   // click handler's own version of this same action.
   const selectParticipationCity = (city: ParticipationCityProperties) => {
-    const feature = participationDataRef.current?.features.find(
-      (f) => f.properties.cityId === city.cityId && f.properties.county === city.county,
-    );
-    if (feature) {
+    // A matched city can own more than one boundary polygon (a
+    // multi-county city — see deriveParticipationCities's own comment on
+    // Mankato). Zoom to the UNION of every polygon sharing this cityId,
+    // not just the one polygon that happens to match `city.county`
+    // (there may be several, or the caller's `city` may be a deduped
+    // record-list row whose own `county` no longer identifies any single
+    // one of them) — a resident picking "Mankato" from the list should
+    // see the whole city, not one county's slice of it. Unmatched cities
+    // have no cityId to group by and keep the original single-feature
+    // lookup, since each unmatched polygon is a genuinely distinct
+    // unresolved boundary, not a duplicate.
+    const matchingFeatures =
+      city.matched && city.cityId
+        ? participationDataRef.current?.features.filter((f) => f.properties.cityId === city.cityId)
+        : participationDataRef.current?.features.filter(
+            (f) => f.properties.name === city.name && f.properties.county === city.county,
+          );
+    if (matchingFeatures && matchingFeatures.length > 0) {
       const map = mapRef.current;
       if (layerModeRef.current !== "participation") {
         setLayerMode("participation");
         applyLayerMode("participation");
       }
-      zoomToBoundsNoModal(boundsFromFeature(feature as Feature<Geometry>));
+      const bounds = new maplibregl.LngLatBounds();
+      for (const f of matchingFeatures) {
+        bounds.extend(boundsFromFeature(f as Feature<Geometry>));
+      }
+      zoomToBoundsNoModal(bounds);
       if (map) {
         const container = map.getContainer();
         setParticipationPanel({ city, x: container.clientWidth / 2, y: 24, pinned: true });
@@ -2684,7 +2725,7 @@ export default function WardMap() {
       .then((cityData: { cities?: TurnoutCityRecord[]; knownGaps?: string[]; provenance?: TurnoutProvenance }) => {
         const turnoutCities = cityData.cities ?? [];
         participationDataRef.current = deriveParticipationBoundaries(cityBoundaries, turnoutCities);
-        setParticipationCities(participationDataRef.current.features.map((f) => f.properties));
+        setParticipationCities(deriveParticipationCities(participationDataRef.current));
         setTurnoutActiveYear({ year: entry.year, electionType: entry.electionType ?? "" });
         setTurnoutProvenance(cityData.provenance ?? null);
         const map = mapRef.current;
@@ -4115,19 +4156,7 @@ export default function WardMap() {
         lastHoverIdentityRef.current = hoverIdentity;
         setHighlight(feature.id != null ? { source: feature.source, id: feature.id } : null);
         setParticipationPanel({
-          city: {
-            name,
-            county: (feature.properties?.county as string | undefined) ?? null,
-            cityId: null,
-            matched: false,
-            belowThreshold: false,
-            turnoutOfRegistered: null,
-            turnoutOfCVAP: null,
-            ballotsCast: null,
-            registeredAt7am: null,
-            electionDayRegistrations: null,
-            population: null,
-          },
+          city: buildTownshipUnorgCity(name, (feature.properties?.county as string | undefined) ?? null),
           x: e.point.x,
           y: e.point.y,
           pinned: false,
@@ -4317,19 +4346,7 @@ export default function WardMap() {
       }
       if (hit.layer.id === TOWNSHIP_UNORG_FILL_LAYER_ID) {
         const name = (hit.properties?.name as string | undefined) ?? "";
-        const townshipCity: ParticipationCityProperties = {
-          name,
-          county: (hit.properties?.county as string | undefined) ?? null,
-          cityId: null,
-          matched: false,
-          belowThreshold: false,
-          turnoutOfRegistered: null,
-          turnoutOfCVAP: null,
-          ballotsCast: null,
-          registeredAt7am: null,
-          electionDayRegistrations: null,
-          population: null,
-        };
+        const townshipCity = buildTownshipUnorgCity(name, (hit.properties?.county as string | undefined) ?? null);
         setHighlight(hit.id != null ? { source: hit.source, id: hit.id } : null);
         setParticipationPanel({ city: townshipCity, x: e.point.x, y: e.point.y, pinned: true, townshipOrUnorg: true });
         setAnnouncement(summarizeParticipation(townshipCity, turnoutActiveYear, true));
@@ -5264,7 +5281,9 @@ export default function WardMap() {
               )}
               <p className="font-semibold text-ink">
                 {participationPanel.city.name}
-                {participationPanel.city.county && <span className="font-normal text-ink-3"> ({participationPanel.city.county})</span>}
+                {participationPanel.city.counties.length > 0 && (
+                  <span className="font-normal text-ink-3"> ({participationPanel.city.counties.join(", ")})</span>
+                )}
               </p>
               {participationPanel.townshipOrUnorg ? (
                 <p className="mt-0.5 text-ink-3">No city government here — county and state layers apply.</p>

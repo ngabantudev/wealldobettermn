@@ -62,7 +62,7 @@ function RecordRow({
       >
         <span className="min-w-0 flex-1 truncate text-ink-2">
           {city.name}
-          {city.county && <span className="text-ink-4"> ({city.county})</span>}
+          {city.counties.length > 0 && <span className="text-ink-4"> ({city.counties.join(", ")})</span>}
         </span>
         {!city.matched ? (
           <span className="shrink-0 text-ink-4">no data</span>
