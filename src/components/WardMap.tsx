@@ -34,7 +34,14 @@ import { useSearchCoordinator, type PendingSelection } from "@/lib/searchCoordin
 import { useMobileSheetCoordinator } from "@/lib/mobileSheetCoordinator";
 import { readStored, writeStored } from "@/lib/storage";
 import { focusRingClass, rowHoverClass, touchTargetClass } from "@/lib/variantClasses";
-import { deriveParticipationBoundaries, type ParticipationCityProperties, type TurnoutCityRecord } from "@/lib/turnoutJoin";
+import {
+  deriveParticipationBoundaries,
+  deriveParticipationCities,
+  formatTurnoutPercent,
+  type ParticipationCityProperties,
+  type TurnoutCityRecord,
+  type TurnoutProvenance,
+} from "@/lib/turnoutJoin";
 import { turnoutStepColorExpression, BELOW_THRESHOLD_COLOR, NO_MATCH_COLOR, TOWNSHIP_UNORG_BASE_COLOR } from "@/lib/turnoutColors";
 import { resolveYearDataPath, type TurnoutManifestYear } from "@/lib/turnoutYears";
 import AreaFilterList from "./AreaFilterList";
@@ -359,6 +366,20 @@ function formatElectionHeading(activeYear: TurnoutActiveYear | null): string | n
   return type.length > 0 ? `${activeYear.year} ${type} Election` : `${activeYear.year} Election`;
 }
 
+// Lowercase, mid-sentence form of the same fact formatElectionHeading
+// renders as a standalone heading ("2024 General Election") — used by
+// summarizeParticipation and the pinned panel's unmatched-city line
+// below, both of which used to hardcode the literal string "2024
+// general election" regardless of which year TurnoutYearSlider had
+// actually selected. Falls back to the generic "general election" only
+// when activeYear itself hasn't loaded yet (not once real data exists),
+// same null-handling as formatElectionHeading.
+function electionPhrase(activeYear: TurnoutActiveYear | null): string {
+  if (!activeYear) return "general election";
+  const type = activeYear.electionType.length > 0 ? activeYear.electionType : "general";
+  return `${activeYear.year} ${type} election`;
+}
+
 // Sidebar heading over the area checklist, one per mode that actually uses
 // it (state-legislature has its own "Chambers Shown" heading instead — see
 // the two call sites below). Previously one bare "Areas shown" for both, which read
@@ -641,23 +662,125 @@ function summarizeOfficials(officials: AreaOfficials): string {
   return `Showing representatives for this location: ${parts.join(", ")}.`;
 }
 
+// Thousands-separated vote/registration counts (144028 -> "144,028") —
+// every raw count this mode displays (sr-only announcement and the
+// visible pinned panel below) reads through this, so the two can't drift
+// into inconsistent formatting. Percentages are handled separately by
+// formatPercent-style rounding elsewhere; this is for counts only.
+function formatCount(value: number | null | undefined): string {
+  return (value ?? 0).toLocaleString("en-US");
+}
+
 // Plain-language sr-only announcement for a participation-mode selection
 // (map click or ParticipationRecordList row activation) — same role as
 // summarizeOfficials just above, for the mode that has no officeholders
 // to summarize. AGENTS.md §1c: states the number and its denominator,
-// nothing computed or ranked.
-function summarizeParticipation(city: ParticipationCityProperties, townshipOrUnorg?: boolean): string {
+// nothing computed or ranked. `activeYear` is required (not defaulted)
+// specifically so a future call site can't reintroduce the hardcoded-
+// "2024" bug by omission — every caller has to say which year it means.
+function summarizeParticipation(city: ParticipationCityProperties, activeYear: TurnoutActiveYear | null, townshipOrUnorg?: boolean): string {
   if (townshipOrUnorg) {
     return `${city.name}: no city government here. County and state layers apply.`;
   }
+  const election = electionPhrase(activeYear);
   if (!city.matched) {
-    return `${city.name}: no 2024 general election turnout record found for this city.`;
+    return `${city.name}: no ${election} turnout record found for this city.`;
   }
   if (city.belowThreshold) {
-    return `${city.name}: ${city.ballotsCast ?? 0} ballots cast. Fewer than 200 registered voters — percentage too small to shade reliably.`;
+    return `${city.name}: ${formatCount(city.ballotsCast)} ballots cast. Fewer than 200 registered voters — percentage too small to shade reliably.`;
   }
-  const pct = city.turnoutOfRegistered !== null ? `${Math.round(city.turnoutOfRegistered * 1000) / 10}%` : "unknown";
-  return `${city.name}: ${city.ballotsCast ?? 0} ballots cast out of ${(city.registeredAt7am ?? 0) + (city.electionDayRegistrations ?? 0)} registered voters, ${pct} turnout of registered, 2024 general election.`;
+  const pct = city.turnoutOfRegistered !== null ? formatTurnoutPercent(city.turnoutOfRegistered) : "unknown";
+  return `${city.name}: ${formatCount(city.ballotsCast)} ballots cast out of ${formatCount((city.registeredAt7am ?? 0) + (city.electionDayRegistrations ?? 0))} registered voters, ${pct} Registered, ${election}.`;
+}
+
+// The joined shape participationDataRef/the per-year cache below both
+// hold — city-boundaries.geojson features enriched with turnout data via
+// deriveParticipationBoundaries (src/lib/turnoutJoin.ts). Named here so
+// both can reference the same type instead of an inline object-literal
+// type repeated at each declaration site.
+type ParticipationFeatureCollection = {
+  type: "FeatureCollection";
+  features: { type: "Feature"; geometry: Geometry; properties: ParticipationCityProperties }[];
+};
+
+// The "is this the same city feature as before" key for participation
+// hover-dedup and click-toggle checks — was independently hand-built at
+// 3 sites (the hover handler, the click "already pinned?" check, and the
+// click "set new pin" site) as the same template string. cityId when a
+// join resolved (stable across every polygon of a multi-county city, so
+// hovering from one county's polygon into another county's polygon of
+// the SAME matched city correctly counts as "the same city," not a
+// change), else name+county (the per-polygon identity an unmatched
+// feature still needs, since it has no cityId to fall back to).
+//
+// BUG FIXED (confirmed live via a /bug-fix review pass): this used to
+// unconditionally append `:${city.county ?? ""}` even for a matched
+// city, which contradicted the comment above and its own purpose — two
+// polygons of the same multi-county city (Mankato: Blue Earth/Nicollet/
+// Le Sueur) produced DIFFERENT identities, so hovering across the
+// internal county seam re-triggered the panel/announcement on every
+// crossing, and clicking a second county-polygon of an already-pinned
+// multi-county city re-pinned instead of toggling off. County is now
+// only part of the key for unmatched features (which have no cityId to
+// group by and are correctly treated as distinct per-polygon).
+function participationIdentity(city: ParticipationCityProperties): string {
+  return city.matched && city.cityId ? `participation:${city.cityId}` : `participation:${city.name}:${city.county ?? ""}`;
+}
+
+// MapLibre GeoJSON sources round-trip a feature's properties through an
+// internal vector-tile-like representation that (per the vector tile
+// spec) only supports string/number/boolean values — array-valued
+// properties don't survive that round trip as real arrays.
+// `ParticipationCityProperties.counties` (the only array-valued field on
+// this type, added for multi-county cities like Mankato) is exactly this
+// case: reading it straight off a `queryRenderedFeatures()`/hover result
+// and calling `.join(", ")` on it — as both the pinned panel and the
+// record list already safely do for JS-side data — crashed the whole
+// map with `TypeError: ...counties.join is not a function` the moment a
+// resident hovered or clicked a matched city in Turnout mode (confirmed
+// live via a headless-browser repro during a /bug-fix review pass; this
+// is what the user-reported "Something went wrong" error was). Every
+// site that builds a ParticipationCityProperties from a MapLibre query
+// result must go through this normalizer instead of a bare
+// `as unknown as ParticipationCityProperties` cast.
+function normalizeQueriedParticipationProps(raw: Record<string, unknown> | null | undefined): ParticipationCityProperties {
+  const props = (raw ?? {}) as unknown as ParticipationCityProperties;
+  const rawCounties: unknown = raw?.counties;
+  let counties: readonly string[] = [];
+  if (Array.isArray(rawCounties)) {
+    counties = rawCounties.filter((c): c is string => typeof c === "string");
+  } else if (typeof rawCounties === "string") {
+    try {
+      const parsed: unknown = JSON.parse(rawCounties);
+      if (Array.isArray(parsed)) counties = parsed.filter((c): c is string => typeof c === "string");
+    } catch {
+      // Not JSON-parseable — leave counties empty rather than guess at
+      // its contents (AGENTS.md §0.1: never a guess, never a crash).
+    }
+  }
+  return { ...props, counties };
+}
+
+// A township/unorganized-territory feature has no turnout record to join
+// against at all (see TOWNSHIP_UNORG_FILL_LAYER_ID handling) — this
+// builds the placeholder ParticipationCityProperties both the hover and
+// click handlers below need, so the same 10-field literal isn't
+// hand-duplicated at both sites (it previously was, byte-for-byte).
+function buildTownshipUnorgCity(name: string, county: string | null): ParticipationCityProperties {
+  return {
+    name,
+    county,
+    counties: county ? [county] : [],
+    cityId: null,
+    matched: false,
+    belowThreshold: false,
+    turnoutOfRegistered: null,
+    turnoutOfCVAP: null,
+    ballotsCast: null,
+    registeredAt7am: null,
+    electionDayRegistrations: null,
+    population: null,
+  };
 }
 
 function boundsFromFeature(feature: Feature<Geometry>): maplibregl.LngLatBounds {
@@ -1116,6 +1239,12 @@ interface SecondaryCivicData {
   // moment a future ingest run adds more, with no code change required
   // here (see TurnoutYearSlider.tsx's own header).
   turnoutYears: TurnoutManifestYear[];
+  // The active year's own top-level `provenance` field (SOS precinct
+  // results + Census CVAP citation) — ParticipationLegend's "Original
+  // Source" section. null on a year file that predates this field, or on
+  // a fetch failure; the legend degrades to whatever it can build from
+  // that instead of fabricating a citation (AGENTS.md §3.3).
+  turnoutProvenance: TurnoutProvenance | null;
 }
 
 // The election year/type currently driving the participation choropleth —
@@ -1203,6 +1332,7 @@ const EMPTY_TURNOUT_STATE = {
   turnoutKnownGaps: [] as string[],
   turnoutActiveYear: null as TurnoutActiveYear | null,
   turnoutYears: [] as TurnoutManifestYear[],
+  turnoutProvenance: null as TurnoutProvenance | null,
 };
 
 // Reads public/turnout/manifest.json to find the most recent year's data
@@ -1220,6 +1350,7 @@ async function fetchTurnoutData(): Promise<{
   turnoutKnownGaps: string[];
   turnoutActiveYear: TurnoutActiveYear | null;
   turnoutYears: TurnoutManifestYear[];
+  turnoutProvenance: TurnoutProvenance | null;
 }> {
   try {
     const [manifestRes, townshipUnorgRes] = await Promise.all([
@@ -1238,7 +1369,8 @@ async function fetchTurnoutData(): Promise<{
     const latestYear = years[years.length - 1];
     if (!latestYear) return { ...EMPTY_TURNOUT_STATE, townshipUnorgBoundaries };
     const cityDataRes = await fetch(dataUrl(latestYear.dataPath.replace(/^\//, "")));
-    const cityData = await cityDataRes.json();
+    const cityData: { cities?: TurnoutCityRecord[]; knownGaps?: string[]; provenance?: TurnoutProvenance } =
+      await cityDataRes.json();
     return {
       townshipUnorgBoundaries,
       turnoutCities: cityData.cities ?? [],
@@ -1246,6 +1378,7 @@ async function fetchTurnoutData(): Promise<{
       turnoutKnownGaps: cityData.knownGaps ?? [],
       turnoutActiveYear: { year: latestYear.year, electionType: latestYear.electionType ?? "" },
       turnoutYears: years,
+      turnoutProvenance: cityData.provenance ?? null,
     };
   } catch (err) {
     console.error("[WardMap] failed to load turnout data", err);
@@ -1585,11 +1718,22 @@ export default function WardMap() {
   // anything else. participationCities mirrors participationDataRef's
   // features as plain state (not just a ref) since ParticipationRecordList
   // is a real React child that needs to re-render once this data arrives.
-  const participationDataRef = useRef<{
-    type: "FeatureCollection";
-    features: { type: "Feature"; geometry: Geometry; properties: ParticipationCityProperties }[];
-  } | null>(null);
+  const participationDataRef = useRef<ParticipationFeatureCollection | null>(null);
   const townshipUnorgDataRef = useRef<FeatureCollection | null>(null);
+  // Per-year cache for switchTurnoutYear below — keyed by manifest year,
+  // populated as years are actually visited (including the initial
+  // load's own year, seeded once secondary data arrives). Without this,
+  // dragging the year slider back to an already-viewed year (2024 -> 2012
+  // -> 2024) re-fetched city/<year>.json over the network and re-ran the
+  // full statewide join a second time for data that hadn't changed since
+  // the first visit. A ref, not state — this is a pure memoization cache
+  // with no rendering role of its own; only the derived participation
+  // state it feeds (participationCities, turnoutActiveYear, etc.) needs
+  // to trigger a re-render. Never invalidated — turnout data for a past
+  // election doesn't change mid-session.
+  const turnoutYearCacheRef = useRef<Map<string, { joined: ParticipationFeatureCollection; provenance: TurnoutProvenance | null }>>(
+    new Map(),
+  );
   const [participationCities, setParticipationCities] = useState<ParticipationCityProperties[]>([]);
   const [turnoutDenominatorNote, setTurnoutDenominatorNote] = useState("");
   // Forward-compatible with a future multi-year slider — see
@@ -1603,6 +1747,12 @@ export default function WardMap() {
   // and never mutated afterward (switching years only changes
   // turnoutActiveYear/participationCities, never this list itself).
   const [turnoutYears, setTurnoutYears] = useState<TurnoutManifestYear[]>([]);
+  // The active year's own `provenance` citation (SOS + CVAP source
+  // records) — ParticipationLegend's "Original Source" section. Updated
+  // alongside turnoutActiveYear both on initial load and on every
+  // switchTurnoutYear call, so the citation never shows a different
+  // year's sources than the one currently on screen.
+  const [turnoutProvenance, setTurnoutProvenance] = useState<TurnoutProvenance | null>(null);
   // True only while a slider-triggered year switch's own city-data fetch
   // is in flight (task requirement 6's loading indicator) — distinct from
   // secondaryDataPending, which covers the *initial* commissioners/
@@ -1795,6 +1945,23 @@ export default function WardMap() {
   // starting both checked would cost nothing render-wise).
   const [visibleChambers, setVisibleChambers] = useState<Record<Chamber, boolean>>(() => ({ house: false, senate: true }));
   const visibleChambersRef = useRef(visibleChambers);
+  // Accordion open/closed state for the three left-sidebar sections
+  // (Government Level / Voter Turnout / Cities-by-County-or-Chambers) —
+  // shared between the floating (mobile Filters sheet) and sidebar
+  // (desktop <aside>) flavors, same as visibleCities/areaFilterQuery
+  // above already are. Plain useState, never persisted: this matches
+  // AreaFilterList.tsx's own per-county <details> open state
+  // (`manualOverride`, that file's own comment above its useState), which
+  // is the closer precedent for "expand/collapse state inside this filter
+  // panel" than LEFT_FILTERS_COLLAPSED_KEY below — collapsing the *entire*
+  // sidebar to reclaim map width is a deliberate, sticky choice a resident
+  // returns to; collapsing one section inside it is closer to
+  // AreaFilterList's own transient county-row toggles, which the areaFilterQuery
+  // comment just above already documents as unpersisted. All three default
+  // open so nothing is hidden on first paint.
+  const [govLevelSectionOpen, setGovLevelSectionOpen] = useState(true);
+  const [turnoutSectionOpen, setTurnoutSectionOpen] = useState(true);
+  const [areaSectionOpen, setAreaSectionOpen] = useState(true);
   // Sidebar collapse state — see LEFT_FILTERS_COLLAPSED_KEY's own comment.
   // Both default to false (expanded) here rather than reading storage in
   // the initializer, same SSR-safety reasoning as mapStyleId/siteTheme
@@ -1937,10 +2104,20 @@ export default function WardMap() {
         atLargeBoundariesDataRef.current = deriveAtLargeBoundaries(secondary.cityBoundaries);
         townshipUnorgDataRef.current = secondary.townshipUnorgBoundaries;
         participationDataRef.current = deriveParticipationBoundaries(secondary.cityBoundaries, secondary.turnoutCities);
-        setParticipationCities(participationDataRef.current.features.map((f) => f.properties));
+        setParticipationCities(deriveParticipationCities(participationDataRef.current));
         setTurnoutDenominatorNote(secondary.turnoutDenominatorNote);
         setTurnoutActiveYear(secondary.turnoutActiveYear);
         setTurnoutYears(secondary.turnoutYears);
+        setTurnoutProvenance(secondary.turnoutProvenance);
+        // Seed the per-year cache with this initial load's own year, so
+        // sliding away and back to the starting year is a cache hit too,
+        // not just years visited via the slider.
+        if (secondary.turnoutActiveYear) {
+          turnoutYearCacheRef.current.set(secondary.turnoutActiveYear.year, {
+            joined: participationDataRef.current,
+            provenance: secondary.turnoutProvenance,
+          });
+        }
         const commissionersBounds = boundsFromFeatureCollection(secondary.commissioners);
         const stateLegBounds = boundsFromFeatureCollection(secondary.stateLeg);
         if (!commissionersBounds.isEmpty()) commissionersBoundsRef.current = commissionersBounds;
@@ -2497,6 +2674,18 @@ export default function WardMap() {
   const switchMode = (mode: LayerMode) => {
     if (mode === layerModeRef.current) return;
     setLayerMode(mode);
+    // Picking Turnout wants to see its own controls (task requirement:
+    // mode selection and section collapse are orthogonal, EXCEPT this one
+    // deliberate direction — choosing a mode never collapses a section,
+    // only ever opens the one that mode now needs). Reading
+    // turnoutSectionOpen directly (not a ref) is safe here: switchMode is
+    // a fresh closure every render (called only from onClick handlers
+    // rendered inline below), never from a stale event-handler registered
+    // once inside the map-construction effect, so it always sees the
+    // latest state — same reasoning as switchMode's own pre-existing
+    // reads of `layerModeRef` only where MapLibre callbacks (not React
+    // renders) are the caller.
+    if (mode === "participation" && !turnoutSectionOpen) setTurnoutSectionOpen(true);
     setSelected(null);
     // A city "entered" in wards mode has no meaning in commissioners/
     // state-legislature mode (they don't consult activeCityRef at all) —
@@ -2557,22 +2746,40 @@ export default function WardMap() {
   // that doesn't depend on a mouse's e.point.x/y at all, unlike the map
   // click handler's own version of this same action.
   const selectParticipationCity = (city: ParticipationCityProperties) => {
-    const feature = participationDataRef.current?.features.find(
-      (f) => f.properties.cityId === city.cityId && f.properties.county === city.county,
-    );
-    if (feature) {
+    // A matched city can own more than one boundary polygon (a
+    // multi-county city — see deriveParticipationCities's own comment on
+    // Mankato). Zoom to the UNION of every polygon sharing this cityId,
+    // not just the one polygon that happens to match `city.county`
+    // (there may be several, or the caller's `city` may be a deduped
+    // record-list row whose own `county` no longer identifies any single
+    // one of them) — a resident picking "Mankato" from the list should
+    // see the whole city, not one county's slice of it. Unmatched cities
+    // have no cityId to group by and keep the original single-feature
+    // lookup, since each unmatched polygon is a genuinely distinct
+    // unresolved boundary, not a duplicate.
+    const matchingFeatures =
+      city.matched && city.cityId
+        ? participationDataRef.current?.features.filter((f) => f.properties.cityId === city.cityId)
+        : participationDataRef.current?.features.filter(
+            (f) => f.properties.name === city.name && f.properties.county === city.county,
+          );
+    if (matchingFeatures && matchingFeatures.length > 0) {
       const map = mapRef.current;
       if (layerModeRef.current !== "participation") {
         setLayerMode("participation");
         applyLayerMode("participation");
       }
-      zoomToBoundsNoModal(boundsFromFeature(feature as Feature<Geometry>));
+      const bounds = new maplibregl.LngLatBounds();
+      for (const f of matchingFeatures) {
+        bounds.extend(boundsFromFeature(f as Feature<Geometry>));
+      }
+      zoomToBoundsNoModal(bounds);
       if (map) {
         const container = map.getContainer();
         setParticipationPanel({ city, x: container.clientWidth / 2, y: 24, pinned: true });
       }
     }
-    setAnnouncement(summarizeParticipation(city));
+    setAnnouncement(summarizeParticipation(city, turnoutActiveYear));
   };
 
   // TurnoutYearSlider's onChangeYear — moves the participation choropleth
@@ -2596,31 +2803,51 @@ export default function WardMap() {
   const switchTurnoutYear = (year: string) => {
     if (turnoutYearLoading) return; // one in-flight year switch at a time
     if (turnoutActiveYear?.year === year) return; // already showing this year
+    const entry = turnoutYears.find((y) => y.year === year);
+    if (!entry) return;
+
+    // Shared by both the cache-hit and freshly-fetched paths below, so
+    // "apply a year's joined data to the map/state" exists in exactly
+    // one place regardless of where it came from.
+    const applyYearData = (joined: ParticipationFeatureCollection, provenance: TurnoutProvenance | null) => {
+      participationDataRef.current = joined;
+      setParticipationCities(deriveParticipationCities(joined));
+      setTurnoutActiveYear({ year: entry.year, electionType: entry.electionType ?? "" });
+      setTurnoutProvenance(provenance);
+      const map = mapRef.current;
+      (map?.getSource(PARTICIPATION_SOURCE_ID) as maplibregl.GeoJSONSource | undefined)?.setData(joined as unknown as FeatureCollection);
+      // A pinned/hovered participationPanel is holding the PREVIOUS
+      // year's own ballotsCast/turnout figures for whichever city it
+      // names — leaving it open would silently show stale numbers
+      // under the new year's heading. Closed rather than
+      // re-resolved: re-deriving it would need the same city's new-year
+      // feature and re-run the same x/y placement logic the map click/
+      // hover handlers own, for a panel the resident can simply reopen.
+      setParticipationPanel(null);
+    };
+
+    // Cache hit — this year was already fetched+joined earlier this
+    // session (including the initial load's own year). Resolves
+    // synchronously: no network fetch, no loading flash.
+    const cached = turnoutYearCacheRef.current.get(year);
+    if (cached) {
+      applyYearData(cached.joined, cached.provenance);
+      return;
+    }
+
     const dataPath = resolveYearDataPath(turnoutYears, year);
     const cityBoundaries = cityBoundariesDataRef.current;
-    const entry = turnoutYears.find((y) => y.year === year);
-    if (!dataPath || !cityBoundaries || !entry) return;
+    if (!dataPath || !cityBoundaries) return;
 
     setTurnoutYearLoading(true);
     fetch(dataUrl(dataPath.replace(/^\//, "")))
       .then((res) => res.json())
-      .then((cityData: { cities?: TurnoutCityRecord[]; knownGaps?: string[] }) => {
+      .then((cityData: { cities?: TurnoutCityRecord[]; knownGaps?: string[]; provenance?: TurnoutProvenance }) => {
         const turnoutCities = cityData.cities ?? [];
-        participationDataRef.current = deriveParticipationBoundaries(cityBoundaries, turnoutCities);
-        setParticipationCities(participationDataRef.current.features.map((f) => f.properties));
-        setTurnoutActiveYear({ year: entry.year, electionType: entry.electionType ?? "" });
-        const map = mapRef.current;
-        (map?.getSource(PARTICIPATION_SOURCE_ID) as maplibregl.GeoJSONSource | undefined)?.setData(
-          participationDataRef.current as unknown as FeatureCollection,
-        );
-        // A pinned/hovered participationPanel is holding the PREVIOUS
-        // year's own ballotsCast/turnout figures for whichever city it
-        // names — leaving it open would silently show stale numbers
-        // under the new year's heading. Closed rather than
-        // re-resolved: re-deriving it would need the same city's new-year
-        // feature and re-run the same x/y placement logic the map click/
-        // hover handlers own, for a panel the resident can simply reopen.
-        setParticipationPanel(null);
+        const joined = deriveParticipationBoundaries(cityBoundaries, turnoutCities);
+        const provenance = cityData.provenance ?? null;
+        turnoutYearCacheRef.current.set(year, { joined, provenance });
+        applyYearData(joined, provenance);
       })
       .catch((err) => {
         console.error("[WardMap] failed to load turnout year", year, err);
@@ -4022,8 +4249,8 @@ export default function WardMap() {
       // pipeline, into participationPanel instead of selected/
       // metroHoverTooltip.
       if (feature.layer.id === PARTICIPATION_FILL_LAYER_ID || feature.layer.id === PARTICIPATION_CIRCLE_LAYER_ID) {
-        const props = feature.properties as unknown as ParticipationCityProperties;
-        const hoverIdentity = `participation:${props.cityId ?? props.name}:${props.county ?? ""}`;
+        const props = normalizeQueriedParticipationProps(feature.properties as Record<string, unknown> | null | undefined);
+        const hoverIdentity = participationIdentity(props);
         if (hoverIdentity === lastHoverIdentityRef.current) return;
         lastHoverIdentityRef.current = hoverIdentity;
         setHighlight(feature.id != null ? { source: feature.source, id: feature.id } : null);
@@ -4037,19 +4264,7 @@ export default function WardMap() {
         lastHoverIdentityRef.current = hoverIdentity;
         setHighlight(feature.id != null ? { source: feature.source, id: feature.id } : null);
         setParticipationPanel({
-          city: {
-            name,
-            county: (feature.properties?.county as string | undefined) ?? null,
-            cityId: null,
-            matched: false,
-            belowThreshold: false,
-            turnoutOfRegistered: null,
-            turnoutOfCVAP: null,
-            ballotsCast: null,
-            registeredAt7am: null,
-            electionDayRegistrations: null,
-            population: null,
-          },
+          city: buildTownshipUnorgCity(name, (feature.properties?.county as string | undefined) ?? null),
           x: e.point.x,
           y: e.point.y,
           pinned: false,
@@ -4225,36 +4440,24 @@ export default function WardMap() {
       // same "second click on the same feature un-pins" convention the
       // at-large branch just below uses for `selected`.
       if (hit.layer.id === PARTICIPATION_FILL_LAYER_ID || hit.layer.id === PARTICIPATION_CIRCLE_LAYER_ID) {
-        const props = hit.properties as unknown as ParticipationCityProperties;
-        const identity = `participation:${props.cityId ?? props.name}:${props.county ?? ""}`;
+        const props = normalizeQueriedParticipationProps(hit.properties as Record<string, unknown> | null | undefined);
+        const identity = participationIdentity(props);
         const current = participationPanelRef.current;
-        if (current?.pinned && `participation:${current.city.cityId ?? current.city.name}:${current.city.county ?? ""}` === identity) {
+        if (current?.pinned && participationIdentity(current.city) === identity) {
           setParticipationPanel(null);
           return;
         }
         setHighlight(hit.id != null ? { source: hit.source, id: hit.id } : null);
         setParticipationPanel({ city: props, x: e.point.x, y: e.point.y, pinned: true });
-        setAnnouncement(summarizeParticipation(props));
+        setAnnouncement(summarizeParticipation(props, turnoutActiveYear));
         return;
       }
       if (hit.layer.id === TOWNSHIP_UNORG_FILL_LAYER_ID) {
         const name = (hit.properties?.name as string | undefined) ?? "";
-        const townshipCity: ParticipationCityProperties = {
-          name,
-          county: (hit.properties?.county as string | undefined) ?? null,
-          cityId: null,
-          matched: false,
-          belowThreshold: false,
-          turnoutOfRegistered: null,
-          turnoutOfCVAP: null,
-          ballotsCast: null,
-          registeredAt7am: null,
-          electionDayRegistrations: null,
-          population: null,
-        };
+        const townshipCity = buildTownshipUnorgCity(name, (hit.properties?.county as string | undefined) ?? null);
         setHighlight(hit.id != null ? { source: hit.source, id: hit.id } : null);
         setParticipationPanel({ city: townshipCity, x: e.point.x, y: e.point.y, pinned: true, townshipOrUnorg: true });
-        setAnnouncement(summarizeParticipation(townshipCity, true));
+        setAnnouncement(summarizeParticipation(townshipCity, turnoutActiveYear, true));
         return;
       }
       // Same "no real RepProperties to seed `known` with" case as
@@ -4515,13 +4718,61 @@ export default function WardMap() {
   // container so a label sitting beside AreaFilterList's own bulk-toggle
   // row doesn't pick up a second, misaligning gap from a margin baked
   // into the label itself.
-  const filterSectionLabel = (variant: "floating" | "sidebar", text: string) =>
-    variant === "sidebar" ? (
-      <h3 className="flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wide text-ink-3">
-        <span aria-hidden="true" className="h-2.5 w-1 shrink-0 rounded-full bg-sidebar-accent" />
-        {text}
-      </h3>
-    ) : null;
+  // Accordion wrapper for each of the three top-level sidebar sections
+  // (Government Level / Voter Turnout / Cities by County or Chambers
+  // Shown) — same shape for both the floating (mobile Filters sheet) and
+  // sidebar (desktop `<aside>`) flavors. Native `<details>/<summary>`
+  // rather than hand-rolled ARIA: keyboard toggling (Enter/Space) and the
+  // open/closed state exposed to assistive tech both come for free (a
+  // `<summary>`'s implicit role is "button" with its own accessible
+  // open/closed state — no separate `aria-expanded` to keep in sync by
+  // hand). Mirrors AreaFilterList.tsx's own per-county `<details>` exactly
+  // — same `group` + `group-open:rotate-180` chevron, same
+  // `motion-reduce:transition-none` gate (AGENTS.md §4) — rather than
+  // inventing a second pattern for the same interaction one level up.
+  // `open` is a controlled prop (not `defaultOpen`) so callers — namely
+  // switchMode's own "picking Turnout auto-expands its section" — can
+  // force a section open from outside a click on its own summary; the
+  // section's contents (AreaFilterList, ParticipationRecordList, etc.)
+  // stay mounted in the DOM either way, since `<details>` only ever
+  // visually hides a closed body rather than removing it, which is what
+  // keeps the accessible record lists reachable per AGENTS.md §4 even
+  // while their section is visually collapsed.
+  //
+  // Floating previously rendered no heading at all here (filterSectionLabel,
+  // this helper's predecessor, returned `null` for "floating") — a
+  // collapsible section needs a visible, clickable label to collapse
+  // *by*, so floating now gets one too; kept visually lighter (text-ink-2,
+  // no accent tick) than sidebar's tick+text-ink-3 treatment so it still
+  // reads as secondary chrome floating over the map rather than a second
+  // sidebar identity.
+  const filterAccordionSection = (
+    variant: "floating" | "sidebar",
+    text: string,
+    open: boolean,
+    onOpenChange: (open: boolean) => void,
+    children: React.ReactNode,
+  ) => (
+    <details open={open} onToggle={(e) => onOpenChange(e.currentTarget.open)} className="group">
+      <summary
+        className={`mb-1.5 flex list-none items-center gap-1.5 rounded-sm cursor-pointer select-none [&::-webkit-details-marker]:hidden focus:outline-none focus-visible:ring-2 focus-visible:-outline-offset-2 ${focusRingClass(variant)}`}
+      >
+        {variant === "sidebar" && <span aria-hidden="true" className="h-2.5 w-1 shrink-0 rounded-full bg-sidebar-accent" />}
+        <span className={`flex-1 text-[11px] font-semibold uppercase tracking-wide ${variant === "sidebar" ? "text-ink-3" : "text-ink-2"}`}>
+          {text}
+        </span>
+        <svg
+          aria-hidden="true"
+          viewBox="0 0 20 20"
+          fill="none"
+          className="h-3.5 w-3.5 shrink-0 text-ink-3 transition-transform duration-150 motion-reduce:transition-none group-open:rotate-180"
+        >
+          <path d="m5.5 7.5 4.5 5 4.5-5" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      </summary>
+      {children}
+    </details>
+  );
 
   // Sidebar-only tab look for the Level (City/County/State) and Chamber
   // groups — a flat segmented control (rounded-lg track, rounded-md
@@ -4586,114 +4837,212 @@ export default function WardMap() {
       </p>
     ) : null;
 
-  // filterControls (floating, for the mobile Filters trigger's sheet) and
-  // sidebarFilterControls (for the desktop left `<aside>` below) render
-  // the same two groups but are written out separately rather than
-  // shared through one JSX-returning helper: a helper closing over
-  // switchMode/toggleChamber (both of which read a ref) and called twice
-  // during this component's own render reads, to the react-hooks/refs
-  // lint rule, as those refs being touched somewhere other than an event
-  // handler — even though the buttons below only ever call them from
-  // onClick, same as this file did before either flavor existed. Two
-  // direct blocks side-step the false positive.
-  const filterControls = (
-    <>
-      <div>
-        {filterSectionLabel("floating", "Government Level")}
-        <div role="group" aria-label="Choose government level" className={filterGroupClass()}>
-          {(["wards", "commissioners", "state-legislature", "participation"] as const).map((mode) => (
-            <button
-              key={mode}
-              type="button"
-              onClick={() => switchMode(mode)}
-              // rowHoverClass/focusRingClass("floating") — shared with
-              // AreaFilterList.tsx's own row/summary chrome (src/lib/
-              // variantClasses.ts) rather than this file re-deriving the
-              // same "floating uses --hover/--accent, sidebar uses
-              // --sidebar-hover/--sidebar-accent" choice inline a second
-              // time (this button and the Chamber one just below it used
-              // to each hardcode the identical literal).
-              className={`px-3 py-1.5 rounded-md font-medium transition-colors focus:outline-none focus-visible:ring-2 ${focusRingClass("floating")} ${
-                layerMode === mode ? "bg-accent text-on-accent" : `text-ink-3 hover:text-ink ${rowHoverClass("floating")}`
-              }`}
-            >
-              {mode === "participation" ? participationModeLabel(turnoutActiveYear) : MODE_LABELS[mode]}
-            </button>
-          ))}
-        </div>
-        {secondaryDataNotice}
-      </div>
+  // Standalone on/off control for the Voter Turnout section — replaces
+  // "Turnout" as a fourth cell of the Government Level segmented control
+  // (issue: turnout is a distinct data mode, not a government tier — a
+  // city's turnout figures aren't tied to any office, same reasoning
+  // LayerMode's own comment already gives for handling "participation" as
+  // its own branch everywhere else in this file). `role="switch"` +
+  // `aria-checked` is the correct ARIA shape for a single persistent
+  // on/off toggle (distinct from the Government Level buttons just below,
+  // which are `role="group"` mutually-exclusive picks); the visible
+  // "On"/"Off" text is the real signal for a colorblind resident
+  // (AGENTS.md §4 "Colour Is Never The Only Signal") — the accent fill is
+  // decoration on top of it, not instead of it. Turning it off returns to
+  // "wards" (the default tier) rather than leaving no mode active, same
+  // as picking any other Government Level cell always did.
+  const turnoutToggleButtonClass = (variant: "floating" | "sidebar", active: boolean) =>
+    variant === "sidebar"
+      ? `flex w-full items-center justify-between gap-2 rounded-md bg-panel-3 px-3 py-2.5 text-left text-xs font-semibold uppercase tracking-wide transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-sidebar-accent ${
+          active ? "" : "text-ink-3 hover:bg-sidebar-hover hover:text-ink"
+        }`
+      : `flex w-full items-center justify-between gap-2 rounded-lg border border-hair bg-panel-2/90 backdrop-blur-sm px-3 py-2 text-left text-sm font-medium shadow-lg shadow-(color:--shadow-panel) transition-colors focus:outline-none focus-visible:ring-2 ${focusRingClass(
+          "floating",
+        )} ${active ? "border-transparent bg-accent text-on-accent" : `text-ink-3 hover:text-ink ${rowHoverClass("floating")}`}`;
 
-      <div>
-        {layerMode === "state-legislature" && filterSectionLabel("floating", "Chambers Shown")}
-        {layerMode === "state-legislature" ? (
-          // A district doesn't cleanly belong to one Twin City, so this
-          // offers the two chambers instead of the Minneapolis/St. Paul
-          // checkboxes below — same pill-button look as the Government
-          // Level switcher just above, but each independently toggleable
-          // rather than exclusive (see ChamberToggleButtons's own comment).
-          <ChamberToggleButtons visibleChambers={visibleChambers} variant="floating" onToggleChamber={toggleChamber} />
-        ) : layerMode === "participation" ? (
-          <>
-            <TurnoutYearSlider
-              variant="floating"
-              years={turnoutYears}
-              activeYear={turnoutActiveYear?.year ?? null}
-              loading={turnoutYearLoading}
-              onChangeYear={switchTurnoutYear}
-            />
-            <ParticipationLegend
-              variant="floating"
-              electionHeading={formatElectionHeading(turnoutActiveYear)}
-              denominatorNote={turnoutDenominatorNote}
-              populationWeighted={participationPopulationWeighted}
-              onTogglePopulationWeighted={toggleParticipationPopulationWeighted}
-            />
-            <div className="mt-3">
-              <ParticipationRecordList
-                cities={participationCities}
-                variant="floating"
-                electionHeading={formatElectionHeading(turnoutActiveYear)}
-                onSelectCity={selectParticipationCity}
-              />
-            </div>
-          </>
-        ) : (
-          <AreaFilterList
-            cities={MODE_VISIBLE_CITIES[layerMode]}
-            visibleCities={visibleCities}
-            labels={MODE_FILTER_LABELS[layerMode]}
-            accents={CITY_ACCENT}
-            variant="floating"
-            grouped={layerMode === "wards"}
-            query={areaFilterQuery}
-            onQueryChange={setAreaFilterQuery}
-            onToggleCity={toggleCity}
-            onSetCitiesVisible={setCitiesVisible}
-          />
-        )}
+  const turnoutToggle = (variant: "floating" | "sidebar") => {
+    const active = layerMode === "participation";
+    return (
+      <button
+        type="button"
+        role="switch"
+        aria-checked={active}
+        onClick={() => switchMode(active ? "wards" : "participation")}
+        className={turnoutToggleButtonClass(variant, active)}
+        style={variant === "sidebar" && active ? { backgroundColor: TIER_HEADER_BG, color: TIER_HEADER_TEXT } : undefined}
+      >
+        <span>{participationModeLabel(turnoutActiveYear)}</span>
+        <span aria-hidden="true" className="shrink-0 text-[10px] font-semibold uppercase tracking-wide opacity-80">
+          {active ? "On" : "Off"}
+        </span>
+      </button>
+    );
+  };
+
+  // Full contents of the Voter Turnout section once its switch is on —
+  // identical for both flavors modulo `variant`, so this is the one place
+  // that assembles TurnoutYearSlider + ParticipationLegend +
+  // ParticipationRecordList rather than duplicating the trio at each of
+  // the two call sites below.
+  const turnoutActiveControls = (variant: "floating" | "sidebar") => (
+    <>
+      <TurnoutYearSlider
+        variant={variant}
+        years={turnoutYears}
+        activeYear={turnoutActiveYear?.year ?? null}
+        loading={turnoutYearLoading}
+        onChangeYear={switchTurnoutYear}
+      />
+      <ParticipationLegend
+        variant={variant}
+        electionHeading={formatElectionHeading(turnoutActiveYear)}
+        denominatorNote={turnoutDenominatorNote}
+        provenance={turnoutProvenance}
+        populationWeighted={participationPopulationWeighted}
+        onTogglePopulationWeighted={toggleParticipationPopulationWeighted}
+      />
+      {/* AGENTS.md §4 — the accessible DOM record list for this mode,
+          always mounted (not behind a toggle) so a keyboard/screen-reader
+          resident reaches every city's turnout figures without ever
+          touching the map canvas. Stays mounted even if this section's
+          own <details> is collapsed — see filterAccordionSection's own
+          comment on why a closed <details> only ever hides visually. */}
+      <div className="mt-3">
+        <ParticipationRecordList
+          cities={participationCities}
+          variant={variant}
+          electionHeading={formatElectionHeading(turnoutActiveYear)}
+          onSelectCity={selectParticipationCity}
+        />
       </div>
     </>
   );
 
-  // Rendered as the first item inside the padded content column below
-  // (see the left `<aside>`'s own comment) — inset with room for the
+  // Heading + body for the third section — "Cities by County" (wards),
+  // "Counties Shown" (commissioners), or "Chambers Shown" (state
+  // legislature), via AREA_SECTION_LABEL for the first two. Turnout no
+  // longer routes through this section at all (it has its own, above) —
+  // when Turnout is the active LayerMode, none of City/County/State is
+  // "the current tier" for this section to filter, so it renders an
+  // honest note pointing back at Government Level rather than an
+  // AreaFilterList with zero checkboxes in it (MODE_VISIBLE_CITIES.
+  // participation is `[]`), matching AGENTS.md §3.1's general preference
+  // for a plain empty-state sentence over a control that quietly does
+  // nothing.
+  const areaSectionHeading =
+    layerMode === "state-legislature"
+      ? "Chambers Shown"
+      : layerMode === "wards" || layerMode === "commissioners"
+        ? AREA_SECTION_LABEL[layerMode]
+        : "Areas Shown";
+
+  const areaSectionBody = (variant: "floating" | "sidebar") =>
+    layerMode === "state-legislature" ? (
+      // A district doesn't cleanly belong to one Twin City, so this
+      // offers the two chambers instead of the Minneapolis/St. Paul
+      // checkboxes below — each independently toggleable rather than
+      // exclusive (see ChamberToggleButtons's own comment).
+      <ChamberToggleButtons visibleChambers={visibleChambers} variant={variant} onToggleChamber={toggleChamber} />
+    ) : layerMode === "participation" ? (
+      <p className="text-xs text-ink-3">Switch to City, County, or State above to filter areas shown on the map.</p>
+    ) : (
+      <AreaFilterList
+        cities={MODE_VISIBLE_CITIES[layerMode]}
+        visibleCities={visibleCities}
+        labels={MODE_FILTER_LABELS[layerMode]}
+        accents={CITY_ACCENT}
+        variant={variant}
+        grouped={layerMode === "wards"}
+        query={areaFilterQuery}
+        onQueryChange={setAreaFilterQuery}
+        onToggleCity={toggleCity}
+        onSetCitiesVisible={setCitiesVisible}
+      />
+    );
+
+  // filterControls (floating, for the mobile Filters trigger's sheet) and
+  // the three sidebarXSection variables below (for the desktop left
+  // `<aside>`) render the same three sections but are written out
+  // separately rather than shared through one JSX-returning helper: a
+  // helper closing over switchMode/toggleChamber (both of which read a
+  // ref) and called twice during this component's own render reads, to
+  // the react-hooks/refs lint rule, as those refs being touched somewhere
+  // other than an event handler — even though the buttons below only ever
+  // call them from onClick, same as this file did before either flavor
+  // existed. Direct blocks side-step the false positive.
+  //
+  // Section order — Government Level, then Voter Turnout, then the area
+  // filter — is fixed here and in the sidebar `<aside>`'s own render
+  // below: Turnout sits between the other two because it's a distinct
+  // data mode, not a geography filter that belongs inside either.
+  const filterControls = (
+    <>
+      {filterAccordionSection(
+        "floating",
+        "Government Level",
+        govLevelSectionOpen,
+        setGovLevelSectionOpen,
+        <>
+          <div role="group" aria-label="Choose government level" className={filterGroupClass()}>
+            {(["wards", "commissioners", "state-legislature"] as const).map((mode) => (
+              <button
+                key={mode}
+                type="button"
+                onClick={() => switchMode(mode)}
+                // rowHoverClass/focusRingClass("floating") — shared with
+                // AreaFilterList.tsx's own row/summary chrome (src/lib/
+                // variantClasses.ts) rather than this file re-deriving the
+                // same "floating uses --hover/--accent, sidebar uses
+                // --sidebar-hover/--sidebar-accent" choice inline a second
+                // time (this button and the Chamber one just below it used
+                // to each hardcode the identical literal).
+                className={`px-3 py-1.5 rounded-md font-medium transition-colors focus:outline-none focus-visible:ring-2 ${focusRingClass("floating")} ${
+                  layerMode === mode ? "bg-accent text-on-accent" : `text-ink-3 hover:text-ink ${rowHoverClass("floating")}`
+                }`}
+              >
+                {MODE_LABELS[mode]}
+              </button>
+            ))}
+          </div>
+          {secondaryDataNotice}
+        </>,
+      )}
+
+      {filterAccordionSection(
+        "floating",
+        "Voter Turnout",
+        turnoutSectionOpen,
+        setTurnoutSectionOpen,
+        <>
+          {turnoutToggle("floating")}
+          {layerMode === "participation" && <div className="mt-3">{turnoutActiveControls("floating")}</div>}
+        </>,
+      )}
+
+      {filterAccordionSection("floating", areaSectionHeading, areaSectionOpen, setAreaSectionOpen, areaSectionBody("floating"))}
+    </>
+  );
+
+  // Rendered as the first three items inside the padded content column
+  // below (see the left `<aside>`'s own comment) — inset with room for the
   // segmented control's own rounded corners, rather than the old
-  // full-bleed placement flush against the header. Now carries its own
-  // "Government Level" heading (see filterSectionLabel above and this
-  // block's own comment on sidebarTabRowClass) — City/County/State by
-  // itself, sitting directly above WardModal's own City/County/State
-  // section headings on the other side of the screen, read as the same
-  // control duplicated; naming the heading after what it picks makes it
-  // legible at a glance as "what's drawn" rather than "which tier of my rep
-  // to show." Renamed from "Map layer," which read as map jargon rather
-  // than the plain-language question a resident actually has (AGENTS.md
-  // §0.9).
-  const sidebarLevelTabs = (
-    <div>
-      <div className="mb-1.5">{filterSectionLabel("sidebar", "Government Level")}</div>
+  // full-bleed placement flush against the header. Government Level keeps
+  // its own heading (see filterAccordionSection above and this block's own
+  // comment on sidebarTabRowClass) — City/County/State by itself, sitting
+  // directly above WardModal's own City/County/State section headings on
+  // the other side of the screen, read as the same control duplicated;
+  // naming the heading after what it picks makes it legible at a glance as
+  // "what's drawn" rather than "which tier of my rep to show." Renamed
+  // from "Map layer," which read as map jargon rather than the
+  // plain-language question a resident actually has (AGENTS.md §0.9).
+  const sidebarGovLevelSection = filterAccordionSection(
+    "sidebar",
+    "Government Level",
+    govLevelSectionOpen,
+    setGovLevelSectionOpen,
+    <>
       <div role="group" aria-label="Choose government level" className={sidebarTabRowClass}>
-        {(["wards", "commissioners", "state-legislature", "participation"] as const).map((mode) => (
+        {(["wards", "commissioners", "state-legislature"] as const).map((mode) => (
           <button
             key={mode}
             type="button"
@@ -4701,90 +5050,38 @@ export default function WardMap() {
             className={sidebarTabButtonClass(layerMode === mode)}
             style={layerMode === mode ? { backgroundColor: TIER_HEADER_BG, color: TIER_HEADER_TEXT } : undefined}
           >
-            {mode === "participation" ? participationModeLabel(turnoutActiveYear) : MODE_LABELS[mode]}
+            {MODE_LABELS[mode]}
           </button>
         ))}
       </div>
       {secondaryDataNotice}
-    </div>
+    </>,
+  );
+
+  const sidebarTurnoutSection = filterAccordionSection(
+    "sidebar",
+    "Voter Turnout",
+    turnoutSectionOpen,
+    setTurnoutSectionOpen,
+    <>
+      {turnoutToggle("sidebar")}
+      {layerMode === "participation" && <div className="mt-3">{turnoutActiveControls("sidebar")}</div>}
+    </>,
   );
 
   // No card border around this group (a prior pass tried boxing it in
   // border-hair-strong; see git history) — mndatacenter.org's own filter
   // groups read as "contained" from generous vertical spacing and the
-  // section label's accent tick (filterSectionLabel above) plus the
+  // section label's accent tick (filterAccordionSection above) plus the
   // recessed fill under the tab row/checkbox list, not from a drawn
   // rectangle around the whole thing. The gap-5 on the padded content
   // column below does that spacing job between sections.
-  //
-  // Heading text is mode-specific (AREA_SECTION_LABEL above), not one bare
-  // "Areas shown" for both wards and commissioners modes — that read as
-  // ambiguous about what the checklist below it actually lists.
-  // State-legislature keeps its own "Chambers Shown" heading, with a
-  // pill-button pair below it (ChamberToggleButtons) rather than
-  // AreaFilterList's checkbox-row list — see that component's own comment
-  // for why the row/checkbox pattern was a thinner fit for two fixed
-  // items than it looked.
-  const sidebarFilterControls = (
-    <>
-      <div>
-        <div className="mb-1.5 flex items-center justify-between gap-2">
-          {filterSectionLabel(
-            "sidebar",
-            layerMode === "state-legislature"
-              ? "Chambers Shown"
-              : layerMode === "participation"
-                ? participationModeLabel(turnoutActiveYear)
-                : AREA_SECTION_LABEL[layerMode],
-          )}
-        </div>
-        {layerMode === "state-legislature" ? (
-          <ChamberToggleButtons visibleChambers={visibleChambers} variant="sidebar" onToggleChamber={toggleChamber} />
-        ) : layerMode === "participation" ? (
-          <>
-            <TurnoutYearSlider
-              variant="sidebar"
-              years={turnoutYears}
-              activeYear={turnoutActiveYear?.year ?? null}
-              loading={turnoutYearLoading}
-              onChangeYear={switchTurnoutYear}
-            />
-            <ParticipationLegend
-              variant="sidebar"
-              electionHeading={formatElectionHeading(turnoutActiveYear)}
-              denominatorNote={turnoutDenominatorNote}
-              populationWeighted={participationPopulationWeighted}
-              onTogglePopulationWeighted={toggleParticipationPopulationWeighted}
-            />
-            {/* AGENTS.md §4 — the accessible DOM record list for this
-                mode, always mounted (not behind a toggle) so a
-                keyboard/screen-reader resident reaches every city's
-                turnout figures without ever touching the map canvas. */}
-            <div className="mt-3">
-              <ParticipationRecordList
-                cities={participationCities}
-                variant="sidebar"
-                electionHeading={formatElectionHeading(turnoutActiveYear)}
-                onSelectCity={selectParticipationCity}
-              />
-            </div>
-          </>
-        ) : (
-          <AreaFilterList
-            cities={MODE_VISIBLE_CITIES[layerMode]}
-            visibleCities={visibleCities}
-            labels={MODE_FILTER_LABELS[layerMode]}
-            accents={CITY_ACCENT}
-            variant="sidebar"
-            grouped={layerMode === "wards"}
-            query={areaFilterQuery}
-            onQueryChange={setAreaFilterQuery}
-            onToggleCity={toggleCity}
-            onSetCitiesVisible={setCitiesVisible}
-          />
-        )}
-      </div>
-    </>
+  const sidebarAreaSection = filterAccordionSection(
+    "sidebar",
+    areaSectionHeading,
+    areaSectionOpen,
+    setAreaSectionOpen,
+    areaSectionBody("sidebar"),
   );
 
   // The pinned ward/rep modal outranks the Filters sheet (this component's
@@ -5002,8 +5299,9 @@ export default function WardMap() {
                 square strip flush under the header (see
                 sidebarTabRowClass's own comment for why). */}
             <div className="flex flex-1 flex-col gap-5 overflow-y-auto no-scrollbar px-4 py-5">
-              {sidebarLevelTabs}
-              {sidebarFilterControls}
+              {sidebarGovLevelSection}
+              {sidebarTurnoutSection}
+              {sidebarAreaSection}
             </div>
             {/* Foot of the sidebar, modeled on mndatacenter.org's own
                 "Last updated: [date]" line in the same spot. shrink-0 and
@@ -5076,7 +5374,7 @@ export default function WardMap() {
                   : { left: participationPanel.x, top: participationPanel.y, transform: "translate(14px, -100%)" }
               }
               className={`absolute z-20 max-w-xs rounded border border-hair bg-panel-2/95 px-3 py-2 text-xs text-ink shadow-lg shadow-(color:--shadow-panel) backdrop-blur-sm ${
-                participationPanel.pinned ? "" : "pointer-events-none whitespace-nowrap"
+                participationPanel.pinned ? "" : "pointer-events-none"
               }`}
             >
               {participationPanel.pinned && (
@@ -5091,33 +5389,36 @@ export default function WardMap() {
               )}
               <p className="font-semibold text-ink">
                 {participationPanel.city.name}
-                {participationPanel.city.county && <span className="font-normal text-ink-3"> ({participationPanel.city.county})</span>}
+                {participationPanel.city.counties.length > 0 && (
+                  <span className="font-normal text-ink-3"> ({participationPanel.city.counties.join(", ")})</span>
+                )}
               </p>
               {participationPanel.townshipOrUnorg ? (
                 <p className="mt-0.5 text-ink-3">No city government here — county and state layers apply.</p>
               ) : !participationPanel.city.matched ? (
-                <p className="mt-0.5 text-ink-3">No 2024 general election turnout record found for this city.</p>
+                <p className="mt-0.5 text-ink-3">No {electionPhrase(turnoutActiveYear)} turnout record found for this city.</p>
               ) : (
                 <>
                   <p className="mt-0.5 tabular-nums text-ink-2">
-                    {participationPanel.city.ballotsCast ?? 0} ballots cast /{" "}
-                    {(participationPanel.city.registeredAt7am ?? 0) + (participationPanel.city.electionDayRegistrations ?? 0)}{" "}
+                    {formatCount(participationPanel.city.ballotsCast)} ballots cast /{" "}
+                    {formatCount((participationPanel.city.registeredAt7am ?? 0) + (participationPanel.city.electionDayRegistrations ?? 0))}{" "}
                     registered
                   </p>
                   {participationPanel.city.belowThreshold ? (
                     <p className="mt-0.5 text-ink-3">Fewer than 200 registered voters — too small to shade reliably.</p>
                   ) : (
-                    <p className="mt-0.5 tabular-nums text-ink-2">
-                      {participationPanel.city.turnoutOfRegistered !== null
-                        ? `${Math.round(participationPanel.city.turnoutOfRegistered * 1000) / 10}% turnout of registered`
-                        : null}
-                      {participationPanel.city.turnoutOfCVAP !== null && (
-                        <>
-                          {" "}
-                          &middot; {Math.round(participationPanel.city.turnoutOfCVAP * 1000) / 10}% of CVAP
-                        </>
+                    <>
+                      {participationPanel.city.turnoutOfRegistered !== null && (
+                        <p className="mt-0.5 tabular-nums text-ink-2">
+                          {formatTurnoutPercent(participationPanel.city.turnoutOfRegistered)} Registered
+                        </p>
                       )}
-                    </p>
+                      {participationPanel.city.turnoutOfCVAP !== null && (
+                        <p className="mt-0.5 tabular-nums text-ink-2">
+                          {formatTurnoutPercent(participationPanel.city.turnoutOfCVAP)} CVAP
+                        </p>
+                      )}
+                    </>
                   )}
                 </>
               )}

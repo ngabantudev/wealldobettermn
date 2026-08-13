@@ -36,6 +36,35 @@
 // the polygon itself is still rendered (as the below-threshold/no-data
 // class), per this file's own callers in WardMap.tsx.
 
+// One named upstream document behind a turnout year file — the shape
+// public/turnout/city/<year>.json's own top-level `provenance.sos` and
+// `provenance.cvap` entries actually carry today (scripts/ingest/turnout.mjs).
+// Only the fields the "Original Source" citation (ParticipationLegend.tsx)
+// renders are declared here — documentId/fetchedAt/licence/contentHash exist
+// in the real file too but have no UI consumer yet, so they're left off
+// rather than typed and unused. Every field but the URL/agency pair is
+// optional so a differently-shaped future year file (or a hand-authored
+// fixture) degrades instead of failing to type-check.
+export interface TurnoutProvenanceSource {
+  primarySourceUrl: string;
+  landingPageUrl?: string;
+  sourceAgency: string;
+  documentType?: string;
+  issuedDate?: string | null;
+}
+
+// public/turnout/city/<year>.json's own top-level `provenance` field. Per
+// AGENTS.md §3.3, this is the *actual* data-source citation (SOS precinct
+// results + Census CVAP) — distinct from ParticipationLegend's separate
+// "See Also" prior-art callout. Absent entirely on a turnout year file that
+// predates this field (see turnoutJoin.ts callers for the fallback), and
+// `sos`/`cvap` are each independently optional in case a future ingest run
+// only has one of the two ready.
+export interface TurnoutProvenance {
+  sos?: TurnoutProvenanceSource;
+  cvap?: TurnoutProvenanceSource;
+}
+
 /** The subset of a public/turnout/city/<year>.json city record this join needs. */
 export interface TurnoutCityRecord {
   cityId: string;
@@ -101,17 +130,13 @@ export function normalizeCountyKey(county: string): string {
  * the candidates), returns `{ turnout: null, ... }` rather than picking
  * arbitrarily.
  */
-export function joinCityBoundaryToTurnout(
-  boundary: CityBoundaryProperties,
-  turnoutCities: readonly TurnoutCityRecord[],
-): TurnoutJoinResult {
-  if (!boundary.name) {
-    return { turnout: null, reason: "no-name-match" };
-  }
-
-  const nameKey = normalizeCityKey(boundary.name);
-  const nameMatches = turnoutCities.filter((city) => normalizeCityKey(city.cityName) === nameKey);
-
+// The actual disambiguation logic, shared by joinCityBoundaryToTurnout
+// (an O(m) linear scan over turnoutCities, for one-off/test calls) and
+// the index-based batch path below (an O(1) map lookup per feature, for
+// the statewide ~855-906-polygon join) — both funnel through this so the
+// part that has to get the St. Anthony/Mankato cases right exists in
+// exactly one place, never two copies that could quietly diverge.
+function resolveNameMatches(boundary: CityBoundaryProperties, nameMatches: readonly TurnoutCityRecord[]): TurnoutJoinResult {
   if (nameMatches.length === 0) {
     return { turnout: null, reason: "no-name-match" };
   }
@@ -141,6 +166,48 @@ export function joinCityBoundaryToTurnout(
   return { turnout: null, reason: "ambiguous-county-mismatch" };
 }
 
+export function joinCityBoundaryToTurnout(
+  boundary: CityBoundaryProperties,
+  turnoutCities: readonly TurnoutCityRecord[],
+): TurnoutJoinResult {
+  if (!boundary.name) {
+    return { turnout: null, reason: "no-name-match" };
+  }
+  const nameKey = normalizeCityKey(boundary.name);
+  const nameMatches = turnoutCities.filter((city) => normalizeCityKey(city.cityName) === nameKey);
+  return resolveNameMatches(boundary, nameMatches);
+}
+
+// Groups turnout records by normalized city name once, so a statewide
+// batch join (deriveParticipationBoundaries: ~855-906 boundary polygons
+// against ~855 turnout records — was ~730K normalize+compare operations
+// per join, redone on initial load AND on every year-slider tick) does
+// an O(1) map lookup per feature instead of joinCityBoundaryToTurnout's
+// own O(m) filter — an O(n·m) join collapsing to O(n+m). Internal only;
+// joinCityBoundaryToTurnout itself is untouched and stays the correct,
+// directly-tested reference implementation for a single ad hoc lookup.
+function buildTurnoutNameIndex(turnoutCities: readonly TurnoutCityRecord[]): Map<string, TurnoutCityRecord[]> {
+  const index = new Map<string, TurnoutCityRecord[]>();
+  for (const city of turnoutCities) {
+    const key = normalizeCityKey(city.cityName);
+    const bucket = index.get(key);
+    if (bucket) bucket.push(city);
+    else index.set(key, [city]);
+  }
+  return index;
+}
+
+function joinCityBoundaryToTurnoutIndexed(
+  boundary: CityBoundaryProperties,
+  nameIndex: ReadonlyMap<string, TurnoutCityRecord[]>,
+): TurnoutJoinResult {
+  if (!boundary.name) {
+    return { turnout: null, reason: "no-name-match" };
+  }
+  const nameKey = normalizeCityKey(boundary.name);
+  return resolveNameMatches(boundary, nameIndex.get(nameKey) ?? []);
+}
+
 /**
  * Batch form of joinCityBoundaryToTurnout — joins every feature in a
  * city-boundaries-shaped FeatureCollection against a turnout city list,
@@ -148,7 +215,8 @@ export function joinCityBoundaryToTurnout(
  * else the feature's array index) so callers can look up a feature's
  * turnout result without re-running the join per render. Every boundary
  * feature gets an entry, matched or not — per this module's own header,
- * an unmatched feature is flagged, never dropped.
+ * an unmatched feature is flagged, never dropped. Uses the same
+ * index-based fast path as deriveParticipationBoundaries below.
  */
 export function joinAllCityBoundaries<
   P extends CityBoundaryProperties,
@@ -156,7 +224,8 @@ export function joinAllCityBoundaries<
   features: readonly { properties: P }[],
   turnoutCities: readonly TurnoutCityRecord[],
 ): TurnoutJoinResult[] {
-  return features.map((feature) => joinCityBoundaryToTurnout(feature.properties, turnoutCities));
+  const nameIndex = buildTurnoutNameIndex(turnoutCities);
+  return features.map((feature) => joinCityBoundaryToTurnoutIndexed(feature.properties, nameIndex));
 }
 
 // One feature per city-boundaries.geojson polygon (every incorporated
@@ -173,7 +242,24 @@ export interface ParticipationCityProperties {
   // else city-boundaries' own full-spelled name, so an unmatched city
   // still has a real, readable label.
   name: string;
+  // The SPECIFIC boundary polygon's own single county — every polygon in
+  // city-boundaries.geojson has exactly one (a multi-county city gets one
+  // polygon feature per county it touches, per this file's own header).
+  // Kept single-valued and untouched by the multi-county fix below
+  // because the map's own per-polygon rendering, hover, and click-to-pin
+  // behavior all key off "which specific polygon is this," which is
+  // still genuinely one county each.
   county: string | null;
+  // The city's FULL county list when matched (turnout's own `counties`
+  // array — every county the city's precincts fall in, e.g. Mankato:
+  // ["Blue Earth", "Nicollet", "Le Sueur"]), vs. this one polygon's own
+  // single `county` above. Consumers that describe "this city" as a whole
+  // (ParticipationRecordList's deduped rows, the pinned panel) should
+  // show `counties`, not `county` — showing only the polygon-of-the-
+  // moment's single county for a multi-county city undercounts it.
+  // Falls back to `[county]` (or `[]`) when unmatched, since there's no
+  // turnout record to source a full list from.
+  counties: readonly string[];
   cityId: string | null;
   matched: boolean;
   belowThreshold: boolean;
@@ -204,15 +290,17 @@ export function deriveParticipationBoundaries<G>(
   cityBoundaries: { type: "FeatureCollection"; features: readonly CityBoundaryFeatureLike<G>[] },
   turnoutCities: readonly TurnoutCityRecord[],
 ): { type: "FeatureCollection"; features: { type: "Feature"; geometry: G; properties: ParticipationCityProperties }[] } {
+  const nameIndex = buildTurnoutNameIndex(turnoutCities);
   return {
     type: "FeatureCollection",
     features: cityBoundaries.features.map((f) => {
       const props = f.properties ?? {};
-      const result = joinCityBoundaryToTurnout({ name: props.name ?? null, county: props.county ?? null }, turnoutCities);
+      const result = joinCityBoundaryToTurnoutIndexed({ name: props.name ?? null, county: props.county ?? null }, nameIndex);
       const turnout = result.turnout;
       const properties: ParticipationCityProperties = {
         name: turnout?.cityName ?? props.name ?? "",
         county: props.county ?? null,
+        counties: turnout ? turnout.counties : props.county ? [props.county] : [],
         cityId: turnout?.cityId ?? null,
         matched: turnout !== null,
         belowThreshold: turnout?.belowThreshold ?? false,
@@ -226,4 +314,54 @@ export function deriveParticipationBoundaries<G>(
       return { type: "Feature" as const, geometry: f.geometry, properties };
     }),
   };
+}
+
+// deriveParticipationBoundaries above returns one feature per city-
+// boundaries.geojson POLYGON (906 statewide) — correct for the map's own
+// choropleth fill, since every polygon of a multi-county city (48 real
+// Minnesota cities span more than one county — Mankato: Blue Earth,
+// Nicollet, Le Sueur, three polygons, one turnout record) should shade
+// the same. It is NOT correct for a consumer describing "the list of
+// cities" rather than "the list of polygons" — WardMap.tsx's
+// ParticipationRecordList feed and its selectParticipationCity bounds
+// lookup both need one row per real city, not one per polygon (a
+// resident picking "Mankato" from an alphabetical list shouldn't see it
+// three times with identical numbers under three different single-county
+// labels). This is that dedup step: matched cities collapse to one row
+// per cityId (they're identical across polygons — same turnout record,
+// only `county`/geometry differ per polygon); unmatched features have no
+// cityId to group by and are left exactly as deriveParticipationBoundaries
+// produced them, one row per unresolved polygon — each is a genuinely
+// distinct boundary that failed its own join, not a duplicate, so
+// deduping by name+county here is a no-op for them, not a fix.
+export function deriveParticipationCities(
+  data: { features: readonly { properties: ParticipationCityProperties }[] } | null | undefined,
+): ParticipationCityProperties[] {
+  if (!data) return [];
+  const seen = new Set<string>();
+  const result: ParticipationCityProperties[] = [];
+  for (const feature of data.features) {
+    const props = feature.properties;
+    const key = props.matched && props.cityId ? `city:${props.cityId}` : `polygon:${props.name}:${props.county ?? ""}`;
+    if (seen.has(key)) continue;
+    seen.add(key);
+    result.push(props);
+  }
+  return result;
+}
+
+// Single source of truth for "0.734 -> 73.4%" — was previously the same
+// `Math.round(value * 1000) / 10` formula copy-pasted at 3 sites in
+// WardMap.tsx (the sr-only summary, and twice in the pinned-panel JSX)
+// plus a fourth, independently-written formatPercent in
+// ParticipationRecordList.tsx. A future rounding-precision change (e.g.
+// dropping to whole percent) now only needs to happen here. Returns "—"
+// for null, matching ParticipationRecordList's prior behavior — a call
+// site that needs different null-handling (e.g. WardMap.tsx's sr-only
+// sentence, which reads better with the word "unknown" than a bare dash)
+// checks `!== null` itself and only calls this for the non-null case,
+// rather than this function growing a caller-specific null string.
+export function formatTurnoutPercent(value: number | null): string {
+  if (value === null) return "—";
+  return `${Math.round(value * 1000) / 10}%`;
 }

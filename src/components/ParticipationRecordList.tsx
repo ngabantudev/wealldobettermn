@@ -19,7 +19,7 @@
 // lowest turnout" leaderboard. A number and its denominator, nothing
 // computed on top.
 import { useMemo, useState } from "react";
-import type { ParticipationCityProperties } from "@/lib/turnoutJoin";
+import { formatTurnoutPercent, type ParticipationCityProperties } from "@/lib/turnoutJoin";
 import { focusRingClass, rowHoverClass } from "@/lib/variantClasses";
 
 export interface ParticipationRecordListProps {
@@ -36,11 +36,6 @@ export interface ParticipationRecordListProps {
 
 function fold(s: string): string {
   return s.trim().toLowerCase();
-}
-
-function formatPercent(value: number | null): string {
-  if (value === null) return "—";
-  return `${Math.round(value * 1000) / 10}%`;
 }
 
 function RecordRow({
@@ -62,14 +57,17 @@ function RecordRow({
       >
         <span className="min-w-0 flex-1 truncate text-ink-2">
           {city.name}
-          {city.county && <span className="text-ink-4"> ({city.county})</span>}
+          {city.counties.length > 0 && <span className="text-ink-4"> ({city.counties.join(", ")})</span>}
         </span>
         {!city.matched ? (
           <span className="shrink-0 text-ink-4">no data</span>
         ) : city.belowThreshold ? (
           <span className="shrink-0 text-ink-4">too small to shade</span>
         ) : (
-          <span className="shrink-0 tabular-nums font-medium text-ink">{formatPercent(city.turnoutOfRegistered)}</span>
+          <span className="flex shrink-0 flex-col items-end tabular-nums">
+            <span className="font-medium text-ink">{formatTurnoutPercent(city.turnoutOfRegistered)} Registered</span>
+            {city.turnoutOfCVAP !== null && <span className="text-ink-4">{formatTurnoutPercent(city.turnoutOfCVAP)} CVAP</span>}
+          </span>
         )}
       </button>
     </li>
@@ -82,10 +80,16 @@ export default function ParticipationRecordList({ cities, variant, electionHeadi
   // Alphabetical, never by turnout value — see this file's own header,
   // AGENTS.md §1c.
   const sorted = useMemo(() => [...cities].sort((a, b) => a.name.localeCompare(b.name)), [cities]);
+  // Searches the full `counties` list (every county a multi-county city
+  // like Mankato actually touches — Blue Earth, Nicollet, Le Sueur), not
+  // just the deduped row's single leftover `county` field (whichever one
+  // polygon happened to survive dedup in deriveParticipationCities —
+  // confirmed via a /bug-fix review pass: the row visibly displays all
+  // three counties but searching "Nicollet" previously found nothing).
   const matches = useMemo(() => {
     const q = fold(query);
     if (q.length === 0) return sorted;
-    return sorted.filter((c) => fold(c.name).includes(q) || (c.county && fold(c.county).includes(q)));
+    return sorted.filter((c) => fold(c.name).includes(q) || c.counties.some((county) => fold(county).includes(q)));
   }, [sorted, query]);
 
   const listClass =

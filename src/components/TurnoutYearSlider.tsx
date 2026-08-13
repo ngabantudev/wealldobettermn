@@ -31,8 +31,10 @@ export interface TurnoutYearSliderProps {
 }
 
 export default function TurnoutYearSlider({ variant, years, activeYear, loading, onChangeYear }: TurnoutYearSliderProps) {
-  // Fewer than two years: there is nothing to slide between yet (today,
-  // manifest.json lists only 2024). A native range input still draws a
+  // Fewer than two years: there is nothing to slide between yet (the
+  // manifest now lists seven — 2012 through 2024 — but this guard stays
+  // general-purpose for whatever single-year state a future ingest gap
+  // might produce, not hardcoded to "2024"). A native range input still draws a
   // full track and thumb even when min === max, which would promise a
   // year picker that does nothing when dragged or arrow-keyed — a worse
   // experience than no control at all, and a false affordance a screen
