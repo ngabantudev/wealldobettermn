@@ -19,7 +19,7 @@
 // lowest turnout" leaderboard. A number and its denominator, nothing
 // computed on top.
 import { useMemo, useState } from "react";
-import type { ParticipationCityProperties } from "@/lib/turnoutJoin";
+import { formatTurnoutPercent, type ParticipationCityProperties } from "@/lib/turnoutJoin";
 import { focusRingClass, rowHoverClass } from "@/lib/variantClasses";
 
 export interface ParticipationRecordListProps {
@@ -36,11 +36,6 @@ export interface ParticipationRecordListProps {
 
 function fold(s: string): string {
   return s.trim().toLowerCase();
-}
-
-function formatPercent(value: number | null): string {
-  if (value === null) return "—";
-  return `${Math.round(value * 1000) / 10}%`;
 }
 
 function RecordRow({
@@ -70,8 +65,8 @@ function RecordRow({
           <span className="shrink-0 text-ink-4">too small to shade</span>
         ) : (
           <span className="flex shrink-0 flex-col items-end tabular-nums">
-            <span className="font-medium text-ink">{formatPercent(city.turnoutOfRegistered)} Registered</span>
-            {city.turnoutOfCVAP !== null && <span className="text-ink-4">{formatPercent(city.turnoutOfCVAP)} CVAP</span>}
+            <span className="font-medium text-ink">{formatTurnoutPercent(city.turnoutOfRegistered)} Registered</span>
+            {city.turnoutOfCVAP !== null && <span className="text-ink-4">{formatTurnoutPercent(city.turnoutOfCVAP)} CVAP</span>}
           </span>
         )}
       </button>

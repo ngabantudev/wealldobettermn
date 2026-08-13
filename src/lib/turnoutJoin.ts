@@ -130,17 +130,13 @@ export function normalizeCountyKey(county: string): string {
  * the candidates), returns `{ turnout: null, ... }` rather than picking
  * arbitrarily.
  */
-export function joinCityBoundaryToTurnout(
-  boundary: CityBoundaryProperties,
-  turnoutCities: readonly TurnoutCityRecord[],
-): TurnoutJoinResult {
-  if (!boundary.name) {
-    return { turnout: null, reason: "no-name-match" };
-  }
-
-  const nameKey = normalizeCityKey(boundary.name);
-  const nameMatches = turnoutCities.filter((city) => normalizeCityKey(city.cityName) === nameKey);
-
+// The actual disambiguation logic, shared by joinCityBoundaryToTurnout
+// (an O(m) linear scan over turnoutCities, for one-off/test calls) and
+// the index-based batch path below (an O(1) map lookup per feature, for
+// the statewide ~855-906-polygon join) — both funnel through this so the
+// part that has to get the St. Anthony/Mankato cases right exists in
+// exactly one place, never two copies that could quietly diverge.
+function resolveNameMatches(boundary: CityBoundaryProperties, nameMatches: readonly TurnoutCityRecord[]): TurnoutJoinResult {
   if (nameMatches.length === 0) {
     return { turnout: null, reason: "no-name-match" };
   }
@@ -170,6 +166,48 @@ export function joinCityBoundaryToTurnout(
   return { turnout: null, reason: "ambiguous-county-mismatch" };
 }
 
+export function joinCityBoundaryToTurnout(
+  boundary: CityBoundaryProperties,
+  turnoutCities: readonly TurnoutCityRecord[],
+): TurnoutJoinResult {
+  if (!boundary.name) {
+    return { turnout: null, reason: "no-name-match" };
+  }
+  const nameKey = normalizeCityKey(boundary.name);
+  const nameMatches = turnoutCities.filter((city) => normalizeCityKey(city.cityName) === nameKey);
+  return resolveNameMatches(boundary, nameMatches);
+}
+
+// Groups turnout records by normalized city name once, so a statewide
+// batch join (deriveParticipationBoundaries: ~855-906 boundary polygons
+// against ~855 turnout records — was ~730K normalize+compare operations
+// per join, redone on initial load AND on every year-slider tick) does
+// an O(1) map lookup per feature instead of joinCityBoundaryToTurnout's
+// own O(m) filter — an O(n·m) join collapsing to O(n+m). Internal only;
+// joinCityBoundaryToTurnout itself is untouched and stays the correct,
+// directly-tested reference implementation for a single ad hoc lookup.
+function buildTurnoutNameIndex(turnoutCities: readonly TurnoutCityRecord[]): Map<string, TurnoutCityRecord[]> {
+  const index = new Map<string, TurnoutCityRecord[]>();
+  for (const city of turnoutCities) {
+    const key = normalizeCityKey(city.cityName);
+    const bucket = index.get(key);
+    if (bucket) bucket.push(city);
+    else index.set(key, [city]);
+  }
+  return index;
+}
+
+function joinCityBoundaryToTurnoutIndexed(
+  boundary: CityBoundaryProperties,
+  nameIndex: ReadonlyMap<string, TurnoutCityRecord[]>,
+): TurnoutJoinResult {
+  if (!boundary.name) {
+    return { turnout: null, reason: "no-name-match" };
+  }
+  const nameKey = normalizeCityKey(boundary.name);
+  return resolveNameMatches(boundary, nameIndex.get(nameKey) ?? []);
+}
+
 /**
  * Batch form of joinCityBoundaryToTurnout — joins every feature in a
  * city-boundaries-shaped FeatureCollection against a turnout city list,
@@ -177,7 +215,8 @@ export function joinCityBoundaryToTurnout(
  * else the feature's array index) so callers can look up a feature's
  * turnout result without re-running the join per render. Every boundary
  * feature gets an entry, matched or not — per this module's own header,
- * an unmatched feature is flagged, never dropped.
+ * an unmatched feature is flagged, never dropped. Uses the same
+ * index-based fast path as deriveParticipationBoundaries below.
  */
 export function joinAllCityBoundaries<
   P extends CityBoundaryProperties,
@@ -185,7 +224,8 @@ export function joinAllCityBoundaries<
   features: readonly { properties: P }[],
   turnoutCities: readonly TurnoutCityRecord[],
 ): TurnoutJoinResult[] {
-  return features.map((feature) => joinCityBoundaryToTurnout(feature.properties, turnoutCities));
+  const nameIndex = buildTurnoutNameIndex(turnoutCities);
+  return features.map((feature) => joinCityBoundaryToTurnoutIndexed(feature.properties, nameIndex));
 }
 
 // One feature per city-boundaries.geojson polygon (every incorporated
@@ -250,11 +290,12 @@ export function deriveParticipationBoundaries<G>(
   cityBoundaries: { type: "FeatureCollection"; features: readonly CityBoundaryFeatureLike<G>[] },
   turnoutCities: readonly TurnoutCityRecord[],
 ): { type: "FeatureCollection"; features: { type: "Feature"; geometry: G; properties: ParticipationCityProperties }[] } {
+  const nameIndex = buildTurnoutNameIndex(turnoutCities);
   return {
     type: "FeatureCollection",
     features: cityBoundaries.features.map((f) => {
       const props = f.properties ?? {};
-      const result = joinCityBoundaryToTurnout({ name: props.name ?? null, county: props.county ?? null }, turnoutCities);
+      const result = joinCityBoundaryToTurnoutIndexed({ name: props.name ?? null, county: props.county ?? null }, nameIndex);
       const turnout = result.turnout;
       const properties: ParticipationCityProperties = {
         name: turnout?.cityName ?? props.name ?? "",
@@ -307,4 +348,20 @@ export function deriveParticipationCities(
     result.push(props);
   }
   return result;
+}
+
+// Single source of truth for "0.734 -> 73.4%" — was previously the same
+// `Math.round(value * 1000) / 10` formula copy-pasted at 3 sites in
+// WardMap.tsx (the sr-only summary, and twice in the pinned-panel JSX)
+// plus a fourth, independently-written formatPercent in
+// ParticipationRecordList.tsx. A future rounding-precision change (e.g.
+// dropping to whole percent) now only needs to happen here. Returns "—"
+// for null, matching ParticipationRecordList's prior behavior — a call
+// site that needs different null-handling (e.g. WardMap.tsx's sr-only
+// sentence, which reads better with the word "unknown" than a bare dash)
+// checks `!== null` itself and only calls this for the non-null case,
+// rather than this function growing a caller-specific null string.
+export function formatTurnoutPercent(value: number | null): string {
+  if (value === null) return "—";
+  return `${Math.round(value * 1000) / 10}%`;
 }

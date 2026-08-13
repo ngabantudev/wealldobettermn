@@ -238,6 +238,32 @@ test("deriveParticipationCities returns an empty array for null/undefined input 
   assert.deepEqual(deriveParticipationCities(undefined), []);
 });
 
+// joinAllCityBoundaries/deriveParticipationBoundaries now group turnout
+// records by normalized name into a Map once per call (an O(n+m) index
+// lookup replacing an O(n*m) per-feature filter — see turnoutJoin.ts's
+// buildTurnoutNameIndex) rather than each boundary feature re-scanning
+// every turnout record. The St. Anthony fixture elsewhere only exercises
+// a 2-way name collision; this specifically exercises a 3-way one, to
+// catch a bucketing bug (e.g. a Map.set() that overwrites instead of
+// pushing) that 2 entries wouldn't reliably surface.
+test("joinAllCityBoundaries's indexed name lookup correctly buckets 3+ turnout records sharing one normalized name", () => {
+  const threeWayCities = [
+    { cityId: "a-1", cityName: "Example", counties: ["County A"], turnoutOfRegistered: 0.1, turnoutOfCVAP: null, belowThreshold: false, ballotsCast: 1, registeredAt7am: 1, electionDayRegistrations: 0 },
+    { cityId: "a-2", cityName: "Example", counties: ["County B"], turnoutOfRegistered: 0.2, turnoutOfCVAP: null, belowThreshold: false, ballotsCast: 2, registeredAt7am: 2, electionDayRegistrations: 0 },
+    { cityId: "a-3", cityName: "Example", counties: ["County C"], turnoutOfRegistered: 0.3, turnoutOfCVAP: null, belowThreshold: false, ballotsCast: 3, registeredAt7am: 3, electionDayRegistrations: 0 },
+  ];
+  const features = [
+    { properties: { name: "Example", county: "County A" } },
+    { properties: { name: "Example", county: "County B" } },
+    { properties: { name: "Example", county: "County C" } },
+  ];
+  const results = joinAllCityBoundaries(features, threeWayCities);
+  assert.equal(results.length, 3);
+  assert.equal(results[0].turnout?.cityId, "a-1");
+  assert.equal(results[1].turnout?.cityId, "a-2");
+  assert.equal(results[2].turnout?.cityId, "a-3");
+});
+
 // Integration-style sanity check against the real committed data files —
 // confirms the fixture above matches production reality, and that the
 // join resolves every real St. Anthony/Saint Anthony boundary polygon

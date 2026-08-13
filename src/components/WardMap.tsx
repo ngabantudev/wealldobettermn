@@ -37,6 +37,7 @@ import { focusRingClass, rowHoverClass, touchTargetClass } from "@/lib/variantCl
 import {
   deriveParticipationBoundaries,
   deriveParticipationCities,
+  formatTurnoutPercent,
   type ParticipationCityProperties,
   type TurnoutCityRecord,
   type TurnoutProvenance,
@@ -688,8 +689,31 @@ function summarizeParticipation(city: ParticipationCityProperties, activeYear: T
   if (city.belowThreshold) {
     return `${city.name}: ${formatCount(city.ballotsCast)} ballots cast. Fewer than 200 registered voters — percentage too small to shade reliably.`;
   }
-  const pct = city.turnoutOfRegistered !== null ? `${Math.round(city.turnoutOfRegistered * 1000) / 10}%` : "unknown";
+  const pct = city.turnoutOfRegistered !== null ? formatTurnoutPercent(city.turnoutOfRegistered) : "unknown";
   return `${city.name}: ${formatCount(city.ballotsCast)} ballots cast out of ${formatCount((city.registeredAt7am ?? 0) + (city.electionDayRegistrations ?? 0))} registered voters, ${pct} Registered, ${election}.`;
+}
+
+// The joined shape participationDataRef/the per-year cache below both
+// hold — city-boundaries.geojson features enriched with turnout data via
+// deriveParticipationBoundaries (src/lib/turnoutJoin.ts). Named here so
+// both can reference the same type instead of an inline object-literal
+// type repeated at each declaration site.
+type ParticipationFeatureCollection = {
+  type: "FeatureCollection";
+  features: { type: "Feature"; geometry: Geometry; properties: ParticipationCityProperties }[];
+};
+
+// The "is this the same city feature as before" key for participation
+// hover-dedup and click-toggle checks — was independently hand-built at
+// 3 sites (the hover handler, the click "already pinned?" check, and the
+// click "set new pin" site) as the same template string. cityId when a
+// join resolved (stable across every polygon of a multi-county city, so
+// hovering from one county's polygon into another county's polygon of
+// the SAME matched city correctly counts as "the same city," not a
+// change), else name+county (the per-polygon identity an unmatched
+// feature still needs, since it has no cityId to fall back to).
+function participationIdentity(city: ParticipationCityProperties): string {
+  return `participation:${city.cityId ?? city.name}:${city.county ?? ""}`;
 }
 
 // A township/unorganized-territory feature has no turnout record to join
@@ -1649,11 +1673,22 @@ export default function WardMap() {
   // anything else. participationCities mirrors participationDataRef's
   // features as plain state (not just a ref) since ParticipationRecordList
   // is a real React child that needs to re-render once this data arrives.
-  const participationDataRef = useRef<{
-    type: "FeatureCollection";
-    features: { type: "Feature"; geometry: Geometry; properties: ParticipationCityProperties }[];
-  } | null>(null);
+  const participationDataRef = useRef<ParticipationFeatureCollection | null>(null);
   const townshipUnorgDataRef = useRef<FeatureCollection | null>(null);
+  // Per-year cache for switchTurnoutYear below — keyed by manifest year,
+  // populated as years are actually visited (including the initial
+  // load's own year, seeded once secondary data arrives). Without this,
+  // dragging the year slider back to an already-viewed year (2024 -> 2012
+  // -> 2024) re-fetched city/<year>.json over the network and re-ran the
+  // full statewide join a second time for data that hadn't changed since
+  // the first visit. A ref, not state — this is a pure memoization cache
+  // with no rendering role of its own; only the derived participation
+  // state it feeds (participationCities, turnoutActiveYear, etc.) needs
+  // to trigger a re-render. Never invalidated — turnout data for a past
+  // election doesn't change mid-session.
+  const turnoutYearCacheRef = useRef<Map<string, { joined: ParticipationFeatureCollection; provenance: TurnoutProvenance | null }>>(
+    new Map(),
+  );
   const [participationCities, setParticipationCities] = useState<ParticipationCityProperties[]>([]);
   const [turnoutDenominatorNote, setTurnoutDenominatorNote] = useState("");
   // Forward-compatible with a future multi-year slider — see
@@ -2029,6 +2064,15 @@ export default function WardMap() {
         setTurnoutActiveYear(secondary.turnoutActiveYear);
         setTurnoutYears(secondary.turnoutYears);
         setTurnoutProvenance(secondary.turnoutProvenance);
+        // Seed the per-year cache with this initial load's own year, so
+        // sliding away and back to the starting year is a cache hit too,
+        // not just years visited via the slider.
+        if (secondary.turnoutActiveYear) {
+          turnoutYearCacheRef.current.set(secondary.turnoutActiveYear.year, {
+            joined: participationDataRef.current,
+            provenance: secondary.turnoutProvenance,
+          });
+        }
         const commissionersBounds = boundsFromFeatureCollection(secondary.commissioners);
         const stateLegBounds = boundsFromFeatureCollection(secondary.stateLeg);
         if (!commissionersBounds.isEmpty()) commissionersBoundsRef.current = commissionersBounds;
@@ -2714,32 +2758,51 @@ export default function WardMap() {
   const switchTurnoutYear = (year: string) => {
     if (turnoutYearLoading) return; // one in-flight year switch at a time
     if (turnoutActiveYear?.year === year) return; // already showing this year
+    const entry = turnoutYears.find((y) => y.year === year);
+    if (!entry) return;
+
+    // Shared by both the cache-hit and freshly-fetched paths below, so
+    // "apply a year's joined data to the map/state" exists in exactly
+    // one place regardless of where it came from.
+    const applyYearData = (joined: ParticipationFeatureCollection, provenance: TurnoutProvenance | null) => {
+      participationDataRef.current = joined;
+      setParticipationCities(deriveParticipationCities(joined));
+      setTurnoutActiveYear({ year: entry.year, electionType: entry.electionType ?? "" });
+      setTurnoutProvenance(provenance);
+      const map = mapRef.current;
+      (map?.getSource(PARTICIPATION_SOURCE_ID) as maplibregl.GeoJSONSource | undefined)?.setData(joined as unknown as FeatureCollection);
+      // A pinned/hovered participationPanel is holding the PREVIOUS
+      // year's own ballotsCast/turnout figures for whichever city it
+      // names — leaving it open would silently show stale numbers
+      // under the new year's heading. Closed rather than
+      // re-resolved: re-deriving it would need the same city's new-year
+      // feature and re-run the same x/y placement logic the map click/
+      // hover handlers own, for a panel the resident can simply reopen.
+      setParticipationPanel(null);
+    };
+
+    // Cache hit — this year was already fetched+joined earlier this
+    // session (including the initial load's own year). Resolves
+    // synchronously: no network fetch, no loading flash.
+    const cached = turnoutYearCacheRef.current.get(year);
+    if (cached) {
+      applyYearData(cached.joined, cached.provenance);
+      return;
+    }
+
     const dataPath = resolveYearDataPath(turnoutYears, year);
     const cityBoundaries = cityBoundariesDataRef.current;
-    const entry = turnoutYears.find((y) => y.year === year);
-    if (!dataPath || !cityBoundaries || !entry) return;
+    if (!dataPath || !cityBoundaries) return;
 
     setTurnoutYearLoading(true);
     fetch(dataUrl(dataPath.replace(/^\//, "")))
       .then((res) => res.json())
       .then((cityData: { cities?: TurnoutCityRecord[]; knownGaps?: string[]; provenance?: TurnoutProvenance }) => {
         const turnoutCities = cityData.cities ?? [];
-        participationDataRef.current = deriveParticipationBoundaries(cityBoundaries, turnoutCities);
-        setParticipationCities(deriveParticipationCities(participationDataRef.current));
-        setTurnoutActiveYear({ year: entry.year, electionType: entry.electionType ?? "" });
-        setTurnoutProvenance(cityData.provenance ?? null);
-        const map = mapRef.current;
-        (map?.getSource(PARTICIPATION_SOURCE_ID) as maplibregl.GeoJSONSource | undefined)?.setData(
-          participationDataRef.current as unknown as FeatureCollection,
-        );
-        // A pinned/hovered participationPanel is holding the PREVIOUS
-        // year's own ballotsCast/turnout figures for whichever city it
-        // names — leaving it open would silently show stale numbers
-        // under the new year's heading. Closed rather than
-        // re-resolved: re-deriving it would need the same city's new-year
-        // feature and re-run the same x/y placement logic the map click/
-        // hover handlers own, for a panel the resident can simply reopen.
-        setParticipationPanel(null);
+        const joined = deriveParticipationBoundaries(cityBoundaries, turnoutCities);
+        const provenance = cityData.provenance ?? null;
+        turnoutYearCacheRef.current.set(year, { joined, provenance });
+        applyYearData(joined, provenance);
       })
       .catch((err) => {
         console.error("[WardMap] failed to load turnout year", year, err);
@@ -4142,7 +4205,7 @@ export default function WardMap() {
       // metroHoverTooltip.
       if (feature.layer.id === PARTICIPATION_FILL_LAYER_ID || feature.layer.id === PARTICIPATION_CIRCLE_LAYER_ID) {
         const props = feature.properties as unknown as ParticipationCityProperties;
-        const hoverIdentity = `participation:${props.cityId ?? props.name}:${props.county ?? ""}`;
+        const hoverIdentity = participationIdentity(props);
         if (hoverIdentity === lastHoverIdentityRef.current) return;
         lastHoverIdentityRef.current = hoverIdentity;
         setHighlight(feature.id != null ? { source: feature.source, id: feature.id } : null);
@@ -4333,9 +4396,9 @@ export default function WardMap() {
       // at-large branch just below uses for `selected`.
       if (hit.layer.id === PARTICIPATION_FILL_LAYER_ID || hit.layer.id === PARTICIPATION_CIRCLE_LAYER_ID) {
         const props = hit.properties as unknown as ParticipationCityProperties;
-        const identity = `participation:${props.cityId ?? props.name}:${props.county ?? ""}`;
+        const identity = participationIdentity(props);
         const current = participationPanelRef.current;
-        if (current?.pinned && `participation:${current.city.cityId ?? current.city.name}:${current.city.county ?? ""}` === identity) {
+        if (current?.pinned && participationIdentity(current.city) === identity) {
           setParticipationPanel(null);
           return;
         }
@@ -5302,12 +5365,12 @@ export default function WardMap() {
                     <>
                       {participationPanel.city.turnoutOfRegistered !== null && (
                         <p className="mt-0.5 tabular-nums text-ink-2">
-                          {Math.round(participationPanel.city.turnoutOfRegistered * 1000) / 10}% Registered
+                          {formatTurnoutPercent(participationPanel.city.turnoutOfRegistered)} Registered
                         </p>
                       )}
                       {participationPanel.city.turnoutOfCVAP !== null && (
                         <p className="mt-0.5 tabular-nums text-ink-2">
-                          {Math.round(participationPanel.city.turnoutOfCVAP * 1000) / 10}% CVAP
+                          {formatTurnoutPercent(participationPanel.city.turnoutOfCVAP)} CVAP
                         </p>
                       )}
                     </>
