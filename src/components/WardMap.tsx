@@ -364,6 +364,20 @@ function formatElectionHeading(activeYear: TurnoutActiveYear | null): string | n
   return type.length > 0 ? `${activeYear.year} ${type} Election` : `${activeYear.year} Election`;
 }
 
+// Lowercase, mid-sentence form of the same fact formatElectionHeading
+// renders as a standalone heading ("2024 General Election") — used by
+// summarizeParticipation and the pinned panel's unmatched-city line
+// below, both of which used to hardcode the literal string "2024
+// general election" regardless of which year TurnoutYearSlider had
+// actually selected. Falls back to the generic "general election" only
+// when activeYear itself hasn't loaded yet (not once real data exists),
+// same null-handling as formatElectionHeading.
+function electionPhrase(activeYear: TurnoutActiveYear | null): string {
+  if (!activeYear) return "general election";
+  const type = activeYear.electionType.length > 0 ? activeYear.electionType : "general";
+  return `${activeYear.year} ${type} election`;
+}
+
 // Sidebar heading over the area checklist, one per mode that actually uses
 // it (state-legislature has its own "Chambers Shown" heading instead — see
 // the two call sites below). Previously one bare "Areas shown" for both, which read
@@ -659,19 +673,22 @@ function formatCount(value: number | null | undefined): string {
 // (map click or ParticipationRecordList row activation) — same role as
 // summarizeOfficials just above, for the mode that has no officeholders
 // to summarize. AGENTS.md §1c: states the number and its denominator,
-// nothing computed or ranked.
-function summarizeParticipation(city: ParticipationCityProperties, townshipOrUnorg?: boolean): string {
+// nothing computed or ranked. `activeYear` is required (not defaulted)
+// specifically so a future call site can't reintroduce the hardcoded-
+// "2024" bug by omission — every caller has to say which year it means.
+function summarizeParticipation(city: ParticipationCityProperties, activeYear: TurnoutActiveYear | null, townshipOrUnorg?: boolean): string {
   if (townshipOrUnorg) {
     return `${city.name}: no city government here. County and state layers apply.`;
   }
+  const election = electionPhrase(activeYear);
   if (!city.matched) {
-    return `${city.name}: no 2024 general election turnout record found for this city.`;
+    return `${city.name}: no ${election} turnout record found for this city.`;
   }
   if (city.belowThreshold) {
     return `${city.name}: ${formatCount(city.ballotsCast)} ballots cast. Fewer than 200 registered voters — percentage too small to shade reliably.`;
   }
   const pct = city.turnoutOfRegistered !== null ? `${Math.round(city.turnoutOfRegistered * 1000) / 10}%` : "unknown";
-  return `${city.name}: ${formatCount(city.ballotsCast)} ballots cast out of ${formatCount((city.registeredAt7am ?? 0) + (city.electionDayRegistrations ?? 0))} registered voters, ${pct} Registered, 2024 general election.`;
+  return `${city.name}: ${formatCount(city.ballotsCast)} ballots cast out of ${formatCount((city.registeredAt7am ?? 0) + (city.electionDayRegistrations ?? 0))} registered voters, ${pct} Registered, ${election}.`;
 }
 
 function boundsFromFeature(feature: Feature<Geometry>): maplibregl.LngLatBounds {
@@ -2632,7 +2649,7 @@ export default function WardMap() {
         setParticipationPanel({ city, x: container.clientWidth / 2, y: 24, pinned: true });
       }
     }
-    setAnnouncement(summarizeParticipation(city));
+    setAnnouncement(summarizeParticipation(city, turnoutActiveYear));
   };
 
   // TurnoutYearSlider's onChangeYear — moves the participation choropleth
@@ -4295,7 +4312,7 @@ export default function WardMap() {
         }
         setHighlight(hit.id != null ? { source: hit.source, id: hit.id } : null);
         setParticipationPanel({ city: props, x: e.point.x, y: e.point.y, pinned: true });
-        setAnnouncement(summarizeParticipation(props));
+        setAnnouncement(summarizeParticipation(props, turnoutActiveYear));
         return;
       }
       if (hit.layer.id === TOWNSHIP_UNORG_FILL_LAYER_ID) {
@@ -4315,7 +4332,7 @@ export default function WardMap() {
         };
         setHighlight(hit.id != null ? { source: hit.source, id: hit.id } : null);
         setParticipationPanel({ city: townshipCity, x: e.point.x, y: e.point.y, pinned: true, townshipOrUnorg: true });
-        setAnnouncement(summarizeParticipation(townshipCity, true));
+        setAnnouncement(summarizeParticipation(townshipCity, turnoutActiveYear, true));
         return;
       }
       // Same "no real RepProperties to seed `known` with" case as
@@ -5252,7 +5269,7 @@ export default function WardMap() {
               {participationPanel.townshipOrUnorg ? (
                 <p className="mt-0.5 text-ink-3">No city government here — county and state layers apply.</p>
               ) : !participationPanel.city.matched ? (
-                <p className="mt-0.5 text-ink-3">No 2024 general election turnout record found for this city.</p>
+                <p className="mt-0.5 text-ink-3">No {electionPhrase(turnoutActiveYear)} turnout record found for this city.</p>
               ) : (
                 <>
                   <p className="mt-0.5 tabular-nums text-ink-2">

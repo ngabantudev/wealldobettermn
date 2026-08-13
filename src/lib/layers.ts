@@ -270,12 +270,12 @@ export const TURNOUT_LAYER: LayerRegistryEntry = {
   publicDataPath: "/turnout/manifest.json",
   status: "partial",
   coverage:
-    "855 of Minnesota's statutory cities have a 2024 general-election turnout record. County-level aggregation is not built yet. Only the 2024 general election is covered so far — no other year, and no special/primary elections. Townships and unorganized territory have no turnout record to join against at all (they have no city government — see TOWNSHIP_UNORG_BOUNDARIES_LAYER above, rendered as its own distinct map class rather than left blank). turnoutOfCVAP is null for at least one city (Empire) where the join to Census CVAP data failed to resolve — see public/turnout/city/2024.json's own knownGaps for the full, current list.",
+    "853-855 of Minnesota's statutory cities (the count varies slightly by year) have a turnout record for each of seven general elections: 2012, 2014, 2016, 2018, 2020, 2022, and 2024, selectable via the map's own year slider. County-level aggregation is not built yet, and no special or primary election is covered — general elections only. Townships and unorganized territory have no turnout record to join against at all (they have no city government — see TOWNSHIP_UNORG_BOUNDARIES_LAYER above, rendered as its own distinct map class rather than left blank). turnoutOfCVAP is null for at least one city per year (documented per year in that year's own knownGaps) where the join to Census CVAP data failed to resolve.",
   primarySourceUrl: "https://www.sos.state.mn.us/",
   sourceAgency: "Office of the Minnesota Secretary of State; US Census Bureau (CVAP)",
   knownGaps: [
-    "County-level aggregation is not built yet — city-level only, this PR's scope.",
-    "Only the 2024 general election is covered — other years/election types are a follow-up.",
+    "County-level aggregation is not built yet — city-level only.",
+    "Only general elections are covered (2012, 2014, 2016, 2018, 2020, 2022, 2024) — primaries and special elections are a follow-up.",
     "turnoutOfCVAP denominator (Census CVAP, a 5-year modeled estimate with its own margin of error) is not interchangeable with turnoutOfRegistered's denominator — see src/lib/turnoutConfig.mjs's TURNOUT_OF_REGISTERED_DENOMINATOR for why, and cvapMarginOfError per city for the estimate's own uncertainty.",
     "Cities with fewer than 200 registered voters (turnoutConfig.mjs's MIN_REGISTERED_THRESHOLD) render their percentage as belowThreshold — 'too small to shade reliably' on the map — rather than a falsely precise figure; the underlying raw counts are still published in full.",
     "The city-boundaries <-> turnout join (src/lib/turnoutJoin.ts) can fail to resolve a boundary polygon to a turnout record (a name/county mismatch) — an unresolved polygon renders as a distinct 'no data' class on the map rather than silently guessing which turnout record it belongs to; see that module's own header for the real St. Anthony/Saint Anthony same-name-different-county collision it exists to handle correctly.",
