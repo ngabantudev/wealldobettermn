@@ -99,3 +99,106 @@ test("resolve surfaces both options for an ambiguous name rather than picking on
   assert.equal(outcome.city, "Ramsey");
   assert.equal(outcome.county, "Ramsey");
 });
+
+// Regression: a street address inside an AT_LARGE_CITIES city (Edina, Golden
+// Valley, ...) has no ward polygon to match — those cities elect every seat
+// citywide — so wardCandidates is always empty for them, even for a street
+// scripts/fetch-addresses.mjs's own TIGER fetch genuinely indexed (they sit
+// inside an indexed county, just not an indexed *ward*). Before
+// cityCandidates existed, that indistinguishably fell to the same
+// "not-covered" outcome as a real gap, which read as "Edina isn't a city
+// this map covers" — false; Edina has a roster, just no ward map. A minimal
+// synthetic index (rather than the real, large, regeneratable
+// public/address-index/ chunks) is enough to exercise resolveAddress's own
+// branch logic directly.
+function makeIndex(streets, zips = {}) {
+  return { schemaVersion: 1, generatedAt: "2026-01-01", sourceCounties: [], streets, zips };
+}
+
+test("resolve treats a street address inside an at-large city as 'city', not 'not-covered'", () => {
+  const index = makeIndex({
+    "INTERLACHEN BLVD": [
+      {
+        tlid: 1,
+        coords: [],
+        lfromhn: null,
+        ltohn: null,
+        rfromhn: "6500",
+        rtohn: "6598",
+        parityL: null,
+        parityR: "E",
+        zipl: null,
+        zipr: "55436",
+        wardCandidates: [],
+        cityCandidates: ["Edina"],
+      },
+    ],
+  });
+  const outcome = resolve(index, { kind: "address", houseNumber: 6500, street: "INTERLACHEN BLVD", cityHint: null, zipHint: null });
+  assert.equal(outcome.status, "city");
+  assert.equal(outcome.city, "Edina");
+});
+
+test("resolve still returns 'not-covered' for a street with no ward AND no city candidates", () => {
+  const index = makeIndex({
+    "SOME RD": [
+      {
+        tlid: 2,
+        coords: [],
+        lfromhn: null,
+        ltohn: null,
+        rfromhn: "100",
+        rtohn: "198",
+        parityL: null,
+        parityR: "E",
+        zipl: null,
+        zipr: null,
+        wardCandidates: [],
+        // no cityCandidates at all — a genuinely uncovered street, same as
+        // before this fix existed.
+      },
+    ],
+  });
+  const outcome = resolve(index, { kind: "address", houseNumber: 100, street: "SOME RD", cityHint: null, zipHint: null });
+  assert.equal(outcome.status, "not-covered");
+});
+
+test("resolve narrows by cityHint against cityCandidates, not just wardCandidates", () => {
+  const index = makeIndex({
+    "MAIN ST": [
+      // A street name shared between a real ward city (Fridley) and an
+      // at-large city (Edina) — an explicit ", Edina" hint must pick the
+      // at-large match, not fall through to whichever edge happens first.
+      {
+        tlid: 3,
+        coords: [[0, 0], [0, 0]],
+        lfromhn: null,
+        ltohn: null,
+        rfromhn: "100",
+        rtohn: "198",
+        parityL: null,
+        parityR: "E",
+        zipl: null,
+        zipr: null,
+        wardCandidates: [{ city: "Fridley", ward: 1 }],
+      },
+      {
+        tlid: 4,
+        coords: [],
+        lfromhn: null,
+        ltohn: null,
+        rfromhn: "100",
+        rtohn: "198",
+        parityL: null,
+        parityR: "E",
+        zipl: null,
+        zipr: null,
+        wardCandidates: [],
+        cityCandidates: ["Edina"],
+      },
+    ],
+  });
+  const outcome = resolve(index, { kind: "address", houseNumber: 100, street: "MAIN ST", cityHint: "Edina", zipHint: null });
+  assert.equal(outcome.status, "city");
+  assert.equal(outcome.city, "Edina");
+});

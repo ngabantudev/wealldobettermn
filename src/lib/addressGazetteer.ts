@@ -33,6 +33,33 @@ export function suggestStreetNamesFromManifest(manifest: AddressGazetteerManifes
   return matches.sort();
 }
 
+// The manifest-only twin of addressSearch.ts's suggestStreetsForHouseNumber
+// — same job (which streets carry this house number), but sourced from
+// houseNumberRanges' coarse [min, max] spans instead of real per-segment
+// edge data, so it works the instant a resident types a bare house number
+// and nothing else, before any county chunk has been fetched. See that
+// field's own comment on AddressGazetteerManifest for the size tradeoff
+// this makes (a span, not the real ranges) and why it's suggestion-only:
+// a street can pass this check and still turn out, once the real chunk
+// loads on commit, not to actually carry that exact number (a gap inside
+// the span, or the wrong parity) — resolveAddress never reads this field,
+// only the real edge data, so that correction always happens before
+// anything is treated as resolved.
+export function suggestStreetsForHouseNumberFromManifest(
+  manifest: AddressGazetteerManifest,
+  houseNumber: number,
+  limit: number,
+): string[] {
+  const matches: string[] = [];
+  for (const [street, [min, max]] of Object.entries(manifest.houseNumberRanges)) {
+    if (houseNumber >= min && houseNumber <= max) {
+      matches.push(street);
+      if (matches.length >= limit) break;
+    }
+  }
+  return matches.sort();
+}
+
 // Builds the merged view addressSearch.ts's resolve()/suggestStreets()/
 // etc. expect: the manifest's own (always-complete) zips, plus the union
 // of every currently-loaded chunk's streets. A street whose chunk hasn't

@@ -3,9 +3,9 @@
 import { Check, Copy, Search, Vote } from "lucide-react";
 import { useId, useMemo, useState } from "react";
 import type { AddressGazetteerManifest, AddressIndex, MnPlaces, WardRef } from "@/lib/types";
-import { CITIES, COUNTIES, COUNTY_CITIES, type City, type County } from "@/lib/cities";
+import { AT_LARGE_CITIES, CITIES, COUNTIES, COUNTY_CITIES, type City, type County } from "@/lib/cities";
 import { fold, parseQuery, resolve, suggestStreetsForHouseNumber, type SearchOutcome } from "@/lib/addressSearch";
-import { suggestStreetNamesFromManifest } from "@/lib/addressGazetteer";
+import { suggestStreetNamesFromManifest, suggestStreetsForHouseNumberFromManifest } from "@/lib/addressGazetteer";
 import { useAddressChunkLoader } from "@/lib/addressChunks";
 import CoverageNotice from "./CoverageNotice";
 
@@ -126,21 +126,36 @@ function buildSuggestions(
       // The street-text branch reads the manifest's full street-name
       // universe (suggestStreetNamesFromManifest — see
       // addressGazetteer.ts), not whichever chunk(s) happen to be loaded,
-      // so this keeps working
-      // for a street in a county the resident hasn't triggered a fetch
-      // for yet. The house-number-only branch has no equivalent: knowing
-      // which streets carry a given house number needs the edge data
-      // itself, so it's necessarily limited to chunk(s) already loaded
-      // (index.streets) — it shows nothing extra until the resident has
-      // typed enough of a street name, or a county chunk, to load one.
-      // Documented tradeoff (issue #70's PR), not a bug: this only
-      // affects the transient "typed digits, nothing else yet" moment,
-      // never resolution of an actual committed address.
-      const streetSuggestions = parsed.street
-        ? suggestStreetNamesFromManifest(manifest, parsed.street, MAX_SUGGESTIONS)
-        : index
-          ? suggestStreetsForHouseNumber(index, parsed.houseNumber, MAX_SUGGESTIONS)
-          : [];
+      // so this keeps working for a street in a county the resident
+      // hasn't triggered a fetch for yet. The house-number-only branch
+      // now has the same property, via the manifest's own coarse
+      // houseNumberRanges span (suggestStreetsForHouseNumberFromManifest)
+      // — this used to be limited to whichever chunk(s) happened to
+      // already be loaded (issue #70's own "documented tradeoff," not a
+      // bug, at the time), which meant a bare house number showed nothing
+      // at all on a fresh page load. Exact, chunk-sourced matches
+      // (suggestStreetsForHouseNumber) are still preferred and listed
+      // first whenever a chunk happens to already be loaded — they can
+      // never be a false positive the way the coarse span occasionally
+      // can (a gap inside the span, or the wrong parity) — with the
+      // coarse manifest matches filling in whatever exact matches didn't
+      // already cover, deduped, up to the same MAX_SUGGESTIONS cap.
+      // Either way this is a suggestion aid only: resolveAddress
+      // (addressSearch.ts) always re-validates against real chunk data
+      // before anything is treated as resolved, so a coarse false
+      // positive here never becomes a wrong result, only a suggestion
+      // that turns out empty on commit.
+      let streetSuggestions: string[];
+      if (parsed.street) {
+        streetSuggestions = suggestStreetNamesFromManifest(manifest, parsed.street, MAX_SUGGESTIONS);
+      } else {
+        const exact = index ? suggestStreetsForHouseNumber(index, parsed.houseNumber, MAX_SUGGESTIONS) : [];
+        const seen = new Set(exact);
+        const coarse = suggestStreetsForHouseNumberFromManifest(manifest, parsed.houseNumber, MAX_SUGGESTIONS).filter(
+          (street) => !seen.has(street),
+        );
+        streetSuggestions = [...exact, ...coarse].slice(0, MAX_SUGGESTIONS);
+      }
       for (const street of streetSuggestions) {
         items.push({
           kind: "street",
@@ -304,7 +319,18 @@ export default function SearchBar({ manifest, allPlaces, onSelectWard, onSelectC
       case "city":
         setQuery(next.city);
         onSelectCity(next.city);
-        setStatusMessage(`Zoomed to ${next.city}'s wards — choose one on the map.`);
+        // AT_LARGE_CITIES elect every seat citywide — no ward to "choose"
+        // on the map, so the ward-picking phrasing below is actively
+        // wrong for them. This same branch is also where a street address
+        // lands when it matches an at-large city's own street data but no
+        // ward (see addressSearch.ts's resolveAddress "city" fallback) —
+        // both cases mean the same thing here: there's a real, covered
+        // city, just no ward map to zoom further into.
+        setStatusMessage(
+          AT_LARGE_CITIES.includes(next.city)
+            ? `Zoomed to ${next.city} — elected at-large, no wards. See the roster on the map.`
+            : `Zoomed to ${next.city}'s wards — choose one on the map.`,
+        );
         setOutcome(null);
         break;
       case "county":

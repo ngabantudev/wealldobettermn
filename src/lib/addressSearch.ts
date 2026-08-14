@@ -323,6 +323,10 @@ function dedupeWardRefs(refs: WardRef[]): WardRef[] {
   return [...map.values()];
 }
 
+function dedupeCities(cities: City[]): City[] {
+  return [...new Set(cities)];
+}
+
 function resolveAddress(
   index: AddressIndex,
   houseNumber: number,
@@ -358,7 +362,14 @@ function resolveAddress(
   // list just because "Main St" alone is ambiguous somewhere else.
   let narrowed = matches;
   if (cityHint) {
-    const byCity = narrowed.filter((m) => m.edge.wardCandidates.some((w) => w.city === cityHint));
+    // Checked against cityCandidates too, not just wardCandidates — an
+    // at-large city (see cityCandidates' own comment on AddressEdge) has
+    // no ward to match, so a hint like "..., Edina" would otherwise never
+    // narrow anything and fall through to matching every city a street
+    // name happens to share.
+    const byCity = narrowed.filter(
+      (m) => m.edge.wardCandidates.some((w) => w.city === cityHint) || m.edge.cityCandidates?.includes(cityHint),
+    );
     if (byCity.length > 0) narrowed = byCity;
   }
   if (zipHint) {
@@ -368,6 +379,18 @@ function resolveAddress(
 
   const wards = dedupeWardRefs(narrowed.flatMap((m) => m.edge.wardCandidates));
   if (wards.length === 0) {
+    // No ward polygon matched — but the street might still sit inside an
+    // AT_LARGE_CITIES city (Edina, Golden Valley, ...), which has no ward
+    // to have matched in the first place. Only a *ward* city, or a street
+    // genuinely outside every place this app maps, is truly "not-covered"
+    // — see cityCandidates' own comment on AddressEdge for why this can
+    // never happen at the same time as a ward match. Two or more distinct
+    // city candidates would mean two AT_LARGE_CITIES boundaries somehow
+    // both claim this edge — not expected from real MN city boundary
+    // data, but per this file's own "never silently pick" rule, that's
+    // treated as not-covered rather than guessing one.
+    const cities = dedupeCities(narrowed.flatMap((m) => m.edge.cityCandidates ?? []));
+    if (cities.length === 1) return { status: "city", city: cities[0] };
     return {
       status: "not-covered",
       reason: `We found ${street}, but it's outside the cities this map covers.`,
