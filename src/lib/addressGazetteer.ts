@@ -87,5 +87,6 @@ export function mergeIndex(manifest: AddressGazetteerManifest, chunks: ReadonlyM
     sourceCounties: manifest.sourceCounties,
     streets,
     zips: manifest.zips,
+    zipCities: manifest.zipCities,
   };
 }

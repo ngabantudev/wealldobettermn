@@ -111,8 +111,8 @@ test("resolve surfaces both options for an ambiguous name rather than picking on
 // synthetic index (rather than the real, large, regeneratable
 // public/address-index/ chunks) is enough to exercise resolveAddress's own
 // branch logic directly.
-function makeIndex(streets, zips = {}) {
-  return { schemaVersion: 1, generatedAt: "2026-01-01", sourceCounties: [], streets, zips };
+function makeIndex(streets, zips = {}, zipCities = {}) {
+  return { schemaVersion: 1, generatedAt: "2026-01-01", sourceCounties: [], streets, zips, zipCities };
 }
 
 test("resolve treats a street address inside an at-large city as 'city', not 'not-covered'", () => {
@@ -199,6 +199,122 @@ test("resolve narrows by cityHint against cityCandidates, not just wardCandidate
     ],
   });
   const outcome = resolve(index, { kind: "address", houseNumber: 100, street: "MAIN ST", cityHint: "Edina", zipHint: null });
+  assert.equal(outcome.status, "city");
+  assert.equal(outcome.city, "Edina");
+});
+
+// Regression: MN_SUFFIX_RE used to strip *after* the city-hint loop ran,
+// so a trailing state abbreviation ("..., St. Paul, MN") sat between the
+// city name and the city-hint regex's own `$` anchor, and the loop never
+// matched at all — reproducing the exact "St. Paul doesn't come up" bug
+// this file's other St. Paul regression tests exist to catch, just for a
+// very common real-world address format (state abbreviation included).
+test("parseQuery extracts a trailing city hint even with a trailing state abbreviation", () => {
+  const parsed = parseQuery("1501 N Pascal St, St. Paul, MN", null);
+  assert.equal(parsed.kind, "address");
+  assert.equal(parsed.cityHint, "St. Paul");
+  assert.equal(parsed.street, "N PASCAL ST");
+});
+
+test("parseQuery extracts a trailing city hint with both a state abbreviation and a ZIP", () => {
+  const parsed = parseQuery("1501 N Pascal St, St. Paul, MN 55108", null);
+  assert.equal(parsed.kind, "address");
+  assert.equal(parsed.cityHint, "St. Paul");
+  assert.equal(parsed.zipHint, "55108");
+  assert.equal(parsed.street, "N PASCAL ST");
+});
+
+// Regression: a shared-boundary edge whose own cityCandidates lists more
+// than one at-large city (a real, not-rare shape for small enclave cities
+// — Hilltop is a literal enclave inside Columbia Heights, and TIGER's own
+// edge data reuses the same boundary segment for both) used to fall to
+// "not-covered" even when an explicit cityHint already said which one —
+// requiring cities.length === 1 ignored a disambiguation already given.
+test("resolve honors an explicit cityHint even when the matched edge's cityCandidates lists two cities", () => {
+  const index = makeIndex({
+    "MONROE ST NE": [
+      {
+        tlid: 5,
+        coords: [],
+        lfromhn: null,
+        ltohn: null,
+        rfromhn: "4900",
+        rtohn: "4928",
+        parityL: null,
+        parityR: "E",
+        zipl: null,
+        zipr: null,
+        wardCandidates: [],
+        cityCandidates: ["Hilltop", "Columbia Heights"],
+      },
+    ],
+  });
+  const outcome = resolve(index, {
+    kind: "address",
+    houseNumber: 4900,
+    street: "MONROE ST NE",
+    cityHint: "Hilltop",
+    zipHint: null,
+  });
+  assert.equal(outcome.status, "city");
+  assert.equal(outcome.city, "Hilltop");
+});
+
+test("resolve surfaces an honest, actionable message for a multi-city edge with no hint to disambiguate", () => {
+  const index = makeIndex({
+    "MONROE ST NE": [
+      {
+        tlid: 6,
+        coords: [],
+        lfromhn: null,
+        ltohn: null,
+        rfromhn: "4900",
+        rtohn: "4928",
+        parityL: null,
+        parityR: "E",
+        zipl: null,
+        zipr: null,
+        wardCandidates: [],
+        cityCandidates: ["Hilltop", "Columbia Heights"],
+      },
+    ],
+  });
+  const outcome = resolve(index, {
+    kind: "address",
+    houseNumber: 4900,
+    street: "MONROE ST NE",
+    cityHint: null,
+    zipHint: null,
+  });
+  assert.equal(outcome.status, "not-covered");
+  assert.match(outcome.reason, /Hilltop/);
+  assert.match(outcome.reason, /Columbia Heights/);
+});
+
+// Regression: resolveZip only ever consulted index.zips (ward candidates),
+// never index.zipCities — a ZIP touching both a real ward and an at-large
+// city (confirmed on real data: ZIP 55436 is almost entirely Edina, but
+// shares one border edge with a St. Louis Park ward) silently resolved to
+// the ward alone, guessing wrong for the far more common at-large-city
+// resident in that ZIP. Per AGENTS.md §2.5, silently choosing the wrong
+// district is the worst failure this site can produce.
+test("resolve refuses to silently pick a ward for a ZIP that also touches an at-large city", () => {
+  const index = makeIndex({}, { "55436": [{ city: "St. Louis Park", ward: 2 }] }, { "55436": ["Edina"] });
+  const outcome = resolve(index, { kind: "zip", zip: "55436" });
+  assert.equal(outcome.status, "not-covered");
+  assert.match(outcome.reason, /Edina/);
+});
+
+test("resolve still resolves a ZIP with only ward candidates exactly as before", () => {
+  const index = makeIndex({}, { "55401": [{ city: "Minneapolis", ward: 3 }] });
+  const outcome = resolve(index, { kind: "zip", zip: "55401" });
+  assert.equal(outcome.status, "single");
+  assert.deepEqual(outcome.wards, [{ city: "Minneapolis", ward: 3 }]);
+});
+
+test("resolve resolves a ZIP with only at-large city candidates straight to the city", () => {
+  const index = makeIndex({}, {}, { "55436": ["Edina"] });
+  const outcome = resolve(index, { kind: "zip", zip: "55436" });
   assert.equal(outcome.status, "city");
   assert.equal(outcome.city, "Edina");
 });

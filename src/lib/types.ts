@@ -245,6 +245,20 @@ export interface AddressGazetteerManifest {
   // Keyed by 5-digit ZIP. An absent key means honestly "not covered,"
   // never an empty-but-present array standing in for the same thing.
   zips: Record<string, WardRef[]>;
+  // Keyed by 5-digit ZIP -> every AT_LARGE_CITIES city whose boundary
+  // touches that ZIP, the zips field's own twin for cityCandidates the
+  // same way AddressEdge.cityCandidates twins wardCandidates. Needed
+  // because a ZIP can straddle a real ward city and an at-large city at
+  // once (confirmed on real data: ZIP 55436 is almost entirely Edina, but
+  // shares one Vernon Ave S border edge with a St. Louis Park ward) — if
+  // resolveZip only ever consulted `zips` above, that ZIP silently
+  // resolved to the ward alone, guessing wrong for the far more common
+  // Edina resident in that ZIP with no indication anything was uncertain.
+  // See resolveZip (addressSearch.ts) for how the two are combined:
+  // wards always win when a ZIP touches only one, but a ZIP present in
+  // *both* this field and `zips` is treated as unresolvable from a ZIP
+  // alone, never silently picked, per AGENTS.md §2.5.
+  zipCities: Record<string, City[]>;
   // Keyed by normalizeStreetName(FULLNAME) (see streetNormalize.mjs) ->
   // the chunk key(s) whose streets map carries that name. A street that
   // exists in two counties (not rare — "Main St" isn't unique) lists both,
@@ -298,6 +312,9 @@ export interface AddressIndex {
   // never an empty-but-present array standing in for the same thing.
   // Always complete — sourced straight from the manifest, never chunked.
   zips: Record<string, WardRef[]>;
+  // zips' own twin for at-large cities — see its comment on
+  // AddressGazetteerManifest. Always complete, same as zips.
+  zipCities: Record<string, City[]>;
 }
 
 // The full Minnesota gazetteer, shipped as public/mn-places.json and built

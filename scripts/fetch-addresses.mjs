@@ -353,6 +353,7 @@ async function main() {
   console.log(`[addresses] ${cityIndex.length} at-large city boundary(ies) loaded`);
 
   const zipWards = {}; // zip -> Map("city|ward" -> WardRef), merged across every county
+  const zipCities = {}; // zip -> Set(at-large city name), zipWards' own twin for cityCandidates
   // street name -> Set(county key) — the manifest's routing table, built
   // alongside each county's own chunk rather than in a second pass, so it
   // can never drift from what a chunk file actually contains.
@@ -459,6 +460,16 @@ async function main() {
         if (!zip) continue;
         const bucket = (zipWards[zip] ??= new Map());
         for (const ref of wardCandidates) bucket.set(`${ref.city}|${ref.ward}`, ref);
+        // Recorded independently of wardCandidates above, not merged into
+        // it — resolveZip (addressSearch.ts) needs to tell "this ZIP has
+        // one ward, cleanly" apart from "this ZIP has a ward AND an
+        // at-large city sharing it" (the ZIP 55436/Edina case this field
+        // exists for), and a single merged bucket can't make that
+        // distinction once both are in it.
+        if (cityCandidates.length > 0) {
+          const cityBucket = (zipCities[zip] ??= new Set());
+          for (const city of cityCandidates) cityBucket.add(city);
+        }
       }
 
       kept++;
@@ -485,6 +496,7 @@ async function main() {
   }
 
   const zips = Object.fromEntries(Object.entries(zipWards).map(([zip, wardMap]) => [zip, [...wardMap.values()]]));
+  const zipCitiesOut = Object.fromEntries(Object.entries(zipCities).map(([zip, cities]) => [zip, [...cities].sort()]));
   const streetChunksOut = Object.fromEntries(
     Object.entries(streetChunks).map(([street, keys]) => [street, [...keys].sort()]),
   );
@@ -497,6 +509,12 @@ async function main() {
     // Every ZIP's ward list — never chunked; see this file's own comment
     // on "Why zips stay unchunked."
     zips,
+    // zips' own twin for at-large cities — see this field's own comment
+    // on AddressGazetteerManifest for the real ZIP-55436/Edina case it
+    // exists to catch: without it, resolveZip had no way to know a ZIP
+    // it resolved to a single real ward also touches an at-large city,
+    // and silently picked the ward every time.
+    zipCities: zipCitiesOut,
     // Normalized street name -> chunk key(s) that carry it. The client's
     // only guide for which chunk(s) an address query needs — never a
     // guess, and never a reason to fetch a chunk speculatively.

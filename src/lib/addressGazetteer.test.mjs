@@ -32,6 +32,7 @@ function makeManifest(overrides = {}) {
     ],
     chunks: [],
     zips: { "55401": [{ city: "Minneapolis", ward: 3 }] },
+    zipCities: {},
     streetChunks: { "MAIN ST": ["hennepin", "ramsey"], "1ST AVE": ["hennepin"] },
     houseNumberRanges: {},
     ...overrides,
@@ -61,6 +62,12 @@ test("mergeIndex's zips always come straight from the manifest, regardless of wh
   const manifest = makeManifest();
   const merged = mergeIndex(manifest, new Map());
   assert.deepEqual(merged.zips, manifest.zips);
+});
+
+test("mergeIndex's zipCities always come straight from the manifest too, same as zips", () => {
+  const manifest = makeManifest({ zipCities: { "55436": ["Edina"] } });
+  const merged = mergeIndex(manifest, new Map());
+  assert.deepEqual(merged.zipCities, manifest.zipCities);
 });
 
 test("mergeIndex never invents a street that isn't in any loaded chunk", () => {

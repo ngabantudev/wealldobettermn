@@ -149,6 +149,17 @@ export function parseQuery(raw: string, allPlaces?: MnPlaces | null): ParsedQuer
     s = s.slice(0, zipMatch.index).trim().replace(/,\s*$/, "");
   }
 
+  // Stripped *before* the city-hint loop below, not after — a trailing
+  // "MN" (or "MN 55108", after zipHint above already peeled off the ZIP)
+  // sits between the city name and the end of the string, and the
+  // city-hint loop only matches a city name anchored to `$`. Stripping
+  // this after the loop (as it used to) meant "..., St. Paul, MN" and
+  // "..., St. Paul, MN 55108" never matched at all — cityHint stayed null
+  // and "St. Paul" was left glued onto the street text, reproducing the
+  // exact "St. Paul doesn't come up" bug for anyone who types the state
+  // abbreviation, an extremely common way to write a full address.
+  s = s.replace(MN_SUFFIX_RE, "").trim();
+
   let cityHint: City | null = null;
   for (const [folded, city] of FOLDED_CITIES) {
     // A bare city name (the whole query, not a trailing ", City" on an
@@ -177,7 +188,6 @@ export function parseQuery(raw: string, allPlaces?: MnPlaces | null): ParsedQuer
     }
   }
 
-  s = s.replace(MN_SUFFIX_RE, "").trim();
   s = s.replace(UNIT_RE, "").trim(); // units never affect ward, so this is safe to drop pre-classification
 
   // A bare ZIP, city, or county can still be typed with no leading
@@ -384,13 +394,34 @@ function resolveAddress(
     // to have matched in the first place. Only a *ward* city, or a street
     // genuinely outside every place this app maps, is truly "not-covered"
     // — see cityCandidates' own comment on AddressEdge for why this can
-    // never happen at the same time as a ward match. Two or more distinct
-    // city candidates would mean two AT_LARGE_CITIES boundaries somehow
-    // both claim this edge — not expected from real MN city boundary
-    // data, but per this file's own "never silently pick" rule, that's
-    // treated as not-covered rather than guessing one.
+    // never happen at the same time as a ward match.
     const cities = dedupeCities(narrowed.flatMap((m) => m.edge.cityCandidates ?? []));
+    // An explicit cityHint (", Hilltop") already disambiguates this, even
+    // when the matched edge's own cityCandidates lists more than one city
+    // — a real, not-rare shape for a shared-boundary edge between two
+    // small at-large cities (Hilltop is a literal enclave inside Columbia
+    // Heights; TIGER's own edge data reuses the same boundary segment for
+    // both). Checking `cities.length === 1` alone, before considering the
+    // hint, ignored a disambiguation the resident had already given —
+    // confirmed against real data: "..., Hilltop" on a border street
+    // still fell to "not-covered" even though Hilltop was right there in
+    // cityCandidates.
+    if (cityHint && cities.includes(cityHint)) return { status: "city", city: cityHint };
     if (cities.length === 1) return { status: "city", city: cities[0] };
+    if (cities.length > 1) {
+      // Genuinely ambiguous between two-plus covered at-large cities with
+      // no hint to pick one — "not-covered" is technically the wrong
+      // status (some of these *are* covered), but there's no ambiguous-
+      // city SearchOutcome shape yet to surface a real choice the way
+      // ward crossings do (see the "ambiguous" status). Naming the actual
+      // candidates and pointing at the fix (add a city name) is at least
+      // honest and actionable, rather than the old blanket "outside the
+      // cities this map covers" claim, which was simply false here.
+      return {
+        status: "not-covered",
+        reason: `${street} is shared by ${cities.join(" and ")} — add the city name (e.g. "${street}, ${cities[0]}") to narrow it down.`,
+      };
+    }
     return {
       status: "not-covered",
       reason: `We found ${street}, but it's outside the cities this map covers.`,
@@ -410,9 +441,39 @@ function resolveAddress(
 }
 
 function resolveZip(index: AddressIndex, zip: string): SearchOutcome {
-  const wards = index.zips[zip];
-  if (!wards || wards.length === 0) {
+  const wards = index.zips[zip] ?? [];
+  const cities = index.zipCities[zip] ?? [];
+  if (wards.length === 0 && cities.length === 0) {
     return { status: "not-covered", reason: `ZIP ${zip} isn't in the cities this map covers.` };
+  }
+  if (cities.length > 0 && wards.length > 0) {
+    // This ZIP touches at least one real ward AND at least one AT_LARGE_
+    // CITIES city — picking the ward alone (the old, only behavior here)
+    // silently guesses for a resident actually in the at-large city.
+    // Confirmed against real data: ZIP 55436 is almost entirely Edina,
+    // but shares a single Vernon Ave S border edge with a St. Louis Park
+    // ward, so `wards` had exactly one entry and this returned "single"
+    // — an Edina resident searching by ZIP got zoomed to St. Louis Park
+    // Ward 2 with no indication anything was uncertain. Per AGENTS.md
+    // §2.5, "silently choosing the wrong district is the worst failure
+    // this site can produce" — street-address search already resolves
+    // this correctly (see resolveAddress's own cityCandidates handling),
+    // so the fix here is pointing at that rather than guessing.
+    const allNames = [...wards.map((w) => w.city), ...cities];
+    return {
+      status: "not-covered",
+      reason: `ZIP ${zip} spans more than one area this map covers differently (${[...new Set(allNames)].join(", ")}) — search by street address to narrow it down.`,
+    };
+  }
+  if (wards.length === 0) {
+    // Only at-large cities touch this ZIP, no ward candidates at all —
+    // safe to resolve straight to the city (mirrors resolveAddress's own
+    // cityCandidates-only fallback), never a ward to have silently lost.
+    if (cities.length === 1) return { status: "city", city: cities[0] };
+    return {
+      status: "not-covered",
+      reason: `ZIP ${zip} spans ${cities.join(" and ")} — search by street address to narrow it down.`,
+    };
   }
   if (wards.length === 1) return { status: "single", wards: [wards[0]], point: null, formattedAddress: null };
   return {
