@@ -4210,6 +4210,22 @@ export default function WardMap() {
   // absolutely-positioned layer like this scale's own, sharing rung 40 —
   // see the note above.
   //
+  // Both `<aside>`s below carry `isolate` so that assertion is actually
+  // true, not just intended: the right one's WardModal (variant="sidebar")
+  // renders a `sticky z-10` per-tier header (WardModal.tsx) for its own
+  // internal scroll-stacking, and without an intervening stacking context
+  // that z-10 isn't contained to the sidebar's own box at all — it leaks
+  // straight into the *root* stacking context and ties directly against
+  // any other z-10 elsewhere in the app, DOM order breaking the tie. That
+  // silently won against SearchBar's own z-10 suggestions dropdown
+  // (SiteHeader renders before this component's tree, so the sidebar's
+  // header painted on top wherever they visually overlapped) — the exact
+  // kind of leak `isolate z-0` already exists to prevent one layer up, for
+  // this same map wrapper's own pin markers (up to z-1000 on hover; see
+  // that container's own comment). `isolate` alone (no z-index of its own)
+  // keeps each sidebar exactly where plain flex-sibling DOM order would
+  // already put it — it only stops whatever's *inside* from escaping.
+  //
   // One exception: MastheadSaying's explanation popover (the third line
   // under the wordmark, inside SiteHeader) opens *downward*, past the
   // header's own bottom edge, into this row's z-stacked territory — and
@@ -4253,7 +4269,7 @@ export default function WardMap() {
           id="map-filters-sidebar"
           aria-label="Map filters"
           aria-hidden={leftFiltersCollapsed}
-          className={`hidden sm:flex shrink-0 flex-col overflow-x-hidden overflow-y-auto no-scrollbar bg-panel-2 font-sans transition-[width] duration-300 ease-out ${
+          className={`hidden sm:flex isolate shrink-0 flex-col overflow-x-hidden overflow-y-auto no-scrollbar bg-panel-2 font-sans transition-[width] duration-300 ease-out ${
             leftFiltersCollapsed
               ? "sm:w-0"
               : // bg-panel-2 (not the workspace's usual --panel): a full
@@ -4598,7 +4614,7 @@ export default function WardMap() {
           // see its own comment above. Used to also carry a flag-blue
           // accent on this sidebar's own outer (viewport-right) edge,
           // removed for the same reason the left one was.
-          className={`hidden sm:flex shrink-0 flex-col overflow-x-hidden overflow-y-auto no-scrollbar bg-panel-2 font-sans transition-[width] duration-300 ease-out ${
+          className={`hidden sm:flex isolate shrink-0 flex-col overflow-x-hidden overflow-y-auto no-scrollbar bg-panel-2 font-sans transition-[width] duration-300 ease-out ${
             rightDetailCollapsed ? "sm:w-0" : "sm:w-80 lg:w-96 border-l border-l-hair-strong"
           }`}
         >

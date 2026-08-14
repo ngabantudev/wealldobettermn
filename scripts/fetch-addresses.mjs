@@ -64,16 +64,31 @@ import { fileURLToPath } from "node:url";
 import shp from "shpjs";
 import { normalizeStreetName } from "../src/lib/streetNormalize.mjs";
 import { updateDataManifest } from "./lib/dataManifest.mjs";
+import { AT_LARGE_CITIES } from "../src/lib/cities.ts";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const OUTPUT_DIR = path.join(__dirname, "../public/address-index");
 const MANIFEST_PATH = path.join(OUTPUT_DIR, "manifest.json");
 const WARDS_PATH = path.join(__dirname, "../public/wards.geojson");
+// Only ever read for AT_LARGE_CITIES' own boundaries (see loadCityIndex
+// below) — city/county name search doesn't need this file at all (it
+// reads wards.geojson/COUNTY_CITIES directly), and every *ward* city's
+// street data already resolves entirely through wardIndex. This is
+// already fetched and committed by `npm run data:city-boundaries`, so
+// nothing new is fetched over the network here.
+const CITY_BOUNDARIES_PATH = path.join(__dirname, "../public/city-boundaries.geojson");
 
 // TIGER/Line "Address Range Feature" files, one zipped shapefile per
 // county, free and public domain (US federal government work), no API
-// key. These three counties cover every city this app maps. `key` is the
-// chunk's stable slug (public/address-index/<key>.json) — lowercase,
+// key. These three counties cover every *ward* this app maps — but not
+// every city: several AT_LARGE_CITIES (Edina, Eden Prairie, Golden
+// Valley, ...) sit inside Hennepin too, and city-only cities well outside
+// these three (Rochester, Duluth, Woodbury, Eagan, ...) aren't covered by
+// any TIGER fetch here at all. See computeCityCandidates below for how an
+// at-large city's own street data — no ward polygon to match, so it can't
+// resolve through wardIndex — still resolves correctly instead of
+// reading as "outside the cities this map covers." `key` is the chunk's
+// stable slug (public/address-index/<key>.json) — lowercase,
 // filesystem/URL-safe, and independent of `fips` so a chunk file name
 // reads as a place, not a code; `fips` still travels in the manifest for
 // provenance (AGENTS.md §2.2).
@@ -244,6 +259,44 @@ function computeWardCandidates(coords, edgeBBox, wardIndex) {
   return [...found.values()];
 }
 
+// Same shape as loadWardIndex, over public/city-boundaries.geojson
+// (MnDOT/MnGeo's statewide CTU FeatureServer) instead of wards.geojson,
+// filtered down to just AT_LARGE_CITIES — a *ward* city's own street data
+// already resolves entirely through wardIndex above, so re-matching it
+// against its own city boundary too would be pure redundant work across
+// every one of tens of thousands of edges for no new information.
+function loadCityIndex(cityBoundariesGeojson) {
+  const atLarge = new Set(AT_LARGE_CITIES);
+  const cities = [];
+  for (const feature of cityBoundariesGeojson.features) {
+    const name = feature.properties?.name;
+    if (!name || !atLarge.has(name)) continue;
+    if (feature.geometry.type !== "Polygon" && feature.geometry.type !== "MultiPolygon") continue;
+    const rings = feature.geometry.type === "Polygon" ? feature.geometry.coordinates : feature.geometry.coordinates.flat();
+    const bbox = rings.reduce((acc, ring) => (acc ? unionBBox(acc, ringBBox(ring)) : ringBBox(ring)), null);
+    cities.push({ name, geometry: feature.geometry, bbox, prefilterBBox: bufferBBox(bbox, BBOX_PADDING_DEGREES) });
+  }
+  return cities;
+}
+
+// computeWardCandidates's exact twin, over cityIndex instead of wardIndex
+// and keyed by city name alone (an AT_LARGE city has no wards to
+// distinguish). Only ever called when wardCandidates is empty — see this
+// field's own comment on AddressEdge in src/lib/types.ts for why a ward
+// match always wins outright rather than the two being merged.
+function computeCityCandidates(coords, edgeBBox, cityIndex) {
+  const nearby = cityIndex.filter((c) => bboxIntersects(c.bbox, edgeBBox));
+  const found = new Set();
+  for (const point of coords) {
+    for (const c of nearby) {
+      if (found.has(c.name)) continue;
+      if (!bboxContainsPoint(c.bbox, point)) continue;
+      if (pointInGeometry(point, c.geometry)) found.add(c.name);
+    }
+  }
+  return [...found];
+}
+
 function round6(n) {
   return Math.round(n * 1e6) / 1e6;
 }
@@ -260,6 +313,19 @@ function normalizeZip(raw) {
   return raw && /^\d{5}$/.test(raw.trim()) ? raw.trim() : null;
 }
 
+// Same "extract the leading digits" leniency as addressSearch.ts's own
+// parseHouseNumber (some TIGER ranges carry a non-numeric suffix) — kept
+// as its own copy rather than shared, since this one runs over the raw
+// LFROMHN/etc. strings pre-normalizeHouseNumber, and only ever feeds
+// houseNumberRanges (a suggestion aid), never the edge data itself.
+function parseHouseNumberLoose(raw) {
+  if (!raw) return null;
+  const digits = raw.match(/\d+/)?.[0];
+  if (!digits) return null;
+  const n = parseInt(digits, 10);
+  return Number.isFinite(n) ? n : null;
+}
+
 async function main() {
   console.log("[addresses] reading ward boundaries...");
   let wardsGeojson;
@@ -271,11 +337,35 @@ async function main() {
   const wardIndex = loadWardIndex(wardsGeojson);
   console.log(`[addresses] ${wardIndex.length} ward polygon(s) loaded`);
 
+  console.log("[addresses] reading city boundaries (for AT_LARGE_CITIES)...");
+  let cityIndex = [];
+  try {
+    const cityBoundariesGeojson = JSON.parse(await readFile(CITY_BOUNDARIES_PATH, "utf8"));
+    cityIndex = loadCityIndex(cityBoundariesGeojson);
+  } catch (err) {
+    // Non-fatal, unlike wards.geojson above: without this file, at-large
+    // cities inside an indexed county just fall back to their pre-existing
+    // "outside the cities this map covers" not-covered outcome — worse
+    // messaging, not broken search. Run `npm run data:city-boundaries`
+    // first to get the more accurate result.
+    console.warn(`[addresses] couldn't read ${CITY_BOUNDARIES_PATH} — at-large cities will read as not-covered (${err.message})`);
+  }
+  console.log(`[addresses] ${cityIndex.length} at-large city boundary(ies) loaded`);
+
   const zipWards = {}; // zip -> Map("city|ward" -> WardRef), merged across every county
+  const zipCities = {}; // zip -> Set(at-large city name), zipWards' own twin for cityCandidates
   // street name -> Set(county key) — the manifest's routing table, built
   // alongside each county's own chunk rather than in a second pass, so it
   // can never drift from what a chunk file actually contains.
   const streetChunks = {};
+  // street name -> [min, max] house number seen anywhere on it, across
+  // every county — the manifest's coarse, always-loaded stand-in for the
+  // real per-segment/per-parity ranges that only exist in chunk data. See
+  // this field's own comment on AddressGazetteerManifest (src/lib/
+  // types.ts) for why one span per street, not the real ranges, is the
+  // right tradeoff here, and why growing this to all 87 counties someday
+  // stays cheap even though the per-county chunk data doesn't.
+  const houseNumberRanges = {};
   const chunkSummaries = []; // {key, county, fips, sourceUrl, streetCount, edgeCount} for the manifest
 
   await mkdir(OUTPUT_DIR, { recursive: true });
@@ -294,7 +384,14 @@ async function main() {
       if (feature.geometry.type !== "LineString") continue;
       const coords = feature.geometry.coordinates;
       const edgeBBox = ringBBox(coords);
-      if (!wardIndex.some((w) => bboxIntersects(edgeBBox, w.prefilterBBox))) continue;
+      // Also checked against cityIndex, not just wardIndex — an edge
+      // solidly inside an at-large city (Edina, say) can sit well outside
+      // every *ward*'s buffered bbox even though its own county was
+      // TIGER-fetched; without this it would be dropped before
+      // computeCityCandidates below ever got a chance to see it.
+      const nearWard = wardIndex.some((w) => bboxIntersects(edgeBBox, w.prefilterBBox));
+      const nearAtLargeCity = cityIndex.some((c) => bboxIntersects(edgeBBox, c.prefilterBBox));
+      if (!nearWard && !nearAtLargeCity) continue;
 
       const props = feature.properties;
       const fullname = (props.FULLNAME ?? "").trim();
@@ -309,6 +406,11 @@ async function main() {
       if (!lfromhn && !ltohn && !rfromhn && !rtohn) continue;
 
       const wardCandidates = computeWardCandidates(coords, edgeBBox, wardIndex);
+      // A ward match always wins outright — an at-large city has no ward
+      // to lose to, so there's never a real conflict to resolve, and
+      // skipping this whenever wardCandidates already matched is most of
+      // why widening the prefilter above doesn't also blow up runtime.
+      const cityCandidates = wardCandidates.length === 0 ? computeCityCandidates(coords, edgeBBox, cityIndex) : [];
       // A zoom/pin target only ever matters for an edge that resolved
       // into at least one covered ward — an edge kept purely for the
       // honest "found the street, but outside our coverage" case never
@@ -318,7 +420,9 @@ async function main() {
       // MN's urban block faces are close enough to straight that the
       // ~5-vertex TIGER polyline's intermediate points buy negligible
       // precision at ward-zoom scale, for real size cost across tens of
-      // thousands of edges.
+      // thousands of edges. An at-large-city match has no ward-level pin
+      // to place either (see cityCandidates' own comment on AddressEdge in
+      // src/lib/types.ts) — same empty-coords treatment.
       const coordsOut =
         wardCandidates.length > 0
           ? [coords[0], coords[coords.length - 1]].map(([lng, lat]) => [round6(lng), round6(lat)])
@@ -336,16 +440,36 @@ async function main() {
         zipl: normalizeZip(props.ZIPL),
         zipr: normalizeZip(props.ZIPR),
         wardCandidates,
+        // Omitted (not an empty array) whenever there's nothing to
+        // report — see this field's own comment on AddressEdge.
+        ...(cityCandidates.length > 0 ? { cityCandidates } : {}),
       };
 
       const streetKey = normalizeStreetName(fullname);
       (countyStreets[streetKey] ??= []).push(edge);
       (streetChunks[streetKey] ??= new Set()).add(county.key);
 
+      for (const raw of [lfromhn, ltohn, rfromhn, rtohn]) {
+        const n = parseHouseNumberLoose(raw);
+        if (n === null) continue;
+        const existing = houseNumberRanges[streetKey];
+        houseNumberRanges[streetKey] = existing ? [Math.min(existing[0], n), Math.max(existing[1], n)] : [n, n];
+      }
+
       for (const zip of [edge.zipl, edge.zipr]) {
         if (!zip) continue;
         const bucket = (zipWards[zip] ??= new Map());
         for (const ref of wardCandidates) bucket.set(`${ref.city}|${ref.ward}`, ref);
+        // Recorded independently of wardCandidates above, not merged into
+        // it — resolveZip (addressSearch.ts) needs to tell "this ZIP has
+        // one ward, cleanly" apart from "this ZIP has a ward AND an
+        // at-large city sharing it" (the ZIP 55436/Edina case this field
+        // exists for), and a single merged bucket can't make that
+        // distinction once both are in it.
+        if (cityCandidates.length > 0) {
+          const cityBucket = (zipCities[zip] ??= new Set());
+          for (const city of cityCandidates) cityBucket.add(city);
+        }
       }
 
       kept++;
@@ -372,6 +496,7 @@ async function main() {
   }
 
   const zips = Object.fromEntries(Object.entries(zipWards).map(([zip, wardMap]) => [zip, [...wardMap.values()]]));
+  const zipCitiesOut = Object.fromEntries(Object.entries(zipCities).map(([zip, cities]) => [zip, [...cities].sort()]));
   const streetChunksOut = Object.fromEntries(
     Object.entries(streetChunks).map(([street, keys]) => [street, [...keys].sort()]),
   );
@@ -384,10 +509,23 @@ async function main() {
     // Every ZIP's ward list — never chunked; see this file's own comment
     // on "Why zips stay unchunked."
     zips,
+    // zips' own twin for at-large cities — see this field's own comment
+    // on AddressGazetteerManifest for the real ZIP-55436/Edina case it
+    // exists to catch: without it, resolveZip had no way to know a ZIP
+    // it resolved to a single real ward also touches an at-large city,
+    // and silently picked the ward every time.
+    zipCities: zipCitiesOut,
     // Normalized street name -> chunk key(s) that carry it. The client's
     // only guide for which chunk(s) an address query needs — never a
     // guess, and never a reason to fetch a chunk speculatively.
     streetChunks: streetChunksOut,
+    // Normalized street name -> [min, max] house number span seen on it —
+    // see this field's own comment on AddressGazetteerManifest for why
+    // it's coarse by design. Lets a bare house number ("1501", no street
+    // text yet) suggest real streets instantly, the same way streetChunks
+    // above already lets a partial street name do that, without needing
+    // any chunk fetched first.
+    houseNumberRanges,
   };
 
   const manifestOutput = JSON.stringify(manifest);

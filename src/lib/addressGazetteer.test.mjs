@@ -6,12 +6,21 @@
 // resolved": a street that exists in two counties must merge edges from
 // both loaded chunks, never let one overwrite the other.
 //
+// Also covers suggestStreetsForHouseNumberFromManifest — the manifest-
+// only house-number suggestion path added so a bare house number
+// ("1501", nothing else typed yet) can suggest real streets instantly,
+// before any county chunk has been fetched. See houseNumberRanges' own
+// comment on AddressGazetteerManifest (src/lib/types.ts) for why it's a
+// coarse [min, max] span rather than the real per-segment ranges, and why
+// that's safe (suggestion-only; resolveAddress in addressSearch.ts never
+// reads this field).
+//
 // Run directly: node src/lib/addressChunks.test.mjs
 // Or via: npm run test:lib
 
 import assert from "node:assert/strict";
 import test from "node:test";
-import { mergeIndex, suggestStreetNamesFromManifest } from "./addressGazetteer.ts";
+import { mergeIndex, suggestStreetNamesFromManifest, suggestStreetsForHouseNumberFromManifest } from "./addressGazetteer.ts";
 
 function makeManifest(overrides = {}) {
   return {
@@ -23,7 +32,9 @@ function makeManifest(overrides = {}) {
     ],
     chunks: [],
     zips: { "55401": [{ city: "Minneapolis", ward: 3 }] },
+    zipCities: {},
     streetChunks: { "MAIN ST": ["hennepin", "ramsey"], "1ST AVE": ["hennepin"] },
+    houseNumberRanges: {},
     ...overrides,
   };
 }
@@ -53,6 +64,12 @@ test("mergeIndex's zips always come straight from the manifest, regardless of wh
   assert.deepEqual(merged.zips, manifest.zips);
 });
 
+test("mergeIndex's zipCities always come straight from the manifest too, same as zips", () => {
+  const manifest = makeManifest({ zipCities: { "55436": ["Edina"] } });
+  const merged = mergeIndex(manifest, new Map());
+  assert.deepEqual(merged.zipCities, manifest.zipCities);
+});
+
 test("mergeIndex never invents a street that isn't in any loaded chunk", () => {
   const manifest = makeManifest();
   const chunks = new Map([["hennepin", makeChunk("hennepin", { "1ST AVE": [] })]]);
@@ -70,4 +87,33 @@ test("suggestStreetNamesFromManifest matches by prefix over the full street univ
 test("suggestStreetNamesFromManifest returns nothing for an empty prefix", () => {
   const manifest = makeManifest();
   assert.deepEqual(suggestStreetNamesFromManifest(manifest, "", 10), []);
+});
+
+test("suggestStreetsForHouseNumberFromManifest finds a street whose span contains the house number", () => {
+  const manifest = makeManifest({ houseNumberRanges: { "N PASCAL ST": [1, 2299], "MAIN ST": [100, 198] } });
+  const matches = suggestStreetsForHouseNumberFromManifest(manifest, 1501, 8);
+  assert.deepEqual(matches, ["N PASCAL ST"]);
+});
+
+test("suggestStreetsForHouseNumberFromManifest excludes a street whose span doesn't contain the number", () => {
+  const manifest = makeManifest({ houseNumberRanges: { "MAIN ST": [100, 198] } });
+  const matches = suggestStreetsForHouseNumberFromManifest(manifest, 1501, 8);
+  assert.deepEqual(matches, []);
+});
+
+test("suggestStreetsForHouseNumberFromManifest matches at the exact span boundaries (inclusive)", () => {
+  const manifest = makeManifest({ houseNumberRanges: { "MAIN ST": [100, 198] } });
+  assert.deepEqual(suggestStreetsForHouseNumberFromManifest(manifest, 100, 8), ["MAIN ST"]);
+  assert.deepEqual(suggestStreetsForHouseNumberFromManifest(manifest, 198, 8), ["MAIN ST"]);
+  assert.deepEqual(suggestStreetsForHouseNumberFromManifest(manifest, 199, 8), []);
+  assert.deepEqual(suggestStreetsForHouseNumberFromManifest(manifest, 99, 8), []);
+});
+
+test("suggestStreetsForHouseNumberFromManifest respects the limit and returns sorted results", () => {
+  const manifest = makeManifest({
+    houseNumberRanges: { "C ST": [1, 100], "A ST": [1, 100], "B ST": [1, 100] },
+  });
+  const matches = suggestStreetsForHouseNumberFromManifest(manifest, 50, 2);
+  assert.equal(matches.length, 2);
+  assert.deepEqual(matches, [...matches].sort());
 });

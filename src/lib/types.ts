@@ -6,6 +6,7 @@
 // obvious there's exactly one definition. See the 2026-08-06 note above
 // CoverageTier in models.ts.
 import type { CoverageTier } from "./models";
+import type { City } from "./cities";
 
 export interface CandidateInfo {
   name: string;
@@ -194,6 +195,20 @@ export interface AddressEdge {
   // dropped) so "found the street, but it's outside our coverage" can be
   // told apart from "no such street" in the UI.
   wardCandidates: WardRef[];
+  // Every AT_LARGE_CITIES city (src/lib/cities.ts) whose boundary contains
+  // any vertex of this edge — same point-in-polygon-once-at-build-time
+  // discipline as wardCandidates, computed alongside it in
+  // scripts/fetch-addresses.mjs, just against city-boundaries.geojson
+  // instead of wards.geojson. Only ever populated when wardCandidates is
+  // empty: an at-large city has no ward polygon to match, so without this
+  // field a real address inside one (e.g. Edina, Golden Valley — elected
+  // fully citywide, see AT_LARGE_CITIES) fell through to the same
+  // "outside the cities this map covers" message as a genuinely uncovered
+  // address, even though the city is covered. Omitted (not an empty
+  // array) whenever there's nothing to report, to keep the common case —
+  // a ward city, or a street truly outside every covered place — exactly
+  // as small on the wire as before this field existed.
+  cityCandidates?: City[];
 }
 
 // The on-device gazetteer shipped as public/address-index/ — the entire
@@ -230,6 +245,20 @@ export interface AddressGazetteerManifest {
   // Keyed by 5-digit ZIP. An absent key means honestly "not covered,"
   // never an empty-but-present array standing in for the same thing.
   zips: Record<string, WardRef[]>;
+  // Keyed by 5-digit ZIP -> every AT_LARGE_CITIES city whose boundary
+  // touches that ZIP, the zips field's own twin for cityCandidates the
+  // same way AddressEdge.cityCandidates twins wardCandidates. Needed
+  // because a ZIP can straddle a real ward city and an at-large city at
+  // once (confirmed on real data: ZIP 55436 is almost entirely Edina, but
+  // shares one Vernon Ave S border edge with a St. Louis Park ward) — if
+  // resolveZip only ever consulted `zips` above, that ZIP silently
+  // resolved to the ward alone, guessing wrong for the far more common
+  // Edina resident in that ZIP with no indication anything was uncertain.
+  // See resolveZip (addressSearch.ts) for how the two are combined:
+  // wards always win when a ZIP touches only one, but a ZIP present in
+  // *both* this field and `zips` is treated as unresolvable from a ZIP
+  // alone, never silently picked, per AGENTS.md §2.5.
+  zipCities: Record<string, City[]>;
   // Keyed by normalizeStreetName(FULLNAME) (see streetNormalize.mjs) ->
   // the chunk key(s) whose streets map carries that name. A street that
   // exists in two counties (not rare — "Main St" isn't unique) lists both,
@@ -238,6 +267,27 @@ export interface AddressGazetteerManifest {
   // never cause a real candidate to go missing, only change how many
   // bytes are on the wire to find it.
   streetChunks: Record<string, string[]>;
+  // Keyed by normalizeStreetName(FULLNAME) -> the lowest and highest house
+  // number found anywhere on that street, across every side/segment/county
+  // currently indexed. Deliberately coarse (one [min, max] span per street,
+  // not the real per-segment/per-parity ranges that live in the actual
+  // chunk data) — that's what keeps it small enough to stay in the
+  // always-loaded manifest at statewide scale (a handful of bytes per
+  // street name, not full edge/geometry/ward records) rather than needing
+  // a chunk fetch. src/lib/addressGazetteer.ts's
+  // suggestStreetsForHouseNumberFromManifest is the only reader: a bare
+  // house number ("1501", nothing else typed yet) can suggest real street
+  // names instantly, before any chunk has loaded, the same way a partial
+  // street name already does via streetChunks above. This is a suggestion
+  // aid ONLY — it can suggest a street where the exact number turns out
+  // not to exist once the real chunk loads (a gap inside the span, or the
+  // wrong parity), which is why final resolution (resolveAddress in
+  // addressSearch.ts) never reads this field at all; it only ever
+  // resolves against the real, chunk-sourced AddressEdge ranges, same as
+  // before this field existed. See AGENTS.md §3.1 — a coarse suggestion
+  // that gets corrected on commit is not the same thing as fabricated
+  // data shipped as fact.
+  houseNumberRanges: Record<string, [number, number]>;
 }
 
 // One county's own chunk of the gazetteer — public/address-index/
@@ -262,6 +312,9 @@ export interface AddressIndex {
   // never an empty-but-present array standing in for the same thing.
   // Always complete — sourced straight from the manifest, never chunked.
   zips: Record<string, WardRef[]>;
+  // zips' own twin for at-large cities — see its comment on
+  // AddressGazetteerManifest. Always complete, same as zips.
+  zipCities: Record<string, City[]>;
 }
 
 // The full Minnesota gazetteer, shipped as public/mn-places.json and built

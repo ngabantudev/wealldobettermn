@@ -1539,6 +1539,16 @@ function TierNode({ index, officials, onHeaderRef, onContentRef, headerHeight, c
       <h2
         ref={(el) => onHeaderRef(index, el)}
         id={headingId}
+        // This z-10 is purely local — staying above this same tier's
+        // scrolling content, nothing app-level. It stays contained to that
+        // job because the `variant="sidebar"` caller (WardMap.tsx's right
+        // `<aside id="map-detail-sidebar">`) carries `isolate`, which
+        // stops this from leaking into the root stacking context and
+        // competing with unrelated same-value z-indexes elsewhere (it
+        // used to — see that `<aside>`'s own comment for the bug this
+        // fixed, SearchBar's suggestions dropdown painting underneath
+        // this header). If this component ever grows a render path that
+        // *isn't* behind an isolating ancestor, this z-10 needs one.
         className="sticky z-10 border-t border-b border-hair shadow-[0_1px_2px_rgba(0,0,0,0.15)]"
         style={{ top: `${index * headerHeight}px`, backgroundColor: TIER_HEADER_BG, color: TIER_HEADER_TEXT }}
       >
