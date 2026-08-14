@@ -52,6 +52,41 @@ test("parseQuery still extracts a trailing city hint from a real address", () =>
   assert.equal(parsed.houseNumber, 123);
 });
 
+// Regression: cityMatchPattern/the cityHint loop used to strip a trailing
+// city hint by testing a regex built from the *folded* city name ("ST
+// PAUL") against the raw, unfolded query — so any city whose folded form
+// dropped punctuation (fold() flattens "St." and "Saint" both to "ST")
+// never matched the raw "St." or "Saint" text actually typed, and the city
+// name stayed glued onto the street, which then failed to match anything
+// in the index. This is the reported "St. Paul addresses don't come up"
+// bug — covered for the natural "St." spelling, the spelled-out "Saint"
+// form, and the already-working unpunctuated "St" form, so none of the
+// three can regress independently.
+test("parseQuery extracts a trailing city hint spelled 'St. Paul' (with period)", () => {
+  const parsed = parseQuery("1501 N Pascal St, St. Paul", null);
+  assert.equal(parsed.kind, "address");
+  assert.equal(parsed.cityHint, "St. Paul");
+  assert.equal(parsed.street, "N PASCAL ST");
+});
+
+test("parseQuery extracts a trailing city hint spelled out 'Saint Paul'", () => {
+  const parsed = parseQuery("1501 N Pascal St, Saint Paul", null);
+  assert.equal(parsed.kind, "address");
+  assert.equal(parsed.cityHint, "St. Paul");
+});
+
+test("parseQuery extracts a trailing city hint spelled 'St Paul' (no period)", () => {
+  const parsed = parseQuery("1501 N Pascal St, St Paul", null);
+  assert.equal(parsed.kind, "address");
+  assert.equal(parsed.cityHint, "St. Paul");
+});
+
+test("parseQuery extracts a trailing city hint for 'St. Louis Park' (two-word St. city)", () => {
+  const parsed = parseQuery("100 Excelsior Blvd, St. Louis Park", null);
+  assert.equal(parsed.kind, "address");
+  assert.equal(parsed.cityHint, "St. Louis Park");
+});
+
 test("parseQuery still resolves an unambiguous county name normally", () => {
   const parsed = parseQuery("Hennepin", null);
   assert.equal(parsed.kind, "county");

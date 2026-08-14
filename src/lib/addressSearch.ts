@@ -93,6 +93,24 @@ export function fold(s: string): string {
 const FOLDED_CITIES = new Map(CITIES.map((c) => [fold(c), c]));
 const FOLDED_COUNTIES = new Map(COUNTIES.map((c) => [fold(c), c]));
 
+function escapeRegExp(s: string): string {
+  return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+// A regex source that matches a city's name as it actually appears in raw,
+// unfolded user input — "St. Paul", "Saint Paul", and "St Paul" alike.
+// Built from the *folded* tokens (so casing/whitespace never matter) with
+// "ST" specifically expanded back out into the alternation fold() collapsed
+// it from, since fold() is one-way: "SAINT" -> "ST" and ". " -> "" can't be
+// undone on a string that's already been folded. Every other token is a
+// literal, case-insensitively matched via the "i" flag the caller applies.
+function cityMatchPattern(city: City): string {
+  return fold(city)
+    .split(" ")
+    .map((token) => (token === "ST" ? "(?:ST\\.?|SAINT)" : escapeRegExp(token)))
+    .join("\\s+");
+}
+
 const ZIP_RE = /\b(\d{5})(?:-\d{4})?\s*$/;
 const MN_SUFFIX_RE = /,?\s*(MN|MINNESOTA)\s*$/i;
 const UNIT_RE = /\b(apt|unit|ste|suite|#)\.?\s*\S+\s*$/i;
@@ -141,8 +159,18 @@ export function parseQuery(raw: string, allPlaces?: MnPlaces | null): ParsedQuer
     // this comment sits next to): every bare city search was broken this
     // way, not just newly-added ones — caught by addressSearch.test.mjs.
     if (fold(s) === folded) continue;
-    const re = new RegExp(`,?\\s*${folded}\\s*$`, "i");
-    if (fold(s).endsWith(folded) && re.test(s)) {
+    // Matched against the raw string `s`, not `fold(s)` — a folded city
+    // name like "ST PAUL" is a fixed literal with no room for the period in
+    // "St." or the extra letters in "Saint," so it silently failed to
+    // strip any city whose name folds away punctuation (St. Paul, St. Louis
+    // Park, St. Cloud) while working fine for every punctuation-free city.
+    // That's the reported bug: "123 Main St, St. Paul" left "St. Paul"
+    // glued onto the street text, which then matched nothing in the index.
+    // cityMatchPattern rebuilds the alternation fold() flattened, so the
+    // regex itself — not a folded copy of the input — absorbs "St."/"Saint"/
+    // "St" and periods/commas directly.
+    const re = new RegExp(`,?\\s*${cityMatchPattern(city)}\\s*$`, "i");
+    if (re.test(s)) {
       cityHint = city;
       s = s.replace(re, "").trim();
       break;
