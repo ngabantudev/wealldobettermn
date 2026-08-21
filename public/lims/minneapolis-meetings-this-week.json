@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-21T03:36:19.682Z",
+  "generatedAt": "2026-08-21T04:28:55.495Z",
   "meetingsThisWeek": [
     {
       "client": "minneapolis",
@@ -8,8 +8,8 @@
       "date": "2026-08-24",
       "time": "10:00",
       "location": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/Audit/",
-      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/Audit/",
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/Audit/6171",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/Audit/6171",
       "isCancelled": false,
       "members": [
         {
@@ -51,8 +51,8 @@
       "date": "2026-08-24",
       "time": "13:30",
       "location": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/Budget/",
-      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/Budget/",
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/Budget/6168",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/Budget/6168",
       "isCancelled": false,
       "members": [
         {
@@ -129,8 +129,8 @@
       "date": "2026-08-24",
       "time": "16:30",
       "location": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/CPC/",
-      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/CPC/",
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/CPC/6173",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/CPC/6173",
       "isCancelled": false,
       "members": [
         {
@@ -157,8 +157,8 @@
       "date": "2026-08-25",
       "time": "13:30",
       "location": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/COW/",
-      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/COW/",
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/COW/6167",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/COW/6167",
       "isCancelled": false,
       "members": [
         {
@@ -235,8 +235,8 @@
       "date": "2026-08-25",
       "time": "14:00",
       "location": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/CSC/",
-      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/CSC/",
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/CSC/6175",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/CSC/6175",
       "isCancelled": false,
       "members": [
         {
@@ -258,8 +258,8 @@
       "date": "2026-08-25",
       "time": "17:00",
       "location": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/PHAC/",
-      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/PHAC/",
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/PHAC/6178",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/PHAC/6178",
       "isCancelled": false,
       "members": [
         {
@@ -281,6 +281,84 @@
           "id": 7010,
           "name": "Jasmine Bloomdahl",
           "type": "ABC Member"
+        }
+      ]
+    },
+    {
+      "client": "minneapolis",
+      "jurisdiction": "Minneapolis City Council",
+      "bodyName": "City Council Policy Roundtable",
+      "date": "2026-08-26",
+      "time": "13:30",
+      "location": null,
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/Roundtable/6176",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/Roundtable/6176",
+      "isCancelled": false,
+      "members": [
+        {
+          "id": 375,
+          "name": "Linea Palmisano",
+          "type": "Council Member"
+        },
+        {
+          "id": 5269,
+          "name": "Jamal Osman",
+          "type": "Vice-President"
+        },
+        {
+          "id": 5692,
+          "name": "Robin Wonsley",
+          "type": "Minority Leader"
+        },
+        {
+          "id": 5696,
+          "name": "LaTrisha Vetaw",
+          "type": "Council Member"
+        },
+        {
+          "id": 5697,
+          "name": "Aisha Chughtai",
+          "type": "Majority Leader"
+        },
+        {
+          "id": 5698,
+          "name": "Jason Chavez",
+          "type": "Council Member"
+        },
+        {
+          "id": 5700,
+          "name": "Michael Rainville",
+          "type": "Council Member"
+        },
+        {
+          "id": 5701,
+          "name": "Elliott Payne",
+          "type": "President"
+        },
+        {
+          "id": 5776,
+          "name": "Aurin Chowdhury",
+          "type": "Council Member"
+        },
+        {
+          "id": 7961,
+          "name": "Pearll Warren",
+          "type": "Council Member"
+        },
+        {
+          "id": 7962,
+          "name": "Soren Stevenson",
+          "type": "Council Member"
+        },
+        {
+          "id": 7963,
+          "name": "Elizabeth Shaffer",
+          "type": "Council Member"
+        },
+        {
+          "id": 7964,
+          "name": "Jamison Whiting",
+          "type": "Council Member"
         }
       ]
     },
@@ -569,8 +647,8 @@
       "date": "2026-09-08",
       "time": "10:00",
       "location": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/ELR/",
-      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/ELR/",
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/ELR/6179",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/ELR/6179",
       "isCancelled": false,
       "members": [
         {
@@ -617,8 +695,8 @@
       "date": "2026-09-08",
       "time": "13:30",
       "location": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/BHZ/",
-      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/BHZ/",
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/BHZ/6177",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/BHZ/6177",
       "isCancelled": false,
       "members": [
         {
@@ -708,8 +786,8 @@
       "date": "2026-09-09",
       "time": "13:30",
       "location": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/PHSE/",
-      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/PHSE/",
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/PHSE/6170",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/PHSE/6170",
       "isCancelled": false,
       "members": [
         {
@@ -770,12 +848,90 @@
     {
       "client": "minneapolis",
       "jurisdiction": "Minneapolis City Council",
+      "bodyName": "Budget Committee",
+      "date": "2026-09-10",
+      "time": "10:00",
+      "location": null,
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/Budget/",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/Budget/",
+      "isCancelled": false,
+      "members": [
+        {
+          "id": 375,
+          "name": "Linea Palmisano",
+          "type": "Council Member"
+        },
+        {
+          "id": 5269,
+          "name": "Jamal Osman",
+          "type": "Council Member"
+        },
+        {
+          "id": 5692,
+          "name": "Robin Wonsley",
+          "type": "Council Member"
+        },
+        {
+          "id": 5696,
+          "name": "LaTrisha Vetaw",
+          "type": "Council Member"
+        },
+        {
+          "id": 5697,
+          "name": "Aisha Chughtai",
+          "type": "Chair"
+        },
+        {
+          "id": 5698,
+          "name": "Jason Chavez",
+          "type": "Council Member"
+        },
+        {
+          "id": 5700,
+          "name": "Michael Rainville",
+          "type": "Council Member"
+        },
+        {
+          "id": 5701,
+          "name": "Elliott Payne",
+          "type": "Council Member"
+        },
+        {
+          "id": 5776,
+          "name": "Aurin Chowdhury",
+          "type": "Council Member"
+        },
+        {
+          "id": 7961,
+          "name": "Pearll Warren",
+          "type": "Council Member"
+        },
+        {
+          "id": 7962,
+          "name": "Soren Stevenson",
+          "type": "Council Member"
+        },
+        {
+          "id": 7963,
+          "name": "Elizabeth Shaffer",
+          "type": "Vice-Chair"
+        },
+        {
+          "id": 7964,
+          "name": "Jamison Whiting",
+          "type": "Council Member"
+        }
+      ]
+    },
+    {
+      "client": "minneapolis",
+      "jurisdiction": "Minneapolis City Council",
       "bodyName": "Climate & Infrastructure Committee",
       "date": "2026-09-10",
       "time": "13:30",
       "location": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/CI/",
-      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/CI/",
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/CI/6180",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/CI/6180",
       "isCancelled": false,
       "members": [
         {
@@ -913,6 +1069,84 @@
           "id": 6876,
           "name": "Taylor Smrikarova",
           "type": "ABC Member"
+        }
+      ]
+    },
+    {
+      "client": "minneapolis",
+      "jurisdiction": "Minneapolis City Council",
+      "bodyName": "Budget Committee",
+      "date": "2026-09-14",
+      "time": "10:00",
+      "location": null,
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/Budget/",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/Budget/",
+      "isCancelled": false,
+      "members": [
+        {
+          "id": 375,
+          "name": "Linea Palmisano",
+          "type": "Council Member"
+        },
+        {
+          "id": 5269,
+          "name": "Jamal Osman",
+          "type": "Council Member"
+        },
+        {
+          "id": 5692,
+          "name": "Robin Wonsley",
+          "type": "Council Member"
+        },
+        {
+          "id": 5696,
+          "name": "LaTrisha Vetaw",
+          "type": "Council Member"
+        },
+        {
+          "id": 5697,
+          "name": "Aisha Chughtai",
+          "type": "Chair"
+        },
+        {
+          "id": 5698,
+          "name": "Jason Chavez",
+          "type": "Council Member"
+        },
+        {
+          "id": 5700,
+          "name": "Michael Rainville",
+          "type": "Council Member"
+        },
+        {
+          "id": 5701,
+          "name": "Elliott Payne",
+          "type": "Council Member"
+        },
+        {
+          "id": 5776,
+          "name": "Aurin Chowdhury",
+          "type": "Council Member"
+        },
+        {
+          "id": 7961,
+          "name": "Pearll Warren",
+          "type": "Council Member"
+        },
+        {
+          "id": 7962,
+          "name": "Soren Stevenson",
+          "type": "Council Member"
+        },
+        {
+          "id": 7963,
+          "name": "Elizabeth Shaffer",
+          "type": "Vice-Chair"
+        },
+        {
+          "id": 7964,
+          "name": "Jamison Whiting",
+          "type": "Council Member"
         }
       ]
     },
@@ -1089,7 +1323,7 @@
       "location": null,
       "sourceUrl": "https://lims.minneapolismn.gov/Agenda/IGR/",
       "agendaUrl": "https://lims.minneapolismn.gov/Agenda/IGR/",
-      "isCancelled": false,
+      "isCancelled": true,
       "members": [
         {
           "id": 375,
