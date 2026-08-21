@@ -1,0 +1,21 @@
+# .github/CODEOWNERS
+#
+# Scoped narrowly to CI/CD workflow definitions, not the whole repo —
+# this repo otherwise welcomes outside contributions per the
+# civic-standards:openness posture. The one thing that needs an explicit
+# human gate is anything that runs unattended with repo secrets
+# (LIMS_API_KEY, LEGISTAR_TOKEN_*, OPEN_STATES_API_KEY) on a schedule —
+# see .github/workflows/refresh-meetings.yml's own header for exactly
+# that risk (a merged edit to a workflow file executes with those
+# secrets available on its next scheduled run, unlike a pull_request-
+# triggered run, which never gets secrets injected at all).
+#
+# Paired with branch protection on main ("Require review from Code
+# Owners"), this means any PR touching a workflow file needs @ngabantudev
+# to explicitly approve it before it can merge — a fork or an outside
+# contributor can open a PR that edits these files, but it can't land
+# without that sign-off. Includes this file itself, so ownership can't be
+# quietly stripped by the same kind of PR it's meant to gate.
+
+/.github/workflows/ @ngabantudev
+/.github/CODEOWNERS @ngabantudev
