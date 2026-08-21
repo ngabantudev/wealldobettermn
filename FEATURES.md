@@ -228,6 +228,22 @@ something in scope.
 
 ---
 
+## Phase 9 — Civic participation / turnout (PR A: data pipeline only)
+
+Question: how many residents actually showed up, city by city, relative to
+who was registered and who could vote. PR A is data-only — no UI, no map,
+no new page. `scripts/ingest/turnout.mjs` joins MN Secretary of State
+2024 general-election precinct results (via the Minnesota Geospatial
+Commons, since sos.mn.gov sits behind bot protection this script won't try
+to evade — see `public/turnout/SOURCES.md`) to Census CVAP by place FIPS,
+producing `public/turnout/city/2024.json` (855 real MN cities,
+`turnoutOfRegistered` and, for all but one, `turnoutOfCVAP`) and
+`public/turnout/manifest.json`. City-level only; 2024 general only. A
+follow-up PR adds county-level aggregation, additional years, and the
+choropleth/UI surface.
+
+---
+
 ## Anti-goals
 
 No tracking, profiling, or aggregation of private individuals — elected
