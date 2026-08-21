@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "client": "stpaul",
   "jurisdiction": "St. Paul City Council",
-  "generatedAt": "2026-08-21T03:50:18.374Z",
+  "generatedAt": "2026-08-21T06:52:47.350Z",
   "status": "ingested",
   "note": "Full ingest: 220 holding(s) across 26 office(s) and 41 person(s), from officerecords. Votes windowed to 2026-06-22–2026-08-22 on \"City Council\": 250/331 matter(s) processed, 105 vote event(s), 735 vote(s).",
   "provenance": {
@@ -11,7 +11,7 @@
     "documentType": "Legistar Web API",
     "documentId": null,
     "issuedDate": null,
-    "fetchedAt": "2026-08-21T03:50:18.374Z",
+    "fetchedAt": "2026-08-21T06:52:47.350Z",
     "licence": "Public records served via Legistar InSite; no separate machine-reuse licence published by the host jurisdiction as of this writing.",
     "contentHash": "6f357c9fcbe64a8b20a063aab234866debf0d9d5d717a5a9d2c92fb06a555b39"
   },

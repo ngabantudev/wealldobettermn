@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "client": "minneapolis",
   "jurisdiction": "Minneapolis City Council",
-  "generatedAt": "2026-08-21T04:28:55.492Z",
+  "generatedAt": "2026-08-21T06:53:48.093Z",
   "status": "ingested",
   "note": "142 meeting(s) and 160 agenda item(s) ingested for 2026-08-07–2026-11-19.",
   "provenance": {
@@ -11,7 +11,7 @@
     "documentType": "LIMS API v1 — meetingCalendar/FileItemSearch",
     "documentId": null,
     "issuedDate": null,
-    "fetchedAt": "2026-08-21T04:28:55.492Z",
+    "fetchedAt": "2026-08-21T06:53:48.093Z",
     "licence": "Public records served via the City of Minneapolis LIMS API; no separate machine-reuse licence published as of this writing.",
     "contentHash": null
   },
@@ -14615,188 +14615,11 @@
     }
   ],
   "diff": {
-    "addedIds": [
-      "lims-minneapolis-meeting-city-council-policy-roundtable-2026-08-26T13:30:00",
-      "lims-minneapolis-meeting-budget-committee-2026-09-10T10:00:00",
-      "lims-minneapolis-meeting-budget-committee-2026-09-14T10:00:00",
-      "lims-minneapolis-meeting-budget-committee-2026-09-24T10:00:00",
-      "lims-minneapolis-meeting-budget-committee-2026-09-28T10:00:00",
-      "lims-minneapolis-meeting-budget-committee-2026-09-29T10:00:00",
-      "lims-minneapolis-meeting-budget-committee-2026-10-05T10:00:00",
-      "lims-minneapolis-meeting-budget-committee-2026-10-06T10:00:00",
-      "lims-minneapolis-meeting-budget-committee-2026-10-08T10:00:00",
-      "lims-minneapolis-meeting-budget-committee-2026-10-09T10:00:00",
-      "lims-minneapolis-meeting-budget-committee-2026-10-20T10:00:00",
-      "lims-minneapolis-meeting-budget-committee-2026-10-22T10:00:00",
-      "lims-minneapolis-meeting-budget-committee-2026-10-23T10:00:00",
-      "lims-minneapolis-meeting-budget-committee-2026-10-26T10:00:00",
-      "lims-minneapolis-meeting-city-council-2026-11-12T09:30:00",
-      "lims-minneapolis-meeting-minneapolis-advisory-committee-on-housing-2026-11-12T15:00:00",
-      "lims-minneapolis-meeting-heritage-preservation-commission-2026-11-12T15:00:00",
-      "lims-minneapolis-meeting-enterprise-labor-relations-committee-2026-11-16T13:30:00",
-      "lims-minneapolis-meeting-civil-rights-commission-2026-11-16T18:00:00",
-      "lims-minneapolis-meeting-community-commission-on-police-oversight-2026-11-16T18:00:00",
-      "lims-minneapolis-meeting-minneapolis-workforce-development-board-2026-11-17T08:00:00",
-      "lims-minneapolis-meeting-business-housing-zoning-committee-2026-11-17T13:30:00",
-      "lims-minneapolis-meeting-ethical-practices-board-2026-11-17T15:00:00",
-      "lims-minneapolis-meeting-bicycle-advisory-committee-2026-11-17T16:00:00",
-      "lims-minneapolis-meeting-heritage-preservation-commission-2026-11-17T16:30:00",
-      "lims-minneapolis-meeting-public-health-safety-equity-2026-11-18T13:30:00",
-      "lims-minneapolis-meeting-homegrown-minneapolis-food-council-2026-11-18T17:30:00",
-      "lims-minneapolis-meeting-minneapolis-arts-commission-2026-11-18T17:30:00",
-      "lims-minneapolis-meeting-climate-infrastructure-committee-2026-11-19T13:30:00",
-      "lims-minneapolis-meeting-pedestrian-advisory-committee-2026-11-19T16:00:00",
-      "lims-minneapolis-meeting-zoning-board-of-adjustment-2026-11-19T16:30:00"
-    ],
-    "removedIds": [
-      "lims-minneapolis-meeting-city-council-2026-07-30T09:30:00",
-      "lims-minneapolis-meeting-enterprise-labor-relations-committee-2026-08-03T13:30:00",
-      "lims-minneapolis-meeting-community-commission-on-police-oversight-2026-08-03T18:00:00",
-      "lims-minneapolis-meeting-business-housing-zoning-committee-2026-08-04T13:30:00",
-      "lims-minneapolis-meeting-bicycle-advisory-committee-2026-08-04T16:00:00",
-      "lims-minneapolis-meeting-community-environmental-advisory-commission-2026-08-04T16:00:00",
-      "lims-minneapolis-meeting-heritage-preservation-commission-2026-08-04T16:30:00",
-      "lims-minneapolis-meeting-public-health-safety-equity-2026-08-05T13:30:00",
-      "lims-minneapolis-meeting-climate-infrastructure-committee-2026-08-06T13:30:00",
-      "lims-minneapolis-meeting-pedestrian-advisory-committee-2026-08-06T16:00:00",
-      "lims-minneapolis-meeting-zoning-board-of-adjustment-2026-08-06T16:30:00"
-    ],
-    "changed": [
-      {
-        "id": "lims-minneapolis-meeting-homegrown-minneapolis-food-council-2026-08-12T17:30:00",
-        "field": "agendaUrl",
-        "from": "https://lims.minneapolismn.gov/Agenda/HMFC/6146",
-        "to": "https://lims.minneapolismn.gov/Board/MarkedAgenda/HMFC/6146"
-      },
-      {
-        "id": "lims-minneapolis-meeting-homegrown-minneapolis-food-council-2026-08-12T17:30:00",
-        "field": "minutesUrl",
-        "from": null,
-        "to": "https://lims.minneapolismn.gov/Download/CommitteeReport/4932/HMFC_20260812_minutes.pdf"
-      },
-      {
-        "id": "lims-minneapolis-meeting-enterprise-labor-relations-committee-2026-08-17T13:30:00",
-        "field": "minutesUrl",
-        "from": null,
-        "to": "https://lims.minneapolismn.gov/Download/CommitteeReport/4933/ELR_08172026_Committee_Report.pdf"
-      },
-      {
-        "id": "lims-minneapolis-meeting-civil-rights-commission-2026-08-17T18:00:00",
-        "field": "agendaUrl",
-        "from": "https://lims.minneapolismn.gov/Agenda/MCCR/",
-        "to": "https://lims.minneapolismn.gov/Agenda/MCCR/6162"
-      },
-      {
-        "id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-08-18T13:30:00",
-        "field": "minutesUrl",
-        "from": null,
-        "to": "https://lims.minneapolismn.gov/Download/CommitteeReport/4936/BHZ_08182026_Committee_Report.pdf"
-      },
-      {
-        "id": "lims-minneapolis-meeting-bicycle-advisory-committee-2026-08-18T16:00:00",
-        "field": "agendaUrl",
-        "from": "https://lims.minneapolismn.gov/Agenda/BAC/",
-        "to": "https://lims.minneapolismn.gov/Board/MarkedAgenda/BAC/6161"
-      },
-      {
-        "id": "lims-minneapolis-meeting-bicycle-advisory-committee-2026-08-18T16:00:00",
-        "field": "minutesUrl",
-        "from": null,
-        "to": "https://lims.minneapolismn.gov/Download/CommitteeReport/4935/Minutes_2026_08_18_BAC.pdf"
-      },
-      {
-        "id": "lims-minneapolis-meeting-public-health-safety-equity-2026-08-19T13:30:00",
-        "field": "minutesUrl",
-        "from": null,
-        "to": "https://lims.minneapolismn.gov/Download/CommitteeReport/4937/PHSE_08192026_Committee_Report.pdf"
-      },
-      {
-        "id": "lims-minneapolis-meeting-minneapolis-arts-commission-2026-08-19T17:30:00",
-        "field": "agendaUrl",
-        "from": "https://lims.minneapolismn.gov/Agenda/ARTS/",
-        "to": "https://lims.minneapolismn.gov/Agenda/ARTS/6169"
-      },
-      {
-        "id": "lims-minneapolis-meeting-pedestrian-advisory-committee-2026-08-20T16:00:00",
-        "field": "agendaUrl",
-        "from": "https://lims.minneapolismn.gov/Agenda/PAC/",
-        "to": "https://lims.minneapolismn.gov/Agenda/PAC/6174"
-      },
-      {
-        "id": "lims-minneapolis-meeting-zoning-board-of-adjustment-2026-08-20T16:30:00",
-        "field": "agendaUrl",
-        "from": "https://lims.minneapolismn.gov/Agenda/ZBA/",
-        "to": "https://lims.minneapolismn.gov/Agenda/ZBA/6163"
-      },
-      {
-        "id": "lims-minneapolis-meeting-audit-committee-2026-08-24T10:00:00",
-        "field": "agendaUrl",
-        "from": "https://lims.minneapolismn.gov/Agenda/Audit/",
-        "to": "https://lims.minneapolismn.gov/Agenda/Audit/6171"
-      },
-      {
-        "id": "lims-minneapolis-meeting-budget-committee-2026-08-24T13:30:00",
-        "field": "agendaUrl",
-        "from": "https://lims.minneapolismn.gov/Agenda/Budget/",
-        "to": "https://lims.minneapolismn.gov/Agenda/Budget/6168"
-      },
-      {
-        "id": "lims-minneapolis-meeting-planning-commission-2026-08-24T16:30:00",
-        "field": "agendaUrl",
-        "from": "https://lims.minneapolismn.gov/Agenda/CPC/",
-        "to": "https://lims.minneapolismn.gov/Agenda/CPC/6173"
-      },
-      {
-        "id": "lims-minneapolis-meeting-committee-of-the-whole-2026-08-25T13:30:00",
-        "field": "agendaUrl",
-        "from": "https://lims.minneapolismn.gov/Agenda/COW/",
-        "to": "https://lims.minneapolismn.gov/Agenda/COW/6167"
-      },
-      {
-        "id": "lims-minneapolis-meeting-civil-service-commission-2026-08-25T14:00:00",
-        "field": "agendaUrl",
-        "from": "https://lims.minneapolismn.gov/Agenda/CSC/",
-        "to": "https://lims.minneapolismn.gov/Agenda/CSC/6175"
-      },
-      {
-        "id": "lims-minneapolis-meeting-public-health-advisory-committee-2026-08-25T17:00:00",
-        "field": "agendaUrl",
-        "from": "https://lims.minneapolismn.gov/Agenda/PHAC/",
-        "to": "https://lims.minneapolismn.gov/Agenda/PHAC/6178"
-      },
-      {
-        "id": "lims-minneapolis-meeting-enterprise-labor-relations-committee-2026-09-08T10:00:00",
-        "field": "agendaUrl",
-        "from": "https://lims.minneapolismn.gov/Agenda/ELR/",
-        "to": "https://lims.minneapolismn.gov/Agenda/ELR/6179"
-      },
-      {
-        "id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-09-08T13:30:00",
-        "field": "agendaUrl",
-        "from": "https://lims.minneapolismn.gov/Agenda/BHZ/",
-        "to": "https://lims.minneapolismn.gov/Agenda/BHZ/6177"
-      },
-      {
-        "id": "lims-minneapolis-meeting-public-health-safety-equity-2026-09-09T13:30:00",
-        "field": "agendaUrl",
-        "from": "https://lims.minneapolismn.gov/Agenda/PHSE/",
-        "to": "https://lims.minneapolismn.gov/Agenda/PHSE/6170"
-      },
-      {
-        "id": "lims-minneapolis-meeting-climate-infrastructure-committee-2026-09-10T13:30:00",
-        "field": "agendaUrl",
-        "from": "https://lims.minneapolismn.gov/Agenda/CI/",
-        "to": "https://lims.minneapolismn.gov/Agenda/CI/6180"
-      },
-      {
-        "id": "lims-minneapolis-meeting-intergovernmental-relations-committee-2026-09-15T10:00:00",
-        "field": "agendaStatus",
-        "from": null,
-        "to": "Cancelled"
-      }
-    ]
+    "addedIds": [],
+    "removedIds": [],
+    "changed": []
   },
-  "previousGeneratedAt": "2026-08-12T07:07:42.254Z",
+  "previousGeneratedAt": "2026-08-21T04:28:55.492Z",
   "knownGaps": [
     "Consent-agenda flagging not implemented — LIMS has no field structurally equivalent to Legistar's EventItemConsent; every agenda item ships isConsent: false rather than a guess.",
     "3 same-day, same-body meeting collision(s) in this window — FileItemSearch's LegislativeHistory carries a date but no time, so a second same-day session for the same body can't be disambiguated; the earliest session for each colliding (body, date) pair was used."

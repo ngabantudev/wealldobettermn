@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "client": "stpaul",
   "jurisdiction": "St. Paul City Council",
-  "generatedAt": "2026-08-21T03:50:23.133Z",
+  "generatedAt": "2026-08-21T06:52:50.884Z",
   "status": "ingested",
   "note": "18 meeting(s) (18/18 event(s) in window) and 270 agenda item(s) ingested for 2026-08-07–2026-11-19.",
   "provenance": {
@@ -11,7 +11,7 @@
     "documentType": "Legistar Web API — Events/EventItems",
     "documentId": null,
     "issuedDate": null,
-    "fetchedAt": "2026-08-21T03:50:23.133Z",
+    "fetchedAt": "2026-08-21T06:52:50.884Z",
     "licence": "Public records served via Legistar InSite; no separate machine-reuse licence published by the host jurisdiction as of this writing.",
     "contentHash": "87909b67517f9be72b91fec9d17ffd0a11578bb6fdb9e5b25d70f8f41c975577"
   },
@@ -4272,57 +4272,11 @@
     }
   ],
   "diff": {
-    "addedIds": [
-      "legistar-stpaul-meeting-7731",
-      "legistar-stpaul-meeting-7732",
-      "legistar-stpaul-meeting-7733",
-      "legistar-stpaul-meeting-7734",
-      "legistar-stpaul-meeting-7735",
-      "legistar-stpaul-meeting-7738",
-      "legistar-stpaul-meeting-7739",
-      "legistar-stpaul-meeting-7740",
-      "legistar-stpaul-meeting-7741",
-      "legistar-stpaul-meeting-7742",
-      "legistar-stpaul-meeting-7745"
-    ],
-    "removedIds": [
-      "legistar-stpaul-meeting-7715",
-      "legistar-stpaul-meeting-7716",
-      "legistar-stpaul-meeting-7717",
-      "legistar-stpaul-meeting-7718",
-      "legistar-stpaul-meeting-7719",
-      "legistar-stpaul-meeting-7720",
-      "legistar-stpaul-meeting-7721",
-      "legistar-stpaul-meeting-7722"
-    ],
-    "changed": [
-      {
-        "id": "legistar-stpaul-meeting-7723",
-        "field": "minutesUrl",
-        "from": null,
-        "to": "https://legistar1.granicus.com/StPaul/meetings/2026/8/7723_M_Housing___Redevelopment_Authority_26-08-12_Meeting_Minutes.pdf"
-      },
-      {
-        "id": "legistar-stpaul-meeting-7724",
-        "field": "minutesUrl",
-        "from": null,
-        "to": "https://legistar1.granicus.com/StPaul/meetings/2026/8/7724_M_City_Council_26-08-12_Meeting_Minutes_-_Action_Only.pdf"
-      },
-      {
-        "id": "legistar-stpaul-meeting-7726",
-        "field": "minutesUrl",
-        "from": null,
-        "to": "https://legistar1.granicus.com/StPaul/meetings/2026/8/7726_M_Legislative_Hearings_26-08-11_Minutes_-_Final.pdf"
-      },
-      {
-        "id": "legistar-stpaul-meeting-7729",
-        "field": "minutesUrl",
-        "from": null,
-        "to": "https://legistar1.granicus.com/StPaul/meetings/2026/8/7729_M_Legislative_Hearings_26-08-13_Meeting_Minutes_-_Action_Only.pdf"
-      }
-    ]
+    "addedIds": [],
+    "removedIds": [],
+    "changed": []
   },
-  "previousGeneratedAt": "2026-08-12T17:30:14.513Z",
+  "previousGeneratedAt": "2026-08-21T03:50:23.133Z",
   "knownGaps": [
     "Consent-agenda flagging uses Legistar's own EventItemConsent field only (61 of 270 agenda item(s) in this window flagged). \"No discussion\" / \"no public comment\" are NOT flagged — this API exposes no comparably reliable field for either, and AGENTS.md §3.3 rules out inferring one from absence."
   ]
