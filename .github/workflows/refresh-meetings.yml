@@ -1,0 +1,139 @@
+name: Refresh Minneapolis + St. Paul + Hennepin meetings
+
+# Runs scripts/ingest/legistar.mjs (St. Paul City Council, Hennepin County
+# Board) and scripts/ingest/lims-minneapolis.mjs (Minneapolis City Council)
+# on a schedule and opens (or updates) a PR with whatever changed under
+# public/legistar/ and public/lims/ — never auto-commits to main, same
+# convention as refresh-state-legislature.yml. AGENTS.md §0.5 "Snapshot,
+# don't overwrite" and §3.4 ("every published data point... human-
+# reviewed") both apply: a meetings/agenda refresh is an event worth a
+# human looking at the diff before it ships, not a silent background
+# overwrite.
+#
+# This workflow did not exist before this fix — the meetings feeds' own
+# ingest scripts worked correctly in isolation, but nothing ever ran them
+# on a cadence (unlike the state-legislature refresh above, which has had
+# a working cron since it was added). The result: WardModal.tsx's "this
+# week" sidebar teaser rendered whatever 7-day window happened to be
+# current at the moment a maintainer last ran `npm run data:legistar` /
+# `npm run data:minneapolis-lims` by hand, silently going stale the very
+# next day. src/lib/meetingTime.ts's filterMeetingsThisWeek() (added in
+# the same fix as this workflow) makes the *display* dynamic against a
+# wider rolling window instead of a baked-in one, but that window still
+# needs to actually get refreshed periodically for "this week" to have
+# real data in it 30+ days out from the last run — this workflow is that
+# missing periodic refresh.
+#
+# Daily cadence, not weekly/monthly like the state-legislature refresh:
+# meetings get added, rescheduled, and cancelled on city/county calendars
+# far more often than a legislative roster changes, and the whole point of
+# this fix is that a resident's "this week" view should reflect reality
+# within a day, not linger stale for weeks between manual runs.
+on:
+  schedule:
+    - cron: "0 12 * * *" # daily, 12:00 UTC
+  workflow_dispatch: {} # manual "run now" from the Actions tab
+
+# Only one refresh in flight at a time — a second run landing mid-diff
+# would just race the first one's push to the same automation branch.
+concurrency:
+  group: refresh-meetings
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  refresh:
+    name: Fetch latest meetings/agendas, open a review PR if anything changed
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: ".nvmrc"
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      # Both scripts already degrade honestly per client/city when a token
+      # or key is missing or a fetch fails (LegistarAuthError → per-client
+      # empty-state write in legistar.mjs; a missing LIMS_API_KEY leaves
+      # the prior committed output untouched in lims-minneapolis.mjs) —
+      # neither throws a fatal error the workflow needs to guard against
+      # separately. If none of these secrets are configured yet, this step
+      # still runs successfully and simply produces no diff below.
+      - name: Fetch latest St. Paul + Hennepin (Legistar) meetings/agendas
+        env:
+          LEGISTAR_TOKEN_STPAUL: ${{ secrets.LEGISTAR_TOKEN_STPAUL }}
+          LEGISTAR_TOKEN_HENNEPINMN: ${{ secrets.LEGISTAR_TOKEN_HENNEPINMN }}
+          LEGISTAR_TOKEN: ${{ secrets.LEGISTAR_TOKEN }}
+        run: npm run data:legistar
+
+      - name: Fetch latest Minneapolis (LIMS) meetings/agendas
+        env:
+          LIMS_API_KEY: ${{ secrets.LIMS_API_KEY }}
+        run: npm run data:minneapolis-lims
+
+      - name: Check whether any meetings output actually changed
+        id: diff
+        run: |
+          if git diff --quiet -- public/legistar/ public/lims/; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "No change under public/legistar/ or public/lims/ — nothing to open a PR for."
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Summarize the diff for the PR body
+        id: summary
+        if: steps.diff.outputs.changed == 'true'
+        run: |
+          node -e '
+            const fs = require("fs");
+            const files = [
+              ["St. Paul City Council", "public/legistar/stpaul-meetings.json"],
+              ["Hennepin County Board", "public/legistar/hennepinmn-meetings.json"],
+              ["Minneapolis City Council", "public/lims/minneapolis-meetings.json"],
+            ];
+            const lines = [];
+            for (const [label, file] of files) {
+              if (!fs.existsSync(file)) continue;
+              const data = JSON.parse(fs.readFileSync(file, "utf8"));
+              const statusNote = data.status !== "ingested" ? ` (status: ${data.status} — ${data.note})` : "";
+              lines.push(`- **${label}**: ${data.meetings.length} meeting(s), ${data.agendaItems.length} agenda item(s)${statusNote}`);
+            }
+            fs.writeFileSync(process.env.GITHUB_OUTPUT, `summary<<EOF\n${lines.join("\n")}\nEOF\n`, { flag: "a" });
+          '
+
+      - name: Open or update the review PR
+        if: steps.diff.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          # Passed as an env var rather than interpolated straight into the
+          # shell script below — keeps the shell's own quoting immune to
+          # whatever characters ever end up in a future summary line.
+          PR_SUMMARY: ${{ steps.summary.outputs.summary }}
+        run: |
+          set -e
+          BRANCH="automation/refresh-meetings"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add public/legistar/ public/lims/
+          git commit -m "chore(data): refresh meetings/agendas ($(date -u +%Y-%m-%d))"
+          git push --force origin "HEAD:refs/heads/$BRANCH"
+
+          BODY="Automated refresh via scripts/ingest/legistar.mjs and scripts/ingest/lims-minneapolis.mjs (see .github/workflows/refresh-meetings.yml). Not auto-merged — review the diff like any other data change (AGENTS.md §0.5).
+
+          $PR_SUMMARY"
+
+          if gh pr view "$BRANCH" --json state -q .state 2>/dev/null | grep -q OPEN; then
+            gh pr edit "$BRANCH" --body "$BODY"
+            echo "PR already open for $BRANCH — pushed the new commit and updated its description."
+          else
+            gh pr create --base main --head "$BRANCH" --title "chore(data): refresh Minneapolis + St. Paul + Hennepin meetings" --body "$BODY"
+          fi

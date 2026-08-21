@@ -104,6 +104,7 @@ import {
   addDays as addDaysToDate,
   normalizeTimeTo24h,
   selectMeetingsThisWeek,
+  MEETINGS_TEASER_WINDOW_DAYS,
   diffMeetings,
 } from "./legistar.mjs";
 
@@ -658,10 +659,21 @@ async function main() {
     // WardModal.tsx renders it explicitly, so a resident sees "this one's
     // cancelled" instead of the meeting silently vanishing with no
     // explanation.
-    const meetingsThisWeek = selectMeetingsThisWeek({ client: CLIENT, jurisdiction: JURISDICTION }, meetings, today);
+    //
+    // MEETINGS_TEASER_WINDOW_DAYS (30), not a literal 7 — see that
+    // constant's own comment in legistar.mjs. The real "this week" slice
+    // is computed dynamically at render time by WardModal.tsx's
+    // filterMeetingsThisWeek(), against the actual current date, not baked
+    // in here at ingest time.
+    const meetingsThisWeek = selectMeetingsThisWeek(
+      { client: CLIENT, jurisdiction: JURISDICTION },
+      meetings,
+      today,
+      MEETINGS_TEASER_WINDOW_DAYS,
+    );
     await writeMeetingsThisWeekTeaser(meetingsThisWeek);
     console.log(
-      `[lims-minneapolis] wrote ${OUTPUT_PATH}. meetings this week: ${meetingsThisWeek.length}. Wrote ${MEETINGS_THIS_WEEK_PATH}`,
+      `[lims-minneapolis] wrote ${OUTPUT_PATH}. meetings teaser (${MEETINGS_TEASER_WINDOW_DAYS}-day window): ${meetingsThisWeek.length}. Wrote ${MEETINGS_THIS_WEEK_PATH}`,
     );
   } catch (err) {
     console.error("[lims-minneapolis] live fetch did not complete:", err instanceof Error ? err.message : err);

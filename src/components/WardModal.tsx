@@ -19,18 +19,29 @@ import {
   TIER_HEADER_TEXT,
 } from "@/lib/cityTheme";
 import { isStale } from "@/lib/electionConfig";
-import { formatMeetingTime } from "@/lib/meetingTime";
-// Tiny (few-hundred-byte to low-KB) bundler-resolved JSON imports — not
-// the full {client}-meetings.json feed src/app/meetings/page.tsx reads,
+import { formatMeetingTime, filterMeetingsThisWeek } from "@/lib/meetingTime";
+// Tiny (few-hundred-byte to low-tens-of-KB) bundler-resolved JSON imports —
+// not the full {client}-meetings.json feed src/app/meetings/page.tsx reads,
 // which runs into the hundreds of KB across all three clients'
 // meetings+agendaItems. This component ships to every visitor on every
-// hover/click, so it only ever carries this week's meetings (any body)
-// scripts/ingest/legistar.mjs (St. Paul/Hennepin) and scripts/ingest/
-// lims-minneapolis.mjs (Minneapolis) each write via their shared
-// selectMeetingsThisWeek()/writeMeetingsThisWeekTeaser() (AGENTS.md
-// §0.7's 3G/old-phone budget) — full browsing lives at /meetings, linked
-// below, never duplicated here (issue #58: "teaser only, not a duplicate
-// of the full view").
+// hover/click, so it only ever carries a bounded rolling window of
+// meetings (any body), never the full agenda feed — scripts/ingest/
+// legistar.mjs (St. Paul/Hennepin) and scripts/ingest/lims-minneapolis.mjs
+// (Minneapolis) each write via their shared selectMeetingsThisWeek()/
+// writeMeetingsThisWeekTeaser() (AGENTS.md §0.7's 3G/old-phone budget) —
+// full browsing lives at /meetings, linked below, never duplicated here
+// (issue #58: "teaser only, not a duplicate of the full view").
+//
+// Despite the "this week" name (files/field kept as-is to avoid a wider
+// rename), this now carries a rolling MEETINGS_TEASER_WINDOW_DAYS-ahead
+// window (30 days as of this writing — see that constant's own comment in
+// scripts/ingest/legistar.mjs), not literally just the next 7 days. The
+// actual current week is re-derived from this wider window at render time
+// by filterMeetingsThisWeek() below, against the real clock — fixing a bug
+// where this component rendered whatever 7-day window happened to be
+// "current" the moment the ingest script last ran (which nothing runs on a
+// schedule), silently going stale every day after that until the next
+// manual ingest.
 //
 // Previously a single "next meeting" pick that preferred the primary
 // body (City Council/County Board) over any other body that happened to
@@ -40,12 +51,12 @@ import { formatMeetingTime } from "@/lib/meetingTime";
 // sat unmentioned the day before, purely because it wasn't the primary
 // body. Minneapolis's LIMS feed covers ~26 real bodies, so picking one by
 // name over date routinely hid the actually-soonest meeting. Now shows
-// every meeting (any body) in the next 7 days, chronological — anything
+// every meeting (any body) in the current week, chronological — anything
 // further out is exactly what the "see the city's own calendar" link
 // right below this component (CITY_MEETINGS_URL) is for.
-import stpaulMeetingsThisWeek from "../../public/legistar/stpaul-meetings-this-week.json";
-import hennepinmnMeetingsThisWeek from "../../public/legistar/hennepinmn-meetings-this-week.json";
-import minneapolisMeetingsThisWeek from "../../public/lims/minneapolis-meetings-this-week.json";
+import stpaulMeetingsWindow from "../../public/legistar/stpaul-meetings-this-week.json";
+import hennepinmnMeetingsWindow from "../../public/legistar/hennepinmn-meetings-this-week.json";
+import minneapolisMeetingsWindow from "../../public/lims/minneapolis-meetings-this-week.json";
 
 interface WeekMeeting {
   client: string;
@@ -83,14 +94,19 @@ interface WeekMeeting {
 const GENERIC_MEMBER_TITLES = new Set(["Council Member", "Councilmember", "Commissioner", "Board Member"]);
 
 // Keyed by the same city/county display strings RepProperties already
-// carries (rep.city / rep.county) — see MEETINGS_THIS_WEEK's two call
-// sites below. Only jurisdictions with a real wired feed appear here
-// (src/lib/meetingsRegistry.ts's MEETINGS_JURISDICTIONS); every other
-// city/county keeps rendering the existing honest "no feed" copy.
-const MEETINGS_THIS_WEEK: Partial<Record<string, WeekMeeting[]>> = {
-  "St. Paul": (stpaulMeetingsThisWeek as { meetingsThisWeek: WeekMeeting[] }).meetingsThisWeek,
-  Hennepin: (hennepinmnMeetingsThisWeek as { meetingsThisWeek: WeekMeeting[] }).meetingsThisWeek,
-  Minneapolis: (minneapolisMeetingsThisWeek as { meetingsThisWeek: WeekMeeting[] }).meetingsThisWeek,
+// carries (rep.city / rep.county) — see MEETINGS_WINDOW's call site below.
+// Only jurisdictions with a real wired feed appear here (src/lib/
+// meetingsRegistry.ts's MEETINGS_JURISDICTIONS); every other city/county
+// keeps rendering the existing honest "no feed" copy.
+//
+// Holds the rolling MEETINGS_TEASER_WINDOW_DAYS-ahead window written by the
+// ingest scripts (30 days as of this writing, not literally "this week" —
+// see the import comment above); OfficialCard narrows it to the real
+// current week at render time via filterMeetingsThisWeek().
+const MEETINGS_WINDOW: Partial<Record<string, WeekMeeting[]>> = {
+  "St. Paul": (stpaulMeetingsWindow as { meetingsThisWeek: WeekMeeting[] }).meetingsThisWeek,
+  Hennepin: (hennepinmnMeetingsWindow as { meetingsThisWeek: WeekMeeting[] }).meetingsThisWeek,
+  Minneapolis: (minneapolisMeetingsWindow as { meetingsThisWeek: WeekMeeting[] }).meetingsThisWeek,
 };
 
 // Weekday included (not just "Aug 12") — this list spans up to 7 days
@@ -410,7 +426,7 @@ const CITY_OFFICIAL_WEBSITE_URL: Partial<Record<string, string>> = {
 // the chamber's own calendar), keyed by rep.chamber rather than rep.city.
 // Neither chamber has a wired Legistar-style feed the way St. Paul/
 // Hennepin do, so this always falls through to the plain-link branch, not
-// the MeetingsThisWeekList one — there is no MEETINGS_THIS_WEEK entry
+// the MeetingsThisWeekList one — there is no MEETINGS_WINDOW entry
 // for "house"/"senate" and none should be added until a real feed exists.
 const STATE_CHAMBER_MEETINGS_URL: Record<"house" | "senate", string> = {
   house: "https://www.house.mn.gov/schedules/dayonfloor",
@@ -996,7 +1012,7 @@ function OfficialCard({ rep }: { rep: RepProperties }) {
             feed relabeled as real.
 
             Lives on the Mayor's card only, not every Council Member's —
-            MEETINGS_THIS_WEEK/CITY_MEETINGS_URL are keyed by rep.city,
+            MEETINGS_WINDOW/CITY_MEETINGS_URL are keyed by rep.city,
             never by ward or member, because a city council has exactly
             one meeting calendar. This used to gate on isWard instead
             (every ward Council Member got an identical copy, the Mayor
@@ -1027,11 +1043,16 @@ function OfficialCard({ rep }: { rep: RepProperties }) {
               {/* St. Paul (issue #58) and Minneapolis (issue #102) have a
                   real wired feed now (Legistar and LIMS respectively) —
                   every other city in CITY_MEETINGS_URL still gets the honest
-                  "no feed connected" copy below; MEETINGS_THIS_WEEK only
-                  has an entry for jurisdictions meetingsRegistry.ts actually
-                  lists. */}
-              {MEETINGS_THIS_WEEK[rep.city] !== undefined ? (
-                <MeetingsThisWeekList meetings={MEETINGS_THIS_WEEK[rep.city]} />
+                  "no feed connected" copy below; MEETINGS_WINDOW only has
+                  an entry for jurisdictions meetingsRegistry.ts actually
+                  lists. filterMeetingsThisWeek() re-derives the real
+                  current week from that wider window against the actual
+                  clock on every render, rather than trusting whatever
+                  7-day slice the last ingest run happened to bake in — see
+                  MEETINGS_WINDOW's own comment for why that distinction
+                  matters. */}
+              {MEETINGS_WINDOW[rep.city] !== undefined ? (
+                <MeetingsThisWeekList meetings={filterMeetingsThisWeek(MEETINGS_WINDOW[rep.city] ?? [])} />
               ) : (
                 <p className="text-sm text-ink-3">No meetings feed connected yet for {rep.city}.</p>
               )}
@@ -1077,7 +1098,7 @@ function OfficialCard({ rep }: { rep: RepProperties }) {
             commissioner card with nothing to show for a county
             meetingsRegistry.ts doesn't cover just renders nothing, same
             as this card did for every county before this feed existed. */}
-        {!isWard && rep.county && MEETINGS_THIS_WEEK[rep.county] && (
+        {!isWard && rep.county && MEETINGS_WINDOW[rep.county] && (
           <details className="group border-t border-hair">
             <summary className="flex list-none items-center justify-between gap-2 px-4 py-3 cursor-pointer select-none hover:bg-sidebar-hover [&::-webkit-details-marker]:hidden">
               <span className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-ink-3">
@@ -1087,7 +1108,7 @@ function OfficialCard({ rep }: { rep: RepProperties }) {
               <IconChevron />
             </summary>
             <div className="px-4 pb-3">
-              <MeetingsThisWeekList meetings={MEETINGS_THIS_WEEK[rep.county]} />
+              <MeetingsThisWeekList meetings={filterMeetingsThisWeek(MEETINGS_WINDOW[rep.county] ?? [])} />
             </div>
           </details>
         )}
