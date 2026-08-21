@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "client": "hennepinmn",
   "jurisdiction": "Hennepin County Board",
-  "generatedAt": "2026-08-21T06:53:45.390Z",
+  "generatedAt": "2026-08-21T12:57:11.371Z",
   "status": "ingested",
   "note": "9 meeting(s) (9/9 event(s) in window) and 172 agenda item(s) ingested for 2026-08-07–2026-11-19.",
   "provenance": {
@@ -11,7 +11,7 @@
     "documentType": "Legistar Web API — Events/EventItems",
     "documentId": null,
     "issuedDate": null,
-    "fetchedAt": "2026-08-21T06:53:45.390Z",
+    "fetchedAt": "2026-08-21T12:57:11.371Z",
     "licence": "Public records served via Legistar InSite; no separate machine-reuse licence published by the host jurisdiction as of this writing.",
     "contentHash": "abb2b08e3974586346f06acd98cc61a08dd7d7dacc7b939aa94f868e493a7ba3"
   },
@@ -2687,7 +2687,7 @@
     "removedIds": [],
     "changed": []
   },
-  "previousGeneratedAt": "2026-08-21T03:52:21.459Z",
+  "previousGeneratedAt": "2026-08-21T06:53:45.390Z",
   "knownGaps": [
     "Consent-agenda flagging uses Legistar's own EventItemConsent field only (23 of 172 agenda item(s) in this window flagged). \"No discussion\" / \"no public comment\" are NOT flagged — this API exposes no comparably reliable field for either, and AGENTS.md §3.3 rules out inferring one from absence."
   ]
