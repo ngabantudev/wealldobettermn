@@ -1,4 +1,17 @@
 {
-  "generatedAt": "2026-08-21T03:36:19.654Z",
-  "meetingsThisWeek": []
+  "generatedAt": "2026-08-21T03:52:21.462Z",
+  "meetingsThisWeek": [
+    {
+      "client": "hennepinmn",
+      "jurisdiction": "Hennepin County Board",
+      "bodyName": "Hennepin Healthcare System Inc. Governing Board",
+      "date": "2026-08-25",
+      "time": "10:00",
+      "location": null,
+      "sourceUrl": "https://hennepinmn.legistar.com/MeetingDetail.aspx?LEGID=1458&GID=953&G=BA9AD5D7-E82F-425B-B72E-ABFEC8B35879",
+      "agendaUrl": null,
+      "isCancelled": false,
+      "members": []
+    }
+  ]
 }
