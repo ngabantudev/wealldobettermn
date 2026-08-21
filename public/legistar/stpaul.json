@@ -2,18 +2,18 @@
   "schemaVersion": 1,
   "client": "stpaul",
   "jurisdiction": "St. Paul City Council",
-  "generatedAt": "2026-08-21T06:52:47.350Z",
+  "generatedAt": "2026-08-21T12:56:05.611Z",
   "status": "ingested",
-  "note": "Full ingest: 220 holding(s) across 26 office(s) and 41 person(s), from officerecords. Votes windowed to 2026-06-22–2026-08-22 on \"City Council\": 250/331 matter(s) processed, 105 vote event(s), 735 vote(s).",
+  "note": "Full ingest: 220 holding(s) across 26 office(s) and 41 person(s), from officerecords. Votes windowed to 2026-06-22–2026-08-22 on \"City Council\": 250/332 matter(s) processed, 105 vote event(s), 735 vote(s).",
   "provenance": {
     "primarySourceUrl": "https://webapi.legistar.com/v1/stpaul",
     "sourceAgency": "St. Paul City Council",
     "documentType": "Legistar Web API",
     "documentId": null,
     "issuedDate": null,
-    "fetchedAt": "2026-08-21T06:52:47.350Z",
+    "fetchedAt": "2026-08-21T12:56:05.611Z",
     "licence": "Public records served via Legistar InSite; no separate machine-reuse licence published by the host jurisdiction as of this writing.",
-    "contentHash": "6f357c9fcbe64a8b20a063aab234866debf0d9d5d717a5a9d2c92fb06a555b39"
+    "contentHash": "ff7b3ffcf0ab0b180b6740d58e63b908272a6676d39760378c464eeb44d07753"
   },
   "jurisdiction_id": "legistar-stpaul",
   "bodies": [
@@ -9116,6 +9116,6 @@
     "officerecords rows dropped for belonging to a non-governing/internal body: Clerk, Council Secretary.",
     "Office here models 'membership in a Legistar body under a given title', not a per-seat/ward electoral district — these two clients' officerecords endpoint does not expose per-seat identifiers. See wards.geojson / commissioners.geojson for seat-level geography.",
     "Votes ingested only for the most recent 60 days (from 2026-06-22) — the current term on City Council began 2016-01-01, but a full-term backfill was not run in this pass to stay within a good-citizen request budget (AGENTS.md §2.2). Run this ingest on a recurring schedule to accumulate full-term coverage incrementally.",
-    "331 matter(s) found in the 2026-06-22–2026-08-22 window for stpaul; capped to the most recent 250 to bound this run's request volume."
+    "332 matter(s) found in the 2026-06-22–2026-08-22 window for stpaul; capped to the most recent 250 to bound this run's request volume."
   ]
 }
