@@ -1,15 +1,27 @@
 {
-  "generatedAt": "2026-08-12T17:30:14.517Z",
+  "generatedAt": "2026-08-21T03:50:23.136Z",
   "meetingsThisWeek": [
     {
       "client": "stpaul",
       "jurisdiction": "St. Paul City Council",
-      "bodyName": "Policy Committee",
-      "date": "2026-08-12",
+      "bodyName": "Rent Stabilization Appeal Hearings",
+      "date": "2026-08-21",
+      "time": "13:00",
+      "location": "Room 330 City Hall & Court House/by phone",
+      "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7738&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
+      "agendaUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/8/7738_A_Rent_Stabilization_Appeal_Hearings_26-08-21_Meeting_Agenda.pdf",
+      "isCancelled": false,
+      "members": []
+    },
+    {
+      "client": "stpaul",
+      "jurisdiction": "St. Paul City Council",
+      "bodyName": "Budget Committee",
+      "date": "2026-08-26",
       "time": "10:00",
       "location": "Council Chambers, City Hall",
-      "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7727&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
-      "agendaUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/8/7727_A_Policy_Committee_26-08-12_ADA_Meeting_Agenda.pdf",
+      "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7742&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
+      "agendaUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/8/7742_A_Budget_Committee_26-08-26_ADA_Meeting_Agenda.pdf",
       "isCancelled": false,
       "members": [
         {
@@ -18,18 +30,13 @@
           "type": "Councilmember"
         },
         {
+          "id": 6859,
+          "name": "Nelsie Yang",
+          "type": "Councilmember"
+        },
+        {
           "id": 7038,
           "name": "Anika Bowie",
-          "type": "Councilmember"
-        },
-        {
-          "id": 7108,
-          "name": "Molly Coleman",
-          "type": "Councilmember"
-        },
-        {
-          "id": 7039,
-          "name": "Saura Jost",
           "type": "Councilmember"
         },
         {
@@ -38,13 +45,66 @@
           "type": "Councilmember"
         },
         {
-          "id": 6859,
-          "name": "Nelsie Yang",
+          "id": 7039,
+          "name": "Saura Jost",
           "type": "Councilmember"
         },
         {
           "id": 6785,
           "name": "HwaJeong Kim",
+          "type": "Councilmember"
+        },
+        {
+          "id": 7108,
+          "name": "Molly Coleman",
+          "type": "Councilmember"
+        }
+      ]
+    },
+    {
+      "client": "stpaul",
+      "jurisdiction": "St. Paul City Council",
+      "bodyName": "Public Safety Committee",
+      "date": "2026-08-26",
+      "time": "12:30",
+      "location": "Council Chambers, City Hall",
+      "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7741&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
+      "agendaUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/8/7741_A_Public_Safety_Committee_26-08-26_ADA_Meeting_Agenda.pdf",
+      "isCancelled": false,
+      "members": [
+        {
+          "id": 7038,
+          "name": "Anika Bowie",
+          "type": "Councilmember"
+        },
+        {
+          "id": 6692,
+          "name": "Rebecca Noecker",
+          "type": "Councilmember"
+        },
+        {
+          "id": 7039,
+          "name": "Saura Jost",
+          "type": "Councilmember"
+        },
+        {
+          "id": 6785,
+          "name": "HwaJeong Kim",
+          "type": "Councilmember"
+        },
+        {
+          "id": 6859,
+          "name": "Nelsie Yang",
+          "type": "Councilmember"
+        },
+        {
+          "id": 7040,
+          "name": "Cheniqua Johnson",
+          "type": "Councilmember"
+        },
+        {
+          "id": 7108,
+          "name": "Molly Coleman",
           "type": "Councilmember"
         }
       ]
@@ -53,11 +113,11 @@
       "client": "stpaul",
       "jurisdiction": "St. Paul City Council",
       "bodyName": "Housing & Redevelopment Authority",
-      "date": "2026-08-12",
+      "date": "2026-08-26",
       "time": "14:00",
       "location": "Council Chambers, City Hall",
-      "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7723&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
-      "agendaUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/8/7723_A_Housing___Redevelopment_Authority_26-08-12_Meeting_Agenda.pdf",
+      "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7739&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
+      "agendaUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/8/7739_A_Housing___Redevelopment_Authority_26-08-26_Meeting_Agenda.pdf",
       "isCancelled": false,
       "members": [
         {
@@ -101,11 +161,11 @@
       "client": "stpaul",
       "jurisdiction": "St. Paul City Council",
       "bodyName": "City Council",
-      "date": "2026-08-12",
+      "date": "2026-08-26",
       "time": "15:30",
       "location": "Council Chambers - 3rd Floor",
-      "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7724&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
-      "agendaUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/8/7724_A_City_Council_26-08-12_ADA_Meeting_Agenda.pdf",
+      "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7740&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
+      "agendaUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/8/7740_A_City_Council_26-08-26_ADA_Meeting_Agenda.pdf",
       "isCancelled": false,
       "members": [
         {
@@ -148,26 +208,50 @@
     {
       "client": "stpaul",
       "jurisdiction": "St. Paul City Council",
-      "bodyName": "Legislative Hearings",
-      "date": "2026-08-13",
-      "time": "09:00",
-      "location": "Room 330 City Hall & Court House/Remote",
-      "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7729&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
-      "agendaUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/8/7729_A_Legislative_Hearings_26-08-13_ADA_Meeting_Agenda.pdf",
+      "bodyName": "City Council",
+      "date": "2026-08-26",
+      "time": "16:30",
+      "location": "Council Chambers - 3rd Floor",
+      "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7745&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
+      "agendaUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/8/7745_A_City_Council_26-08-26_ADA_Meeting_Agenda.pdf",
       "isCancelled": false,
-      "members": []
-    },
-    {
-      "client": "stpaul",
-      "jurisdiction": "St. Paul City Council",
-      "bodyName": "Rent Stabilization Appeal Hearings",
-      "date": "2026-08-13",
-      "time": "13:00",
-      "location": "Room 330 City Hall & Court House/Remote",
-      "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7730&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
-      "agendaUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/8/7730_A_Rent_Stabilization_Appeal_Hearings_26-08-13_Meeting_Agenda.pdf",
-      "isCancelled": false,
-      "members": []
+      "members": [
+        {
+          "id": 6692,
+          "name": "Rebecca Noecker",
+          "type": "Councilmember"
+        },
+        {
+          "id": 6859,
+          "name": "Nelsie Yang",
+          "type": "Councilmember"
+        },
+        {
+          "id": 6785,
+          "name": "HwaJeong Kim",
+          "type": "Councilmember"
+        },
+        {
+          "id": 7038,
+          "name": "Anika Bowie",
+          "type": "Councilmember"
+        },
+        {
+          "id": 7039,
+          "name": "Saura Jost",
+          "type": "Councilmember"
+        },
+        {
+          "id": 7040,
+          "name": "Cheniqua Johnson",
+          "type": "Councilmember"
+        },
+        {
+          "id": 7108,
+          "name": "Molly Coleman",
+          "type": "Councilmember"
+        }
+      ]
     }
   ]
 }

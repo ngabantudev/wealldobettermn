@@ -171,6 +171,25 @@ const SNAPSHOT_DIR = path.join(__dirname, "../../data/snapshots/legistar");
 const MEETINGS_LOOKBACK_DAYS = 14;
 const MEETINGS_LOOKAHEAD_DAYS = 90;
 
+// The WardModal teaser (writeMeetingsThisWeekTeaser() below) used to bake
+// in only a 7-day window as of *ingest time*, which is a real record of
+// "this week" only for the exact day the ingest script last ran — this
+// site's meetings/agenda ingest has no scheduled runner (no GitHub Actions
+// workflow triggers it; see AGENTS.md §3.2's ingest table), so in practice
+// that window went stale after every manual run and stayed stale until the
+// next one, sometimes weeks later, silently showing a "this week" that had
+// already fully elapsed. Widened to a rolling 30-day teaser window instead:
+// WardModal (src/components/WardModal.tsx's filterMeetingsThisWeek()) now
+// recomputes the actual current-week slice from this wider window at
+// render time, against the real browser clock, so display stays correct
+// between ingest runs rather than only on the day of one. 30 days, not the
+// full 90-day MEETINGS_LOOKAHEAD_DAYS above, keeps the teaser's payload
+// small (this ships to every visitor per §0.7's 3G/old-phone budget,
+// unlike the full per-jurisdiction feed at /meetings) while giving a wide
+// enough buffer that even an infrequent manual ingest keeps "this week"
+// genuinely present in the data.
+export const MEETINGS_TEASER_WINDOW_DAYS = 30;
+
 // Hard cap on events processed for agenda items in a single run, same
 // good-citizen-request-budget reasoning as MAX_MATTERS_PER_CLIENT — each
 // event costs one extra /events/{id}/eventitems request.
@@ -1106,11 +1125,18 @@ async function writeClientMeetingsOutput(clientConfig, state) {
 // A tiny, separate file with every meeting (any body) in the next
 // `windowDays` days, written alongside the full {client}-meetings.json
 // above. Exists purely so WardModal.tsx's sidebar "meetings this week"
-// teaser (issue #58) can import a few hundred bytes to a few KB rather
-// than the full meetings+agendaItems feed (hundreds of KB) into the
+// teaser (issue #58) can import a few hundred bytes to a few tens of KB
+// rather than the full meetings+agendaItems feed (hundreds of KB) into the
 // client bundle it ships to every visitor — AGENTS.md §0.7's "fast on
 // old phones and bad connections" budget. Full browsing still reads
 // {client}-meetings.json via /meetings.
+//
+// Called with MEETINGS_TEASER_WINDOW_DAYS (30), not a literal 7, despite
+// the "this week" naming throughout this file/the output filename — see
+// that constant's own comment for why. WardModal.tsx's
+// filterMeetingsThisWeek() is what actually narrows this down to the real
+// current week, at render time; this function just bounds how much data
+// is available for it to narrow from.
 //
 // Used to prefer a "primary body" (City Council/County Board) over
 // whichever body met soonest, picking exactly one meeting — reported
@@ -1485,9 +1511,14 @@ async function main() {
         `[legistar:${clientConfig.client}] ingested ${meetingsIngest.meetings.length} meeting(s), ` +
           `${meetingsIngest.agendaItems.length} agenda item(s) (${diffNote}). Wrote ${meetingsPath}`,
       );
-      const meetingsThisWeek = selectMeetingsThisWeek(clientConfig, meetingsIngest.meetings, new Date().toISOString().slice(0, 10));
+      const meetingsThisWeek = selectMeetingsThisWeek(
+        clientConfig,
+        meetingsIngest.meetings,
+        new Date().toISOString().slice(0, 10),
+        MEETINGS_TEASER_WINDOW_DAYS,
+      );
       const teaserPath = await writeMeetingsThisWeekTeaser(clientConfig, meetingsThisWeek);
-      console.log(`[legistar:${clientConfig.client}] meetings-this-week teaser: ${meetingsThisWeek.length} meeting(s). Wrote ${teaserPath}`);
+      console.log(`[legistar:${clientConfig.client}] meetings teaser (${MEETINGS_TEASER_WINDOW_DAYS}-day window): ${meetingsThisWeek.length} meeting(s). Wrote ${teaserPath}`);
     } catch (err) {
       anyFailures = true;
       const isAuthError = err instanceof LegistarAuthError;
