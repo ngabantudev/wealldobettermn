@@ -231,8 +231,9 @@ export interface AddressEdge {
 //     county. Holds only that county's own streets map — the actual
 //     edge/geometry payload, which is what made the old flat file large.
 //   AddressIndex — no longer a fetched file at all. It's the shape
-//     src/lib/addressSearch.ts's resolve()/suggestStreets()/etc. still
-//     expect (so none of that pure resolution logic had to change), now
+//     src/lib/addressSearch.ts's resolve()/suggestStreetsForHouseNumber()/
+//     etc. still expect (so none of that pure resolution logic had to
+//     change), now
 //     assembled client-side in src/lib/addressChunks.ts by merging the
 //     manifest's zips with whichever chunk(s) have been lazily fetched so
 //     far. `streets` only ever contains entries for chunks actually

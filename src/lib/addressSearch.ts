@@ -232,25 +232,13 @@ export function parseQuery(raw: string, allPlaces?: MnPlaces | null): ParsedQuer
   return { kind: "unparseable" };
 }
 
-/** Local-only prefix match over indexed street names, for live typeahead. */
-export function suggestStreets(index: AddressIndex, partial: string, limit: number): string[] {
-  const prefix = normalizeStreetName(partial);
-  if (!prefix) return [];
-  const matches: string[] = [];
-  for (const street of Object.keys(index.streets)) {
-    if (street.startsWith(prefix)) matches.push(street);
-    if (matches.length >= limit) break;
-  }
-  return matches.sort();
-}
-
 /**
  * Streets that actually carry `houseNumber` somewhere in their indexed
  * address ranges — what SearchBar shows the instant a resident has typed
  * a house number and nothing else yet (no street text to prefix-match
- * against, which is what suggestStreets above needs). Reuses
- * matchingSideFraction (below) rather than a second range check, so this
- * can never disagree with what resolveAddress would actually resolve to.
+ * against). Reuses matchingSideFraction (below) rather than a second range
+ * check, so this can never disagree with what resolveAddress would
+ * actually resolve to.
  *
  * A full scan over every indexed street/edge, not an index keyed by house
  * number — there isn't one to look up, since house-number ranges are
