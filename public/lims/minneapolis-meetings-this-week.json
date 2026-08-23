@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-21T12:57:16.958Z",
+  "generatedAt": "2026-08-23T12:48:39.317Z",
   "meetingsThisWeek": [
     {
       "client": "minneapolis",
@@ -1760,6 +1760,18 @@
           "type": "ABC Member"
         }
       ]
+    },
+    {
+      "client": "minneapolis",
+      "jurisdiction": "Minneapolis City Council",
+      "bodyName": "Civil Rights Commission Engagement & Research Subcommittee",
+      "date": "2026-09-21",
+      "time": "17:00",
+      "location": null,
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/MCCR-ER/",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/MCCR-ER/",
+      "isCancelled": false,
+      "members": []
     }
   ]
 }
