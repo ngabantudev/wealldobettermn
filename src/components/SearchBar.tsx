@@ -381,13 +381,29 @@ export default function SearchBar({ manifest, allPlaces, onSelectWard, onSelectC
     setActiveIndex(-1);
   }
 
+  // ensureStreetChunksLoaded's fetch (addressChunks.ts's fetchChunk) throws
+  // on any non-OK response or network failure — issue #126. Both commit
+  // paths below are invoked from click/keydown handlers with no `await`/
+  // `.catch()` at the call site, so an uncaught rejection here became an
+  // unhandled promise rejection: isLoadingChunk still reset (via
+  // addressChunks.ts's own `finally`), but applyOutcome never ran, leaving
+  // the resident staring at an empty search box with zero explanation.
+  // Catching here and feeding the failure through the existing "not-found"
+  // SearchOutcome shape (same shape resolve() already uses for "search is
+  // still loading" a few lines away in addressSearch.ts) reuses the outcome/
+  // error UI that's already wired up, rather than inventing a new one.
   async function commitSuggestion(s: Suggestion) {
     if (s.kind === "city") return applyOutcome({ status: "city", city: s.city });
     if (s.kind === "county") return applyOutcome({ status: "county", county: s.county, cities: COUNTY_CITIES[s.county] });
     if (s.kind === "uncovered-place") return applyOutcome(resolve(index, { kind: "uncovered-place", name: s.name, placeType: s.placeType }));
     if (s.kind === "zip") return applyOutcome(resolve(index, { kind: "zip", zip: s.zip }));
     beginChunkLoad();
-    const loaded = await ensureStreetChunksLoaded(s.street);
+    let loaded: AddressIndex | null;
+    try {
+      loaded = await ensureStreetChunksLoaded(s.street);
+    } catch {
+      return applyOutcome({ status: "not-found", reason: "Couldn't load address data for that street — check your connection and try again." });
+    }
     return applyOutcome(
       resolve(loaded, { kind: "address", houseNumber: s.houseNumber, street: s.street, cityHint: s.cityHint, zipHint: s.zipHint }),
     );
@@ -397,7 +413,12 @@ export default function SearchBar({ manifest, allPlaces, onSelectWard, onSelectC
     const parsed = parseQuery(query, allPlaces);
     if (parsed.kind === "address" && parsed.street) {
       beginChunkLoad();
-      const loaded = await ensureStreetChunksLoaded(parsed.street);
+      let loaded: AddressIndex | null;
+      try {
+        loaded = await ensureStreetChunksLoaded(parsed.street);
+      } catch {
+        return applyOutcome({ status: "not-found", reason: "Couldn't load address data for that street — check your connection and try again." });
+      }
       return applyOutcome(resolve(loaded, parsed));
     }
     return applyOutcome(resolve(index, parsed));
