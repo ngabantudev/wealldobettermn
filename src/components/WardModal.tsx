@@ -199,15 +199,29 @@ function MeetingsThisWeekList({ meetings }: { meetings: WeekMeeting[] | undefine
 }
 
 // AGENTS.md §3.2 soft staleness notice ("A record older than a
-// configured threshold renders a visible staleness notice"), scoped to
-// state legislators — the only role scripts/fetch-*.mjs currently emits
-// verifiedAt for (see the field's comment in types.ts). A missing
-// verifiedAt is treated the same as a stale one: neither gives a
-// resident any assurance the seat still has the person we're naming
-// attached to it, so both get the same visible banner rather than the
-// absent-field case silently rendering as "fine." Colour is never the
-// only signal (AGENTS.md §4) — this pairs an icon and explicit text with
-// the amber accent.
+// configured threshold renders a visible staleness notice") — applies to
+// every role, not just state legislators. It used to short-circuit on
+// `rep.chamber === null` (i.e. every city/county role), which silently
+// suppressed this banner for mayors, council members, and commissioners
+// regardless of how old or absent their verifiedAt was — a real §3.2
+// compliance gap (issue #127), not a deliberate scoping choice: nothing
+// about §3.2's "every record" language is state-legislature-specific, the
+// check was just never extended when other fetch-*.mjs scripts started
+// emitting verifiedAt too. A missing verifiedAt is treated the same as a
+// stale one: neither gives a resident any assurance the seat still has
+// the person we're naming attached to it, so both get the same visible
+// banner rather than the absent-field case silently rendering as "fine."
+// Colour is never the only signal (AGENTS.md §4) — this pairs an icon and
+// explicit text with the amber accent, and the two cases get genuinely
+// different copy below (missing vs. stale), not one blanket message.
+//
+// Coverage as of this fix: wards.geojson and commissioners.geojson carry
+// verifiedAt on zero features (every ward/commissioner will show the
+// "no verification date on record" copy below until a future backfill —
+// see issue #137), mayors.geojson on the large majority. That's an honest
+// disclosure of a real gap, not new UI noise — see this file's own
+// AGENTS.md §3.1 commentary elsewhere on why an absent fact stated
+// plainly beats one hidden behind a scope check.
 //
 // Routed through globals.css's --stale/--stale-soft tokens (and
 // --vote-yes/--vote-no below) rather than hardcoded hex — unlike
@@ -259,7 +273,6 @@ function voteOptionDisplay(option: string) {
 }
 
 function isVerificationStale(rep: RepProperties): boolean {
-  if (rep.chamber === null) return false; // only state legislature carries verifiedAt today
   if (!rep.verifiedAt) return true; // missing verifiedAt fails the check, same as a stale one
   return isStale(rep.verifiedAt);
 }
