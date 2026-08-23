@@ -20,8 +20,8 @@ import { normalizeStreetName } from "./streetNormalize.mjs";
 // far. This is what keeps street suggestions working the instant a
 // resident starts typing, before any chunk has ever been fetched, and
 // it's still a pure local scan over data already sitting in memory — no
-// network call, same as addressSearch.ts's own suggestStreets (which this
-// mirrors, but reads AddressGazetteerManifest instead of AddressIndex).
+// network call, same local-scan shape addressSearch.ts uses over its own
+// AddressIndex, just reading AddressGazetteerManifest instead.
 export function suggestStreetNamesFromManifest(manifest: AddressGazetteerManifest, partial: string, limit: number): string[] {
   const prefix = normalizeStreetName(partial);
   if (!prefix) return [];
