@@ -56,6 +56,12 @@ type Suggestion =
 
 const MAX_SUGGESTIONS = 8;
 
+// Sentinel returned by loadStreetChunksForCommit (below) to signal a failed
+// chunk fetch — a real value (not `null`, which already means "no index
+// assembled yet," a normal, non-error state elsewhere in this file) that a
+// caller can check without re-deriving whether applyOutcome already ran.
+const CHUNK_LOAD_FAILED = Symbol("chunk-load-failed");
+
 function buildSuggestions(
   rawQuery: string,
   manifest: AddressGazetteerManifest | null,
@@ -392,18 +398,30 @@ export default function SearchBar({ manifest, allPlaces, onSelectWard, onSelectC
   // SearchOutcome shape (same shape resolve() already uses for "search is
   // still loading" a few lines away in addressSearch.ts) reuses the outcome/
   // error UI that's already wired up, rather than inventing a new one.
+  //
+  // Shared by both commit paths below (previously duplicated verbatim in
+  // each — a `/code-review` pass on this fix flagged the copy as a
+  // maintenance risk: a future edit to the error message or retry behavior
+  // could easily be applied to only one call site). Calls applyOutcome
+  // itself on failure and signals that via the returned sentinel, since a
+  // failed load has nothing left for the caller to do but bail.
+  async function loadStreetChunksForCommit(street: string): Promise<AddressIndex | null | typeof CHUNK_LOAD_FAILED> {
+    beginChunkLoad();
+    try {
+      return await ensureStreetChunksLoaded(street);
+    } catch {
+      applyOutcome({ status: "not-found", reason: "Couldn't load address data for that street — check your connection and try again." });
+      return CHUNK_LOAD_FAILED;
+    }
+  }
+
   async function commitSuggestion(s: Suggestion) {
     if (s.kind === "city") return applyOutcome({ status: "city", city: s.city });
     if (s.kind === "county") return applyOutcome({ status: "county", county: s.county, cities: COUNTY_CITIES[s.county] });
     if (s.kind === "uncovered-place") return applyOutcome(resolve(index, { kind: "uncovered-place", name: s.name, placeType: s.placeType }));
     if (s.kind === "zip") return applyOutcome(resolve(index, { kind: "zip", zip: s.zip }));
-    beginChunkLoad();
-    let loaded: AddressIndex | null;
-    try {
-      loaded = await ensureStreetChunksLoaded(s.street);
-    } catch {
-      return applyOutcome({ status: "not-found", reason: "Couldn't load address data for that street — check your connection and try again." });
-    }
+    const loaded = await loadStreetChunksForCommit(s.street);
+    if (loaded === CHUNK_LOAD_FAILED) return;
     return applyOutcome(
       resolve(loaded, { kind: "address", houseNumber: s.houseNumber, street: s.street, cityHint: s.cityHint, zipHint: s.zipHint }),
     );
@@ -412,13 +430,8 @@ export default function SearchBar({ manifest, allPlaces, onSelectWard, onSelectC
   async function commitRawQuery() {
     const parsed = parseQuery(query, allPlaces);
     if (parsed.kind === "address" && parsed.street) {
-      beginChunkLoad();
-      let loaded: AddressIndex | null;
-      try {
-        loaded = await ensureStreetChunksLoaded(parsed.street);
-      } catch {
-        return applyOutcome({ status: "not-found", reason: "Couldn't load address data for that street — check your connection and try again." });
-      }
+      const loaded = await loadStreetChunksForCommit(parsed.street);
+      if (loaded === CHUNK_LOAD_FAILED) return;
       return applyOutcome(resolve(loaded, parsed));
     }
     return applyOutcome(resolve(index, parsed));
