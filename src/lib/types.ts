@@ -116,12 +116,13 @@ export interface RepProperties {
   // AGENTS.md §3.2's per-record verification bookkeeping — "Every record
   // carries verifiedAt and verifiedAgainst... The UI surfaces the
   // verification date wherever a name or contact appears." Optional
-  // because only scripts/fetch-state-legislature.mjs sets these today;
-  // the other fetch-*.mjs scripts (mayors, wards, commissioners) don't
-  // yet emit them (a known gap, not fixed by this field's addition).
-  // Rendering a staleness notice from these in the UI is deferred — see
-  // src/lib/electionConfig.ts's isStale() for the check a future
-  // component would call.
+  // because coverage still varies by script: scripts/fetch-mayors.mjs now
+  // sets it for most (not all) records, scripts/fetch-wards.mjs and
+  // scripts/fetch-commissioners.mjs don't emit it at all yet (tracked in
+  // issue #137). WardModal.tsx's isVerificationStale() (issue #127) now
+  // renders the staleness notice uniformly across every role — a missing
+  // field there is treated the same as a stale date, not silently skipped
+  // — see src/lib/electionConfig.ts's isStale() for the underlying check.
   verifiedAt?: string;
   verifiedAgainst?: string;
   // State legislators only, populated by
