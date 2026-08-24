@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-23T12:48:39.317Z",
+  "generatedAt": "2026-08-24T12:58:56.712Z",
   "meetingsThisWeek": [
     {
       "client": "minneapolis",
@@ -1772,6 +1772,201 @@
       "agendaUrl": "https://lims.minneapolismn.gov/Agenda/MCCR-ER/",
       "isCancelled": false,
       "members": []
+    },
+    {
+      "client": "minneapolis",
+      "jurisdiction": "Minneapolis City Council",
+      "bodyName": "Enterprise & Labor Relations Committee",
+      "date": "2026-09-22",
+      "time": "10:00",
+      "location": null,
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/ELR/",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/ELR/",
+      "isCancelled": false,
+      "members": [
+        {
+          "id": 375,
+          "name": "Linea Palmisano",
+          "type": "Chair"
+        },
+        {
+          "id": 5696,
+          "name": "LaTrisha Vetaw",
+          "type": "Council Member"
+        },
+        {
+          "id": 5697,
+          "name": "Aisha Chughtai",
+          "type": "Council Member"
+        },
+        {
+          "id": 5698,
+          "name": "Jason Chavez",
+          "type": "Council Member"
+        },
+        {
+          "id": 7962,
+          "name": "Soren Stevenson",
+          "type": "Council Member"
+        },
+        {
+          "id": 7963,
+          "name": "Elizabeth Shaffer",
+          "type": "Council Member"
+        },
+        {
+          "id": 7964,
+          "name": "Jamison Whiting",
+          "type": "Vice-Chair"
+        }
+      ]
+    },
+    {
+      "client": "minneapolis",
+      "jurisdiction": "Minneapolis City Council",
+      "bodyName": "Business, Housing & Zoning Committee",
+      "date": "2026-09-22",
+      "time": "13:30",
+      "location": null,
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/BHZ/",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/BHZ/",
+      "isCancelled": false,
+      "members": [
+        {
+          "id": 5269,
+          "name": "Jamal Osman",
+          "type": "Chair"
+        },
+        {
+          "id": 5697,
+          "name": "Aisha Chughtai",
+          "type": "Council Member"
+        },
+        {
+          "id": 5698,
+          "name": "Jason Chavez",
+          "type": "Council Member"
+        },
+        {
+          "id": 5700,
+          "name": "Michael Rainville",
+          "type": "Council Member"
+        },
+        {
+          "id": 5776,
+          "name": "Aurin Chowdhury",
+          "type": "Vice-Chair"
+        },
+        {
+          "id": 7961,
+          "name": "Pearll Warren",
+          "type": "Council Member"
+        },
+        {
+          "id": 7963,
+          "name": "Elizabeth Shaffer",
+          "type": "Council Member"
+        }
+      ]
+    },
+    {
+      "client": "minneapolis",
+      "jurisdiction": "Minneapolis City Council",
+      "bodyName": "Civil Service Commission",
+      "date": "2026-09-22",
+      "time": "14:00",
+      "location": null,
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/CSC/",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/CSC/",
+      "isCancelled": false,
+      "members": [
+        {
+          "id": 6964,
+          "name": "Candace Falk",
+          "type": "ABC Member"
+        },
+        {
+          "id": 6965,
+          "name": "William Walker Jr",
+          "type": "ABC Member"
+        }
+      ]
+    },
+    {
+      "client": "minneapolis",
+      "jurisdiction": "Minneapolis City Council",
+      "bodyName": "Heritage Preservation Commission",
+      "date": "2026-09-22",
+      "time": "16:30",
+      "location": null,
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/HPC/",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/HPC/",
+      "isCancelled": false,
+      "members": [
+        {
+          "id": 6674,
+          "name": "Toshihiko Karato",
+          "type": "ABC Member"
+        },
+        {
+          "id": 6972,
+          "name": "Lindsey Wallace",
+          "type": "ABC Member"
+        },
+        {
+          "id": 6976,
+          "name": "Amy Thomas",
+          "type": "ABC Member"
+        },
+        {
+          "id": 6983,
+          "name": "Namdi Alexander",
+          "type": "ABC Member"
+        },
+        {
+          "id": 7017,
+          "name": "Mariel Rodriguez",
+          "type": "ABC Member"
+        },
+        {
+          "id": 7018,
+          "name": "Paul Mellblom",
+          "type": "ABC Member"
+        }
+      ]
+    },
+    {
+      "client": "minneapolis",
+      "jurisdiction": "Minneapolis City Council",
+      "bodyName": "Public Health Advisory Committee",
+      "date": "2026-09-22",
+      "time": "17:00",
+      "location": null,
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/PHAC/",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/PHAC/",
+      "isCancelled": false,
+      "members": [
+        {
+          "id": 7007,
+          "name": "Hannaan Shire",
+          "type": "ABC Member"
+        },
+        {
+          "id": 7008,
+          "name": "Mariam Warsame",
+          "type": "ABC Member"
+        },
+        {
+          "id": 7009,
+          "name": "Christy Yoon",
+          "type": "ABC Member"
+        },
+        {
+          "id": 7010,
+          "name": "Jasmine Bloomdahl",
+          "type": "ABC Member"
+        }
+      ]
     }
   ]
 }
