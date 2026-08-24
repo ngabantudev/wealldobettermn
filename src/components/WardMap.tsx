@@ -33,6 +33,7 @@ import { getActiveTheme, setTheme, type SiteTheme } from "@/lib/siteTheme";
 import { useSearchCoordinator, type PendingSelection } from "@/lib/searchCoordinator";
 import { useMobileSheetCoordinator } from "@/lib/mobileSheetCoordinator";
 import { readStored, writeStored } from "@/lib/storage";
+import { formatUtcDate } from "@/lib/dateFormat";
 import { focusRingClass, rowHoverClass, touchTargetClass } from "@/lib/variantClasses";
 import AreaFilterList from "./AreaFilterList";
 import MapThemeSelector from "./MapThemeSelector";
@@ -1064,11 +1065,8 @@ function latestVerifiedAt(collection: FeatureCollection): string | null {
   return latest;
 }
 
-// timeZone: "UTC" for the same reason as WardModal's formatOfficeSince —
-// verifiedAt is a bare YYYY-MM-DD (midnight UTC), and formatting it in the
-// browser's local zone rolls it back a day for anyone west of UTC.
 function formatLastUpdated(iso: string): string {
-  return new Date(iso).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric", timeZone: "UTC" });
+  return formatUtcDate(iso, { month: "short", day: "numeric", year: "numeric" });
 }
 
 async function fetchSecondaryCivicData(): Promise<SecondaryCivicData | null> {
