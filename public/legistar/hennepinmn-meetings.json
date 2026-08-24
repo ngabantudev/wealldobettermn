@@ -2,22 +2,22 @@
   "schemaVersion": 1,
   "client": "hennepinmn",
   "jurisdiction": "Hennepin County Board",
-  "generatedAt": "2026-08-23T12:48:33.848Z",
+  "generatedAt": "2026-08-24T12:58:51.502Z",
   "status": "ingested",
-  "note": "14 meeting(s) (14/14 event(s) in window) and 220 agenda item(s) ingested for 2026-08-09–2026-11-21.",
+  "note": "14 meeting(s) (14/14 event(s) in window) and 220 agenda item(s) ingested for 2026-08-10–2026-11-22.",
   "provenance": {
     "primarySourceUrl": "https://webapi.legistar.com/v1/hennepinmn/events",
     "sourceAgency": "Hennepin County Board",
     "documentType": "Legistar Web API — Events/EventItems",
     "documentId": null,
     "issuedDate": null,
-    "fetchedAt": "2026-08-23T12:48:33.848Z",
+    "fetchedAt": "2026-08-24T12:58:51.502Z",
     "licence": "Public records served via Legistar InSite; no separate machine-reuse licence published by the host jurisdiction as of this writing.",
-    "contentHash": "f18bbb517b0c78afbbb790d54c6113a8b4d1cec6fb971aa48be65b2e2d0701c5"
+    "contentHash": "7570ee22e3d2c20828f063ffe37b7a5e8b3a259fd4ebb18d34d824b5e15dda0a"
   },
   "window": {
-    "startIso": "2026-08-09",
-    "endIso": "2026-11-21"
+    "startIso": "2026-08-10",
+    "endIso": "2026-11-22"
   },
   "meetings": [
     {
@@ -3562,17 +3562,11 @@
     }
   ],
   "diff": {
-    "addedIds": [
-      "legistar-hennepinmn-meeting-1459",
-      "legistar-hennepinmn-meeting-1460",
-      "legistar-hennepinmn-meeting-1461",
-      "legistar-hennepinmn-meeting-1462",
-      "legistar-hennepinmn-meeting-1463"
-    ],
+    "addedIds": [],
     "removedIds": [],
     "changed": []
   },
-  "previousGeneratedAt": "2026-08-21T12:57:11.371Z",
+  "previousGeneratedAt": "2026-08-23T12:48:33.848Z",
   "knownGaps": [
     "Consent-agenda flagging uses Legistar's own EventItemConsent field only (23 of 220 agenda item(s) in this window flagged). \"No discussion\" / \"no public comment\" are NOT flagged — this API exposes no comparably reliable field for either, and AGENTS.md §3.3 rules out inferring one from absence."
   ]
