@@ -17,6 +17,7 @@ import { recentVotesFromLegistar } from "./lib/legistarRecentVotes.mjs";
 import { recentVotesFromLims } from "./lib/limsRecentVotes.mjs";
 import { simplifyAndRound, SIMPLIFY_TOLERANCE } from "./lib/geoSimplify.mjs";
 import { updateDataManifest } from "./lib/dataManifest.mjs";
+import { fetchJson } from "./lib/fetchJson.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const OUTPUT_PATH = path.join(__dirname, "../public/wards.geojson");
@@ -392,7 +393,7 @@ async function fetchRochesterWards() {
   url.searchParams.set("where", "1=1");
   url.searchParams.set("outFields", "WARD");
   url.searchParams.set("f", "geojson");
-  const geojson = await fetchJson(url.toString());
+  const geojson = await fetchJson(url.toString(), { logLabel: "wards" });
 
   const precinctsByWard = new Map();
   for (const feature of geojson.features ?? []) {
@@ -478,7 +479,7 @@ async function fetchDuluthWards() {
   url.searchParams.set("where", "1=1");
   url.searchParams.set("outFields", "Cncl_Dist");
   url.searchParams.set("f", "geojson");
-  const geojson = await fetchJson(url.toString());
+  const geojson = await fetchJson(url.toString(), { logLabel: "wards" });
 
   const features = [];
   for (const feature of geojson.features ?? []) {
@@ -557,7 +558,7 @@ async function fetchStCloudWards() {
   url.searchParams.set("where", "DIST_ID>0");
   url.searchParams.set("outFields", "DIST_ID");
   url.searchParams.set("f", "geojson");
-  const geojson = await fetchJson(url.toString());
+  const geojson = await fetchJson(url.toString(), { logLabel: "wards" });
 
   const features = [];
   for (const feature of geojson.features ?? []) {
@@ -596,15 +597,9 @@ async function fetchStCloudWards() {
   return features;
 }
 
-async function fetchJson(url) {
-  const res = await fetch(url, { headers: { "User-Agent": "mn-civic-map-etl/0.1" } });
-  if (!res.ok) throw new Error(`HTTP ${res.status} ${res.statusText} for ${url}`);
-  return res.json();
-}
-
 async function fetchMinneapolisWards() {
   console.log("[wards] fetching Minneapolis...");
-  const geojson = await fetchJson(MINNEAPOLIS_WARDS_URL);
+  const geojson = await fetchJson(MINNEAPOLIS_WARDS_URL, { logLabel: "wards" });
   const features = (geojson.features ?? []).map((feature) => {
     const wardNum = Number(feature.properties?.BDNUM);
     const photo = MINNEAPOLIS_PHOTOS[wardNum];
@@ -653,7 +648,7 @@ async function fetchMinneapolisWards() {
 
 async function fetchStPaulWards() {
   console.log("[wards] fetching St. Paul...");
-  const geojson = await fetchJson(ST_PAUL_WARDS_URL);
+  const geojson = await fetchJson(ST_PAUL_WARDS_URL, { logLabel: "wards" });
   const features = (geojson.features ?? []).map((feature) => {
     const props = feature.properties ?? {};
     const wardNum = Number(String(props.ward ?? "").replace(/\D/g, ""));
@@ -715,7 +710,7 @@ async function fetchHennepinSuburbWards(cityName, roster, profileUrl) {
   url.searchParams.set("where", `MUNIC_NAME='${cityName}'`);
   url.searchParams.set("outFields", "WARD,MUNIC_NAME");
   url.searchParams.set("f", "geojson");
-  const geojson = await fetchJson(url.toString());
+  const geojson = await fetchJson(url.toString(), { logLabel: "wards" });
   const features = (geojson.features ?? []).map((feature) => {
     const wardNum = Number(feature.properties?.WARD);
     const info = roster[wardNum];
@@ -769,7 +764,7 @@ async function fetchHennepinSuburbWards(cityName, roster, profileUrl) {
 // clickable (see the wardPinOccurrences comment in WardMap.tsx).
 async function fetchBlaineWards() {
   console.log("[wards] fetching Blaine...");
-  const geojson = await fetchJson(BLAINE_WARDS_URL);
+  const geojson = await fetchJson(BLAINE_WARDS_URL, { logLabel: "wards" });
   const features = [];
   for (const feature of geojson.features ?? []) {
     const props = feature.properties ?? {};
@@ -819,7 +814,7 @@ async function fetchBrooklynParkWards() {
   url.searchParams.set("where", "MUNIC_NAME='Brooklyn Park'");
   url.searchParams.set("outFields", "NAME_TXT,MUNIC_NAME");
   url.searchParams.set("f", "geojson");
-  const geojson = await fetchJson(url.toString());
+  const geojson = await fetchJson(url.toString(), { logLabel: "wards" });
   const features = [];
   for (const feature of geojson.features ?? []) {
     const districtName = String(feature.properties?.NAME_TXT ?? "").replace(/^W-/, "");
@@ -945,7 +940,7 @@ async function fetchAnokaSuburbWards(cityName, roster, profileUrls) {
   url.searchParams.set("where", `CITY='${cityName}'`);
   url.searchParams.set("outFields", "WARD,CITY");
   url.searchParams.set("f", "geojson");
-  const geojson = await fetchJson(url.toString());
+  const geojson = await fetchJson(url.toString(), { logLabel: "wards" });
 
   const precinctsByWard = new Map();
   for (const feature of geojson.features ?? []) {

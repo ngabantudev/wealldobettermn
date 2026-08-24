@@ -91,6 +91,7 @@ import {
 } from "../src/lib/electionConfig.ts";
 import { simplifyAndRound, SIMPLIFY_TOLERANCE } from "./lib/geoSimplify.mjs";
 import { updateDataManifest } from "./lib/dataManifest.mjs";
+import { fetchJson } from "./lib/fetchJson.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const OUTPUT_PATH = path.join(__dirname, "../public/state-legislature.geojson");
@@ -171,24 +172,11 @@ const MAX_CACHED_VOTE_EVENTS = 300;
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-// The bill+votes endpoint is rate-limited on a free-tier key tightly enough
-// that a plain page-by-page loop trips it — retry 429s with backoff rather
-// than fail the whole fetch over a transient limit.
-async function fetchJson(url, headers = {}, attempt = 1) {
-  const res = await fetch(url, { headers: { "User-Agent": "mn-civic-map-etl/0.1", ...headers } });
-  if (res.status === 429 && attempt <= 5) {
-    const retryAfter = Number(res.headers.get("retry-after"));
-    const delayMs = Number.isFinite(retryAfter) && retryAfter > 0 ? retryAfter * 1000 : attempt * 2000;
-    console.log(`[state-legislature] rate limited, waiting ${Math.round(delayMs / 1000)}s (attempt ${attempt})...`);
-    await sleep(delayMs);
-    return fetchJson(url, headers, attempt + 1);
-  }
-  if (!res.ok) throw new Error(`HTTP ${res.status} ${res.statusText} for ${url}`);
-  return res.json();
-}
-
 function openStatesFetch(pathAndQuery) {
-  return fetchJson(`${OPEN_STATES_BASE}${pathAndQuery}`, { "X-API-KEY": OPEN_STATES_API_KEY });
+  return fetchJson(`${OPEN_STATES_BASE}${pathAndQuery}`, {
+    headers: { "X-API-KEY": OPEN_STATES_API_KEY },
+    logLabel: "state-legislature",
+  });
 }
 
 function centroidOfFeature(feature) {
@@ -237,7 +225,7 @@ function normalizeDistrictKey(raw, chamber) {
 
 async function fetchDistricts(url, chamber) {
   console.log(`[state-legislature] fetching MN ${chamber} districts...`);
-  const geojson = await fetchJson(url);
+  const geojson = await fetchJson(url, { logLabel: "state-legislature" });
   console.log(`[state-legislature] MN ${chamber}: ${geojson.features.length} district(s) statewide`);
   return geojson.features;
 }

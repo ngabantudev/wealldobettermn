@@ -33,6 +33,7 @@
     "data:roster-review-queue": "node scripts/ingest/write-roster-review-queue.mjs",
     "data:terms-of-service-leads": "node scripts/ingest/write-terms-of-service-leads.mjs",
     "test:ingest": "node --test scripts/ingest/*.test.mjs",
+    "test:scripts-lib": "node --test scripts/lib/*.test.mjs",
     "test:lib": "node --test src/lib/*.test.mjs",
     "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
     "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
