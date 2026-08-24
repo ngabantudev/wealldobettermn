@@ -20,6 +20,7 @@ import {
 } from "@/lib/cityTheme";
 import { isStale } from "@/lib/electionConfig";
 import { formatMeetingTime, filterMeetingsThisWeek } from "@/lib/meetingTime";
+import { formatUtcDate } from "@/lib/dateFormat";
 // Tiny (few-hundred-byte to low-tens-of-KB) bundler-resolved JSON imports —
 // not the full {client}-meetings.json feed src/app/meetings/page.tsx reads,
 // which runs into the hundreds of KB across all three clients'
@@ -115,12 +116,7 @@ const MEETINGS_WINDOW: Partial<Record<string, WeekMeeting[]>> = {
 // unanswered, unlike a single "next meeting" pick where today's context
 // made the weekday obvious.
 function formatTeaserDate(iso: string): string {
-  return new Date(`${iso}T00:00:00Z`).toLocaleDateString("en-US", {
-    weekday: "short",
-    month: "short",
-    day: "numeric",
-    timeZone: "UTC",
-  });
+  return formatUtcDate(iso, { weekday: "short", month: "short", day: "numeric" });
 }
 
 // This week's meetings (any body), issue #58/#102 — AGENTS.md §0.6
@@ -278,10 +274,7 @@ function isVerificationStale(rep: RepProperties): boolean {
 }
 
 function formatOfficeSince(iso: string): string {
-  // timeZone: "UTC" matters here — these dates are stored as bare
-  // YYYY-MM-DD (midnight UTC), and formatting in the browser's local zone
-  // rolls them back a day/month for anyone west of UTC.
-  return new Date(iso).toLocaleDateString("en-US", { month: "long", year: "numeric", timeZone: "UTC" });
+  return formatUtcDate(iso, { month: "long", year: "numeric" });
 }
 
 // Renders whatever the current term entry actually knows, per issue #96 —

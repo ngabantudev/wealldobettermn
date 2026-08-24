@@ -4,6 +4,7 @@ import { LEGISTAR_JURISDICTIONS, type LegistarFullIngestFeed } from "@/lib/legis
 import { MEETINGS_JURISDICTIONS, type MeetingsFeed } from "@/lib/meetingsRegistry";
 import { MINNEAPOLIS_MEETINGS_VOTES_LAYER } from "@/lib/layers";
 import type { Bill, VoteEvent as BillVoteEvent } from "@/lib/types";
+import { formatUtcDate } from "@/lib/dateFormat";
 // Bundler-resolved static JSON imports, not readFileSync — see
 // src/app/bills/page.tsx's and src/app/meetings/page.tsx's own comments,
 // and LESSONS.md's 2026-08-06 Cloudflare Workers / node:fs incident: a disk
@@ -111,12 +112,7 @@ function mostRecentVoteEventFor(bill: Bill, voteEvents: BillVoteEvent[]): BillVo
 }
 
 function formatDate(iso: string): string {
-  return new Date(`${iso}T00:00:00Z`).toLocaleDateString("en-US", {
-    month: "long",
-    day: "numeric",
-    year: "numeric",
-    timeZone: "UTC",
-  });
+  return formatUtcDate(iso, { month: "long", day: "numeric", year: "numeric" });
 }
 
 function BillRow({ bill, voteEvent }: { bill: Bill; voteEvent: BillVoteEvent | null }) {

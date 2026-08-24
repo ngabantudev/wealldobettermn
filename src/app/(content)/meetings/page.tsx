@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Gloss from "@/components/Gloss";
 import { formatMeetingTime } from "@/lib/meetingTime";
+import { formatUtcDate } from "@/lib/dateFormat";
 import {
   MEETINGS_JURISDICTIONS,
   UNWIRED_MEETINGS_JURISDICTIONS,
@@ -121,13 +122,7 @@ function agendaItemsFor(feed: MeetingsFeed, meetingId: string): { items: Meeting
 }
 
 function formatMeetingDate(iso: string): string {
-  return new Date(`${iso}T00:00:00Z`).toLocaleDateString("en-US", {
-    weekday: "short",
-    month: "long",
-    day: "numeric",
-    year: "numeric",
-    timeZone: "UTC",
-  });
+  return formatUtcDate(iso, { weekday: "short", month: "long", day: "numeric", year: "numeric" });
 }
 
 function MeetingCard({ feed, meeting }: { feed: MeetingsFeed; meeting: Meeting }) {
