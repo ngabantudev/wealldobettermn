@@ -93,13 +93,12 @@ import { writeFile, mkdir, readFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { createHash } from "node:crypto";
+import { fetchJson } from "../lib/fetchJson.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const OUTPUT_PATH = path.join(__dirname, "../../public/state-bills.json");
 const SNAPSHOT_DIR = path.join(__dirname, "../../data/snapshots/state-bills");
 const FIXTURE_PATH = path.join(__dirname, "../fixtures/state-bills-sample.json");
-
-const USER_AGENT = "wealldobettermn-etl/0.1 (github.com/ngabantudev/wealldobettermn)";
 
 const SELF_TEST = process.argv.includes("--self-test");
 const BACKFILL = process.argv.includes("--backfill");
@@ -155,31 +154,16 @@ const MN_CURRENT_SESSION = "2025-2026";
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-// Same retry-with-backoff shape as scripts/fetch-state-legislature.mjs's
-// fetchJson — free-tier Open States keys rate-limit tightly enough that a
-// naive loop trips them. Reused for LegiScan calls too (AGENTS.md §2.2
-// "good-citizen fetching" applies to both upstreams, not just the primary
-// one).
-async function fetchJson(url, headers = {}, attempt = 1) {
-  const res = await fetch(url, { headers: { "User-Agent": USER_AGENT, ...headers } });
-  if (res.status === 429 && attempt <= 5) {
-    const retryAfter = Number(res.headers.get("retry-after"));
-    const delayMs = Number.isFinite(retryAfter) && retryAfter > 0 ? retryAfter * 1000 : attempt * 2000;
-    console.log(`[state-bills] rate limited, waiting ${Math.round(delayMs / 1000)}s (attempt ${attempt})...`);
-    await sleep(delayMs);
-    return fetchJson(url, headers, attempt + 1);
-  }
-  if (!res.ok) throw new Error(`HTTP ${res.status} ${res.statusText} for ${url}`);
-  return res.json();
-}
-
 function openStatesFetch(pathAndQuery) {
-  return fetchJson(`${OPEN_STATES_BASE}${pathAndQuery}`, { "X-API-KEY": OPEN_STATES_API_KEY });
+  return fetchJson(`${OPEN_STATES_BASE}${pathAndQuery}`, {
+    headers: { "X-API-KEY": OPEN_STATES_API_KEY },
+    logLabel: "state-bills",
+  });
 }
 
 function legiscanFetch(params) {
   const qs = new URLSearchParams({ key: LEGISCAN_API_KEY, ...params });
-  return fetchJson(`${LEGISCAN_BASE}?${qs.toString()}`);
+  return fetchJson(`${LEGISCAN_BASE}?${qs.toString()}`, { logLabel: "state-bills" });
 }
 
 // Open States v3's `include` param must appear once per field

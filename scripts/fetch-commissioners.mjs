@@ -17,6 +17,7 @@ import { featureCollection } from "@turf/helpers";
 import { recentVotesFromLegistar } from "./lib/legistarRecentVotes.mjs";
 import { simplifyAndRound, SIMPLIFY_TOLERANCE } from "./lib/geoSimplify.mjs";
 import { updateDataManifest } from "./lib/dataManifest.mjs";
+import { fetchJson } from "./lib/fetchJson.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const OUTPUT_PATH = path.join(__dirname, "../public/commissioners.geojson");
@@ -120,15 +121,9 @@ const HENNEPIN_COMMISSIONERS = {
   },
 };
 
-async function fetchJson(url) {
-  const res = await fetch(url, { headers: { "User-Agent": "mn-civic-map-etl/0.1" } });
-  if (!res.ok) throw new Error(`HTTP ${res.status} ${res.statusText} for ${url}`);
-  return res.json();
-}
-
 async function fetchRamseyDistricts() {
   console.log("[commissioners] fetching Ramsey County...");
-  const geojson = await fetchJson(RAMSEY_DISTRICTS_URL);
+  const geojson = await fetchJson(RAMSEY_DISTRICTS_URL, { logLabel: "commissioners" });
   const features = (geojson.features ?? []).map((feature) => {
     const props = feature.properties ?? {};
     const districtNum = Number(props.District);
@@ -173,7 +168,7 @@ async function fetchRamseyDistricts() {
 
 async function fetchHennepinDistricts() {
   console.log("[commissioners] fetching Hennepin County...");
-  const geojson = await fetchJson(HENNEPIN_DISTRICTS_URL);
+  const geojson = await fetchJson(HENNEPIN_DISTRICTS_URL, { logLabel: "commissioners" });
   const features = (geojson.features ?? []).map((feature) => {
     const props = feature.properties ?? {};
     const districtNum = Number(props.NAME_TXT);
@@ -249,7 +244,7 @@ const OLMSTED_COMMISSIONERS = {
 
 async function fetchOlmstedDistricts() {
   console.log("[commissioners] fetching Olmsted County...");
-  const geojson = await fetchJson(OLMSTED_DISTRICTS_URL);
+  const geojson = await fetchJson(OLMSTED_DISTRICTS_URL, { logLabel: "commissioners" });
   const features = (geojson.features ?? []).map((feature) => {
     const districtNum = Number(feature.properties?.DISTRICT);
     const info = OLMSTED_COMMISSIONERS[districtNum];
@@ -301,7 +296,7 @@ const ST_LOUIS_PROFILE_URL = "https://www.stlouiscountymn.gov/our-county/board-o
 
 async function fetchStLouisDistricts() {
   console.log("[commissioners] fetching St. Louis County...");
-  const geojson = await fetchJson(ST_LOUIS_DISTRICTS_URL);
+  const geojson = await fetchJson(ST_LOUIS_DISTRICTS_URL, { logLabel: "commissioners" });
   const features = (geojson.features ?? []).map((feature) => {
     const props = feature.properties ?? {};
     const districtNum = Number(props.DISTRICTID);
@@ -368,7 +363,7 @@ const STEARNS_PROFILE_URL = "https://www.stearnscountymn.gov/907/Board-of-Commis
 
 async function fetchStearnsDistricts() {
   console.log("[commissioners] fetching Stearns County...");
-  const geojson = await fetchJson(STEARNS_PRECINCTS_URL);
+  const geojson = await fetchJson(STEARNS_PRECINCTS_URL, { logLabel: "commissioners" });
 
   const precinctsByDistrict = new Map();
   for (const feature of geojson.features ?? []) {
@@ -433,7 +428,7 @@ const SHERBURNE_PROFILE_URL = "https://www.co.sherburne.mn.us/573/Board-of-Commi
 
 async function fetchSherburneDistricts() {
   console.log("[commissioners] fetching Sherburne County...");
-  const geojson = await fetchJson(SHERBURNE_DISTRICTS_URL);
+  const geojson = await fetchJson(SHERBURNE_DISTRICTS_URL, { logLabel: "commissioners" });
   const features = (geojson.features ?? []).map((feature) => {
     const props = feature.properties ?? {};
     const districtNum = Number(props.DISTRICTID);
@@ -493,7 +488,7 @@ function parseBentonTermExpires(value) {
 
 async function fetchBentonDistricts() {
   console.log("[commissioners] fetching Benton County...");
-  const geojson = await fetchJson(BENTON_DISTRICTS_URL);
+  const geojson = await fetchJson(BENTON_DISTRICTS_URL, { logLabel: "commissioners" });
   const features = (geojson.features ?? []).map((feature) => {
     const props = feature.properties ?? {};
     const districtNum = Number(String(props.DistrictNumber ?? "").replace(/\D/g, ""));

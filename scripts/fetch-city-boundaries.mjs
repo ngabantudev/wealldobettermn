@@ -29,6 +29,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { simplifyAndRound, SIMPLIFY_TOLERANCE } from "./lib/geoSimplify.mjs";
 import { updateDataManifest } from "./lib/dataManifest.mjs";
+import { fetchJson } from "./lib/fetchJson.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const OUTPUT_PATH = path.join(__dirname, "../public/city-boundaries.geojson");
@@ -51,15 +52,9 @@ const LICENCE_TEXT =
 // checks) rather than silently shipping a truncated file.
 const MIN_EXPECTED_CITIES = 800;
 
-async function fetchJson(url) {
-  const res = await fetch(url, { headers: { "User-Agent": "mn-civic-map-etl/0.1" } });
-  if (!res.ok) throw new Error(`HTTP ${res.status} ${res.statusText} for ${url}`);
-  return res.json();
-}
-
 async function main() {
   console.log("[fetch-city-boundaries] fetching MnDOT/MnGeo city boundaries...");
-  const geojson = await fetchJson(QUERY_URL);
+  const geojson = await fetchJson(QUERY_URL, { logLabel: "fetch-city-boundaries" });
   const rawFeatures = geojson.features ?? [];
 
   if (rawFeatures.length < MIN_EXPECTED_CITIES) {

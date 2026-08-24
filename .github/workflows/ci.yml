@@ -57,9 +57,10 @@ jobs:
       # build or the smoke test below — neither would notice a regression
       # in this layer as long as the *shape* of the output still builds
       # and the routes still return 200.
-      - name: Unit tests (ingest + lib)
+      - name: Unit tests (ingest + scripts/lib + src/lib)
         run: |
           npm run test:ingest
+          npm run test:scripts-lib
           npm run test:lib
 
       - name: next build (also runs the build-time data-freshness checks in next.config.ts)
