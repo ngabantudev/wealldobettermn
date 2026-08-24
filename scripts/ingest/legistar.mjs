@@ -48,6 +48,7 @@ import { writeFile, mkdir, readFile } from "node:fs/promises";
 import { createHash } from "node:crypto";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { slugify } from "../lib/slugify.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const OUTPUT_DIR = path.join(__dirname, "../../public/legistar");
@@ -433,12 +434,13 @@ async function snapshotRaw(client, name, payload) {
 
 // --- Small pure helpers -----------------------------------------------------
 
-export function slugify(value) {
-  return String(value)
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "") || "unknown";
-}
+// Re-exported (not just imported for local use) — scripts/ingest/
+// lims-minneapolis.mjs and scripts/ingest/legistar.test.mjs both still
+// import `slugify` from this file rather than from scripts/lib/slugify.mjs
+// directly (issue #129 moved the implementation there, shared with
+// scripts/ingest/mn-campaign-finance.mjs, but every existing import path
+// into *this* file keeps working unchanged).
+export { slugify };
 
 // Legistar dates come back as bare "YYYY-MM-DDTHH:mm:ss" with no timezone.
 // Slicing the date portion directly avoids any UTC-conversion shift that

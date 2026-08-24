@@ -45,6 +45,7 @@ import { createHash } from "node:crypto";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import assert from "node:assert/strict";
+import { slugify } from "../lib/slugify.mjs";
 import {
   ITEMIZATION_THRESHOLD_USD,
   ITEMIZATION_THRESHOLD_SOURCE_URL,
@@ -454,34 +455,30 @@ const KNOWN_GAPS = [
 ];
 
 /**
- * Deterministic filename-safe slug for a recipient committee name — the
- * candidate detail file id. Pure function of the name (no randomness, no
- * run order dependence for the common case) per AGENTS.md §2.2
- * "deterministic and re-runnable." Collisions (two distinct committee
- * names slugifying to the same string — rare, but the real CFB export
- * does contain near-duplicate committee names) are resolved by the
- * caller, which walks committees in a fixed sort order and appends a
- * stable numeric suffix, so the same input file always produces the same
- * ids.
- * @param {string} name
- * @returns {string}
- */
-function slugifyCommitteeName(name) {
-  const slug = name
-    .toLowerCase()
-    .normalize("NFKD")
-    .replace(/[̀-ͯ]/g, "") // strip combining diacritics after NFKD decomposition
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "");
-  return slug || "committee";
-}
-
-/**
  * Groups aggregates and named-entity contributions by recipient committee
  * and assigns each committee a deterministic id/slug. Chunking-only
  * reshaping — see the header comment in campaignFinanceTypes.ts. Uses
  * plain loops throughout (never `array.push(...bigArray)`) per the V8
  * call-stack note at the top of this file.
+ *
+ * Slugging (`slugify(name, "committee")` below) is a deterministic,
+ * filename-safe transform of the recipient committee name — the candidate
+ * detail file id. Pure function of the name (no randomness, no run-order
+ * dependence for the common case) per AGENTS.md §2.2 "deterministic and
+ * re-runnable." Collisions (two distinct committee names slugifying to the
+ * same string — rare, but the real CFB export does contain near-duplicate
+ * committee names) are resolved below by walking committees in a fixed
+ * sort order and appending a stable numeric suffix, so the same input file
+ * always produces the same ids.
+ *
+ * The slug generator itself lives in scripts/lib/slugify.mjs (issue #129),
+ * shared with scripts/ingest/legistar.mjs — the two had drifted
+ * (legistar.mjs's own version didn't strip diacritics), which would have
+ * slugified an accented Legistar person/body name differently from a
+ * campaign-finance committee slug for what should be the same identity,
+ * breaking the cross-dataset joins AGENTS.md §2.4 relies on stable IDs
+ * for. The `"committee"` fallback passed below reproduces this file's own
+ * previous empty-input default exactly.
  * @param {import("../../src/lib/campaignFinanceTypes.js").ContributionAggregate[]} aggregates
  * @param {import("../../src/lib/campaignFinanceTypes.js").NamedEntityContribution[]} namedEntityContributions
  * @returns {Map<string, { id: string, recipientCommittee: string, aggregates: import("../../src/lib/campaignFinanceTypes.js").ContributionAggregate[], namedEntityContributions: import("../../src/lib/campaignFinanceTypes.js").NamedEntityContribution[] }>}
@@ -513,7 +510,7 @@ function groupByCommittee(aggregates, namedEntityContributions) {
   committeeNamesInOrder.sort((a, b) => a.localeCompare(b));
   const usedSlugs = new Set();
   for (const name of committeeNamesInOrder) {
-    const baseSlug = slugifyCommitteeName(name);
+    const baseSlug = slugify(name, "committee");
     let slug = baseSlug;
     let suffix = 2;
     while (usedSlugs.has(slug)) {

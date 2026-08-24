@@ -115,6 +115,24 @@ test("slugify falls back to 'unknown' for empty/unslugifiable input", () => {
   assert.equal(slugify("!!!"), "unknown");
 });
 
+// Issue #129: slugify is now shared with scripts/ingest/mn-campaign-
+// finance.mjs (via scripts/lib/slugify.mjs) specifically because that
+// script's own version stripped diacritics and this one didn't — an
+// accented Legistar name would have slugified differently from a
+// campaign-finance committee slug for what should be the same identity.
+// Asserting the diacritic-handling behavior here (imported through
+// legistar.mjs's re-export) confirms that gap is actually closed, not
+// just that the import path still resolves.
+test("slugify strips diacritics (unified with mn-campaign-finance.mjs's slugger)", () => {
+  assert.equal(slugify("José García"), "jose-garcia");
+  assert.equal(slugify("François Muñoz"), "francois-munoz");
+});
+
+test("slugify accepts a custom fallback for empty/unslugifiable input", () => {
+  assert.equal(slugify("", "committee"), "committee");
+  assert.equal(slugify("!!!", "committee"), "committee");
+});
+
 // --- stripInternal -------------------------------------------------------------
 
 test("stripInternal drops underscore-prefixed bookkeeping fields only", () => {
