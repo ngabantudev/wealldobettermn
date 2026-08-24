@@ -111,6 +111,23 @@ function cityMatchPattern(city: City): string {
     .join("\\s+");
 }
 
+// Precomputed once at module scope rather than rebuilt inside parseQuery's
+// city-hint-stripping loop below (issue #128) — parseQuery runs on every
+// keystroke of any partial address with a trailing city name, the common
+// case, so constructing a fresh RegExp per CITIES entry (~24 today) on
+// every call scales linearly with CITIES.length as more of MN's ~854
+// cities are eventually added (§2.4/§3.2's explicit coverage-expansion
+// direction). Array, not a Map, since the loop needs the RegExp alongside
+// the folded/city pair it already destructured from FOLDED_CITIES — order
+// matches CITIES (and FOLDED_CITIES' iteration order, which follows
+// insertion order), so the loop's existing first-match-wins `break`
+// behavior is unchanged.
+const CITY_MATCH_PATTERNS: [folded: string, city: City, re: RegExp][] = CITIES.map((city) => [
+  fold(city),
+  city,
+  new RegExp(`,?\\s*${cityMatchPattern(city)}\\s*$`, "i"),
+]);
+
 const ZIP_RE = /\b(\d{5})(?:-\d{4})?\s*$/;
 const MN_SUFFIX_RE = /,?\s*(MN|MINNESOTA)\s*$/i;
 const UNIT_RE = /\b(apt|unit|ste|suite|#)\.?\s*\S+\s*$/i;
@@ -161,7 +178,7 @@ export function parseQuery(raw: string, allPlaces?: MnPlaces | null): ParsedQuer
   s = s.replace(MN_SUFFIX_RE, "").trim();
 
   let cityHint: City | null = null;
-  for (const [folded, city] of FOLDED_CITIES) {
+  for (const [folded, city, re] of CITY_MATCH_PATTERNS) {
     // A bare city name (the whole query, not a trailing ", City" on an
     // address) isn't a hint to strip here — stripping it would leave `s`
     // empty and the query would fall through to "unparseable" instead of
@@ -177,10 +194,9 @@ export function parseQuery(raw: string, allPlaces?: MnPlaces | null): ParsedQuer
     // Park, St. Cloud) while working fine for every punctuation-free city.
     // That's the reported bug: "123 Main St, St. Paul" left "St. Paul"
     // glued onto the street text, which then matched nothing in the index.
-    // cityMatchPattern rebuilds the alternation fold() flattened, so the
-    // regex itself — not a folded copy of the input — absorbs "St."/"Saint"/
-    // "St" and periods/commas directly.
-    const re = new RegExp(`,?\\s*${cityMatchPattern(city)}\\s*$`, "i");
+    // `re` (from CITY_MATCH_PATTERNS above) rebuilds the alternation fold()
+    // flattened, so the regex itself — not a folded copy of the input —
+    // absorbs "St."/"Saint"/"St" and periods/commas directly.
     if (re.test(s)) {
       cityHint = city;
       s = s.replace(re, "").trim();
