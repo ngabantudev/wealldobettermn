@@ -869,6 +869,11 @@ async function fetchBrooklynParkWards() {
       });
     }
   }
+  // Same reasoning as fetchHennepinSuburbWards()'s own floor check — this
+  // is a confirmed real city with real wards, so 0 is never legitimate.
+  if (features.length === 0) {
+    throw new Error("Brooklyn Park: 0 wards returned — expected a nonzero count; treating as a failed fetch, not a real result.");
+  }
   console.log(`[wards] Brooklyn Park: ${features.length} district seat(s)`);
   return features;
 }
@@ -1018,10 +1023,22 @@ async function fetchAnokaSuburbWards(cityName, roster, profileUrls) {
 }
 
 // Bloomington/Plymouth/Minnetonka/St. Louis Park/Richfield/Champlin/
-// Crystal/Robbinsdale all query the *same* Hennepin County ArcGIS layer
-// (HENNEPIN_WARDS_URL). Previously fired as 8 of the 18 entries in one big
-// Promise.all alongside every other city — live-confirmed (chasing flaky
-// ward counts) that this shared layer returns an HTTP-200 body shaped
+// Crystal/Robbinsdale/Brooklyn Park all query the *same* Hennepin County
+// ArcGIS layer (HENNEPIN_WARDS_URL) — 9 cities, not 8: an earlier version
+// of this fix sequentialized only the first 8 and left Brooklyn Park
+// (fetchBrooklynParkWards, a structurally different function — district-
+// name-keyed roster, multiple reps per district — so it isn't just another
+// fetchHennepinSuburbWards() call) firing concurrently in main()'s own
+// Promise.all, on the mistaken claim that "every other city queries a
+// different host." That claim was false for Brooklyn Park specifically,
+// caught by a `/bug-fix` review pass on this very fix — it shares the
+// identical layer and could still trigger (or fall victim to) the exact
+// concurrent-load burst this function exists to prevent. Fixed by folding
+// it into this same sequential chain, last, after the other 8.
+//
+// The 8 fetchHennepinSuburbWards() calls were previously fired as part of
+// one big Promise.all alongside every other city — live-confirmed (chasing
+// flaky ward counts) that this shared layer returns an HTTP-200 body shaped
 // `{ error: { code: 400, message: "Unable to complete operation." } }`
 // when several of these land on it at once, and fetchJson's own `!res.ok`
 // check couldn't see that failure (see fetchJson.mjs's own comment on why
@@ -1029,9 +1046,9 @@ async function fetchAnokaSuburbWards(cityName, roster, profileUrls) {
 // this). Sequential here, not concurrent, specifically to stop generating
 // the burst that triggers it in the first place — a real §2.2 "good-
 // citizen fetcher" fix, not just error-hardening after the fact. Every
-// *other* city below queries a different host, so those still run fully
-// concurrently — nothing here slows down a fetch that was never part of
-// the actual problem.
+// city fetched *outside* this function queries a genuinely different host,
+// so those still run fully concurrently in main() — nothing here slows
+// down a fetch that was never part of the actual problem.
 async function fetchHennepinSuburbs() {
   return [
     await fetchHennepinSuburbWards("Bloomington", BLOOMINGTON_ROSTER, BLOOMINGTON_PROFILE_URL),
@@ -1042,6 +1059,7 @@ async function fetchHennepinSuburbs() {
     await fetchHennepinSuburbWards("Champlin", CHAMPLIN_ROSTER),
     await fetchHennepinSuburbWards("Crystal", CRYSTAL_ROSTER, CRYSTAL_PROFILE_URL),
     await fetchHennepinSuburbWards("Robbinsdale", ROBBINSDALE_ROSTER),
+    await fetchBrooklynParkWards(),
   ];
 }
 
@@ -1056,19 +1074,18 @@ async function fetchAnokaSuburbs() {
 }
 
 async function main() {
-  const [mpls, stPaul, hennepinSuburbs, blaine, brooklynPark, anokaSuburbs, rochester, duluth, stCloud] =
-    await Promise.all([
-      fetchMinneapolisWards(),
-      fetchStPaulWards(),
-      fetchHennepinSuburbs(),
-      fetchBlaineWards(),
-      fetchBrooklynParkWards(),
-      fetchAnokaSuburbs(),
-      fetchRochesterWards(),
-      fetchDuluthWards(),
-      fetchStCloudWards(),
-    ]);
-  const [bloomington, plymouth, minnetonka, stLouisPark, richfield, champlin, crystal, robbinsdale] = hennepinSuburbs;
+  const [mpls, stPaul, hennepinSuburbs, blaine, anokaSuburbs, rochester, duluth, stCloud] = await Promise.all([
+    fetchMinneapolisWards(),
+    fetchStPaulWards(),
+    fetchHennepinSuburbs(),
+    fetchBlaineWards(),
+    fetchAnokaSuburbs(),
+    fetchRochesterWards(),
+    fetchDuluthWards(),
+    fetchStCloudWards(),
+  ]);
+  const [bloomington, plymouth, minnetonka, stLouisPark, richfield, champlin, crystal, robbinsdale, brooklynPark] =
+    hennepinSuburbs;
   const [coonRapids, fridley, ramsey] = anokaSuburbs;
   // Named outputCollection, not featureCollection — shadowing the
   // @turf/helpers import of the same name would still work correctly here
