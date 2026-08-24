@@ -3,12 +3,15 @@
 //
 // Tests for fetchJson() — extracted from 5 independently-implemented
 // copies (issue #131): 3 bare (no retry) and 2 with 429/Retry-After
-// backoff. Mocks globalThis.fetch since this is the one function in the
-// codebase whose whole job is talking to the network — no existing test
-// file in this repo mocks fetch, since everything else tests pure
-// functions over fixture data; this is deliberately the exception, and
-// restores the real fetch after each test so it can't leak into another
-// test file run in the same process.
+// backoff. Also covers the HTTP-200-with-error-body retry added while
+// fixing fetch-wards.mjs's flaky ward counts (a real, live-confirmed
+// ArcGIS behavior, not a hypothetical). Mocks globalThis.fetch since this
+// is the one function in the codebase whose whole job is talking to the
+// network — no existing test file in this repo mocks fetch, since
+// everything else tests pure functions over fixture data; this is
+// deliberately the exception, and restores the real fetch after each test
+// (t.mock.method's own automatic per-test restore) so it can't leak into
+// another test file run in the same process.
 //
 // Run directly: node scripts/lib/fetchJson.test.mjs
 // Or via: npm run test:scripts-lib (new npm script + CI step added
@@ -100,4 +103,44 @@ test("fetchJson gives up and throws after exhausting maxRetries on a persistent 
   // the 3rd 429 response (attempt=3 > maxRetries=2) falls through to the
   // final `if (!res.ok) throw` below the retry check.
   assert.equal(callCount, 3);
+});
+
+// ArcGIS-style error bodies (HTTP 200 + `{ error: {...} }`) — found live
+// while chasing fetch-wards.mjs's flaky ward counts: Hennepin County's
+// shared ArcGIS FeatureServer returns exactly this shape under concurrent
+// load. Unlike the 429 case, there's no Retry-After equivalent in this
+// response shape, so the retry delay is always the fixed attempt*2000ms
+// backoff — these two tests genuinely wait ~2s of real time each (kept to
+// one retry via a low maxRetries) rather than mocking timers, since this
+// file has no existing timer-mocking convention to extend.
+test("fetchJson retries an HTTP-200 ArcGIS-style error body, then succeeds", async (t) => {
+  let callCount = 0;
+  t.mock.method(globalThis, "fetch", async () => {
+    callCount++;
+    if (callCount === 1) {
+      return fakeResponse({ ok: true, status: 200, body: { error: { code: 400, message: "Unable to complete operation." } } });
+    }
+    return fakeResponse({ ok: true, status: 200, body: { features: [1, 2, 3] } });
+  });
+  const result = await fetchJson("https://example.com", { logLabel: "test" });
+  assert.deepEqual(result, { features: [1, 2, 3] });
+  assert.equal(callCount, 2);
+});
+
+test("fetchJson gives up and throws after exhausting maxRetries on a persistent ArcGIS-style error body", async (t) => {
+  let callCount = 0;
+  t.mock.method(globalThis, "fetch", async () => {
+    callCount++;
+    return fakeResponse({ ok: true, status: 200, body: { error: { code: 400, message: "Unable to complete operation." } } });
+  });
+  await assert.rejects(() => fetchJson("https://example.com", { maxRetries: 1 }), /Unable to complete operation/);
+  assert.equal(callCount, 2);
+});
+
+test("fetchJson does not treat an ordinary JSON body with no `error` key as a failure", async (t) => {
+  t.mock.method(globalThis, "fetch", async () => {
+    return fakeResponse({ ok: true, status: 200, body: { features: [], type: "FeatureCollection" } });
+  });
+  const result = await fetchJson("https://example.com");
+  assert.deepEqual(result, { features: [], type: "FeatureCollection" });
 });

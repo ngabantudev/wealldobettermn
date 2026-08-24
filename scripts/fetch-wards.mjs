@@ -754,6 +754,18 @@ async function fetchHennepinSuburbWards(cityName, roster, profileUrl) {
       },
     };
   });
+  // Every real caller of this function (see fetchHennepinSuburbs() below)
+  // is a city confirmed to have real wards — none is at-large — so an
+  // empty result here is never a legitimate answer, always an upstream
+  // fetch problem. This is exactly the failure this function used to
+  // return silently (see fetchJson.mjs's own comment on the ArcGIS-error-
+  // body bug this was masking): 0 wards for a real city, logged as if it
+  // were a normal result, with nothing downstream ever finding out. Fail
+  // loudly instead, same posture as fetch-city-boundaries.mjs's own
+  // MIN_EXPECTED_CITIES floor.
+  if (features.length === 0) {
+    throw new Error(`${cityName}: 0 wards returned — expected a nonzero count; treating as a failed fetch, not a real result.`);
+  }
   console.log(`[wards] ${cityName}: ${features.length} ward(s)`);
   return features;
 }
@@ -995,34 +1007,69 @@ async function fetchAnokaSuburbWards(cityName, roster, profileUrls) {
       },
     });
   }
+  // Same reasoning as fetchHennepinSuburbWards()'s own floor check above —
+  // every real caller (Coon Rapids, Fridley, Ramsey) is confirmed to have
+  // real wards, so 0 is never a legitimate result here either.
+  if (features.length === 0) {
+    throw new Error(`${cityName}: 0 wards returned — expected a nonzero count; treating as a failed fetch, not a real result.`);
+  }
   console.log(`[wards] ${cityName}: ${features.length} ward(s)`);
   return features;
 }
 
+// Bloomington/Plymouth/Minnetonka/St. Louis Park/Richfield/Champlin/
+// Crystal/Robbinsdale all query the *same* Hennepin County ArcGIS layer
+// (HENNEPIN_WARDS_URL). Previously fired as 8 of the 18 entries in one big
+// Promise.all alongside every other city — live-confirmed (chasing flaky
+// ward counts) that this shared layer returns an HTTP-200 body shaped
+// `{ error: { code: 400, message: "Unable to complete operation." } }`
+// when several of these land on it at once, and fetchJson's own `!res.ok`
+// check couldn't see that failure (see fetchJson.mjs's own comment on why
+// it now retries this shape too — defense in depth, not a substitute for
+// this). Sequential here, not concurrent, specifically to stop generating
+// the burst that triggers it in the first place — a real §2.2 "good-
+// citizen fetcher" fix, not just error-hardening after the fact. Every
+// *other* city below queries a different host, so those still run fully
+// concurrently — nothing here slows down a fetch that was never part of
+// the actual problem.
+async function fetchHennepinSuburbs() {
+  return [
+    await fetchHennepinSuburbWards("Bloomington", BLOOMINGTON_ROSTER, BLOOMINGTON_PROFILE_URL),
+    await fetchHennepinSuburbWards("Plymouth", PLYMOUTH_ROSTER, PLYMOUTH_PROFILE_URL),
+    await fetchHennepinSuburbWards("Minnetonka", MINNETONKA_ROSTER),
+    await fetchHennepinSuburbWards("St. Louis Park", ST_LOUIS_PARK_ROSTER),
+    await fetchHennepinSuburbWards("Richfield", RICHFIELD_ROSTER),
+    await fetchHennepinSuburbWards("Champlin", CHAMPLIN_ROSTER),
+    await fetchHennepinSuburbWards("Crystal", CRYSTAL_ROSTER, CRYSTAL_PROFILE_URL),
+    await fetchHennepinSuburbWards("Robbinsdale", ROBBINSDALE_ROSTER),
+  ];
+}
+
+// Same reasoning as fetchHennepinSuburbs() above, for the 3 cities sharing
+// ANOKA_PRECINCTS_URL.
+async function fetchAnokaSuburbs() {
+  return [
+    await fetchAnokaSuburbWards("Coon Rapids", COON_RAPIDS_ROSTER),
+    await fetchAnokaSuburbWards("Fridley", FRIDLEY_ROSTER, FRIDLEY_PROFILE_URLS),
+    await fetchAnokaSuburbWards("Ramsey", RAMSEY_ROSTER, RAMSEY_PROFILE_URL),
+  ];
+}
+
 async function main() {
-  const [
-    mpls, stPaul, bloomington, plymouth, minnetonka, stLouisPark, richfield, champlin, crystal, robbinsdale,
-    blaine, brooklynPark, coonRapids, fridley, ramsey, rochester, duluth, stCloud,
-  ] = await Promise.all([
-    fetchMinneapolisWards(),
-    fetchStPaulWards(),
-    fetchHennepinSuburbWards("Bloomington", BLOOMINGTON_ROSTER, BLOOMINGTON_PROFILE_URL),
-    fetchHennepinSuburbWards("Plymouth", PLYMOUTH_ROSTER, PLYMOUTH_PROFILE_URL),
-    fetchHennepinSuburbWards("Minnetonka", MINNETONKA_ROSTER),
-    fetchHennepinSuburbWards("St. Louis Park", ST_LOUIS_PARK_ROSTER),
-    fetchHennepinSuburbWards("Richfield", RICHFIELD_ROSTER),
-    fetchHennepinSuburbWards("Champlin", CHAMPLIN_ROSTER),
-    fetchHennepinSuburbWards("Crystal", CRYSTAL_ROSTER, CRYSTAL_PROFILE_URL),
-    fetchHennepinSuburbWards("Robbinsdale", ROBBINSDALE_ROSTER),
-    fetchBlaineWards(),
-    fetchBrooklynParkWards(),
-    fetchAnokaSuburbWards("Coon Rapids", COON_RAPIDS_ROSTER),
-    fetchAnokaSuburbWards("Fridley", FRIDLEY_ROSTER, FRIDLEY_PROFILE_URLS),
-    fetchAnokaSuburbWards("Ramsey", RAMSEY_ROSTER, RAMSEY_PROFILE_URL),
-    fetchRochesterWards(),
-    fetchDuluthWards(),
-    fetchStCloudWards(),
-  ]);
+  const [mpls, stPaul, hennepinSuburbs, blaine, brooklynPark, anokaSuburbs, rochester, duluth, stCloud] =
+    await Promise.all([
+      fetchMinneapolisWards(),
+      fetchStPaulWards(),
+      fetchHennepinSuburbs(),
+      fetchBlaineWards(),
+      fetchBrooklynParkWards(),
+      fetchAnokaSuburbs(),
+      fetchRochesterWards(),
+      fetchDuluthWards(),
+      fetchStCloudWards(),
+    ]);
+  const [bloomington, plymouth, minnetonka, stLouisPark, richfield, champlin, crystal, robbinsdale] = hennepinSuburbs;
+  const [coonRapids, fridley, ramsey] = anokaSuburbs;
   // Named outputCollection, not featureCollection — shadowing the
   // @turf/helpers import of the same name would still work correctly here
   // (this is a different function's scope), but reads as if it might be

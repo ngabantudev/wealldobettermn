@@ -34,6 +34,19 @@ const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
  * fail-loud posture (AGENTS.md §0.3/§3.1) is preserved, this only adds
  * politeness on top of it, never a silent partial/fabricated result.
  *
+ * Also retries an ArcGIS-style error body — HTTP 200 with
+ * `{ error: { code, message, ... } }` instead of the requested payload.
+ * Found live while chasing fetch-wards.mjs's flaky ward counts: Hennepin
+ * County's shared ArcGIS FeatureServer returns exactly this shape
+ * ("Unable to complete operation") when several of this app's own
+ * concurrent same-host requests (8 Hennepin suburbs, previously all fired
+ * via one Promise.all) land on it at once — a real, reproducible upstream
+ * behavior, not a one-off flake. Since the HTTP status claims success,
+ * `!res.ok` alone can't see this class of failure; a caller that read
+ * `geojson.features ?? []` off an error body like this got `[]` — a
+ * *silent* wrong answer (0 wards for a real city), never a thrown error,
+ * exactly the kind of failure AGENTS.md §0.3/§3.1 exists to prevent.
+ *
  * `logLabel` controls the retry-wait log line's bracketed prefix
  * (`[${logLabel}] rate limited, waiting Ns...`) — pass the same prefix
  * each script's own other console.log calls already use, so a mid-run
@@ -53,5 +66,18 @@ export async function fetchJson(url, { headers = {}, logLabel = "fetch", maxRetr
     return fetchJson(url, { headers, logLabel, maxRetries, attempt: attempt + 1 });
   }
   if (!res.ok) throw new Error(`HTTP ${res.status} ${res.statusText} for ${url}`);
-  return res.json();
+  const body = await res.json();
+  if (body && typeof body === "object" && !Array.isArray(body) && body.error) {
+    if (attempt <= maxRetries) {
+      const delayMs = attempt * 2000;
+      console.log(
+        `[${logLabel}] upstream returned an error body (${body.error.message ?? "no message"}), ` +
+          `retrying in ${Math.round(delayMs / 1000)}s (attempt ${attempt})...`,
+      );
+      await sleep(delayMs);
+      return fetchJson(url, { headers, logLabel, maxRetries, attempt: attempt + 1 });
+    }
+    throw new Error(`Upstream error body for ${url}: ${JSON.stringify(body.error)}`);
+  }
+  return body;
 }
