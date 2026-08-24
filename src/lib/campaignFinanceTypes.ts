@@ -122,8 +122,8 @@ export interface NamedEntityContribution {
 // file.
 export interface CampaignFinanceCandidateSummary {
   // Deterministic slug of recipientCommittee, stable across re-runs given
-  // the same input roster (AGENTS.md §2.2) — see slugifyCommitteeName() in
-  // the ingest script.
+  // the same input roster (AGENTS.md §2.2) — see scripts/lib/slugify.mjs,
+  // called from the ingest script.
   id: string;
   recipientCommittee: string;
   cycles: string[];
