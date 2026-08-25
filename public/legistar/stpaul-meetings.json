@@ -2,22 +2,22 @@
   "schemaVersion": 1,
   "client": "stpaul",
   "jurisdiction": "St. Paul City Council",
-  "generatedAt": "2026-08-24T12:58:02.305Z",
+  "generatedAt": "2026-08-25T12:54:38.592Z",
   "status": "ingested",
-  "note": "19 meeting(s) (19/19 event(s) in window) and 284 agenda item(s) ingested for 2026-08-10–2026-11-22.",
+  "note": "20 meeting(s) (20/20 event(s) in window) and 291 agenda item(s) ingested for 2026-08-11–2026-11-23.",
   "provenance": {
     "primarySourceUrl": "https://webapi.legistar.com/v1/stpaul/events",
     "sourceAgency": "St. Paul City Council",
     "documentType": "Legistar Web API — Events/EventItems",
     "documentId": null,
     "issuedDate": null,
-    "fetchedAt": "2026-08-24T12:58:02.306Z",
+    "fetchedAt": "2026-08-25T12:54:38.592Z",
     "licence": "Public records served via Legistar InSite; no separate machine-reuse licence published by the host jurisdiction as of this writing.",
-    "contentHash": "00a4b09687c23237bf4ce58113076fff2c43d7299589e0f3d3a205efd31db04a"
+    "contentHash": "ef7caaf75775eb57f8ca90cbcd7ec1c34e7610debbe7ef42c6ab39cf49315b33"
   },
   "window": {
-    "startIso": "2026-08-10",
-    "endIso": "2026-11-22"
+    "startIso": "2026-08-11",
+    "endIso": "2026-11-23"
   },
   "meetings": [
     {
@@ -497,10 +497,10 @@
       "location": "Room 330 City Hall & Court House/by phone",
       "agendaStatus": "Final",
       "agendaUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/8/7738_A_Rent_Stabilization_Appeal_Hearings_26-08-21_Meeting_Agenda.pdf",
-      "minutesUrl": null,
+      "minutesUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/8/7738_M_Rent_Stabilization_Appeal_Hearings_26-08-21_Meeting_Minutes.pdf",
       "videoStatus": "Public",
       "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7738&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
-      "lastModifiedUtc": "2026-08-19T16:47:55.817",
+      "lastModifiedUtc": "2026-08-24T23:01:41.05",
       "members": []
     },
     {
@@ -562,11 +562,11 @@
       "time": "15:30",
       "location": "Council Chambers - 3rd Floor",
       "agendaStatus": "Final",
-      "agendaUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/8/7740_A_City_Council_26-08-26_ADA_Meeting_Agenda.pdf",
+      "agendaUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/8/7740_A_City_Council_26-08-26_Meeting_Agenda.pdf",
       "minutesUrl": null,
       "videoStatus": "Public",
       "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7740&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
-      "lastModifiedUtc": "2026-08-20T21:22:12.547",
+      "lastModifiedUtc": "2026-08-24T16:02:00.29",
       "members": [
         {
           "id": 6692,
@@ -734,7 +734,7 @@
       "minutesUrl": null,
       "videoStatus": "Public",
       "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7745&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
-      "lastModifiedUtc": "2026-08-20T21:30:13.083",
+      "lastModifiedUtc": "2026-08-24T16:07:36.57",
       "members": [
         {
           "id": 6692,
@@ -772,6 +772,21 @@
           "type": "Councilmember"
         }
       ]
+    },
+    {
+      "id": "legistar-stpaul-meeting-7746",
+      "body_id": "legistar-stpaul-body-195",
+      "bodyName": "Legislative Hearings",
+      "date": "2026-08-27",
+      "time": "09:00",
+      "location": "Room 330 City Hall & Court House/Remote",
+      "agendaStatus": "Final",
+      "agendaUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/8/7746_A_Legislative_Hearings_26-08-27_ADA_Meeting_Agenda.pdf",
+      "minutesUrl": null,
+      "videoStatus": "Public",
+      "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7746&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
+      "lastModifiedUtc": "2026-08-24T17:04:26.097",
+      "members": []
     }
   ],
   "agendaItems": [
@@ -3246,32 +3261,6 @@
       "matterType": null
     },
     {
-      "id": "legistar-stpaul-eventitem-216338",
-      "meeting_id": "legistar-stpaul-meeting-7738",
-      "sequence": 2,
-      "agendaNumber": null,
-      "title": "Appeal of Robert Fox to a Rent Stabilization Determination at 1640 EDGERTON STREET.",
-      "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
-      "matterFile": "RLH RSA 26-20",
-      "matterId": 52660,
-      "matterType": "Resolution LH Rent Stabilization Appeal"
-    },
-    {
-      "id": "legistar-stpaul-eventitem-216359",
-      "meeting_id": "legistar-stpaul-meeting-7738",
-      "sequence": 3,
-      "agendaNumber": null,
-      "title": "Appeal of Carli Valez, Tenant, to a Rent Stabilization Determination at 1640 EDGERTON STREET.",
-      "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
-      "matterFile": "RLH RSA 26-21",
-      "matterId": 52683,
-      "matterType": "Resolution LH Rent Stabilization Appeal"
-    },
-    {
       "id": "legistar-stpaul-eventitem-216364",
       "meeting_id": "legistar-stpaul-meeting-7739",
       "sequence": 1,
@@ -4466,15 +4455,147 @@
       "matterFile": "PH 26-16",
       "matterId": 52729,
       "matterType": "Public Hearing-Misc."
+    },
+    {
+      "id": "legistar-stpaul-eventitem-216544",
+      "meeting_id": "legistar-stpaul-meeting-7746",
+      "sequence": 1,
+      "agendaNumber": null,
+      "title": "9:00 a.m. Hearings",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-stpaul-eventitem-216547",
+      "meeting_id": "legistar-stpaul-meeting-7746",
+      "sequence": 2,
+      "agendaNumber": null,
+      "title": "Special Tax Assessments",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-stpaul-eventitem-216548",
+      "meeting_id": "legistar-stpaul-meeting-7746",
+      "sequence": 5,
+      "agendaNumber": "3",
+      "title": "Ratifying the Appealed Special Tax Assessment for property at 2099 SUBURBAN AVENUE. (File No. CG26Q1B5, Assessment No. 260155)",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "RLH TA 26-180",
+      "matterId": 52622,
+      "matterType": "Resolution LH Tax Assessment Appeal"
+    },
+    {
+      "id": "legistar-stpaul-eventitem-216549",
+      "meeting_id": "legistar-stpaul-meeting-7746",
+      "sequence": 4,
+      "agendaNumber": "2",
+      "title": "Ratifying the Appealed Special Tax Assessment for property at 961 SELBY AVENUE. (File No. CG26Q1B1, Assessment No. 260151)",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "RLH TA 26-187",
+      "matterId": 52631,
+      "matterType": "Resolution LH Tax Assessment Appeal"
+    },
+    {
+      "id": "legistar-stpaul-eventitem-216551",
+      "meeting_id": "legistar-stpaul-meeting-7746",
+      "sequence": 3,
+      "agendaNumber": "1",
+      "title": "Ratifying the Appealed Special Tax Assessment for property at 325 DAYTON AVENUE. (File No. CG26Q1B1, Assessment No. 260151)",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "RLH TA 26-198",
+      "matterId": 52747,
+      "matterType": "Resolution LH Tax Assessment Appeal"
+    },
+    {
+      "id": "legistar-stpaul-eventitem-216552",
+      "meeting_id": "legistar-stpaul-meeting-7746",
+      "sequence": 7,
+      "agendaNumber": "4",
+      "title": "Ratifying the Appealed Special Tax Assessment for property at 1206 MINNEHAHA AVENUE EAST. (File No. CG26Q1B5, Assessment No. 260155)",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "RLH TA 26-199",
+      "matterId": 52749,
+      "matterType": "Resolution LH Tax Assessment Appeal"
+    },
+    {
+      "id": "legistar-stpaul-eventitem-216553",
+      "meeting_id": "legistar-stpaul-meeting-7746",
+      "sequence": 9,
+      "agendaNumber": "6",
+      "title": "Ratifying the Appealed Special Tax Assessment for property at 719 SHERBURNE AVENUE. (File No. CG26Q1B5, Assessment No. 260155)",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "RLH TA 26-200",
+      "matterId": 52753,
+      "matterType": "Resolution LH Tax Assessment Appeal"
+    },
+    {
+      "id": "legistar-stpaul-eventitem-216554",
+      "meeting_id": "legistar-stpaul-meeting-7746",
+      "sequence": 8,
+      "agendaNumber": "5",
+      "title": "Ratifying the Appealed Special Tax Assessment for property at 686 SHERBURNE AVENUE. (File No. CG26Q1B5, Assessment No. 260155)",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "RLH TA 26-201",
+      "matterId": 52756,
+      "matterType": "Resolution LH Tax Assessment Appeal"
+    },
+    {
+      "id": "legistar-stpaul-eventitem-216558",
+      "meeting_id": "legistar-stpaul-meeting-7746",
+      "sequence": 6,
+      "agendaNumber": null,
+      "title": "11:00 a.m. Hearings",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
     }
   ],
   "diff": {
-    "addedIds": [],
+    "addedIds": [
+      "legistar-stpaul-meeting-7746"
+    ],
     "removedIds": [],
-    "changed": []
+    "changed": [
+      {
+        "id": "legistar-stpaul-meeting-7738",
+        "field": "minutesUrl",
+        "from": null,
+        "to": "https://legistar1.granicus.com/StPaul/meetings/2026/8/7738_M_Rent_Stabilization_Appeal_Hearings_26-08-21_Meeting_Minutes.pdf"
+      },
+      {
+        "id": "legistar-stpaul-meeting-7740",
+        "field": "agendaUrl",
+        "from": "https://legistar1.granicus.com/StPaul/meetings/2026/8/7740_A_City_Council_26-08-26_ADA_Meeting_Agenda.pdf",
+        "to": "https://legistar1.granicus.com/StPaul/meetings/2026/8/7740_A_City_Council_26-08-26_Meeting_Agenda.pdf"
+      }
+    ]
   },
-  "previousGeneratedAt": "2026-08-23T12:47:34.584Z",
+  "previousGeneratedAt": "2026-08-24T12:58:02.305Z",
   "knownGaps": [
-    "Consent-agenda flagging uses Legistar's own EventItemConsent field only (61 of 284 agenda item(s) in this window flagged). \"No discussion\" / \"no public comment\" are NOT flagged — this API exposes no comparably reliable field for either, and AGENTS.md §3.3 rules out inferring one from absence."
+    "Consent-agenda flagging uses Legistar's own EventItemConsent field only (61 of 291 agenda item(s) in this window flagged). \"No discussion\" / \"no public comment\" are NOT flagged — this API exposes no comparably reliable field for either, and AGENTS.md §3.3 rules out inferring one from absence."
   ]
 }
