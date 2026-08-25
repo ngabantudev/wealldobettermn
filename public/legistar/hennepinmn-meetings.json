@@ -2,22 +2,22 @@
   "schemaVersion": 1,
   "client": "hennepinmn",
   "jurisdiction": "Hennepin County Board",
-  "generatedAt": "2026-08-24T12:58:51.502Z",
+  "generatedAt": "2026-08-25T12:55:27.159Z",
   "status": "ingested",
-  "note": "14 meeting(s) (14/14 event(s) in window) and 220 agenda item(s) ingested for 2026-08-10–2026-11-22.",
+  "note": "14 meeting(s) (14/14 event(s) in window) and 219 agenda item(s) ingested for 2026-08-11–2026-11-23.",
   "provenance": {
     "primarySourceUrl": "https://webapi.legistar.com/v1/hennepinmn/events",
     "sourceAgency": "Hennepin County Board",
     "documentType": "Legistar Web API — Events/EventItems",
     "documentId": null,
     "issuedDate": null,
-    "fetchedAt": "2026-08-24T12:58:51.502Z",
+    "fetchedAt": "2026-08-25T12:55:27.160Z",
     "licence": "Public records served via Legistar InSite; no separate machine-reuse licence published by the host jurisdiction as of this writing.",
-    "contentHash": "7570ee22e3d2c20828f063ffe37b7a5e8b3a259fd4ebb18d34d824b5e15dda0a"
+    "contentHash": "bc9d8316b679c084659e0ea746465b4e11f631600cc98645c3135765f1f166c0"
   },
   "window": {
-    "startIso": "2026-08-10",
-    "endIso": "2026-11-22"
+    "startIso": "2026-08-11",
+    "endIso": "2026-11-23"
   },
   "meetings": [
     {
@@ -434,13 +434,13 @@
       "bodyName": "Hennepin Healthcare System Inc. Governing Board",
       "date": "2026-08-25",
       "time": "10:00",
-      "location": null,
+      "location": "Government Center - County Board Chambers",
       "agendaStatus": "Final",
-      "agendaUrl": null,
+      "agendaUrl": "https://hennepinmn.legistar1.com/hennepinmn/meetings/2026/8/1458_A_Hennepin_Healthcare_System_Inc._Governing_Board_26-08-25_BOARD_AGENDA.pdf",
       "minutesUrl": null,
       "videoStatus": "Public",
       "sourceUrl": "https://hennepinmn.legistar.com/MeetingDetail.aspx?LEGID=1458&GID=953&G=BA9AD5D7-E82F-425B-B72E-ABFEC8B35879",
-      "lastModifiedUtc": "2026-08-17T15:02:45.153",
+      "lastModifiedUtc": "2026-08-24T18:21:38.707",
       "members": []
     },
     {
@@ -450,12 +450,12 @@
       "date": "2026-08-25",
       "time": "13:30",
       "location": "Government Center - County Board Chambers",
-      "agendaStatus": "Preliminary",
+      "agendaStatus": "Final",
       "agendaUrl": "https://hennepinmn.legistar1.com/hennepinmn/meetings/2026/8/1459_A_Administration%2C_Operations_and_Budget_Committee_26-08-25_COMMITTEE_AGENDA.pdf",
       "minutesUrl": null,
       "videoStatus": "Public",
       "sourceUrl": "https://hennepinmn.legistar.com/MeetingDetail.aspx?LEGID=1459&GID=953&G=BA9AD5D7-E82F-425B-B72E-ABFEC8B35879",
-      "lastModifiedUtc": "2026-08-21T20:01:55.66",
+      "lastModifiedUtc": "2026-08-24T23:57:12.507",
       "members": [
         {
           "id": 508,
@@ -501,12 +501,12 @@
       "date": "2026-08-25",
       "time": "13:30",
       "location": "Government Center - County Board Chambers",
-      "agendaStatus": "Preliminary",
+      "agendaStatus": "Final",
       "agendaUrl": "https://hennepinmn.legistar1.com/hennepinmn/meetings/2026/8/1460_A_Human_Services_Committee_26-08-25_COMMITTEE_AGENDA.pdf",
       "minutesUrl": null,
       "videoStatus": "Public",
       "sourceUrl": "https://hennepinmn.legistar.com/MeetingDetail.aspx?LEGID=1460&GID=953&G=BA9AD5D7-E82F-425B-B72E-ABFEC8B35879",
-      "lastModifiedUtc": "2026-08-21T20:05:58.143",
+      "lastModifiedUtc": "2026-08-25T00:00:04.347",
       "members": [
         {
           "id": 454,
@@ -552,12 +552,12 @@
       "date": "2026-08-25",
       "time": "13:30",
       "location": "Government Center - County Board Chambers",
-      "agendaStatus": "Preliminary",
+      "agendaStatus": "Final",
       "agendaUrl": "https://hennepinmn.legistar1.com/hennepinmn/meetings/2026/8/1461_A_Law%2C_Safety_and_Justice_Committee_26-08-25_COMMITTEE_AGENDA.pdf",
       "minutesUrl": null,
       "videoStatus": "Public",
       "sourceUrl": "https://hennepinmn.legistar.com/MeetingDetail.aspx?LEGID=1461&GID=953&G=BA9AD5D7-E82F-425B-B72E-ABFEC8B35879",
-      "lastModifiedUtc": "2026-08-21T20:11:21.76",
+      "lastModifiedUtc": "2026-08-25T00:06:58.903",
       "members": [
         {
           "id": 508,
@@ -603,12 +603,12 @@
       "date": "2026-08-25",
       "time": "13:30",
       "location": "Government Center - County Board Chambers",
-      "agendaStatus": "Preliminary",
+      "agendaStatus": "Final",
       "agendaUrl": "https://hennepinmn.legistar1.com/hennepinmn/meetings/2026/8/1462_A_Resident_Services_Committee_26-08-25_COMMITTEE_AGENDA.pdf",
       "minutesUrl": null,
       "videoStatus": "Public",
       "sourceUrl": "https://hennepinmn.legistar.com/MeetingDetail.aspx?LEGID=1462&GID=953&G=BA9AD5D7-E82F-425B-B72E-ABFEC8B35879",
-      "lastModifiedUtc": "2026-08-21T20:19:38.207",
+      "lastModifiedUtc": "2026-08-25T00:17:47.167",
       "members": [
         {
           "id": 454,
@@ -654,12 +654,12 @@
       "date": "2026-08-25",
       "time": "13:30",
       "location": "Government Center - County Board Chambers",
-      "agendaStatus": "Preliminary",
+      "agendaStatus": "Final",
       "agendaUrl": "https://hennepinmn.legistar1.com/hennepinmn/meetings/2026/8/1463_A_Public_Works_Committee_26-08-25_COMMITTEE_AGENDA.pdf",
       "minutesUrl": null,
       "videoStatus": "Public",
       "sourceUrl": "https://hennepinmn.legistar.com/MeetingDetail.aspx?LEGID=1463&GID=953&G=BA9AD5D7-E82F-425B-B72E-ABFEC8B35879",
-      "lastModifiedUtc": "2026-08-21T20:17:26.53",
+      "lastModifiedUtc": "2026-08-25T00:15:07.083",
       "members": [
         {
           "id": 573,
@@ -2820,19 +2820,6 @@
       "matterType": "Minutes"
     },
     {
-      "id": "legistar-hennepinmn-eventitem-36483",
-      "meeting_id": "legistar-hennepinmn-meeting-1458",
-      "sequence": 10,
-      "agendaNumber": "5.A.",
-      "title": "Financial Report - June",
-      "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
-      "matterFile": "TMP-26-0654",
-      "matterId": 4767,
-      "matterType": "Minutes"
-    },
-    {
       "id": "legistar-hennepinmn-eventitem-36484",
       "meeting_id": "legistar-hennepinmn-meeting-1458",
       "sequence": 2,
@@ -2896,19 +2883,6 @@
       "matterFile": null,
       "matterId": null,
       "matterType": null
-    },
-    {
-      "id": "legistar-hennepinmn-eventitem-36496",
-      "meeting_id": "legistar-hennepinmn-meeting-1458",
-      "sequence": 11,
-      "agendaNumber": "5.B.",
-      "title": "2027 Budget",
-      "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
-      "matterFile": "TMP-26-0656",
-      "matterId": 4769,
-      "matterType": "Minutes"
     },
     {
       "id": "legistar-hennepinmn-eventitem-36497",
@@ -3084,7 +3058,7 @@
       "meeting_id": "legistar-hennepinmn-meeting-1459",
       "sequence": 3,
       "agendaNumber": "1.B.",
-      "title": "Hennepin History Museum Annual Update - John Crippen, Director",
+      "title": "Hennepin History Museum Annual Update - John Crippen, Executive Director",
       "isConsent": false,
       "actionName": null,
       "passedFlagName": null,
@@ -3405,6 +3379,19 @@
       "matterType": null
     },
     {
+      "id": "legistar-hennepinmn-eventitem-36558",
+      "meeting_id": "legistar-hennepinmn-meeting-1462",
+      "sequence": 5,
+      "agendaNumber": "2.A.",
+      "title": "Affirming Hennepin County’s commitment to ensuring free and fair elections",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "26-0316",
+      "matterId": 4786,
+      "matterType": "Resolution"
+    },
+    {
       "id": "legistar-hennepinmn-eventitem-36510",
       "meeting_id": "legistar-hennepinmn-meeting-1463",
       "sequence": 1,
@@ -3564,10 +3551,53 @@
   "diff": {
     "addedIds": [],
     "removedIds": [],
-    "changed": []
+    "changed": [
+      {
+        "id": "legistar-hennepinmn-meeting-1458",
+        "field": "location",
+        "from": null,
+        "to": "Government Center - County Board Chambers"
+      },
+      {
+        "id": "legistar-hennepinmn-meeting-1458",
+        "field": "agendaUrl",
+        "from": null,
+        "to": "https://hennepinmn.legistar1.com/hennepinmn/meetings/2026/8/1458_A_Hennepin_Healthcare_System_Inc._Governing_Board_26-08-25_BOARD_AGENDA.pdf"
+      },
+      {
+        "id": "legistar-hennepinmn-meeting-1459",
+        "field": "agendaStatus",
+        "from": "Preliminary",
+        "to": "Final"
+      },
+      {
+        "id": "legistar-hennepinmn-meeting-1460",
+        "field": "agendaStatus",
+        "from": "Preliminary",
+        "to": "Final"
+      },
+      {
+        "id": "legistar-hennepinmn-meeting-1461",
+        "field": "agendaStatus",
+        "from": "Preliminary",
+        "to": "Final"
+      },
+      {
+        "id": "legistar-hennepinmn-meeting-1462",
+        "field": "agendaStatus",
+        "from": "Preliminary",
+        "to": "Final"
+      },
+      {
+        "id": "legistar-hennepinmn-meeting-1463",
+        "field": "agendaStatus",
+        "from": "Preliminary",
+        "to": "Final"
+      }
+    ]
   },
-  "previousGeneratedAt": "2026-08-23T12:48:33.848Z",
+  "previousGeneratedAt": "2026-08-24T12:58:51.502Z",
   "knownGaps": [
-    "Consent-agenda flagging uses Legistar's own EventItemConsent field only (23 of 220 agenda item(s) in this window flagged). \"No discussion\" / \"no public comment\" are NOT flagged — this API exposes no comparably reliable field for either, and AGENTS.md §3.3 rules out inferring one from absence."
+    "Consent-agenda flagging uses Legistar's own EventItemConsent field only (23 of 219 agenda item(s) in this window flagged). \"No discussion\" / \"no public comment\" are NOT flagged — this API exposes no comparably reliable field for either, and AGENTS.md §3.3 rules out inferring one from absence."
   ]
 }

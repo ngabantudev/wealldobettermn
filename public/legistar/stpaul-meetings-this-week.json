@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-24T12:58:02.307Z",
+  "generatedAt": "2026-08-25T12:54:38.594Z",
   "meetingsThisWeek": [
     {
       "client": "stpaul",
@@ -165,7 +165,7 @@
       "time": "15:30",
       "location": "Council Chambers - 3rd Floor",
       "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7740&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
-      "agendaUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/8/7740_A_City_Council_26-08-26_ADA_Meeting_Agenda.pdf",
+      "agendaUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/8/7740_A_City_Council_26-08-26_Meeting_Agenda.pdf",
       "isCancelled": false,
       "members": [
         {
@@ -252,6 +252,18 @@
           "type": "Councilmember"
         }
       ]
+    },
+    {
+      "client": "stpaul",
+      "jurisdiction": "St. Paul City Council",
+      "bodyName": "Legislative Hearings",
+      "date": "2026-08-27",
+      "time": "09:00",
+      "location": "Room 330 City Hall & Court House/Remote",
+      "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7746&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
+      "agendaUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/8/7746_A_Legislative_Hearings_26-08-27_ADA_Meeting_Agenda.pdf",
+      "isCancelled": false,
+      "members": []
     }
   ]
 }
