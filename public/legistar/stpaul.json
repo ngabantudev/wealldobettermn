@@ -2,18 +2,18 @@
   "schemaVersion": 1,
   "client": "stpaul",
   "jurisdiction": "St. Paul City Council",
-  "generatedAt": "2026-08-25T12:54:35.293Z",
+  "generatedAt": "2026-08-26T13:01:43.571Z",
   "status": "ingested",
-  "note": "Full ingest: 220 holding(s) across 26 office(s) and 41 person(s), from officerecords. Votes windowed to 2026-06-26–2026-08-26 on \"City Council\": 250/310 matter(s) processed, 94 vote event(s), 658 vote(s).",
+  "note": "Full ingest: 220 holding(s) across 26 office(s) and 41 person(s), from officerecords. Votes windowed to 2026-06-27–2026-08-27 on \"City Council\": 250/314 matter(s) processed, 90 vote event(s), 630 vote(s).",
   "provenance": {
     "primarySourceUrl": "https://webapi.legistar.com/v1/stpaul",
     "sourceAgency": "St. Paul City Council",
     "documentType": "Legistar Web API",
     "documentId": null,
     "issuedDate": null,
-    "fetchedAt": "2026-08-25T12:54:35.293Z",
+    "fetchedAt": "2026-08-26T13:01:43.571Z",
     "licence": "Public records served via Legistar InSite; no separate machine-reuse licence published by the host jurisdiction as of this writing.",
-    "contentHash": "30114bdadcbe45adcc94d785f1ae72ce683425d1db63fd54275e85005b47b88c"
+    "contentHash": "cf5c24a00b9da3fd771524d3d9c3486707e3bd2eaa7c2d21de051f78a12f3678"
   },
   "jurisdiction_id": "legistar-stpaul",
   "bodies": [
@@ -548,9 +548,9 @@
       "term_start": "2008-01-01",
       "term_end": "2013-07-05",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/569",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -560,9 +560,9 @@
       "term_start": "1996-01-01",
       "term_end": "2018-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/570",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -572,9 +572,9 @@
       "term_start": "2008-01-01",
       "term_end": "2015-02-28",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/571",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -584,9 +584,9 @@
       "term_start": "1998-01-01",
       "term_end": "2015-02-27",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/572",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -596,9 +596,9 @@
       "term_start": "2004-01-01",
       "term_end": "2015-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/573",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -608,9 +608,9 @@
       "term_start": "2008-01-01",
       "term_end": "2014-01-07",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/674",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -620,9 +620,9 @@
       "term_start": "2008-01-01",
       "term_end": "2018-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/675",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -632,9 +632,9 @@
       "term_start": "2008-01-01",
       "term_end": "2013-07-05",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/676",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -644,9 +644,9 @@
       "term_start": "2012-01-01",
       "term_end": "2017-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/677",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -656,9 +656,9 @@
       "term_start": "2012-01-01",
       "term_end": "2014-01-07",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/678",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -668,9 +668,9 @@
       "term_start": "2008-01-01",
       "term_end": "2015-02-27",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/679",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -680,9 +680,9 @@
       "term_start": "2008-01-01",
       "term_end": "2018-02-16",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/680",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -692,9 +692,9 @@
       "term_start": "2012-01-01",
       "term_end": "2014-02-04",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/688",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -704,9 +704,9 @@
       "term_start": "2003-04-01",
       "term_end": "2018-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/689",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -716,9 +716,9 @@
       "term_start": "2008-01-01",
       "term_end": "2013-07-05",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/690",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -728,9 +728,9 @@
       "term_start": "2012-01-01",
       "term_end": "2023-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/691",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -740,9 +740,9 @@
       "term_start": "2003-04-01",
       "term_end": "2015-02-27",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/692",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -752,9 +752,9 @@
       "term_start": "2008-01-01",
       "term_end": "2014-02-04",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/693",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -764,9 +764,9 @@
       "term_start": "2003-04-01",
       "term_end": "2015-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/694",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -776,9 +776,9 @@
       "term_start": "2010-06-01",
       "term_end": "2020-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/709",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -788,9 +788,9 @@
       "term_start": "2011-12-28",
       "term_end": "2015-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/710",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -800,9 +800,9 @@
       "term_start": "2008-01-01",
       "term_end": "2015-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/711",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -812,9 +812,9 @@
       "term_start": "2008-01-01",
       "term_end": "2013-07-05",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/712",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -824,9 +824,9 @@
       "term_start": "2011-12-28",
       "term_end": "2015-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/713",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -836,9 +836,9 @@
       "term_start": "2008-01-01",
       "term_end": "2015-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/714",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -848,9 +848,9 @@
       "term_start": "2008-01-01",
       "term_end": "2015-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/715",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -860,9 +860,9 @@
       "term_start": "2008-01-01",
       "term_end": "2015-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/716",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -872,9 +872,9 @@
       "term_start": "1998-01-01",
       "term_end": "2015-02-28",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/717",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -884,9 +884,9 @@
       "term_start": "1996-01-01",
       "term_end": "2018-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/718",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -896,9 +896,9 @@
       "term_start": "2008-01-01",
       "term_end": "2013-07-08",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/719",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -908,9 +908,9 @@
       "term_start": "2011-12-28",
       "term_end": "2023-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/720",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -920,9 +920,9 @@
       "term_start": "2008-01-01",
       "term_end": "2018-02-16",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/721",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -932,9 +932,9 @@
       "term_start": "2011-12-28",
       "term_end": "2023-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/722",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -944,9 +944,9 @@
       "term_start": "2004-01-01",
       "term_end": "2015-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/723",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -956,9 +956,9 @@
       "term_start": "2010-06-01",
       "term_end": "2020-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/726",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -968,9 +968,9 @@
       "term_start": "2012-01-01",
       "term_end": "2023-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/962",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -980,9 +980,9 @@
       "term_start": "2012-01-01",
       "term_end": "2023-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/963",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -992,9 +992,9 @@
       "term_start": "2010-10-01",
       "term_end": "2011-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/966",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -1004,9 +1004,9 @@
       "term_start": "2010-10-01",
       "term_end": "2011-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/967",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -1016,9 +1016,9 @@
       "term_start": "2010-10-01",
       "term_end": "2011-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/968",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -1028,9 +1028,9 @@
       "term_start": "2010-10-01",
       "term_end": "2011-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/969",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -1040,9 +1040,9 @@
       "term_start": "2003-04-01",
       "term_end": "2011-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/970",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -1052,9 +1052,9 @@
       "term_start": "2013-07-09",
       "term_end": "2013-11-20",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/997",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -1064,9 +1064,9 @@
       "term_start": "2013-07-09",
       "term_end": "2013-11-20",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/998",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -1076,9 +1076,9 @@
       "term_start": "2013-07-09",
       "term_end": "2013-11-20",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1001",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -1088,9 +1088,9 @@
       "term_start": "2013-07-09",
       "term_end": "2013-11-20",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1002",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -1100,9 +1100,9 @@
       "term_start": "2013-07-10",
       "term_end": "2013-11-20",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1004",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -1112,9 +1112,9 @@
       "term_start": "2013-11-21",
       "term_end": "2022-07-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1005",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -1124,9 +1124,9 @@
       "term_start": "2013-11-21",
       "term_end": "2022-07-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1006",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -1136,9 +1136,9 @@
       "term_start": "2013-11-21",
       "term_end": "2022-07-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1007",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -1148,9 +1148,9 @@
       "term_start": "2013-11-21",
       "term_end": "2015-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1008",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -1160,9 +1160,9 @@
       "term_start": "2013-11-21",
       "term_end": "2022-07-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1009",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -1172,9 +1172,9 @@
       "term_start": "2013-12-09",
       "term_end": "2014-06-30",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1010",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -1184,9 +1184,9 @@
       "term_start": "2013-12-09",
       "term_end": "2020-06-30",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1011",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -1196,9 +1196,9 @@
       "term_start": "2012-01-04",
       "term_end": "2023-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1012",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -1208,9 +1208,9 @@
       "term_start": "2012-01-04",
       "term_end": "2024-07-08",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1013",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -1220,9 +1220,9 @@
       "term_start": "2012-01-04",
       "term_end": "2015-02-27",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1014",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -1232,9 +1232,9 @@
       "term_start": "2013-12-09",
       "term_end": "2019-03-24",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1015",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -1244,9 +1244,9 @@
       "term_start": "2014-01-08",
       "term_end": "2015-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1016",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -1256,9 +1256,9 @@
       "term_start": "2014-01-08",
       "term_end": "2017-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1017",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -1268,9 +1268,9 @@
       "term_start": "2014-02-05",
       "term_end": "2023-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1018",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -1280,9 +1280,9 @@
       "term_start": "2014-02-05",
       "term_end": "2018-02-16",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1019",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -1292,9 +1292,9 @@
       "term_start": "2014-01-27",
       "term_end": "2014-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1020",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -1304,9 +1304,9 @@
       "term_start": "2014-05-14",
       "term_end": "2019-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1023",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -1316,9 +1316,9 @@
       "term_start": "2014-05-14",
       "term_end": "2015-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1024",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -1328,9 +1328,9 @@
       "term_start": "2014-05-14",
       "term_end": "2019-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1025",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -1340,9 +1340,9 @@
       "term_start": "2014-05-14",
       "term_end": "2019-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1026",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -1352,9 +1352,9 @@
       "term_start": "2014-05-14",
       "term_end": "2019-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1027",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -1364,9 +1364,9 @@
       "term_start": "2014-05-14",
       "term_end": "2015-03-01",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1028",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -1376,9 +1376,9 @@
       "term_start": "2014-05-14",
       "term_end": "2019-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1029",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -1388,9 +1388,9 @@
       "term_start": "2014-06-03",
       "term_end": "2018-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1036",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -1400,9 +1400,9 @@
       "term_start": "2014-06-03",
       "term_end": "2015-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1037",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -1412,9 +1412,9 @@
       "term_start": "2014-06-03",
       "term_end": "2023-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1038",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -1424,9 +1424,9 @@
       "term_start": "2014-06-03",
       "term_end": "2022-07-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1039",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -1436,9 +1436,9 @@
       "term_start": "2014-06-03",
       "term_end": "2023-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1040",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -1448,9 +1448,9 @@
       "term_start": "2014-06-03",
       "term_end": "2018-02-16",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1041",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -1460,9 +1460,9 @@
       "term_start": "2014-06-03",
       "term_end": "2015-02-27",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1042",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -1472,9 +1472,9 @@
       "term_start": "2014-10-14",
       "term_end": "2018-06-30",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1048",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -1484,9 +1484,9 @@
       "term_start": "2015-01-13",
       "term_end": "2016-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1049",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -1496,9 +1496,9 @@
       "term_start": "2015-03-01",
       "term_end": "2015-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1050",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -1508,9 +1508,9 @@
       "term_start": "2015-03-04",
       "term_end": "2015-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1051",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -1520,9 +1520,9 @@
       "term_start": "2008-01-01",
       "term_end": "2018-02-16",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1053",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -1532,9 +1532,9 @@
       "term_start": "2015-03-01",
       "term_end": "2015-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1054",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -1544,9 +1544,9 @@
       "term_start": "2015-03-04",
       "term_end": "2015-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1056",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -1556,9 +1556,9 @@
       "term_start": "2015-03-01",
       "term_end": "2015-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1058",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -1568,9 +1568,9 @@
       "term_start": "2015-03-03",
       "term_end": "2015-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1059",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -1580,9 +1580,9 @@
       "term_start": "2016-01-01",
       "term_end": "2028-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1060",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -1592,9 +1592,9 @@
       "term_start": "2016-01-01",
       "term_end": "2023-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1061",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -1604,9 +1604,9 @@
       "term_start": "2016-01-01",
       "term_end": "2019-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1062",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -1616,9 +1616,9 @@
       "term_start": "2016-01-01",
       "term_end": "2019-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1063",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -1628,9 +1628,9 @@
       "term_start": "2016-01-01",
       "term_end": "2028-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1064",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -1640,9 +1640,9 @@
       "term_start": "2016-01-01",
       "term_end": "2023-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1065",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -1652,9 +1652,9 @@
       "term_start": "2016-01-01",
       "term_end": "2028-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1066",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -1664,9 +1664,9 @@
       "term_start": "2016-01-01",
       "term_end": "2023-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1067",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -1676,9 +1676,9 @@
       "term_start": "2016-01-01",
       "term_end": "2028-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1068",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -1688,9 +1688,9 @@
       "term_start": "2016-01-01",
       "term_end": "2023-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1069",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -1700,9 +1700,9 @@
       "term_start": "2016-01-01",
       "term_end": "2028-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1070",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -1712,9 +1712,9 @@
       "term_start": "2016-01-01",
       "term_end": "2023-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1071",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -1724,9 +1724,9 @@
       "term_start": "2015-03-04",
       "term_end": "2015-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1072",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -1736,9 +1736,9 @@
       "term_start": "2016-01-18",
       "term_end": "2019-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1073",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -1748,9 +1748,9 @@
       "term_start": "2016-10-07",
       "term_end": "2016-11-02",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1075",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -1760,9 +1760,9 @@
       "term_start": "2016-10-07",
       "term_end": "2016-11-02",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1076",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -1772,9 +1772,9 @@
       "term_start": "2017-01-01",
       "term_end": "2017-01-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1080",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -1784,9 +1784,9 @@
       "term_start": "2017-02-06",
       "term_end": "2017-03-23",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1081",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -1796,9 +1796,9 @@
       "term_start": "2017-03-24",
       "term_end": "2019-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1082",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -1808,9 +1808,9 @@
       "term_start": "2018-01-01",
       "term_end": "2023-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1085",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -1820,9 +1820,9 @@
       "term_start": "2018-01-01",
       "term_end": "2023-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1086",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -1832,9 +1832,9 @@
       "term_start": "2018-02-19",
       "term_end": "2018-09-04",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1087",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -1844,9 +1844,9 @@
       "term_start": "2018-02-19",
       "term_end": "2018-09-04",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1088",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -1856,9 +1856,9 @@
       "term_start": "2018-02-19",
       "term_end": "2018-09-04",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1089",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -1868,9 +1868,9 @@
       "term_start": "2018-02-19",
       "term_end": "2018-09-04",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1090",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -1880,9 +1880,9 @@
       "term_start": "2018-02-19",
       "term_end": "2018-09-04",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1091",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -1892,9 +1892,9 @@
       "term_start": "2018-09-05",
       "term_end": "2025-03-07",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1092",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -1904,9 +1904,9 @@
       "term_start": "2018-09-05",
       "term_end": "2025-03-08",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1093",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -1916,9 +1916,9 @@
       "term_start": "2018-09-05",
       "term_end": "2025-03-07",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1094",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -1928,9 +1928,9 @@
       "term_start": "2018-08-01",
       "term_end": "2026-08-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1095",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -1940,9 +1940,9 @@
       "term_start": "2018-09-05",
       "term_end": "2025-03-07",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1098",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -1952,9 +1952,9 @@
       "term_start": "2018-09-05",
       "term_end": "2025-03-07",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1099",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -1964,9 +1964,9 @@
       "term_start": "2019-02-06",
       "term_end": "2019-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1100",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -1976,9 +1976,9 @@
       "term_start": "2019-02-06",
       "term_end": "2019-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1101",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -1988,9 +1988,9 @@
       "term_start": "2019-02-06",
       "term_end": "2019-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1102",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -2000,9 +2000,9 @@
       "term_start": "2019-02-06",
       "term_end": "2019-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1103",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -2012,9 +2012,9 @@
       "term_start": "2019-02-06",
       "term_end": "2019-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1104",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -2024,9 +2024,9 @@
       "term_start": "2019-03-25",
       "term_end": "2022-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1105",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -2036,9 +2036,9 @@
       "term_start": "2020-01-01",
       "term_end": "2022-08-22",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1110",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -2048,9 +2048,9 @@
       "term_start": "2020-01-01",
       "term_end": "2025-11-30",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1111",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -2060,9 +2060,9 @@
       "term_start": "2020-01-01",
       "term_end": "2028-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1112",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -2072,9 +2072,9 @@
       "term_start": "2020-01-01",
       "term_end": "2028-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1113",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -2084,9 +2084,9 @@
       "term_start": "2020-01-01",
       "term_end": "2028-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1114",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -2096,9 +2096,9 @@
       "term_start": "2020-01-01",
       "term_end": "2028-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1115",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -2108,9 +2108,9 @@
       "term_start": "2020-01-01",
       "term_end": "2028-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1116",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -2120,9 +2120,9 @@
       "term_start": "2020-08-01",
       "term_end": "2023-08-10",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1118",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -2132,9 +2132,9 @@
       "term_start": "2020-10-13",
       "term_end": "2027-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1122",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -2144,9 +2144,9 @@
       "term_start": "2020-10-13",
       "term_end": "2023-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1123",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -2156,9 +2156,9 @@
       "term_start": "2022-08-10",
       "term_end": "2023-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1141",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -2168,9 +2168,9 @@
       "term_start": "2022-08-11",
       "term_end": "2023-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1142",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -2180,9 +2180,9 @@
       "term_start": "2022-08-10",
       "term_end": "2023-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1143",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -2192,9 +2192,9 @@
       "term_start": "2022-08-11",
       "term_end": "2023-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1144",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -2204,9 +2204,9 @@
       "term_start": "2022-08-10",
       "term_end": "2023-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1145",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -2216,9 +2216,9 @@
       "term_start": "2022-12-16",
       "term_end": "2025-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1146",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -2228,9 +2228,9 @@
       "term_start": "2023-01-01",
       "term_end": "2027-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1147",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -2240,9 +2240,9 @@
       "term_start": "2020-10-13",
       "term_end": "2023-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1152",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -2252,9 +2252,9 @@
       "term_start": "2016-01-01",
       "term_end": "2027-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1153",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -2264,9 +2264,9 @@
       "term_start": "2023-05-03",
       "term_end": "2023-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1154",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -2276,9 +2276,9 @@
       "term_start": "2023-05-03",
       "term_end": "2023-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1155",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -2288,9 +2288,9 @@
       "term_start": "2023-05-03",
       "term_end": "2027-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1156",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -2300,9 +2300,9 @@
       "term_start": "2023-05-03",
       "term_end": "2023-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1157",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -2312,9 +2312,9 @@
       "term_start": "2023-05-03",
       "term_end": "2023-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1158",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -2324,9 +2324,9 @@
       "term_start": "2023-05-03",
       "term_end": "2027-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1159",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -2336,9 +2336,9 @@
       "term_start": "2024-01-01",
       "term_end": "2028-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1164",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -2348,9 +2348,9 @@
       "term_start": "2024-01-01",
       "term_end": "2028-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1166",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -2360,9 +2360,9 @@
       "term_start": "2024-01-01",
       "term_end": "2028-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1168",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -2372,9 +2372,9 @@
       "term_start": "2024-01-01",
       "term_end": "2028-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1169",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -2384,9 +2384,9 @@
       "term_start": "2024-01-01",
       "term_end": "2028-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1170",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -2396,9 +2396,9 @@
       "term_start": "2024-01-01",
       "term_end": "2028-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1171",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -2408,9 +2408,9 @@
       "term_start": "2024-01-01",
       "term_end": "2028-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1172",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -2420,9 +2420,9 @@
       "term_start": "2024-01-01",
       "term_end": "2028-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1173",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -2432,9 +2432,9 @@
       "term_start": "2024-01-01",
       "term_end": "2027-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1174",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -2444,9 +2444,9 @@
       "term_start": "2024-01-01",
       "term_end": "2027-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1175",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -2456,9 +2456,9 @@
       "term_start": "2024-01-01",
       "term_end": "2027-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1176",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -2468,9 +2468,9 @@
       "term_start": "2024-01-01",
       "term_end": "2027-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1177",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -2480,9 +2480,9 @@
       "term_start": "2024-01-01",
       "term_end": "2028-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1178",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -2492,9 +2492,9 @@
       "term_start": "2024-01-01",
       "term_end": "2028-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1179",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -2504,9 +2504,9 @@
       "term_start": "2024-01-01",
       "term_end": "2028-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1180",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -2516,9 +2516,9 @@
       "term_start": "2024-01-01",
       "term_end": "2028-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1181",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -2528,9 +2528,9 @@
       "term_start": "2024-01-01",
       "term_end": "2028-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1182",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -2540,9 +2540,9 @@
       "term_start": "2024-01-01",
       "term_end": "2028-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1183",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -2552,9 +2552,9 @@
       "term_start": "2024-01-01",
       "term_end": "2028-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1184",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -2564,9 +2564,9 @@
       "term_start": "2024-01-01",
       "term_end": "2028-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1185",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -2576,9 +2576,9 @@
       "term_start": "2024-01-01",
       "term_end": "2028-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1186",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -2588,9 +2588,9 @@
       "term_start": "2024-01-01",
       "term_end": "2028-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1187",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -2600,9 +2600,9 @@
       "term_start": "2024-01-01",
       "term_end": "2028-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1188",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -2612,9 +2612,9 @@
       "term_start": "2024-01-01",
       "term_end": "2028-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1189",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -2624,9 +2624,9 @@
       "term_start": "2024-01-01",
       "term_end": "2025-04-09",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1190",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -2636,9 +2636,9 @@
       "term_start": "2024-01-01",
       "term_end": "2028-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1191",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -2648,9 +2648,9 @@
       "term_start": "2024-01-24",
       "term_end": "2025-03-12",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1192",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -2660,9 +2660,9 @@
       "term_start": "2024-01-24",
       "term_end": "2025-01-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1193",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -2672,9 +2672,9 @@
       "term_start": "2024-05-01",
       "term_end": "2024-08-09",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1194",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -2684,9 +2684,9 @@
       "term_start": "2024-08-10",
       "term_end": "2028-07-24",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1195",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -2696,9 +2696,9 @@
       "term_start": "2025-02-12",
       "term_end": "2028-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1200",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -2708,9 +2708,9 @@
       "term_start": "2025-02-12",
       "term_end": "2028-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1201",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -2720,9 +2720,9 @@
       "term_start": "2025-02-12",
       "term_end": "2028-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1202",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -2732,9 +2732,9 @@
       "term_start": "2025-02-12",
       "term_end": "2028-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1203",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -2744,9 +2744,9 @@
       "term_start": "2025-02-12",
       "term_end": "2028-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1204",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -2756,9 +2756,9 @@
       "term_start": "2025-02-12",
       "term_end": "2028-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1205",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -2768,9 +2768,9 @@
       "term_start": "2024-01-24",
       "term_end": "2025-03-19",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1206",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -2780,9 +2780,9 @@
       "term_start": "2024-01-24",
       "term_end": "2025-03-19",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1207",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -2792,9 +2792,9 @@
       "term_start": "2025-04-09",
       "term_end": "2025-08-20",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1209",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -2804,9 +2804,9 @@
       "term_start": "2025-04-09",
       "term_end": "2025-08-20",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1210",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -2816,9 +2816,9 @@
       "term_start": "2025-08-27",
       "term_end": "2028-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1212",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -2828,9 +2828,9 @@
       "term_start": "2025-04-09",
       "term_end": "2025-08-20",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1213",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -2840,9 +2840,9 @@
       "term_start": "2025-04-09",
       "term_end": "2025-08-20",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1214",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -2852,9 +2852,9 @@
       "term_start": "2025-04-16",
       "term_end": "2025-08-13",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1216",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -2864,9 +2864,9 @@
       "term_start": "2025-06-13",
       "term_end": "2025-08-12",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1219",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -2876,9 +2876,9 @@
       "term_start": "2025-08-27",
       "term_end": "2028-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1220",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -2888,9 +2888,9 @@
       "term_start": "2025-04-09",
       "term_end": "2025-08-20",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1221",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -2900,9 +2900,9 @@
       "term_start": "2025-04-09",
       "term_end": "2025-08-20",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1222",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -2912,9 +2912,9 @@
       "term_start": "2025-08-27",
       "term_end": "2028-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1223",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -2924,9 +2924,9 @@
       "term_start": "2025-08-27",
       "term_end": "2027-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1224",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -2936,9 +2936,9 @@
       "term_start": "2025-08-27",
       "term_end": "2028-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1225",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -2948,9 +2948,9 @@
       "term_start": "2025-08-27",
       "term_end": "2028-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1226",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -2960,9 +2960,9 @@
       "term_start": "2025-08-27",
       "term_end": "2028-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1227",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -2972,9 +2972,9 @@
       "term_start": "2025-08-27",
       "term_end": "2028-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1228",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -2984,9 +2984,9 @@
       "term_start": "2026-01-01",
       "term_end": "2028-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1233",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -2996,9 +2996,9 @@
       "term_start": "2025-12-01",
       "term_end": "2028-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1234",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -3008,9 +3008,9 @@
       "term_start": "2026-02-10",
       "term_end": "2028-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1235",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -3020,9 +3020,9 @@
       "term_start": "2026-02-10",
       "term_end": "2028-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1236",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -3032,9 +3032,9 @@
       "term_start": "2026-02-10",
       "term_end": "2028-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1237",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -3044,9 +3044,9 @@
       "term_start": "2026-02-10",
       "term_end": "2028-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1238",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -3056,9 +3056,9 @@
       "term_start": "2026-02-10",
       "term_end": "2028-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1239",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -3068,9 +3068,9 @@
       "term_start": "2026-02-10",
       "term_end": "2028-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1240",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -3080,9 +3080,9 @@
       "term_start": "2026-02-10",
       "term_end": "2028-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1241",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -3092,9 +3092,9 @@
       "term_start": "2026-02-11",
       "term_end": "2028-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1242",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -3104,9 +3104,9 @@
       "term_start": "2026-02-11",
       "term_end": "2028-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1243",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -3116,9 +3116,9 @@
       "term_start": "2026-02-11",
       "term_end": "2028-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1244",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -3128,9 +3128,9 @@
       "term_start": "2026-02-11",
       "term_end": "2028-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1245",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -3140,9 +3140,9 @@
       "term_start": "2026-02-11",
       "term_end": "2028-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1246",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -3152,9 +3152,9 @@
       "term_start": "2026-02-11",
       "term_end": "2028-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1247",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -3164,9 +3164,9 @@
       "term_start": "2026-02-11",
       "term_end": "2028-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1248",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     },
     {
@@ -3176,9 +3176,9 @@
       "term_start": "2026-03-05",
       "term_end": "2028-12-31",
       "source_url": "https://webapi.legistar.com/v1/stpaul/officerecords/1249",
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "verifiedAt": "2026-08-25",
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "verifiedAt": "2026-08-26",
       "verifiedAgainst": "https://webapi.legistar.com/v1/stpaul/officerecords"
     }
   ],
@@ -3530,6 +3530,14 @@
       "source_url": "https://stpaul.legistar.com/LegislationDetail.aspx?ID=8169273&GUID=807DD852-0217-4CBC-A3DE-45071903906E"
     },
     {
+      "id": "legistar-stpaul-agendaitem-216220",
+      "meeting_id": "legistar-stpaul-meeting-7731",
+      "title": "Appeal of Bambi Barclay to a Correction Notice (which includes vacate order) at 1103 CHATSWORTH STREET NORTH.",
+      "file_number": "RLH VO 26-33",
+      "external_id": "52513",
+      "source_url": "https://stpaul.legistar.com/LegislationDetail.aspx?ID=8170113&GUID=A0C6A1CD-44B4-4E23-B751-4C08B62D4F55"
+    },
+    {
       "id": "legistar-stpaul-agendaitem-215830",
       "meeting_id": "legistar-stpaul-meeting-7719",
       "title": "Appeal of Jamie Rasmussen to a Fire Inspection Notice of Condemnation and Order to Remain Vacant at 1875 NEBRASKA AVENUE EAST.",
@@ -3560,6 +3568,14 @@
       "file_number": "RES 26-1253",
       "external_id": "52518",
       "source_url": "https://stpaul.legistar.com/LegislationDetail.aspx?ID=8157839&GUID=E26189EE-E390-4A63-83D1-C992C3C733C4"
+    },
+    {
+      "id": "legistar-stpaul-agendaitem-215831",
+      "meeting_id": "legistar-stpaul-meeting-7719",
+      "title": "Appeal of Justin Rasmussen to a Fire Inspection Notice of Condemnation and Order to Remain Vacant at 1875 NEBRASKA AVENUE EAST.",
+      "file_number": "RLH VO 26-34",
+      "external_id": "52519",
+      "source_url": "https://stpaul.legistar.com/LegislationDetail.aspx?ID=8162072&GUID=018C8F09-D2CB-44AF-B29E-8FCD0CF29395"
     },
     {
       "id": "legistar-stpaul-agendaitem-215956",
@@ -3920,54 +3936,6 @@
       "file_number": "RES 26-1156",
       "external_id": "52397",
       "source_url": "https://stpaul.legistar.com/LegislationDetail.aspx?ID=8141903&GUID=21F94734-61D7-4DCA-B215-874096A57BC0"
-    },
-    {
-      "id": "legistar-stpaul-agendaitem-215813",
-      "meeting_id": "legistar-stpaul-meeting-7719",
-      "title": "Approving the application of One Simple Plan for a sound level variance in order to present amplified sound for an IndiaFest 2026 event on Saturday, August 15, 2026, at 75 Rev. Dr. Martin Luther King Jr. Blvd - Minnesota State Capitol Grounds.",
-      "file_number": "RES PH 26-161",
-      "external_id": "52400",
-      "source_url": "https://stpaul.legistar.com/LegislationDetail.aspx?ID=8137277&GUID=39635C67-17FD-4902-8175-34526953C1A6"
-    },
-    {
-      "id": "legistar-stpaul-agendaitem-216234",
-      "meeting_id": "legistar-stpaul-meeting-7731",
-      "title": "Ratifying the Appealed Special Tax Assessment for property at 99 CALIFORNIA AVENUE WEST (AKA 100 CALIFORNIA AVENUE WEST). (File No. J2612B, Assessment No. 268118)",
-      "file_number": "RLH TA 26-152",
-      "external_id": "52388",
-      "source_url": "https://stpaul.legistar.com/LegislationDetail.aspx?ID=8160168&GUID=25AAE04F-B64E-49EF-8C79-6A2E326776F0"
-    },
-    {
-      "id": "legistar-stpaul-agendaitem-215780",
-      "meeting_id": "legistar-stpaul-meeting-7719",
-      "title": "Approving the use of a Project Labor Agreement for the Merriam Park Skate Park project.",
-      "file_number": "RES 26-1151",
-      "external_id": "52389",
-      "source_url": "https://stpaul.legistar.com/LegislationDetail.aspx?ID=8140979&GUID=0FC513CF-9F1D-416F-9B17-C87FE4E0001D"
-    },
-    {
-      "id": "legistar-stpaul-agendaitem-216211",
-      "meeting_id": "legistar-stpaul-meeting-7731",
-      "title": "Amending the financing and spending plans in the Department of Parks and Recreation in the amount of $633,224 to reflect remaining bond issued interest proceeds received from the Saint Paul Port Authority for the EAB Capital Project.",
-      "file_number": "RES PH 26-158",
-      "external_id": "52390",
-      "source_url": "https://stpaul.legistar.com/LegislationDetail.aspx?ID=8169818&GUID=10983F5F-A83F-457A-A7AE-A0E58A10FA0D"
-    },
-    {
-      "id": "legistar-stpaul-agendaitem-215812",
-      "meeting_id": "legistar-stpaul-meeting-7719",
-      "title": "Amending the Parks and Recreation 2026 Grant and Aid Fund for a $2,285,000 donation from Como Friends, a non-profit to promote, support, preserve and enhance the Como Zoo and Marjorie McNeely Conservatory.",
-      "file_number": "RES PH 26-160",
-      "external_id": "52392",
-      "source_url": "https://stpaul.legistar.com/LegislationDetail.aspx?ID=8141902&GUID=89108660-7025-4BA1-90A5-76EA58732CD9"
-    },
-    {
-      "id": "legistar-stpaul-agendaitem-216235",
-      "meeting_id": "legistar-stpaul-meeting-7731",
-      "title": "Ratifying the Appealed Special Tax Assessment for property at 1654 BUSH AVENUE. (File No. 2605T, Assessment No. 269005)",
-      "file_number": "RLH TA 26-153",
-      "external_id": "52395",
-      "source_url": "https://stpaul.legistar.com/LegislationDetail.aspx?ID=8169978&GUID=25262301-E322-4BAE-B35B-804A14170299"
     }
   ],
   "voteEvents": [
@@ -4206,6 +4174,12 @@
       "date": "2026-08-19"
     },
     {
+      "id": "legistar-stpaul-voteevent-216220",
+      "agenda_item_id": "legistar-stpaul-agendaitem-216220",
+      "result": "Pass",
+      "date": "2026-08-19"
+    },
+    {
       "id": "legistar-stpaul-voteevent-215830",
       "agenda_item_id": "legistar-stpaul-agendaitem-215830",
       "result": "Pass",
@@ -4227,6 +4201,12 @@
       "id": "legistar-stpaul-voteevent-215896",
       "agenda_item_id": "legistar-stpaul-agendaitem-215896",
       "result": "Fail",
+      "date": "2026-08-05"
+    },
+    {
+      "id": "legistar-stpaul-voteevent-215831",
+      "agenda_item_id": "legistar-stpaul-agendaitem-215831",
+      "result": "Pass",
       "date": "2026-08-05"
     },
     {
@@ -4498,42 +4478,6 @@
       "agenda_item_id": "legistar-stpaul-agendaitem-215781",
       "result": "Pass",
       "date": "2026-08-05"
-    },
-    {
-      "id": "legistar-stpaul-voteevent-215813",
-      "agenda_item_id": "legistar-stpaul-agendaitem-215813",
-      "result": "Pass",
-      "date": "2026-08-05"
-    },
-    {
-      "id": "legistar-stpaul-voteevent-216234",
-      "agenda_item_id": "legistar-stpaul-agendaitem-216234",
-      "result": "Pass",
-      "date": "2026-08-19"
-    },
-    {
-      "id": "legistar-stpaul-voteevent-215780",
-      "agenda_item_id": "legistar-stpaul-agendaitem-215780",
-      "result": "Pass",
-      "date": "2026-08-05"
-    },
-    {
-      "id": "legistar-stpaul-voteevent-216211",
-      "agenda_item_id": "legistar-stpaul-agendaitem-216211",
-      "result": "Pass",
-      "date": "2026-08-19"
-    },
-    {
-      "id": "legistar-stpaul-voteevent-215812",
-      "agenda_item_id": "legistar-stpaul-agendaitem-215812",
-      "result": "Pass",
-      "date": "2026-08-05"
-    },
-    {
-      "id": "legistar-stpaul-voteevent-216235",
-      "agenda_item_id": "legistar-stpaul-agendaitem-216235",
-      "result": "Pass",
-      "date": "2026-08-19"
     }
   ],
   "votes": [
@@ -6176,6 +6120,48 @@
       "value": "yea"
     },
     {
+      "id": "legistar-stpaul-vote-216220-130414",
+      "vote_event_id": "legistar-stpaul-voteevent-216220",
+      "holding_id": "legistar-stpaul-holding-1060",
+      "value": "absent"
+    },
+    {
+      "id": "legistar-stpaul-vote-216220-130415",
+      "vote_event_id": "legistar-stpaul-voteevent-216220",
+      "holding_id": "legistar-stpaul-holding-1112",
+      "value": "yea"
+    },
+    {
+      "id": "legistar-stpaul-vote-216220-130416",
+      "vote_event_id": "legistar-stpaul-voteevent-216220",
+      "holding_id": "legistar-stpaul-holding-1164",
+      "value": "yea"
+    },
+    {
+      "id": "legistar-stpaul-vote-216220-130417",
+      "vote_event_id": "legistar-stpaul-voteevent-216220",
+      "holding_id": "legistar-stpaul-holding-1166",
+      "value": "yea"
+    },
+    {
+      "id": "legistar-stpaul-vote-216220-130418",
+      "vote_event_id": "legistar-stpaul-voteevent-216220",
+      "holding_id": "legistar-stpaul-holding-1168",
+      "value": "yea"
+    },
+    {
+      "id": "legistar-stpaul-vote-216220-130419",
+      "vote_event_id": "legistar-stpaul-voteevent-216220",
+      "holding_id": "legistar-stpaul-holding-1169",
+      "value": "yea"
+    },
+    {
+      "id": "legistar-stpaul-vote-216220-130420",
+      "vote_event_id": "legistar-stpaul-voteevent-216220",
+      "holding_id": "legistar-stpaul-holding-1220",
+      "value": "yea"
+    },
+    {
       "id": "legistar-stpaul-vote-215830-130141",
       "vote_event_id": "legistar-stpaul-voteevent-215830",
       "holding_id": "legistar-stpaul-holding-1060",
@@ -6342,6 +6328,48 @@
       "vote_event_id": "legistar-stpaul-voteevent-215896",
       "holding_id": "legistar-stpaul-holding-1220",
       "value": "nay"
+    },
+    {
+      "id": "legistar-stpaul-vote-215831-130148",
+      "vote_event_id": "legistar-stpaul-voteevent-215831",
+      "holding_id": "legistar-stpaul-holding-1060",
+      "value": "yea"
+    },
+    {
+      "id": "legistar-stpaul-vote-215831-130149",
+      "vote_event_id": "legistar-stpaul-voteevent-215831",
+      "holding_id": "legistar-stpaul-holding-1112",
+      "value": "yea"
+    },
+    {
+      "id": "legistar-stpaul-vote-215831-130150",
+      "vote_event_id": "legistar-stpaul-voteevent-215831",
+      "holding_id": "legistar-stpaul-holding-1164",
+      "value": "yea"
+    },
+    {
+      "id": "legistar-stpaul-vote-215831-130151",
+      "vote_event_id": "legistar-stpaul-voteevent-215831",
+      "holding_id": "legistar-stpaul-holding-1166",
+      "value": "yea"
+    },
+    {
+      "id": "legistar-stpaul-vote-215831-130152",
+      "vote_event_id": "legistar-stpaul-voteevent-215831",
+      "holding_id": "legistar-stpaul-holding-1168",
+      "value": "yea"
+    },
+    {
+      "id": "legistar-stpaul-vote-215831-130153",
+      "vote_event_id": "legistar-stpaul-voteevent-215831",
+      "holding_id": "legistar-stpaul-holding-1169",
+      "value": "yea"
+    },
+    {
+      "id": "legistar-stpaul-vote-215831-130154",
+      "vote_event_id": "legistar-stpaul-voteevent-215831",
+      "holding_id": "legistar-stpaul-holding-1220",
+      "value": "yea"
     },
     {
       "id": "legistar-stpaul-vote-215956-130274",
@@ -8232,258 +8260,6 @@
       "vote_event_id": "legistar-stpaul-voteevent-215781",
       "holding_id": "legistar-stpaul-holding-1220",
       "value": "yea"
-    },
-    {
-      "id": "legistar-stpaul-vote-215813-130113",
-      "vote_event_id": "legistar-stpaul-voteevent-215813",
-      "holding_id": "legistar-stpaul-holding-1060",
-      "value": "yea"
-    },
-    {
-      "id": "legistar-stpaul-vote-215813-130114",
-      "vote_event_id": "legistar-stpaul-voteevent-215813",
-      "holding_id": "legistar-stpaul-holding-1112",
-      "value": "yea"
-    },
-    {
-      "id": "legistar-stpaul-vote-215813-130115",
-      "vote_event_id": "legistar-stpaul-voteevent-215813",
-      "holding_id": "legistar-stpaul-holding-1164",
-      "value": "yea"
-    },
-    {
-      "id": "legistar-stpaul-vote-215813-130116",
-      "vote_event_id": "legistar-stpaul-voteevent-215813",
-      "holding_id": "legistar-stpaul-holding-1166",
-      "value": "yea"
-    },
-    {
-      "id": "legistar-stpaul-vote-215813-130117",
-      "vote_event_id": "legistar-stpaul-voteevent-215813",
-      "holding_id": "legistar-stpaul-holding-1168",
-      "value": "yea"
-    },
-    {
-      "id": "legistar-stpaul-vote-215813-130118",
-      "vote_event_id": "legistar-stpaul-voteevent-215813",
-      "holding_id": "legistar-stpaul-holding-1169",
-      "value": "yea"
-    },
-    {
-      "id": "legistar-stpaul-vote-215813-130119",
-      "vote_event_id": "legistar-stpaul-voteevent-215813",
-      "holding_id": "legistar-stpaul-holding-1220",
-      "value": "yea"
-    },
-    {
-      "id": "legistar-stpaul-vote-216234-130393",
-      "vote_event_id": "legistar-stpaul-voteevent-216234",
-      "holding_id": "legistar-stpaul-holding-1060",
-      "value": "absent"
-    },
-    {
-      "id": "legistar-stpaul-vote-216234-130394",
-      "vote_event_id": "legistar-stpaul-voteevent-216234",
-      "holding_id": "legistar-stpaul-holding-1112",
-      "value": "yea"
-    },
-    {
-      "id": "legistar-stpaul-vote-216234-130395",
-      "vote_event_id": "legistar-stpaul-voteevent-216234",
-      "holding_id": "legistar-stpaul-holding-1164",
-      "value": "yea"
-    },
-    {
-      "id": "legistar-stpaul-vote-216234-130396",
-      "vote_event_id": "legistar-stpaul-voteevent-216234",
-      "holding_id": "legistar-stpaul-holding-1166",
-      "value": "yea"
-    },
-    {
-      "id": "legistar-stpaul-vote-216234-130397",
-      "vote_event_id": "legistar-stpaul-voteevent-216234",
-      "holding_id": "legistar-stpaul-holding-1168",
-      "value": "yea"
-    },
-    {
-      "id": "legistar-stpaul-vote-216234-130398",
-      "vote_event_id": "legistar-stpaul-voteevent-216234",
-      "holding_id": "legistar-stpaul-holding-1169",
-      "value": "yea"
-    },
-    {
-      "id": "legistar-stpaul-vote-216234-130399",
-      "vote_event_id": "legistar-stpaul-voteevent-216234",
-      "holding_id": "legistar-stpaul-holding-1220",
-      "value": "yea"
-    },
-    {
-      "id": "legistar-stpaul-vote-215780-129952",
-      "vote_event_id": "legistar-stpaul-voteevent-215780",
-      "holding_id": "legistar-stpaul-holding-1060",
-      "value": "yea"
-    },
-    {
-      "id": "legistar-stpaul-vote-215780-129953",
-      "vote_event_id": "legistar-stpaul-voteevent-215780",
-      "holding_id": "legistar-stpaul-holding-1112",
-      "value": "yea"
-    },
-    {
-      "id": "legistar-stpaul-vote-215780-129954",
-      "vote_event_id": "legistar-stpaul-voteevent-215780",
-      "holding_id": "legistar-stpaul-holding-1164",
-      "value": "yea"
-    },
-    {
-      "id": "legistar-stpaul-vote-215780-129955",
-      "vote_event_id": "legistar-stpaul-voteevent-215780",
-      "holding_id": "legistar-stpaul-holding-1166",
-      "value": "absent"
-    },
-    {
-      "id": "legistar-stpaul-vote-215780-129956",
-      "vote_event_id": "legistar-stpaul-voteevent-215780",
-      "holding_id": "legistar-stpaul-holding-1168",
-      "value": "yea"
-    },
-    {
-      "id": "legistar-stpaul-vote-215780-129957",
-      "vote_event_id": "legistar-stpaul-voteevent-215780",
-      "holding_id": "legistar-stpaul-holding-1169",
-      "value": "yea"
-    },
-    {
-      "id": "legistar-stpaul-vote-215780-129958",
-      "vote_event_id": "legistar-stpaul-voteevent-215780",
-      "holding_id": "legistar-stpaul-holding-1220",
-      "value": "yea"
-    },
-    {
-      "id": "legistar-stpaul-vote-216211-130337",
-      "vote_event_id": "legistar-stpaul-voteevent-216211",
-      "holding_id": "legistar-stpaul-holding-1060",
-      "value": "absent"
-    },
-    {
-      "id": "legistar-stpaul-vote-216211-130338",
-      "vote_event_id": "legistar-stpaul-voteevent-216211",
-      "holding_id": "legistar-stpaul-holding-1112",
-      "value": "yea"
-    },
-    {
-      "id": "legistar-stpaul-vote-216211-130339",
-      "vote_event_id": "legistar-stpaul-voteevent-216211",
-      "holding_id": "legistar-stpaul-holding-1164",
-      "value": "yea"
-    },
-    {
-      "id": "legistar-stpaul-vote-216211-130340",
-      "vote_event_id": "legistar-stpaul-voteevent-216211",
-      "holding_id": "legistar-stpaul-holding-1166",
-      "value": "yea"
-    },
-    {
-      "id": "legistar-stpaul-vote-216211-130341",
-      "vote_event_id": "legistar-stpaul-voteevent-216211",
-      "holding_id": "legistar-stpaul-holding-1168",
-      "value": "yea"
-    },
-    {
-      "id": "legistar-stpaul-vote-216211-130342",
-      "vote_event_id": "legistar-stpaul-voteevent-216211",
-      "holding_id": "legistar-stpaul-holding-1169",
-      "value": "yea"
-    },
-    {
-      "id": "legistar-stpaul-vote-216211-130343",
-      "vote_event_id": "legistar-stpaul-voteevent-216211",
-      "holding_id": "legistar-stpaul-holding-1220",
-      "value": "yea"
-    },
-    {
-      "id": "legistar-stpaul-vote-215812-130050",
-      "vote_event_id": "legistar-stpaul-voteevent-215812",
-      "holding_id": "legistar-stpaul-holding-1060",
-      "value": "yea"
-    },
-    {
-      "id": "legistar-stpaul-vote-215812-130051",
-      "vote_event_id": "legistar-stpaul-voteevent-215812",
-      "holding_id": "legistar-stpaul-holding-1112",
-      "value": "yea"
-    },
-    {
-      "id": "legistar-stpaul-vote-215812-130052",
-      "vote_event_id": "legistar-stpaul-voteevent-215812",
-      "holding_id": "legistar-stpaul-holding-1164",
-      "value": "yea"
-    },
-    {
-      "id": "legistar-stpaul-vote-215812-130053",
-      "vote_event_id": "legistar-stpaul-voteevent-215812",
-      "holding_id": "legistar-stpaul-holding-1166",
-      "value": "yea"
-    },
-    {
-      "id": "legistar-stpaul-vote-215812-130054",
-      "vote_event_id": "legistar-stpaul-voteevent-215812",
-      "holding_id": "legistar-stpaul-holding-1168",
-      "value": "yea"
-    },
-    {
-      "id": "legistar-stpaul-vote-215812-130055",
-      "vote_event_id": "legistar-stpaul-voteevent-215812",
-      "holding_id": "legistar-stpaul-holding-1169",
-      "value": "yea"
-    },
-    {
-      "id": "legistar-stpaul-vote-215812-130056",
-      "vote_event_id": "legistar-stpaul-voteevent-215812",
-      "holding_id": "legistar-stpaul-holding-1220",
-      "value": "yea"
-    },
-    {
-      "id": "legistar-stpaul-vote-216235-130428",
-      "vote_event_id": "legistar-stpaul-voteevent-216235",
-      "holding_id": "legistar-stpaul-holding-1060",
-      "value": "absent"
-    },
-    {
-      "id": "legistar-stpaul-vote-216235-130429",
-      "vote_event_id": "legistar-stpaul-voteevent-216235",
-      "holding_id": "legistar-stpaul-holding-1112",
-      "value": "yea"
-    },
-    {
-      "id": "legistar-stpaul-vote-216235-130430",
-      "vote_event_id": "legistar-stpaul-voteevent-216235",
-      "holding_id": "legistar-stpaul-holding-1164",
-      "value": "yea"
-    },
-    {
-      "id": "legistar-stpaul-vote-216235-130431",
-      "vote_event_id": "legistar-stpaul-voteevent-216235",
-      "holding_id": "legistar-stpaul-holding-1166",
-      "value": "yea"
-    },
-    {
-      "id": "legistar-stpaul-vote-216235-130432",
-      "vote_event_id": "legistar-stpaul-voteevent-216235",
-      "holding_id": "legistar-stpaul-holding-1168",
-      "value": "yea"
-    },
-    {
-      "id": "legistar-stpaul-vote-216235-130433",
-      "vote_event_id": "legistar-stpaul-voteevent-216235",
-      "holding_id": "legistar-stpaul-holding-1169",
-      "value": "yea"
-    },
-    {
-      "id": "legistar-stpaul-vote-216235-130434",
-      "vote_event_id": "legistar-stpaul-voteevent-216235",
-      "holding_id": "legistar-stpaul-holding-1220",
-      "value": "yea"
     }
   ],
   "knownGaps": [
@@ -8491,9 +8267,7 @@
     "officerecords rows dropped for lacking a recognized officeholder title (staff/clerk/unclassified roles, per AGENTS.md §1b) — titles seen and dropped: (blank), Community Advisor.",
     "officerecords rows dropped for belonging to a non-governing/internal body: Clerk, Council Secretary.",
     "Office here models 'membership in a Legistar body under a given title', not a per-seat/ward electoral district — these two clients' officerecords endpoint does not expose per-seat identifiers. See wards.geojson / commissioners.geojson for seat-level geography.",
-    "Votes ingested only for the most recent 60 days (from 2026-06-26) — the current term on City Council began 2016-01-01, but a full-term backfill was not run in this pass to stay within a good-citizen request budget (AGENTS.md §2.2). Run this ingest on a recurring schedule to accumulate full-term coverage incrementally.",
-    "310 matter(s) found in the 2026-06-26–2026-08-26 window for stpaul; capped to the most recent 250 to bound this run's request volume.",
-    "Failed to fetch histories for matter 52513 (stpaul): fetch failed",
-    "Failed to fetch votes for matter 52519 history 215831 (stpaul): fetch failed"
+    "Votes ingested only for the most recent 60 days (from 2026-06-27) — the current term on City Council began 2016-01-01, but a full-term backfill was not run in this pass to stay within a good-citizen request budget (AGENTS.md §2.2). Run this ingest on a recurring schedule to accumulate full-term coverage incrementally.",
+    "314 matter(s) found in the 2026-06-27–2026-08-27 window for stpaul; capped to the most recent 250 to bound this run's request volume."
   ]
 }
