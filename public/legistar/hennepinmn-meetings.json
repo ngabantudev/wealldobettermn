@@ -2,22 +2,22 @@
   "schemaVersion": 1,
   "client": "hennepinmn",
   "jurisdiction": "Hennepin County Board",
-  "generatedAt": "2026-08-26T13:04:04.441Z",
+  "generatedAt": "2026-08-27T22:02:42.438Z",
   "status": "ingested",
-  "note": "14 meeting(s) (14/14 event(s) in window) and 231 agenda item(s) ingested for 2026-08-12–2026-11-24.",
+  "note": "14 meeting(s) (14/14 event(s) in window) and 235 agenda item(s) ingested for 2026-08-13–2026-11-25.",
   "provenance": {
     "primarySourceUrl": "https://webapi.legistar.com/v1/hennepinmn/events",
     "sourceAgency": "Hennepin County Board",
     "documentType": "Legistar Web API — Events/EventItems",
     "documentId": null,
     "issuedDate": null,
-    "fetchedAt": "2026-08-26T13:04:04.441Z",
+    "fetchedAt": "2026-08-27T22:02:42.438Z",
     "licence": "Public records served via Legistar InSite; no separate machine-reuse licence published by the host jurisdiction as of this writing.",
-    "contentHash": "9624572a7dd18c85e8d19a9bef01d4241a331bcf2c4acbb1a7a089608226a119"
+    "contentHash": "7f8eccd1ee1eb5e498d9cdbdec135138bea346ddd95b5869e001f6224241cdad"
   },
   "window": {
-    "startIso": "2026-08-12",
-    "endIso": "2026-11-24"
+    "startIso": "2026-08-13",
+    "endIso": "2026-11-25"
   },
   "meetings": [
     {
@@ -3106,6 +3106,58 @@
       "matterType": "Minutes"
     },
     {
+      "id": "legistar-hennepinmn-eventitem-36571",
+      "meeting_id": "legistar-hennepinmn-meeting-1459",
+      "sequence": null,
+      "agendaNumber": "4.C.",
+      "title": "Commissioner compensation",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "26-0293",
+      "matterId": 4635,
+      "matterType": "Resolution"
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-36572",
+      "meeting_id": "legistar-hennepinmn-meeting-1459",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Agenda item 36572",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-36573",
+      "meeting_id": "legistar-hennepinmn-meeting-1459",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Agenda item 36573",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-36574",
+      "meeting_id": "legistar-hennepinmn-meeting-1459",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Agenda item 36574",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
       "id": "legistar-hennepinmn-eventitem-36534",
       "meeting_id": "legistar-hennepinmn-meeting-1460",
       "sequence": 1,
@@ -3709,8 +3761,8 @@
     "removedIds": [],
     "changed": []
   },
-  "previousGeneratedAt": "2026-08-25T12:55:27.159Z",
+  "previousGeneratedAt": "2026-08-26T13:04:04.441Z",
   "knownGaps": [
-    "Consent-agenda flagging uses Legistar's own EventItemConsent field only (23 of 231 agenda item(s) in this window flagged). \"No discussion\" / \"no public comment\" are NOT flagged — this API exposes no comparably reliable field for either, and AGENTS.md §3.3 rules out inferring one from absence."
+    "Consent-agenda flagging uses Legistar's own EventItemConsent field only (23 of 235 agenda item(s) in this window flagged). \"No discussion\" / \"no public comment\" are NOT flagged — this API exposes no comparably reliable field for either, and AGENTS.md §3.3 rules out inferring one from absence."
   ]
 }
