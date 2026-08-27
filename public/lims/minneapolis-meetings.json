@@ -2,45 +2,24 @@
   "schemaVersion": 1,
   "client": "minneapolis",
   "jurisdiction": "Minneapolis City Council",
-  "generatedAt": "2026-08-26T13:04:09.869Z",
+  "generatedAt": "2026-08-27T22:02:47.088Z",
   "status": "ingested",
-  "note": "140 meeting(s) and 164 agenda item(s) ingested for 2026-08-12–2026-11-24.",
+  "note": "139 meeting(s) and 215 agenda item(s) ingested for 2026-08-13–2026-11-25.",
   "provenance": {
     "primarySourceUrl": "https://lims.minneapolismn.gov/",
     "sourceAgency": "City of Minneapolis, Office of the City Clerk",
     "documentType": "LIMS API v1 — meetingCalendar/FileItemSearch",
     "documentId": null,
     "issuedDate": null,
-    "fetchedAt": "2026-08-26T13:04:09.869Z",
+    "fetchedAt": "2026-08-27T22:02:47.088Z",
     "licence": "Public records served via the City of Minneapolis LIMS API; no separate machine-reuse licence published as of this writing.",
     "contentHash": null
   },
   "window": {
-    "startIso": "2026-08-12",
-    "endIso": "2026-11-24"
+    "startIso": "2026-08-13",
+    "endIso": "2026-11-25"
   },
   "meetings": [
-    {
-      "id": "lims-minneapolis-meeting-homegrown-minneapolis-food-council-2026-08-12T17:30:00",
-      "body_id": "lims-minneapolis-body-homegrown-minneapolis-food-council",
-      "bodyName": "Homegrown Minneapolis Food Council",
-      "date": "2026-08-12",
-      "time": "17:30",
-      "location": null,
-      "agendaStatus": null,
-      "agendaUrl": "https://lims.minneapolismn.gov/Board/MarkedAgenda/HMFC/6146",
-      "minutesUrl": "https://lims.minneapolismn.gov/Download/CommitteeReport/4932/HMFC_20260812_minutes.pdf",
-      "videoStatus": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Board/MarkedAgenda/HMFC/6146",
-      "lastModifiedUtc": null,
-      "members": [
-        {
-          "id": 6928,
-          "name": "Madison Taylor",
-          "type": "ABC Member"
-        }
-      ]
-    },
     {
       "id": "lims-minneapolis-meeting-city-council-2026-08-13T09:30:00",
       "body_id": "lims-minneapolis-body-city-council",
@@ -845,7 +824,7 @@
       "location": null,
       "agendaStatus": null,
       "agendaUrl": "https://lims.minneapolismn.gov/Agenda/COW/6167",
-      "minutesUrl": null,
+      "minutesUrl": "https://lims.minneapolismn.gov/Download/CommitteeReport/4949/COW_08252026_Committee_Report.pdf",
       "videoStatus": null,
       "sourceUrl": "https://lims.minneapolismn.gov/Agenda/COW/6167",
       "lastModifiedUtc": null,
@@ -951,10 +930,10 @@
       "time": "17:00",
       "location": null,
       "agendaStatus": null,
-      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/PHAC/6178",
-      "minutesUrl": null,
+      "agendaUrl": "https://lims.minneapolismn.gov/Board/MarkedAgenda/PHAC/6178",
+      "minutesUrl": "https://lims.minneapolismn.gov/Download/CommitteeReport/4948/PHAC-meeting-08-25-2026.pdf",
       "videoStatus": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/PHAC/6178",
+      "sourceUrl": "https://lims.minneapolismn.gov/Board/MarkedAgenda/PHAC/6178",
       "lastModifiedUtc": null,
       "members": [
         {
@@ -1175,10 +1154,10 @@
       "time": "16:00",
       "location": null,
       "agendaStatus": null,
-      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/BAC/",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/BAC/6192",
       "minutesUrl": null,
       "videoStatus": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/BAC/",
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/BAC/6192",
       "lastModifiedUtc": null,
       "members": [
         {
@@ -1211,10 +1190,10 @@
       "time": "16:00",
       "location": null,
       "agendaStatus": null,
-      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/CEAC/",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/CEAC/6193",
       "minutesUrl": null,
       "videoStatus": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/CEAC/",
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/CEAC/6193",
       "lastModifiedUtc": null,
       "members": [
         {
@@ -7345,6 +7324,74 @@
   ],
   "agendaItems": [
     {
+      "id": "lims-minneapolis-fileitem-516-2",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-08-27T09:30:00",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Passage of Ordinance amending Title 2, Chapter 35 of the Minneapolis Code of Ordinances relating to Administration: Capital Long Range Improvement Program Process, by amending Chapter 35to dissolve and re-create the capital long range improvement committee consistent with appointed boards and commissions reform.",
+      "isConsent": false,
+      "actionName": "Introduced, given its first reading, and referred to City Council meeting of 9/8/2026",
+      "passedFlagName": "Passed",
+      "matterFile": "2026-00167",
+      "matterId": null,
+      "matterType": "Ordinance",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00167",
+      "votes": [
+        {
+          "memberName": "Elliott Payne",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jamal Osman",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Aisha Chughtai",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Robin Wonsley",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Michael Rainville",
+          "value": "Aye"
+        },
+        {
+          "memberName": "LaTrisha Vetaw",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Pearll Warren",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Elizabeth Shaffer",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Soren Stevenson",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jason Chavez",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jamison Whiting",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Aurin Chowdhury",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Linea Palmisano",
+          "value": "Aye"
+        }
+      ]
+    },
+    {
       "id": "lims-minneapolis-fileitem-1163-0",
       "meeting_id": "lims-minneapolis-meeting-budget-committee-2026-08-24T13:30:00",
       "sequence": null,
@@ -7680,7 +7727,7 @@
       "id": "lims-minneapolis-fileitem-2035-0",
       "meeting_id": "lims-minneapolis-meeting-enterprise-labor-relations-committee-2026-08-17T13:30:00",
       "sequence": null,
-      "agendaNumber": null,
+      "agendaNumber": "2026R-344",
       "title": "Passage of Resolution accepting the 2nd Quarter 2026 donations made to the City of Minneapolis valued under $15,000.",
       "isConsent": false,
       "actionName": "Approved",
@@ -7692,10 +7739,78 @@
       "votes": []
     },
     {
+      "id": "lims-minneapolis-fileitem-2035-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-08-27T09:30:00",
+      "sequence": null,
+      "agendaNumber": "2026R-344",
+      "title": "Passage of Resolution accepting the 2nd Quarter 2026 donations made to the City of Minneapolis valued under $15,000.",
+      "isConsent": false,
+      "actionName": "Adopted",
+      "passedFlagName": "Passed",
+      "matterFile": "2026-00779",
+      "matterId": null,
+      "matterType": "Resolution",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00779",
+      "votes": [
+        {
+          "memberName": "Elliott Payne",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jamal Osman",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Aisha Chughtai",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Robin Wonsley",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Michael Rainville",
+          "value": "Aye"
+        },
+        {
+          "memberName": "LaTrisha Vetaw",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Pearll Warren",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Elizabeth Shaffer",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Soren Stevenson",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jason Chavez",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jamison Whiting",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Aurin Chowdhury",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Linea Palmisano",
+          "value": "Aye"
+        }
+      ]
+    },
+    {
       "id": "lims-minneapolis-fileitem-2045-0",
       "meeting_id": "lims-minneapolis-meeting-climate-infrastructure-committee-2026-08-20T13:30:00",
       "sequence": null,
-      "agendaNumber": null,
+      "agendaNumber": "2026R-337",
       "title": "Passage ofResolution approving Municipal Consent for MnDOT’s Central Avenue (TH 65) Improvements and designating the project location and improvements proposed on Central Avenue between south of 2nd Street Southeast and 37th Avenue Northeast.",
       "isConsent": false,
       "actionName": "Approved",
@@ -7705,6 +7820,74 @@
       "matterType": "Resolution",
       "fileUrl": "https://lims.minneapolismn.gov/File/2026-00788",
       "votes": []
+    },
+    {
+      "id": "lims-minneapolis-fileitem-2045-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-08-27T09:30:00",
+      "sequence": null,
+      "agendaNumber": "2026R-337",
+      "title": "Passage ofResolution approving Municipal Consent for MnDOT’s Central Avenue (TH 65) Improvements and designating the project location and improvements proposed on Central Avenue between south of 2nd Street Southeast and 37th Avenue Northeast.",
+      "isConsent": false,
+      "actionName": "Adopted as amended",
+      "passedFlagName": "Passed",
+      "matterFile": "2026-00788",
+      "matterId": null,
+      "matterType": "Resolution",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00788",
+      "votes": [
+        {
+          "memberName": "Elliott Payne",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jamal Osman",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Aisha Chughtai",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Robin Wonsley",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Michael Rainville",
+          "value": "Aye"
+        },
+        {
+          "memberName": "LaTrisha Vetaw",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Pearll Warren",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Elizabeth Shaffer",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Soren Stevenson",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jason Chavez",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jamison Whiting",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Aurin Chowdhury",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Linea Palmisano",
+          "value": "Aye"
+        }
+      ]
     },
     {
       "id": "lims-minneapolis-fileitem-2046-0",
@@ -7725,7 +7908,7 @@
       "id": "lims-minneapolis-fileitem-2068-3",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-08-18T13:30:00",
       "sequence": null,
-      "agendaNumber": null,
+      "agendaNumber": "2026-024",
       "title": "Passage of Ordinanceamending Title 14, Chapter 360 of the Minneapolis Code of Ordinances relating to Liquor and Beer: In General, requiring any licensed premises that requires a dress code for entry to post said dress code.",
       "isConsent": false,
       "actionName": "Approved",
@@ -7766,6 +7949,74 @@
       ]
     },
     {
+      "id": "lims-minneapolis-fileitem-2068-4",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-08-27T09:30:00",
+      "sequence": null,
+      "agendaNumber": "2026-024",
+      "title": "Passage of Ordinanceamending Title 14, Chapter 360 of the Minneapolis Code of Ordinances relating to Liquor and Beer: In General, requiring any licensed premises that requires a dress code for entry to post said dress code.",
+      "isConsent": false,
+      "actionName": "Adopted",
+      "passedFlagName": "Passed",
+      "matterFile": "2026-00806",
+      "matterId": null,
+      "matterType": "Ordinance",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00806",
+      "votes": [
+        {
+          "memberName": "Elliott Payne",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jamal Osman",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Aisha Chughtai",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Robin Wonsley",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Michael Rainville",
+          "value": "Aye"
+        },
+        {
+          "memberName": "LaTrisha Vetaw",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Pearll Warren",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Elizabeth Shaffer",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Soren Stevenson",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jason Chavez",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jamison Whiting",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Aurin Chowdhury",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Linea Palmisano",
+          "value": "Aye"
+        }
+      ]
+    },
+    {
       "id": "lims-minneapolis-fileitem-2072-3",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-08-19T13:30:00",
       "sequence": null,
@@ -7779,6 +8030,74 @@
       "matterType": "Ordinance",
       "fileUrl": "https://lims.minneapolismn.gov/File/2026-00809",
       "votes": []
+    },
+    {
+      "id": "lims-minneapolis-fileitem-2072-4",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-08-27T09:30:00",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Passage of Ordinanceamending Title 15of the Minneapolis Code of Ordinances relating to Offenses—Miscellaneous, amending provisions related to noise regulations to remove irrelevant content, organize the structure in a more logical format, clarify language, add a clause regulating the sounding of motion-sensor devices on private property, and to amend a clerical error referencing Chapter 389 that should be referring to an earlier subsection in Chapter 399:\n\n\n\tChapter 389 Noise\n\tChapter 399Control of Invasive Species Tree Pests",
+      "isConsent": false,
+      "actionName": "Continued to meeting of 9/17/2026",
+      "passedFlagName": "Passed",
+      "matterFile": "2026-00809",
+      "matterId": null,
+      "matterType": "Ordinance",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00809",
+      "votes": [
+        {
+          "memberName": "Elliott Payne",
+          "value": "Nay"
+        },
+        {
+          "memberName": "Jamal Osman",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Aisha Chughtai",
+          "value": "Nay"
+        },
+        {
+          "memberName": "Robin Wonsley",
+          "value": "Nay"
+        },
+        {
+          "memberName": "Michael Rainville",
+          "value": "Aye"
+        },
+        {
+          "memberName": "LaTrisha Vetaw",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Pearll Warren",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Elizabeth Shaffer",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Soren Stevenson",
+          "value": "Nay"
+        },
+        {
+          "memberName": "Jason Chavez",
+          "value": "Nay"
+        },
+        {
+          "memberName": "Jamison Whiting",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Aurin Chowdhury",
+          "value": "Nay"
+        },
+        {
+          "memberName": "Linea Palmisano",
+          "value": "Aye"
+        }
+      ]
     },
     {
       "id": "lims-minneapolis-fileitem-2073-3",
@@ -7796,6 +8115,74 @@
       "votes": []
     },
     {
+      "id": "lims-minneapolis-fileitem-2073-4",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-08-27T09:30:00",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Passage of Ordinanceamending Title 3, Chapter 45 of the Minneapolis Code of Ordinances relating to Air Pollution and Environmental Protection: Environmental Program Fees, amending provisions referring to Chapter 389to correct reference numbers.",
+      "isConsent": false,
+      "actionName": "Continued to meeting of 9/17/2026",
+      "passedFlagName": "Passed",
+      "matterFile": "2026-00809",
+      "matterId": null,
+      "matterType": "Ordinance",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00809",
+      "votes": [
+        {
+          "memberName": "Elliott Payne",
+          "value": "Nay"
+        },
+        {
+          "memberName": "Jamal Osman",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Aisha Chughtai",
+          "value": "Nay"
+        },
+        {
+          "memberName": "Robin Wonsley",
+          "value": "Nay"
+        },
+        {
+          "memberName": "Michael Rainville",
+          "value": "Aye"
+        },
+        {
+          "memberName": "LaTrisha Vetaw",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Pearll Warren",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Elizabeth Shaffer",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Soren Stevenson",
+          "value": "Nay"
+        },
+        {
+          "memberName": "Jason Chavez",
+          "value": "Nay"
+        },
+        {
+          "memberName": "Jamison Whiting",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Aurin Chowdhury",
+          "value": "Nay"
+        },
+        {
+          "memberName": "Linea Palmisano",
+          "value": "Aye"
+        }
+      ]
+    },
+    {
       "id": "lims-minneapolis-fileitem-2074-3",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-08-19T13:30:00",
       "sequence": null,
@@ -7809,6 +8196,74 @@
       "matterType": "Ordinance",
       "fileUrl": "https://lims.minneapolismn.gov/File/2026-00809",
       "votes": []
+    },
+    {
+      "id": "lims-minneapolis-fileitem-2074-4",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-08-27T09:30:00",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Passage of Ordinanceamending Title 12, Chapter 244 of the Minneapolis Code of Ordinances relating to Housing: Maintenance Code, amending provisions referring to Chapter 389to correct reference numbers.",
+      "isConsent": false,
+      "actionName": "Continued to meeting of 9/17/2026",
+      "passedFlagName": "Passed",
+      "matterFile": "2026-00809",
+      "matterId": null,
+      "matterType": "Ordinance",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00809",
+      "votes": [
+        {
+          "memberName": "Elliott Payne",
+          "value": "Nay"
+        },
+        {
+          "memberName": "Jamal Osman",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Aisha Chughtai",
+          "value": "Nay"
+        },
+        {
+          "memberName": "Robin Wonsley",
+          "value": "Nay"
+        },
+        {
+          "memberName": "Michael Rainville",
+          "value": "Aye"
+        },
+        {
+          "memberName": "LaTrisha Vetaw",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Pearll Warren",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Elizabeth Shaffer",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Soren Stevenson",
+          "value": "Nay"
+        },
+        {
+          "memberName": "Jason Chavez",
+          "value": "Nay"
+        },
+        {
+          "memberName": "Jamison Whiting",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Aurin Chowdhury",
+          "value": "Nay"
+        },
+        {
+          "memberName": "Linea Palmisano",
+          "value": "Aye"
+        }
+      ]
     },
     {
       "id": "lims-minneapolis-fileitem-2075-3",
@@ -7826,6 +8281,74 @@
       "votes": []
     },
     {
+      "id": "lims-minneapolis-fileitem-2075-4",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-08-27T09:30:00",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Passage of OrdinanceamendingTitle 13, Chapter 259 of the Minneapolis Code of Ordinances relating to Licenses and Business Regulations: In General, amending provisions referring to Chapter 389 to correct reference numbers.",
+      "isConsent": false,
+      "actionName": "Continued to meeting of 9/17/2026",
+      "passedFlagName": "Passed",
+      "matterFile": "2026-00809",
+      "matterId": null,
+      "matterType": "Ordinance",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00809",
+      "votes": [
+        {
+          "memberName": "Elliott Payne",
+          "value": "Nay"
+        },
+        {
+          "memberName": "Jamal Osman",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Aisha Chughtai",
+          "value": "Nay"
+        },
+        {
+          "memberName": "Robin Wonsley",
+          "value": "Nay"
+        },
+        {
+          "memberName": "Michael Rainville",
+          "value": "Aye"
+        },
+        {
+          "memberName": "LaTrisha Vetaw",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Pearll Warren",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Elizabeth Shaffer",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Soren Stevenson",
+          "value": "Nay"
+        },
+        {
+          "memberName": "Jason Chavez",
+          "value": "Nay"
+        },
+        {
+          "memberName": "Jamison Whiting",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Aurin Chowdhury",
+          "value": "Nay"
+        },
+        {
+          "memberName": "Linea Palmisano",
+          "value": "Aye"
+        }
+      ]
+    },
+    {
       "id": "lims-minneapolis-fileitem-2076-3",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-08-19T13:30:00",
       "sequence": null,
@@ -7841,10 +8364,78 @@
       "votes": []
     },
     {
+      "id": "lims-minneapolis-fileitem-2076-4",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-08-27T09:30:00",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Passage of Ordinanceamending Title 14, Chapter 360 of the Minneapolis Code of Ordinances relating to Liquor and Beer: In General, amending provisions referring to Chapter 389to correct reference numbers.",
+      "isConsent": false,
+      "actionName": "Continued to meeting of 9/17/2026",
+      "passedFlagName": "Passed",
+      "matterFile": "2026-00809",
+      "matterId": null,
+      "matterType": "Ordinance",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00809",
+      "votes": [
+        {
+          "memberName": "Elliott Payne",
+          "value": "Nay"
+        },
+        {
+          "memberName": "Jamal Osman",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Aisha Chughtai",
+          "value": "Nay"
+        },
+        {
+          "memberName": "Robin Wonsley",
+          "value": "Nay"
+        },
+        {
+          "memberName": "Michael Rainville",
+          "value": "Aye"
+        },
+        {
+          "memberName": "LaTrisha Vetaw",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Pearll Warren",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Elizabeth Shaffer",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Soren Stevenson",
+          "value": "Nay"
+        },
+        {
+          "memberName": "Jason Chavez",
+          "value": "Nay"
+        },
+        {
+          "memberName": "Jamison Whiting",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Aurin Chowdhury",
+          "value": "Nay"
+        },
+        {
+          "memberName": "Linea Palmisano",
+          "value": "Aye"
+        }
+      ]
+    },
+    {
       "id": "lims-minneapolis-fileitem-2104-2",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-08-18T13:30:00",
       "sequence": null,
-      "agendaNumber": null,
+      "agendaNumber": "2026A-0630",
       "title": "Reign, 2901   HENNEPIN AVE   Minneapolis, MN, (Ward 10) submitted by UPTOWN HOSPITALITY, INC, BLLiquor, LIC80252",
       "isConsent": false,
       "actionName": "Approved",
@@ -7854,6 +8445,74 @@
       "matterType": "Action",
       "fileUrl": "https://lims.minneapolismn.gov/File/2026-00813",
       "votes": []
+    },
+    {
+      "id": "lims-minneapolis-fileitem-2104-3",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-08-27T09:30:00",
+      "sequence": null,
+      "agendaNumber": "2026A-0630",
+      "title": "Reign, 2901   HENNEPIN AVE   Minneapolis, MN, (Ward 10) submitted by UPTOWN HOSPITALITY, INC, BLLiquor, LIC80252",
+      "isConsent": false,
+      "actionName": "Adopted",
+      "passedFlagName": "Passed",
+      "matterFile": "2026-00813",
+      "matterId": null,
+      "matterType": "Action",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00813",
+      "votes": [
+        {
+          "memberName": "Elliott Payne",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jamal Osman",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Aisha Chughtai",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Robin Wonsley",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Michael Rainville",
+          "value": "Aye"
+        },
+        {
+          "memberName": "LaTrisha Vetaw",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Pearll Warren",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Elizabeth Shaffer",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Soren Stevenson",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jason Chavez",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jamison Whiting",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Aurin Chowdhury",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Linea Palmisano",
+          "value": "Aye"
+        }
+      ]
     },
     {
       "id": "lims-minneapolis-fileitem-2169-3",
@@ -7957,7 +8616,7 @@
       "id": "lims-minneapolis-fileitem-2187-3",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-08-19T13:30:00",
       "sequence": null,
-      "agendaNumber": null,
+      "agendaNumber": "2026-025",
       "title": "Passage of Ordinanceamending Title 4, Chapter 66 of the Minneapolis Code of Ordinances relating to Animal Care and Control: Dangerous and Potentially Dangerous Animals, removing conditions and restrictions on pet ownership solely due to a prior conviction for certain felonies.",
       "isConsent": false,
       "actionName": "Approved",
@@ -7993,6 +8652,74 @@
         },
         {
           "memberName": "Jamison Whiting",
+          "value": "Aye"
+        }
+      ]
+    },
+    {
+      "id": "lims-minneapolis-fileitem-2187-4",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-08-27T09:30:00",
+      "sequence": null,
+      "agendaNumber": "2026-025",
+      "title": "Passage of Ordinanceamending Title 4, Chapter 66 of the Minneapolis Code of Ordinances relating to Animal Care and Control: Dangerous and Potentially Dangerous Animals, removing conditions and restrictions on pet ownership solely due to a prior conviction for certain felonies.",
+      "isConsent": false,
+      "actionName": "Adopted",
+      "passedFlagName": "Passed",
+      "matterFile": "2026-00871",
+      "matterId": null,
+      "matterType": "Ordinance",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00871",
+      "votes": [
+        {
+          "memberName": "Elliott Payne",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jamal Osman",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Aisha Chughtai",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Robin Wonsley",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Michael Rainville",
+          "value": "Aye"
+        },
+        {
+          "memberName": "LaTrisha Vetaw",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Pearll Warren",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Elizabeth Shaffer",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Soren Stevenson",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jason Chavez",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jamison Whiting",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Aurin Chowdhury",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Linea Palmisano",
           "value": "Aye"
         }
       ]
@@ -12859,7 +13586,7 @@
       "id": "lims-minneapolis-fileitem-2277-0",
       "meeting_id": "lims-minneapolis-meeting-climate-infrastructure-committee-2026-08-20T13:30:00",
       "sequence": null,
-      "agendaNumber": null,
+      "agendaNumber": "2026R-341",
       "title": "Passage of Resolution adopting the policy goals and priorities in the 2026-2030 Minneapolis Vision Zero Action Plan to guide the City’s comprehensive approach to traffic safety.",
       "isConsent": false,
       "actionName": "Approved",
@@ -12869,6 +13596,74 @@
       "matterType": "Resolution",
       "fileUrl": "https://lims.minneapolismn.gov/File/2026-00931",
       "votes": []
+    },
+    {
+      "id": "lims-minneapolis-fileitem-2277-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-08-27T09:30:00",
+      "sequence": null,
+      "agendaNumber": "2026R-341",
+      "title": "Passage of Resolution adopting the policy goals and priorities in the 2026-2030 Minneapolis Vision Zero Action Plan to guide the City’s comprehensive approach to traffic safety.",
+      "isConsent": false,
+      "actionName": "Adopted",
+      "passedFlagName": "Passed",
+      "matterFile": "2026-00931",
+      "matterId": null,
+      "matterType": "Resolution",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00931",
+      "votes": [
+        {
+          "memberName": "Elliott Payne",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jamal Osman",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Aisha Chughtai",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Robin Wonsley",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Michael Rainville",
+          "value": "Aye"
+        },
+        {
+          "memberName": "LaTrisha Vetaw",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Pearll Warren",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Elizabeth Shaffer",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Soren Stevenson",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jason Chavez",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jamison Whiting",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Aurin Chowdhury",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Linea Palmisano",
+          "value": "Aye"
+        }
+      ]
     },
     {
       "id": "lims-minneapolis-fileitem-2278-0",
@@ -13546,7 +14341,7 @@
       "id": "lims-minneapolis-fileitem-2291-0",
       "meeting_id": "lims-minneapolis-meeting-climate-infrastructure-committee-2026-08-20T13:30:00",
       "sequence": null,
-      "agendaNumber": null,
+      "agendaNumber": "2026A-0633",
       "title": "Authorizing an increase to contract COM0009758 with Advanced Masonry Restoration, in the amount of $205,688for a total amount not to exceed $1,286,217, and an extension through October 30, 2026, toprovide sufficient timefor contract closeoutand issuance offinal payment.",
       "isConsent": false,
       "actionName": "Approved",
@@ -13556,6 +14351,74 @@
       "matterType": "Action",
       "fileUrl": "https://lims.minneapolismn.gov/File/2026-00941",
       "votes": []
+    },
+    {
+      "id": "lims-minneapolis-fileitem-2291-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-08-27T09:30:00",
+      "sequence": null,
+      "agendaNumber": "2026A-0633",
+      "title": "Authorizing an increase to contract COM0009758 with Advanced Masonry Restoration, in the amount of $205,688for a total amount not to exceed $1,286,217, and an extension through October 30, 2026, toprovide sufficient timefor contract closeoutand issuance offinal payment.",
+      "isConsent": false,
+      "actionName": "Adopted",
+      "passedFlagName": "Passed",
+      "matterFile": "2026-00941",
+      "matterId": null,
+      "matterType": "Action",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00941",
+      "votes": [
+        {
+          "memberName": "Elliott Payne",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jamal Osman",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Aisha Chughtai",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Robin Wonsley",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Michael Rainville",
+          "value": "Aye"
+        },
+        {
+          "memberName": "LaTrisha Vetaw",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Pearll Warren",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Elizabeth Shaffer",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Soren Stevenson",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jason Chavez",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jamison Whiting",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Aurin Chowdhury",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Linea Palmisano",
+          "value": "Aye"
+        }
+      ]
     },
     {
       "id": "lims-minneapolis-fileitem-2292-0",
@@ -13712,7 +14575,7 @@
       "id": "lims-minneapolis-fileitem-2294-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-08-18T13:30:00",
       "sequence": null,
-      "agendaNumber": null,
+      "agendaNumber": "2026A-0629",
       "title": "Aliveness Project, 1368   LASALLE AVE   Minneapolis, MN, (Ward 7) submitted by The Aliveness Project Inc, BLGeneral, LIC417576",
       "isConsent": false,
       "actionName": "Approved",
@@ -13724,10 +14587,78 @@
       "votes": []
     },
     {
+      "id": "lims-minneapolis-fileitem-2294-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-08-27T09:30:00",
+      "sequence": null,
+      "agendaNumber": "2026A-0629",
+      "title": "Aliveness Project, 1368   LASALLE AVE   Minneapolis, MN, (Ward 7) submitted by The Aliveness Project Inc, BLGeneral, LIC417576",
+      "isConsent": false,
+      "actionName": "Adopted",
+      "passedFlagName": "Passed",
+      "matterFile": "2026-00944",
+      "matterId": null,
+      "matterType": "Action",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00944",
+      "votes": [
+        {
+          "memberName": "Elliott Payne",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jamal Osman",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Aisha Chughtai",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Robin Wonsley",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Michael Rainville",
+          "value": "Aye"
+        },
+        {
+          "memberName": "LaTrisha Vetaw",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Pearll Warren",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Elizabeth Shaffer",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Soren Stevenson",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jason Chavez",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jamison Whiting",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Aurin Chowdhury",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Linea Palmisano",
+          "value": "Aye"
+        }
+      ]
+    },
+    {
       "id": "lims-minneapolis-fileitem-2295-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-08-18T13:30:00",
       "sequence": null,
-      "agendaNumber": null,
+      "agendaNumber": "2026A-0629",
       "title": "Northeast Minneapolis Lions Community Foundation, 1319   MARSHALL ST NE Minneapolis, MN, (Ward 3) submitted by Northeast Minneapolis Lions Community Foundation, BLGeneral, LIC403007",
       "isConsent": false,
       "actionName": "Approved",
@@ -13739,10 +14670,78 @@
       "votes": []
     },
     {
+      "id": "lims-minneapolis-fileitem-2295-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-08-27T09:30:00",
+      "sequence": null,
+      "agendaNumber": "2026A-0629",
+      "title": "Northeast Minneapolis Lions Community Foundation, 1319   MARSHALL ST NE Minneapolis, MN, (Ward 3) submitted by Northeast Minneapolis Lions Community Foundation, BLGeneral, LIC403007",
+      "isConsent": false,
+      "actionName": "Adopted",
+      "passedFlagName": "Passed",
+      "matterFile": "2026-00944",
+      "matterId": null,
+      "matterType": "Action",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00944",
+      "votes": [
+        {
+          "memberName": "Elliott Payne",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jamal Osman",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Aisha Chughtai",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Robin Wonsley",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Michael Rainville",
+          "value": "Aye"
+        },
+        {
+          "memberName": "LaTrisha Vetaw",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Pearll Warren",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Elizabeth Shaffer",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Soren Stevenson",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jason Chavez",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jamison Whiting",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Aurin Chowdhury",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Linea Palmisano",
+          "value": "Aye"
+        }
+      ]
+    },
+    {
       "id": "lims-minneapolis-fileitem-2296-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-08-18T13:30:00",
       "sequence": null,
-      "agendaNumber": null,
+      "agendaNumber": "2026A-0629",
       "title": "Northeast Minneapolis Lions Community Foundation, 1029   MARSHALL ST NE Minneapolis, MN, (Ward 3) submitted by Northeast Minneapolis Lions Community Foundation, BLGeneral, LIC403008",
       "isConsent": false,
       "actionName": "Approved",
@@ -13754,10 +14753,78 @@
       "votes": []
     },
     {
+      "id": "lims-minneapolis-fileitem-2296-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-08-27T09:30:00",
+      "sequence": null,
+      "agendaNumber": "2026A-0629",
+      "title": "Northeast Minneapolis Lions Community Foundation, 1029   MARSHALL ST NE Minneapolis, MN, (Ward 3) submitted by Northeast Minneapolis Lions Community Foundation, BLGeneral, LIC403008",
+      "isConsent": false,
+      "actionName": "Adopted",
+      "passedFlagName": "Passed",
+      "matterFile": "2026-00944",
+      "matterId": null,
+      "matterType": "Action",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00944",
+      "votes": [
+        {
+          "memberName": "Elliott Payne",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jamal Osman",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Aisha Chughtai",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Robin Wonsley",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Michael Rainville",
+          "value": "Aye"
+        },
+        {
+          "memberName": "LaTrisha Vetaw",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Pearll Warren",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Elizabeth Shaffer",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Soren Stevenson",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jason Chavez",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jamison Whiting",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Aurin Chowdhury",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Linea Palmisano",
+          "value": "Aye"
+        }
+      ]
+    },
+    {
       "id": "lims-minneapolis-fileitem-2297-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-08-18T13:30:00",
       "sequence": null,
-      "agendaNumber": null,
+      "agendaNumber": "2026A-0629",
       "title": "Northeast Minneapolis Lions Community Foundation, 1828   4TH ST NE Minneapolis, MN, (Ward 3) submitted by Northeast Minneapolis Lions Community Foundation, BLGeneral, LIC403009",
       "isConsent": false,
       "actionName": "Approved",
@@ -13769,10 +14836,78 @@
       "votes": []
     },
     {
+      "id": "lims-minneapolis-fileitem-2297-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-08-27T09:30:00",
+      "sequence": null,
+      "agendaNumber": "2026A-0629",
+      "title": "Northeast Minneapolis Lions Community Foundation, 1828   4TH ST NE Minneapolis, MN, (Ward 3) submitted by Northeast Minneapolis Lions Community Foundation, BLGeneral, LIC403009",
+      "isConsent": false,
+      "actionName": "Adopted",
+      "passedFlagName": "Passed",
+      "matterFile": "2026-00944",
+      "matterId": null,
+      "matterType": "Action",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00944",
+      "votes": [
+        {
+          "memberName": "Elliott Payne",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jamal Osman",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Aisha Chughtai",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Robin Wonsley",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Michael Rainville",
+          "value": "Aye"
+        },
+        {
+          "memberName": "LaTrisha Vetaw",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Pearll Warren",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Elizabeth Shaffer",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Soren Stevenson",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jason Chavez",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jamison Whiting",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Aurin Chowdhury",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Linea Palmisano",
+          "value": "Aye"
+        }
+      ]
+    },
+    {
       "id": "lims-minneapolis-fileitem-2298-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-08-18T13:30:00",
       "sequence": null,
-      "agendaNumber": null,
+      "agendaNumber": "2026A-0629",
       "title": "Northeast Minneapolis Lions Community Foundation, 729   MARSHALL ST NE Minneapolis, MN, (Ward 3) submitted by Northeast Minneapolis Lions Community Foundation, BLGeneral, LIC403010",
       "isConsent": false,
       "actionName": "Approved",
@@ -13784,10 +14919,78 @@
       "votes": []
     },
     {
+      "id": "lims-minneapolis-fileitem-2298-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-08-27T09:30:00",
+      "sequence": null,
+      "agendaNumber": "2026A-0629",
+      "title": "Northeast Minneapolis Lions Community Foundation, 729   MARSHALL ST NE Minneapolis, MN, (Ward 3) submitted by Northeast Minneapolis Lions Community Foundation, BLGeneral, LIC403010",
+      "isConsent": false,
+      "actionName": "Adopted",
+      "passedFlagName": "Passed",
+      "matterFile": "2026-00944",
+      "matterId": null,
+      "matterType": "Action",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00944",
+      "votes": [
+        {
+          "memberName": "Elliott Payne",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jamal Osman",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Aisha Chughtai",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Robin Wonsley",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Michael Rainville",
+          "value": "Aye"
+        },
+        {
+          "memberName": "LaTrisha Vetaw",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Pearll Warren",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Elizabeth Shaffer",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Soren Stevenson",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jason Chavez",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jamison Whiting",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Aurin Chowdhury",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Linea Palmisano",
+          "value": "Aye"
+        }
+      ]
+    },
+    {
       "id": "lims-minneapolis-fileitem-2299-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-08-18T13:30:00",
       "sequence": null,
-      "agendaNumber": null,
+      "agendaNumber": "2026A-0629",
       "title": "Northeast Minneapolis Lions Community Foundation, 400   HENNEPIN AVE E Minneapolis, MN, (Ward 1) submitted by Northeast Minneapolis Lions Community Foundation, BLGeneral, LIC426671",
       "isConsent": false,
       "actionName": "Approved",
@@ -13799,10 +15002,78 @@
       "votes": []
     },
     {
+      "id": "lims-minneapolis-fileitem-2299-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-08-27T09:30:00",
+      "sequence": null,
+      "agendaNumber": "2026A-0629",
+      "title": "Northeast Minneapolis Lions Community Foundation, 400   HENNEPIN AVE E Minneapolis, MN, (Ward 1) submitted by Northeast Minneapolis Lions Community Foundation, BLGeneral, LIC426671",
+      "isConsent": false,
+      "actionName": "Adopted",
+      "passedFlagName": "Passed",
+      "matterFile": "2026-00944",
+      "matterId": null,
+      "matterType": "Action",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00944",
+      "votes": [
+        {
+          "memberName": "Elliott Payne",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jamal Osman",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Aisha Chughtai",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Robin Wonsley",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Michael Rainville",
+          "value": "Aye"
+        },
+        {
+          "memberName": "LaTrisha Vetaw",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Pearll Warren",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Elizabeth Shaffer",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Soren Stevenson",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jason Chavez",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jamison Whiting",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Aurin Chowdhury",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Linea Palmisano",
+          "value": "Aye"
+        }
+      ]
+    },
+    {
       "id": "lims-minneapolis-fileitem-2300-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-08-18T13:30:00",
       "sequence": null,
-      "agendaNumber": null,
+      "agendaNumber": "2026A-0629",
       "title": "Northeast Minneapolis Lions Community Foundation, 310   HENNEPIN AVE E Minneapolis, MN, (Ward 3) submitted by Northeast Minneapolis Lions Community Foundation, BLGeneral, LIC426690",
       "isConsent": false,
       "actionName": "Approved",
@@ -13814,10 +15085,78 @@
       "votes": []
     },
     {
+      "id": "lims-minneapolis-fileitem-2300-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-08-27T09:30:00",
+      "sequence": null,
+      "agendaNumber": "2026A-0629",
+      "title": "Northeast Minneapolis Lions Community Foundation, 310   HENNEPIN AVE E Minneapolis, MN, (Ward 3) submitted by Northeast Minneapolis Lions Community Foundation, BLGeneral, LIC426690",
+      "isConsent": false,
+      "actionName": "Adopted",
+      "passedFlagName": "Passed",
+      "matterFile": "2026-00944",
+      "matterId": null,
+      "matterType": "Action",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00944",
+      "votes": [
+        {
+          "memberName": "Elliott Payne",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jamal Osman",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Aisha Chughtai",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Robin Wonsley",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Michael Rainville",
+          "value": "Aye"
+        },
+        {
+          "memberName": "LaTrisha Vetaw",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Pearll Warren",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Elizabeth Shaffer",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Soren Stevenson",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jason Chavez",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jamison Whiting",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Aurin Chowdhury",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Linea Palmisano",
+          "value": "Aye"
+        }
+      ]
+    },
+    {
       "id": "lims-minneapolis-fileitem-2301-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-08-18T13:30:00",
       "sequence": null,
-      "agendaNumber": null,
+      "agendaNumber": "2026A-0628",
       "title": "Indeed Brewing Company, 711   15TH AVE NE Minneapolis, MN, (Ward 1) submitted by Indeed Brewing Company MN, LLC, BLBrewery, LIC337786",
       "isConsent": false,
       "actionName": "Approved",
@@ -13829,10 +15168,78 @@
       "votes": []
     },
     {
+      "id": "lims-minneapolis-fileitem-2301-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-08-27T09:30:00",
+      "sequence": null,
+      "agendaNumber": "2026A-0628",
+      "title": "Indeed Brewing Company, 711   15TH AVE NE Minneapolis, MN, (Ward 1) submitted by Indeed Brewing Company MN, LLC, BLBrewery, LIC337786",
+      "isConsent": false,
+      "actionName": "Adopted",
+      "passedFlagName": "Passed",
+      "matterFile": "2026-00945",
+      "matterId": null,
+      "matterType": "Action",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00945",
+      "votes": [
+        {
+          "memberName": "Elliott Payne",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jamal Osman",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Aisha Chughtai",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Robin Wonsley",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Michael Rainville",
+          "value": "Aye"
+        },
+        {
+          "memberName": "LaTrisha Vetaw",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Pearll Warren",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Elizabeth Shaffer",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Soren Stevenson",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jason Chavez",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jamison Whiting",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Aurin Chowdhury",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Linea Palmisano",
+          "value": "Aye"
+        }
+      ]
+    },
+    {
       "id": "lims-minneapolis-fileitem-2302-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-08-18T13:30:00",
       "sequence": null,
-      "agendaNumber": null,
+      "agendaNumber": "2026A-0628",
       "title": "Indeed Brewing Company, 711   15TH AVE NE Minneapolis, MN, (Ward 1) submitted by Indeed Brewing Company MN, LLC, BLBrewery, LIC337787",
       "isConsent": false,
       "actionName": "Approved",
@@ -13844,10 +15251,78 @@
       "votes": []
     },
     {
+      "id": "lims-minneapolis-fileitem-2302-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-08-27T09:30:00",
+      "sequence": null,
+      "agendaNumber": "2026A-0628",
+      "title": "Indeed Brewing Company, 711   15TH AVE NE Minneapolis, MN, (Ward 1) submitted by Indeed Brewing Company MN, LLC, BLBrewery, LIC337787",
+      "isConsent": false,
+      "actionName": "Adopted",
+      "passedFlagName": "Passed",
+      "matterFile": "2026-00945",
+      "matterId": null,
+      "matterType": "Action",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00945",
+      "votes": [
+        {
+          "memberName": "Elliott Payne",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jamal Osman",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Aisha Chughtai",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Robin Wonsley",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Michael Rainville",
+          "value": "Aye"
+        },
+        {
+          "memberName": "LaTrisha Vetaw",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Pearll Warren",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Elizabeth Shaffer",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Soren Stevenson",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jason Chavez",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jamison Whiting",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Aurin Chowdhury",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Linea Palmisano",
+          "value": "Aye"
+        }
+      ]
+    },
+    {
       "id": "lims-minneapolis-fileitem-2303-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-08-18T13:30:00",
       "sequence": null,
-      "agendaNumber": null,
+      "agendaNumber": "2026A-0628",
       "title": "Darling, 3311   25TH ST E Minneapolis, MN, (Ward 2) submitted by Darling LLC, BLLiquor, LIC415800",
       "isConsent": false,
       "actionName": "Approved",
@@ -13859,10 +15334,78 @@
       "votes": []
     },
     {
+      "id": "lims-minneapolis-fileitem-2303-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-08-27T09:30:00",
+      "sequence": null,
+      "agendaNumber": "2026A-0628",
+      "title": "Darling, 3311   25TH ST E Minneapolis, MN, (Ward 2) submitted by Darling LLC, BLLiquor, LIC415800",
+      "isConsent": false,
+      "actionName": "Adopted",
+      "passedFlagName": "Passed",
+      "matterFile": "2026-00945",
+      "matterId": null,
+      "matterType": "Action",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00945",
+      "votes": [
+        {
+          "memberName": "Elliott Payne",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jamal Osman",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Aisha Chughtai",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Robin Wonsley",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Michael Rainville",
+          "value": "Aye"
+        },
+        {
+          "memberName": "LaTrisha Vetaw",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Pearll Warren",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Elizabeth Shaffer",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Soren Stevenson",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jason Chavez",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jamison Whiting",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Aurin Chowdhury",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Linea Palmisano",
+          "value": "Aye"
+        }
+      ]
+    },
+    {
       "id": "lims-minneapolis-fileitem-2304-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-08-18T13:30:00",
       "sequence": null,
-      "agendaNumber": null,
+      "agendaNumber": "2026A-0628",
       "title": "Nico's Tacos, 2516   HENNEPIN AVE   Minneapolis, MN, (Ward 7) submitted by Jans Enterprises Inc, BLLiquor, LIC76220",
       "isConsent": false,
       "actionName": "Approved",
@@ -13874,10 +15417,78 @@
       "votes": []
     },
     {
+      "id": "lims-minneapolis-fileitem-2304-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-08-27T09:30:00",
+      "sequence": null,
+      "agendaNumber": "2026A-0628",
+      "title": "Nico's Tacos, 2516   HENNEPIN AVE   Minneapolis, MN, (Ward 7) submitted by Jans Enterprises Inc, BLLiquor, LIC76220",
+      "isConsent": false,
+      "actionName": "Adopted",
+      "passedFlagName": "Passed",
+      "matterFile": "2026-00945",
+      "matterId": null,
+      "matterType": "Action",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00945",
+      "votes": [
+        {
+          "memberName": "Elliott Payne",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jamal Osman",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Aisha Chughtai",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Robin Wonsley",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Michael Rainville",
+          "value": "Aye"
+        },
+        {
+          "memberName": "LaTrisha Vetaw",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Pearll Warren",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Elizabeth Shaffer",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Soren Stevenson",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jason Chavez",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jamison Whiting",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Aurin Chowdhury",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Linea Palmisano",
+          "value": "Aye"
+        }
+      ]
+    },
+    {
       "id": "lims-minneapolis-fileitem-2305-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-08-18T13:30:00",
       "sequence": null,
-      "agendaNumber": null,
+      "agendaNumber": "2026A-0627",
       "title": "Dexter's/The Side Door at Dexter’s/Daq Daq/Rose Sushi/Lucia’s, 3717 50TH ST W Minneapolis, MN, (Ward 13) submitted by DLJ Group LLC, BLAmend, LIC431331",
       "isConsent": false,
       "actionName": "Approved",
@@ -13889,10 +15500,78 @@
       "votes": []
     },
     {
+      "id": "lims-minneapolis-fileitem-2305-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-08-27T09:30:00",
+      "sequence": null,
+      "agendaNumber": "2026A-0627",
+      "title": "Dexter's/The Side Door at Dexter’s/Daq Daq/Rose Sushi/Lucia’s, 3717 50TH ST W Minneapolis, MN, (Ward 13) submitted by DLJ Group LLC, BLAmend, LIC431331",
+      "isConsent": false,
+      "actionName": "Adopted",
+      "passedFlagName": "Passed",
+      "matterFile": "2026-00946",
+      "matterId": null,
+      "matterType": "Action",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00946",
+      "votes": [
+        {
+          "memberName": "Elliott Payne",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jamal Osman",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Aisha Chughtai",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Robin Wonsley",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Michael Rainville",
+          "value": "Aye"
+        },
+        {
+          "memberName": "LaTrisha Vetaw",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Pearll Warren",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Elizabeth Shaffer",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Soren Stevenson",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jason Chavez",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jamison Whiting",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Aurin Chowdhury",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Linea Palmisano",
+          "value": "Aye"
+        }
+      ]
+    },
+    {
       "id": "lims-minneapolis-fileitem-2306-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-08-19T13:30:00",
       "sequence": null,
-      "agendaNumber": null,
+      "agendaNumber": "2026A-0643",
       "title": "Authorizing an increase to contract COM0009220with Professional Recovery Organization Network, LLCdba PRO Network, in the amount of $24,868for a total amount not to exceed $236,068, and an extension through October 31, 2026, for firefighter mental health services.",
       "isConsent": false,
       "actionName": "Approved",
@@ -13904,10 +15583,78 @@
       "votes": []
     },
     {
+      "id": "lims-minneapolis-fileitem-2306-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-08-27T09:30:00",
+      "sequence": null,
+      "agendaNumber": "2026A-0643",
+      "title": "Authorizing an increase to contract COM0009220with Professional Recovery Organization Network, LLCdba PRO Network, in the amount of $24,868for a total amount not to exceed $236,068, and an extension through October 31, 2026, for firefighter mental health services.",
+      "isConsent": false,
+      "actionName": "Adopted",
+      "passedFlagName": "Passed",
+      "matterFile": "2026-00947",
+      "matterId": null,
+      "matterType": "Action",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00947",
+      "votes": [
+        {
+          "memberName": "Elliott Payne",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jamal Osman",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Aisha Chughtai",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Robin Wonsley",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Michael Rainville",
+          "value": "Aye"
+        },
+        {
+          "memberName": "LaTrisha Vetaw",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Pearll Warren",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Elizabeth Shaffer",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Soren Stevenson",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jason Chavez",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jamison Whiting",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Aurin Chowdhury",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Linea Palmisano",
+          "value": "Aye"
+        }
+      ]
+    },
+    {
       "id": "lims-minneapolis-fileitem-2307-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-08-19T13:30:00",
       "sequence": null,
-      "agendaNumber": null,
+      "agendaNumber": "2026A-0645",
       "title": "Authorizing the submittal of a grant application to the U.S. Department of Housing and Urban Development, in an amount up to $4,000,000 over a forty-two (42) month period of performance, to create safer housing by providing comprehensive services of inspections, evaluation, andremediation to income qualified owner occupied and rental properties,in accordance with Resolution 2025R-112 related to federally-funded grants.",
       "isConsent": false,
       "actionName": "Approved",
@@ -13919,10 +15666,78 @@
       "votes": []
     },
     {
+      "id": "lims-minneapolis-fileitem-2307-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-08-27T09:30:00",
+      "sequence": null,
+      "agendaNumber": "2026A-0645",
+      "title": "Authorizing the submittal of a grant application to the U.S. Department of Housing and Urban Development, in an amount up to $4,000,000 over a forty-two (42) month period of performance, to create safer housing by providing comprehensive services of inspections, evaluation, andremediation to income qualified owner occupied and rental properties,in accordance with Resolution 2025R-112 related to federally-funded grants.",
+      "isConsent": false,
+      "actionName": "Adopted",
+      "passedFlagName": "Passed",
+      "matterFile": "2026-00948",
+      "matterId": null,
+      "matterType": "Action",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00948",
+      "votes": [
+        {
+          "memberName": "Elliott Payne",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jamal Osman",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Aisha Chughtai",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Robin Wonsley",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Michael Rainville",
+          "value": "Aye"
+        },
+        {
+          "memberName": "LaTrisha Vetaw",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Pearll Warren",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Elizabeth Shaffer",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Soren Stevenson",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jason Chavez",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jamison Whiting",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Aurin Chowdhury",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Linea Palmisano",
+          "value": "Aye"
+        }
+      ]
+    },
+    {
       "id": "lims-minneapolis-fileitem-2308-0",
       "meeting_id": "lims-minneapolis-meeting-climate-infrastructure-committee-2026-08-20T13:30:00",
       "sequence": null,
-      "agendaNumber": null,
+      "agendaNumber": "2026A-0638",
       "title": "Accepting the low bid of MJV Services, LLC, submitted on Event No4180, in the amount of $245,000 annually, to furnish and deliver all labor, materials, and incidentals necessary for photographing and removal of graffitionprivate property,and authorizing a three(3)year contract with the option to extend for two (2) additional 12-month periods, all in accordance with City specifications.",
       "isConsent": false,
       "actionName": "Approved",
@@ -13934,10 +15749,78 @@
       "votes": []
     },
     {
+      "id": "lims-minneapolis-fileitem-2308-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-08-27T09:30:00",
+      "sequence": null,
+      "agendaNumber": "2026A-0638",
+      "title": "Accepting the low bid of MJV Services, LLC, submitted on Event No4180, in the amount of $245,000 annually, to furnish and deliver all labor, materials, and incidentals necessary for photographing and removal of graffitionprivate property,and authorizing a three(3)year contract with the option to extend for two (2) additional 12-month periods, all in accordance with City specifications.",
+      "isConsent": false,
+      "actionName": "Adopted",
+      "passedFlagName": "Passed",
+      "matterFile": "2026-00950",
+      "matterId": null,
+      "matterType": "Action",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00950",
+      "votes": [
+        {
+          "memberName": "Elliott Payne",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jamal Osman",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Aisha Chughtai",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Robin Wonsley",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Michael Rainville",
+          "value": "Aye"
+        },
+        {
+          "memberName": "LaTrisha Vetaw",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Pearll Warren",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Elizabeth Shaffer",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Soren Stevenson",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jason Chavez",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jamison Whiting",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Aurin Chowdhury",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Linea Palmisano",
+          "value": "Aye"
+        }
+      ]
+    },
+    {
       "id": "lims-minneapolis-fileitem-2309-0",
       "meeting_id": "lims-minneapolis-meeting-climate-infrastructure-committee-2026-08-20T13:30:00",
       "sequence": null,
-      "agendaNumber": null,
+      "agendaNumber": "2026A-0639",
       "title": "Authorizing an increase to contract COM0009923 with Stantec Consulting Services, Inc., in the amount of $10,434for a total amount not to exceed $421,444,for additional design work to complete the North Transfer Station Revitalization Project, all in accordance with City specifications.",
       "isConsent": false,
       "actionName": "Approved",
@@ -13949,10 +15832,78 @@
       "votes": []
     },
     {
+      "id": "lims-minneapolis-fileitem-2309-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-08-27T09:30:00",
+      "sequence": null,
+      "agendaNumber": "2026A-0639",
+      "title": "Authorizing an increase to contract COM0009923 with Stantec Consulting Services, Inc., in the amount of $10,434for a total amount not to exceed $421,444,for additional design work to complete the North Transfer Station Revitalization Project, all in accordance with City specifications.",
+      "isConsent": false,
+      "actionName": "Adopted",
+      "passedFlagName": "Passed",
+      "matterFile": "2026-00951",
+      "matterId": null,
+      "matterType": "Action",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00951",
+      "votes": [
+        {
+          "memberName": "Elliott Payne",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jamal Osman",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Aisha Chughtai",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Robin Wonsley",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Michael Rainville",
+          "value": "Aye"
+        },
+        {
+          "memberName": "LaTrisha Vetaw",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Pearll Warren",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Elizabeth Shaffer",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Soren Stevenson",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jason Chavez",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jamison Whiting",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Aurin Chowdhury",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Linea Palmisano",
+          "value": "Aye"
+        }
+      ]
+    },
+    {
       "id": "lims-minneapolis-fileitem-2310-0",
       "meeting_id": "lims-minneapolis-meeting-climate-infrastructure-committee-2026-08-20T13:30:00",
       "sequence": null,
-      "agendaNumber": null,
+      "agendaNumber": "2026A-0634",
       "title": "Accepting the low bid from Carl Bolander & Sons, Co., submitted on Event 3999, in the amount of $759,788, to provide all materials, labor, equipment, and incidentals necessary to perform theCedar Lake Trail 48-inch Watermain Construction project, and authorizing acontract, all in accordance with City specifications.",
       "isConsent": false,
       "actionName": "Approved",
@@ -13964,10 +15915,78 @@
       "votes": []
     },
     {
+      "id": "lims-minneapolis-fileitem-2310-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-08-27T09:30:00",
+      "sequence": null,
+      "agendaNumber": "2026A-0634",
+      "title": "Accepting the low bid from Carl Bolander & Sons, Co., submitted on Event 3999, in the amount of $759,788, to provide all materials, labor, equipment, and incidentals necessary to perform theCedar Lake Trail 48-inch Watermain Construction project, and authorizing acontract, all in accordance with City specifications.",
+      "isConsent": false,
+      "actionName": "Adopted",
+      "passedFlagName": "Passed",
+      "matterFile": "2026-00952",
+      "matterId": null,
+      "matterType": "Action",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00952",
+      "votes": [
+        {
+          "memberName": "Elliott Payne",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jamal Osman",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Aisha Chughtai",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Robin Wonsley",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Michael Rainville",
+          "value": "Aye"
+        },
+        {
+          "memberName": "LaTrisha Vetaw",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Pearll Warren",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Elizabeth Shaffer",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Soren Stevenson",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jason Chavez",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jamison Whiting",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Aurin Chowdhury",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Linea Palmisano",
+          "value": "Aye"
+        }
+      ]
+    },
+    {
       "id": "lims-minneapolis-fileitem-2311-0",
       "meeting_id": "lims-minneapolis-meeting-climate-infrastructure-committee-2026-08-20T13:30:00",
       "sequence": null,
-      "agendaNumber": null,
+      "agendaNumber": "2026A-0635",
       "title": "Authorizing an increase to Contract COM0008146with Native Resource Preservation, LLC.,the amount of $85,000for a total amount not to exceed $427,000, for additional work necessary for the Pond Landcare Vegetation Managementproject, all in accordance with City specifications.",
       "isConsent": false,
       "actionName": "Approved",
@@ -13979,10 +15998,78 @@
       "votes": []
     },
     {
+      "id": "lims-minneapolis-fileitem-2311-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-08-27T09:30:00",
+      "sequence": null,
+      "agendaNumber": "2026A-0635",
+      "title": "Authorizing an increase to Contract COM0008146with Native Resource Preservation, LLC.,the amount of $85,000for a total amount not to exceed $427,000, for additional work necessary for the Pond Landcare Vegetation Managementproject, all in accordance with City specifications.",
+      "isConsent": false,
+      "actionName": "Adopted",
+      "passedFlagName": "Passed",
+      "matterFile": "2026-00953",
+      "matterId": null,
+      "matterType": "Action",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00953",
+      "votes": [
+        {
+          "memberName": "Elliott Payne",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jamal Osman",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Aisha Chughtai",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Robin Wonsley",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Michael Rainville",
+          "value": "Aye"
+        },
+        {
+          "memberName": "LaTrisha Vetaw",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Pearll Warren",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Elizabeth Shaffer",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Soren Stevenson",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jason Chavez",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jamison Whiting",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Aurin Chowdhury",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Linea Palmisano",
+          "value": "Aye"
+        }
+      ]
+    },
+    {
       "id": "lims-minneapolis-fileitem-2312-0",
       "meeting_id": "lims-minneapolis-meeting-climate-infrastructure-committee-2026-08-20T13:30:00",
       "sequence": null,
-      "agendaNumber": null,
+      "agendaNumber": "2026A-0636",
       "title": "Authorizing an increase to Contract No. COM0011042with M and B Services LLC, in the amount of $286,000for a total amount not to exceed $1,036,000, for the Lead Service Line ReplacementYear 3 project, Event 2 of 2, Blue Package.",
       "isConsent": false,
       "actionName": "Approved",
@@ -13994,10 +16081,78 @@
       "votes": []
     },
     {
+      "id": "lims-minneapolis-fileitem-2312-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-08-27T09:30:00",
+      "sequence": null,
+      "agendaNumber": "2026A-0636",
+      "title": "Authorizing an increase to Contract No. COM0011042with M and B Services LLC, in the amount of $286,000for a total amount not to exceed $1,036,000, for the Lead Service Line ReplacementYear 3 project, Event 2 of 2, Blue Package.",
+      "isConsent": false,
+      "actionName": "Adopted",
+      "passedFlagName": "Passed",
+      "matterFile": "2026-00954",
+      "matterId": null,
+      "matterType": "Action",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00954",
+      "votes": [
+        {
+          "memberName": "Elliott Payne",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jamal Osman",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Aisha Chughtai",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Robin Wonsley",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Michael Rainville",
+          "value": "Aye"
+        },
+        {
+          "memberName": "LaTrisha Vetaw",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Pearll Warren",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Elizabeth Shaffer",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Soren Stevenson",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jason Chavez",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jamison Whiting",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Aurin Chowdhury",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Linea Palmisano",
+          "value": "Aye"
+        }
+      ]
+    },
+    {
       "id": "lims-minneapolis-fileitem-2313-0",
       "meeting_id": "lims-minneapolis-meeting-climate-infrastructure-committee-2026-08-20T13:30:00",
       "sequence": null,
-      "agendaNumber": null,
+      "agendaNumber": "2026R-339",
       "title": "Passage of Resolution accepting donation fromthe US Department of Transportation (USDOT)for two Public Works staff members toattend the USDOT Automated Vehicle Peer Exchange in San Francisco, CA,September 9-11, 2026.",
       "isConsent": false,
       "actionName": "Approved",
@@ -14009,10 +16164,78 @@
       "votes": []
     },
     {
+      "id": "lims-minneapolis-fileitem-2313-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-08-27T09:30:00",
+      "sequence": null,
+      "agendaNumber": "2026R-339",
+      "title": "Passage of Resolution accepting donation fromthe US Department of Transportation (USDOT)for two Public Works staff members toattend the USDOT Automated Vehicle Peer Exchange in San Francisco, CA,September 9-11, 2026.",
+      "isConsent": false,
+      "actionName": "Adopted",
+      "passedFlagName": "Passed",
+      "matterFile": "2026-00955",
+      "matterId": null,
+      "matterType": "Resolution",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00955",
+      "votes": [
+        {
+          "memberName": "Elliott Payne",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jamal Osman",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Aisha Chughtai",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Robin Wonsley",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Michael Rainville",
+          "value": "Aye"
+        },
+        {
+          "memberName": "LaTrisha Vetaw",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Pearll Warren",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Elizabeth Shaffer",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Soren Stevenson",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jason Chavez",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jamison Whiting",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Aurin Chowdhury",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Linea Palmisano",
+          "value": "Aye"
+        }
+      ]
+    },
+    {
       "id": "lims-minneapolis-fileitem-2314-0",
       "meeting_id": "lims-minneapolis-meeting-climate-infrastructure-committee-2026-08-20T13:30:00",
       "sequence": null,
-      "agendaNumber": null,
+      "agendaNumber": "2026A-0637",
       "title": "Authorizing an increase to Contract No. COM0010820 with Kraemer North America LLC, in the amount of $1,270,175 for a total amount not to exceed $27,558,475.50, for additional work on the Nicollet Ave Bridge over Minnehaha Creek Rehabilitation Project, all in accordance with City specifications.",
       "isConsent": false,
       "actionName": "Approved",
@@ -14024,10 +16247,78 @@
       "votes": []
     },
     {
+      "id": "lims-minneapolis-fileitem-2314-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-08-27T09:30:00",
+      "sequence": null,
+      "agendaNumber": "2026A-0637",
+      "title": "Authorizing an increase to Contract No. COM0010820 with Kraemer North America LLC, in the amount of $1,270,175 for a total amount not to exceed $27,558,475.50, for additional work on the Nicollet Ave Bridge over Minnehaha Creek Rehabilitation Project, all in accordance with City specifications.",
+      "isConsent": false,
+      "actionName": "Adopted",
+      "passedFlagName": "Passed",
+      "matterFile": "2026-00956",
+      "matterId": null,
+      "matterType": "Action",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00956",
+      "votes": [
+        {
+          "memberName": "Elliott Payne",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jamal Osman",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Aisha Chughtai",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Robin Wonsley",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Michael Rainville",
+          "value": "Aye"
+        },
+        {
+          "memberName": "LaTrisha Vetaw",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Pearll Warren",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Elizabeth Shaffer",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Soren Stevenson",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jason Chavez",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jamison Whiting",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Aurin Chowdhury",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Linea Palmisano",
+          "value": "Aye"
+        }
+      ]
+    },
+    {
       "id": "lims-minneapolis-fileitem-2315-0",
       "meeting_id": "lims-minneapolis-meeting-enterprise-labor-relations-committee-2026-08-17T13:30:00",
       "sequence": null,
-      "agendaNumber": null,
+      "agendaNumber": "2026A-0642",
       "title": "Approving the settlement of the claims of the Star Tribune Media Company in Star Tribune Media Company, LLC v. City of Minneapolis, et al., Case No. 27-cv-26-1506 (Henn. Cnty.), filed on January 29, 2026, by payment of $8,500 to claimant's counsel,and authorizing the City Attorney's Office to execute any documents necessary to effectuate the settlement.",
       "isConsent": false,
       "actionName": "Approved",
@@ -14039,10 +16330,78 @@
       "votes": []
     },
     {
+      "id": "lims-minneapolis-fileitem-2315-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-08-27T09:30:00",
+      "sequence": null,
+      "agendaNumber": "2026A-0642",
+      "title": "Approving the settlement of the claims of the Star Tribune Media Company in Star Tribune Media Company, LLC v. City of Minneapolis, et al., Case No. 27-cv-26-1506 (Henn. Cnty.), filed on January 29, 2026, by payment of $8,500 to claimant's counsel,and authorizing the City Attorney's Office to execute any documents necessary to effectuate the settlement.",
+      "isConsent": false,
+      "actionName": "Adopted",
+      "passedFlagName": "Passed",
+      "matterFile": "2026-00957",
+      "matterId": null,
+      "matterType": "Action",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00957",
+      "votes": [
+        {
+          "memberName": "Elliott Payne",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jamal Osman",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Aisha Chughtai",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Robin Wonsley",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Michael Rainville",
+          "value": "Aye"
+        },
+        {
+          "memberName": "LaTrisha Vetaw",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Pearll Warren",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Elizabeth Shaffer",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Soren Stevenson",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jason Chavez",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jamison Whiting",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Aurin Chowdhury",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Linea Palmisano",
+          "value": "Aye"
+        }
+      ]
+    },
+    {
       "id": "lims-minneapolis-fileitem-2316-0",
       "meeting_id": "lims-minneapolis-meeting-enterprise-labor-relations-committee-2026-08-17T13:30:00",
       "sequence": null,
-      "agendaNumber": null,
+      "agendaNumber": "2026A-0641",
       "title": "Approving the settlement of the claims of the Star Tribune Media Company inStar Tribune Media Company, LLC v. City of Minneapolis, et al., Case No. 27-cv-25-22362 (Henn. Cnty.), filed on December 23, 2025, by payment of $23,000 to claimant's counsel,and authorizing the City Attorney's Office to execute any documents necessary to effectuate the settlement.",
       "isConsent": false,
       "actionName": "Approved",
@@ -14054,10 +16413,78 @@
       "votes": []
     },
     {
+      "id": "lims-minneapolis-fileitem-2316-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-08-27T09:30:00",
+      "sequence": null,
+      "agendaNumber": "2026A-0641",
+      "title": "Approving the settlement of the claims of the Star Tribune Media Company inStar Tribune Media Company, LLC v. City of Minneapolis, et al., Case No. 27-cv-25-22362 (Henn. Cnty.), filed on December 23, 2025, by payment of $23,000 to claimant's counsel,and authorizing the City Attorney's Office to execute any documents necessary to effectuate the settlement.",
+      "isConsent": false,
+      "actionName": "Adopted",
+      "passedFlagName": "Passed",
+      "matterFile": "2026-00958",
+      "matterId": null,
+      "matterType": "Action",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00958",
+      "votes": [
+        {
+          "memberName": "Elliott Payne",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jamal Osman",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Aisha Chughtai",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Robin Wonsley",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Michael Rainville",
+          "value": "Aye"
+        },
+        {
+          "memberName": "LaTrisha Vetaw",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Pearll Warren",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Elizabeth Shaffer",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Soren Stevenson",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jason Chavez",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jamison Whiting",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Aurin Chowdhury",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Linea Palmisano",
+          "value": "Aye"
+        }
+      ]
+    },
+    {
       "id": "lims-minneapolis-fileitem-2317-0",
       "meeting_id": "lims-minneapolis-meeting-climate-infrastructure-committee-2026-08-20T13:30:00",
       "sequence": null,
-      "agendaNumber": null,
+      "agendaNumber": "2026R-338",
       "title": "Passage of Resolution designating the project location and improvements proposed for the Northside Greenway Phase 2, from 26th Avenue North to 4th Avenue North.",
       "isConsent": false,
       "actionName": "Approved",
@@ -14069,10 +16496,78 @@
       "votes": []
     },
     {
+      "id": "lims-minneapolis-fileitem-2317-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-08-27T09:30:00",
+      "sequence": null,
+      "agendaNumber": "2026R-338",
+      "title": "Passage of Resolution designating the project location and improvements proposed for the Northside Greenway Phase 2, from 26th Avenue North to 4th Avenue North.",
+      "isConsent": false,
+      "actionName": "Adopted",
+      "passedFlagName": "Passed",
+      "matterFile": "2026-00959",
+      "matterId": null,
+      "matterType": "Resolution",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00959",
+      "votes": [
+        {
+          "memberName": "Elliott Payne",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jamal Osman",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Aisha Chughtai",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Robin Wonsley",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Michael Rainville",
+          "value": "Aye"
+        },
+        {
+          "memberName": "LaTrisha Vetaw",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Pearll Warren",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Elizabeth Shaffer",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Soren Stevenson",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jason Chavez",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jamison Whiting",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Aurin Chowdhury",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Linea Palmisano",
+          "value": "Aye"
+        }
+      ]
+    },
+    {
       "id": "lims-minneapolis-fileitem-2318-0",
       "meeting_id": "lims-minneapolis-meeting-climate-infrastructure-committee-2026-08-20T13:30:00",
       "sequence": null,
-      "agendaNumber": null,
+      "agendaNumber": "2026A-0631",
       "title": "Authorizing acquisition of temporary construction easements to facilitate the construction of the Northside Greenway Phase 2 project.",
       "isConsent": false,
       "actionName": "Approved",
@@ -14084,10 +16579,78 @@
       "votes": []
     },
     {
+      "id": "lims-minneapolis-fileitem-2318-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-08-27T09:30:00",
+      "sequence": null,
+      "agendaNumber": "2026A-0631",
+      "title": "Authorizing acquisition of temporary construction easements to facilitate the construction of the Northside Greenway Phase 2 project.",
+      "isConsent": false,
+      "actionName": "Adopted",
+      "passedFlagName": "Passed",
+      "matterFile": "2026-00959",
+      "matterId": null,
+      "matterType": "Action",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00959",
+      "votes": [
+        {
+          "memberName": "Elliott Payne",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jamal Osman",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Aisha Chughtai",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Robin Wonsley",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Michael Rainville",
+          "value": "Aye"
+        },
+        {
+          "memberName": "LaTrisha Vetaw",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Pearll Warren",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Elizabeth Shaffer",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Soren Stevenson",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jason Chavez",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jamison Whiting",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Aurin Chowdhury",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Linea Palmisano",
+          "value": "Aye"
+        }
+      ]
+    },
+    {
       "id": "lims-minneapolis-fileitem-2319-0",
       "meeting_id": "lims-minneapolis-meeting-climate-infrastructure-committee-2026-08-20T13:30:00",
       "sequence": null,
-      "agendaNumber": null,
+      "agendaNumber": "2026A-0632",
       "title": "Authorizing acquisition of temporary construction easementsto facilitate the construction of the Grand Ave Bridge over the Midtown Greenway.",
       "isConsent": false,
       "actionName": "Approved",
@@ -14097,6 +16660,74 @@
       "matterType": "Action",
       "fileUrl": "https://lims.minneapolismn.gov/File/2026-00961",
       "votes": []
+    },
+    {
+      "id": "lims-minneapolis-fileitem-2319-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-08-27T09:30:00",
+      "sequence": null,
+      "agendaNumber": "2026A-0632",
+      "title": "Authorizing acquisition of temporary construction easementsto facilitate the construction of the Grand Ave Bridge over the Midtown Greenway.",
+      "isConsent": false,
+      "actionName": "Adopted",
+      "passedFlagName": "Passed",
+      "matterFile": "2026-00961",
+      "matterId": null,
+      "matterType": "Action",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00961",
+      "votes": [
+        {
+          "memberName": "Elliott Payne",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jamal Osman",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Aisha Chughtai",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Robin Wonsley",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Michael Rainville",
+          "value": "Aye"
+        },
+        {
+          "memberName": "LaTrisha Vetaw",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Pearll Warren",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Elizabeth Shaffer",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Soren Stevenson",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jason Chavez",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jamison Whiting",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Aurin Chowdhury",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Linea Palmisano",
+          "value": "Aye"
+        }
+      ]
     },
     {
       "id": "lims-minneapolis-fileitem-2320-0",
@@ -14117,7 +16748,7 @@
       "id": "lims-minneapolis-fileitem-2321-0",
       "meeting_id": "lims-minneapolis-meeting-climate-infrastructure-committee-2026-08-20T13:30:00",
       "sequence": null,
-      "agendaNumber": null,
+      "agendaNumber": "2026R-340",
       "title": "Passage of Resolution returning the $700,000 Nicollet Avenue Public Restroomfunding from the general fund back to the value capture fund.",
       "isConsent": false,
       "actionName": "Approved",
@@ -14129,10 +16760,78 @@
       "votes": []
     },
     {
+      "id": "lims-minneapolis-fileitem-2321-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-08-27T09:30:00",
+      "sequence": null,
+      "agendaNumber": "2026R-340",
+      "title": "Passage of Resolution returning the $700,000 Nicollet Avenue Public Restroomfunding from the general fund back to the value capture fund.",
+      "isConsent": false,
+      "actionName": "Adopted",
+      "passedFlagName": "Passed",
+      "matterFile": "2026-00964",
+      "matterId": null,
+      "matterType": "Resolution",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00964",
+      "votes": [
+        {
+          "memberName": "Elliott Payne",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jamal Osman",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Aisha Chughtai",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Robin Wonsley",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Michael Rainville",
+          "value": "Aye"
+        },
+        {
+          "memberName": "LaTrisha Vetaw",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Pearll Warren",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Elizabeth Shaffer",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Soren Stevenson",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jason Chavez",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jamison Whiting",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Aurin Chowdhury",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Linea Palmisano",
+          "value": "Aye"
+        }
+      ]
+    },
+    {
       "id": "lims-minneapolis-fileitem-2322-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-08-19T13:30:00",
       "sequence": null,
-      "agendaNumber": null,
+      "agendaNumber": "2026A-0644",
       "title": "Authorizing an increase to contract C-40520 with Axon Enterprise, Inc., in the amount of $1,471,643.05 for a total amount not to exceed $18,336,884.72, for additional software licenses, body-worn cameras, digital video storage, tasers, and related equipment.",
       "isConsent": false,
       "actionName": "Approved",
@@ -14144,10 +16843,78 @@
       "votes": []
     },
     {
+      "id": "lims-minneapolis-fileitem-2322-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-08-27T09:30:00",
+      "sequence": null,
+      "agendaNumber": "2026A-0644",
+      "title": "Authorizing an increase to contract C-40520 with Axon Enterprise, Inc., in the amount of $1,471,643.05 for a total amount not to exceed $18,336,884.72, for additional software licenses, body-worn cameras, digital video storage, tasers, and related equipment.",
+      "isConsent": false,
+      "actionName": "Adopted",
+      "passedFlagName": "Passed",
+      "matterFile": "2026-00965",
+      "matterId": null,
+      "matterType": "Action",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00965",
+      "votes": [
+        {
+          "memberName": "Elliott Payne",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jamal Osman",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Aisha Chughtai",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Robin Wonsley",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Michael Rainville",
+          "value": "Aye"
+        },
+        {
+          "memberName": "LaTrisha Vetaw",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Pearll Warren",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Elizabeth Shaffer",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Soren Stevenson",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jason Chavez",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jamison Whiting",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Aurin Chowdhury",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Linea Palmisano",
+          "value": "Aye"
+        }
+      ]
+    },
+    {
       "id": "lims-minneapolis-fileitem-2323-0",
       "meeting_id": "lims-minneapolis-meeting-enterprise-labor-relations-committee-2026-08-17T13:30:00",
       "sequence": null,
-      "agendaNumber": null,
+      "agendaNumber": "2026R-345",
       "title": "Passage of Resolution accepting donation from the Minnesota Chapter of the National Institute of Governmental Purchasing (MN NIGP)forStephine Holloway, Procurement Buyer, to attend the 2026 NIGPAnnual Forum,in Columbus, OH,from August 22-26, 2026.",
       "isConsent": false,
       "actionName": "Approved",
@@ -14157,6 +16924,74 @@
       "matterType": "Resolution",
       "fileUrl": "https://lims.minneapolismn.gov/File/2026-00966",
       "votes": []
+    },
+    {
+      "id": "lims-minneapolis-fileitem-2323-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-08-27T09:30:00",
+      "sequence": null,
+      "agendaNumber": "2026R-345",
+      "title": "Passage of Resolution accepting donation from the Minnesota Chapter of the National Institute of Governmental Purchasing (MN NIGP)forStephine Holloway, Procurement Buyer, to attend the 2026 NIGPAnnual Forum,in Columbus, OH,from August 22-26, 2026.",
+      "isConsent": false,
+      "actionName": "Adopted",
+      "passedFlagName": "Passed",
+      "matterFile": "2026-00966",
+      "matterId": null,
+      "matterType": "Resolution",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00966",
+      "votes": [
+        {
+          "memberName": "Elliott Payne",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jamal Osman",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Aisha Chughtai",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Robin Wonsley",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Michael Rainville",
+          "value": "Aye"
+        },
+        {
+          "memberName": "LaTrisha Vetaw",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Pearll Warren",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Elizabeth Shaffer",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Soren Stevenson",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jason Chavez",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jamison Whiting",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Aurin Chowdhury",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Linea Palmisano",
+          "value": "Aye"
+        }
+      ]
     },
     {
       "id": "lims-minneapolis-fileitem-2324-1",
@@ -14242,13 +17077,81 @@
       "votes": []
     },
     {
+      "id": "lims-minneapolis-fileitem-2325-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-08-27T09:30:00",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Passage of Ordinanceamending Title 3, Chapter 47 of the Minneapolis Code of Ordinances relating to Air Pollution and Environmental Protection: Energy and Air Pollution, repealing Section 47.190 entitled “Commercial and multifamily residential building rating and disclosure.”",
+      "isConsent": false,
+      "actionName": "Introduced, given its first reading, and referred to City Council meeting of 9/10/2026",
+      "passedFlagName": "Passed",
+      "matterFile": "2026-00968",
+      "matterId": null,
+      "matterType": "Ordinance",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00968",
+      "votes": [
+        {
+          "memberName": "Elliott Payne",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jamal Osman",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Aisha Chughtai",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Robin Wonsley",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Michael Rainville",
+          "value": "Aye"
+        },
+        {
+          "memberName": "LaTrisha Vetaw",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Pearll Warren",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Elizabeth Shaffer",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Soren Stevenson",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jason Chavez",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jamison Whiting",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Aurin Chowdhury",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Linea Palmisano",
+          "value": "Aye"
+        }
+      ]
+    },
+    {
       "id": "lims-minneapolis-fileitem-2326-0",
       "meeting_id": "lims-minneapolis-meeting-committee-of-the-whole-2026-08-25T13:30:00",
       "sequence": null,
       "agendaNumber": null,
       "title": "Receiving and filing a presentation from the Office of Community Safety (OCS) and Office of Public Service (OPS) on the progress of MDHR Settlement Agreement implementation.",
       "isConsent": false,
-      "actionName": "Received and filed",
+      "actionName": "Continued to meeting of  9/15/2026",
       "passedFlagName": "Passed",
       "matterFile": "2026-00969",
       "matterId": null,
@@ -14260,7 +17163,7 @@
       "id": "lims-minneapolis-fileitem-2327-0",
       "meeting_id": "lims-minneapolis-meeting-committee-of-the-whole-2026-08-25T13:30:00",
       "sequence": null,
-      "agendaNumber": null,
+      "agendaNumber": "2026R-342",
       "title": "Passage of Resolution honoring the victims, survivors, families, and community of Annunciation and commemorating one year of hope and healing.",
       "isConsent": false,
       "actionName": "Approved",
@@ -14272,10 +17175,78 @@
       "votes": []
     },
     {
+      "id": "lims-minneapolis-fileitem-2327-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-08-27T09:30:00",
+      "sequence": null,
+      "agendaNumber": "2026R-342",
+      "title": "Passage of Resolution honoring the victims, survivors, families, and community of Annunciation and commemorating one year of hope and healing.",
+      "isConsent": false,
+      "actionName": "Adopted",
+      "passedFlagName": "Passed",
+      "matterFile": "2026-00970",
+      "matterId": null,
+      "matterType": "Resolution",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00970",
+      "votes": [
+        {
+          "memberName": "Elliott Payne",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jamal Osman",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Aisha Chughtai",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Robin Wonsley",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Michael Rainville",
+          "value": "Aye"
+        },
+        {
+          "memberName": "LaTrisha Vetaw",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Pearll Warren",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Elizabeth Shaffer",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Soren Stevenson",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jason Chavez",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jamison Whiting",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Aurin Chowdhury",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Linea Palmisano",
+          "value": "Aye"
+        }
+      ]
+    },
+    {
       "id": "lims-minneapolis-fileitem-2328-0",
       "meeting_id": "lims-minneapolis-meeting-committee-of-the-whole-2026-08-25T13:30:00",
       "sequence": null,
-      "agendaNumber": null,
+      "agendaNumber": "2026R-343",
       "title": "Passage of Resolution rescinding departmental delegatedauthority to make and execute confidentiality and non-disclosure agreement form contracts on potential developments.",
       "isConsent": false,
       "actionName": "Approved",
@@ -14285,6 +17256,74 @@
       "matterType": "Resolution",
       "fileUrl": "https://lims.minneapolismn.gov/File/2026-00971",
       "votes": []
+    },
+    {
+      "id": "lims-minneapolis-fileitem-2328-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-08-27T09:30:00",
+      "sequence": null,
+      "agendaNumber": "2026R-343",
+      "title": "Passage of Resolution rescinding departmental delegatedauthority to make and execute confidentiality and non-disclosure agreement form contracts on potential developments.",
+      "isConsent": false,
+      "actionName": "Adopted",
+      "passedFlagName": "Passed",
+      "matterFile": "2026-00971",
+      "matterId": null,
+      "matterType": "Resolution",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00971",
+      "votes": [
+        {
+          "memberName": "Elliott Payne",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jamal Osman",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Aisha Chughtai",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Robin Wonsley",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Michael Rainville",
+          "value": "Aye"
+        },
+        {
+          "memberName": "LaTrisha Vetaw",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Pearll Warren",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Elizabeth Shaffer",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Soren Stevenson",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jason Chavez",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jamison Whiting",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Aurin Chowdhury",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Linea Palmisano",
+          "value": "Aye"
+        }
+      ]
     },
     {
       "id": "lims-minneapolis-fileitem-2329-0",
@@ -14323,8 +17362,8 @@
       "agendaNumber": null,
       "title": "Receiving and filing a briefing on data center uses and proposed regulations.",
       "isConsent": false,
-      "actionName": "Scheduled",
-      "passedFlagName": "Failed",
+      "actionName": "Received and filed",
+      "passedFlagName": "Passed",
       "matterFile": "2026-00977",
       "matterId": null,
       "matterType": "Receive & File",
@@ -14335,7 +17374,7 @@
       "id": "lims-minneapolis-fileitem-2332-0",
       "meeting_id": "lims-minneapolis-meeting-climate-infrastructure-committee-2026-08-20T13:30:00",
       "sequence": null,
-      "agendaNumber": null,
+      "agendaNumber": "2026A-0640",
       "title": "Approving deviations from the Minneapolis Code of Ordinances for the commercial block event permit application submitted by the University of Minnesota Department of Public Safety to enable theWelcome Back Event to close roads and operate outside the hours permitted on September 9, 2026.",
       "isConsent": false,
       "actionName": "Approved",
@@ -14347,7 +17386,173 @@
       "votes": []
     },
     {
+      "id": "lims-minneapolis-fileitem-2332-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-08-27T09:30:00",
+      "sequence": null,
+      "agendaNumber": "2026A-0640",
+      "title": "Approving deviations from the Minneapolis Code of Ordinances for the commercial block event permit application submitted by the University of Minnesota Department of Public Safety to enable theWelcome Back Event to close roads and operate outside the hours permitted on September 9, 2026.",
+      "isConsent": false,
+      "actionName": "Adopted",
+      "passedFlagName": "Passed",
+      "matterFile": "2026-00983",
+      "matterId": null,
+      "matterType": "Action",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00983",
+      "votes": [
+        {
+          "memberName": "Elliott Payne",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jamal Osman",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Aisha Chughtai",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Robin Wonsley",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Michael Rainville",
+          "value": "Aye"
+        },
+        {
+          "memberName": "LaTrisha Vetaw",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Pearll Warren",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Elizabeth Shaffer",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Soren Stevenson",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jason Chavez",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jamison Whiting",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Aurin Chowdhury",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Linea Palmisano",
+          "value": "Aye"
+        }
+      ]
+    },
+    {
       "id": "lims-minneapolis-fileitem-2333-0",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-08-27T09:30:00",
+      "sequence": null,
+      "agendaNumber": "2026R-347",
+      "title": "Passage of Resolutionhonoring “The Dozens” and North Minneapolis’ food-focused future.",
+      "isConsent": false,
+      "actionName": "Adopted",
+      "passedFlagName": "Passed",
+      "matterFile": "2026-01000",
+      "matterId": null,
+      "matterType": "Resolution",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01000",
+      "votes": [
+        {
+          "memberName": "Elliott Payne",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jamal Osman",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Aisha Chughtai",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Robin Wonsley",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Michael Rainville",
+          "value": "Aye"
+        },
+        {
+          "memberName": "LaTrisha Vetaw",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Pearll Warren",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Elizabeth Shaffer",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Soren Stevenson",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jason Chavez",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jamison Whiting",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Aurin Chowdhury",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Linea Palmisano",
+          "value": "Aye"
+        }
+      ]
+    },
+    {
+      "id": "lims-minneapolis-fileitem-2334-0",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-08-27T09:30:00",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Passage of Ordinance amending Title 20 of the Minneapolis Code of Ordinances relating to Zoning Code, updating development standards for dwellings with one to three units:\n\n\n\tChapter 535 Overlay Districts\n\tChapter 540 Built Form Overlay Districts\n\tChapter 545 Use Regulations\n\tChapter 550 Development Standards\n\tChapter 565 Definitions",
+      "isConsent": false,
+      "actionName": "Notice given",
+      "passedFlagName": "Passed",
+      "matterFile": "2026-01012",
+      "matterId": null,
+      "matterType": "Ordinance",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01012",
+      "votes": []
+    },
+    {
+      "id": "lims-minneapolis-fileitem-2335-0",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-08-27T09:30:00",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Passage of Ordinance amending Title 22, Chapter 598 of the Minneapolis Code of Ordinances relating to Land Subdivision: Land Subdivision Regulations, updating subdivision standards for dwellings with one to three units in conjunction with related changes to the Zoning Code.",
+      "isConsent": false,
+      "actionName": "Notice given",
+      "passedFlagName": "Passed",
+      "matterFile": "2026-01012",
+      "matterId": null,
+      "matterType": "Ordinance",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01012",
+      "votes": []
+    },
+    {
+      "id": "lims-minneapolis-fileitem-2336-0",
       "meeting_id": "lims-minneapolis-meeting-committee-of-the-whole-2026-08-25T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -14362,7 +17567,90 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2342-0",
+      "id": "lims-minneapolis-fileitem-2337-0",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-08-27T09:30:00",
+      "sequence": null,
+      "agendaNumber": "2026R-348",
+      "title": "Passage of Resolution recognizing Welcoming Week 2026.",
+      "isConsent": false,
+      "actionName": "Adopted",
+      "passedFlagName": "Passed",
+      "matterFile": "2026-01014",
+      "matterId": null,
+      "matterType": "Resolution",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01014",
+      "votes": [
+        {
+          "memberName": "Elliott Payne",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jamal Osman",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Aisha Chughtai",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Robin Wonsley",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Michael Rainville",
+          "value": "Aye"
+        },
+        {
+          "memberName": "LaTrisha Vetaw",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Pearll Warren",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Elizabeth Shaffer",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Soren Stevenson",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jason Chavez",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jamison Whiting",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Aurin Chowdhury",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Linea Palmisano",
+          "value": "Aye"
+        }
+      ]
+    },
+    {
+      "id": "lims-minneapolis-fileitem-2338-0",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-08-27T09:30:00",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Passage of Ordinanceamending Title 13, Chapter 259 of the Minneapolis Code of Ordinances relating to Licenses and Business Regulations: In General, requiring certain commercial leases to be in writing.",
+      "isConsent": false,
+      "actionName": "Notice given",
+      "passedFlagName": "Passed",
+      "matterFile": "2026-01015",
+      "matterId": null,
+      "matterType": "Ordinance",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01015",
+      "votes": []
+    },
+    {
+      "id": "lims-minneapolis-fileitem-2347-0",
       "meeting_id": "lims-minneapolis-meeting-audit-committee-2026-08-24T10:00:00",
       "sequence": null,
       "agendaNumber": null,
@@ -14377,7 +17665,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2367-0",
+      "id": "lims-minneapolis-fileitem-2372-0",
       "meeting_id": "lims-minneapolis-meeting-audit-committee-2026-08-24T10:00:00",
       "sequence": null,
       "agendaNumber": null,
@@ -14392,7 +17680,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2368-0",
+      "id": "lims-minneapolis-fileitem-2373-0",
       "meeting_id": "lims-minneapolis-meeting-audit-committee-2026-08-24T10:00:00",
       "sequence": null,
       "agendaNumber": null,
@@ -14436,7 +17724,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2369-0",
+      "id": "lims-minneapolis-fileitem-2374-0",
       "meeting_id": "lims-minneapolis-meeting-audit-committee-2026-08-24T10:00:00",
       "sequence": null,
       "agendaNumber": null,
@@ -14451,7 +17739,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2370-0",
+      "id": "lims-minneapolis-fileitem-2375-0",
       "meeting_id": "lims-minneapolis-meeting-audit-committee-2026-08-24T10:00:00",
       "sequence": null,
       "agendaNumber": null,
@@ -14466,7 +17754,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2371-0",
+      "id": "lims-minneapolis-fileitem-2376-0",
       "meeting_id": "lims-minneapolis-meeting-audit-committee-2026-08-24T10:00:00",
       "sequence": null,
       "agendaNumber": null,
@@ -14481,7 +17769,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2372-0",
+      "id": "lims-minneapolis-fileitem-2377-0",
       "meeting_id": "lims-minneapolis-meeting-audit-committee-2026-08-24T10:00:00",
       "sequence": null,
       "agendaNumber": null,
@@ -14496,7 +17784,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2373-0",
+      "id": "lims-minneapolis-fileitem-2378-0",
       "meeting_id": "lims-minneapolis-meeting-audit-committee-2026-08-24T10:00:00",
       "sequence": null,
       "agendaNumber": null,
@@ -14511,7 +17799,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2374-0",
+      "id": "lims-minneapolis-fileitem-2379-0",
       "meeting_id": "lims-minneapolis-meeting-audit-committee-2026-08-24T10:00:00",
       "sequence": null,
       "agendaNumber": null,
@@ -14526,7 +17814,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2375-0",
+      "id": "lims-minneapolis-fileitem-2380-0",
       "meeting_id": "lims-minneapolis-meeting-audit-committee-2026-08-24T10:00:00",
       "sequence": null,
       "agendaNumber": null,
@@ -14541,7 +17829,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2376-0",
+      "id": "lims-minneapolis-fileitem-2381-0",
       "meeting_id": "lims-minneapolis-meeting-audit-committee-2026-08-24T10:00:00",
       "sequence": null,
       "agendaNumber": null,
@@ -14557,39 +17845,44 @@
     }
   ],
   "diff": {
-    "addedIds": [
-      "lims-minneapolis-meeting-civil-service-commission-2026-11-24T14:00:00",
-      "lims-minneapolis-meeting-public-health-advisory-committee-2026-11-24T17:00:00"
+    "addedIds": [],
+    "removedIds": [
+      "lims-minneapolis-meeting-homegrown-minneapolis-food-council-2026-08-12T17:30:00"
     ],
-    "removedIds": [],
     "changed": [
       {
-        "id": "lims-minneapolis-meeting-planning-commission-2026-08-24T16:30:00",
-        "field": "agendaUrl",
-        "from": "https://lims.minneapolismn.gov/Agenda/CPC/6173",
-        "to": "https://lims.minneapolismn.gov/Board/MarkedAgenda/CPC/6173"
-      },
-      {
-        "id": "lims-minneapolis-meeting-planning-commission-2026-08-24T16:30:00",
+        "id": "lims-minneapolis-meeting-committee-of-the-whole-2026-08-25T13:30:00",
         "field": "minutesUrl",
         "from": null,
-        "to": "https://lims.minneapolismn.gov/Download/CommitteeReport/4947/CPC_20260824_minutes.pdf"
+        "to": "https://lims.minneapolismn.gov/Download/CommitteeReport/4949/COW_08252026_Committee_Report.pdf"
       },
       {
-        "id": "lims-minneapolis-meeting-city-council-2026-08-27T09:30:00",
+        "id": "lims-minneapolis-meeting-public-health-advisory-committee-2026-08-25T17:00:00",
         "field": "agendaUrl",
-        "from": "https://lims.minneapolismn.gov/Agenda/Council/6184",
-        "to": "https://lims.minneapolismn.gov/Agenda/Council/6191"
+        "from": "https://lims.minneapolismn.gov/Agenda/PHAC/6178",
+        "to": "https://lims.minneapolismn.gov/Board/MarkedAgenda/PHAC/6178"
       },
       {
-        "id": "lims-minneapolis-meeting-charter-commission-2026-09-02T16:00:00",
+        "id": "lims-minneapolis-meeting-public-health-advisory-committee-2026-08-25T17:00:00",
+        "field": "minutesUrl",
+        "from": null,
+        "to": "https://lims.minneapolismn.gov/Download/CommitteeReport/4948/PHAC-meeting-08-25-2026.pdf"
+      },
+      {
+        "id": "lims-minneapolis-meeting-bicycle-advisory-committee-2026-09-01T16:00:00",
         "field": "agendaUrl",
-        "from": "https://lims.minneapolismn.gov/Agenda/Charter/",
-        "to": "https://lims.minneapolismn.gov/Agenda/Charter/6190"
+        "from": "https://lims.minneapolismn.gov/Agenda/BAC/",
+        "to": "https://lims.minneapolismn.gov/Agenda/BAC/6192"
+      },
+      {
+        "id": "lims-minneapolis-meeting-community-environmental-advisory-commission-2026-09-01T16:00:00",
+        "field": "agendaUrl",
+        "from": "https://lims.minneapolismn.gov/Agenda/CEAC/",
+        "to": "https://lims.minneapolismn.gov/Agenda/CEAC/6193"
       }
     ]
   },
-  "previousGeneratedAt": "2026-08-25T12:55:32.433Z",
+  "previousGeneratedAt": "2026-08-26T13:04:09.869Z",
   "knownGaps": [
     "Consent-agenda flagging not implemented — LIMS has no field structurally equivalent to Legistar's EventItemConsent; every agenda item ships isConsent: false rather than a guess.",
     "3 same-day, same-body meeting collision(s) in this window — FileItemSearch's LegislativeHistory carries a date but no time, so a second same-day session for the same body can't be disambiguated; the earliest session for each colliding (body, date) pair was used."

@@ -1,84 +1,6 @@
 {
-  "generatedAt": "2026-08-26T13:04:09.873Z",
+  "generatedAt": "2026-08-27T22:02:47.094Z",
   "meetingsThisWeek": [
-    {
-      "client": "minneapolis",
-      "jurisdiction": "Minneapolis City Council",
-      "bodyName": "City Council Policy Roundtable",
-      "date": "2026-08-26",
-      "time": "13:30",
-      "location": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/Roundtable/6176",
-      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/Roundtable/6176",
-      "isCancelled": false,
-      "members": [
-        {
-          "id": 375,
-          "name": "Linea Palmisano",
-          "type": "Council Member"
-        },
-        {
-          "id": 5269,
-          "name": "Jamal Osman",
-          "type": "Vice-President"
-        },
-        {
-          "id": 5692,
-          "name": "Robin Wonsley",
-          "type": "Minority Leader"
-        },
-        {
-          "id": 5696,
-          "name": "LaTrisha Vetaw",
-          "type": "Council Member"
-        },
-        {
-          "id": 5697,
-          "name": "Aisha Chughtai",
-          "type": "Majority Leader"
-        },
-        {
-          "id": 5698,
-          "name": "Jason Chavez",
-          "type": "Council Member"
-        },
-        {
-          "id": 5700,
-          "name": "Michael Rainville",
-          "type": "Council Member"
-        },
-        {
-          "id": 5701,
-          "name": "Elliott Payne",
-          "type": "President"
-        },
-        {
-          "id": 5776,
-          "name": "Aurin Chowdhury",
-          "type": "Council Member"
-        },
-        {
-          "id": 7961,
-          "name": "Pearll Warren",
-          "type": "Council Member"
-        },
-        {
-          "id": 7962,
-          "name": "Soren Stevenson",
-          "type": "Council Member"
-        },
-        {
-          "id": 7963,
-          "name": "Elizabeth Shaffer",
-          "type": "Council Member"
-        },
-        {
-          "id": 7964,
-          "name": "Jamison Whiting",
-          "type": "Council Member"
-        }
-      ]
-    },
     {
       "client": "minneapolis",
       "jurisdiction": "Minneapolis City Council",
@@ -187,8 +109,8 @@
       "date": "2026-09-01",
       "time": "16:00",
       "location": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/BAC/",
-      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/BAC/",
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/BAC/6192",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/BAC/6192",
       "isCancelled": false,
       "members": [
         {
@@ -220,8 +142,8 @@
       "date": "2026-09-01",
       "time": "16:00",
       "location": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/CEAC/",
-      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/CEAC/",
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/CEAC/6193",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/CEAC/6193",
       "isCancelled": false,
       "members": [
         {
