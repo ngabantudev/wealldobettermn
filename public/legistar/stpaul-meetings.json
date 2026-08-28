@@ -2,54 +2,24 @@
   "schemaVersion": 1,
   "client": "stpaul",
   "jurisdiction": "St. Paul City Council",
-  "generatedAt": "2026-08-27T22:01:51.986Z",
+  "generatedAt": "2026-08-28T21:58:24.416Z",
   "status": "ingested",
-  "note": "20 meeting(s) (20/20 event(s) in window) and 278 agenda item(s) ingested for 2026-08-13–2026-11-25.",
+  "note": "19 meeting(s) (19/19 event(s) in window) and 281 agenda item(s) ingested for 2026-08-14–2026-11-26.",
   "provenance": {
     "primarySourceUrl": "https://webapi.legistar.com/v1/stpaul/events",
     "sourceAgency": "St. Paul City Council",
     "documentType": "Legistar Web API — Events/EventItems",
     "documentId": null,
     "issuedDate": null,
-    "fetchedAt": "2026-08-27T22:01:51.986Z",
+    "fetchedAt": "2026-08-28T21:58:24.416Z",
     "licence": "Public records served via Legistar InSite; no separate machine-reuse licence published by the host jurisdiction as of this writing.",
-    "contentHash": "f58ad2eb40b193e04ae06e9abffe40ccd0c976438a0141c6cf74e45e91be607d"
+    "contentHash": "99c3889398caf34a2d97c854c8b67a8505cbb82dec4db18d9505f5495c73425a"
   },
   "window": {
-    "startIso": "2026-08-13",
-    "endIso": "2026-11-25"
+    "startIso": "2026-08-14",
+    "endIso": "2026-11-26"
   },
   "meetings": [
-    {
-      "id": "legistar-stpaul-meeting-7729",
-      "body_id": "legistar-stpaul-body-195",
-      "bodyName": "Legislative Hearings",
-      "date": "2026-08-13",
-      "time": "09:00",
-      "location": "Room 330 City Hall & Court House/Remote",
-      "agendaStatus": "Final",
-      "agendaUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/8/7729_A_Legislative_Hearings_26-08-13_ADA_Meeting_Agenda.pdf",
-      "minutesUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/8/7729_M_Legislative_Hearings_26-08-13_Meeting_Minutes_-_Action_Only.pdf",
-      "videoStatus": "Public",
-      "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7729&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
-      "lastModifiedUtc": "2026-08-14T14:54:42.273",
-      "members": []
-    },
-    {
-      "id": "legistar-stpaul-meeting-7730",
-      "body_id": "legistar-stpaul-body-237",
-      "bodyName": "Rent Stabilization Appeal Hearings",
-      "date": "2026-08-13",
-      "time": "13:00",
-      "location": "Room 330 City Hall & Court House/Remote",
-      "agendaStatus": "Final",
-      "agendaUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/8/7730_A_Rent_Stabilization_Appeal_Hearings_26-08-13_Meeting_Agenda.pdf",
-      "minutesUrl": null,
-      "videoStatus": "Public",
-      "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7730&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
-      "lastModifiedUtc": "2026-08-13T18:25:44.747",
-      "members": []
-    },
     {
       "id": "legistar-stpaul-meeting-7731",
       "body_id": "legistar-stpaul-body-138",
@@ -500,7 +470,7 @@
       "minutesUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/8/7744_M_Legislative_Hearings_26-08-25_Minutes_-_Final.pdf",
       "videoStatus": "Public",
       "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7744&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
-      "lastModifiedUtc": "2026-08-27T18:42:20.673",
+      "lastModifiedUtc": "2026-08-28T13:07:06.857",
       "members": []
     },
     {
@@ -787,100 +757,24 @@
           "type": "Councilmember"
         }
       ]
+    },
+    {
+      "id": "legistar-stpaul-meeting-7753",
+      "body_id": "legistar-stpaul-body-195",
+      "bodyName": "Legislative Hearings",
+      "date": "2026-09-01",
+      "time": "11:00",
+      "location": "Room 330 City Hall & Court House/Remote",
+      "agendaStatus": "Final",
+      "agendaUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/9/7753_A_Legislative_Hearings_26-09-01_ADA_Meeting_Agenda.pdf",
+      "minutesUrl": null,
+      "videoStatus": "Public",
+      "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7753&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
+      "lastModifiedUtc": "2026-08-28T15:02:46.9",
+      "members": []
     }
   ],
   "agendaItems": [
-    {
-      "id": "legistar-stpaul-eventitem-216081",
-      "meeting_id": "legistar-stpaul-meeting-7729",
-      "sequence": 1,
-      "agendaNumber": null,
-      "title": "9:00 a.m. Hearings",
-      "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
-      "matterFile": null,
-      "matterId": null,
-      "matterType": null
-    },
-    {
-      "id": "legistar-stpaul-eventitem-216082",
-      "meeting_id": "legistar-stpaul-meeting-7729",
-      "sequence": 21,
-      "agendaNumber": null,
-      "title": "Special Tax Assessments-Rolls",
-      "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
-      "matterFile": null,
-      "matterId": null,
-      "matterType": null
-    },
-    {
-      "id": "legistar-stpaul-eventitem-216085",
-      "meeting_id": "legistar-stpaul-meeting-7729",
-      "sequence": 2,
-      "agendaNumber": null,
-      "title": "Special Tax Assessments",
-      "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
-      "matterFile": null,
-      "matterId": null,
-      "matterType": null
-    },
-    {
-      "id": "legistar-stpaul-eventitem-216109",
-      "meeting_id": "legistar-stpaul-meeting-7729",
-      "sequence": 5,
-      "agendaNumber": null,
-      "title": "10:00 a.m. Hearings",
-      "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
-      "matterFile": null,
-      "matterId": null,
-      "matterType": null
-    },
-    {
-      "id": "legistar-stpaul-eventitem-216112",
-      "meeting_id": "legistar-stpaul-meeting-7729",
-      "sequence": 13,
-      "agendaNumber": null,
-      "title": "11:00 a.m. Hearings",
-      "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
-      "matterFile": null,
-      "matterId": null,
-      "matterType": null
-    },
-    {
-      "id": "legistar-stpaul-eventitem-216147",
-      "meeting_id": "legistar-stpaul-meeting-7730",
-      "sequence": 1,
-      "agendaNumber": null,
-      "title": "Rent Stabilization Appeals",
-      "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
-      "matterFile": null,
-      "matterId": null,
-      "matterType": null
-    },
-    {
-      "id": "legistar-stpaul-eventitem-216148",
-      "meeting_id": "legistar-stpaul-meeting-7730",
-      "sequence": 2,
-      "agendaNumber": null,
-      "title": "Appeal of Matthew and James Lindquist to a Rent Stabilization Determination at 1501 SEVENTH STREET W Units 6 and 8.",
-      "isConsent": false,
-      "actionName": "Referred",
-      "passedFlagName": null,
-      "matterFile": "RLH RSA 26-19",
-      "matterId": 52570,
-      "matterType": "Resolution LH Rent Stabilization Appeal"
-    },
     {
       "id": "legistar-stpaul-eventitem-216179",
       "meeting_id": "legistar-stpaul-meeting-7731",
@@ -4403,61 +4297,150 @@
       "matterFile": null,
       "matterId": null,
       "matterType": null
+    },
+    {
+      "id": "legistar-stpaul-eventitem-216786",
+      "meeting_id": "legistar-stpaul-meeting-7753",
+      "sequence": 1,
+      "agendaNumber": null,
+      "title": "11:00 a.m. Hearings",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-stpaul-eventitem-216787",
+      "meeting_id": "legistar-stpaul-meeting-7753",
+      "sequence": 2,
+      "agendaNumber": null,
+      "title": "Summary & Vehicle Abatement Orders",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-stpaul-eventitem-216788",
+      "meeting_id": "legistar-stpaul-meeting-7753",
+      "sequence": 3,
+      "agendaNumber": "1",
+      "title": "Appeal of Mary Olson to a Notice to Cut Tall Grass and/or Weeds at 555 ASHLAND AVENUE.",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "RLH SAO 26-82",
+      "matterId": 52694,
+      "matterType": "Resolution LH Summary Abatement Order"
+    },
+    {
+      "id": "legistar-stpaul-eventitem-216789",
+      "meeting_id": "legistar-stpaul-meeting-7753",
+      "sequence": 4,
+      "agendaNumber": "2",
+      "title": "Appeal of Graham Butler to a Notice to Cut Tall Grass and/or Weeds at 702 AURORA AVENUE.",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "RLH SAO 26-86",
+      "matterId": 52742,
+      "matterType": "Resolution LH Summary Abatement Order"
+    },
+    {
+      "id": "legistar-stpaul-eventitem-216790",
+      "meeting_id": "legistar-stpaul-meeting-7753",
+      "sequence": 5,
+      "agendaNumber": "3",
+      "title": "Appeal of Richard Schoolmeesters to a Summary Abatement Order at 1111 FOURTH STREET EAST.",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "RLH SAO 26-88",
+      "matterId": 52791,
+      "matterType": "Resolution LH Summary Abatement Order"
+    },
+    {
+      "id": "legistar-stpaul-eventitem-216793",
+      "meeting_id": "legistar-stpaul-meeting-7753",
+      "sequence": 8,
+      "agendaNumber": null,
+      "title": "1:00 p.m. Hearings",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-stpaul-eventitem-216794",
+      "meeting_id": "legistar-stpaul-meeting-7753",
+      "sequence": 9,
+      "agendaNumber": null,
+      "title": "Vacant Building Registrations",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-stpaul-eventitem-216795",
+      "meeting_id": "legistar-stpaul-meeting-7753",
+      "sequence": 10,
+      "agendaNumber": "5",
+      "title": "Appeal of Gomaa Elzamel to a Vacant Building Registration Requirement at 713 PREBLE STREET.",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "RLH VBR 26-18",
+      "matterId": 52717,
+      "matterType": "Resolution LH Vacant Building Registration"
+    },
+    {
+      "id": "legistar-stpaul-eventitem-216797",
+      "meeting_id": "legistar-stpaul-meeting-7753",
+      "sequence": 6,
+      "agendaNumber": null,
+      "title": "Orders To Vacate - Code Enforcement",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-stpaul-eventitem-216798",
+      "meeting_id": "legistar-stpaul-meeting-7753",
+      "sequence": 7,
+      "agendaNumber": "4",
+      "title": "Appeal of Brent Rekstad to a Notice of Condemnation as Unfit for Human Habitation and Order to Vacate at 1083 BRADLEY STREET. (To refer to August 18, 2026 Legislative Hearing)",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "RLH VO 26-31",
+      "matterId": 52506,
+      "matterType": "Resolution LH Vacate Order"
     }
   ],
   "diff": {
     "addedIds": [
-      "legistar-stpaul-meeting-7749",
-      "legistar-stpaul-meeting-7750",
-      "legistar-stpaul-meeting-7751",
-      "legistar-stpaul-meeting-7752"
+      "legistar-stpaul-meeting-7753"
     ],
     "removedIds": [
-      "legistar-stpaul-meeting-7723",
-      "legistar-stpaul-meeting-7724",
-      "legistar-stpaul-meeting-7727"
+      "legistar-stpaul-meeting-7729",
+      "legistar-stpaul-meeting-7730"
     ],
-    "changed": [
-      {
-        "id": "legistar-stpaul-meeting-7739",
-        "field": "minutesUrl",
-        "from": null,
-        "to": "https://legistar1.granicus.com/StPaul/meetings/2026/8/7739_M_Housing___Redevelopment_Authority_26-08-26_Meeting_Minutes.pdf"
-      },
-      {
-        "id": "legistar-stpaul-meeting-7740",
-        "field": "agendaUrl",
-        "from": "https://legistar1.granicus.com/StPaul/meetings/2026/8/7740_A_City_Council_26-08-26_Meeting_Agenda.pdf",
-        "to": "https://legistar1.granicus.com/StPaul/meetings/2026/8/7740_A_City_Council_26-08-26_ADA_Meeting_Agenda.pdf"
-      },
-      {
-        "id": "legistar-stpaul-meeting-7740",
-        "field": "minutesUrl",
-        "from": null,
-        "to": "https://legistar1.granicus.com/StPaul/meetings/2026/8/7740_M_City_Council_26-08-26_Meeting_Minutes_-_Action_Only.pdf"
-      },
-      {
-        "id": "legistar-stpaul-meeting-7742",
-        "field": "minutesUrl",
-        "from": null,
-        "to": "https://legistar1.granicus.com/StPaul/meetings/2026/8/7742_M_Budget_Committee_26-08-26_Meeting_Minutes_-_Action_Only.pdf"
-      },
-      {
-        "id": "legistar-stpaul-meeting-7744",
-        "field": "minutesUrl",
-        "from": null,
-        "to": "https://legistar1.granicus.com/StPaul/meetings/2026/8/7744_M_Legislative_Hearings_26-08-25_Minutes_-_Final.pdf"
-      },
-      {
-        "id": "legistar-stpaul-meeting-7745",
-        "field": "minutesUrl",
-        "from": null,
-        "to": "https://legistar1.granicus.com/StPaul/meetings/2026/8/7745_M_City_Council_26-08-26_Meeting_Minutes_-_Action_Only.pdf"
-      }
-    ]
+    "changed": []
   },
-  "previousGeneratedAt": "2026-08-26T13:01:48.628Z",
+  "previousGeneratedAt": "2026-08-27T22:01:51.986Z",
   "knownGaps": [
-    "Consent-agenda flagging uses Legistar's own EventItemConsent field only (63 of 278 agenda item(s) in this window flagged). \"No discussion\" / \"no public comment\" are NOT flagged — this API exposes no comparably reliable field for either, and AGENTS.md §3.3 rules out inferring one from absence."
+    "Consent-agenda flagging uses Legistar's own EventItemConsent field only (63 of 281 agenda item(s) in this window flagged). \"No discussion\" / \"no public comment\" are NOT flagged — this API exposes no comparably reliable field for either, and AGENTS.md §3.3 rules out inferring one from absence."
   ]
 }
