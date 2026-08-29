@@ -2,22 +2,22 @@
   "schemaVersion": 1,
   "client": "stpaul",
   "jurisdiction": "St. Paul City Council",
-  "generatedAt": "2026-08-28T21:58:24.416Z",
+  "generatedAt": "2026-08-29T16:28:44.669Z",
   "status": "ingested",
-  "note": "19 meeting(s) (19/19 event(s) in window) and 281 agenda item(s) ingested for 2026-08-14–2026-11-26.",
+  "note": "18 meeting(s) (18/18 event(s) in window) and 280 agenda item(s) ingested for 2026-08-15–2026-11-27.",
   "provenance": {
     "primarySourceUrl": "https://webapi.legistar.com/v1/stpaul/events",
     "sourceAgency": "St. Paul City Council",
     "documentType": "Legistar Web API — Events/EventItems",
     "documentId": null,
     "issuedDate": null,
-    "fetchedAt": "2026-08-28T21:58:24.416Z",
+    "fetchedAt": "2026-08-29T16:28:44.669Z",
     "licence": "Public records served via Legistar InSite; no separate machine-reuse licence published by the host jurisdiction as of this writing.",
-    "contentHash": "99c3889398caf34a2d97c854c8b67a8505cbb82dec4db18d9505f5495c73425a"
+    "contentHash": "4c4f0585b4e9feb2afd6e5b9103d78419d9e12f9572908df8de8fb1d6c687277"
   },
   "window": {
-    "startIso": "2026-08-14",
-    "endIso": "2026-11-26"
+    "startIso": "2026-08-15",
+    "endIso": "2026-11-27"
   },
   "meetings": [
     {
@@ -187,57 +187,6 @@
       "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7734&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
       "lastModifiedUtc": "2026-08-20T19:13:50.097",
       "members": []
-    },
-    {
-      "id": "legistar-stpaul-meeting-7735",
-      "body_id": "legistar-stpaul-body-183",
-      "bodyName": "Housing & Redevelopment Authority",
-      "date": "2026-08-14",
-      "time": "14:00",
-      "location": "Council Chambers, City Hall",
-      "agendaStatus": "Final",
-      "agendaUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/8/7735_A_Housing___Redevelopment_Authority_26-08-14_Meeting_Agenda.pdf",
-      "minutesUrl": null,
-      "videoStatus": "Public",
-      "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7735&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
-      "lastModifiedUtc": "2026-08-14T16:26:33.31",
-      "members": [
-        {
-          "id": 6692,
-          "name": "Rebecca Noecker",
-          "type": "Commissioner"
-        },
-        {
-          "id": 6859,
-          "name": "Nelsie Yang",
-          "type": "Commissioner"
-        },
-        {
-          "id": 7038,
-          "name": "Anika Bowie",
-          "type": "Commissioner"
-        },
-        {
-          "id": 7040,
-          "name": "Cheniqua Johnson",
-          "type": "Commissioner"
-        },
-        {
-          "id": 7039,
-          "name": "Saura Jost",
-          "type": "Commissioner"
-        },
-        {
-          "id": 6785,
-          "name": "HwaJeong Kim",
-          "type": "Commissioner"
-        },
-        {
-          "id": 7108,
-          "name": "Molly Coleman",
-          "type": "Commissioner"
-        }
-      ]
     },
     {
       "id": "legistar-stpaul-meeting-7738",
@@ -1879,19 +1828,6 @@
       "matterFile": "RLH FCO 26-71",
       "matterId": 52611,
       "matterType": "Resolution LH Fire C of O OR Correction Order"
-    },
-    {
-      "id": "legistar-stpaul-eventitem-216293",
-      "meeting_id": "legistar-stpaul-meeting-7735",
-      "sequence": 1,
-      "agendaNumber": null,
-      "title": "NEXT MEETING DATE ",
-      "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
-      "matterFile": null,
-      "matterId": null,
-      "matterType": null
     },
     {
       "id": "legistar-stpaul-eventitem-216337",
@@ -4430,17 +4366,14 @@
     }
   ],
   "diff": {
-    "addedIds": [
-      "legistar-stpaul-meeting-7753"
-    ],
+    "addedIds": [],
     "removedIds": [
-      "legistar-stpaul-meeting-7729",
-      "legistar-stpaul-meeting-7730"
+      "legistar-stpaul-meeting-7735"
     ],
     "changed": []
   },
-  "previousGeneratedAt": "2026-08-27T22:01:51.986Z",
+  "previousGeneratedAt": "2026-08-28T21:58:24.416Z",
   "knownGaps": [
-    "Consent-agenda flagging uses Legistar's own EventItemConsent field only (63 of 281 agenda item(s) in this window flagged). \"No discussion\" / \"no public comment\" are NOT flagged — this API exposes no comparably reliable field for either, and AGENTS.md §3.3 rules out inferring one from absence."
+    "Consent-agenda flagging uses Legistar's own EventItemConsent field only (63 of 280 agenda item(s) in this window flagged). \"No discussion\" / \"no public comment\" are NOT flagged — this API exposes no comparably reliable field for either, and AGENTS.md §3.3 rules out inferring one from absence."
   ]
 }
