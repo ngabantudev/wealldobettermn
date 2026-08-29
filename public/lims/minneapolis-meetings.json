@@ -2,22 +2,22 @@
   "schemaVersion": 1,
   "client": "minneapolis",
   "jurisdiction": "Minneapolis City Council",
-  "generatedAt": "2026-08-28T21:59:59.561Z",
+  "generatedAt": "2026-08-29T16:29:37.883Z",
   "status": "ingested",
-  "note": "137 meeting(s) and 125 agenda item(s) ingested for 2026-08-14–2026-11-26.",
+  "note": "137 meeting(s) and 125 agenda item(s) ingested for 2026-08-15–2026-11-27.",
   "provenance": {
     "primarySourceUrl": "https://lims.minneapolismn.gov/",
     "sourceAgency": "City of Minneapolis, Office of the City Clerk",
     "documentType": "LIMS API v1 — meetingCalendar/FileItemSearch",
     "documentId": null,
     "issuedDate": null,
-    "fetchedAt": "2026-08-28T21:59:59.561Z",
+    "fetchedAt": "2026-08-29T16:29:37.883Z",
     "licence": "Public records served via the City of Minneapolis LIMS API; no separate machine-reuse licence published as of this writing.",
     "contentHash": null
   },
   "window": {
-    "startIso": "2026-08-14",
-    "endIso": "2026-11-26"
+    "startIso": "2026-08-15",
+    "endIso": "2026-11-27"
   },
   "meetings": [
     {
@@ -11675,13 +11675,10 @@
   ],
   "diff": {
     "addedIds": [],
-    "removedIds": [
-      "lims-minneapolis-meeting-city-council-2026-08-13T09:30:00",
-      "lims-minneapolis-meeting-minneapolis-advisory-committee-on-housing-2026-08-13T15:00:00"
-    ],
+    "removedIds": [],
     "changed": []
   },
-  "previousGeneratedAt": "2026-08-27T22:02:47.088Z",
+  "previousGeneratedAt": "2026-08-28T21:59:59.561Z",
   "knownGaps": [
     "Consent-agenda flagging not implemented — LIMS has no field structurally equivalent to Legistar's EventItemConsent; every agenda item ships isConsent: false rather than a guess.",
     "3 same-day, same-body meeting collision(s) in this window — FileItemSearch's LegislativeHistory carries a date but no time, so a second same-day session for the same body can't be disambiguated; the earliest session for each colliding (body, date) pair was used."

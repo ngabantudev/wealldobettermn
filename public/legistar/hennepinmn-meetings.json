@@ -2,22 +2,22 @@
   "schemaVersion": 1,
   "client": "hennepinmn",
   "jurisdiction": "Hennepin County Board",
-  "generatedAt": "2026-08-28T21:59:54.315Z",
+  "generatedAt": "2026-08-29T16:29:32.176Z",
   "status": "ingested",
-  "note": "8 meeting(s) (8/8 event(s) in window) and 164 agenda item(s) ingested for 2026-08-14–2026-11-26.",
+  "note": "8 meeting(s) (8/8 event(s) in window) and 164 agenda item(s) ingested for 2026-08-15–2026-11-27.",
   "provenance": {
     "primarySourceUrl": "https://webapi.legistar.com/v1/hennepinmn/events",
     "sourceAgency": "Hennepin County Board",
     "documentType": "Legistar Web API — Events/EventItems",
     "documentId": null,
     "issuedDate": null,
-    "fetchedAt": "2026-08-28T21:59:54.315Z",
+    "fetchedAt": "2026-08-29T16:29:32.176Z",
     "licence": "Public records served via Legistar InSite; no separate machine-reuse licence published by the host jurisdiction as of this writing.",
-    "contentHash": "0808418c3351c1cb1537500e1fadddec32dfa8693ea00e3ca442ee7d3044a305"
+    "contentHash": "aff64dcc1a7e7e80320878c95aa6551c205c40b00865394f50b36d786475c4d1"
   },
   "window": {
-    "startIso": "2026-08-14",
-    "endIso": "2026-11-26"
+    "startIso": "2026-08-15",
+    "endIso": "2026-11-27"
   },
   "meetings": [
     {
@@ -2529,17 +2529,10 @@
   ],
   "diff": {
     "addedIds": [],
-    "removedIds": [
-      "legistar-hennepinmn-meeting-1450",
-      "legistar-hennepinmn-meeting-1451",
-      "legistar-hennepinmn-meeting-1452",
-      "legistar-hennepinmn-meeting-1453",
-      "legistar-hennepinmn-meeting-1454",
-      "legistar-hennepinmn-meeting-1455"
-    ],
+    "removedIds": [],
     "changed": []
   },
-  "previousGeneratedAt": "2026-08-27T22:02:42.438Z",
+  "previousGeneratedAt": "2026-08-28T21:59:54.315Z",
   "knownGaps": [
     "Consent-agenda flagging uses Legistar's own EventItemConsent field only (23 of 164 agenda item(s) in this window flagged). \"No discussion\" / \"no public comment\" are NOT flagged — this API exposes no comparably reliable field for either, and AGENTS.md §3.3 rules out inferring one from absence."
   ]
