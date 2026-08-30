@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-29T16:29:37.887Z",
+  "generatedAt": "2026-08-30T16:24:17.395Z",
   "meetingsThisWeek": [
     {
       "client": "minneapolis",
@@ -1727,6 +1727,263 @@
         {
           "id": 6876,
           "name": "Taylor Smrikarova",
+          "type": "ABC Member"
+        }
+      ]
+    },
+    {
+      "client": "minneapolis",
+      "jurisdiction": "Minneapolis City Council",
+      "bodyName": "Budget Committee",
+      "date": "2026-09-28",
+      "time": "10:00",
+      "location": null,
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/Budget/",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/Budget/",
+      "isCancelled": false,
+      "members": [
+        {
+          "id": 375,
+          "name": "Linea Palmisano",
+          "type": "Council Member"
+        },
+        {
+          "id": 5269,
+          "name": "Jamal Osman",
+          "type": "Council Member"
+        },
+        {
+          "id": 5692,
+          "name": "Robin Wonsley",
+          "type": "Council Member"
+        },
+        {
+          "id": 5696,
+          "name": "LaTrisha Vetaw",
+          "type": "Council Member"
+        },
+        {
+          "id": 5697,
+          "name": "Aisha Chughtai",
+          "type": "Chair"
+        },
+        {
+          "id": 5698,
+          "name": "Jason Chavez",
+          "type": "Council Member"
+        },
+        {
+          "id": 5700,
+          "name": "Michael Rainville",
+          "type": "Council Member"
+        },
+        {
+          "id": 5701,
+          "name": "Elliott Payne",
+          "type": "Council Member"
+        },
+        {
+          "id": 5776,
+          "name": "Aurin Chowdhury",
+          "type": "Council Member"
+        },
+        {
+          "id": 7961,
+          "name": "Pearll Warren",
+          "type": "Council Member"
+        },
+        {
+          "id": 7962,
+          "name": "Soren Stevenson",
+          "type": "Council Member"
+        },
+        {
+          "id": 7963,
+          "name": "Elizabeth Shaffer",
+          "type": "Vice-Chair"
+        },
+        {
+          "id": 7964,
+          "name": "Jamison Whiting",
+          "type": "Council Member"
+        }
+      ]
+    },
+    {
+      "client": "minneapolis",
+      "jurisdiction": "Minneapolis City Council",
+      "bodyName": "Budget Committee",
+      "date": "2026-09-28",
+      "time": "13:30",
+      "location": null,
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/Budget/",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/Budget/",
+      "isCancelled": false,
+      "members": [
+        {
+          "id": 375,
+          "name": "Linea Palmisano",
+          "type": "Council Member"
+        },
+        {
+          "id": 5269,
+          "name": "Jamal Osman",
+          "type": "Council Member"
+        },
+        {
+          "id": 5692,
+          "name": "Robin Wonsley",
+          "type": "Council Member"
+        },
+        {
+          "id": 5696,
+          "name": "LaTrisha Vetaw",
+          "type": "Council Member"
+        },
+        {
+          "id": 5697,
+          "name": "Aisha Chughtai",
+          "type": "Chair"
+        },
+        {
+          "id": 5698,
+          "name": "Jason Chavez",
+          "type": "Council Member"
+        },
+        {
+          "id": 5700,
+          "name": "Michael Rainville",
+          "type": "Council Member"
+        },
+        {
+          "id": 5701,
+          "name": "Elliott Payne",
+          "type": "Council Member"
+        },
+        {
+          "id": 5776,
+          "name": "Aurin Chowdhury",
+          "type": "Council Member"
+        },
+        {
+          "id": 7961,
+          "name": "Pearll Warren",
+          "type": "Council Member"
+        },
+        {
+          "id": 7962,
+          "name": "Soren Stevenson",
+          "type": "Council Member"
+        },
+        {
+          "id": 7963,
+          "name": "Elizabeth Shaffer",
+          "type": "Vice-Chair"
+        },
+        {
+          "id": 7964,
+          "name": "Jamison Whiting",
+          "type": "Council Member"
+        }
+      ]
+    },
+    {
+      "client": "minneapolis",
+      "jurisdiction": "Minneapolis City Council",
+      "bodyName": "Planning Commission",
+      "date": "2026-09-28",
+      "time": "16:30",
+      "location": null,
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/CPC/",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/CPC/",
+      "isCancelled": false,
+      "members": [
+        {
+          "id": 6923,
+          "name": "Alyssa Olson",
+          "type": "ABC Member"
+        },
+        {
+          "id": 6924,
+          "name": "Joseph Campbell",
+          "type": "ABC Member"
+        },
+        {
+          "id": 6996,
+          "name": "Lucie Skjefte",
+          "type": "ABC Member"
+        }
+      ]
+    },
+    {
+      "client": "minneapolis",
+      "jurisdiction": "Minneapolis City Council",
+      "bodyName": "Civil Rights Commission",
+      "date": "2026-09-28",
+      "time": "18:00",
+      "location": null,
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/MCCR/",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/MCCR/",
+      "isCancelled": false,
+      "members": [
+        {
+          "id": 6087,
+          "name": "Michael Smith",
+          "type": "ABC Member"
+        },
+        {
+          "id": 6740,
+          "name": "Mark Stignani",
+          "type": "ABC Member"
+        },
+        {
+          "id": 6741,
+          "name": "William Pentelovitch",
+          "type": "ABC Member"
+        },
+        {
+          "id": 6742,
+          "name": "Viviana Salazar",
+          "type": "ABC Member"
+        },
+        {
+          "id": 6745,
+          "name": "Zamzam Mohammed",
+          "type": "ABC Member"
+        },
+        {
+          "id": 6746,
+          "name": "Ann Marie Schott",
+          "type": "ABC Member"
+        },
+        {
+          "id": 6761,
+          "name": "Tiara Brown",
+          "type": "ABC Member"
+        },
+        {
+          "id": 6970,
+          "name": "Anthony Burns",
+          "type": "ABC Member"
+        },
+        {
+          "id": 6999,
+          "name": "Amy Bergquist",
+          "type": "ABC Member"
+        },
+        {
+          "id": 7001,
+          "name": "David Jones",
+          "type": "ABC Member"
+        },
+        {
+          "id": 7014,
+          "name": "Heather Stratton",
+          "type": "ABC Member"
+        },
+        {
+          "id": 7015,
+          "name": "Rebecca Waggoner",
           "type": "ABC Member"
         }
       ]
