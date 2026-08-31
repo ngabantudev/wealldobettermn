@@ -2,22 +2,22 @@
   "schemaVersion": 1,
   "client": "minneapolis",
   "jurisdiction": "Minneapolis City Council",
-  "generatedAt": "2026-08-30T16:24:17.391Z",
+  "generatedAt": "2026-08-31T18:59:36.809Z",
   "status": "ingested",
-  "note": "137 meeting(s) and 125 agenda item(s) ingested for 2026-08-16–2026-11-28.",
+  "note": "137 meeting(s) and 127 agenda item(s) ingested for 2026-08-17–2026-11-29.",
   "provenance": {
     "primarySourceUrl": "https://lims.minneapolismn.gov/",
     "sourceAgency": "City of Minneapolis, Office of the City Clerk",
     "documentType": "LIMS API v1 — meetingCalendar/FileItemSearch",
     "documentId": null,
     "issuedDate": null,
-    "fetchedAt": "2026-08-30T16:24:17.391Z",
+    "fetchedAt": "2026-08-31T18:59:36.809Z",
     "licence": "Public records served via the City of Minneapolis LIMS API; no separate machine-reuse licence published as of this writing.",
     "contentHash": null
   },
   "window": {
-    "startIso": "2026-08-16",
-    "endIso": "2026-11-28"
+    "startIso": "2026-08-17",
+    "endIso": "2026-11-29"
   },
   "meetings": [
     {
@@ -29,7 +29,7 @@
       "location": null,
       "agendaStatus": null,
       "agendaUrl": "https://lims.minneapolismn.gov/Agenda/ELR/6154",
-      "minutesUrl": "https://lims.minneapolismn.gov/Download/CommitteeReport/4933/ELR_08172026_Committee_Report.pdf",
+      "minutesUrl": "https://lims.minneapolismn.gov/api/v1/downloads/CommitteeReport/4933/ELR_08172026_Committee_Report.pdf",
       "videoStatus": null,
       "sourceUrl": "https://lims.minneapolismn.gov/Agenda/ELR/6154",
       "lastModifiedUtc": null,
@@ -171,7 +171,7 @@
       "location": null,
       "agendaStatus": null,
       "agendaUrl": "https://lims.minneapolismn.gov/Agenda/BHZ/6152",
-      "minutesUrl": "https://lims.minneapolismn.gov/Download/CommitteeReport/4936/BHZ_08182026_Committee_Report.pdf",
+      "minutesUrl": "https://lims.minneapolismn.gov/api/v1/downloads/CommitteeReport/4936/BHZ_08182026_Committee_Report.pdf",
       "videoStatus": null,
       "sourceUrl": "https://lims.minneapolismn.gov/Agenda/BHZ/6152",
       "lastModifiedUtc": null,
@@ -222,7 +222,7 @@
       "location": null,
       "agendaStatus": null,
       "agendaUrl": "https://lims.minneapolismn.gov/Board/MarkedAgenda/BAC/6161",
-      "minutesUrl": "https://lims.minneapolismn.gov/Download/CommitteeReport/4935/Minutes_2026_08_18_BAC.pdf",
+      "minutesUrl": "https://lims.minneapolismn.gov/api/v1/downloads/CommitteeReport/4935/Minutes_2026_08_18_BAC.pdf",
       "videoStatus": null,
       "sourceUrl": "https://lims.minneapolismn.gov/Board/MarkedAgenda/BAC/6161",
       "lastModifiedUtc": null,
@@ -304,7 +304,7 @@
       "location": null,
       "agendaStatus": null,
       "agendaUrl": "https://lims.minneapolismn.gov/Agenda/PHSE/6151",
-      "minutesUrl": "https://lims.minneapolismn.gov/Download/CommitteeReport/4937/PHSE_08192026_Committee_Report.pdf",
+      "minutesUrl": "https://lims.minneapolismn.gov/api/v1/downloads/CommitteeReport/4937/PHSE_08192026_Committee_Report.pdf",
       "videoStatus": null,
       "sourceUrl": "https://lims.minneapolismn.gov/Agenda/PHSE/6151",
       "lastModifiedUtc": null,
@@ -396,7 +396,7 @@
       "location": null,
       "agendaStatus": null,
       "agendaUrl": "https://lims.minneapolismn.gov/Agenda/CI/6156",
-      "minutesUrl": "https://lims.minneapolismn.gov/Download/CommitteeReport/4943/CI_08202026_Committee_Report.pdf",
+      "minutesUrl": "https://lims.minneapolismn.gov/api/v1/downloads/CommitteeReport/4943/CI_08202026_Committee_Report.pdf",
       "videoStatus": null,
       "sourceUrl": "https://lims.minneapolismn.gov/Agenda/CI/6156",
       "lastModifiedUtc": null,
@@ -447,7 +447,7 @@
       "location": null,
       "agendaStatus": null,
       "agendaUrl": "https://lims.minneapolismn.gov/Board/MarkedAgenda/PAC/6174",
-      "minutesUrl": "https://lims.minneapolismn.gov/Download/CommitteeReport/4942/Minutes_2026_08_20_PAC.pdf",
+      "minutesUrl": "https://lims.minneapolismn.gov/api/v1/downloads/CommitteeReport/4942/Minutes_2026_08_20_PAC.pdf",
       "videoStatus": null,
       "sourceUrl": "https://lims.minneapolismn.gov/Board/MarkedAgenda/PAC/6174",
       "lastModifiedUtc": null,
@@ -473,7 +473,7 @@
       "location": null,
       "agendaStatus": null,
       "agendaUrl": "https://lims.minneapolismn.gov/Board/MarkedAgenda/ZBA/6163",
-      "minutesUrl": "https://lims.minneapolismn.gov/Download/CommitteeReport/4941/ZBA_20260820_minutes.pdf",
+      "minutesUrl": "https://lims.minneapolismn.gov/api/v1/downloads/CommitteeReport/4941/ZBA_20260820_minutes.pdf",
       "videoStatus": null,
       "sourceUrl": "https://lims.minneapolismn.gov/Board/MarkedAgenda/ZBA/6163",
       "lastModifiedUtc": null,
@@ -504,7 +504,7 @@
       "location": null,
       "agendaStatus": null,
       "agendaUrl": "https://lims.minneapolismn.gov/Agenda/Audit/6171",
-      "minutesUrl": "https://lims.minneapolismn.gov/Download/CommitteeReport/4944/Audit_08242026_Committee_Report.pdf",
+      "minutesUrl": "https://lims.minneapolismn.gov/api/v1/downloads/CommitteeReport/4944/Audit_08242026_Committee_Report.pdf",
       "videoStatus": null,
       "sourceUrl": "https://lims.minneapolismn.gov/Agenda/Audit/6171",
       "lastModifiedUtc": null,
@@ -555,7 +555,7 @@
       "location": null,
       "agendaStatus": null,
       "agendaUrl": "https://lims.minneapolismn.gov/Agenda/Budget/6168",
-      "minutesUrl": "https://lims.minneapolismn.gov/Download/CommitteeReport/4945/Budget_08242026_Committee_Report.pdf",
+      "minutesUrl": "https://lims.minneapolismn.gov/api/v1/downloads/CommitteeReport/4945/Budget_08242026_Committee_Report.pdf",
       "videoStatus": null,
       "sourceUrl": "https://lims.minneapolismn.gov/Agenda/Budget/6168",
       "lastModifiedUtc": null,
@@ -636,7 +636,7 @@
       "location": null,
       "agendaStatus": null,
       "agendaUrl": "https://lims.minneapolismn.gov/Board/MarkedAgenda/CPC/6173",
-      "minutesUrl": "https://lims.minneapolismn.gov/Download/CommitteeReport/4947/CPC_20260824_minutes.pdf",
+      "minutesUrl": "https://lims.minneapolismn.gov/api/v1/downloads/CommitteeReport/4947/CPC_20260824_minutes.pdf",
       "videoStatus": null,
       "sourceUrl": "https://lims.minneapolismn.gov/Board/MarkedAgenda/CPC/6173",
       "lastModifiedUtc": null,
@@ -667,7 +667,7 @@
       "location": null,
       "agendaStatus": null,
       "agendaUrl": "https://lims.minneapolismn.gov/Agenda/COW/6167",
-      "minutesUrl": "https://lims.minneapolismn.gov/Download/CommitteeReport/4949/COW_08252026_Committee_Report.pdf",
+      "minutesUrl": "https://lims.minneapolismn.gov/api/v1/downloads/CommitteeReport/4949/COW_08252026_Committee_Report.pdf",
       "videoStatus": null,
       "sourceUrl": "https://lims.minneapolismn.gov/Agenda/COW/6167",
       "lastModifiedUtc": null,
@@ -774,7 +774,7 @@
       "location": null,
       "agendaStatus": null,
       "agendaUrl": "https://lims.minneapolismn.gov/Board/MarkedAgenda/PHAC/6178",
-      "minutesUrl": "https://lims.minneapolismn.gov/Download/CommitteeReport/4948/PHAC-meeting-08-25-2026.pdf",
+      "minutesUrl": "https://lims.minneapolismn.gov/api/v1/downloads/CommitteeReport/4948/PHAC-meeting-08-25-2026.pdf",
       "videoStatus": null,
       "sourceUrl": "https://lims.minneapolismn.gov/Board/MarkedAgenda/PHAC/6178",
       "lastModifiedUtc": null,
@@ -1288,10 +1288,10 @@
       "time": "16:30",
       "location": null,
       "agendaStatus": null,
-      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/HPC/",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/HPC/6196",
       "minutesUrl": null,
       "videoStatus": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/HPC/",
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/HPC/6196",
       "lastModifiedUtc": null,
       "members": [
         {
@@ -11671,14 +11671,123 @@
       "matterType": "Action",
       "fileUrl": "https://lims.minneapolismn.gov/File/AU2026-00019",
       "votes": []
+    },
+    {
+      "id": "lims-minneapolis-fileitem-2385-3",
+      "meeting_id": "lims-minneapolis-meeting-charter-commission-2026-09-02T16:00:00",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Receiving and filing any public comments offered at the end of each meeting.",
+      "isConsent": false,
+      "actionName": "Scheduled",
+      "passedFlagName": "Failed",
+      "matterFile": "CH2026-00001",
+      "matterId": null,
+      "matterType": "Receive & File",
+      "fileUrl": "https://lims.minneapolismn.gov/File/CH2026-00001",
+      "votes": []
+    },
+    {
+      "id": "lims-minneapolis-fileitem-2394-0",
+      "meeting_id": "lims-minneapolis-meeting-charter-commission-2026-09-02T16:00:00",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Receiving and filing a charter amendment request from the Board of Estimate & Taxation to designated alternates, as further set forth in Resolution No. 2026-006, on file in the Office of City Clerk.",
+      "isConsent": false,
+      "actionName": "Scheduled",
+      "passedFlagName": "Failed",
+      "matterFile": "CH2026-00006",
+      "matterId": null,
+      "matterType": "Receive & File",
+      "fileUrl": "https://lims.minneapolismn.gov/File/CH2026-00006",
+      "votes": []
     }
   ],
   "diff": {
     "addedIds": [],
     "removedIds": [],
-    "changed": []
+    "changed": [
+      {
+        "id": "lims-minneapolis-meeting-enterprise-labor-relations-committee-2026-08-17T13:30:00",
+        "field": "minutesUrl",
+        "from": "https://lims.minneapolismn.gov/Download/CommitteeReport/4933/ELR_08172026_Committee_Report.pdf",
+        "to": "https://lims.minneapolismn.gov/api/v1/downloads/CommitteeReport/4933/ELR_08172026_Committee_Report.pdf"
+      },
+      {
+        "id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-08-18T13:30:00",
+        "field": "minutesUrl",
+        "from": "https://lims.minneapolismn.gov/Download/CommitteeReport/4936/BHZ_08182026_Committee_Report.pdf",
+        "to": "https://lims.minneapolismn.gov/api/v1/downloads/CommitteeReport/4936/BHZ_08182026_Committee_Report.pdf"
+      },
+      {
+        "id": "lims-minneapolis-meeting-bicycle-advisory-committee-2026-08-18T16:00:00",
+        "field": "minutesUrl",
+        "from": "https://lims.minneapolismn.gov/Download/CommitteeReport/4935/Minutes_2026_08_18_BAC.pdf",
+        "to": "https://lims.minneapolismn.gov/api/v1/downloads/CommitteeReport/4935/Minutes_2026_08_18_BAC.pdf"
+      },
+      {
+        "id": "lims-minneapolis-meeting-public-health-safety-equity-2026-08-19T13:30:00",
+        "field": "minutesUrl",
+        "from": "https://lims.minneapolismn.gov/Download/CommitteeReport/4937/PHSE_08192026_Committee_Report.pdf",
+        "to": "https://lims.minneapolismn.gov/api/v1/downloads/CommitteeReport/4937/PHSE_08192026_Committee_Report.pdf"
+      },
+      {
+        "id": "lims-minneapolis-meeting-climate-infrastructure-committee-2026-08-20T13:30:00",
+        "field": "minutesUrl",
+        "from": "https://lims.minneapolismn.gov/Download/CommitteeReport/4943/CI_08202026_Committee_Report.pdf",
+        "to": "https://lims.minneapolismn.gov/api/v1/downloads/CommitteeReport/4943/CI_08202026_Committee_Report.pdf"
+      },
+      {
+        "id": "lims-minneapolis-meeting-pedestrian-advisory-committee-2026-08-20T16:00:00",
+        "field": "minutesUrl",
+        "from": "https://lims.minneapolismn.gov/Download/CommitteeReport/4942/Minutes_2026_08_20_PAC.pdf",
+        "to": "https://lims.minneapolismn.gov/api/v1/downloads/CommitteeReport/4942/Minutes_2026_08_20_PAC.pdf"
+      },
+      {
+        "id": "lims-minneapolis-meeting-zoning-board-of-adjustment-2026-08-20T16:30:00",
+        "field": "minutesUrl",
+        "from": "https://lims.minneapolismn.gov/Download/CommitteeReport/4941/ZBA_20260820_minutes.pdf",
+        "to": "https://lims.minneapolismn.gov/api/v1/downloads/CommitteeReport/4941/ZBA_20260820_minutes.pdf"
+      },
+      {
+        "id": "lims-minneapolis-meeting-audit-committee-2026-08-24T10:00:00",
+        "field": "minutesUrl",
+        "from": "https://lims.minneapolismn.gov/Download/CommitteeReport/4944/Audit_08242026_Committee_Report.pdf",
+        "to": "https://lims.minneapolismn.gov/api/v1/downloads/CommitteeReport/4944/Audit_08242026_Committee_Report.pdf"
+      },
+      {
+        "id": "lims-minneapolis-meeting-budget-committee-2026-08-24T13:30:00",
+        "field": "minutesUrl",
+        "from": "https://lims.minneapolismn.gov/Download/CommitteeReport/4945/Budget_08242026_Committee_Report.pdf",
+        "to": "https://lims.minneapolismn.gov/api/v1/downloads/CommitteeReport/4945/Budget_08242026_Committee_Report.pdf"
+      },
+      {
+        "id": "lims-minneapolis-meeting-planning-commission-2026-08-24T16:30:00",
+        "field": "minutesUrl",
+        "from": "https://lims.minneapolismn.gov/Download/CommitteeReport/4947/CPC_20260824_minutes.pdf",
+        "to": "https://lims.minneapolismn.gov/api/v1/downloads/CommitteeReport/4947/CPC_20260824_minutes.pdf"
+      },
+      {
+        "id": "lims-minneapolis-meeting-committee-of-the-whole-2026-08-25T13:30:00",
+        "field": "minutesUrl",
+        "from": "https://lims.minneapolismn.gov/Download/CommitteeReport/4949/COW_08252026_Committee_Report.pdf",
+        "to": "https://lims.minneapolismn.gov/api/v1/downloads/CommitteeReport/4949/COW_08252026_Committee_Report.pdf"
+      },
+      {
+        "id": "lims-minneapolis-meeting-public-health-advisory-committee-2026-08-25T17:00:00",
+        "field": "minutesUrl",
+        "from": "https://lims.minneapolismn.gov/Download/CommitteeReport/4948/PHAC-meeting-08-25-2026.pdf",
+        "to": "https://lims.minneapolismn.gov/api/v1/downloads/CommitteeReport/4948/PHAC-meeting-08-25-2026.pdf"
+      },
+      {
+        "id": "lims-minneapolis-meeting-heritage-preservation-commission-2026-09-08T16:30:00",
+        "field": "agendaUrl",
+        "from": "https://lims.minneapolismn.gov/Agenda/HPC/",
+        "to": "https://lims.minneapolismn.gov/Agenda/HPC/6196"
+      }
+    ]
   },
-  "previousGeneratedAt": "2026-08-29T16:29:37.883Z",
+  "previousGeneratedAt": "2026-08-30T16:24:17.391Z",
   "knownGaps": [
     "Consent-agenda flagging not implemented — LIMS has no field structurally equivalent to Legistar's EventItemConsent; every agenda item ships isConsent: false rather than a guess.",
     "3 same-day, same-body meeting collision(s) in this window — FileItemSearch's LegislativeHistory carries a date but no time, so a second same-day session for the same body can't be disambiguated; the earliest session for each colliding (body, date) pair was used."
