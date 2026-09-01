@@ -2,22 +2,22 @@
   "schemaVersion": 1,
   "client": "stpaul",
   "jurisdiction": "St. Paul City Council",
-  "generatedAt": "2026-08-31T18:58:50.648Z",
+  "generatedAt": "2026-09-01T16:20:29.246Z",
   "status": "ingested",
-  "note": "18 meeting(s) (18/18 event(s) in window) and 280 agenda item(s) ingested for 2026-08-17–2026-11-29.",
+  "note": "18 meeting(s) (18/18 event(s) in window) and 283 agenda item(s) ingested for 2026-08-18–2026-11-30.",
   "provenance": {
     "primarySourceUrl": "https://webapi.legistar.com/v1/stpaul/events",
     "sourceAgency": "St. Paul City Council",
     "documentType": "Legistar Web API — Events/EventItems",
     "documentId": null,
     "issuedDate": null,
-    "fetchedAt": "2026-08-31T18:58:50.648Z",
+    "fetchedAt": "2026-09-01T16:20:29.246Z",
     "licence": "Public records served via Legistar InSite; no separate machine-reuse licence published by the host jurisdiction as of this writing.",
-    "contentHash": "f094a51c8d357f207b86292c1aac500497d2caf912afe06ed562f277ed3c6201"
+    "contentHash": "3d0dd546fd517c25633a7a2d7a5473781e123a93abf12701bc3bf36da9ef4cfb"
   },
   "window": {
-    "startIso": "2026-08-17",
-    "endIso": "2026-11-29"
+    "startIso": "2026-08-18",
+    "endIso": "2026-11-30"
   },
   "meetings": [
     {
@@ -482,10 +482,10 @@
       "location": "Room 330 City Hall & Court House/Remote",
       "agendaStatus": "Final-revised",
       "agendaUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/8/7746_A_Legislative_Hearings_26-08-27_ADA_Meeting_Agenda.pdf",
-      "minutesUrl": null,
+      "minutesUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/8/7746_M_Legislative_Hearings_26-08-27_Minutes_-_Final.pdf",
       "videoStatus": "Public",
       "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7746&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
-      "lastModifiedUtc": "2026-08-26T13:56:01.897",
+      "lastModifiedUtc": "2026-09-01T14:52:28.493",
       "members": []
     },
     {
@@ -719,7 +719,7 @@
       "minutesUrl": null,
       "videoStatus": "Public",
       "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7753&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
-      "lastModifiedUtc": "2026-08-28T15:02:46.9",
+      "lastModifiedUtc": "2026-09-01T13:49:15.57",
       "members": []
     }
   ],
@@ -1762,6 +1762,19 @@
       "passedFlagName": null,
       "matterFile": "RLH SAO 26-77",
       "matterId": 52642,
+      "matterType": "Resolution LH Summary Abatement Order"
+    },
+    {
+      "id": "legistar-stpaul-eventitem-216278",
+      "meeting_id": "legistar-stpaul-meeting-7734",
+      "sequence": 12,
+      "agendaNumber": "6",
+      "title": "Appeal of Mary Roach to a Summary Abatement Order at 1045 CHARLES AVENUE.",
+      "isConsent": false,
+      "actionName": "Laid Over",
+      "passedFlagName": null,
+      "matterFile": "RLH SAO 26-78",
+      "matterId": 52672,
       "matterType": "Resolution LH Summary Abatement Order"
     },
     {
@@ -2909,6 +2922,19 @@
       "matterType": null
     },
     {
+      "id": "legistar-stpaul-eventitem-216488",
+      "meeting_id": "legistar-stpaul-meeting-7744",
+      "sequence": 10,
+      "agendaNumber": "5",
+      "title": "Appeal of Mary Roach to a Summary Abatement Order at 1045 CHARLES AVENUE.",
+      "isConsent": false,
+      "actionName": "Referred",
+      "passedFlagName": null,
+      "matterFile": "RLH SAO 26-78",
+      "matterId": 52672,
+      "matterType": "Resolution LH Summary Abatement Order"
+    },
+    {
       "id": "legistar-stpaul-eventitem-216489",
       "meeting_id": "legistar-stpaul-meeting-7744",
       "sequence": 8,
@@ -3629,7 +3655,7 @@
       "sequence": 19,
       "agendaNumber": "16",
       "title": "Authorizing the Police Department to apply to the FY 2026 CPD Microgrants Program from the U.S. Department of Justice.",
-      "isConsent": true,
+      "isConsent": false,
       "actionName": null,
       "passedFlagName": null,
       "matterFile": "RES 26-1399",
@@ -3798,7 +3824,7 @@
       "sequence": 33,
       "agendaNumber": "30",
       "title": "Proclaiming September 2nd, 2026 as Jacy Johnson Becker Day in the City of Saint Paul.",
-      "isConsent": true,
+      "isConsent": false,
       "actionName": null,
       "passedFlagName": null,
       "matterFile": "RES 26-1493",
@@ -4149,7 +4175,7 @@
       "sequence": 34,
       "agendaNumber": "31",
       "title": "Appointing Korinne Dennis as Communications Lead, Reggie Evans as Reparations Legislative Aide and Joanna Zimny as Legislative Hearing Officer.",
-      "isConsent": true,
+      "isConsent": false,
       "actionName": null,
       "passedFlagName": null,
       "matterFile": "RES 26-1492",
@@ -4181,6 +4207,19 @@
       "matterFile": "RLH RSA 26-19",
       "matterId": 52570,
       "matterType": "Resolution LH Rent Stabilization Appeal"
+    },
+    {
+      "id": "legistar-stpaul-eventitem-216831",
+      "meeting_id": "legistar-stpaul-meeting-7751",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "SUSPENSION ITEM",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
     },
     {
       "id": "legistar-stpaul-eventitem-216766",
@@ -4368,10 +4407,17 @@
   "diff": {
     "addedIds": [],
     "removedIds": [],
-    "changed": []
+    "changed": [
+      {
+        "id": "legistar-stpaul-meeting-7746",
+        "field": "minutesUrl",
+        "from": null,
+        "to": "https://legistar1.granicus.com/StPaul/meetings/2026/8/7746_M_Legislative_Hearings_26-08-27_Minutes_-_Final.pdf"
+      }
+    ]
   },
-  "previousGeneratedAt": "2026-08-30T16:22:58.673Z",
+  "previousGeneratedAt": "2026-08-31T18:58:50.648Z",
   "knownGaps": [
-    "Consent-agenda flagging uses Legistar's own EventItemConsent field only (90 of 280 agenda item(s) in this window flagged). \"No discussion\" / \"no public comment\" are NOT flagged — this API exposes no comparably reliable field for either, and AGENTS.md §3.3 rules out inferring one from absence."
+    "Consent-agenda flagging uses Legistar's own EventItemConsent field only (87 of 283 agenda item(s) in this window flagged). \"No discussion\" / \"no public comment\" are NOT flagged — this API exposes no comparably reliable field for either, and AGENTS.md §3.3 rules out inferring one from absence."
   ]
 }

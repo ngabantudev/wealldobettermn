@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-31T18:59:36.813Z",
+  "generatedAt": "2026-09-01T16:21:37.229Z",
   "meetingsThisWeek": [
     {
       "client": "minneapolis",
@@ -185,8 +185,8 @@
       "date": "2026-09-03",
       "time": "16:00",
       "location": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/PAC/",
-      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/PAC/",
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/PAC/6197",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/PAC/6197",
       "isCancelled": false,
       "members": [
         {
