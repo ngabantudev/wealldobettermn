@@ -2,22 +2,22 @@
   "schemaVersion": 1,
   "client": "stpaul",
   "jurisdiction": "St. Paul City Council",
-  "generatedAt": "2026-09-01T16:20:29.246Z",
+  "generatedAt": "2026-09-02T16:17:15.372Z",
   "status": "ingested",
-  "note": "18 meeting(s) (18/18 event(s) in window) and 283 agenda item(s) ingested for 2026-08-18–2026-11-30.",
+  "note": "18 meeting(s) (18/18 event(s) in window) and 267 agenda item(s) ingested for 2026-08-19–2026-12-01.",
   "provenance": {
     "primarySourceUrl": "https://webapi.legistar.com/v1/stpaul/events",
     "sourceAgency": "St. Paul City Council",
     "documentType": "Legistar Web API — Events/EventItems",
     "documentId": null,
     "issuedDate": null,
-    "fetchedAt": "2026-09-01T16:20:29.246Z",
+    "fetchedAt": "2026-09-02T16:17:15.372Z",
     "licence": "Public records served via Legistar InSite; no separate machine-reuse licence published by the host jurisdiction as of this writing.",
-    "contentHash": "3d0dd546fd517c25633a7a2d7a5473781e123a93abf12701bc3bf36da9ef4cfb"
+    "contentHash": "b459ce3aa0d101b3d7b77a8dc86caff6bdd0b5144beb744303bab90e90a7dafd"
   },
   "window": {
-    "startIso": "2026-08-18",
-    "endIso": "2026-11-30"
+    "startIso": "2026-08-19",
+    "endIso": "2026-12-01"
   },
   "meetings": [
     {
@@ -174,19 +174,55 @@
       ]
     },
     {
-      "id": "legistar-stpaul-meeting-7734",
-      "body_id": "legistar-stpaul-body-195",
-      "bodyName": "Legislative Hearings",
-      "date": "2026-08-18",
-      "time": "09:00",
-      "location": "Room 330 City Hall & Court House/Remote",
+      "id": "legistar-stpaul-meeting-7735",
+      "body_id": "legistar-stpaul-body-183",
+      "bodyName": "Housing & Redevelopment Authority",
+      "date": "2026-08-19",
+      "time": "14:00",
+      "location": "Council Chambers, City Hall",
       "agendaStatus": "Final",
-      "agendaUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/8/7734_A_Legislative_Hearings_26-08-18_Meeting_Agenda.pdf",
-      "minutesUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/8/7734_M_Legislative_Hearings_26-08-18_Minutes_-_Final.pdf",
+      "agendaUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/8/7735_A_Housing___Redevelopment_Authority_26-08-14_Meeting_Agenda.pdf",
+      "minutesUrl": null,
       "videoStatus": "Public",
-      "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7734&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
-      "lastModifiedUtc": "2026-08-20T19:13:50.097",
-      "members": []
+      "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7735&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
+      "lastModifiedUtc": "2026-08-14T16:26:33.31",
+      "members": [
+        {
+          "id": 6692,
+          "name": "Rebecca Noecker",
+          "type": "Commissioner"
+        },
+        {
+          "id": 6859,
+          "name": "Nelsie Yang",
+          "type": "Commissioner"
+        },
+        {
+          "id": 7038,
+          "name": "Anika Bowie",
+          "type": "Commissioner"
+        },
+        {
+          "id": 7040,
+          "name": "Cheniqua Johnson",
+          "type": "Commissioner"
+        },
+        {
+          "id": 7039,
+          "name": "Saura Jost",
+          "type": "Commissioner"
+        },
+        {
+          "id": 6785,
+          "name": "HwaJeong Kim",
+          "type": "Commissioner"
+        },
+        {
+          "id": 7108,
+          "name": "Molly Coleman",
+          "type": "Commissioner"
+        }
+      ]
     },
     {
       "id": "legistar-stpaul-meeting-7738",
@@ -515,7 +551,7 @@
       "minutesUrl": null,
       "videoStatus": "Public",
       "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7749&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
-      "lastModifiedUtc": "2026-08-31T01:47:17.787",
+      "lastModifiedUtc": "2026-09-01T21:54:43.69",
       "members": [
         {
           "id": 6692,
@@ -566,7 +602,7 @@
       "minutesUrl": null,
       "videoStatus": "Public",
       "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7750&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
-      "lastModifiedUtc": "2026-08-26T21:17:20.923",
+      "lastModifiedUtc": "2026-09-02T14:33:20.953",
       "members": [
         {
           "id": 6692,
@@ -617,7 +653,7 @@
       "minutesUrl": null,
       "videoStatus": "Public",
       "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7751&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
-      "lastModifiedUtc": "2026-08-27T16:57:43.84",
+      "lastModifiedUtc": "2026-09-01T19:56:35.267",
       "members": [
         {
           "id": 6692,
@@ -668,7 +704,7 @@
       "minutesUrl": null,
       "videoStatus": "Public",
       "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7752&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
-      "lastModifiedUtc": "2026-08-27T15:14:16.75",
+      "lastModifiedUtc": "2026-09-01T19:43:41.293",
       "members": [
         {
           "id": 6692,
@@ -714,12 +750,12 @@
       "date": "2026-09-01",
       "time": "11:00",
       "location": "Room 330 City Hall & Court House/Remote",
-      "agendaStatus": "Final",
+      "agendaStatus": "Final-revised",
       "agendaUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/9/7753_A_Legislative_Hearings_26-09-01_ADA_Meeting_Agenda.pdf",
       "minutesUrl": null,
       "videoStatus": "Public",
       "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7753&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
-      "lastModifiedUtc": "2026-09-01T13:49:15.57",
+      "lastModifiedUtc": "2026-09-01T19:06:29.11",
       "members": []
     }
   ],
@@ -1648,199 +1684,17 @@
       "matterType": null
     },
     {
-      "id": "legistar-stpaul-eventitem-216268",
-      "meeting_id": "legistar-stpaul-meeting-7734",
-      "sequence": 2,
-      "agendaNumber": null,
-      "title": "Special Tax Assessments",
-      "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
-      "matterFile": null,
-      "matterId": null,
-      "matterType": null
-    },
-    {
-      "id": "legistar-stpaul-eventitem-216269",
-      "meeting_id": "legistar-stpaul-meeting-7734",
-      "sequence": 3,
-      "agendaNumber": "1",
-      "title": "Ratifying the Appealed Special Tax Assessment for property at 777 OHIO STREET. (File No. J2602A, Assessment No. 268503)",
-      "isConsent": false,
-      "actionName": "Referred",
-      "passedFlagName": null,
-      "matterFile": "RLH TA 26-158",
-      "matterId": 52447,
-      "matterType": "Resolution LH Tax Assessment Appeal"
-    },
-    {
-      "id": "legistar-stpaul-eventitem-216270",
-      "meeting_id": "legistar-stpaul-meeting-7734",
+      "id": "legistar-stpaul-eventitem-216293",
+      "meeting_id": "legistar-stpaul-meeting-7735",
       "sequence": 1,
       "agendaNumber": null,
-      "title": "10:00 a.m. Hearings",
+      "title": "NEXT MEETING DATE ",
       "isConsent": false,
       "actionName": null,
       "passedFlagName": null,
       "matterFile": null,
       "matterId": null,
       "matterType": null
-    },
-    {
-      "id": "legistar-stpaul-eventitem-216271",
-      "meeting_id": "legistar-stpaul-meeting-7734",
-      "sequence": 7,
-      "agendaNumber": null,
-      "title": "Making Finding on Nuisance Abatements",
-      "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
-      "matterFile": null,
-      "matterId": null,
-      "matterType": null
-    },
-    {
-      "id": "legistar-stpaul-eventitem-216273",
-      "meeting_id": "legistar-stpaul-meeting-7734",
-      "sequence": 4,
-      "agendaNumber": null,
-      "title": "11:00 a.m. Hearings",
-      "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
-      "matterFile": null,
-      "matterId": null,
-      "matterType": null
-    },
-    {
-      "id": "legistar-stpaul-eventitem-216274",
-      "meeting_id": "legistar-stpaul-meeting-7734",
-      "sequence": 10,
-      "agendaNumber": null,
-      "title": "Summary & Vehicle Abatement Orders",
-      "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
-      "matterFile": null,
-      "matterId": null,
-      "matterType": null
-    },
-    {
-      "id": "legistar-stpaul-eventitem-216275",
-      "meeting_id": "legistar-stpaul-meeting-7734",
-      "sequence": 9,
-      "agendaNumber": "4",
-      "title": "Making finding on the appeal of Jane Foster to a nuisance abatement ordered for 1312 SCHEFFER AVENUE in Council File RLH SAO 26-54.",
-      "isConsent": false,
-      "actionName": "Referred",
-      "passedFlagName": null,
-      "matterFile": "RLH SAO 26-75",
-      "matterId": 52605,
-      "matterType": "Resolution LH Summary Abatement Order"
-    },
-    {
-      "id": "legistar-stpaul-eventitem-216276",
-      "meeting_id": "legistar-stpaul-meeting-7734",
-      "sequence": 8,
-      "agendaNumber": "3",
-      "title": "Making finding on the appeal of Liam Magistad to a nuisance abatement ordered for 1597 CHARLES AVENUE in Council File RLH SAO 26-61.",
-      "isConsent": false,
-      "actionName": "Referred",
-      "passedFlagName": null,
-      "matterFile": "RLH SAO 26-76",
-      "matterId": 52606,
-      "matterType": "Resolution LH Summary Abatement Order"
-    },
-    {
-      "id": "legistar-stpaul-eventitem-216277",
-      "meeting_id": "legistar-stpaul-meeting-7734",
-      "sequence": 11,
-      "agendaNumber": "5",
-      "title": "Appeal of Barbara Clark to a Summary Abatement Order at 1552 CANFIELD AVENUE.",
-      "isConsent": false,
-      "actionName": "Referred",
-      "passedFlagName": null,
-      "matterFile": "RLH SAO 26-77",
-      "matterId": 52642,
-      "matterType": "Resolution LH Summary Abatement Order"
-    },
-    {
-      "id": "legistar-stpaul-eventitem-216278",
-      "meeting_id": "legistar-stpaul-meeting-7734",
-      "sequence": 12,
-      "agendaNumber": "6",
-      "title": "Appeal of Mary Roach to a Summary Abatement Order at 1045 CHARLES AVENUE.",
-      "isConsent": false,
-      "actionName": "Laid Over",
-      "passedFlagName": null,
-      "matterFile": "RLH SAO 26-78",
-      "matterId": 52672,
-      "matterType": "Resolution LH Summary Abatement Order"
-    },
-    {
-      "id": "legistar-stpaul-eventitem-216284",
-      "meeting_id": "legistar-stpaul-meeting-7734",
-      "sequence": 5,
-      "agendaNumber": null,
-      "title": "Orders To Vacate - Code Enforcement",
-      "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
-      "matterFile": null,
-      "matterId": null,
-      "matterType": null
-    },
-    {
-      "id": "legistar-stpaul-eventitem-216285",
-      "meeting_id": "legistar-stpaul-meeting-7734",
-      "sequence": 6,
-      "agendaNumber": "2",
-      "title": "Appeal of Brent Rekstad to a Notice of Condemnation as Unfit for Human Habitation and Order to Vacate at 1083 BRADLEY STREET. (To refer to August 18, 2026 Legislative Hearing)",
-      "isConsent": false,
-      "actionName": "Laid Over",
-      "passedFlagName": null,
-      "matterFile": "RLH VO 26-31",
-      "matterId": 52506,
-      "matterType": "Resolution LH Vacate Order"
-    },
-    {
-      "id": "legistar-stpaul-eventitem-216286",
-      "meeting_id": "legistar-stpaul-meeting-7734",
-      "sequence": 13,
-      "agendaNumber": null,
-      "title": "2:00 p.m. Hearings",
-      "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
-      "matterFile": null,
-      "matterId": null,
-      "matterType": null
-    },
-    {
-      "id": "legistar-stpaul-eventitem-216287",
-      "meeting_id": "legistar-stpaul-meeting-7734",
-      "sequence": 14,
-      "agendaNumber": null,
-      "title": "Fire Certificates of Occupancy",
-      "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
-      "matterFile": null,
-      "matterId": null,
-      "matterType": null
-    },
-    {
-      "id": "legistar-stpaul-eventitem-216288",
-      "meeting_id": "legistar-stpaul-meeting-7734",
-      "sequence": 15,
-      "agendaNumber": "7",
-      "title": "Appeal of Greg Heck, Montrose Pl LLC,  to a Fire Certificate of Occupancy Correction Notice at 221 MONTROSE PLACE.",
-      "isConsent": false,
-      "actionName": "Referred",
-      "passedFlagName": null,
-      "matterFile": "RLH FCO 26-71",
-      "matterId": 52611,
-      "matterType": "Resolution LH Fire C of O OR Correction Order"
     },
     {
       "id": "legistar-stpaul-eventitem-216337",
@@ -2935,16 +2789,16 @@
       "matterType": "Resolution LH Summary Abatement Order"
     },
     {
-      "id": "legistar-stpaul-eventitem-216489",
+      "id": "legistar-stpaul-eventitem-216490",
       "meeting_id": "legistar-stpaul-meeting-7744",
-      "sequence": 8,
-      "agendaNumber": "3",
-      "title": "Appeal of Mary Olson to a Notice to Cut Tall Grass and/or Weeds at 555 ASHLAND AVENUE.",
+      "sequence": 9,
+      "agendaNumber": "4",
+      "title": "Appeal of Rich C. Nelson to a Summary Abatement Order at 2348 BUFORD AVENUE.",
       "isConsent": false,
-      "actionName": "Laid Over",
-      "passedFlagName": null,
-      "matterFile": "RLH SAO 26-82",
-      "matterId": 52694,
+      "actionName": "Referred",
+      "passedFlagName": "Pass",
+      "matterFile": "RLH SAO 26-84",
+      "matterId": 52727,
       "matterType": "Resolution LH Summary Abatement Order"
     },
     {
@@ -3834,7 +3688,7 @@
     {
       "id": "legistar-stpaul-eventitem-216731",
       "meeting_id": "legistar-stpaul-meeting-7751",
-      "sequence": 35,
+      "sequence": 37,
       "agendaNumber": null,
       "title": "FOR DISCUSSION",
       "isConsent": false,
@@ -3847,7 +3701,7 @@
     {
       "id": "legistar-stpaul-eventitem-216733",
       "meeting_id": "legistar-stpaul-meeting-7751",
-      "sequence": 36,
+      "sequence": 38,
       "agendaNumber": "32",
       "title": "Staff report on the State of our Youth address.",
       "isConsent": false,
@@ -3860,7 +3714,7 @@
     {
       "id": "legistar-stpaul-eventitem-216734",
       "meeting_id": "legistar-stpaul-meeting-7751",
-      "sequence": 46,
+      "sequence": 48,
       "agendaNumber": "40",
       "title": "Amending Second Making finding on the appealed substantial abatement ordered for 947 FREMONT AVENUE in Council File RLH RR 25-34. (Public hearing closed and laid over from August 19, 2026)",
       "isConsent": false,
@@ -3873,7 +3727,7 @@
     {
       "id": "legistar-stpaul-eventitem-216739",
       "meeting_id": "legistar-stpaul-meeting-7751",
-      "sequence": 37,
+      "sequence": 39,
       "agendaNumber": null,
       "title": "PUBLIC HEARINGS\r\nLive testimony is limited to two minutes for each person. See below for optional ways to testify.",
       "isConsent": false,
@@ -3886,7 +3740,7 @@
     {
       "id": "legistar-stpaul-eventitem-216740",
       "meeting_id": "legistar-stpaul-meeting-7751",
-      "sequence": 38,
+      "sequence": 40,
       "agendaNumber": "33",
       "title": "Approving the application of University of Saint Thomas for a sound level variance in order to present amplified sound for Tommie Fest Homecoming event on Friday, September 25, 2026, at 2115 Summit Avenue - J.P. Monahan Plaza.",
       "isConsent": false,
@@ -3899,7 +3753,7 @@
     {
       "id": "legistar-stpaul-eventitem-216741",
       "meeting_id": "legistar-stpaul-meeting-7751",
-      "sequence": 39,
+      "sequence": 41,
       "agendaNumber": "34",
       "title": "Approving the application of University of Saint Thomas for a sound level variance in order to present amplified sound for the Cretin Derham Hall Football events on Thursday, October 8, and Wednesday, October 21, 2026, at 2115 Summit Avenue - O'Shaughnessy Stadium.",
       "isConsent": false,
@@ -3912,7 +3766,7 @@
     {
       "id": "legistar-stpaul-eventitem-216742",
       "meeting_id": "legistar-stpaul-meeting-7751",
-      "sequence": 40,
+      "sequence": 42,
       "agendaNumber": "35",
       "title": "Approving the application of Anderson Race Management for a sound level variance in order to present amplified sound for a Walk for Water event on Saturday, September 26, 2026, at 226 Spring Street - Upper Landing Park.",
       "isConsent": false,
@@ -3925,7 +3779,7 @@
     {
       "id": "legistar-stpaul-eventitem-216743",
       "meeting_id": "legistar-stpaul-meeting-7751",
-      "sequence": 41,
+      "sequence": 43,
       "agendaNumber": "36",
       "title": "Amending the spending plan in the Fire Department Public Safety Aid projects to more accurately account for the expenditures.",
       "isConsent": false,
@@ -3938,7 +3792,7 @@
     {
       "id": "legistar-stpaul-eventitem-216744",
       "meeting_id": "legistar-stpaul-meeting-7751",
-      "sequence": 42,
+      "sequence": 44,
       "agendaNumber": "37",
       "title": "Amending the financing and spending plans in the Fire Department in the amount of $108,118.15 for the contribution received from the Minnesota Board of Firefighter Training and Education to pay for training for firefighters.",
       "isConsent": false,
@@ -3951,7 +3805,7 @@
     {
       "id": "legistar-stpaul-eventitem-216745",
       "meeting_id": "legistar-stpaul-meeting-7751",
-      "sequence": 43,
+      "sequence": 45,
       "agendaNumber": "38",
       "title": "Amending the financing and spending plans in the Fire Department in the amount of $8,500 for a payment received for selling a trailer that was no longer needed for department use.",
       "isConsent": false,
@@ -3964,7 +3818,7 @@
     {
       "id": "legistar-stpaul-eventitem-216746",
       "meeting_id": "legistar-stpaul-meeting-7751",
-      "sequence": 44,
+      "sequence": 46,
       "agendaNumber": "39",
       "title": "Amending the financing and spending plans in the Fire Department in the amount of $37,000 for the amount received from the sale of the land located at 1683 Energy Park Drive.",
       "isConsent": false,
@@ -3977,7 +3831,7 @@
     {
       "id": "legistar-stpaul-eventitem-216749",
       "meeting_id": "legistar-stpaul-meeting-7751",
-      "sequence": 47,
+      "sequence": 49,
       "agendaNumber": null,
       "title": "LEGISLATIVE HEARING CONSENT AGENDA\r\nItems listed under the Consent Agenda will receive a combined public hearing and be enacted by one motion with no separate discussion. Items may be removed from the Consent Agenda for a separate public hearing and discussion if desired.",
       "isConsent": false,
@@ -3990,7 +3844,7 @@
     {
       "id": "legistar-stpaul-eventitem-216750",
       "meeting_id": "legistar-stpaul-meeting-7751",
-      "sequence": 52,
+      "sequence": 54,
       "agendaNumber": "45",
       "title": "Appeal of John Ludwig, Superior Financing Inc, to a Vacant Building Registration Requirement at 12 OAKLEY AVENUE.",
       "isConsent": false,
@@ -4003,7 +3857,7 @@
     {
       "id": "legistar-stpaul-eventitem-216751",
       "meeting_id": "legistar-stpaul-meeting-7751",
-      "sequence": 54,
+      "sequence": 56,
       "agendaNumber": "47",
       "title": "Appeal of Erin Metz Verdeja to a Summary Abatement Order at 1518 SELBY AVENUE.",
       "isConsent": false,
@@ -4016,7 +3870,7 @@
     {
       "id": "legistar-stpaul-eventitem-216752",
       "meeting_id": "legistar-stpaul-meeting-7751",
-      "sequence": 56,
+      "sequence": 58,
       "agendaNumber": "49",
       "title": "Appeal of Barry Campbell to a Summary Abatement Order at 449 VAN DYKE STREET.",
       "isConsent": false,
@@ -4029,7 +3883,7 @@
     {
       "id": "legistar-stpaul-eventitem-216753",
       "meeting_id": "legistar-stpaul-meeting-7751",
-      "sequence": 48,
+      "sequence": 50,
       "agendaNumber": "41",
       "title": "Appeal of Barbara Clark to a Summary Abatement Order at 1552 CANFIELD AVENUE.",
       "isConsent": false,
@@ -4042,7 +3896,7 @@
     {
       "id": "legistar-stpaul-eventitem-216754",
       "meeting_id": "legistar-stpaul-meeting-7751",
-      "sequence": 51,
+      "sequence": 53,
       "agendaNumber": "44",
       "title": "Appeal of Greg Heck, Montrose Pl LLC,  to a Fire Certificate of Occupancy Correction Notice at 221 MONTROSE PLACE.",
       "isConsent": false,
@@ -4055,7 +3909,7 @@
     {
       "id": "legistar-stpaul-eventitem-216755",
       "meeting_id": "legistar-stpaul-meeting-7751",
-      "sequence": 57,
+      "sequence": 59,
       "agendaNumber": "50",
       "title": "Ratifying the assessment for Demolition of Vacant, Nuisance and/or Hazardous Structure from the month of May 2026. (File No. J2607C, Assessment No. 262006)",
       "isConsent": false,
@@ -4068,7 +3922,7 @@
     {
       "id": "legistar-stpaul-eventitem-216756",
       "meeting_id": "legistar-stpaul-meeting-7751",
-      "sequence": 58,
+      "sequence": 60,
       "agendaNumber": "51",
       "title": "Ratifying the assessment for Emergency Sewer Repair at 777 OHIO STREET, fees billed during the month of April 2026. (File No. J2602A, Assessment No. 268503)",
       "isConsent": false,
@@ -4081,7 +3935,7 @@
     {
       "id": "legistar-stpaul-eventitem-216757",
       "meeting_id": "legistar-stpaul-meeting-7751",
-      "sequence": 53,
+      "sequence": 55,
       "agendaNumber": "46",
       "title": "Ratifying the Appealed Special Tax Assessment for property at 777 OHIO STREET. (File No. J2602A, Assessment No. 268503)",
       "isConsent": false,
@@ -4094,7 +3948,7 @@
     {
       "id": "legistar-stpaul-eventitem-216759",
       "meeting_id": "legistar-stpaul-meeting-7751",
-      "sequence": 49,
+      "sequence": 51,
       "agendaNumber": "42",
       "title": "Appeal of Robert Fox to a Rent Stabilization Determination at 1640 EDGERTON STREET.",
       "isConsent": false,
@@ -4107,7 +3961,7 @@
     {
       "id": "legistar-stpaul-eventitem-216760",
       "meeting_id": "legistar-stpaul-meeting-7751",
-      "sequence": 50,
+      "sequence": 52,
       "agendaNumber": "43",
       "title": "Appeal of Carli Valez, Tenant, to a Rent Stabilization Determination at 1640 EDGERTON STREET.",
       "isConsent": false,
@@ -4120,7 +3974,7 @@
     {
       "id": "legistar-stpaul-eventitem-216761",
       "meeting_id": "legistar-stpaul-meeting-7751",
-      "sequence": 59,
+      "sequence": 61,
       "agendaNumber": null,
       "title": "ADJOURNMENT",
       "isConsent": false,
@@ -4133,7 +3987,7 @@
     {
       "id": "legistar-stpaul-eventitem-216762",
       "meeting_id": "legistar-stpaul-meeting-7751",
-      "sequence": 60,
+      "sequence": 62,
       "agendaNumber": null,
       "title": "City Council meetings are open for in person attendance, but the public may also comment on public hearing items in writing.  Any comments and materials submitted by 12:00 pm of the day before the meeting will be attached to the public record and available for review by the City Council. Comments may be submitted as follows:\r\n\r\nWritten public comment on public hearing items can be submitted to Contact-Council@ci.stpaul.mn.us or CouncilHearing@ci.stpaul.mn.us. Live testimony will be taken in person in the Council Chambers.\r\n\r\nCouncil Meeting Information \r\nThe City Council is paperless which saves the environment and reduces expenses. The agendas and Council files are all available on the Web (see below). Council members use mobile devices to review the files during the meeting. Using a mobile device greatly reduces costs since most agendas, including the documents attached to files, are over 1000 pages when printed.   \r\n\r\nWeb \r\nMeetings are available on the Council's website. Email notification and web feeds (RSS) of newly released minutes, agendas, and meetings are available by subscription. Visit www.stpaul.gov/council for meeting videos and updated copies of the agendas, minutes, and supporting documents.\r\n\r\nCable\r\nMeetings are live on St Paul Channel 18 and replayed at various times.  Check your local listings.",
       "isConsent": false,
@@ -4159,7 +4013,7 @@
     {
       "id": "legistar-stpaul-eventitem-216764",
       "meeting_id": "legistar-stpaul-meeting-7751",
-      "sequence": 45,
+      "sequence": 47,
       "agendaNumber": null,
       "title": "LEGISLATIVE HEARING DISCUSSION ITEM",
       "isConsent": false,
@@ -4198,7 +4052,7 @@
     {
       "id": "legistar-stpaul-eventitem-216778",
       "meeting_id": "legistar-stpaul-meeting-7751",
-      "sequence": 55,
+      "sequence": 57,
       "agendaNumber": "48",
       "title": "Appeal of Matthew and James Lindquist to a Rent Stabilization Determination at 1501 SEVENTH STREET W Units 6 and 8.",
       "isConsent": false,
@@ -4209,9 +4063,9 @@
       "matterType": "Resolution LH Rent Stabilization Appeal"
     },
     {
-      "id": "legistar-stpaul-eventitem-216831",
+      "id": "legistar-stpaul-eventitem-216833",
       "meeting_id": "legistar-stpaul-meeting-7751",
-      "sequence": null,
+      "sequence": 35,
       "agendaNumber": null,
       "title": "SUSPENSION ITEM",
       "isConsent": false,
@@ -4220,6 +4074,19 @@
       "matterFile": null,
       "matterId": null,
       "matterType": null
+    },
+    {
+      "id": "legistar-stpaul-eventitem-216834",
+      "meeting_id": "legistar-stpaul-meeting-7751",
+      "sequence": 36,
+      "agendaNumber": null,
+      "title": "Appointing the Public Rights Project (PRP) as special counsel for the purpose of providing legal representation to the City of Saint Paul in affirmative litigation to challenge a federal rule related to grants.",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "RES 26-1544",
+      "matterId": 52858,
+      "matterType": "Resolution"
     },
     {
       "id": "legistar-stpaul-eventitem-216766",
@@ -4300,48 +4167,9 @@
       "matterType": null
     },
     {
-      "id": "legistar-stpaul-eventitem-216788",
-      "meeting_id": "legistar-stpaul-meeting-7753",
-      "sequence": 3,
-      "agendaNumber": "1",
-      "title": "Appeal of Mary Olson to a Notice to Cut Tall Grass and/or Weeds at 555 ASHLAND AVENUE.",
-      "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
-      "matterFile": "RLH SAO 26-82",
-      "matterId": 52694,
-      "matterType": "Resolution LH Summary Abatement Order"
-    },
-    {
-      "id": "legistar-stpaul-eventitem-216789",
-      "meeting_id": "legistar-stpaul-meeting-7753",
-      "sequence": 4,
-      "agendaNumber": "2",
-      "title": "Appeal of Graham Butler to a Notice to Cut Tall Grass and/or Weeds at 702 AURORA AVENUE.",
-      "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
-      "matterFile": "RLH SAO 26-86",
-      "matterId": 52742,
-      "matterType": "Resolution LH Summary Abatement Order"
-    },
-    {
-      "id": "legistar-stpaul-eventitem-216790",
-      "meeting_id": "legistar-stpaul-meeting-7753",
-      "sequence": 5,
-      "agendaNumber": "3",
-      "title": "Appeal of Richard Schoolmeesters to a Summary Abatement Order at 1111 FOURTH STREET EAST.",
-      "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
-      "matterFile": "RLH SAO 26-88",
-      "matterId": 52791,
-      "matterType": "Resolution LH Summary Abatement Order"
-    },
-    {
       "id": "legistar-stpaul-eventitem-216793",
       "meeting_id": "legistar-stpaul-meeting-7753",
-      "sequence": 8,
+      "sequence": 9,
       "agendaNumber": null,
       "title": "1:00 p.m. Hearings",
       "isConsent": false,
@@ -4354,7 +4182,7 @@
     {
       "id": "legistar-stpaul-eventitem-216794",
       "meeting_id": "legistar-stpaul-meeting-7753",
-      "sequence": 9,
+      "sequence": 10,
       "agendaNumber": null,
       "title": "Vacant Building Registrations",
       "isConsent": false,
@@ -4367,8 +4195,8 @@
     {
       "id": "legistar-stpaul-eventitem-216795",
       "meeting_id": "legistar-stpaul-meeting-7753",
-      "sequence": 10,
-      "agendaNumber": "5",
+      "sequence": 11,
+      "agendaNumber": "6",
       "title": "Appeal of Gomaa Elzamel to a Vacant Building Registration Requirement at 713 PREBLE STREET.",
       "isConsent": false,
       "actionName": null,
@@ -4380,7 +4208,7 @@
     {
       "id": "legistar-stpaul-eventitem-216797",
       "meeting_id": "legistar-stpaul-meeting-7753",
-      "sequence": 6,
+      "sequence": 7,
       "agendaNumber": null,
       "title": "Orders To Vacate - Code Enforcement",
       "isConsent": false,
@@ -4393,8 +4221,8 @@
     {
       "id": "legistar-stpaul-eventitem-216798",
       "meeting_id": "legistar-stpaul-meeting-7753",
-      "sequence": 7,
-      "agendaNumber": "4",
+      "sequence": 8,
+      "agendaNumber": "5",
       "title": "Appeal of Brent Rekstad to a Notice of Condemnation as Unfit for Human Habitation and Order to Vacate at 1083 BRADLEY STREET. (To refer to August 18, 2026 Legislative Hearing)",
       "isConsent": false,
       "actionName": null,
@@ -4405,19 +4233,23 @@
     }
   ],
   "diff": {
-    "addedIds": [],
-    "removedIds": [],
+    "addedIds": [
+      "legistar-stpaul-meeting-7735"
+    ],
+    "removedIds": [
+      "legistar-stpaul-meeting-7734"
+    ],
     "changed": [
       {
-        "id": "legistar-stpaul-meeting-7746",
-        "field": "minutesUrl",
-        "from": null,
-        "to": "https://legistar1.granicus.com/StPaul/meetings/2026/8/7746_M_Legislative_Hearings_26-08-27_Minutes_-_Final.pdf"
+        "id": "legistar-stpaul-meeting-7753",
+        "field": "agendaStatus",
+        "from": "Final",
+        "to": "Final-revised"
       }
     ]
   },
-  "previousGeneratedAt": "2026-08-31T18:58:50.648Z",
+  "previousGeneratedAt": "2026-09-01T16:20:29.246Z",
   "knownGaps": [
-    "Consent-agenda flagging uses Legistar's own EventItemConsent field only (87 of 283 agenda item(s) in this window flagged). \"No discussion\" / \"no public comment\" are NOT flagged — this API exposes no comparably reliable field for either, and AGENTS.md §3.3 rules out inferring one from absence."
+    "Consent-agenda flagging uses Legistar's own EventItemConsent field only (87 of 267 agenda item(s) in this window flagged). \"No discussion\" / \"no public comment\" are NOT flagged — this API exposes no comparably reliable field for either, and AGENTS.md §3.3 rules out inferring one from absence."
   ]
 }
