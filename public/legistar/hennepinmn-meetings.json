@@ -2,22 +2,22 @@
   "schemaVersion": 1,
   "client": "hennepinmn",
   "jurisdiction": "Hennepin County Board",
-  "generatedAt": "2026-09-02T16:18:25.618Z",
+  "generatedAt": "2026-09-03T16:07:38.552Z",
   "status": "ingested",
-  "note": "6 meeting(s) (6/6 event(s) in window) and 77 agenda item(s) ingested for 2026-08-19–2026-12-01.",
+  "note": "6 meeting(s) (6/6 event(s) in window) and 77 agenda item(s) ingested for 2026-08-20–2026-12-02.",
   "provenance": {
     "primarySourceUrl": "https://webapi.legistar.com/v1/hennepinmn/events",
     "sourceAgency": "Hennepin County Board",
     "documentType": "Legistar Web API — Events/EventItems",
     "documentId": null,
     "issuedDate": null,
-    "fetchedAt": "2026-09-02T16:18:25.618Z",
+    "fetchedAt": "2026-09-03T16:07:38.552Z",
     "licence": "Public records served via Legistar InSite; no separate machine-reuse licence published by the host jurisdiction as of this writing.",
-    "contentHash": "2f9cdb31d3cd3117ecbe09236477ba254b7d6f57feca0a56ff832b1a62c3f1f7"
+    "contentHash": "965cc26699dc22343e8140c08fbaeda255fb5cb0eb0c6934fe38faa89a66cb7a"
   },
   "window": {
-    "startIso": "2026-08-19",
-    "endIso": "2026-12-01"
+    "startIso": "2026-08-20",
+    "endIso": "2026-12-02"
   },
   "meetings": [
     {
@@ -52,6 +52,21 @@
         {
           "id": 508,
           "name": "Irene Fernando",
+          "type": "Commissioner"
+        },
+        {
+          "id": 490,
+          "name": "Debbie Goettel",
+          "type": "Commissioner"
+        },
+        {
+          "id": 698,
+          "name": "Heather Edelson",
+          "type": "Commissioner"
+        },
+        {
+          "id": 544,
+          "name": "Kevin Anderson",
           "type": "Commissioner"
         }
       ]
@@ -1317,13 +1332,10 @@
   ],
   "diff": {
     "addedIds": [],
-    "removedIds": [
-      "legistar-hennepinmn-meeting-1456",
-      "legistar-hennepinmn-meeting-1457"
-    ],
+    "removedIds": [],
     "changed": []
   },
-  "previousGeneratedAt": "2026-09-01T16:21:32.103Z",
+  "previousGeneratedAt": "2026-09-02T16:18:25.618Z",
   "knownGaps": [
     "Consent-agenda flagging uses Legistar's own EventItemConsent field only (0 of 77 agenda item(s) in this window flagged). \"No discussion\" / \"no public comment\" are NOT flagged — this API exposes no comparably reliable field for either, and AGENTS.md §3.3 rules out inferring one from absence."
   ]

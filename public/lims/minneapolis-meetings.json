@@ -2,116 +2,24 @@
   "schemaVersion": 1,
   "client": "minneapolis",
   "jurisdiction": "Minneapolis City Council",
-  "generatedAt": "2026-09-02T16:18:32.014Z",
+  "generatedAt": "2026-09-03T16:07:44.277Z",
   "status": "ingested",
-  "note": "137 meeting(s) and 105 agenda item(s) ingested for 2026-08-19–2026-12-01.",
+  "note": "136 meeting(s) and 93 agenda item(s) ingested for 2026-08-20–2026-12-02.",
   "provenance": {
     "primarySourceUrl": "https://lims.minneapolismn.gov/",
     "sourceAgency": "City of Minneapolis, Office of the City Clerk",
     "documentType": "LIMS API v1 — meetingCalendar/FileItemSearch",
     "documentId": null,
     "issuedDate": null,
-    "fetchedAt": "2026-09-02T16:18:32.014Z",
+    "fetchedAt": "2026-09-03T16:07:44.277Z",
     "licence": "Public records served via the City of Minneapolis LIMS API; no separate machine-reuse licence published as of this writing.",
     "contentHash": null
   },
   "window": {
-    "startIso": "2026-08-19",
-    "endIso": "2026-12-01"
+    "startIso": "2026-08-20",
+    "endIso": "2026-12-02"
   },
   "meetings": [
-    {
-      "id": "lims-minneapolis-meeting-public-health-safety-equity-2026-08-19T13:30:00",
-      "body_id": "lims-minneapolis-body-public-health-safety-equity",
-      "bodyName": "Public Health, Safety & Equity",
-      "date": "2026-08-19",
-      "time": "13:30",
-      "location": null,
-      "agendaStatus": null,
-      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/PHSE/6151",
-      "minutesUrl": "https://lims.minneapolismn.gov/api/v1/downloads/CommitteeReport/4937/PHSE_08192026_Committee_Report.pdf",
-      "videoStatus": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/PHSE/6151",
-      "lastModifiedUtc": null,
-      "members": [
-        {
-          "id": 5692,
-          "name": "Robin Wonsley",
-          "type": "Council Member"
-        },
-        {
-          "id": 5696,
-          "name": "LaTrisha Vetaw",
-          "type": "Council Member"
-        },
-        {
-          "id": 5698,
-          "name": "Jason Chavez",
-          "type": "Chair"
-        },
-        {
-          "id": 5700,
-          "name": "Michael Rainville",
-          "type": "Council Member"
-        },
-        {
-          "id": 5701,
-          "name": "Elliott Payne",
-          "type": "Council Member"
-        },
-        {
-          "id": 7962,
-          "name": "Soren Stevenson",
-          "type": "Vice-Chair"
-        },
-        {
-          "id": 7964,
-          "name": "Jamison Whiting",
-          "type": "Council Member"
-        }
-      ]
-    },
-    {
-      "id": "lims-minneapolis-meeting-minneapolis-arts-commission-2026-08-19T17:30:00",
-      "body_id": "lims-minneapolis-body-minneapolis-arts-commission",
-      "bodyName": "Minneapolis Arts Commission",
-      "date": "2026-08-19",
-      "time": "17:30",
-      "location": null,
-      "agendaStatus": null,
-      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/ARTS/6169",
-      "minutesUrl": null,
-      "videoStatus": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/ARTS/6169",
-      "lastModifiedUtc": null,
-      "members": [
-        {
-          "id": 6710,
-          "name": "Lucy Thompson",
-          "type": "ABC Member"
-        },
-        {
-          "id": 6711,
-          "name": "Anna Wienke",
-          "type": "ABC Member"
-        },
-        {
-          "id": 6726,
-          "name": "Boo McCaleb",
-          "type": "ABC Member"
-        },
-        {
-          "id": 6871,
-          "name": "Kaytie Kamphoff",
-          "type": "ABC Member"
-        },
-        {
-          "id": 6917,
-          "name": "Juan PEREZ LA CRUZ",
-          "type": "ABC Member"
-        }
-      ]
-    },
     {
       "id": "lims-minneapolis-meeting-climate-infrastructure-committee-2026-08-20T13:30:00",
       "body_id": "lims-minneapolis-body-climate-infrastructure-committee",
@@ -696,10 +604,10 @@
       "time": "15:00",
       "location": null,
       "agendaStatus": null,
-      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/EPB/6186",
-      "minutesUrl": null,
+      "agendaUrl": "https://lims.minneapolismn.gov/Board/MarkedAgenda/EPB/6186",
+      "minutesUrl": "https://lims.minneapolismn.gov/api/v1/downloads/CommitteeReport/4951/EPB_20260901_minutes.pdf",
       "videoStatus": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/EPB/6186",
+      "sourceUrl": "https://lims.minneapolismn.gov/Board/MarkedAgenda/EPB/6186",
       "lastModifiedUtc": null,
       "members": [
         {
@@ -5485,42 +5393,6 @@
       ]
     },
     {
-      "id": "lims-minneapolis-meeting-community-environmental-advisory-commission-2026-11-02T16:00:00",
-      "body_id": "lims-minneapolis-body-community-environmental-advisory-commission",
-      "bodyName": "Community Environmental Advisory Commission",
-      "date": "2026-11-02",
-      "time": "16:00",
-      "location": null,
-      "agendaStatus": null,
-      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/CEAC/",
-      "minutesUrl": null,
-      "videoStatus": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/CEAC/",
-      "lastModifiedUtc": null,
-      "members": [
-        {
-          "id": 6982,
-          "name": "Johnny Hill",
-          "type": "ABC Member"
-        },
-        {
-          "id": 6995,
-          "name": "Madyson Hoese",
-          "type": "ABC Member"
-        },
-        {
-          "id": 7042,
-          "name": "Zamzam Ahmed",
-          "type": "ABC Member"
-        },
-        {
-          "id": 7044,
-          "name": "Joshua Hauf",
-          "type": "ABC Member"
-        }
-      ]
-    },
-    {
       "id": "lims-minneapolis-meeting-heritage-preservation-commission-2026-11-02T16:30:00",
       "body_id": "lims-minneapolis-body-heritage-preservation-commission",
       "bodyName": "Heritage Preservation Commission",
@@ -6001,6 +5873,42 @@
         {
           "id": 6996,
           "name": "Lucie Skjefte",
+          "type": "ABC Member"
+        }
+      ]
+    },
+    {
+      "id": "lims-minneapolis-meeting-community-environmental-advisory-commission-2026-11-10T16:00:00",
+      "body_id": "lims-minneapolis-body-community-environmental-advisory-commission",
+      "bodyName": "Community Environmental Advisory Commission",
+      "date": "2026-11-10",
+      "time": "16:00",
+      "location": null,
+      "agendaStatus": null,
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/CEAC/",
+      "minutesUrl": null,
+      "videoStatus": null,
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/CEAC/",
+      "lastModifiedUtc": null,
+      "members": [
+        {
+          "id": 6982,
+          "name": "Johnny Hill",
+          "type": "ABC Member"
+        },
+        {
+          "id": 6995,
+          "name": "Madyson Hoese",
+          "type": "ABC Member"
+        },
+        {
+          "id": 7042,
+          "name": "Zamzam Ahmed",
+          "type": "ABC Member"
+        },
+        {
+          "id": 7044,
+          "name": "Joshua Hauf",
           "type": "ABC Member"
         }
       ]
@@ -7234,6 +7142,97 @@
           "type": "ABC Member"
         }
       ]
+    },
+    {
+      "id": "lims-minneapolis-meeting-charter-commission-2026-12-02T16:00:00",
+      "body_id": "lims-minneapolis-body-charter-commission",
+      "bodyName": "Charter Commission",
+      "date": "2026-12-02",
+      "time": "16:00",
+      "location": null,
+      "agendaStatus": null,
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/Charter/",
+      "minutesUrl": null,
+      "videoStatus": null,
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/Charter/",
+      "lastModifiedUtc": null,
+      "members": [
+        {
+          "id": 323,
+          "name": "Matt Perry",
+          "type": "Council Member"
+        },
+        {
+          "id": 326,
+          "name": "Barry Clegg",
+          "type": "Council Member"
+        },
+        {
+          "id": 347,
+          "name": "Andrea Rubenstein",
+          "type": "Vice-Chair"
+        },
+        {
+          "id": 348,
+          "name": "Andrew Kozak",
+          "type": "Council Member"
+        },
+        {
+          "id": 353,
+          "name": "Jill Garcia",
+          "type": "Secretary"
+        },
+        {
+          "id": 4267,
+          "name": "Peter Ginder",
+          "type": "Chair"
+        },
+        {
+          "id": 4295,
+          "name": "Christopher Smith",
+          "type": "Council Member"
+        },
+        {
+          "id": 5883,
+          "name": "Julie Doherty",
+          "type": "Council Member"
+        },
+        {
+          "id": 5884,
+          "name": "Sherri Boone",
+          "type": "Council Member"
+        },
+        {
+          "id": 6531,
+          "name": "Mariam DeMello",
+          "type": "Council Member"
+        },
+        {
+          "id": 6630,
+          "name": "Joshua Ney",
+          "type": "Council Member"
+        },
+        {
+          "id": 7020,
+          "name": "Ben Cooper",
+          "type": "Council Member"
+        },
+        {
+          "id": 7763,
+          "name": "Samantha Holquist",
+          "type": "Council Member"
+        },
+        {
+          "id": 7768,
+          "name": "Jeff Schneider",
+          "type": "Council Member"
+        },
+        {
+          "id": 7846,
+          "name": "Eric Prindle",
+          "type": "Council Member"
+        }
+      ]
     }
   ],
   "agendaItems": [
@@ -7570,21 +7569,6 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2072-3",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-08-19T13:30:00",
-      "sequence": null,
-      "agendaNumber": null,
-      "title": "Passage of Ordinanceamending Title 15of the Minneapolis Code of Ordinances relating to Offenses—Miscellaneous, amending provisions related to noise regulations to remove irrelevant content, organize the structure in a more logical format, clarify language, add a clause regulating the sounding of motion-sensor devices on private property, and to amend a clerical error referencing Chapter 389 that should be referring to an earlier subsection in Chapter 399:\n\n\n\tChapter 389 Noise\n\tChapter 399Control of Invasive Species Tree Pests",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-00809",
-      "matterId": null,
-      "matterType": "Ordinance",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00809",
-      "votes": []
-    },
-    {
       "id": "lims-minneapolis-fileitem-2072-4",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-08-27T09:30:00",
       "sequence": null,
@@ -7651,21 +7635,6 @@
           "value": "Aye"
         }
       ]
-    },
-    {
-      "id": "lims-minneapolis-fileitem-2073-3",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-08-19T13:30:00",
-      "sequence": null,
-      "agendaNumber": null,
-      "title": "Passage of Ordinanceamending Title 3, Chapter 45 of the Minneapolis Code of Ordinances relating to Air Pollution and Environmental Protection: Environmental Program Fees, amending provisions referring to Chapter 389to correct reference numbers.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-00809",
-      "matterId": null,
-      "matterType": "Ordinance",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00809",
-      "votes": []
     },
     {
       "id": "lims-minneapolis-fileitem-2073-4",
@@ -7736,21 +7705,6 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2074-3",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-08-19T13:30:00",
-      "sequence": null,
-      "agendaNumber": null,
-      "title": "Passage of Ordinanceamending Title 12, Chapter 244 of the Minneapolis Code of Ordinances relating to Housing: Maintenance Code, amending provisions referring to Chapter 389to correct reference numbers.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-00809",
-      "matterId": null,
-      "matterType": "Ordinance",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00809",
-      "votes": []
-    },
-    {
       "id": "lims-minneapolis-fileitem-2074-4",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-08-27T09:30:00",
       "sequence": null,
@@ -7819,21 +7773,6 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2075-3",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-08-19T13:30:00",
-      "sequence": null,
-      "agendaNumber": null,
-      "title": "Passage of OrdinanceamendingTitle 13, Chapter 259 of the Minneapolis Code of Ordinances relating to Licenses and Business Regulations: In General, amending provisions referring to Chapter 389 to correct reference numbers.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-00809",
-      "matterId": null,
-      "matterType": "Ordinance",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00809",
-      "votes": []
-    },
-    {
       "id": "lims-minneapolis-fileitem-2075-4",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-08-27T09:30:00",
       "sequence": null,
@@ -7900,21 +7839,6 @@
           "value": "Aye"
         }
       ]
-    },
-    {
-      "id": "lims-minneapolis-fileitem-2076-3",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-08-19T13:30:00",
-      "sequence": null,
-      "agendaNumber": null,
-      "title": "Passage of Ordinanceamending Title 14, Chapter 360 of the Minneapolis Code of Ordinances relating to Liquor and Beer: In General, amending provisions referring to Chapter 389to correct reference numbers.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-00809",
-      "matterId": null,
-      "matterType": "Ordinance",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00809",
-      "votes": []
     },
     {
       "id": "lims-minneapolis-fileitem-2076-4",
@@ -8053,65 +7977,6 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2182-0",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-08-19T13:30:00",
-      "sequence": null,
-      "agendaNumber": null,
-      "title": "Receiving and filing a report relating to the opioid response and Mobile Medical Unit.",
-      "isConsent": false,
-      "actionName": "Received and filed",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-00868",
-      "matterId": null,
-      "matterType": "Receive & File",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00868",
-      "votes": []
-    },
-    {
-      "id": "lims-minneapolis-fileitem-2187-3",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-08-19T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026-025",
-      "title": "Passage of Ordinanceamending Title 4, Chapter 66 of the Minneapolis Code of Ordinances relating to Animal Care and Control: Dangerous and Potentially Dangerous Animals, removing conditions and restrictions on pet ownership solely due to a prior conviction for certain felonies.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-00871",
-      "matterId": null,
-      "matterType": "Ordinance",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00871",
-      "votes": [
-        {
-          "memberName": "Jason Chavez",
-          "value": "Aye"
-        },
-        {
-          "memberName": "Soren Stevenson",
-          "value": "Aye"
-        },
-        {
-          "memberName": "Elliott Payne",
-          "value": "Aye"
-        },
-        {
-          "memberName": "Robin Wonsley",
-          "value": "Absent"
-        },
-        {
-          "memberName": "Michael Rainville",
-          "value": "Aye"
-        },
-        {
-          "memberName": "LaTrisha Vetaw",
-          "value": "Aye"
-        },
-        {
-          "memberName": "Jamison Whiting",
-          "value": "Aye"
-        }
-      ]
-    },
-    {
       "id": "lims-minneapolis-fileitem-2187-4",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-08-27T09:30:00",
       "sequence": null,
@@ -8178,21 +8043,6 @@
           "value": "Aye"
         }
       ]
-    },
-    {
-      "id": "lims-minneapolis-fileitem-2210-2",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-08-19T13:30:00",
-      "sequence": null,
-      "agendaNumber": null,
-      "title": "Passage of Ordinanceamending Title 9, Chapter 174 of the Minneapolis Code of Ordinances relating to Fire and Police Protection: Minneapolis Fire Department; Fire Prevention Bureau, amending provisions related to the commercial hood and exhaust cleaning program.",
-      "isConsent": false,
-      "actionName": "Referred to staff",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-00889",
-      "matterId": null,
-      "matterType": "Ordinance",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00889",
-      "votes": []
     },
     {
       "id": "lims-minneapolis-fileitem-2213-0",
@@ -8305,21 +8155,6 @@
       "matterId": null,
       "matterType": "Receive & File",
       "fileUrl": "https://lims.minneapolismn.gov/File/2026-00931",
-      "votes": []
-    },
-    {
-      "id": "lims-minneapolis-fileitem-2286-2",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-08-19T13:30:00",
-      "sequence": null,
-      "agendaNumber": null,
-      "title": "Passage of Ordinanceamending Title 16, Chapter 419 of the Minneapolis Code of Ordinances relating to Planning and Development: Neighborhood Revitalization Program, making technical changes to the process for conducting elections to the Neighborhood Revitalization Program policy board.",
-      "isConsent": false,
-      "actionName": "Public hearing set for   9/9/2026",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-00937",
-      "matterId": null,
-      "matterType": "Ordinance",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00937",
       "votes": []
     },
     {
@@ -9237,21 +9072,6 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2306-0",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-08-19T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0643",
-      "title": "Authorizing an increase to contract COM0009220with Professional Recovery Organization Network, LLCdba PRO Network, in the amount of $24,868for a total amount not to exceed $236,068, and an extension through October 31, 2026, for firefighter mental health services.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-00947",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00947",
-      "votes": []
-    },
-    {
       "id": "lims-minneapolis-fileitem-2306-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-08-27T09:30:00",
       "sequence": null,
@@ -9318,21 +9138,6 @@
           "value": "Aye"
         }
       ]
-    },
-    {
-      "id": "lims-minneapolis-fileitem-2307-0",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-08-19T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0645",
-      "title": "Authorizing the submittal of a grant application to the U.S. Department of Housing and Urban Development, in an amount up to $4,000,000 over a forty-two (42) month period of performance, to create safer housing by providing comprehensive services of inspections, evaluation, andremediation to income qualified owner occupied and rental properties,in accordance with Resolution 2025R-112 related to federally-funded grants.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-00948",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00948",
-      "votes": []
     },
     {
       "id": "lims-minneapolis-fileitem-2307-1",
@@ -10467,21 +10272,6 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2322-0",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-08-19T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0644",
-      "title": "Authorizing an increase to contract C-40520 with Axon Enterprise, Inc., in the amount of $1,471,643.05 for a total amount not to exceed $18,336,884.72, for additional software licenses, body-worn cameras, digital video storage, tasers, and related equipment.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-00965",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00965",
-      "votes": []
-    },
-    {
       "id": "lims-minneapolis-fileitem-2322-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-08-27T09:30:00",
       "sequence": null,
@@ -11391,7 +11181,7 @@
       "agendaNumber": null,
       "title": "Receiving and filing any public comments offered at the end of each meeting.",
       "isConsent": false,
-      "actionName": "Scheduled",
+      "actionName": null,
       "passedFlagName": "Failed",
       "matterFile": "CH2026-00001",
       "matterId": null,
@@ -11406,8 +11196,8 @@
       "agendaNumber": null,
       "title": "Receiving and filing a charter amendment request from the Board of Estimate & Taxation to designated alternates, as further set forth in Resolution No. 2026-006, on file in the Office of City Clerk.",
       "isConsent": false,
-      "actionName": "Scheduled",
-      "passedFlagName": "Failed",
+      "actionName": "Received and filed",
+      "passedFlagName": "Passed",
       "matterFile": "CH2026-00006",
       "matterId": null,
       "matterType": "Receive & File",
@@ -11417,32 +11207,30 @@
   ],
   "diff": {
     "addedIds": [
-      "lims-minneapolis-meeting-intergovernmental-relations-committee-2026-12-01T10:00:00",
-      "lims-minneapolis-meeting-committee-of-the-whole-2026-12-01T13:30:00",
-      "lims-minneapolis-meeting-bicycle-advisory-committee-2026-12-01T16:00:00",
-      "lims-minneapolis-meeting-community-environmental-advisory-commission-2026-12-01T16:00:00"
+      "lims-minneapolis-meeting-community-environmental-advisory-commission-2026-11-10T16:00:00",
+      "lims-minneapolis-meeting-charter-commission-2026-12-02T16:00:00"
     ],
     "removedIds": [
-      "lims-minneapolis-meeting-business-housing-zoning-committee-2026-08-18T13:30:00",
-      "lims-minneapolis-meeting-bicycle-advisory-committee-2026-08-18T16:00:00",
-      "lims-minneapolis-meeting-heritage-preservation-commission-2026-08-18T16:30:00"
+      "lims-minneapolis-meeting-public-health-safety-equity-2026-08-19T13:30:00",
+      "lims-minneapolis-meeting-minneapolis-arts-commission-2026-08-19T17:30:00",
+      "lims-minneapolis-meeting-community-environmental-advisory-commission-2026-11-02T16:00:00"
     ],
     "changed": [
       {
-        "id": "lims-minneapolis-meeting-homegrown-minneapolis-food-council-2026-09-09T17:30:00",
+        "id": "lims-minneapolis-meeting-ethical-practices-board-2026-09-01T15:00:00",
         "field": "agendaUrl",
-        "from": "https://lims.minneapolismn.gov/Agenda/HMFC/",
-        "to": "https://lims.minneapolismn.gov/Agenda/HMFC/6200"
+        "from": "https://lims.minneapolismn.gov/Agenda/EPB/6186",
+        "to": "https://lims.minneapolismn.gov/Board/MarkedAgenda/EPB/6186"
       },
       {
-        "id": "lims-minneapolis-meeting-zoning-board-of-adjustment-2026-09-10T16:30:00",
-        "field": "agendaUrl",
-        "from": "https://lims.minneapolismn.gov/Agenda/ZBA/",
-        "to": "https://lims.minneapolismn.gov/Agenda/ZBA/6201"
+        "id": "lims-minneapolis-meeting-ethical-practices-board-2026-09-01T15:00:00",
+        "field": "minutesUrl",
+        "from": null,
+        "to": "https://lims.minneapolismn.gov/api/v1/downloads/CommitteeReport/4951/EPB_20260901_minutes.pdf"
       }
     ]
   },
-  "previousGeneratedAt": "2026-09-01T16:21:37.227Z",
+  "previousGeneratedAt": "2026-09-02T16:18:32.014Z",
   "knownGaps": [
     "Consent-agenda flagging not implemented — LIMS has no field structurally equivalent to Legistar's EventItemConsent; every agenda item ships isConsent: false rather than a guess.",
     "3 same-day, same-body meeting collision(s) in this window — FileItemSearch's LegislativeHistory carries a date but no time, so a second same-day session for the same body can't be disambiguated; the earliest session for each colliding (body, date) pair was used."
