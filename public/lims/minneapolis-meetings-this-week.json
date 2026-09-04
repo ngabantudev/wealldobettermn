@@ -1,29 +1,6 @@
 {
-  "generatedAt": "2026-09-03T16:07:44.280Z",
+  "generatedAt": "2026-09-04T16:04:24.458Z",
   "meetingsThisWeek": [
-    {
-      "client": "minneapolis",
-      "jurisdiction": "Minneapolis City Council",
-      "bodyName": "Pedestrian Advisory Committee",
-      "date": "2026-09-03",
-      "time": "16:00",
-      "location": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/PAC/6197",
-      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/PAC/6197",
-      "isCancelled": false,
-      "members": [
-        {
-          "id": 6920,
-          "name": "Leisa Meeuwen-Ristuben",
-          "type": "ABC Member"
-        },
-        {
-          "id": 6921,
-          "name": "Andrea Riehl",
-          "type": "ABC Member"
-        }
-      ]
-    },
     {
       "client": "minneapolis",
       "jurisdiction": "Minneapolis City Council",
@@ -236,8 +213,8 @@
       "date": "2026-09-10",
       "time": "10:00",
       "location": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/Budget/",
-      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/Budget/",
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/Budget/6205",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/Budget/6205",
       "isCancelled": false,
       "members": [
         {
@@ -541,8 +518,8 @@
       "date": "2026-09-14",
       "time": "13:30",
       "location": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/Budget/",
-      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/Budget/",
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/Budget/6204",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/Budget/6204",
       "isCancelled": false,
       "members": [
         {
@@ -783,8 +760,8 @@
       "date": "2026-09-15",
       "time": "13:30",
       "location": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/COW/",
-      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/COW/",
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/COW/6203",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/COW/6203",
       "isCancelled": false,
       "members": [
         {
