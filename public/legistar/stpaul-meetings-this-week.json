@@ -1,6 +1,49 @@
 {
-  "generatedAt": "2026-09-04T16:03:02.857Z",
+  "generatedAt": "2026-09-05T14:53:03.260Z",
   "meetingsThisWeek": [
+    {
+      "client": "stpaul",
+      "jurisdiction": "St. Paul City Council",
+      "bodyName": "Board of Water Commissioners",
+      "date": "2026-09-08",
+      "time": "12:00",
+      "location": "Room 40 City Hall",
+      "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7760&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
+      "agendaUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/9/7760_A_Board_of_Water_Commissioners_26-09-08_Meeting_Agenda.pdf",
+      "isCancelled": false,
+      "members": [
+        {
+          "id": 6990,
+          "name": "Rebecca Cave",
+          "type": "Commissioner"
+        },
+        {
+          "id": 7039,
+          "name": "Saura Jost",
+          "type": "Commissioner"
+        },
+        {
+          "id": 6550,
+          "name": "Chris Tolbert",
+          "type": "Commissioner"
+        },
+        {
+          "id": 7108,
+          "name": "Molly Coleman",
+          "type": "Commissioner"
+        },
+        {
+          "id": 7136,
+          "name": "Stephanie Levine",
+          "type": "Commissioner"
+        },
+        {
+          "id": 6859,
+          "name": "Nelsie Yang",
+          "type": "Commissioner"
+        }
+      ]
+    },
     {
       "client": "stpaul",
       "jurisdiction": "St. Paul City Council",
