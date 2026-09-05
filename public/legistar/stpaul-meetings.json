@@ -2,39 +2,24 @@
   "schemaVersion": 1,
   "client": "stpaul",
   "jurisdiction": "St. Paul City Council",
-  "generatedAt": "2026-09-04T16:03:02.855Z",
+  "generatedAt": "2026-09-05T14:53:03.259Z",
   "status": "ingested",
-  "note": "19 meeting(s) (19/19 event(s) in window) and 277 agenda item(s) ingested for 2026-08-21–2026-12-03.",
+  "note": "19 meeting(s) (19/19 event(s) in window) and 297 agenda item(s) ingested for 2026-08-22–2026-12-04.",
   "provenance": {
     "primarySourceUrl": "https://webapi.legistar.com/v1/stpaul/events",
     "sourceAgency": "St. Paul City Council",
     "documentType": "Legistar Web API — Events/EventItems",
     "documentId": null,
     "issuedDate": null,
-    "fetchedAt": "2026-09-04T16:03:02.855Z",
+    "fetchedAt": "2026-09-05T14:53:03.259Z",
     "licence": "Public records served via Legistar InSite; no separate machine-reuse licence published by the host jurisdiction as of this writing.",
-    "contentHash": "4bdac4efa8305f6774f8df84b1a1ec17c3c271dd927976af7975498afa3e5f2a"
+    "contentHash": "83211de8ee6a933abde6850472e29d15e68c728aafd685cc796cdc466f2615f4"
   },
   "window": {
-    "startIso": "2026-08-21",
-    "endIso": "2026-12-03"
+    "startIso": "2026-08-22",
+    "endIso": "2026-12-04"
   },
   "meetings": [
-    {
-      "id": "legistar-stpaul-meeting-7738",
-      "body_id": "legistar-stpaul-body-237",
-      "bodyName": "Rent Stabilization Appeal Hearings",
-      "date": "2026-08-21",
-      "time": "13:00",
-      "location": "Room 330 City Hall & Court House/by phone",
-      "agendaStatus": "Final",
-      "agendaUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/8/7738_A_Rent_Stabilization_Appeal_Hearings_26-08-21_Meeting_Agenda.pdf",
-      "minutesUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/8/7738_M_Rent_Stabilization_Appeal_Hearings_26-08-21_Minutes_-_Final.pdf",
-      "videoStatus": "Public",
-      "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7738&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
-      "lastModifiedUtc": "2026-09-02T19:34:21.553",
-      "members": []
-    },
     {
       "id": "legistar-stpaul-meeting-7739",
       "body_id": "legistar-stpaul-body-183",
@@ -581,7 +566,7 @@
       "minutesUrl": null,
       "videoStatus": "Public",
       "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7755&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
-      "lastModifiedUtc": "2026-09-03T21:28:03.877",
+      "lastModifiedUtc": "2026-09-04T21:46:37.963",
       "members": [
         {
           "id": 6692,
@@ -632,7 +617,7 @@
       "minutesUrl": null,
       "videoStatus": "Public",
       "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7757&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
-      "lastModifiedUtc": "2026-09-04T05:54:02.96",
+      "lastModifiedUtc": "2026-09-04T17:30:06.557",
       "members": [
         {
           "id": 6692,
@@ -772,48 +757,55 @@
           "type": "Councilmember"
         }
       ]
+    },
+    {
+      "id": "legistar-stpaul-meeting-7760",
+      "body_id": "legistar-stpaul-body-231",
+      "bodyName": "Board of Water Commissioners",
+      "date": "2026-09-08",
+      "time": "12:00",
+      "location": "Room 40 City Hall",
+      "agendaStatus": "Final",
+      "agendaUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/9/7760_A_Board_of_Water_Commissioners_26-09-08_Meeting_Agenda.pdf",
+      "minutesUrl": null,
+      "videoStatus": "Public",
+      "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7760&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
+      "lastModifiedUtc": "2026-09-04T19:18:05.6",
+      "members": [
+        {
+          "id": 6990,
+          "name": "Rebecca Cave",
+          "type": "Commissioner"
+        },
+        {
+          "id": 7039,
+          "name": "Saura Jost",
+          "type": "Commissioner"
+        },
+        {
+          "id": 6550,
+          "name": "Chris Tolbert",
+          "type": "Commissioner"
+        },
+        {
+          "id": 7108,
+          "name": "Molly Coleman",
+          "type": "Commissioner"
+        },
+        {
+          "id": 7136,
+          "name": "Stephanie Levine",
+          "type": "Commissioner"
+        },
+        {
+          "id": 6859,
+          "name": "Nelsie Yang",
+          "type": "Commissioner"
+        }
+      ]
     }
   ],
   "agendaItems": [
-    {
-      "id": "legistar-stpaul-eventitem-216337",
-      "meeting_id": "legistar-stpaul-meeting-7738",
-      "sequence": 1,
-      "agendaNumber": null,
-      "title": "Rent Stabilization Appeals",
-      "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
-      "matterFile": null,
-      "matterId": null,
-      "matterType": null
-    },
-    {
-      "id": "legistar-stpaul-eventitem-216338",
-      "meeting_id": "legistar-stpaul-meeting-7738",
-      "sequence": 2,
-      "agendaNumber": null,
-      "title": "Appeal of Robert Fox to a Rent Stabilization Determination at 1640 EDGERTON STREET.",
-      "isConsent": false,
-      "actionName": "Referred",
-      "passedFlagName": null,
-      "matterFile": "RLH RSA 26-20",
-      "matterId": 52660,
-      "matterType": "Resolution LH Rent Stabilization Appeal"
-    },
-    {
-      "id": "legistar-stpaul-eventitem-216359",
-      "meeting_id": "legistar-stpaul-meeting-7738",
-      "sequence": 3,
-      "agendaNumber": null,
-      "title": "Appeal of Carli Valez, Tenant, to a Rent Stabilization Determination at 1640 EDGERTON STREET.",
-      "isConsent": false,
-      "actionName": "Referred",
-      "passedFlagName": null,
-      "matterFile": "RLH RSA 26-21",
-      "matterId": 52683,
-      "matterType": "Resolution LH Rent Stabilization Appeal"
-    },
     {
       "id": "legistar-stpaul-eventitem-216364",
       "meeting_id": "legistar-stpaul-meeting-7739",
@@ -4375,32 +4367,318 @@
       "matterFile": null,
       "matterId": null,
       "matterType": null
+    },
+    {
+      "id": "legistar-stpaul-eventitem-216977",
+      "meeting_id": "legistar-stpaul-meeting-7760",
+      "sequence": 1,
+      "agendaNumber": null,
+      "title": "Roll Call",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-stpaul-eventitem-216980",
+      "meeting_id": "legistar-stpaul-meeting-7760",
+      "sequence": 2,
+      "agendaNumber": null,
+      "title": "Consent Agenda\r\n\r\nNote:  Items listed under the Consent Agenda will be enacted by one motion with no separate discussion.  If discussion on an item is desired, the item will be removed from the Consent Agenda for separate consideration.",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-stpaul-eventitem-216981",
+      "meeting_id": "legistar-stpaul-meeting-7760",
+      "sequence": 11,
+      "agendaNumber": null,
+      "title": "Discussion",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-stpaul-eventitem-216992",
+      "meeting_id": "legistar-stpaul-meeting-7760",
+      "sequence": 3,
+      "agendaNumber": "1",
+      "title": "Approving the minutes of the August 11, 2026 meeting.",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "Min 26-28",
+      "matterId": 52820,
+      "matterType": "Approval of Minutes"
+    },
+    {
+      "id": "legistar-stpaul-eventitem-216993",
+      "meeting_id": "legistar-stpaul-meeting-7760",
+      "sequence": 5,
+      "agendaNumber": "3",
+      "title": "Pertaining to Amendment No. 1 to the Private Water Main Agreement with WestSP Development Partners, LLC (“Developer”) to supply water to the Thompson Oaks Development at 160 Thompson Avenue East in the city of West Saint Paul.",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "RES 26-1510",
+      "matterId": 52822,
+      "matterType": "Resolution"
+    },
+    {
+      "id": "legistar-stpaul-eventitem-216994",
+      "meeting_id": "legistar-stpaul-meeting-7760",
+      "sequence": 6,
+      "agendaNumber": "4",
+      "title": "Pertaining to an encroachment agreement with 1215 Hawthorne Avenue East to allow the continuation of private use on Board of Water Commissioners land between Hawthorne Avenue East and Orange Avenue East.",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "RES 26-1511",
+      "matterId": 52823,
+      "matterType": "Resolution"
+    },
+    {
+      "id": "legistar-stpaul-eventitem-216995",
+      "meeting_id": "legistar-stpaul-meeting-7760",
+      "sequence": 7,
+      "agendaNumber": "5",
+      "title": "Pertaining to Board approval to use Master Contract No. 4747 with Jacobs to provide engineering services to conduct a feasibility study for removing the Low Service Reservoir from service for future structural condition assessments and maintenance.",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "RES 26-1512",
+      "matterId": 52824,
+      "matterType": "Resolution"
+    },
+    {
+      "id": "legistar-stpaul-eventitem-216996",
+      "meeting_id": "legistar-stpaul-meeting-7760",
+      "sequence": 8,
+      "agendaNumber": "6",
+      "title": "Pertaining to Board approval to authorize the scope of work with Black & Veatch to provide additional hydraulic modeling services under Master Contract No. 4743 at a not to exceed cost of $136,500.",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "RES 26-1513",
+      "matterId": 52825,
+      "matterType": "Resolution"
+    },
+    {
+      "id": "legistar-stpaul-eventitem-216997",
+      "meeting_id": "legistar-stpaul-meeting-7760",
+      "sequence": 9,
+      "agendaNumber": "7",
+      "title": "Pertaining to a grant funding agreement with the Metropolitan Council to continue a water demand reduction program.",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "RES 26-1514",
+      "matterId": 52826,
+      "matterType": "Resolution"
+    },
+    {
+      "id": "legistar-stpaul-eventitem-216998",
+      "meeting_id": "legistar-stpaul-meeting-7760",
+      "sequence": 10,
+      "agendaNumber": "8",
+      "title": "Pertaining to accepting a Met Council grant, amending the 2026 adopted budget to include the grant amount.",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "RES 26-1515",
+      "matterId": 52827,
+      "matterType": "Resolution"
+    },
+    {
+      "id": "legistar-stpaul-eventitem-216999",
+      "meeting_id": "legistar-stpaul-meeting-7760",
+      "sequence": 12,
+      "agendaNumber": "9",
+      "title": "2027 Budget and water charges presentation",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "CO 26-38",
+      "matterId": 52831,
+      "matterType": "Communications & Receive/File"
+    },
+    {
+      "id": "legistar-stpaul-eventitem-217000",
+      "meeting_id": "legistar-stpaul-meeting-7760",
+      "sequence": 14,
+      "agendaNumber": "10",
+      "title": "Public Hearing on 2027 Water Charges",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "RES PH 26-249",
+      "matterId": 52832,
+      "matterType": "Resolution-Public Hearing"
+    },
+    {
+      "id": "legistar-stpaul-eventitem-217001",
+      "meeting_id": "legistar-stpaul-meeting-7760",
+      "sequence": 16,
+      "agendaNumber": "11",
+      "title": "Pertaining to recommending a 2027 budget to Saint Paul City Council for approval.",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "RES 26-1521",
+      "matterId": 52833,
+      "matterType": "Resolution"
+    },
+    {
+      "id": "legistar-stpaul-eventitem-217002",
+      "meeting_id": "legistar-stpaul-meeting-7760",
+      "sequence": 17,
+      "agendaNumber": "12",
+      "title": "Pertaining to recommending 2027 Water Charges to Saint Paul City Council for approval.",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "RES 26-1522",
+      "matterId": 52834,
+      "matterType": "Resolution"
+    },
+    {
+      "id": "legistar-stpaul-eventitem-217003",
+      "meeting_id": "legistar-stpaul-meeting-7760",
+      "sequence": 21,
+      "agendaNumber": "15",
+      "title": "General Manager's Report",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "CO 26-39",
+      "matterId": 52837,
+      "matterType": "Communications & Receive/File"
+    },
+    {
+      "id": "legistar-stpaul-eventitem-217004",
+      "meeting_id": "legistar-stpaul-meeting-7760",
+      "sequence": 22,
+      "agendaNumber": "16",
+      "title": "Pipeline Express",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "CO 26-40",
+      "matterId": 52838,
+      "matterType": "Communications & Receive/File"
+    },
+    {
+      "id": "legistar-stpaul-eventitem-217005",
+      "meeting_id": "legistar-stpaul-meeting-7760",
+      "sequence": 13,
+      "agendaNumber": null,
+      "title": "Public Hearing",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-stpaul-eventitem-217006",
+      "meeting_id": "legistar-stpaul-meeting-7760",
+      "sequence": 15,
+      "agendaNumber": null,
+      "title": "Action Items",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-stpaul-eventitem-217008",
+      "meeting_id": "legistar-stpaul-meeting-7760",
+      "sequence": 20,
+      "agendaNumber": null,
+      "title": "Informational Items",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-stpaul-eventitem-217009",
+      "meeting_id": "legistar-stpaul-meeting-7760",
+      "sequence": 23,
+      "agendaNumber": null,
+      "title": "Adjournment",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-stpaul-eventitem-217017",
+      "meeting_id": "legistar-stpaul-meeting-7760",
+      "sequence": 19,
+      "agendaNumber": "14",
+      "title": "Pertaining to Professional Consulting Services for Asset Management Plan Development.",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "RES 26-1524",
+      "matterId": 52836,
+      "matterType": "Resolution"
+    },
+    {
+      "id": "legistar-stpaul-eventitem-217018",
+      "meeting_id": "legistar-stpaul-meeting-7760",
+      "sequence": 18,
+      "agendaNumber": "13",
+      "title": "Pertaining to Title XI water related fees and charges of the Legislative Code of the City of Saint Paul regarding the organization of fees and charges.",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "RES 26-1523",
+      "matterId": 52835,
+      "matterType": "Resolution"
+    },
+    {
+      "id": "legistar-stpaul-eventitem-217019",
+      "meeting_id": "legistar-stpaul-meeting-7760",
+      "sequence": 4,
+      "agendaNumber": "2",
+      "title": "Approving the Financial Statements for the month of July 2026.",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "RES 26-1509",
+      "matterId": 52821,
+      "matterType": "Resolution"
     }
   ],
   "diff": {
     "addedIds": [
-      "legistar-stpaul-meeting-7755",
-      "legistar-stpaul-meeting-7757",
-      "legistar-stpaul-meeting-7759"
+      "legistar-stpaul-meeting-7760"
     ],
-    "removedIds": [],
-    "changed": [
-      {
-        "id": "legistar-stpaul-meeting-7751",
-        "field": "minutesUrl",
-        "from": null,
-        "to": "https://legistar1.granicus.com/StPaul/meetings/2026/9/7751_M_City_Council_26-09-02_Meeting_Minutes_-_Action_Only.pdf"
-      },
-      {
-        "id": "legistar-stpaul-meeting-7758",
-        "field": "agendaUrl",
-        "from": "https://legistar1.granicus.com/StPaul/meetings/2026/9/7758_A_Budget_Committee_26-09-09_Meeting_Agenda.pdf",
-        "to": "https://legistar1.granicus.com/StPaul/meetings/2026/9/7758_A_Budget_Committee_26-09-09_ADA_Meeting_Agenda.pdf"
-      }
-    ]
+    "removedIds": [
+      "legistar-stpaul-meeting-7738"
+    ],
+    "changed": []
   },
-  "previousGeneratedAt": "2026-09-03T16:06:32.784Z",
+  "previousGeneratedAt": "2026-09-04T16:03:02.855Z",
   "knownGaps": [
-    "Consent-agenda flagging uses Legistar's own EventItemConsent field only (67 of 277 agenda item(s) in this window flagged). \"No discussion\" / \"no public comment\" are NOT flagged — this API exposes no comparably reliable field for either, and AGENTS.md §3.3 rules out inferring one from absence."
+    "Consent-agenda flagging uses Legistar's own EventItemConsent field only (67 of 297 agenda item(s) in this window flagged). \"No discussion\" / \"no public comment\" are NOT flagged — this API exposes no comparably reliable field for either, and AGENTS.md §3.3 rules out inferring one from absence."
   ]
 }
