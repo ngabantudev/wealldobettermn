@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-05T14:54:26.278Z",
+  "generatedAt": "2026-09-06T15:14:11.817Z",
   "meetingsThisWeek": [
     {
       "client": "minneapolis",
@@ -2019,6 +2019,180 @@
           "id": 7964,
           "name": "Jamison Whiting",
           "type": "Council Member"
+        }
+      ]
+    },
+    {
+      "client": "minneapolis",
+      "jurisdiction": "Minneapolis City Council",
+      "bodyName": "Budget Committee",
+      "date": "2026-10-05",
+      "time": "10:00",
+      "location": null,
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/Budget/",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/Budget/",
+      "isCancelled": false,
+      "members": [
+        {
+          "id": 375,
+          "name": "Linea Palmisano",
+          "type": "Council Member"
+        },
+        {
+          "id": 5269,
+          "name": "Jamal Osman",
+          "type": "Council Member"
+        },
+        {
+          "id": 5692,
+          "name": "Robin Wonsley",
+          "type": "Council Member"
+        },
+        {
+          "id": 5696,
+          "name": "LaTrisha Vetaw",
+          "type": "Council Member"
+        },
+        {
+          "id": 5697,
+          "name": "Aisha Chughtai",
+          "type": "Chair"
+        },
+        {
+          "id": 5698,
+          "name": "Jason Chavez",
+          "type": "Council Member"
+        },
+        {
+          "id": 5700,
+          "name": "Michael Rainville",
+          "type": "Council Member"
+        },
+        {
+          "id": 5701,
+          "name": "Elliott Payne",
+          "type": "Council Member"
+        },
+        {
+          "id": 5776,
+          "name": "Aurin Chowdhury",
+          "type": "Council Member"
+        },
+        {
+          "id": 7961,
+          "name": "Pearll Warren",
+          "type": "Council Member"
+        },
+        {
+          "id": 7962,
+          "name": "Soren Stevenson",
+          "type": "Council Member"
+        },
+        {
+          "id": 7963,
+          "name": "Elizabeth Shaffer",
+          "type": "Vice-Chair"
+        },
+        {
+          "id": 7964,
+          "name": "Jamison Whiting",
+          "type": "Council Member"
+        }
+      ]
+    },
+    {
+      "client": "minneapolis",
+      "jurisdiction": "Minneapolis City Council",
+      "bodyName": "Enterprise & Labor Relations Committee",
+      "date": "2026-10-05",
+      "time": "13:30",
+      "location": null,
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/ELR/",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/ELR/",
+      "isCancelled": false,
+      "members": [
+        {
+          "id": 375,
+          "name": "Linea Palmisano",
+          "type": "Chair"
+        },
+        {
+          "id": 5696,
+          "name": "LaTrisha Vetaw",
+          "type": "Council Member"
+        },
+        {
+          "id": 5697,
+          "name": "Aisha Chughtai",
+          "type": "Council Member"
+        },
+        {
+          "id": 5698,
+          "name": "Jason Chavez",
+          "type": "Council Member"
+        },
+        {
+          "id": 7962,
+          "name": "Soren Stevenson",
+          "type": "Council Member"
+        },
+        {
+          "id": 7963,
+          "name": "Elizabeth Shaffer",
+          "type": "Council Member"
+        },
+        {
+          "id": 7964,
+          "name": "Jamison Whiting",
+          "type": "Vice-Chair"
+        }
+      ]
+    },
+    {
+      "client": "minneapolis",
+      "jurisdiction": "Minneapolis City Council",
+      "bodyName": "Community Commission on Police Oversight",
+      "date": "2026-10-05",
+      "time": "18:00",
+      "location": null,
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/CCPO/",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/CCPO/",
+      "isCancelled": false,
+      "members": [
+        {
+          "id": 6900,
+          "name": "Melissa Newman",
+          "type": "ABC Member"
+        },
+        {
+          "id": 6901,
+          "name": "Jennifer Clement",
+          "type": "ABC Member"
+        },
+        {
+          "id": 6902,
+          "name": "Bridgette Stewart",
+          "type": "ABC Member"
+        },
+        {
+          "id": 6903,
+          "name": "Nichelle Williams-Johnson",
+          "type": "ABC Member"
+        },
+        {
+          "id": 6904,
+          "name": "Latonya Reeves",
+          "type": "ABC Member"
+        },
+        {
+          "id": 6905,
+          "name": "James Canaday",
+          "type": "ABC Member"
+        },
+        {
+          "id": 6931,
+          "name": "Carolyn Bastick",
+          "type": "ABC Member"
         }
       ]
     }
