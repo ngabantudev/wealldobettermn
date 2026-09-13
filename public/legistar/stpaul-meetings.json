@@ -2,22 +2,22 @@
   "schemaVersion": 1,
   "client": "stpaul",
   "jurisdiction": "St. Paul City Council",
-  "generatedAt": "2026-09-12T15:17:37.369Z",
+  "generatedAt": "2026-09-13T15:53:35.685Z",
   "status": "ingested",
-  "note": "18 meeting(s) (18/18 event(s) in window) and 332 agenda item(s) ingested for 2026-08-29–2026-12-11.",
+  "note": "18 meeting(s) (18/18 event(s) in window) and 332 agenda item(s) ingested for 2026-08-30–2026-12-12.",
   "provenance": {
     "primarySourceUrl": "https://webapi.legistar.com/v1/stpaul/events",
     "sourceAgency": "St. Paul City Council",
     "documentType": "Legistar Web API — Events/EventItems",
     "documentId": null,
     "issuedDate": null,
-    "fetchedAt": "2026-09-12T15:17:37.369Z",
+    "fetchedAt": "2026-09-13T15:53:35.685Z",
     "licence": "Public records served via Legistar InSite; no separate machine-reuse licence published by the host jurisdiction as of this writing.",
-    "contentHash": "2316c411c28b733f7db9648326c756f7154d0690ffa52846a8b20744dcda5fad"
+    "contentHash": "11218374d6502bb5ba8c09c0908e39161804ace6436b4a1d5e96e6bf98508122"
   },
   "window": {
-    "startIso": "2026-08-29",
-    "endIso": "2026-12-11"
+    "startIso": "2026-08-30",
+    "endIso": "2026-12-12"
   },
   "meetings": [
     {
@@ -5114,13 +5114,11 @@
     }
   ],
   "diff": {
-    "addedIds": [
-      "legistar-stpaul-meeting-7766"
-    ],
+    "addedIds": [],
     "removedIds": [],
     "changed": []
   },
-  "previousGeneratedAt": "2026-09-11T16:10:03.699Z",
+  "previousGeneratedAt": "2026-09-12T15:17:37.369Z",
   "knownGaps": [
     "Consent-agenda flagging uses Legistar's own EventItemConsent field only (84 of 332 agenda item(s) in this window flagged). \"No discussion\" / \"no public comment\" are NOT flagged — this API exposes no comparably reliable field for either, and AGENTS.md §3.3 rules out inferring one from absence."
   ]
