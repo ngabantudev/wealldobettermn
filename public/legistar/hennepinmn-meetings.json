@@ -2,22 +2,22 @@
   "schemaVersion": 1,
   "client": "hennepinmn",
   "jurisdiction": "Hennepin County Board",
-  "generatedAt": "2026-09-13T15:54:20.128Z",
+  "generatedAt": "2026-09-14T17:58:01.355Z",
   "status": "ingested",
-  "note": "1 meeting(s) (1/1 event(s) in window) and 40 agenda item(s) ingested for 2026-08-30–2026-12-12.",
+  "note": "1 meeting(s) (1/1 event(s) in window) and 42 agenda item(s) ingested for 2026-08-31–2026-12-13.",
   "provenance": {
     "primarySourceUrl": "https://webapi.legistar.com/v1/hennepinmn/events",
     "sourceAgency": "Hennepin County Board",
     "documentType": "Legistar Web API — Events/EventItems",
     "documentId": null,
     "issuedDate": null,
-    "fetchedAt": "2026-09-13T15:54:20.128Z",
+    "fetchedAt": "2026-09-14T17:58:01.355Z",
     "licence": "Public records served via Legistar InSite; no separate machine-reuse licence published by the host jurisdiction as of this writing.",
-    "contentHash": "367dc686b3a7e5f94ed9210f09ef8dcf756a2f8310d137c2092fbd77da1ebee4"
+    "contentHash": "aaf13160c8726a42c0dcc8268fc7760eaba8fca23f23801d13b3e8deed71fe00"
   },
   "window": {
-    "startIso": "2026-08-30",
-    "endIso": "2026-12-12"
+    "startIso": "2026-08-31",
+    "endIso": "2026-12-13"
   },
   "meetings": [
     {
@@ -115,7 +115,7 @@
     {
       "id": "legistar-hennepinmn-eventitem-36738",
       "meeting_id": "legistar-hennepinmn-meeting-1466",
-      "sequence": 4,
+      "sequence": 5,
       "agendaNumber": "4.",
       "title": "Minutes from Previous Meeting",
       "isConsent": false,
@@ -128,7 +128,7 @@
     {
       "id": "legistar-hennepinmn-eventitem-36739",
       "meeting_id": "legistar-hennepinmn-meeting-1466",
-      "sequence": 6,
+      "sequence": 7,
       "agendaNumber": "5.",
       "title": "Referral of Correspondence and Department Communications",
       "isConsent": false,
@@ -141,7 +141,7 @@
     {
       "id": "legistar-hennepinmn-eventitem-36740",
       "meeting_id": "legistar-hennepinmn-meeting-1466",
-      "sequence": 7,
+      "sequence": 8,
       "agendaNumber": null,
       "title": "Correspondence",
       "isConsent": false,
@@ -154,8 +154,8 @@
     {
       "id": "legistar-hennepinmn-eventitem-36742",
       "meeting_id": "legistar-hennepinmn-meeting-1466",
-      "sequence": 8,
-      "agendaNumber": "5.A.",
+      "sequence": 10,
+      "agendaNumber": "5.B.",
       "title": "Professional and Personal Service Agmts/Amds of $100,000 or less which have been approved by Department Director, Assistant/County Administrator. Report Number: 26RAA-11",
       "isConsent": false,
       "actionName": null,
@@ -167,7 +167,7 @@
     {
       "id": "legistar-hennepinmn-eventitem-36743",
       "meeting_id": "legistar-hennepinmn-meeting-1466",
-      "sequence": 9,
+      "sequence": 11,
       "agendaNumber": null,
       "title": "Department Communications",
       "isConsent": false,
@@ -180,7 +180,7 @@
     {
       "id": "legistar-hennepinmn-eventitem-36749",
       "meeting_id": "legistar-hennepinmn-meeting-1466",
-      "sequence": 10,
+      "sequence": 12,
       "agendaNumber": "6.",
       "title": "Commendations",
       "isConsent": false,
@@ -193,7 +193,7 @@
     {
       "id": "legistar-hennepinmn-eventitem-36750",
       "meeting_id": "legistar-hennepinmn-meeting-1466",
-      "sequence": 11,
+      "sequence": 13,
       "agendaNumber": "7.",
       "title": "Commissioner Communications/Updates",
       "isConsent": false,
@@ -206,7 +206,7 @@
     {
       "id": "legistar-hennepinmn-eventitem-36751",
       "meeting_id": "legistar-hennepinmn-meeting-1466",
-      "sequence": 12,
+      "sequence": 14,
       "agendaNumber": "8.",
       "title": "Claims Register",
       "isConsent": false,
@@ -219,7 +219,7 @@
     {
       "id": "legistar-hennepinmn-eventitem-36752",
       "meeting_id": "legistar-hennepinmn-meeting-1466",
-      "sequence": 13,
+      "sequence": 15,
       "agendaNumber": "8.A.",
       "title": "Claims Register for the period ending August 21, 2026",
       "isConsent": false,
@@ -232,7 +232,7 @@
     {
       "id": "legistar-hennepinmn-eventitem-36753",
       "meeting_id": "legistar-hennepinmn-meeting-1466",
-      "sequence": 14,
+      "sequence": 16,
       "agendaNumber": "8.B.",
       "title": "Claims Register for the period ending August 28, 2026",
       "isConsent": false,
@@ -245,7 +245,7 @@
     {
       "id": "legistar-hennepinmn-eventitem-36754",
       "meeting_id": "legistar-hennepinmn-meeting-1466",
-      "sequence": 15,
+      "sequence": 17,
       "agendaNumber": "8.C.",
       "title": "Claims Register for the period ending September 4, 2026",
       "isConsent": false,
@@ -258,7 +258,7 @@
     {
       "id": "legistar-hennepinmn-eventitem-36755",
       "meeting_id": "legistar-hennepinmn-meeting-1466",
-      "sequence": 16,
+      "sequence": 18,
       "agendaNumber": "8.D.",
       "title": "Claims Register for the period ending September 11, 2026",
       "isConsent": false,
@@ -271,7 +271,7 @@
     {
       "id": "legistar-hennepinmn-eventitem-36756",
       "meeting_id": "legistar-hennepinmn-meeting-1466",
-      "sequence": 17,
+      "sequence": 19,
       "agendaNumber": "9.",
       "title": "Consent",
       "isConsent": false,
@@ -284,7 +284,7 @@
     {
       "id": "legistar-hennepinmn-eventitem-36758",
       "meeting_id": "legistar-hennepinmn-meeting-1466",
-      "sequence": 30,
+      "sequence": 32,
       "agendaNumber": "9.M.",
       "title": "Amd 1 to Agmt PW 02-40-25 with MnDOT, City of Plymouth and Three Rivers Park District, adding retaining wall ownership and maintenance, no additional county cost",
       "isConsent": true,
@@ -297,7 +297,7 @@
     {
       "id": "legistar-hennepinmn-eventitem-36761",
       "meeting_id": "legistar-hennepinmn-meeting-1466",
-      "sequence": 21,
+      "sequence": 23,
       "agendaNumber": "9.D",
       "title": "Amd 2 to Agmt PL00000729 with Metre LLC for media planning, media procurement, and limited creative services to advance County’s strategic priorities, ext end date to 12/31/28, incr NTE by $1,500,000 for a new total NTE of $3,500,000",
       "isConsent": true,
@@ -310,7 +310,7 @@
     {
       "id": "legistar-hennepinmn-eventitem-36762",
       "meeting_id": "legistar-hennepinmn-meeting-1466",
-      "sequence": 24,
+      "sequence": 26,
       "agendaNumber": "9.G.",
       "title": "JPA A2513298 with the City of Brooklyn Center authorizing the Hennepin County 911 Alternative Response Team program, 01/01/26-12/31/26",
       "isConsent": true,
@@ -323,7 +323,7 @@
     {
       "id": "legistar-hennepinmn-eventitem-36763",
       "meeting_id": "legistar-hennepinmn-meeting-1466",
-      "sequence": 29,
+      "sequence": 31,
       "agendaNumber": "9.L.",
       "title": "Amd 3 to Agmt PR00003719 with Independent School District (ISD) 281 for GED testing services, ext end date through 12/31/27, incr NTE by $46,000 for a new total NTE of $171,000",
       "isConsent": true,
@@ -336,7 +336,7 @@
     {
       "id": "legistar-hennepinmn-eventitem-36764",
       "meeting_id": "legistar-hennepinmn-meeting-1466",
-      "sequence": 28,
+      "sequence": 30,
       "agendaNumber": "9.K.",
       "title": "Amd 1 to Agmt PR00007495 with Ostara Initiative Minnesota Prison Doula Project, ext end date through 09/30/27, incr NTE by $56,000 for a new total NTE of $111,200",
       "isConsent": true,
@@ -349,7 +349,7 @@
     {
       "id": "legistar-hennepinmn-eventitem-36765",
       "meeting_id": "legistar-hennepinmn-meeting-1466",
-      "sequence": 33,
+      "sequence": 35,
       "agendaNumber": "9.P.",
       "title": "Neg Agmt PW 35-44-26 with Three Rivers Park District and the City of Minnetonka relating to construction and cost participation in CSAH 61 (Plymouth Road) and CSAH 73 (Hopkins Crossroad) multimodal trail project (CP 2201136, a subproject of 2201100, NTE $500,000 County Bonds)",
       "isConsent": true,
@@ -362,7 +362,7 @@
     {
       "id": "legistar-hennepinmn-eventitem-36766",
       "meeting_id": "legistar-hennepinmn-meeting-1466",
-      "sequence": 27,
+      "sequence": 29,
       "agendaNumber": "9.J.",
       "title": "Two Agmts with District Court, for DWI Court Program probation services and Treatment Court testing and monitoring services, 10/01/26-09/30/27, combined $231,335 (recv)",
       "isConsent": true,
@@ -375,7 +375,7 @@
     {
       "id": "legistar-hennepinmn-eventitem-36767",
       "meeting_id": "legistar-hennepinmn-meeting-1466",
-      "sequence": 35,
+      "sequence": 37,
       "agendaNumber": "9.R.",
       "title": "Neg Agmt PW 41-20-26 with Minneapolis for cost participation and maintenance for multimodal improvements along the Northside Greenway (CP 2201132, a subproject of CP 2201100, county cost NTE $496,000 County Bonds)",
       "isConsent": true,
@@ -388,7 +388,7 @@
     {
       "id": "legistar-hennepinmn-eventitem-36768",
       "meeting_id": "legistar-hennepinmn-meeting-1466",
-      "sequence": 34,
+      "sequence": 36,
       "agendaNumber": "9.Q.",
       "title": "Neg Agmt PW 20-44-26 with Three Rivers Park District and the City of Minnetonka relating to construction and cost participation in a multimodal trail project on CSAH 60 (Baker Road) (CP 2201134, a subproject of 2201100, NTE $500,000 County Bonds)",
       "isConsent": true,
@@ -401,7 +401,7 @@
     {
       "id": "legistar-hennepinmn-eventitem-36769",
       "meeting_id": "legistar-hennepinmn-meeting-1466",
-      "sequence": 22,
+      "sequence": 24,
       "agendaNumber": "9.E.",
       "title": "Approval and submission of Workforce Innovation Opportunity Act Local Plan to the State of Minnesota.",
       "isConsent": true,
@@ -414,7 +414,7 @@
     {
       "id": "legistar-hennepinmn-eventitem-36770",
       "meeting_id": "legistar-hennepinmn-meeting-1466",
-      "sequence": 25,
+      "sequence": 27,
       "agendaNumber": "9.H.",
       "title": "Amd 3 to Agmt A2211246 with North Memorial Health and the City of Brooklyn Park to modify the existing agreement to include federal subrecipient addendum, no other changes to terms",
       "isConsent": true,
@@ -427,7 +427,7 @@
     {
       "id": "legistar-hennepinmn-eventitem-36771",
       "meeting_id": "legistar-hennepinmn-meeting-1466",
-      "sequence": 26,
+      "sequence": 28,
       "agendaNumber": "9.I.",
       "title": "Amd 3 to Agmt A2311804 with Substance and Mental Health Services Administration to continue a federal grant for Community Crisis Response Partnerships, ext end date to 09/29/27, incr recv by $749,058 for new total recv amount of $2,972,821",
       "isConsent": true,
@@ -440,7 +440,7 @@
     {
       "id": "legistar-hennepinmn-eventitem-36772",
       "meeting_id": "legistar-hennepinmn-meeting-1466",
-      "sequence": 23,
+      "sequence": 25,
       "agendaNumber": "9.F.",
       "title": "Human Services & Public Health resolution, including contracts and amendments to contracts with provider - 2611",
       "isConsent": true,
@@ -453,7 +453,7 @@
     {
       "id": "legistar-hennepinmn-eventitem-36773",
       "meeting_id": "legistar-hennepinmn-meeting-1466",
-      "sequence": 31,
+      "sequence": 33,
       "agendaNumber": "9.N.",
       "title": "Neg Agmt 42-40-26 with MnDOT for the Hennepin Avenue Suspension Bridge Large Bridge Project Fund grant (CP 2164000 recv $9.0M State GO Bonds)",
       "isConsent": true,
@@ -466,7 +466,7 @@
     {
       "id": "legistar-hennepinmn-eventitem-36774",
       "meeting_id": "legistar-hennepinmn-meeting-1466",
-      "sequence": 32,
+      "sequence": 34,
       "agendaNumber": "9.O.",
       "title": "Neg Agmt PW 39-40-26 with MnDOT and the 106 Group Ltd to perform an architectural history survey on CSAH 23 in Minneapolis, (CP 2984500) (est county cost $10,500 TAA - Active Transportation)",
       "isConsent": true,
@@ -479,7 +479,7 @@
     {
       "id": "legistar-hennepinmn-eventitem-36775",
       "meeting_id": "legistar-hennepinmn-meeting-1466",
-      "sequence": 36,
+      "sequence": 38,
       "agendaNumber": "9.S.",
       "title": "Affirming Hennepin County’s commitment to ensuring free and fair elections",
       "isConsent": true,
@@ -492,7 +492,7 @@
     {
       "id": "legistar-hennepinmn-eventitem-36776",
       "meeting_id": "legistar-hennepinmn-meeting-1466",
-      "sequence": 37,
+      "sequence": 39,
       "agendaNumber": "10.",
       "title": "Non-Consent",
       "isConsent": false,
@@ -505,7 +505,7 @@
     {
       "id": "legistar-hennepinmn-eventitem-36777",
       "meeting_id": "legistar-hennepinmn-meeting-1466",
-      "sequence": 38,
+      "sequence": 40,
       "agendaNumber": "11.",
       "title": "Progressed",
       "isConsent": false,
@@ -518,7 +518,7 @@
     {
       "id": "legistar-hennepinmn-eventitem-36778",
       "meeting_id": "legistar-hennepinmn-meeting-1466",
-      "sequence": 39,
+      "sequence": 41,
       "agendaNumber": "12.",
       "title": "Old Business",
       "isConsent": false,
@@ -531,7 +531,7 @@
     {
       "id": "legistar-hennepinmn-eventitem-36779",
       "meeting_id": "legistar-hennepinmn-meeting-1466",
-      "sequence": 40,
+      "sequence": 42,
       "agendaNumber": "13.",
       "title": "Immediate Approvals",
       "isConsent": false,
@@ -544,7 +544,7 @@
     {
       "id": "legistar-hennepinmn-eventitem-36782",
       "meeting_id": "legistar-hennepinmn-meeting-1466",
-      "sequence": 18,
+      "sequence": 20,
       "agendaNumber": "9.A.",
       "title": "Commissioner compensation",
       "isConsent": true,
@@ -557,7 +557,7 @@
     {
       "id": "legistar-hennepinmn-eventitem-36783",
       "meeting_id": "legistar-hennepinmn-meeting-1466",
-      "sequence": 19,
+      "sequence": 21,
       "agendaNumber": "9.B.",
       "title": "County Attorney compensation",
       "isConsent": true,
@@ -570,7 +570,7 @@
     {
       "id": "legistar-hennepinmn-eventitem-36784",
       "meeting_id": "legistar-hennepinmn-meeting-1466",
-      "sequence": 20,
+      "sequence": 22,
       "agendaNumber": "9.C.",
       "title": "Sheriff compensation",
       "isConsent": true,
@@ -583,7 +583,7 @@
     {
       "id": "legistar-hennepinmn-eventitem-36786",
       "meeting_id": "legistar-hennepinmn-meeting-1466",
-      "sequence": 5,
+      "sequence": 6,
       "agendaNumber": "4.A.",
       "title": "August 18, 2026 Meeting Minutes",
       "isConsent": false,
@@ -592,6 +592,32 @@
       "matterFile": "TMP-26-0701",
       "matterId": 4814,
       "matterType": "Minutes"
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-36787",
+      "meeting_id": "legistar-hennepinmn-meeting-1466",
+      "sequence": 9,
+      "agendaNumber": "5.A.",
+      "title": "Claim/Summons - 1. Emily Phillips - RE: Emily Phillips Personal Injury Claim. - 2. Andre Harmon - RE: Andre Harmon Personal Injury Claim. - 3. Kevin Varela - RE: Kevin Varela Personal Injury Claim. - 4. Abdoulwahab Mohamed Abdillahi - RE: Abdoulwahab Mohamed Abdillahi Personal Injury Claim. - 5. Adriana Marisela Yanchatipan - RE: Adriana Marisela Yanchatipan Personal Injury Claim. - 6. John Roemer - RE: John Roemer Property Damage Claim. - 7. Jonathan Mason - RE: Jonathan Mason Personal Injury Claim. - 8. Kaylee Yerks - RE: Kaylee Yerks Personal Injury Claim.",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "TMP-26-0702",
+      "matterId": 4815,
+      "matterType": "Correspondence"
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-36788",
+      "meeting_id": "legistar-hennepinmn-meeting-1466",
+      "sequence": 4,
+      "agendaNumber": "3.A.",
+      "title": "Food Security Update - Abbie Zahler, Health Promotion Manager",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "TMP-26-0704",
+      "matterId": 4817,
+      "matterType": "Hennepin Highlights"
     }
   ],
   "diff": {
@@ -599,8 +625,8 @@
     "removedIds": [],
     "changed": []
   },
-  "previousGeneratedAt": "2026-09-12T15:18:24.229Z",
+  "previousGeneratedAt": "2026-09-13T15:54:20.128Z",
   "knownGaps": [
-    "Consent-agenda flagging uses Legistar's own EventItemConsent field only (19 of 40 agenda item(s) in this window flagged). \"No discussion\" / \"no public comment\" are NOT flagged — this API exposes no comparably reliable field for either, and AGENTS.md §3.3 rules out inferring one from absence."
+    "Consent-agenda flagging uses Legistar's own EventItemConsent field only (19 of 42 agenda item(s) in this window flagged). \"No discussion\" / \"no public comment\" are NOT flagged — this API exposes no comparably reliable field for either, and AGENTS.md §3.3 rules out inferring one from absence."
   ]
 }

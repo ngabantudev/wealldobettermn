@@ -2,22 +2,22 @@
   "schemaVersion": 1,
   "client": "minneapolis",
   "jurisdiction": "Minneapolis City Council",
-  "generatedAt": "2026-09-13T15:54:27.455Z",
+  "generatedAt": "2026-09-14T17:58:07.468Z",
   "status": "ingested",
-  "note": "138 meeting(s) and 93 agenda item(s) ingested for 2026-08-30–2026-12-12.",
+  "note": "138 meeting(s) and 94 agenda item(s) ingested for 2026-08-31–2026-12-13.",
   "provenance": {
     "primarySourceUrl": "https://lims.minneapolismn.gov/",
     "sourceAgency": "City of Minneapolis, Office of the City Clerk",
     "documentType": "LIMS API v1 — meetingCalendar/FileItemSearch",
     "documentId": null,
     "issuedDate": null,
-    "fetchedAt": "2026-09-13T15:54:27.455Z",
+    "fetchedAt": "2026-09-14T17:58:07.468Z",
     "licence": "Public records served via the City of Minneapolis LIMS API; no separate machine-reuse licence published as of this writing.",
     "contentHash": null
   },
   "window": {
-    "startIso": "2026-08-30",
-    "endIso": "2026-12-12"
+    "startIso": "2026-08-31",
+    "endIso": "2026-12-13"
   },
   "meetings": [
     {
@@ -1628,10 +1628,10 @@
       "time": "16:30",
       "location": null,
       "agendaStatus": null,
-      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/HPC/",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/HPC/6222",
       "minutesUrl": null,
       "videoStatus": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/HPC/",
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/HPC/6222",
       "lastModifiedUtc": null,
       "members": [
         {
@@ -8782,7 +8782,22 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2466-3",
+      "id": "lims-minneapolis-fileitem-2420-0",
+      "meeting_id": "lims-minneapolis-meeting-city-council-policy-roundtable-2026-09-16T13:30:00",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Receiving and filing a briefing on the process regarding the Minneapolis 2050 Comprehensive Plan.",
+      "isConsent": false,
+      "actionName": "Scheduled",
+      "passedFlagName": "Failed",
+      "matterFile": "2026-01063",
+      "matterId": null,
+      "matterType": "Receive & File",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01063",
+      "votes": []
+    },
+    {
+      "id": "lims-minneapolis-fileitem-2467-3",
       "meeting_id": "lims-minneapolis-meeting-charter-commission-2026-09-02T16:00:00",
       "sequence": null,
       "agendaNumber": null,
@@ -8797,7 +8812,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2475-0",
+      "id": "lims-minneapolis-fileitem-2476-0",
       "meeting_id": "lims-minneapolis-meeting-charter-commission-2026-09-02T16:00:00",
       "sequence": null,
       "agendaNumber": null,
@@ -8815,9 +8830,16 @@
   "diff": {
     "addedIds": [],
     "removedIds": [],
-    "changed": []
+    "changed": [
+      {
+        "id": "lims-minneapolis-meeting-heritage-preservation-commission-2026-09-22T16:30:00",
+        "field": "agendaUrl",
+        "from": "https://lims.minneapolismn.gov/Agenda/HPC/",
+        "to": "https://lims.minneapolismn.gov/Agenda/HPC/6222"
+      }
+    ]
   },
-  "previousGeneratedAt": "2026-09-12T15:18:31.804Z",
+  "previousGeneratedAt": "2026-09-13T15:54:27.455Z",
   "knownGaps": [
     "Consent-agenda flagging not implemented — LIMS has no field structurally equivalent to Legistar's EventItemConsent; every agenda item ships isConsent: false rather than a guess.",
     "3 same-day, same-body meeting collision(s) in this window — FileItemSearch's LegislativeHistory carries a date but no time, so a second same-day session for the same body can't be disambiguated; the earliest session for each colliding (body, date) pair was used."
