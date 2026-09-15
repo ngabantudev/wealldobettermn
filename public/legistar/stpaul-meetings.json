@@ -2,22 +2,22 @@
   "schemaVersion": 1,
   "client": "stpaul",
   "jurisdiction": "St. Paul City Council",
-  "generatedAt": "2026-09-14T17:57:08.088Z",
+  "generatedAt": "2026-09-15T16:38:09.909Z",
   "status": "ingested",
-  "note": "18 meeting(s) (18/18 event(s) in window) and 332 agenda item(s) ingested for 2026-08-31–2026-12-13.",
+  "note": "18 meeting(s) (18/18 event(s) in window) and 333 agenda item(s) ingested for 2026-09-01–2026-12-14.",
   "provenance": {
     "primarySourceUrl": "https://webapi.legistar.com/v1/stpaul/events",
     "sourceAgency": "St. Paul City Council",
     "documentType": "Legistar Web API — Events/EventItems",
     "documentId": null,
     "issuedDate": null,
-    "fetchedAt": "2026-09-14T17:57:08.088Z",
+    "fetchedAt": "2026-09-15T16:38:09.910Z",
     "licence": "Public records served via Legistar InSite; no separate machine-reuse licence published by the host jurisdiction as of this writing.",
-    "contentHash": "dabc9f2a2544b15a05540d984a9125f02aa2fad41cde6eba56f2e2a91dff35df"
+    "contentHash": "e4e1d0596a4951cf23a60c0f1ecd47f57ba67830bec292aeaa0437dc6c463c69"
   },
   "window": {
-    "startIso": "2026-08-31",
-    "endIso": "2026-12-13"
+    "startIso": "2026-09-01",
+    "endIso": "2026-12-14"
   },
   "meetings": [
     {
@@ -266,7 +266,7 @@
       "minutesUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/9/7755_M_City_Council_26-09-09_Meeting_Minutes_-_Action_Only.pdf",
       "videoStatus": "Public",
       "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7755&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
-      "lastModifiedUtc": "2026-09-10T15:35:57.587",
+      "lastModifiedUtc": "2026-09-14T21:19:23.32",
       "members": [
         {
           "id": 6692,
@@ -623,7 +623,7 @@
       "minutesUrl": null,
       "videoStatus": "Public",
       "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7764&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
-      "lastModifiedUtc": "2026-09-10T18:40:55.217",
+      "lastModifiedUtc": "2026-09-14T20:46:37.697",
       "members": [
         {
           "id": 6692,
@@ -720,12 +720,12 @@
       "date": "2026-09-15",
       "time": "09:00",
       "location": "Room 330 City Hall & Court House/Remote",
-      "agendaStatus": "Final",
+      "agendaStatus": "Final-revised",
       "agendaUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/9/7766_A_Legislative_Hearings_26-09-15_ADA_Meeting_Agenda.pdf",
       "minutesUrl": null,
       "videoStatus": "Public",
       "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7766&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
-      "lastModifiedUtc": "2026-09-14T13:09:08.16",
+      "lastModifiedUtc": "2026-09-15T12:35:58.673",
       "members": []
     },
     {
@@ -2897,7 +2897,7 @@
       "title": "Approval of the Consent Agenda",
       "isConsent": true,
       "actionName": "Adopted Consent Agenda",
-      "passedFlagName": null,
+      "passedFlagName": "Pass",
       "matterFile": null,
       "matterId": null,
       "matterType": null
@@ -4764,8 +4764,8 @@
     {
       "id": "legistar-stpaul-eventitem-217257",
       "meeting_id": "legistar-stpaul-meeting-7766",
-      "sequence": 21,
-      "agendaNumber": "11",
+      "sequence": 22,
+      "agendaNumber": "12",
       "title": "Making finding on the appeal of Jane Myers nuisance abatement ordered for 1521 HAGUE AVENUE in Council File RLH SAO 26-58.",
       "isConsent": false,
       "actionName": null,
@@ -4777,8 +4777,8 @@
     {
       "id": "legistar-stpaul-eventitem-217258",
       "meeting_id": "legistar-stpaul-meeting-7766",
-      "sequence": 23,
-      "agendaNumber": "13",
+      "sequence": 24,
+      "agendaNumber": "14",
       "title": "Making finding on the appealed of Thomas Turbes to a nuisance abatement ordered for 2203 SELBY AVENUE in Council File RLH SAO 26-56.",
       "isConsent": false,
       "actionName": null,
@@ -4790,8 +4790,8 @@
     {
       "id": "legistar-stpaul-eventitem-217259",
       "meeting_id": "legistar-stpaul-meeting-7766",
-      "sequence": 22,
-      "agendaNumber": "12",
+      "sequence": 23,
+      "agendaNumber": "13",
       "title": "Making finding on the Appeal of Kinnell Tacket to a nuisance abatement ordered for 444 JOHNSON PARKWAY in Council File RLH CO 26-4.",
       "isConsent": false,
       "actionName": null,
@@ -4881,7 +4881,7 @@
     {
       "id": "legistar-stpaul-eventitem-217267",
       "meeting_id": "legistar-stpaul-meeting-7766",
-      "sequence": 25,
+      "sequence": 26,
       "agendaNumber": null,
       "title": "1:00 p.m. Hearings",
       "isConsent": false,
@@ -4894,7 +4894,7 @@
     {
       "id": "legistar-stpaul-eventitem-217268",
       "meeting_id": "legistar-stpaul-meeting-7766",
-      "sequence": 26,
+      "sequence": 27,
       "agendaNumber": null,
       "title": "Vacant Building Registrations",
       "isConsent": false,
@@ -4907,8 +4907,8 @@
     {
       "id": "legistar-stpaul-eventitem-217269",
       "meeting_id": "legistar-stpaul-meeting-7766",
-      "sequence": 27,
-      "agendaNumber": "15",
+      "sequence": 28,
+      "agendaNumber": "16",
       "title": "Appeal of Gomaa Elzamel to a Vacant Building Registration Requirement at 713 PREBLE STREET.",
       "isConsent": false,
       "actionName": null,
@@ -4920,8 +4920,8 @@
     {
       "id": "legistar-stpaul-eventitem-217270",
       "meeting_id": "legistar-stpaul-meeting-7766",
-      "sequence": 28,
-      "agendaNumber": "16",
+      "sequence": 29,
+      "agendaNumber": "17",
       "title": "Appeal of Shai Leibovich (ShaSha Holdings) and Carolyn Brown (Community Stabilization Project) to a Vacant Building Registration Renewal Notice at 421 THOMAS AVENUE.",
       "isConsent": false,
       "actionName": null,
@@ -4933,7 +4933,7 @@
     {
       "id": "legistar-stpaul-eventitem-217275",
       "meeting_id": "legistar-stpaul-meeting-7766",
-      "sequence": 29,
+      "sequence": 30,
       "agendaNumber": null,
       "title": "3:00 p.m. Hearings",
       "isConsent": false,
@@ -4946,7 +4946,7 @@
     {
       "id": "legistar-stpaul-eventitem-217276",
       "meeting_id": "legistar-stpaul-meeting-7766",
-      "sequence": 30,
+      "sequence": 31,
       "agendaNumber": null,
       "title": "Other",
       "isConsent": false,
@@ -4959,8 +4959,8 @@
     {
       "id": "legistar-stpaul-eventitem-217277",
       "meeting_id": "legistar-stpaul-meeting-7766",
-      "sequence": 31,
-      "agendaNumber": "17",
+      "sequence": 32,
+      "agendaNumber": "18",
       "title": "Appeal of Anne Thomas to a Denial of a Fence Variance at 737 WATSON AVENUE.",
       "isConsent": false,
       "actionName": null,
@@ -4998,14 +4998,27 @@
     {
       "id": "legistar-stpaul-eventitem-217280",
       "meeting_id": "legistar-stpaul-meeting-7766",
-      "sequence": 24,
-      "agendaNumber": "14",
+      "sequence": 25,
+      "agendaNumber": "15",
       "title": "Making finding on the appeal of Barry Campbell to a nuisance abatement ordered for 449 VAN DYKE STREET in Council File RLH SAO 26-71.",
       "isConsent": false,
       "actionName": null,
       "passedFlagName": null,
       "matterFile": "RLH SAO 26-93",
       "matterId": 52915,
+      "matterType": "Resolution LH Summary Abatement Order"
+    },
+    {
+      "id": "legistar-stpaul-eventitem-217315",
+      "meeting_id": "legistar-stpaul-meeting-7766",
+      "sequence": 21,
+      "agendaNumber": "11",
+      "title": "Second Making finding on the appeal of Liam Magistad to a nuisance abatement ordered for 1597 CHARLES AVENUE in Council File RLH SAO 26-61.",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "RLH SAO 26-96",
+      "matterId": 52933,
       "matterType": "Resolution LH Summary Abatement Order"
     },
     {
@@ -5116,10 +5129,17 @@
   "diff": {
     "addedIds": [],
     "removedIds": [],
-    "changed": []
+    "changed": [
+      {
+        "id": "legistar-stpaul-meeting-7766",
+        "field": "agendaStatus",
+        "from": "Final",
+        "to": "Final-revised"
+      }
+    ]
   },
-  "previousGeneratedAt": "2026-09-13T15:53:35.685Z",
+  "previousGeneratedAt": "2026-09-14T17:57:08.088Z",
   "knownGaps": [
-    "Consent-agenda flagging uses Legistar's own EventItemConsent field only (84 of 332 agenda item(s) in this window flagged). \"No discussion\" / \"no public comment\" are NOT flagged — this API exposes no comparably reliable field for either, and AGENTS.md §3.3 rules out inferring one from absence."
+    "Consent-agenda flagging uses Legistar's own EventItemConsent field only (84 of 333 agenda item(s) in this window flagged). \"No discussion\" / \"no public comment\" are NOT flagged — this API exposes no comparably reliable field for either, and AGENTS.md §3.3 rules out inferring one from absence."
   ]
 }
