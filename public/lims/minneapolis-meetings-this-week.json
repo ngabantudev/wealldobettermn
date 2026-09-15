@@ -1,190 +1,6 @@
 {
-  "generatedAt": "2026-09-14T17:58:07.472Z",
+  "generatedAt": "2026-09-15T16:39:19.600Z",
   "meetingsThisWeek": [
-    {
-      "client": "minneapolis",
-      "jurisdiction": "Minneapolis City Council",
-      "bodyName": "Budget Committee",
-      "date": "2026-09-14",
-      "time": "10:00",
-      "location": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/Budget/6208",
-      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/Budget/6208",
-      "isCancelled": false,
-      "members": [
-        {
-          "id": 375,
-          "name": "Linea Palmisano",
-          "type": "Council Member"
-        },
-        {
-          "id": 5269,
-          "name": "Jamal Osman",
-          "type": "Council Member"
-        },
-        {
-          "id": 5692,
-          "name": "Robin Wonsley",
-          "type": "Council Member"
-        },
-        {
-          "id": 5696,
-          "name": "LaTrisha Vetaw",
-          "type": "Council Member"
-        },
-        {
-          "id": 5697,
-          "name": "Aisha Chughtai",
-          "type": "Chair"
-        },
-        {
-          "id": 5698,
-          "name": "Jason Chavez",
-          "type": "Council Member"
-        },
-        {
-          "id": 5700,
-          "name": "Michael Rainville",
-          "type": "Council Member"
-        },
-        {
-          "id": 5701,
-          "name": "Elliott Payne",
-          "type": "Council Member"
-        },
-        {
-          "id": 5776,
-          "name": "Aurin Chowdhury",
-          "type": "Council Member"
-        },
-        {
-          "id": 7961,
-          "name": "Pearll Warren",
-          "type": "Council Member"
-        },
-        {
-          "id": 7962,
-          "name": "Soren Stevenson",
-          "type": "Council Member"
-        },
-        {
-          "id": 7963,
-          "name": "Elizabeth Shaffer",
-          "type": "Vice-Chair"
-        },
-        {
-          "id": 7964,
-          "name": "Jamison Whiting",
-          "type": "Council Member"
-        }
-      ]
-    },
-    {
-      "client": "minneapolis",
-      "jurisdiction": "Minneapolis City Council",
-      "bodyName": "Budget Committee",
-      "date": "2026-09-14",
-      "time": "13:30",
-      "location": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/Budget/6204",
-      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/Budget/6204",
-      "isCancelled": false,
-      "members": [
-        {
-          "id": 375,
-          "name": "Linea Palmisano",
-          "type": "Council Member"
-        },
-        {
-          "id": 5269,
-          "name": "Jamal Osman",
-          "type": "Council Member"
-        },
-        {
-          "id": 5692,
-          "name": "Robin Wonsley",
-          "type": "Council Member"
-        },
-        {
-          "id": 5696,
-          "name": "LaTrisha Vetaw",
-          "type": "Council Member"
-        },
-        {
-          "id": 5697,
-          "name": "Aisha Chughtai",
-          "type": "Chair"
-        },
-        {
-          "id": 5698,
-          "name": "Jason Chavez",
-          "type": "Council Member"
-        },
-        {
-          "id": 5700,
-          "name": "Michael Rainville",
-          "type": "Council Member"
-        },
-        {
-          "id": 5701,
-          "name": "Elliott Payne",
-          "type": "Council Member"
-        },
-        {
-          "id": 5776,
-          "name": "Aurin Chowdhury",
-          "type": "Council Member"
-        },
-        {
-          "id": 7961,
-          "name": "Pearll Warren",
-          "type": "Council Member"
-        },
-        {
-          "id": 7962,
-          "name": "Soren Stevenson",
-          "type": "Council Member"
-        },
-        {
-          "id": 7963,
-          "name": "Elizabeth Shaffer",
-          "type": "Vice-Chair"
-        },
-        {
-          "id": 7964,
-          "name": "Jamison Whiting",
-          "type": "Council Member"
-        }
-      ]
-    },
-    {
-      "client": "minneapolis",
-      "jurisdiction": "Minneapolis City Council",
-      "bodyName": "Planning Commission",
-      "date": "2026-09-14",
-      "time": "16:30",
-      "location": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/CPC/6212",
-      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/CPC/6212",
-      "isCancelled": false,
-      "members": [
-        {
-          "id": 6923,
-          "name": "Alyssa Olson",
-          "type": "ABC Member"
-        },
-        {
-          "id": 6924,
-          "name": "Joseph Campbell",
-          "type": "ABC Member"
-        },
-        {
-          "id": 6996,
-          "name": "Lucie Skjefte",
-          "type": "ABC Member"
-        }
-      ]
-    },
     {
       "client": "minneapolis",
       "jurisdiction": "Minneapolis City Council",
@@ -603,8 +419,8 @@
       "date": "2026-09-17",
       "time": "09:30",
       "location": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/Council/6219",
-      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/Council/6219",
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/Council/",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/Council/",
       "isCancelled": false,
       "members": [
         {
@@ -683,7 +499,7 @@
       "location": null,
       "sourceUrl": "https://lims.minneapolismn.gov/Agenda/PAC/",
       "agendaUrl": "https://lims.minneapolismn.gov/Agenda/PAC/",
-      "isCancelled": false,
+      "isCancelled": true,
       "members": [
         {
           "id": 6920,
@@ -2711,6 +2527,24 @@
         {
           "id": 6996,
           "name": "Lucie Skjefte",
+          "type": "ABC Member"
+        }
+      ]
+    },
+    {
+      "client": "minneapolis",
+      "jurisdiction": "Minneapolis City Council",
+      "bodyName": "Homegrown Minneapolis Food Council",
+      "date": "2026-10-14",
+      "time": "17:30",
+      "location": null,
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/HMFC/",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/HMFC/",
+      "isCancelled": false,
+      "members": [
+        {
+          "id": 6928,
+          "name": "Madison Taylor",
           "type": "ABC Member"
         }
       ]
