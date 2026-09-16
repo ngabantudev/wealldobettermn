@@ -2,122 +2,24 @@
   "schemaVersion": 1,
   "client": "minneapolis",
   "jurisdiction": "Minneapolis City Council",
-  "generatedAt": "2026-09-15T16:39:19.596Z",
+  "generatedAt": "2026-09-16T16:32:34.223Z",
   "status": "ingested",
-  "note": "143 meeting(s) and 94 agenda item(s) ingested for 2026-09-01–2026-12-14.",
+  "note": "142 meeting(s) and 189 agenda item(s) ingested for 2026-09-02–2026-12-15.",
   "provenance": {
     "primarySourceUrl": "https://lims.minneapolismn.gov/",
     "sourceAgency": "City of Minneapolis, Office of the City Clerk",
     "documentType": "LIMS API v1 — meetingCalendar/FileItemSearch",
     "documentId": null,
     "issuedDate": null,
-    "fetchedAt": "2026-09-15T16:39:19.596Z",
+    "fetchedAt": "2026-09-16T16:32:34.223Z",
     "licence": "Public records served via the City of Minneapolis LIMS API; no separate machine-reuse licence published as of this writing.",
     "contentHash": null
   },
   "window": {
-    "startIso": "2026-09-01",
-    "endIso": "2026-12-14"
+    "startIso": "2026-09-02",
+    "endIso": "2026-12-15"
   },
   "meetings": [
-    {
-      "id": "lims-minneapolis-meeting-ethical-practices-board-2026-09-01T15:00:00",
-      "body_id": "lims-minneapolis-body-ethical-practices-board",
-      "bodyName": "Ethical Practices Board",
-      "date": "2026-09-01",
-      "time": "15:00",
-      "location": null,
-      "agendaStatus": null,
-      "agendaUrl": "https://lims.minneapolismn.gov/Board/MarkedAgenda/EPB/6186",
-      "minutesUrl": "https://lims.minneapolismn.gov/api/v1/downloads/CommitteeReport/4951/EPB_20260901_minutes.pdf",
-      "videoStatus": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Board/MarkedAgenda/EPB/6186",
-      "lastModifiedUtc": null,
-      "members": [
-        {
-          "id": 6632,
-          "name": "Mark Wagner",
-          "type": "ABC Member"
-        },
-        {
-          "id": 7005,
-          "name": "Daniel Le",
-          "type": "ABC Member"
-        }
-      ]
-    },
-    {
-      "id": "lims-minneapolis-meeting-bicycle-advisory-committee-2026-09-01T16:00:00",
-      "body_id": "lims-minneapolis-body-bicycle-advisory-committee",
-      "bodyName": "Bicycle Advisory Committee",
-      "date": "2026-09-01",
-      "time": "16:00",
-      "location": null,
-      "agendaStatus": null,
-      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/BAC/6192",
-      "minutesUrl": null,
-      "videoStatus": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/BAC/6192",
-      "lastModifiedUtc": null,
-      "members": [
-        {
-          "id": 6824,
-          "name": "Tyler Pederson",
-          "type": "ABC Member"
-        },
-        {
-          "id": 6830,
-          "name": "Tony Hunt",
-          "type": "ABC Member"
-        },
-        {
-          "id": 6843,
-          "name": "Jed Hanson",
-          "type": "ABC Member"
-        },
-        {
-          "id": 6935,
-          "name": "Catherine Windyk",
-          "type": "ABC Member"
-        }
-      ]
-    },
-    {
-      "id": "lims-minneapolis-meeting-community-environmental-advisory-commission-2026-09-01T16:00:00",
-      "body_id": "lims-minneapolis-body-community-environmental-advisory-commission",
-      "bodyName": "Community Environmental Advisory Commission",
-      "date": "2026-09-01",
-      "time": "16:00",
-      "location": null,
-      "agendaStatus": null,
-      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/CEAC/6193",
-      "minutesUrl": null,
-      "videoStatus": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/CEAC/6193",
-      "lastModifiedUtc": null,
-      "members": [
-        {
-          "id": 6982,
-          "name": "Johnny Hill",
-          "type": "ABC Member"
-        },
-        {
-          "id": 6995,
-          "name": "Madyson Hoese",
-          "type": "ABC Member"
-        },
-        {
-          "id": 7042,
-          "name": "Zamzam Ahmed",
-          "type": "ABC Member"
-        },
-        {
-          "id": 7044,
-          "name": "Joshua Hauf",
-          "type": "ABC Member"
-        }
-      ]
-    },
     {
       "id": "lims-minneapolis-meeting-charter-commission-2026-09-02T16:00:00",
       "body_id": "lims-minneapolis-body-charter-commission",
@@ -1038,7 +940,7 @@
       "location": null,
       "agendaStatus": null,
       "agendaUrl": "https://lims.minneapolismn.gov/Agenda/COW/6206",
-      "minutesUrl": null,
+      "minutesUrl": "https://lims.minneapolismn.gov/api/v1/downloads/CommitteeReport/4971/COW_09152026_Committee_Report.pdf",
       "videoStatus": null,
       "sourceUrl": "https://lims.minneapolismn.gov/Agenda/COW/6206",
       "lastModifiedUtc": null,
@@ -1327,10 +1229,10 @@
       "time": "09:30",
       "location": null,
       "agendaStatus": null,
-      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/Council/",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/Council/6227",
       "minutesUrl": null,
       "videoStatus": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/Council/",
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/Council/6227",
       "lastModifiedUtc": null,
       "members": [
         {
@@ -1434,10 +1336,10 @@
       "time": "18:00",
       "location": null,
       "agendaStatus": null,
-      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/CCPO/",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/CCPO/6226",
       "minutesUrl": null,
       "videoStatus": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/CCPO/",
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/CCPO/6226",
       "lastModifiedUtc": null,
       "members": [
         {
@@ -1893,10 +1795,10 @@
       "time": "16:30",
       "location": null,
       "agendaStatus": null,
-      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/ZBA/",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/ZBA/6228",
       "minutesUrl": null,
       "videoStatus": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/ZBA/",
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/ZBA/6228",
       "lastModifiedUtc": null,
       "members": [
         {
@@ -7609,6 +7511,123 @@
           "type": "ABC Member"
         }
       ]
+    },
+    {
+      "id": "lims-minneapolis-meeting-committee-of-the-whole-2026-12-15T13:30:00",
+      "body_id": "lims-minneapolis-body-committee-of-the-whole",
+      "bodyName": "Committee of the Whole",
+      "date": "2026-12-15",
+      "time": "13:30",
+      "location": null,
+      "agendaStatus": null,
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/COW/",
+      "minutesUrl": null,
+      "videoStatus": null,
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/COW/",
+      "lastModifiedUtc": null,
+      "members": [
+        {
+          "id": 375,
+          "name": "Linea Palmisano",
+          "type": "Council Member"
+        },
+        {
+          "id": 5269,
+          "name": "Jamal Osman",
+          "type": "Council Member"
+        },
+        {
+          "id": 5692,
+          "name": "Robin Wonsley",
+          "type": "Council Member"
+        },
+        {
+          "id": 5696,
+          "name": "LaTrisha Vetaw",
+          "type": "Council Member"
+        },
+        {
+          "id": 5697,
+          "name": "Aisha Chughtai",
+          "type": "Vice-Chair"
+        },
+        {
+          "id": 5698,
+          "name": "Jason Chavez",
+          "type": "Council Member"
+        },
+        {
+          "id": 5700,
+          "name": "Michael Rainville",
+          "type": "Council Member"
+        },
+        {
+          "id": 5701,
+          "name": "Elliott Payne",
+          "type": "Council Member"
+        },
+        {
+          "id": 5776,
+          "name": "Aurin Chowdhury",
+          "type": "Chair"
+        },
+        {
+          "id": 7961,
+          "name": "Pearll Warren",
+          "type": "Council Member"
+        },
+        {
+          "id": 7962,
+          "name": "Soren Stevenson",
+          "type": "Council Member"
+        },
+        {
+          "id": 7963,
+          "name": "Elizabeth Shaffer",
+          "type": "Council Member"
+        },
+        {
+          "id": 7964,
+          "name": "Jamison Whiting",
+          "type": "Council Member"
+        }
+      ]
+    },
+    {
+      "id": "lims-minneapolis-meeting-bicycle-advisory-committee-2026-12-15T16:00:00",
+      "body_id": "lims-minneapolis-body-bicycle-advisory-committee",
+      "bodyName": "Bicycle Advisory Committee",
+      "date": "2026-12-15",
+      "time": "16:00",
+      "location": null,
+      "agendaStatus": null,
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/BAC/",
+      "minutesUrl": null,
+      "videoStatus": null,
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/BAC/",
+      "lastModifiedUtc": null,
+      "members": [
+        {
+          "id": 6824,
+          "name": "Tyler Pederson",
+          "type": "ABC Member"
+        },
+        {
+          "id": 6830,
+          "name": "Tony Hunt",
+          "type": "ABC Member"
+        },
+        {
+          "id": 6843,
+          "name": "Jed Hanson",
+          "type": "ABC Member"
+        },
+        {
+          "id": 6935,
+          "name": "Catherine Windyk",
+          "type": "ABC Member"
+        }
+      ]
     }
   ],
   "agendaItems": [
@@ -7621,6 +7640,21 @@
       "isConsent": false,
       "actionName": "Approved",
       "passedFlagName": "Passed",
+      "matterFile": "2026-00106",
+      "matterId": null,
+      "matterType": "Action",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00106",
+      "votes": []
+    },
+    {
+      "id": "lims-minneapolis-fileitem-431-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-09-17T09:30:00",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Authorizing an increase to Contract No. COM0010362 with Versacon, Inc., in the amount of $57,900,for a total amount not to exceed $701,825,for the Minneapolis Convention Center Mill City Kitchen Concessions 134 Remodel.",
+      "isConsent": false,
+      "actionName": "Scheduled",
+      "passedFlagName": "Failed",
       "matterFile": "2026-00106",
       "matterId": null,
       "matterType": "Action",
@@ -7658,14 +7692,29 @@
       "votes": []
     },
     {
+      "id": "lims-minneapolis-fileitem-556-5",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-09-17T09:30:00",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Passage of Ordinance amending Title 20, Chapter 550 of the Minneapolis Code of Ordinances relating to Zoning Code: Development Standards, amending fence regulations.",
+      "isConsent": false,
+      "actionName": "Scheduled",
+      "passedFlagName": "Failed",
+      "matterFile": "2026-00196",
+      "matterId": null,
+      "matterType": "Ordinance",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00196",
+      "votes": []
+    },
+    {
       "id": "lims-minneapolis-fileitem-1404-3",
       "meeting_id": "lims-minneapolis-meeting-committee-of-the-whole-2026-09-15T13:30:00",
       "sequence": null,
       "agendaNumber": null,
       "title": "Receiving and filing a response to a legislative directive requesting information on the Minneapolis Police Department (MPD)'s 2025 spending.",
       "isConsent": false,
-      "actionName": "Scheduled",
-      "passedFlagName": "Failed",
+      "actionName": "Continued to meeting of  9/29/2026",
+      "passedFlagName": "Passed",
       "matterFile": "2026-00495",
       "matterId": null,
       "matterType": "Receive & File",
@@ -7703,6 +7752,21 @@
       "votes": []
     },
     {
+      "id": "lims-minneapolis-fileitem-1726-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-09-17T09:30:00",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Waiving the residency requirement for current Public Health Advisory Committee member, Tavia Tindall, for the two-year term beginning July 1, 2026, and ending June 30, 2028.",
+      "isConsent": false,
+      "actionName": "Scheduled",
+      "passedFlagName": "Failed",
+      "matterFile": "2026-00658",
+      "matterId": null,
+      "matterType": "Action",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00658",
+      "votes": []
+    },
+    {
       "id": "lims-minneapolis-fileitem-1953-3",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-09-08T13:30:00",
       "sequence": null,
@@ -7715,6 +7779,81 @@
       "matterId": null,
       "matterType": "Ordinance",
       "fileUrl": "https://lims.minneapolismn.gov/File/2026-00738",
+      "votes": []
+    },
+    {
+      "id": "lims-minneapolis-fileitem-2075-5",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-09-17T09:30:00",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Passage of Ordinanceamending Title 15of the Minneapolis Code of Ordinances relating to Offenses—Miscellaneous, amending provisions related to noise regulations to remove irrelevant content, organize the structure in a more logical format, clarify language, add a clause regulating the sounding of motion-sensor devices on private property, and to amend a clerical error referencing Chapter 389 that should be referring to an earlier subsection in Chapter 399:\n\n\n\tChapter 389 Noise\n\tChapter 399Control of Invasive Species Tree Pests",
+      "isConsent": false,
+      "actionName": "Scheduled",
+      "passedFlagName": "Failed",
+      "matterFile": "2026-00809",
+      "matterId": null,
+      "matterType": "Ordinance",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00809",
+      "votes": []
+    },
+    {
+      "id": "lims-minneapolis-fileitem-2076-5",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-09-17T09:30:00",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Passage of Ordinanceamending Title 3, Chapter 45 of the Minneapolis Code of Ordinances relating to Air Pollution and Environmental Protection: Environmental Program Fees, amending provisions referring to Chapter 389to correct reference numbers.",
+      "isConsent": false,
+      "actionName": "Scheduled",
+      "passedFlagName": "Failed",
+      "matterFile": "2026-00809",
+      "matterId": null,
+      "matterType": "Ordinance",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00809",
+      "votes": []
+    },
+    {
+      "id": "lims-minneapolis-fileitem-2077-5",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-09-17T09:30:00",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Passage of Ordinanceamending Title 12, Chapter 244 of the Minneapolis Code of Ordinances relating to Housing: Maintenance Code, amending provisions referring to Chapter 389to correct reference numbers.",
+      "isConsent": false,
+      "actionName": "Scheduled",
+      "passedFlagName": "Failed",
+      "matterFile": "2026-00809",
+      "matterId": null,
+      "matterType": "Ordinance",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00809",
+      "votes": []
+    },
+    {
+      "id": "lims-minneapolis-fileitem-2078-5",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-09-17T09:30:00",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Passage of OrdinanceamendingTitle 13, Chapter 259 of the Minneapolis Code of Ordinances relating to Licenses and Business Regulations: In General, amending provisions referring to Chapter 389 to correct reference numbers.",
+      "isConsent": false,
+      "actionName": "Scheduled",
+      "passedFlagName": "Failed",
+      "matterFile": "2026-00809",
+      "matterId": null,
+      "matterType": "Ordinance",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00809",
+      "votes": []
+    },
+    {
+      "id": "lims-minneapolis-fileitem-2079-5",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-09-17T09:30:00",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Passage of Ordinanceamending Title 14, Chapter 360 of the Minneapolis Code of Ordinances relating to Liquor and Beer: In General, amending provisions referring to Chapter 389to correct reference numbers.",
+      "isConsent": false,
+      "actionName": "Scheduled",
+      "passedFlagName": "Failed",
+      "matterFile": "2026-00809",
+      "matterId": null,
+      "matterType": "Ordinance",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00809",
       "votes": []
     },
     {
@@ -7748,6 +7887,21 @@
       "votes": []
     },
     {
+      "id": "lims-minneapolis-fileitem-2172-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-09-17T09:30:00",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Passage of Resolution approving the 2027operating plans, special services, cost estimates, service charges, and the lists of 2027service charges for the 50th & France, 54th & Lyndale, Bloomington-Lake, Chicago-Lake, East Lake Street, Lyndale-Lake, and West Broadway Improvement Special Service Districts (428A Districts).",
+      "isConsent": false,
+      "actionName": "Scheduled",
+      "passedFlagName": "Failed",
+      "matterFile": "2026-00857",
+      "matterId": null,
+      "matterType": "Resolution",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00857",
+      "votes": []
+    },
+    {
       "id": "lims-minneapolis-fileitem-2182-4",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-09-08T13:30:00",
       "sequence": null,
@@ -7756,6 +7910,21 @@
       "isConsent": false,
       "actionName": "Approved",
       "passedFlagName": "Passed",
+      "matterFile": "2026-00864",
+      "matterId": null,
+      "matterType": "Ordinance",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00864",
+      "votes": []
+    },
+    {
+      "id": "lims-minneapolis-fileitem-2182-5",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-09-17T09:30:00",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Passage of Ordinanceamending Title 13, Chapter 266of the Minneapolis Code of Ordinances relating to Licenses and Business Regulations: Rental Halls, amending, repealing and adding provisions related to rental halls and places of entertainment to create an event center license allowing for the hosting of both public and private events.",
+      "isConsent": false,
+      "actionName": "Scheduled",
+      "passedFlagName": "Failed",
       "matterFile": "2026-00864",
       "matterId": null,
       "matterType": "Ordinance",
@@ -7822,6 +7991,21 @@
       "votes": []
     },
     {
+      "id": "lims-minneapolis-fileitem-2252-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-09-17T09:30:00",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Authorizing an increase to contract COM0010259 with Jorgenson Construction, Inc., in the amount of $1,189.64, for a total amount not to exceed $778,695.77, for the Minneapolis Convention Center Mill City Pizzeria construction project.",
+      "isConsent": false,
+      "actionName": "Scheduled",
+      "passedFlagName": "Failed",
+      "matterFile": "2026-00903",
+      "matterId": null,
+      "matterType": "Action",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00903",
+      "votes": []
+    },
+    {
       "id": "lims-minneapolis-fileitem-2293-3",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-09-09T13:30:00",
       "sequence": null,
@@ -7830,6 +8014,21 @@
       "isConsent": false,
       "actionName": "Approved",
       "passedFlagName": "Passed",
+      "matterFile": "2026-00937",
+      "matterId": null,
+      "matterType": "Ordinance",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00937",
+      "votes": []
+    },
+    {
+      "id": "lims-minneapolis-fileitem-2293-4",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-09-17T09:30:00",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Passage of Ordinanceamending Title 16, Chapter 419 of the Minneapolis Code of Ordinances relating to Planning and Development: Neighborhood Revitalization Program, making technical changes to the process for conducting elections to the Neighborhood Revitalization Program policy board.",
+      "isConsent": false,
+      "actionName": "Scheduled",
+      "passedFlagName": "Failed",
       "matterFile": "2026-00937",
       "matterId": null,
       "matterType": "Ordinance",
@@ -7858,8 +8057,8 @@
       "agendaNumber": null,
       "title": "Receiving and filing a presentation from the Office of Community Safety (OCS) and Office of Public Service (OPS) on the progress of MDHR Settlement Agreement implementation.",
       "isConsent": false,
-      "actionName": "Scheduled",
-      "passedFlagName": "Failed",
+      "actionName": "Received and filed",
+      "passedFlagName": "Passed",
       "matterFile": "2026-00969",
       "matterId": null,
       "matterType": "Receive & File",
@@ -7882,6 +8081,21 @@
       "votes": []
     },
     {
+      "id": "lims-minneapolis-fileitem-2337-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-09-17T09:30:00",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Passage of Resolution accepting donation from International Association of Chiefs of Police (IACP) for Police InspectorRyan Kelly to attend the IACP 2026 Annual Conference and Expositionin Orlando, Florida, from October 24-28, 2026.",
+      "isConsent": false,
+      "actionName": "Scheduled",
+      "passedFlagName": "Failed",
+      "matterFile": "2026-00973",
+      "matterId": null,
+      "matterType": "Resolution",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00973",
+      "votes": []
+    },
+    {
       "id": "lims-minneapolis-fileitem-2338-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-09-09T13:30:00",
       "sequence": null,
@@ -7890,6 +8104,21 @@
       "isConsent": false,
       "actionName": "Approved",
       "passedFlagName": "Passed",
+      "matterFile": "2026-00974",
+      "matterId": null,
+      "matterType": "Resolution",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00974",
+      "votes": []
+    },
+    {
+      "id": "lims-minneapolis-fileitem-2338-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-09-17T09:30:00",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Passage of Resolution accepting donation from Texas State University for Police, Fire, and 911 employees to present at the2026 Advanced Law Enforcement Rapid Response Training (ALERRT) Conference in Round Rock, Texas, from November 16-19, 2026.",
+      "isConsent": false,
+      "actionName": "Scheduled",
+      "passedFlagName": "Failed",
       "matterFile": "2026-00974",
       "matterId": null,
       "matterType": "Resolution",
@@ -7912,6 +8141,21 @@
       "votes": []
     },
     {
+      "id": "lims-minneapolis-fileitem-2339-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-09-17T09:30:00",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Passage of Resolution accepting donation from CityMatch for Stephanie Graves, Maternal, Child, and Adolescent Health Manager, to attend the CityMatch conference in Portland, Oregon,from September 19-23, 2026.",
+      "isConsent": false,
+      "actionName": "Scheduled",
+      "passedFlagName": "Failed",
+      "matterFile": "2026-00975",
+      "matterId": null,
+      "matterType": "Resolution",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00975",
+      "votes": []
+    },
+    {
       "id": "lims-minneapolis-fileitem-2342-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-09-08T13:30:00",
       "sequence": null,
@@ -7920,6 +8164,21 @@
       "isConsent": false,
       "actionName": "Approved",
       "passedFlagName": "Passed",
+      "matterFile": "2026-00978",
+      "matterId": null,
+      "matterType": "Action",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00978",
+      "votes": []
+    },
+    {
+      "id": "lims-minneapolis-fileitem-2342-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-09-17T09:30:00",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Falls Liquor, 4604   MINNEHAHA AVE   Minneapolis, MN, (Ward 12) submitted by New Falls Liquor Inc, BLLiqOff, LIC432971",
+      "isConsent": false,
+      "actionName": "Scheduled",
+      "passedFlagName": "Failed",
       "matterFile": "2026-00978",
       "matterId": null,
       "matterType": "Action",
@@ -7942,6 +8201,21 @@
       "votes": []
     },
     {
+      "id": "lims-minneapolis-fileitem-2343-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-09-17T09:30:00",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Reign, 2901   HENNEPIN AVE   Minneapolis, MN, (Ward 10) submitted by UPTOWN HOSPITALITY INC, BLAmend, LIC433954",
+      "isConsent": false,
+      "actionName": "Scheduled",
+      "passedFlagName": "Failed",
+      "matterFile": "2026-00978",
+      "matterId": null,
+      "matterType": "Action",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00978",
+      "votes": []
+    },
+    {
       "id": "lims-minneapolis-fileitem-2344-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-09-08T13:30:00",
       "sequence": null,
@@ -7950,6 +8224,21 @@
       "isConsent": false,
       "actionName": "Approved",
       "passedFlagName": "Passed",
+      "matterFile": "2026-00979",
+      "matterId": null,
+      "matterType": "Action",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00979",
+      "votes": []
+    },
+    {
+      "id": "lims-minneapolis-fileitem-2344-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-09-17T09:30:00",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "El Taco Riendo, 2412   CENTRAL AVE NE Minneapolis, MN, (Ward 1) submitted by El Taco Riendo LLC, BLWine, LIC65240",
+      "isConsent": false,
+      "actionName": "Scheduled",
+      "passedFlagName": "Failed",
       "matterFile": "2026-00979",
       "matterId": null,
       "matterType": "Action",
@@ -7972,6 +8261,21 @@
       "votes": []
     },
     {
+      "id": "lims-minneapolis-fileitem-2345-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-09-17T09:30:00",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Central Ave Liquor, 2538   CENTRAL AVE NE Minneapolis, MN, (Ward 1) submitted by McCleary Wine & Spirits LLC, BLLiqOff, LIC54096",
+      "isConsent": false,
+      "actionName": "Scheduled",
+      "passedFlagName": "Failed",
+      "matterFile": "2026-00979",
+      "matterId": null,
+      "matterType": "Action",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00979",
+      "votes": []
+    },
+    {
       "id": "lims-minneapolis-fileitem-2346-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-09-08T13:30:00",
       "sequence": null,
@@ -7980,6 +8284,21 @@
       "isConsent": false,
       "actionName": "Approved",
       "passedFlagName": "Passed",
+      "matterFile": "2026-00979",
+      "matterId": null,
+      "matterType": "Action",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00979",
+      "votes": []
+    },
+    {
+      "id": "lims-minneapolis-fileitem-2346-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-09-17T09:30:00",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Dreamstate Cafe, 2558   LYNDALE AVE S Minneapolis, MN, (Ward 10) submitted by Bombus Concepts LLC, BLLiquor, LIC422451",
+      "isConsent": false,
+      "actionName": "Scheduled",
+      "passedFlagName": "Failed",
       "matterFile": "2026-00979",
       "matterId": null,
       "matterType": "Action",
@@ -8002,6 +8321,21 @@
       "votes": []
     },
     {
+      "id": "lims-minneapolis-fileitem-2347-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-09-17T09:30:00",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Otter's Saloon, 617   CENTRAL AVE NE Minneapolis, MN, (Ward 3) submitted by Lynn M Vashro Inc, BLLiquor, LIC79180",
+      "isConsent": false,
+      "actionName": "Scheduled",
+      "passedFlagName": "Failed",
+      "matterFile": "2026-00979",
+      "matterId": null,
+      "matterType": "Action",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00979",
+      "votes": []
+    },
+    {
       "id": "lims-minneapolis-fileitem-2348-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-09-08T13:30:00",
       "sequence": null,
@@ -8010,6 +8344,21 @@
       "isConsent": false,
       "actionName": "Approved",
       "passedFlagName": "Passed",
+      "matterFile": "2026-00979",
+      "matterId": null,
+      "matterType": "Action",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00979",
+      "votes": []
+    },
+    {
+      "id": "lims-minneapolis-fileitem-2348-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-09-17T09:30:00",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Patisserie 46, 4552   GRAND AVE S Minneapolis, MN, (Ward 8) submitted by Big River Baking Company LLC, BLLiquor, LIC382296",
+      "isConsent": false,
+      "actionName": "Scheduled",
+      "passedFlagName": "Failed",
       "matterFile": "2026-00979",
       "matterId": null,
       "matterType": "Action",
@@ -8032,6 +8381,21 @@
       "votes": []
     },
     {
+      "id": "lims-minneapolis-fileitem-2349-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-09-17T09:30:00",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Zelo, 831   NICOLLET MALL     Minneapolis, MN, (Ward 7) submitted by Z Restaurant LLC, BLLiquor, LIC407110",
+      "isConsent": false,
+      "actionName": "Scheduled",
+      "passedFlagName": "Failed",
+      "matterFile": "2026-00979",
+      "matterId": null,
+      "matterType": "Action",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00979",
+      "votes": []
+    },
+    {
       "id": "lims-minneapolis-fileitem-2350-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-09-08T13:30:00",
       "sequence": null,
@@ -8040,6 +8404,21 @@
       "isConsent": false,
       "actionName": "Approved",
       "passedFlagName": "Passed",
+      "matterFile": "2026-00979",
+      "matterId": null,
+      "matterType": "Action",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00979",
+      "votes": []
+    },
+    {
+      "id": "lims-minneapolis-fileitem-2350-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-09-17T09:30:00",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Zipp's Liquors, 2618   FRANKLIN AVE E Minneapolis, MN, (Ward 6) submitted by Zipp's Liquor Store Inc, BLLiqOff, LIC54005",
+      "isConsent": false,
+      "actionName": "Scheduled",
+      "passedFlagName": "Failed",
       "matterFile": "2026-00979",
       "matterId": null,
       "matterType": "Action",
@@ -8062,6 +8441,21 @@
       "votes": []
     },
     {
+      "id": "lims-minneapolis-fileitem-2351-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-09-17T09:30:00",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Chops Inc, 328   WEST BROADWAY     Minneapolis, MN, (Ward 5) submitted by Chops Inc, BLGeneral, LIC433803",
+      "isConsent": false,
+      "actionName": "Scheduled",
+      "passedFlagName": "Failed",
+      "matterFile": "2026-00980",
+      "matterId": null,
+      "matterType": "Action",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00980",
+      "votes": []
+    },
+    {
       "id": "lims-minneapolis-fileitem-2352-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-09-08T13:30:00",
       "sequence": null,
@@ -8070,6 +8464,21 @@
       "isConsent": false,
       "actionName": "Approved",
       "passedFlagName": "Passed",
+      "matterFile": "2026-00980",
+      "matterId": null,
+      "matterType": "Action",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00980",
+      "votes": []
+    },
+    {
+      "id": "lims-minneapolis-fileitem-2352-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-09-17T09:30:00",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "St. Maron Church, 602   UNIVERSITY AVE NE Minneapolis, MN, (Ward 3) submitted by ST MARON CHURCH, BLGeneral, LIC433905",
+      "isConsent": false,
+      "actionName": "Scheduled",
+      "passedFlagName": "Failed",
       "matterFile": "2026-00980",
       "matterId": null,
       "matterType": "Action",
@@ -8092,6 +8501,21 @@
       "votes": []
     },
     {
+      "id": "lims-minneapolis-fileitem-2353-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-09-17T09:30:00",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "City  of Lakes Youth Hockey Association, 3601   LAKE ST E Minneapolis, MN, (Ward 9) submitted by City  of Lakes Youth Hockey Association, BLGeneral, LIC426605",
+      "isConsent": false,
+      "actionName": "Scheduled",
+      "passedFlagName": "Failed",
+      "matterFile": "2026-00981",
+      "matterId": null,
+      "matterType": "Action",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00981",
+      "votes": []
+    },
+    {
       "id": "lims-minneapolis-fileitem-2354-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-09-08T13:30:00",
       "sequence": null,
@@ -8100,6 +8524,21 @@
       "isConsent": false,
       "actionName": "Approved",
       "passedFlagName": "Passed",
+      "matterFile": "2026-00981",
+      "matterId": null,
+      "matterType": "Action",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00981",
+      "votes": []
+    },
+    {
+      "id": "lims-minneapolis-fileitem-2354-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-09-17T09:30:00",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "City of Lakes Youth Hockey Association, 16   6TH ST S Minneapolis, MN, (Ward 7) submitted by City of Lakes Youth Hockey Association, BLGeneral, LIC426648",
+      "isConsent": false,
+      "actionName": "Scheduled",
+      "passedFlagName": "Failed",
       "matterFile": "2026-00981",
       "matterId": null,
       "matterType": "Action",
@@ -8122,6 +8561,21 @@
       "votes": []
     },
     {
+      "id": "lims-minneapolis-fileitem-2355-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-09-17T09:30:00",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "City of Lakes Youth Hockey Association, 508   1ST AVE N Minneapolis, MN, (Ward 7) submitted by City of Lakes Youth Hockey Association, BLGeneral, LIC426679",
+      "isConsent": false,
+      "actionName": "Scheduled",
+      "passedFlagName": "Failed",
+      "matterFile": "2026-00981",
+      "matterId": null,
+      "matterType": "Action",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00981",
+      "votes": []
+    },
+    {
       "id": "lims-minneapolis-fileitem-2356-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-09-08T13:30:00",
       "sequence": null,
@@ -8130,6 +8584,21 @@
       "isConsent": false,
       "actionName": "Approved",
       "passedFlagName": "Passed",
+      "matterFile": "2026-00982",
+      "matterId": null,
+      "matterType": "Action",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00982",
+      "votes": []
+    },
+    {
+      "id": "lims-minneapolis-fileitem-2356-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-09-17T09:30:00",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Tropico, 10   5TH ST S Minneapolis, MN, (Ward 7) submitted by Tropico Colombian Street Food LLC, BLLiquor, LIC431435",
+      "isConsent": false,
+      "actionName": "Scheduled",
+      "passedFlagName": "Failed",
       "matterFile": "2026-00982",
       "matterId": null,
       "matterType": "Action",
@@ -8152,6 +8621,21 @@
       "votes": []
     },
     {
+      "id": "lims-minneapolis-fileitem-2358-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-09-17T09:30:00",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Authorizing a no-cost contract with StateRAMP, Inc. (dba GovRAMP), for a term of three (3) years, Oct1, 2026, through Sep30, 2029, with the option to extend for two (2) additional one-year terms or one (1) additional two-year term, to provide a standardized approach to evaluating cloud service provider cybersecurity practices.",
+      "isConsent": false,
+      "actionName": "Scheduled",
+      "passedFlagName": "Failed",
+      "matterFile": "2026-00984",
+      "matterId": null,
+      "matterType": "Action",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00984",
+      "votes": []
+    },
+    {
       "id": "lims-minneapolis-fileitem-2359-0",
       "meeting_id": "lims-minneapolis-meeting-enterprise-labor-relations-committee-2026-09-08T10:00:00",
       "sequence": null,
@@ -8167,14 +8651,44 @@
       "votes": []
     },
     {
+      "id": "lims-minneapolis-fileitem-2359-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-09-17T09:30:00",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Authorizing an increase to contract COM0004501 with Perceptyx, Inc., in the amount of $116,936.10for a total not to exceed amount of $382,436.10, and an extension through Dec31, 2028, for continued services for the MyMinneapolis Employee Engagement Survey.",
+      "isConsent": false,
+      "actionName": "Scheduled",
+      "passedFlagName": "Failed",
+      "matterFile": "2026-00985",
+      "matterId": null,
+      "matterType": "Action",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00985",
+      "votes": []
+    },
+    {
       "id": "lims-minneapolis-fileitem-2360-0",
       "meeting_id": "lims-minneapolis-meeting-climate-infrastructure-committee-2026-09-10T13:30:00",
       "sequence": null,
       "agendaNumber": null,
-      "title": "Authorizing an increase to contract COM0008654 with JLTheis, Inc. in the amount of $5,652.00 for a total amount not to exceed $1,639,713.46, and an extension through Dec 31, 2026, for construction on the 1st Ave S Reconstruction Green Stormwater Infrastructure project.",
+      "title": "Authorizing an increase to contract COM0008654 with JLTheis, Inc. in the amount of $5,652for a total amount not to exceed $1,639,713.46, and an extension through Dec 31, 2026, for construction on the 1st Ave S Reconstruction Green Stormwater Infrastructure project.",
       "isConsent": false,
       "actionName": "Approved",
       "passedFlagName": "Passed",
+      "matterFile": "2026-00986",
+      "matterId": null,
+      "matterType": "Action",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00986",
+      "votes": []
+    },
+    {
+      "id": "lims-minneapolis-fileitem-2360-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-09-17T09:30:00",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Authorizing an increase to contract COM0008654 with JLTheis, Inc. in the amount of $5,652for a total amount not to exceed $1,639,713.46, and an extension through Dec 31, 2026, for construction on the 1st Ave S Reconstruction Green Stormwater Infrastructure project.",
+      "isConsent": false,
+      "actionName": "Scheduled",
+      "passedFlagName": "Failed",
       "matterFile": "2026-00986",
       "matterId": null,
       "matterType": "Action",
@@ -8190,6 +8704,21 @@
       "isConsent": false,
       "actionName": "Approved",
       "passedFlagName": "Passed",
+      "matterFile": "2026-00987",
+      "matterId": null,
+      "matterType": "Action",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00987",
+      "votes": []
+    },
+    {
+      "id": "lims-minneapolis-fileitem-2361-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-09-17T09:30:00",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Authorizing an increase to Contract COM0011315 with Thomas and Sons Construction, Inc. in the amount of $207,574for a total amount not to exceed $1,721,815.50, for additional work necessary to complete the 42nd St Intersection Safety Improvements, all in accordance with City specifications.",
+      "isConsent": false,
+      "actionName": "Scheduled",
+      "passedFlagName": "Failed",
       "matterFile": "2026-00987",
       "matterId": null,
       "matterType": "Action",
@@ -8241,6 +8770,21 @@
       ]
     },
     {
+      "id": "lims-minneapolis-fileitem-2362-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-09-17T09:30:00",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Approving the workers' compensation claim of Jason Andersen by payment of $150,000 to Jason Andersen and attorney Meshbesher & Spence Law Firm, and authorizing the City Attorney's Office to execute any documents necessary to effectuate the settlement.",
+      "isConsent": false,
+      "actionName": "Scheduled",
+      "passedFlagName": "Failed",
+      "matterFile": "2026-00988",
+      "matterId": null,
+      "matterType": "Action",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00988",
+      "votes": []
+    },
+    {
       "id": "lims-minneapolis-fileitem-2363-0",
       "meeting_id": "lims-minneapolis-meeting-enterprise-labor-relations-committee-2026-09-08T10:00:00",
       "sequence": null,
@@ -8249,6 +8793,21 @@
       "isConsent": false,
       "actionName": "Approved",
       "passedFlagName": "Passed",
+      "matterFile": "2026-00989",
+      "matterId": null,
+      "matterType": "Action",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00989",
+      "votes": []
+    },
+    {
+      "id": "lims-minneapolis-fileitem-2363-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-09-17T09:30:00",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Approving the settlement of the claims of Therma Spray, Inc.inTherma Spray, Inc. v. City of Minneapolis, et al., Case No. 27-CV-21-8914 (Henn. Cnty.), by payment of $161,646.29 to themediator's trust account, \"Cook Law & ADR, PLLC Trust Account\",and authorizing the City Attorney's Office to execute any documents necessary to effectuate the settlement.",
+      "isConsent": false,
+      "actionName": "Scheduled",
+      "passedFlagName": "Failed",
       "matterFile": "2026-00989",
       "matterId": null,
       "matterType": "Action",
@@ -8271,6 +8830,21 @@
       "votes": []
     },
     {
+      "id": "lims-minneapolis-fileitem-2364-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-09-17T09:30:00",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Authorizing program changes to theMinneapolis Homes: Access Downpayment Assistance program.",
+      "isConsent": false,
+      "actionName": "Scheduled",
+      "passedFlagName": "Failed",
+      "matterFile": "2026-00990",
+      "matterId": null,
+      "matterType": "Action",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00990",
+      "votes": []
+    },
+    {
       "id": "lims-minneapolis-fileitem-2365-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-09-08T13:30:00",
       "sequence": null,
@@ -8279,6 +8853,21 @@
       "isConsent": false,
       "actionName": "Approved",
       "passedFlagName": "Passed",
+      "matterFile": "2026-00991",
+      "matterId": null,
+      "matterType": "Resolution",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00991",
+      "votes": []
+    },
+    {
+      "id": "lims-minneapolis-fileitem-2365-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-09-17T09:30:00",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Passage of Resolution authorizing host approval for the issuance of tax-exempt revenue bonds by the Minnesota Health and Higher Education Facilities Authority (MHEFA) to finance property purchases includingMinnehaha Senior Living located at 3733 23rd Ave S.",
+      "isConsent": false,
+      "actionName": "Scheduled",
+      "passedFlagName": "Failed",
       "matterFile": "2026-00991",
       "matterId": null,
       "matterType": "Resolution",
@@ -8301,6 +8890,21 @@
       "votes": []
     },
     {
+      "id": "lims-minneapolis-fileitem-2366-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-09-17T09:30:00",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Authorizing an agreement with Sherman Associates for the installation and maintenance of public art on the Riverfront Municipal Parking Ramp.",
+      "isConsent": false,
+      "actionName": "Scheduled",
+      "passedFlagName": "Failed",
+      "matterFile": "2026-00992",
+      "matterId": null,
+      "matterType": "Action",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00992",
+      "votes": []
+    },
+    {
       "id": "lims-minneapolis-fileitem-2367-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-09-09T13:30:00",
       "sequence": null,
@@ -8309,6 +8913,21 @@
       "isConsent": false,
       "actionName": "Approved",
       "passedFlagName": "Passed",
+      "matterFile": "2026-00993",
+      "matterId": null,
+      "matterType": "Action",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00993",
+      "votes": []
+    },
+    {
+      "id": "lims-minneapolis-fileitem-2367-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-09-17T09:30:00",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Approving Haddayr Copley-Woods for appointment to Seat 9 beginning July 1, 2026, and ending June 30, 2028.",
+      "isConsent": false,
+      "actionName": "Scheduled",
+      "passedFlagName": "Failed",
       "matterFile": "2026-00993",
       "matterId": null,
       "matterType": "Action",
@@ -8331,6 +8950,21 @@
       "votes": []
     },
     {
+      "id": "lims-minneapolis-fileitem-2368-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-09-17T09:30:00",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Approving Afifa Muhumed for appointment to Seat 6 beginning July 1, 2025, and ending June 30, 2027.",
+      "isConsent": false,
+      "actionName": "Scheduled",
+      "passedFlagName": "Failed",
+      "matterFile": "2026-00993",
+      "matterId": null,
+      "matterType": "Action",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00993",
+      "votes": []
+    },
+    {
       "id": "lims-minneapolis-fileitem-2369-0",
       "meeting_id": "lims-minneapolis-meeting-climate-infrastructure-committee-2026-09-10T13:30:00",
       "sequence": null,
@@ -8339,6 +8973,21 @@
       "isConsent": false,
       "actionName": "Approved",
       "passedFlagName": "Passed",
+      "matterFile": "2026-00994",
+      "matterId": null,
+      "matterType": "Resolution",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00994",
+      "votes": []
+    },
+    {
+      "id": "lims-minneapolis-fileitem-2369-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-09-17T09:30:00",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Passage of Resolution accepting donation from Cities Today Institute for Kelsey Fogt, Interim Transportation Planning Manager, to attend the City Leadership Forum on Mobility in Peachtree Corners, GA, October 21-22, 2026.",
+      "isConsent": false,
+      "actionName": "Scheduled",
+      "passedFlagName": "Failed",
       "matterFile": "2026-00994",
       "matterId": null,
       "matterType": "Resolution",
@@ -8361,7 +9010,37 @@
       "votes": []
     },
     {
+      "id": "lims-minneapolis-fileitem-2370-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-09-17T09:30:00",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Authorizing an increase to contractC-34067 with Starlims Corporation, in the amount of$70,673.39, for a new not-to-exceed total of $609,569.67, and an extension for an additional three (3) years through Oct 27, 2029,for the support and maintenance of the City’s Laboratory Information Management System (“STARLIMS”), and updating certain terms and conditions to reflect current standards.",
+      "isConsent": false,
+      "actionName": "Scheduled",
+      "passedFlagName": "Failed",
+      "matterFile": "2026-00996",
+      "matterId": null,
+      "matterType": "Action",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00996",
+      "votes": []
+    },
+    {
       "id": "lims-minneapolis-fileitem-2371-0",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-09-17T09:30:00",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Passage of Resolution honoring and recognizing Community Health Workers.",
+      "isConsent": false,
+      "actionName": "Scheduled",
+      "passedFlagName": "Failed",
+      "matterFile": "2026-00997",
+      "matterId": null,
+      "matterType": "Resolution",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00997",
+      "votes": []
+    },
+    {
+      "id": "lims-minneapolis-fileitem-2372-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-09-09T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -8376,7 +9055,22 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2372-0",
+      "id": "lims-minneapolis-fileitem-2372-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-09-17T09:30:00",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Accepting a grant from the Subaru Loves Pets Program in the amount of $4,000, to support Animal Care &Control with waived or discounted adoption fees, eligible staffing costs, veterinary supplies, and a public spay/neuter or vaccination event in October 2026.",
+      "isConsent": false,
+      "actionName": "Scheduled",
+      "passedFlagName": "Failed",
+      "matterFile": "2026-00998",
+      "matterId": null,
+      "matterType": "Action",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00998",
+      "votes": []
+    },
+    {
+      "id": "lims-minneapolis-fileitem-2373-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-09-09T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -8391,7 +9085,22 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2373-0",
+      "id": "lims-minneapolis-fileitem-2373-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-09-17T09:30:00",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Passage of Resolution approving appropriation of funds to the Regulatory Services Department.",
+      "isConsent": false,
+      "actionName": "Scheduled",
+      "passedFlagName": "Failed",
+      "matterFile": "2026-00998",
+      "matterId": null,
+      "matterType": "Resolution",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00998",
+      "votes": []
+    },
+    {
+      "id": "lims-minneapolis-fileitem-2374-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-09-08T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -8406,7 +9115,22 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2374-0",
+      "id": "lims-minneapolis-fileitem-2374-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-09-17T09:30:00",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Accepting the Spring2026Metropolitan Council Livable CommunitiesAccount (LCA) grants, in the amount of $1,000,000, for the 250 Fremont project at 250 Fremont Ave N, and in the amount $410,000, for the Dreamland on 38th project at 3800 3rd Ave S.",
+      "isConsent": false,
+      "actionName": "Scheduled",
+      "passedFlagName": "Failed",
+      "matterFile": "2026-00999",
+      "matterId": null,
+      "matterType": "Action",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00999",
+      "votes": []
+    },
+    {
+      "id": "lims-minneapolis-fileitem-2375-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-09-08T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -8421,7 +9145,22 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2375-0",
+      "id": "lims-minneapolis-fileitem-2375-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-09-17T09:30:00",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Authorizing agreements to implement the LCA grants with the Metropolitan Council, Dreamland Holdings, and Minneapolis I Limited Partnership, or related entities.",
+      "isConsent": false,
+      "actionName": "Scheduled",
+      "passedFlagName": "Failed",
+      "matterFile": "2026-00999",
+      "matterId": null,
+      "matterType": "Action",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00999",
+      "votes": []
+    },
+    {
+      "id": "lims-minneapolis-fileitem-2376-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-09-08T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -8436,7 +9175,22 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2376-0",
+      "id": "lims-minneapolis-fileitem-2376-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-09-17T09:30:00",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Passage of Resolution approving appropriation of funds to the Community Planning & Economic Development Department.",
+      "isConsent": false,
+      "actionName": "Scheduled",
+      "passedFlagName": "Failed",
+      "matterFile": "2026-00999",
+      "matterId": null,
+      "matterType": "Resolution",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00999",
+      "votes": []
+    },
+    {
+      "id": "lims-minneapolis-fileitem-2377-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-09-08T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -8451,7 +9205,22 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2378-0",
+      "id": "lims-minneapolis-fileitem-2377-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-09-17T09:30:00",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Passage of Resolution authorizing the submittal of Fall 2026 grant applications to the Metropolitan Council Livable Communities grant program for the following projects on city-owned land: New Nicollet Phase 1, and Penn Lowry.",
+      "isConsent": false,
+      "actionName": "Scheduled",
+      "passedFlagName": "Failed",
+      "matterFile": "2026-00999",
+      "matterId": null,
+      "matterType": "Resolution",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00999",
+      "votes": []
+    },
+    {
+      "id": "lims-minneapolis-fileitem-2379-0",
       "meeting_id": "lims-minneapolis-meeting-climate-infrastructure-committee-2026-09-10T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -8466,7 +9235,22 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2379-0",
+      "id": "lims-minneapolis-fileitem-2379-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-09-17T09:30:00",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Accepting the low bid of Standard Sidewalk Inc. submitted on Event 4160, in the amount of $173,493, to provide all materials, labor, equipment and incidentals necessary for the ADA Pedestrian Ramp Installation citywide, and authorizing a contract for the project, all in accordance with City specifications.",
+      "isConsent": false,
+      "actionName": "Scheduled",
+      "passedFlagName": "Failed",
+      "matterFile": "2026-01001",
+      "matterId": null,
+      "matterType": "Action",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01001",
+      "votes": []
+    },
+    {
+      "id": "lims-minneapolis-fileitem-2380-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-09-09T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -8481,7 +9265,22 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2380-0",
+      "id": "lims-minneapolis-fileitem-2380-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-09-17T09:30:00",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Accepting a reimbursement from the Minnesota Board of Firefighter Training and Education (MBFTE), in the amount of $35,580, for approvedtrainings conducted between July 1, 2025, and June 30, 2026.",
+      "isConsent": false,
+      "actionName": "Scheduled",
+      "passedFlagName": "Failed",
+      "matterFile": "2026-01003",
+      "matterId": null,
+      "matterType": "Action",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01003",
+      "votes": []
+    },
+    {
+      "id": "lims-minneapolis-fileitem-2381-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-09-09T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -8496,7 +9295,22 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2381-0",
+      "id": "lims-minneapolis-fileitem-2381-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-09-17T09:30:00",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Passage of Resolution approving appropriation of funds to the Fire Department.",
+      "isConsent": false,
+      "actionName": "Scheduled",
+      "passedFlagName": "Failed",
+      "matterFile": "2026-01003",
+      "matterId": null,
+      "matterType": "Resolution",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01003",
+      "votes": []
+    },
+    {
+      "id": "lims-minneapolis-fileitem-2382-0",
       "meeting_id": "lims-minneapolis-meeting-climate-infrastructure-committee-2026-09-10T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -8511,7 +9325,22 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2382-0",
+      "id": "lims-minneapolis-fileitem-2382-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-09-17T09:30:00",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Accepting the second low bid of Automated Logic Contracting, submitted on Event 4129, in the amount of $391,996, to provide all materials, labor, equipment and incidentals necessary for the Hawthorne Ramp Building Automation System Upgrade, and authorizing a contract for the project, all in accordance with City specifications.",
+      "isConsent": false,
+      "actionName": "Scheduled",
+      "passedFlagName": "Failed",
+      "matterFile": "2026-01004",
+      "matterId": null,
+      "matterType": "Action",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01004",
+      "votes": []
+    },
+    {
+      "id": "lims-minneapolis-fileitem-2383-0",
       "meeting_id": "lims-minneapolis-meeting-climate-infrastructure-committee-2026-09-10T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -8526,7 +9355,22 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2383-0",
+      "id": "lims-minneapolis-fileitem-2383-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-09-17T09:30:00",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Authorizing an increase to Contract COM0011310 with Thomas and Sons Construction, Inc. in the amount of $209,545.16 for a total amount not to exceed $8,869,994.16, for additional work necessary to complete the 1st Avenue South Reconstruction Project, all in accordance with City specifications.",
+      "isConsent": false,
+      "actionName": "Scheduled",
+      "passedFlagName": "Failed",
+      "matterFile": "2026-01005",
+      "matterId": null,
+      "matterType": "Action",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01005",
+      "votes": []
+    },
+    {
+      "id": "lims-minneapolis-fileitem-2384-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-09-09T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -8541,7 +9385,22 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2384-0",
+      "id": "lims-minneapolis-fileitem-2384-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-09-17T09:30:00",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Passage of Resolution rescinding Resolution 2026R-201 accepting donation from the Minneapolis Fire Foundation of Motorola APX 6000 portable radio kits to enhance operational efficiency and communication.",
+      "isConsent": false,
+      "actionName": "Scheduled",
+      "passedFlagName": "Failed",
+      "matterFile": "2026-01006",
+      "matterId": null,
+      "matterType": "Resolution",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01006",
+      "votes": []
+    },
+    {
+      "id": "lims-minneapolis-fileitem-2385-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-09-09T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -8556,7 +9415,22 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2385-0",
+      "id": "lims-minneapolis-fileitem-2385-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-09-17T09:30:00",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Accepting the 2026 Gary Sinise Foundation First Responder Outreach Grant, in the amount of $49,998.15, for the purchase of 7 Motorola APX 6000 portable radio kits to enhance operational efficiency and communication.",
+      "isConsent": false,
+      "actionName": "Scheduled",
+      "passedFlagName": "Failed",
+      "matterFile": "2026-01006",
+      "matterId": null,
+      "matterType": "Action",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01006",
+      "votes": []
+    },
+    {
+      "id": "lims-minneapolis-fileitem-2386-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-09-09T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -8571,7 +9445,22 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2386-0",
+      "id": "lims-minneapolis-fileitem-2386-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-09-17T09:30:00",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Passage of Resolution approving appropriation of fundsto the Fire Department.",
+      "isConsent": false,
+      "actionName": "Scheduled",
+      "passedFlagName": "Failed",
+      "matterFile": "2026-01006",
+      "matterId": null,
+      "matterType": "Resolution",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01006",
+      "votes": []
+    },
+    {
+      "id": "lims-minneapolis-fileitem-2387-0",
       "meeting_id": "lims-minneapolis-meeting-climate-infrastructure-committee-2026-09-10T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -8586,7 +9475,22 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2387-0",
+      "id": "lims-minneapolis-fileitem-2387-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-09-17T09:30:00",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Approving a legislative directive related to Commercial and multifamily energy disclosure repeal ordinance.",
+      "isConsent": false,
+      "actionName": "Scheduled",
+      "passedFlagName": "Failed",
+      "matterFile": "2026-01007",
+      "matterId": null,
+      "matterType": "Action",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01007",
+      "votes": []
+    },
+    {
+      "id": "lims-minneapolis-fileitem-2388-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-09-08T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -8601,7 +9505,22 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2388-0",
+      "id": "lims-minneapolis-fileitem-2388-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-09-17T09:30:00",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Approving partial principal debt forgiveness in the amount of $151,045 of an Affordable Housing Trust Fund (AHTF) loan to North Penn Supportive Housing, LLC, and all accrued interest on the loan through September 15, 2026, forthe 3631 Penn Ave N project.",
+      "isConsent": false,
+      "actionName": "Scheduled",
+      "passedFlagName": "Failed",
+      "matterFile": "2026-01011",
+      "matterId": null,
+      "matterType": "Action",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01011",
+      "votes": []
+    },
+    {
+      "id": "lims-minneapolis-fileitem-2389-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-09-08T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -8616,7 +9535,22 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2389-0",
+      "id": "lims-minneapolis-fileitem-2389-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-09-17T09:30:00",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Approvinga reduction of the interest rate on the remaining principal of the existing City loan on the 3631 Penn Ave N project to 0% effective September 15, 2026.",
+      "isConsent": false,
+      "actionName": "Scheduled",
+      "passedFlagName": "Failed",
+      "matterFile": "2026-01011",
+      "matterId": null,
+      "matterType": "Action",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01011",
+      "votes": []
+    },
+    {
+      "id": "lims-minneapolis-fileitem-2390-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-09-08T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -8631,7 +9565,67 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2395-0",
+      "id": "lims-minneapolis-fileitem-2390-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-09-17T09:30:00",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Authorizing the drafting and execution of the necessary documents to facilitate the transactions described in this report.",
+      "isConsent": false,
+      "actionName": "Scheduled",
+      "passedFlagName": "Failed",
+      "matterFile": "2026-01011",
+      "matterId": null,
+      "matterType": "Action",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01011",
+      "votes": []
+    },
+    {
+      "id": "lims-minneapolis-fileitem-2391-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-09-17T09:30:00",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Passage of Ordinance amending Title 20 of the Minneapolis Code of Ordinances relating to Zoning Code, updating development standards for dwellings with one to three units:\n\n\n\tChapter 535 Overlay Districts\n\tChapter 540 Built Form Overlay Districts\n\tChapter 545 Use Regulations\n\tChapter 550 Development Standards\n\tChapter 565 Definitions",
+      "isConsent": false,
+      "actionName": "Scheduled",
+      "passedFlagName": "Failed",
+      "matterFile": "2026-01012",
+      "matterId": null,
+      "matterType": "Ordinance",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01012",
+      "votes": []
+    },
+    {
+      "id": "lims-minneapolis-fileitem-2392-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-09-17T09:30:00",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Passage of Ordinance amending Title 22, Chapter 598 of the Minneapolis Code of Ordinances relating to Land Subdivision: Land Subdivision Regulations, updating subdivision standards for dwellings with one to three units in conjunction with related changes to the Zoning Code.",
+      "isConsent": false,
+      "actionName": "Scheduled",
+      "passedFlagName": "Failed",
+      "matterFile": "2026-01012",
+      "matterId": null,
+      "matterType": "Ordinance",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01012",
+      "votes": []
+    },
+    {
+      "id": "lims-minneapolis-fileitem-2395-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-09-17T09:30:00",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Passage of Ordinanceamending Title 13, Chapter 259 of the Minneapolis Code of Ordinances relating to Licenses and Business Regulations: In General, requiring certain commercial leases to be in writing.",
+      "isConsent": false,
+      "actionName": "Scheduled",
+      "passedFlagName": "Failed",
+      "matterFile": "2026-01015",
+      "matterId": null,
+      "matterType": "Ordinance",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01015",
+      "votes": []
+    },
+    {
+      "id": "lims-minneapolis-fileitem-2396-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-09-08T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -8646,7 +9640,22 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2396-0",
+      "id": "lims-minneapolis-fileitem-2396-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-09-17T09:30:00",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Authorizing a Master Contract with The 106 Group LTD.,in the amount not to exceed $500,000, with individual project work orders not to exceed $300,000, for a term of three (3) years, starting October 1, 2026, through September 30, 2029, for the 2026-2029 Planning Consulting Pool.",
+      "isConsent": false,
+      "actionName": "Scheduled",
+      "passedFlagName": "Failed",
+      "matterFile": "2026-01016",
+      "matterId": null,
+      "matterType": "Action",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01016",
+      "votes": []
+    },
+    {
+      "id": "lims-minneapolis-fileitem-2397-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-09-08T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -8661,7 +9670,22 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2397-0",
+      "id": "lims-minneapolis-fileitem-2397-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-09-17T09:30:00",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Authorizing a Master Contract with Aecom Technical Services,in the amount not to exceed $500,000, with individual project work orders not to exceed $300,000, for a term of three (3) years, starting October 1, 2026, through September 30, 2029, for the 2026-2029 Planning Consulting Pool.",
+      "isConsent": false,
+      "actionName": "Scheduled",
+      "passedFlagName": "Failed",
+      "matterFile": "2026-01016",
+      "matterId": null,
+      "matterType": "Action",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01016",
+      "votes": []
+    },
+    {
+      "id": "lims-minneapolis-fileitem-2398-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-09-08T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -8676,7 +9700,22 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2398-0",
+      "id": "lims-minneapolis-fileitem-2398-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-09-17T09:30:00",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Authorizing a Master Contract with Bolton & Menk, Inc.,in the amount not to exceed $500,000, with individual project work orders not to exceed $300,000, for a term of three (3) years, starting October 1, 2026, through September 30, 2029, for the 2026-2029 Planning Consulting Pool.",
+      "isConsent": false,
+      "actionName": "Scheduled",
+      "passedFlagName": "Failed",
+      "matterFile": "2026-01016",
+      "matterId": null,
+      "matterType": "Action",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01016",
+      "votes": []
+    },
+    {
+      "id": "lims-minneapolis-fileitem-2399-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-09-08T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -8691,7 +9730,22 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2399-0",
+      "id": "lims-minneapolis-fileitem-2399-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-09-17T09:30:00",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Authorizing a Master Contract with Geographic Technologies Group Inc.,in the amount not to exceed $500,000, with individual project work orders not to exceed $300,000, for a term of three (3) years, starting October 1, 2026, through September 30, 2029, for the 2026-2029 Planning Consulting Pool.",
+      "isConsent": false,
+      "actionName": "Scheduled",
+      "passedFlagName": "Failed",
+      "matterFile": "2026-01016",
+      "matterId": null,
+      "matterType": "Action",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01016",
+      "votes": []
+    },
+    {
+      "id": "lims-minneapolis-fileitem-2400-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-09-08T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -8706,7 +9760,22 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2400-0",
+      "id": "lims-minneapolis-fileitem-2400-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-09-17T09:30:00",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Authorizing a Master Contract with Guidehouse, Inc.,in the amount not to exceed $500,000, with individual project work orders not to exceed $300,000, for a term of three (3) years, starting October 1, 2026, through September 30, 2029, for the 2026-2029 Planning Consulting Pool.",
+      "isConsent": false,
+      "actionName": "Scheduled",
+      "passedFlagName": "Failed",
+      "matterFile": "2026-01016",
+      "matterId": null,
+      "matterType": "Action",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01016",
+      "votes": []
+    },
+    {
+      "id": "lims-minneapolis-fileitem-2401-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-09-08T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -8721,7 +9790,22 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2401-0",
+      "id": "lims-minneapolis-fileitem-2401-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-09-17T09:30:00",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Authorizing a Master Contract with Hess, Roise and Company, LTD.,in the amount not to exceed $500,000, with individual project work orders not to exceed $300,000, for a term of three (3) years, starting October 1, 2026, through September 30, 2029, for the 2026-2029 Planning Consulting Pool.",
+      "isConsent": false,
+      "actionName": "Scheduled",
+      "passedFlagName": "Failed",
+      "matterFile": "2026-01016",
+      "matterId": null,
+      "matterType": "Action",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01016",
+      "votes": []
+    },
+    {
+      "id": "lims-minneapolis-fileitem-2402-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-09-08T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -8736,7 +9820,22 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2402-0",
+      "id": "lims-minneapolis-fileitem-2402-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-09-17T09:30:00",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Authorizing a Master Contract with Lawal Scott Erickson Architects, Inc. dba LSE Architects,in the amount not to exceed $500,000, with individual project work orders not to exceed $300,000, for a term of three (3) years, starting October 1, 2026, through September 30, 2029, for the 2026-2029 Planning Consulting Pool.",
+      "isConsent": false,
+      "actionName": "Scheduled",
+      "passedFlagName": "Failed",
+      "matterFile": "2026-01016",
+      "matterId": null,
+      "matterType": "Action",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01016",
+      "votes": []
+    },
+    {
+      "id": "lims-minneapolis-fileitem-2403-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-09-08T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -8751,7 +9850,22 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2403-0",
+      "id": "lims-minneapolis-fileitem-2403-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-09-17T09:30:00",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Authorizing a Master Contract with Mend Collaborative, Inc.,in the amount not to exceed $500,000, with individual project work orders not to exceed $300,000, for a term of three (3) years, starting October 1, 2026, through September 30, 2029, for the 2026-2029 Planning Consulting Pool.",
+      "isConsent": false,
+      "actionName": "Scheduled",
+      "passedFlagName": "Failed",
+      "matterFile": "2026-01016",
+      "matterId": null,
+      "matterType": "Action",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01016",
+      "votes": []
+    },
+    {
+      "id": "lims-minneapolis-fileitem-2404-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-09-08T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -8766,7 +9880,22 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2404-0",
+      "id": "lims-minneapolis-fileitem-2404-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-09-17T09:30:00",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Authorizing a Master Contract with Mead and Hunt, Inc.,in the amount not to exceed $500,000, with individual project work orders not to exceed $300,000, for a term of three (3) years, starting October 1, 2026, through September 30, 2029, for the 2026-2029 Planning Consulting Pool.",
+      "isConsent": false,
+      "actionName": "Scheduled",
+      "passedFlagName": "Failed",
+      "matterFile": "2026-01016",
+      "matterId": null,
+      "matterType": "Action",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01016",
+      "votes": []
+    },
+    {
+      "id": "lims-minneapolis-fileitem-2405-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-09-08T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -8781,7 +9910,22 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2405-0",
+      "id": "lims-minneapolis-fileitem-2405-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-09-17T09:30:00",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Authorizing a Master Contract with New History Inc.in the amount not to exceed $500,000, with individual project work orders not to exceed $300,000, for a term of three (3) years, starting October 1, 2026, through September 30, 2029, for the 2026-2029 Planning Consulting Pool.",
+      "isConsent": false,
+      "actionName": "Scheduled",
+      "passedFlagName": "Failed",
+      "matterFile": "2026-01016",
+      "matterId": null,
+      "matterType": "Action",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01016",
+      "votes": []
+    },
+    {
+      "id": "lims-minneapolis-fileitem-2406-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-09-08T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -8796,7 +9940,22 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2406-0",
+      "id": "lims-minneapolis-fileitem-2406-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-09-17T09:30:00",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Authorizing a Master Contract with SRF Consulting Group, Inc.,in the amount not to exceed $500,000, with individual project work orders not to exceed $300,000, for a term of three (3) years, starting October 1, 2026, through September 30, 2029, for the 2026-2029 Planning Consulting Pool.",
+      "isConsent": false,
+      "actionName": "Scheduled",
+      "passedFlagName": "Failed",
+      "matterFile": "2026-01016",
+      "matterId": null,
+      "matterType": "Action",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01016",
+      "votes": []
+    },
+    {
+      "id": "lims-minneapolis-fileitem-2407-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-09-08T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -8811,7 +9970,22 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2407-0",
+      "id": "lims-minneapolis-fileitem-2407-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-09-17T09:30:00",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Authorizing a Master Contract with Stantec Consulting Services, Inc.,in the amount not to exceed $500,000, with individual project work orders not to exceed $300,000, for a term of three (3) years, starting October 1, 2026, through September 30, 2029, for the 2026-2029 Planning Consulting Pool.",
+      "isConsent": false,
+      "actionName": "Scheduled",
+      "passedFlagName": "Failed",
+      "matterFile": "2026-01016",
+      "matterId": null,
+      "matterType": "Action",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01016",
+      "votes": []
+    },
+    {
+      "id": "lims-minneapolis-fileitem-2408-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-09-08T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -8826,7 +10000,22 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2408-0",
+      "id": "lims-minneapolis-fileitem-2408-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-09-17T09:30:00",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Authorizing a Master Contract with Three3, Inc., in theamount not to exceed $500,000, with individual project work orders not to exceed $300,000, for a term of three (3) years, starting October 1, 2026, through September 30, 2029, for the 2026-2029 Planning Consulting Pool.",
+      "isConsent": false,
+      "actionName": "Scheduled",
+      "passedFlagName": "Failed",
+      "matterFile": "2026-01016",
+      "matterId": null,
+      "matterType": "Action",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01016",
+      "votes": []
+    },
+    {
+      "id": "lims-minneapolis-fileitem-2409-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-09-08T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -8841,7 +10030,22 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2409-0",
+      "id": "lims-minneapolis-fileitem-2409-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-09-17T09:30:00",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Authorizing a Master Contract with Hoisington Koegler Group, Inc., in the amount not to exceed $500,000, with individual project work orders not to exceed $300,000, for a term of three (3) years, starting October 1, 2026, through September 30, 2029, for the 2026-2029 Planning Consulting Pool.",
+      "isConsent": false,
+      "actionName": "Scheduled",
+      "passedFlagName": "Failed",
+      "matterFile": "2026-01016",
+      "matterId": null,
+      "matterType": "Action",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01016",
+      "votes": []
+    },
+    {
+      "id": "lims-minneapolis-fileitem-2410-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-09-08T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -8856,7 +10060,22 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2410-0",
+      "id": "lims-minneapolis-fileitem-2410-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-09-17T09:30:00",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Authorizing a Master Contract with Toole Design Group LLC.,in the amount not to exceed $500,000, with individual project work orders not to exceed $300,000, for a term of three (3) years, starting October 1, 2026, through September 30, 2029, for the 2026-2029 Planning Consulting Pool.",
+      "isConsent": false,
+      "actionName": "Scheduled",
+      "passedFlagName": "Failed",
+      "matterFile": "2026-01016",
+      "matterId": null,
+      "matterType": "Action",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01016",
+      "votes": []
+    },
+    {
+      "id": "lims-minneapolis-fileitem-2411-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-09-08T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -8871,7 +10090,22 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2411-0",
+      "id": "lims-minneapolis-fileitem-2411-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-09-17T09:30:00",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Authorizing a Master Contract with The Urban Institute,in the amount not to exceed $500,000, with individual project work orders not to exceed $300,000, for a term of three (3) years, starting October 1, 2026, through September 30, 2029, for the 2026-2029 Planning Consulting Pool.",
+      "isConsent": false,
+      "actionName": "Scheduled",
+      "passedFlagName": "Failed",
+      "matterFile": "2026-01016",
+      "matterId": null,
+      "matterType": "Action",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01016",
+      "votes": []
+    },
+    {
+      "id": "lims-minneapolis-fileitem-2412-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-09-08T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -8886,7 +10120,22 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2412-0",
+      "id": "lims-minneapolis-fileitem-2412-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-09-17T09:30:00",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Authorizing a Master Contract with Z Companies, Inc dba Zan Associates,in the amount not to exceed $500,000, with individual project work orders not to exceed $300,000, for a term of three (3) years, starting October 1, 2026, through September 30, 2029, for the 2026-2029 Planning Consulting Pool.",
+      "isConsent": false,
+      "actionName": "Scheduled",
+      "passedFlagName": "Failed",
+      "matterFile": "2026-01016",
+      "matterId": null,
+      "matterType": "Action",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01016",
+      "votes": []
+    },
+    {
+      "id": "lims-minneapolis-fileitem-2413-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-09-08T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -8901,7 +10150,22 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2413-0",
+      "id": "lims-minneapolis-fileitem-2413-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-09-17T09:30:00",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Authorizing a Master Contract with Research in Action LLC,in the amount not to exceed $500,000, with individual project work orders not to exceed $300,000, for a term of three (3) years, starting October 1, 2026, through September 30, 2029, for the 2026-2029 Planning Consulting Pool.",
+      "isConsent": false,
+      "actionName": "Scheduled",
+      "passedFlagName": "Failed",
+      "matterFile": "2026-01016",
+      "matterId": null,
+      "matterType": "Action",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01016",
+      "votes": []
+    },
+    {
+      "id": "lims-minneapolis-fileitem-2414-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-09-08T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -8916,7 +10180,22 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2414-0",
+      "id": "lims-minneapolis-fileitem-2414-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-09-17T09:30:00",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Authorizing a Master Contract with Urban3in the amount not to exceed $500,000, with individual project work orders not to exceed $300,000, for a term of three (3) years, starting October 1, 2026, through September 30, 2029, for the 2026-2029 Planning Consulting Pool.",
+      "isConsent": false,
+      "actionName": "Scheduled",
+      "passedFlagName": "Failed",
+      "matterFile": "2026-01016",
+      "matterId": null,
+      "matterType": "Action",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01016",
+      "votes": []
+    },
+    {
+      "id": "lims-minneapolis-fileitem-2415-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-09-08T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -8931,7 +10210,22 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2415-0",
+      "id": "lims-minneapolis-fileitem-2415-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-09-17T09:30:00",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Authorizing a Master Contract with Houseal Lavigne Associates LLC.,in the amount not to exceed $500,000, with individual project work orders not to exceed $300,000, for a term of three (3) years, starting October 1, 2026, through September 30, 2029, for the 2026-2029 Planning Consulting Pool.",
+      "isConsent": false,
+      "actionName": "Scheduled",
+      "passedFlagName": "Failed",
+      "matterFile": "2026-01016",
+      "matterId": null,
+      "matterType": "Action",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01016",
+      "votes": []
+    },
+    {
+      "id": "lims-minneapolis-fileitem-2416-0",
       "meeting_id": "lims-minneapolis-meeting-budget-committee-2026-09-10T10:00:00",
       "sequence": null,
       "agendaNumber": null,
@@ -8946,7 +10240,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2415-1",
+      "id": "lims-minneapolis-fileitem-2416-1",
       "meeting_id": "lims-minneapolis-meeting-budget-committee-2026-09-14T10:00:00",
       "sequence": null,
       "agendaNumber": null,
@@ -8961,7 +10255,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2415-2",
+      "id": "lims-minneapolis-fileitem-2416-2",
       "meeting_id": "lims-minneapolis-meeting-budget-committee-2026-09-14T10:00:00",
       "sequence": null,
       "agendaNumber": null,
@@ -8976,7 +10270,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2416-0",
+      "id": "lims-minneapolis-fileitem-2417-0",
       "meeting_id": "lims-minneapolis-meeting-climate-infrastructure-committee-2026-09-10T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -8991,7 +10285,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2417-0",
+      "id": "lims-minneapolis-fileitem-2418-0",
       "meeting_id": "lims-minneapolis-meeting-budget-committee-2026-09-14T10:00:00",
       "sequence": null,
       "agendaNumber": null,
@@ -9006,7 +10300,22 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2418-0",
+      "id": "lims-minneapolis-fileitem-2418-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-09-17T09:30:00",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Approving a legislative directive related to City contracts.",
+      "isConsent": false,
+      "actionName": "Scheduled",
+      "passedFlagName": "Failed",
+      "matterFile": "2026-01022",
+      "matterId": null,
+      "matterType": "Action",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01022",
+      "votes": []
+    },
+    {
+      "id": "lims-minneapolis-fileitem-2419-0",
       "meeting_id": "lims-minneapolis-meeting-budget-committee-2026-09-14T10:00:00",
       "sequence": null,
       "agendaNumber": null,
@@ -9021,8 +10330,38 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2419-0",
+      "id": "lims-minneapolis-fileitem-2420-0",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-09-17T09:30:00",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Passage of Ordinanceamending Title 9, Chapter 172 of the Minneapolis Code of Ordinances relating to Fire and Police Protection: Police Conduct Oversight, amending the requirements for completion of ethics education training for Community Commission on Police Oversight.",
+      "isConsent": false,
+      "actionName": "Scheduled",
+      "passedFlagName": "Failed",
+      "matterFile": "2026-01024",
+      "matterId": null,
+      "matterType": "Ordinance",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01024",
+      "votes": []
+    },
+    {
+      "id": "lims-minneapolis-fileitem-2421-0",
       "meeting_id": "lims-minneapolis-meeting-committee-of-the-whole-2026-09-15T13:30:00",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Authorizing a contract withGrant Thornton Advisors,LLC, in the amount not to exceed$2,030,000,for a two(2) year term,October1, 2026, through September 30, 2028,with the option to extend the contract forone(1) additional year,to provideassistance in completing supervisory reviews and investigative support as needed for the Minneapolis Police Department Internal Affairs Division.",
+      "isConsent": false,
+      "actionName": "Approved",
+      "passedFlagName": "Passed",
+      "matterFile": "2026-01025",
+      "matterId": null,
+      "matterType": "Action",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01025",
+      "votes": []
+    },
+    {
+      "id": "lims-minneapolis-fileitem-2421-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-09-17T09:30:00",
       "sequence": null,
       "agendaNumber": null,
       "title": "Authorizing a contract withGrant Thornton Advisors,LLC, in the amount not to exceed$2,030,000,for a two(2) year term,October1, 2026, through September 30, 2028,with the option to extend the contract forone(1) additional year,to provideassistance in completing supervisory reviews and investigative support as needed for the Minneapolis Police Department Internal Affairs Division.",
@@ -9036,7 +10375,22 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2420-0",
+      "id": "lims-minneapolis-fileitem-2422-0",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-09-17T09:30:00",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Passage of Ordinanceamending Title 2, Chapter 15 of the Minneapolis Code of Ordinances relating to Administration: Ethics in Government, amending provisions to update ethics standards for enhanced accountability and clarity and to address recommendations from the Ethical Practices Board in its 2026 annual report.",
+      "isConsent": false,
+      "actionName": "Scheduled",
+      "passedFlagName": "Failed",
+      "matterFile": "2026-01062",
+      "matterId": null,
+      "matterType": "Ordinance",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01062",
+      "votes": []
+    },
+    {
+      "id": "lims-minneapolis-fileitem-2423-0",
       "meeting_id": "lims-minneapolis-meeting-city-council-policy-roundtable-2026-09-16T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -9051,7 +10405,97 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2467-3",
+      "id": "lims-minneapolis-fileitem-2424-0",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-09-17T09:30:00",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Passage of Resolution recognizing the 216th anniversary of the independence of Mexico.",
+      "isConsent": false,
+      "actionName": "Scheduled",
+      "passedFlagName": "Failed",
+      "matterFile": "2026-01082",
+      "matterId": null,
+      "matterType": "Resolution",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01082",
+      "votes": []
+    },
+    {
+      "id": "lims-minneapolis-fileitem-2425-0",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-09-17T09:30:00",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Passage of Resolution honoring the life, legacy, and community impact of Charles “Chaz Millionaire” Dillon.",
+      "isConsent": false,
+      "actionName": "Scheduled",
+      "passedFlagName": "Failed",
+      "matterFile": "2026-01083",
+      "matterId": null,
+      "matterType": "Resolution",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01083",
+      "votes": []
+    },
+    {
+      "id": "lims-minneapolis-fileitem-2426-0",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-09-17T09:30:00",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Passage of Resolution recognizing September 26, 2026, as the Day of Transgender Child in the City of Minneapolis.",
+      "isConsent": false,
+      "actionName": "Scheduled",
+      "passedFlagName": "Failed",
+      "matterFile": "2026-01084",
+      "matterId": null,
+      "matterType": "Resolution",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01084",
+      "votes": []
+    },
+    {
+      "id": "lims-minneapolis-fileitem-2427-0",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-09-17T09:30:00",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Passage of Resolution recognizing the 205th anniversary of the independence of the Republic of El Salvador.",
+      "isConsent": false,
+      "actionName": "Scheduled",
+      "passedFlagName": "Failed",
+      "matterFile": "2026-01085",
+      "matterId": null,
+      "matterType": "Resolution",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01085",
+      "votes": []
+    },
+    {
+      "id": "lims-minneapolis-fileitem-2428-0",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-09-17T09:30:00",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Passage of Resolution honoring the legacy of Karen Clark.",
+      "isConsent": false,
+      "actionName": "Scheduled",
+      "passedFlagName": "Failed",
+      "matterFile": "2026-01086",
+      "matterId": null,
+      "matterType": "Resolution",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01086",
+      "votes": []
+    },
+    {
+      "id": "lims-minneapolis-fileitem-2429-0",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-09-17T09:30:00",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Passage of Resolution commemorating Latino Heritage Month.",
+      "isConsent": false,
+      "actionName": "Scheduled",
+      "passedFlagName": "Failed",
+      "matterFile": "2026-01087",
+      "matterId": null,
+      "matterType": "Resolution",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01087",
+      "votes": []
+    },
+    {
+      "id": "lims-minneapolis-fileitem-2476-3",
       "meeting_id": "lims-minneapolis-meeting-charter-commission-2026-09-02T16:00:00",
       "sequence": null,
       "agendaNumber": null,
@@ -9066,7 +10510,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2476-0",
+      "id": "lims-minneapolis-fileitem-2485-0",
       "meeting_id": "lims-minneapolis-meeting-charter-commission-2026-09-02T16:00:00",
       "sequence": null,
       "agendaNumber": null,
@@ -9083,41 +10527,42 @@
   ],
   "diff": {
     "addedIds": [
-      "lims-minneapolis-meeting-audit-committee-2026-12-14T10:00:00",
-      "lims-minneapolis-meeting-budget-committee-2026-12-14T13:30:00",
-      "lims-minneapolis-meeting-planning-commission-2026-12-14T16:30:00",
-      "lims-minneapolis-meeting-civil-rights-commission-engagement-research-subcommittee-2026-12-14T17:00:00",
-      "lims-minneapolis-meeting-civil-rights-commission-2026-12-14T18:00:00"
+      "lims-minneapolis-meeting-committee-of-the-whole-2026-12-15T13:30:00",
+      "lims-minneapolis-meeting-bicycle-advisory-committee-2026-12-15T16:00:00"
     ],
-    "removedIds": [],
+    "removedIds": [
+      "lims-minneapolis-meeting-ethical-practices-board-2026-09-01T15:00:00",
+      "lims-minneapolis-meeting-bicycle-advisory-committee-2026-09-01T16:00:00",
+      "lims-minneapolis-meeting-community-environmental-advisory-commission-2026-09-01T16:00:00"
+    ],
     "changed": [
       {
-        "id": "lims-minneapolis-meeting-budget-committee-2026-09-14T10:00:00",
+        "id": "lims-minneapolis-meeting-committee-of-the-whole-2026-09-15T13:30:00",
         "field": "minutesUrl",
         "from": null,
-        "to": "https://lims.minneapolismn.gov/api/v1/downloads/CommitteeReport/4967/Budget_09142026_Committee_Report.pdf"
-      },
-      {
-        "id": "lims-minneapolis-meeting-budget-committee-2026-09-14T13:30:00",
-        "field": "minutesUrl",
-        "from": null,
-        "to": "https://lims.minneapolismn.gov/api/v1/downloads/CommitteeReport/4968/Budget_09142026_Committee_Report.pdf"
+        "to": "https://lims.minneapolismn.gov/api/v1/downloads/CommitteeReport/4971/COW_09152026_Committee_Report.pdf"
       },
       {
         "id": "lims-minneapolis-meeting-city-council-2026-09-17T09:30:00",
         "field": "agendaUrl",
-        "from": "https://lims.minneapolismn.gov/Agenda/Council/6219",
-        "to": "https://lims.minneapolismn.gov/Agenda/Council/"
+        "from": "https://lims.minneapolismn.gov/Agenda/Council/",
+        "to": "https://lims.minneapolismn.gov/Agenda/Council/6227"
       },
       {
-        "id": "lims-minneapolis-meeting-pedestrian-advisory-committee-2026-09-17T16:00:00",
-        "field": "agendaStatus",
-        "from": null,
-        "to": "Cancelled"
+        "id": "lims-minneapolis-meeting-community-commission-on-police-oversight-2026-09-17T18:00:00",
+        "field": "agendaUrl",
+        "from": "https://lims.minneapolismn.gov/Agenda/CCPO/",
+        "to": "https://lims.minneapolismn.gov/Agenda/CCPO/6226"
+      },
+      {
+        "id": "lims-minneapolis-meeting-zoning-board-of-adjustment-2026-09-24T16:30:00",
+        "field": "agendaUrl",
+        "from": "https://lims.minneapolismn.gov/Agenda/ZBA/",
+        "to": "https://lims.minneapolismn.gov/Agenda/ZBA/6228"
       }
     ]
   },
-  "previousGeneratedAt": "2026-09-14T17:58:07.468Z",
+  "previousGeneratedAt": "2026-09-15T16:39:19.596Z",
   "knownGaps": [
     "Consent-agenda flagging not implemented — LIMS has no field structurally equivalent to Legistar's EventItemConsent; every agenda item ships isConsent: false rather than a guess.",
     "3 same-day, same-body meeting collision(s) in this window — FileItemSearch's LegislativeHistory carries a date but no time, so a second same-day session for the same body can't be disambiguated; the earliest session for each colliding (body, date) pair was used."
