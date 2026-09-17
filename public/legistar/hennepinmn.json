@@ -2,18 +2,18 @@
   "schemaVersion": 1,
   "client": "hennepinmn",
   "jurisdiction": "Hennepin County Board",
-  "generatedAt": "2026-09-16T16:32:28.041Z",
+  "generatedAt": "2026-09-17T16:36:41.809Z",
   "status": "ingested",
-  "note": "Full ingest: 156 holding(s) across 18 office(s) and 8 person(s), from officerecords. Votes windowed to 2026-07-18–2026-09-17 on \"Board of Hennepin County Commissioners\": 142/142 matter(s) processed, 57 vote event(s), 30 vote(s).",
+  "note": "Full ingest: 156 holding(s) across 18 office(s) and 8 person(s), from officerecords. Votes windowed to 2026-07-19–2026-09-18 on \"Board of Hennepin County Commissioners\": 143/143 matter(s) processed, 91 vote event(s), 30 vote(s).",
   "provenance": {
     "primarySourceUrl": "https://webapi.legistar.com/v1/hennepinmn",
     "sourceAgency": "Hennepin County Board",
     "documentType": "Legistar Web API",
     "documentId": null,
     "issuedDate": null,
-    "fetchedAt": "2026-09-16T16:32:28.041Z",
+    "fetchedAt": "2026-09-17T16:36:41.809Z",
     "licence": "Public records served via Legistar InSite; no separate machine-reuse licence published by the host jurisdiction as of this writing.",
-    "contentHash": "3f564f00c5bf78b571f0bf55a50e174221fb20f12df5489d7799a1f6a080408f"
+    "contentHash": "cf7b6f1d8b47f03f881496affca10b5794a9e0c81f593a0b307beec91387a981"
   },
   "jurisdiction_id": "legistar-hennepinmn",
   "bodies": [
@@ -279,9 +279,9 @@
       "term_start": "2022-01-01",
       "term_end": "2026-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/584",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -291,9 +291,9 @@
       "term_start": "2022-01-01",
       "term_end": "2026-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/585",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -303,9 +303,9 @@
       "term_start": "2022-01-01",
       "term_end": "2026-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/586",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -315,9 +315,9 @@
       "term_start": "2020-01-01",
       "term_end": "2024-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/587",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -327,9 +327,9 @@
       "term_start": "2020-01-01",
       "term_end": "2023-09-21",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/588",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -339,9 +339,9 @@
       "term_start": "2020-01-01",
       "term_end": "2024-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/589",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -351,9 +351,9 @@
       "term_start": "2020-01-01",
       "term_end": "2024-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/591",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -363,9 +363,9 @@
       "term_start": "2020-01-01",
       "term_end": "2023-09-21",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/592",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -375,9 +375,9 @@
       "term_start": "2020-01-01",
       "term_end": "2024-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/593",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -387,9 +387,9 @@
       "term_start": "2022-01-01",
       "term_end": "2026-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/594",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -399,9 +399,9 @@
       "term_start": "2022-01-01",
       "term_end": "2026-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/595",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -411,9 +411,9 @@
       "term_start": "2022-01-01",
       "term_end": "2026-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/596",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -423,9 +423,9 @@
       "term_start": "2020-01-01",
       "term_end": "2024-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/597",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -435,9 +435,9 @@
       "term_start": "2023-01-01",
       "term_end": "2023-09-21",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/599",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -447,9 +447,9 @@
       "term_start": "2023-01-01",
       "term_end": "2026-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/600",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -459,9 +459,9 @@
       "term_start": "2023-01-01",
       "term_end": "2026-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/602",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -471,9 +471,9 @@
       "term_start": "2023-01-01",
       "term_end": "2026-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/603",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -483,9 +483,9 @@
       "term_start": "2020-01-01",
       "term_end": "2026-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/605",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -495,9 +495,9 @@
       "term_start": "2020-01-01",
       "term_end": "2024-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/606",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -507,9 +507,9 @@
       "term_start": "2020-01-01",
       "term_end": "2024-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/607",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -519,9 +519,9 @@
       "term_start": "2022-01-01",
       "term_end": "2026-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/608",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -531,9 +531,9 @@
       "term_start": "2022-01-01",
       "term_end": "2026-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/609",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -543,9 +543,9 @@
       "term_start": "2020-01-01",
       "term_end": "2024-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/610",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -555,9 +555,9 @@
       "term_start": "2020-01-01",
       "term_end": "2023-09-21",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/611",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -567,9 +567,9 @@
       "term_start": "2020-01-01",
       "term_end": "2024-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/612",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -579,9 +579,9 @@
       "term_start": "2022-01-01",
       "term_end": "2026-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/613",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -591,9 +591,9 @@
       "term_start": "2022-01-01",
       "term_end": "2026-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/614",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -603,9 +603,9 @@
       "term_start": "2022-01-01",
       "term_end": "2026-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/615",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -615,9 +615,9 @@
       "term_start": "2020-01-01",
       "term_end": "2024-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/616",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -627,9 +627,9 @@
       "term_start": "2020-01-01",
       "term_end": "2023-09-21",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/617",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -639,9 +639,9 @@
       "term_start": "2020-01-01",
       "term_end": "2024-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/618",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -651,9 +651,9 @@
       "term_start": "2020-01-01",
       "term_end": "2023-09-21",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/619",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -663,9 +663,9 @@
       "term_start": "2022-01-01",
       "term_end": "2026-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/620",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -675,9 +675,9 @@
       "term_start": "2022-01-01",
       "term_end": "2026-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/621",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -687,9 +687,9 @@
       "term_start": "2022-01-01",
       "term_end": "2026-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/622",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -699,9 +699,9 @@
       "term_start": "2020-01-01",
       "term_end": "2024-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/623",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -711,9 +711,9 @@
       "term_start": "2020-01-01",
       "term_end": "2024-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/624",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -723,9 +723,9 @@
       "term_start": "2023-01-01",
       "term_end": "2023-09-21",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/625",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -735,9 +735,9 @@
       "term_start": "2023-01-01",
       "term_end": "2023-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/626",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -747,9 +747,9 @@
       "term_start": "2023-01-01",
       "term_end": "2023-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/627",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -759,9 +759,9 @@
       "term_start": "2023-01-01",
       "term_end": "2023-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/628",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -771,9 +771,9 @@
       "term_start": "2023-01-01",
       "term_end": "2023-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/629",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -783,9 +783,9 @@
       "term_start": "2023-01-01",
       "term_end": "2023-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/630",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -795,9 +795,9 @@
       "term_start": "2023-01-01",
       "term_end": "2023-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/631",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -807,9 +807,9 @@
       "term_start": "2022-01-01",
       "term_end": "2026-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/632",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -819,9 +819,9 @@
       "term_start": "2020-01-01",
       "term_end": "2024-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/633",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -831,9 +831,9 @@
       "term_start": "2022-01-01",
       "term_end": "2026-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/634",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -843,9 +843,9 @@
       "term_start": "2022-01-01",
       "term_end": "2026-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/635",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -855,9 +855,9 @@
       "term_start": "2020-01-01",
       "term_end": "2024-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/636",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -867,9 +867,9 @@
       "term_start": "2020-01-01",
       "term_end": "2024-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/638",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -879,9 +879,9 @@
       "term_start": "2020-01-01",
       "term_end": "2024-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/639",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -891,9 +891,9 @@
       "term_start": "2023-06-20",
       "term_end": "2023-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/643",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -903,9 +903,9 @@
       "term_start": "2023-06-20",
       "term_end": "2023-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/644",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -915,9 +915,9 @@
       "term_start": "2023-06-20",
       "term_end": "2023-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/645",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -927,9 +927,9 @@
       "term_start": "2023-06-20",
       "term_end": "2023-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/646",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -939,9 +939,9 @@
       "term_start": "2023-06-20",
       "term_end": "2023-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/647",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -951,9 +951,9 @@
       "term_start": "2023-06-20",
       "term_end": "2023-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/649",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -963,9 +963,9 @@
       "term_start": "2024-01-08",
       "term_end": "2024-12-12",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/650",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -975,9 +975,9 @@
       "term_start": "2024-01-08",
       "term_end": "2026-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/651",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -987,9 +987,9 @@
       "term_start": "2024-01-08",
       "term_end": "2024-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/652",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -999,9 +999,9 @@
       "term_start": "2024-01-08",
       "term_end": "2024-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/653",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -1011,9 +1011,9 @@
       "term_start": "2024-01-08",
       "term_end": "2024-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/654",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -1023,9 +1023,9 @@
       "term_start": "2024-01-08",
       "term_end": "2026-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/655",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -1035,9 +1035,9 @@
       "term_start": "2024-02-02",
       "term_end": "2024-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/662",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -1047,9 +1047,9 @@
       "term_start": "2024-02-02",
       "term_end": "2024-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/663",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -1059,9 +1059,9 @@
       "term_start": "2024-02-02",
       "term_end": "2024-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/664",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -1071,9 +1071,9 @@
       "term_start": "2024-02-02",
       "term_end": "2024-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/665",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -1083,9 +1083,9 @@
       "term_start": "2024-02-02",
       "term_end": "2024-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/666",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -1095,9 +1095,9 @@
       "term_start": "2024-02-02",
       "term_end": "2024-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/667",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -1107,9 +1107,9 @@
       "term_start": "2024-05-29",
       "term_end": "2024-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/668",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -1119,9 +1119,9 @@
       "term_start": "2024-05-29",
       "term_end": "2026-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/669",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -1131,9 +1131,9 @@
       "term_start": "2024-06-07",
       "term_end": "2024-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/670",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -1143,9 +1143,9 @@
       "term_start": "2024-06-07",
       "term_end": "2024-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/671",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -1155,9 +1155,9 @@
       "term_start": "2024-06-07",
       "term_end": "2024-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/672",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -1167,9 +1167,9 @@
       "term_start": "2024-06-07",
       "term_end": "2026-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/673",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -1179,9 +1179,9 @@
       "term_start": "2024-06-07",
       "term_end": "2026-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/674",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -1191,9 +1191,9 @@
       "term_start": "2024-06-07",
       "term_end": "2024-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/675",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -1203,9 +1203,9 @@
       "term_start": "2024-06-07",
       "term_end": "2024-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/676",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -1215,9 +1215,9 @@
       "term_start": "2022-01-04",
       "term_end": "2024-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/677",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -1227,9 +1227,9 @@
       "term_start": "2021-01-05",
       "term_end": "2026-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/678",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -1239,9 +1239,9 @@
       "term_start": "2024-05-29",
       "term_end": "2026-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/679",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -1251,9 +1251,9 @@
       "term_start": "2021-01-05",
       "term_end": "2026-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/680",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -1263,9 +1263,9 @@
       "term_start": "2019-01-08",
       "term_end": "2026-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/681",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -1275,9 +1275,9 @@
       "term_start": "2019-01-08",
       "term_end": "2025-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/685",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -1287,9 +1287,9 @@
       "term_start": "2021-01-05",
       "term_end": "2025-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/687",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -1299,9 +1299,9 @@
       "term_start": "2025-01-08",
       "term_end": "2025-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/688",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -1311,9 +1311,9 @@
       "term_start": "2025-01-08",
       "term_end": "2026-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/689",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -1323,9 +1323,9 @@
       "term_start": "2025-01-08",
       "term_end": "2026-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/690",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -1335,9 +1335,9 @@
       "term_start": "2025-01-08",
       "term_end": "2026-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/691",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -1347,9 +1347,9 @@
       "term_start": "2025-01-08",
       "term_end": "2026-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/692",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -1359,9 +1359,9 @@
       "term_start": "2025-01-08",
       "term_end": "2026-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/693",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -1371,9 +1371,9 @@
       "term_start": "2025-01-08",
       "term_end": "2026-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/694",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -1383,9 +1383,9 @@
       "term_start": "2025-01-08",
       "term_end": "2026-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/695",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -1395,9 +1395,9 @@
       "term_start": "2025-01-08",
       "term_end": "2026-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/696",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -1407,9 +1407,9 @@
       "term_start": "2025-01-08",
       "term_end": "2026-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/697",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -1419,9 +1419,9 @@
       "term_start": "2025-01-08",
       "term_end": "2026-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/698",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -1431,9 +1431,9 @@
       "term_start": "2025-01-08",
       "term_end": "2025-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/699",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -1443,9 +1443,9 @@
       "term_start": "2025-01-08",
       "term_end": "2026-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/700",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -1455,9 +1455,9 @@
       "term_start": "2025-01-08",
       "term_end": "2026-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/701",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -1467,9 +1467,9 @@
       "term_start": "2025-01-08",
       "term_end": "2026-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/702",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -1479,9 +1479,9 @@
       "term_start": "2025-01-08",
       "term_end": "2026-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/703",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -1491,9 +1491,9 @@
       "term_start": "2025-01-08",
       "term_end": "2026-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/704",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -1503,9 +1503,9 @@
       "term_start": "2025-01-08",
       "term_end": "2026-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/705",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -1515,9 +1515,9 @@
       "term_start": "2025-01-08",
       "term_end": "2026-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/706",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -1527,9 +1527,9 @@
       "term_start": "2025-01-08",
       "term_end": "2026-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/707",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -1539,9 +1539,9 @@
       "term_start": "2025-01-08",
       "term_end": "2026-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/708",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -1551,9 +1551,9 @@
       "term_start": "2025-01-08",
       "term_end": "2026-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/709",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -1563,9 +1563,9 @@
       "term_start": "2025-01-08",
       "term_end": "2026-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/710",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -1575,9 +1575,9 @@
       "term_start": "2025-01-08",
       "term_end": "2026-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/711",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -1587,9 +1587,9 @@
       "term_start": "2025-01-08",
       "term_end": "2026-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/712",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -1599,9 +1599,9 @@
       "term_start": "2025-01-08",
       "term_end": "2026-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/713",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -1611,9 +1611,9 @@
       "term_start": "2025-01-08",
       "term_end": "2026-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/714",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -1623,9 +1623,9 @@
       "term_start": "2025-01-08",
       "term_end": "2026-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/715",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -1635,9 +1635,9 @@
       "term_start": "2025-01-08",
       "term_end": "2026-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/716",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -1647,9 +1647,9 @@
       "term_start": "2025-01-08",
       "term_end": "2026-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/717",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -1659,9 +1659,9 @@
       "term_start": "2025-01-08",
       "term_end": "2026-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/718",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -1671,9 +1671,9 @@
       "term_start": "2025-01-08",
       "term_end": "2026-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/719",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -1683,9 +1683,9 @@
       "term_start": "2025-01-08",
       "term_end": "2025-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/720",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -1695,9 +1695,9 @@
       "term_start": "2025-01-08",
       "term_end": "2025-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/721",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -1707,9 +1707,9 @@
       "term_start": "2025-01-08",
       "term_end": "2025-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/722",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -1719,9 +1719,9 @@
       "term_start": "2025-01-08",
       "term_end": "2025-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/723",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -1731,9 +1731,9 @@
       "term_start": "2025-01-08",
       "term_end": "2025-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/724",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -1743,9 +1743,9 @@
       "term_start": "2025-01-08",
       "term_end": "2025-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/725",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -1755,9 +1755,9 @@
       "term_start": "2025-08-13",
       "term_end": "2026-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/735",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -1767,9 +1767,9 @@
       "term_start": "2025-08-13",
       "term_end": "2026-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/736",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -1779,9 +1779,9 @@
       "term_start": "2025-08-13",
       "term_end": "2026-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/738",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -1791,9 +1791,9 @@
       "term_start": "2025-08-27",
       "term_end": "2026-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/744",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -1803,9 +1803,9 @@
       "term_start": "2025-09-09",
       "term_end": "2025-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/748",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -1815,9 +1815,9 @@
       "term_start": "2025-09-09",
       "term_end": "2025-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/749",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -1827,9 +1827,9 @@
       "term_start": "2025-09-09",
       "term_end": "2025-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/750",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -1839,9 +1839,9 @@
       "term_start": "2026-01-08",
       "term_end": "2026-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/751",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -1851,9 +1851,9 @@
       "term_start": "2026-01-08",
       "term_end": "2026-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/752",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -1863,9 +1863,9 @@
       "term_start": "2026-01-08",
       "term_end": "2026-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/753",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -1875,9 +1875,9 @@
       "term_start": "2026-01-08",
       "term_end": "2026-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/754",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -1887,9 +1887,9 @@
       "term_start": "2026-01-08",
       "term_end": "2026-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/755",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -1899,9 +1899,9 @@
       "term_start": "2026-01-08",
       "term_end": "2026-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/756",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -1911,9 +1911,9 @@
       "term_start": "2026-01-08",
       "term_end": "2026-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/757",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -1923,9 +1923,9 @@
       "term_start": "2026-01-08",
       "term_end": "2026-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/758",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -1935,9 +1935,9 @@
       "term_start": "2026-01-08",
       "term_end": "2026-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/759",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -1947,9 +1947,9 @@
       "term_start": "2026-01-08",
       "term_end": "2026-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/760",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -1959,9 +1959,9 @@
       "term_start": "2026-01-08",
       "term_end": "2026-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/761",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -1971,9 +1971,9 @@
       "term_start": "2026-01-08",
       "term_end": "2026-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/762",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -1983,9 +1983,9 @@
       "term_start": "2026-01-08",
       "term_end": "2026-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/764",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -1995,9 +1995,9 @@
       "term_start": "2026-01-08",
       "term_end": "2026-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/765",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -2007,9 +2007,9 @@
       "term_start": "2026-01-08",
       "term_end": "2026-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/766",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -2019,9 +2019,9 @@
       "term_start": "2026-01-01",
       "term_end": "2026-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/767",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -2031,9 +2031,9 @@
       "term_start": "2026-01-01",
       "term_end": "2026-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/768",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -2043,9 +2043,9 @@
       "term_start": "2026-01-01",
       "term_end": "2026-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/769",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -2055,9 +2055,9 @@
       "term_start": "2026-01-01",
       "term_end": "2026-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/770",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -2067,9 +2067,9 @@
       "term_start": "2026-01-01",
       "term_end": "2026-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/771",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -2079,9 +2079,9 @@
       "term_start": "2026-01-01",
       "term_end": "2026-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/772",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -2091,9 +2091,9 @@
       "term_start": "2026-01-01",
       "term_end": "2026-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/773",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -2103,9 +2103,9 @@
       "term_start": "2025-08-13",
       "term_end": "2026-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/782",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -2115,9 +2115,9 @@
       "term_start": "2025-09-16",
       "term_end": null,
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/783",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -2127,9 +2127,9 @@
       "term_start": "2025-09-16",
       "term_end": "2026-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/784",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     },
     {
@@ -2139,9 +2139,9 @@
       "term_start": "2025-09-16",
       "term_end": "2026-12-31",
       "source_url": "https://webapi.legistar.com/v1/hennepinmn/officerecords/785",
-      "first_seen": "2026-09-16",
-      "last_seen": "2026-09-16",
-      "verifiedAt": "2026-09-16",
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "verifiedAt": "2026-09-17",
       "verifiedAgainst": "https://webapi.legistar.com/v1/hennepinmn/officerecords"
     }
   ],
@@ -2158,6 +2158,14 @@
       "id": "legistar-hennepinmn-meeting-1456",
       "body_id": "legistar-hennepinmn-body-138",
       "date": "2026-08-18",
+      "agenda_url": null,
+      "minutes_url": null,
+      "video_url": null
+    },
+    {
+      "id": "legistar-hennepinmn-meeting-1466",
+      "body_id": "legistar-hennepinmn-body-138",
+      "date": "2026-09-15",
       "agenda_url": null,
       "minutes_url": null,
       "video_url": null
@@ -2619,6 +2627,278 @@
       "file_number": "26-0315",
       "external_id": "4751",
       "source_url": "https://hennepinmn.legistar.com/LegislationDetail.aspx?ID=8175373&GUID=B20A7E07-9504-4D68-A5B7-F7613245A76B"
+    },
+    {
+      "id": "legistar-hennepinmn-agendaitem-36803",
+      "meeting_id": "legistar-hennepinmn-meeting-1466",
+      "title": "Claims Register for the period ending September 18, 2026",
+      "file_number": "26-0317",
+      "external_id": "4753",
+      "source_url": "https://hennepinmn.legistar.com/LegislationDetail.aspx?ID=8212275&GUID=96DB7E79-1035-49B5-9DD4-981A700315DD"
+    },
+    {
+      "id": "legistar-hennepinmn-agendaitem-36804",
+      "meeting_id": "legistar-hennepinmn-meeting-1466",
+      "title": "Claims Register for the period ending September 25, 2026",
+      "file_number": "26-0318",
+      "external_id": "4754",
+      "source_url": "https://hennepinmn.legistar.com/LegislationDetail.aspx?ID=8212457&GUID=1AADDEE2-BB05-493F-A170-746224F3F10D"
+    },
+    {
+      "id": "legistar-hennepinmn-agendaitem-36857",
+      "meeting_id": "legistar-hennepinmn-meeting-1466",
+      "title": "Affirming Hennepin County’s commitment to ensuring free and fair elections",
+      "file_number": "26-0316",
+      "external_id": "4786",
+      "source_url": "https://hennepinmn.legistar.com/LegislationDetail.aspx?ID=8190461&GUID=3F9E8983-857B-433B-9A3B-5025AB8CFE0E"
+    },
+    {
+      "id": "legistar-hennepinmn-agendaitem-36805",
+      "meeting_id": "legistar-hennepinmn-meeting-1466",
+      "title": "Authorize the continuation of the Joint Powers Agreement (JPA) A2312020 with Brooklyn Bridge Alliance for Youth for a five-year term from 01/01/27-12/31/31, no incr in the annual dues of $76,044",
+      "file_number": "26-0341",
+      "external_id": "4789",
+      "source_url": "https://hennepinmn.legistar.com/LegislationDetail.aspx?ID=8212458&GUID=6C81824D-471C-4F47-B2DD-8FDA580F47F4"
+    },
+    {
+      "id": "legistar-hennepinmn-agendaitem-36806",
+      "meeting_id": "legistar-hennepinmn-meeting-1466",
+      "title": "Amd 3 to Agmt A2311962 with Substance and Mental Health Services Administration continuing services to individuals living with mental illness and co-occurring substance use disorder, ext end date to 09/29/27, incr recv by $330,000 for a new total recv of $1,320,000",
+      "file_number": "26-0337",
+      "external_id": "4791",
+      "source_url": "https://hennepinmn.legistar.com/LegislationDetail.aspx?ID=8212329&GUID=00870A31-28D1-4C3B-8EFE-17FE7DE341C6"
+    },
+    {
+      "id": "legistar-hennepinmn-agendaitem-36807",
+      "meeting_id": "legistar-hennepinmn-meeting-1466",
+      "title": "Authorize supplemental appropriation to amend 2026 Hennepin County Attorney’s Office budget and add 1.0 FTE",
+      "file_number": "26-0343",
+      "external_id": "4792",
+      "source_url": "https://hennepinmn.legistar.com/LegislationDetail.aspx?ID=8212330&GUID=D623E57F-0B9E-4545-BA89-1A6531DD29BF"
+    },
+    {
+      "id": "legistar-hennepinmn-agendaitem-36869",
+      "meeting_id": "legistar-hennepinmn-meeting-1466",
+      "title": "Agmt PR00008790 to purchase reinsurance protection from catastrophic medical claims as required by contracts between Hennepin Health and the Minnesota Department of Human Services; 01/01/27-12/31/27, NTE $4,000,000",
+      "file_number": "26-0340",
+      "external_id": "4793",
+      "source_url": "https://hennepinmn.legistar.com/LegislationDetail.aspx?ID=8212715&GUID=8841211F-BBFD-4B7F-907D-E4837FA18CF9"
+    },
+    {
+      "id": "legistar-hennepinmn-agendaitem-36808",
+      "meeting_id": "legistar-hennepinmn-meeting-1466",
+      "title": "Award contract to Concrete Idea, Inc for accessibility improvements along various county roads, project 2201023, a subproject of 2201000 (county cost $826,582.00 Metro Tax - Active Transportation)",
+      "file_number": "26-0320",
+      "external_id": "4794",
+      "source_url": "https://hennepinmn.legistar.com/LegislationDetail.aspx?ID=8212351&GUID=4524422A-FCD5-43BE-9721-95C98FF81E23"
+    },
+    {
+      "id": "legistar-hennepinmn-agendaitem-36809",
+      "meeting_id": "legistar-hennepinmn-meeting-1466",
+      "title": "Neg Agmt PR00008745 with GrowUs LLC to perform green workforce training, community engagement, and resilience hub network expansion, 08/15/26-07/31/27, NTE $324,375",
+      "file_number": "26-0345",
+      "external_id": "4795",
+      "source_url": "https://hennepinmn.legistar.com/LegislationDetail.aspx?ID=8212385&GUID=BED4F4A5-08D6-4A2F-8815-F9C52D6BB4A2"
+    },
+    {
+      "id": "legistar-hennepinmn-agendaitem-36810",
+      "meeting_id": "legistar-hennepinmn-meeting-1466",
+      "title": "Neg Agmts PW 49-43-26 and PW 54-43-26 with Rogers for jurisdictional transfer of CSAH 150 between CSAH 159 and CSAH 81 and jurisdictional transfer of Fletcher Lane (County Road 116) between Valley View Terrace and CSAH 159 (Territorial Rd), CP 2201100 (county cost NTE $2,225,000 county bonds)",
+      "file_number": "26-0329",
+      "external_id": "4796",
+      "source_url": "https://hennepinmn.legistar.com/LegislationDetail.aspx?ID=8212386&GUID=DDBE1B91-0961-4A77-BDB2-02BFDEEB0B3F"
+    },
+    {
+      "id": "legistar-hennepinmn-agendaitem-36811",
+      "meeting_id": "legistar-hennepinmn-meeting-1466",
+      "title": "Neg Agmt PW 36-44-26 with Three Rivers Park District relating to construction along CSAH 12 (CPs 2201138 and 2201034, subprojects of 2201100 and 2201000; est county cost $315,000 County Bonds, $260,000 TAA - Active Transportation)",
+      "file_number": "26-0328",
+      "external_id": "4797",
+      "source_url": "https://hennepinmn.legistar.com/LegislationDetail.aspx?ID=8212396&GUID=119FA394-523C-4321-BF64-658589F5FE1D"
+    },
+    {
+      "id": "legistar-hennepinmn-agendaitem-36812",
+      "meeting_id": "legistar-hennepinmn-meeting-1466",
+      "title": "Neg various agmts for CSAH 130 (Elm Creek Blvd / Brooklyn Blvd) and TH 169 interchange, CP 2182900, a subproject of CP 2201100, NTE $1,500,000 county bonds",
+      "file_number": "26-0330",
+      "external_id": "4798",
+      "source_url": "https://hennepinmn.legistar.com/LegislationDetail.aspx?ID=8212397&GUID=82F9692C-9CF1-4FC9-AC5E-8B1C2EC53DDC"
+    },
+    {
+      "id": "legistar-hennepinmn-agendaitem-36799",
+      "meeting_id": "legistar-hennepinmn-meeting-1466",
+      "title": "Professional and Personal Service Agmts/Amds of $100,000 or less which have been approved by Department Director, Assistant/County Administrator. Report Number: 26RAA-11",
+      "file_number": "26N-0033",
+      "external_id": "4799",
+      "source_url": "https://hennepinmn.legistar.com/LegislationDetail.aspx?ID=8210892&GUID=FACF17B7-8F40-4435-888F-75C377530C72"
+    },
+    {
+      "id": "legistar-hennepinmn-agendaitem-36813",
+      "meeting_id": "legistar-hennepinmn-meeting-1466",
+      "title": "Establish 2027 Adult Corrections Facility rates for housing residents",
+      "file_number": "26-0332",
+      "external_id": "4800",
+      "source_url": "https://hennepinmn.legistar.com/LegislationDetail.aspx?ID=8212398&GUID=19C252C8-816C-4D2B-8DFE-5F9E706838FB"
+    },
+    {
+      "id": "legistar-hennepinmn-agendaitem-36814",
+      "meeting_id": "legistar-hennepinmn-meeting-1466",
+      "title": "Amd 1 to PR00006817 with MN Waste Wise Foundation, ext end date to 12/31/28, increase NTE by $304,355 for a new total NTE of $707,355",
+      "file_number": "26-0331",
+      "external_id": "4801",
+      "source_url": "https://hennepinmn.legistar.com/LegislationDetail.aspx?ID=8212409&GUID=77A479CD-02D3-4DB8-A8C8-0A2D11F55663"
+    },
+    {
+      "id": "legistar-hennepinmn-agendaitem-36815",
+      "meeting_id": "legistar-hennepinmn-meeting-1466",
+      "title": "Neg Amd 1 to Agmt PR00006316 with NextStage adding the HCHRA as a party to the agmt",
+      "file_number": "26-0342",
+      "external_id": "4802",
+      "source_url": "https://hennepinmn.legistar.com/LegislationDetail.aspx?ID=8212410&GUID=4EEDB22B-F57F-40CA-A03F-6B356DDEC03E"
+    },
+    {
+      "id": "legistar-hennepinmn-agendaitem-36816",
+      "meeting_id": "legistar-hennepinmn-meeting-1466",
+      "title": "Agmt A2613600 with U.S. Dept of HUD Continuum of Care Program to accept grant funds for rapid rehousing services for homeless families, 01/01/27-12/31/27, NTE (recv) $1,742,469",
+      "file_number": "26-0338",
+      "external_id": "4803",
+      "source_url": "https://hennepinmn.legistar.com/LegislationDetail.aspx?ID=8212411&GUID=2699329A-0111-4F87-BC7D-ACA5B8995745"
+    },
+    {
+      "id": "legistar-hennepinmn-agendaitem-36817",
+      "meeting_id": "legistar-hennepinmn-meeting-1466",
+      "title": "Agmt A2613554, JPA with the Minnesota Department of Veteran Affairs for mutual cooperation and to accept funding for services for veterans experiencing homelessness, 07/01/26-06/30/27, NTE $500,000 (recv), continue 3.0 grant-funded FTEs and adding 1.0 grant-funded FTE",
+      "file_number": "26-0339",
+      "external_id": "4804",
+      "source_url": "https://hennepinmn.legistar.com/LegislationDetail.aspx?ID=8212424&GUID=96903D94-8B31-4CC2-A593-D6150C17D343"
+    },
+    {
+      "id": "legistar-hennepinmn-agendaitem-36873",
+      "meeting_id": "legistar-hennepinmn-meeting-1466",
+      "title": "Human Services & Public Health resolution, including contracts and amendments to contracts with provider - 2612",
+      "file_number": "26-0336",
+      "external_id": "4805",
+      "source_url": "https://hennepinmn.legistar.com/LegislationDetail.aspx?ID=8212728&GUID=57B8D62B-37E9-4914-95E7-0C810ED40C0F"
+    },
+    {
+      "id": "legistar-hennepinmn-agendaitem-36818",
+      "meeting_id": "legistar-hennepinmn-meeting-1466",
+      "title": "Neg Agmt PW 52-84-26 with BNSF for new railroad crossing surface on Maple Grove Pkwy (CSAH 121) in Maple Grove (CP 2201140, a subproject of 2201100), (est county cost $200,000 Property Tax)",
+      "file_number": "26-0326",
+      "external_id": "4806",
+      "source_url": "https://hennepinmn.legistar.com/LegislationDetail.aspx?ID=8212425&GUID=6B885786-CA5F-40A3-96A8-54F898EFB70A"
+    },
+    {
+      "id": "legistar-hennepinmn-agendaitem-36819",
+      "meeting_id": "legistar-hennepinmn-meeting-1466",
+      "title": "Neg Agmt PW 53-84-26 with BNSF for new railroad crossing surface on County Road 90 (CSAH 90) in Independence (CP 2220906, a subproject of 2220900), (est county cost $75,000 County Bonds)",
+      "file_number": "26-0327",
+      "external_id": "4807",
+      "source_url": "https://hennepinmn.legistar.com/LegislationDetail.aspx?ID=8212426&GUID=304FBD53-DF4A-47AA-973C-324BF9BE9B8D"
+    },
+    {
+      "id": "legistar-hennepinmn-agendaitem-36820",
+      "meeting_id": "legistar-hennepinmn-meeting-1466",
+      "title": "Neg various agmts for IGNITE contracts for periods between 09/01/26-01/31/27, total NTE $97,902.56",
+      "file_number": "26-0344",
+      "external_id": "4808",
+      "source_url": "https://hennepinmn.legistar.com/LegislationDetail.aspx?ID=8212436&GUID=0806083E-680D-451E-B71F-A7208D2219D3"
+    },
+    {
+      "id": "legistar-hennepinmn-agendaitem-36862",
+      "meeting_id": "legistar-hennepinmn-meeting-1466",
+      "title": "Neg Agmt PR00008798 with Messerli & Kramer, P.A. Attorneys at Law for legal services with a NTE of $100,000",
+      "file_number": "26-0321",
+      "external_id": "4809",
+      "source_url": "https://hennepinmn.legistar.com/LegislationDetail.aspx?ID=8212437&GUID=6348B7E3-FA7D-4DAD-BF28-3038559EA2D2"
+    },
+    {
+      "id": "legistar-hennepinmn-agendaitem-36821",
+      "meeting_id": "legistar-hennepinmn-meeting-1466",
+      "title": "Amds to Agmts with county jails or correctional facilities to temporarily board Hennepin County detainees, extend the end dates to 12/31/2027, incr combined NTE amts by $6,126,613, for a new combined NTE of $12,059,613",
+      "file_number": "26-0333",
+      "external_id": "4810",
+      "source_url": "https://hennepinmn.legistar.com/LegislationDetail.aspx?ID=8212438&GUID=EA5B7154-37B5-45B7-9BA7-1E6D4BF6F828"
+    },
+    {
+      "id": "legistar-hennepinmn-agendaitem-36822",
+      "meeting_id": "legistar-hennepinmn-meeting-1466",
+      "title": "Agmts A2613579, A2613580, A2613581, A2613582 between the Hennepin County Sheriff’s Office and the Cities of Greenfield, Hanover, Medicine Lake, and Rockford for the provision of patrol services, 01/01/27-12/31/28, $954,338.31 (recv)",
+      "file_number": "26-0334",
+      "external_id": "4811",
+      "source_url": "https://hennepinmn.legistar.com/LegislationDetail.aspx?ID=8212439&GUID=DCB83C7B-4B69-4818-BA33-6FE99AA70821"
+    },
+    {
+      "id": "legistar-hennepinmn-agendaitem-36863",
+      "meeting_id": "legistar-hennepinmn-meeting-1466",
+      "title": "Recognizing Opioid Awareness Day in Hennepin County - offered by Commissioner Conley",
+      "file_number": "26-0324",
+      "external_id": "4812",
+      "source_url": "https://hennepinmn.legistar.com/LegislationDetail.aspx?ID=8212440&GUID=57924206-4471-4F6C-8633-91AE8E70F6E4"
+    },
+    {
+      "id": "legistar-hennepinmn-agendaitem-36864",
+      "meeting_id": "legistar-hennepinmn-meeting-1466",
+      "title": "Establish a public hearing on the Workforce Innovation Opportunity Act (WIOA) Regional Plan for Metropolitan Regional Workforce Development Area #4 at the Administration, Operations, & Budget Committee of the Hennepin County Board of Commissioners on Tuesday, September 22nd, 2026 at 1:30 p.m.",
+      "file_number": "26-0319",
+      "external_id": "4813",
+      "source_url": "https://hennepinmn.legistar.com/LegislationDetail.aspx?ID=8212441&GUID=75105B98-B9BB-4028-9983-8E2C6336F401"
+    },
+    {
+      "id": "legistar-hennepinmn-agendaitem-36795",
+      "meeting_id": "legistar-hennepinmn-meeting-1466",
+      "title": "August 18, 2026 Meeting Minutes",
+      "file_number": "TMP-26-0701",
+      "external_id": "4814",
+      "source_url": "https://hennepinmn.legistar.com/LegislationDetail.aspx?ID=8210644&GUID=578A9991-B4B1-4295-BB53-7570E4E94342"
+    },
+    {
+      "id": "legistar-hennepinmn-agendaitem-36800",
+      "meeting_id": "legistar-hennepinmn-meeting-1466",
+      "title": "Claim/Summons - 1. Emily Phillips - RE: Emily Phillips Personal Injury Claim. - 2. Andre Harmon - RE: Andre Harmon Personal Injury Claim. - 3. Kevin Varela - RE: Kevin Varela Personal Injury Claim. - 4. Abdoulwahab Mohamed Abdillahi - RE: Abdoulwahab Mohamed Abdillahi Personal Injury Claim. - 5. Adriana Marisela Yanchatipan - RE: Adriana Marisela Yanchatipan Personal Injury Claim. - 6. John Roemer - RE: John Roemer Property Damage Claim. - 7. Jonathan Mason - RE: Jonathan Mason Personal Injury Claim. - 8. Kaylee Yerks - RE: Kaylee Yerks Personal Injury Claim.",
+      "file_number": "26N-0034",
+      "external_id": "4815",
+      "source_url": "https://hennepinmn.legistar.com/LegislationDetail.aspx?ID=8211953&GUID=FC2BDE7B-0E3D-4094-890E-0B9FE52E7A5B"
+    },
+    {
+      "id": "legistar-hennepinmn-agendaitem-36865",
+      "meeting_id": "legistar-hennepinmn-meeting-1466",
+      "title": "Declaring September 15 - October 15 as National Hispanic Heritage Month in Hennepin County - offered by Commissioner Conley",
+      "file_number": "26-0325",
+      "external_id": "4816",
+      "source_url": "https://hennepinmn.legistar.com/LegislationDetail.aspx?ID=8212459&GUID=4E106BDF-8182-4022-9836-D578183ABB7F"
+    },
+    {
+      "id": "legistar-hennepinmn-agendaitem-36870",
+      "meeting_id": "legistar-hennepinmn-meeting-1466",
+      "title": "Letters - 1. From Met Council, RE: Blue Line Extension funding. 2. County Board response to letter",
+      "file_number": "26N-0035",
+      "external_id": "4819",
+      "source_url": "https://hennepinmn.legistar.com/LegislationDetail.aspx?ID=8212716&GUID=52A77E3F-4C1A-4DB9-BBAE-0098C23CB453"
+    },
+    {
+      "id": "legistar-hennepinmn-agendaitem-36866",
+      "meeting_id": "legistar-hennepinmn-meeting-1466",
+      "title": "Sixteen (16) Labor Agreements with various bargaining units are amended for 2027 Health Insurance Benefit premium distribution between the employer and employees",
+      "file_number": "26-0322",
+      "external_id": "4820",
+      "source_url": "https://hennepinmn.legistar.com/LegislationDetail.aspx?ID=8212460&GUID=091E3AD6-0B8B-44C2-9198-F83FA778EDD7"
+    },
+    {
+      "id": "legistar-hennepinmn-agendaitem-36867",
+      "meeting_id": "legistar-hennepinmn-meeting-1466",
+      "title": "Establish 2027 health plan and premium rates for self-insured health care program applicable to employees, eligible dependents and retirees",
+      "file_number": "26-0323",
+      "external_id": "4821",
+      "source_url": "https://hennepinmn.legistar.com/LegislationDetail.aspx?ID=8212461&GUID=580F9AF6-2DDE-40E2-8FC4-C503BCAF1471"
+    },
+    {
+      "id": "legistar-hennepinmn-agendaitem-36871",
+      "meeting_id": "legistar-hennepinmn-meeting-1466",
+      "title": "Direct County Administration, in collaboration with the Hennepin County Sheriff’s Office, to explore, discuss and negotiate a Law Enforcement Services Agreement with the City of Minneapolis for reimbursement of County-provided law enforcement and related services- offered by Commissioner Lunde",
+      "file_number": "26-0335",
+      "external_id": "4825",
+      "source_url": "https://hennepinmn.legistar.com/LegislationDetail.aspx?ID=8212717&GUID=1D774E69-DBFD-46E7-BF9F-53436CCF295B"
     }
   ],
   "voteEvents": [
@@ -2963,6 +3243,210 @@
       "agenda_item_id": "legistar-hennepinmn-agendaitem-36420",
       "result": "Pass",
       "date": "2026-08-18"
+    },
+    {
+      "id": "legistar-hennepinmn-voteevent-36803",
+      "agenda_item_id": "legistar-hennepinmn-agendaitem-36803",
+      "result": "Pass",
+      "date": "2026-09-15"
+    },
+    {
+      "id": "legistar-hennepinmn-voteevent-36804",
+      "agenda_item_id": "legistar-hennepinmn-agendaitem-36804",
+      "result": "Pass",
+      "date": "2026-09-15"
+    },
+    {
+      "id": "legistar-hennepinmn-voteevent-36857",
+      "agenda_item_id": "legistar-hennepinmn-agendaitem-36857",
+      "result": "Pass",
+      "date": "2026-09-15"
+    },
+    {
+      "id": "legistar-hennepinmn-voteevent-36805",
+      "agenda_item_id": "legistar-hennepinmn-agendaitem-36805",
+      "result": "Pass",
+      "date": "2026-09-15"
+    },
+    {
+      "id": "legistar-hennepinmn-voteevent-36806",
+      "agenda_item_id": "legistar-hennepinmn-agendaitem-36806",
+      "result": "Pass",
+      "date": "2026-09-15"
+    },
+    {
+      "id": "legistar-hennepinmn-voteevent-36807",
+      "agenda_item_id": "legistar-hennepinmn-agendaitem-36807",
+      "result": "Pass",
+      "date": "2026-09-15"
+    },
+    {
+      "id": "legistar-hennepinmn-voteevent-36869",
+      "agenda_item_id": "legistar-hennepinmn-agendaitem-36869",
+      "result": "Pass",
+      "date": "2026-09-15"
+    },
+    {
+      "id": "legistar-hennepinmn-voteevent-36808",
+      "agenda_item_id": "legistar-hennepinmn-agendaitem-36808",
+      "result": "Pass",
+      "date": "2026-09-15"
+    },
+    {
+      "id": "legistar-hennepinmn-voteevent-36809",
+      "agenda_item_id": "legistar-hennepinmn-agendaitem-36809",
+      "result": "Pass",
+      "date": "2026-09-15"
+    },
+    {
+      "id": "legistar-hennepinmn-voteevent-36810",
+      "agenda_item_id": "legistar-hennepinmn-agendaitem-36810",
+      "result": "Pass",
+      "date": "2026-09-15"
+    },
+    {
+      "id": "legistar-hennepinmn-voteevent-36811",
+      "agenda_item_id": "legistar-hennepinmn-agendaitem-36811",
+      "result": "Pass",
+      "date": "2026-09-15"
+    },
+    {
+      "id": "legistar-hennepinmn-voteevent-36812",
+      "agenda_item_id": "legistar-hennepinmn-agendaitem-36812",
+      "result": "Pass",
+      "date": "2026-09-15"
+    },
+    {
+      "id": "legistar-hennepinmn-voteevent-36799",
+      "agenda_item_id": "legistar-hennepinmn-agendaitem-36799",
+      "result": "Pass",
+      "date": "2026-09-15"
+    },
+    {
+      "id": "legistar-hennepinmn-voteevent-36813",
+      "agenda_item_id": "legistar-hennepinmn-agendaitem-36813",
+      "result": "Pass",
+      "date": "2026-09-15"
+    },
+    {
+      "id": "legistar-hennepinmn-voteevent-36814",
+      "agenda_item_id": "legistar-hennepinmn-agendaitem-36814",
+      "result": "Pass",
+      "date": "2026-09-15"
+    },
+    {
+      "id": "legistar-hennepinmn-voteevent-36815",
+      "agenda_item_id": "legistar-hennepinmn-agendaitem-36815",
+      "result": "Pass",
+      "date": "2026-09-15"
+    },
+    {
+      "id": "legistar-hennepinmn-voteevent-36816",
+      "agenda_item_id": "legistar-hennepinmn-agendaitem-36816",
+      "result": "Pass",
+      "date": "2026-09-15"
+    },
+    {
+      "id": "legistar-hennepinmn-voteevent-36817",
+      "agenda_item_id": "legistar-hennepinmn-agendaitem-36817",
+      "result": "Pass",
+      "date": "2026-09-15"
+    },
+    {
+      "id": "legistar-hennepinmn-voteevent-36873",
+      "agenda_item_id": "legistar-hennepinmn-agendaitem-36873",
+      "result": "Pass",
+      "date": "2026-09-15"
+    },
+    {
+      "id": "legistar-hennepinmn-voteevent-36818",
+      "agenda_item_id": "legistar-hennepinmn-agendaitem-36818",
+      "result": "Pass",
+      "date": "2026-09-15"
+    },
+    {
+      "id": "legistar-hennepinmn-voteevent-36819",
+      "agenda_item_id": "legistar-hennepinmn-agendaitem-36819",
+      "result": "Pass",
+      "date": "2026-09-15"
+    },
+    {
+      "id": "legistar-hennepinmn-voteevent-36820",
+      "agenda_item_id": "legistar-hennepinmn-agendaitem-36820",
+      "result": "Pass",
+      "date": "2026-09-15"
+    },
+    {
+      "id": "legistar-hennepinmn-voteevent-36862",
+      "agenda_item_id": "legistar-hennepinmn-agendaitem-36862",
+      "result": "Pass",
+      "date": "2026-09-15"
+    },
+    {
+      "id": "legistar-hennepinmn-voteevent-36821",
+      "agenda_item_id": "legistar-hennepinmn-agendaitem-36821",
+      "result": "Pass",
+      "date": "2026-09-15"
+    },
+    {
+      "id": "legistar-hennepinmn-voteevent-36822",
+      "agenda_item_id": "legistar-hennepinmn-agendaitem-36822",
+      "result": "Pass",
+      "date": "2026-09-15"
+    },
+    {
+      "id": "legistar-hennepinmn-voteevent-36863",
+      "agenda_item_id": "legistar-hennepinmn-agendaitem-36863",
+      "result": "Pass",
+      "date": "2026-09-15"
+    },
+    {
+      "id": "legistar-hennepinmn-voteevent-36864",
+      "agenda_item_id": "legistar-hennepinmn-agendaitem-36864",
+      "result": "Pass",
+      "date": "2026-09-15"
+    },
+    {
+      "id": "legistar-hennepinmn-voteevent-36795",
+      "agenda_item_id": "legistar-hennepinmn-agendaitem-36795",
+      "result": "Pass",
+      "date": "2026-09-15"
+    },
+    {
+      "id": "legistar-hennepinmn-voteevent-36800",
+      "agenda_item_id": "legistar-hennepinmn-agendaitem-36800",
+      "result": "Pass",
+      "date": "2026-09-15"
+    },
+    {
+      "id": "legistar-hennepinmn-voteevent-36865",
+      "agenda_item_id": "legistar-hennepinmn-agendaitem-36865",
+      "result": "Pass",
+      "date": "2026-09-15"
+    },
+    {
+      "id": "legistar-hennepinmn-voteevent-36870",
+      "agenda_item_id": "legistar-hennepinmn-agendaitem-36870",
+      "result": "Pass",
+      "date": "2026-09-15"
+    },
+    {
+      "id": "legistar-hennepinmn-voteevent-36866",
+      "agenda_item_id": "legistar-hennepinmn-agendaitem-36866",
+      "result": "Pass",
+      "date": "2026-09-15"
+    },
+    {
+      "id": "legistar-hennepinmn-voteevent-36867",
+      "agenda_item_id": "legistar-hennepinmn-agendaitem-36867",
+      "result": "Pass",
+      "date": "2026-09-15"
+    },
+    {
+      "id": "legistar-hennepinmn-voteevent-36871",
+      "agenda_item_id": "legistar-hennepinmn-agendaitem-36871",
+      "result": "Pass",
+      "date": "2026-09-15"
     }
   ],
   "votes": [
@@ -3152,7 +3636,7 @@
     "officerecords rows dropped for lacking a recognized officeholder title (staff/clerk/unclassified roles, per AGENTS.md §1b) — titles seen and dropped: (blank).",
     "officerecords rows dropped for belonging to a non-governing/internal body: Clerk to the Board, Do not use.",
     "Office here models 'membership in a Legistar body under a given title', not a per-seat/ward electoral district — these two clients' officerecords endpoint does not expose per-seat identifiers. See wards.geojson / commissioners.geojson for seat-level geography.",
-    "Votes ingested only for the most recent 60 days (from 2026-07-18) — the current term on Board of Hennepin County Commissioners began 2019-01-08, but a full-term backfill was not run in this pass to stay within a good-citizen request budget (AGENTS.md §2.2). Run this ingest on a recurring schedule to accumulate full-term coverage incrementally.",
-    "Unmapped Legistar VoteValueName value(s) dropped from Vote[] for hennepinmn (not counted toward any tally): Aye."
+    "Votes ingested only for the most recent 60 days (from 2026-07-19) — the current term on Board of Hennepin County Commissioners began 2019-01-08, but a full-term backfill was not run in this pass to stay within a good-citizen request budget (AGENTS.md §2.2). Run this ingest on a recurring schedule to accumulate full-term coverage incrementally.",
+    "Unmapped Legistar VoteValueName value(s) dropped from Vote[] for hennepinmn (not counted toward any tally): Aye, Away."
   ]
 }
