@@ -2,22 +2,22 @@
   "schemaVersion": 1,
   "client": "hennepinmn",
   "jurisdiction": "Hennepin County Board",
-  "generatedAt": "2026-09-17T16:36:42.620Z",
+  "generatedAt": "2026-09-18T16:08:38.479Z",
   "status": "ingested",
-  "note": "1 meeting(s) (1/1 event(s) in window) and 82 agenda item(s) ingested for 2026-09-03–2026-12-16.",
+  "note": "1 meeting(s) (1/1 event(s) in window) and 82 agenda item(s) ingested for 2026-09-04–2026-12-17.",
   "provenance": {
     "primarySourceUrl": "https://webapi.legistar.com/v1/hennepinmn/events",
     "sourceAgency": "Hennepin County Board",
     "documentType": "Legistar Web API — Events/EventItems",
     "documentId": null,
     "issuedDate": null,
-    "fetchedAt": "2026-09-17T16:36:42.620Z",
+    "fetchedAt": "2026-09-18T16:08:38.479Z",
     "licence": "Public records served via Legistar InSite; no separate machine-reuse licence published by the host jurisdiction as of this writing.",
-    "contentHash": "b1eede62de0c4d899f8615d77deda2e6d07adacff7cdd086303a1b76d6360a92"
+    "contentHash": "ba0aa1bb1bc771ed4de98035e31e2617e7512d8ce2c8a8d137648c2c3ff4d5df"
   },
   "window": {
-    "startIso": "2026-09-03",
-    "endIso": "2026-12-16"
+    "startIso": "2026-09-04",
+    "endIso": "2026-12-17"
   },
   "meetings": [
     {
@@ -1145,7 +1145,7 @@
     "removedIds": [],
     "changed": []
   },
-  "previousGeneratedAt": "2026-09-16T16:32:28.909Z",
+  "previousGeneratedAt": "2026-09-17T16:36:42.620Z",
   "knownGaps": [
     "Consent-agenda flagging uses Legistar's own EventItemConsent field only (24 of 82 agenda item(s) in this window flagged). \"No discussion\" / \"no public comment\" are NOT flagged — this API exposes no comparably reliable field for either, and AGENTS.md §3.3 rules out inferring one from absence."
   ]

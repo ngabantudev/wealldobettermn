@@ -2,39 +2,24 @@
   "schemaVersion": 1,
   "client": "stpaul",
   "jurisdiction": "St. Paul City Council",
-  "generatedAt": "2026-09-17T16:35:43.598Z",
+  "generatedAt": "2026-09-18T16:07:27.233Z",
   "status": "ingested",
-  "note": "16 meeting(s) (16/16 event(s) in window) and 243 agenda item(s) ingested for 2026-09-03–2026-12-16.",
+  "note": "19 meeting(s) (19/19 event(s) in window) and 321 agenda item(s) ingested for 2026-09-04–2026-12-17.",
   "provenance": {
     "primarySourceUrl": "https://webapi.legistar.com/v1/stpaul/events",
     "sourceAgency": "St. Paul City Council",
     "documentType": "Legistar Web API — Events/EventItems",
     "documentId": null,
     "issuedDate": null,
-    "fetchedAt": "2026-09-17T16:35:43.598Z",
+    "fetchedAt": "2026-09-18T16:07:27.233Z",
     "licence": "Public records served via Legistar InSite; no separate machine-reuse licence published by the host jurisdiction as of this writing.",
-    "contentHash": "9d5d9a3bc9b6fef63efe06ce1bd851f19fa1aad19171aeb12b4dc2aa7d059988"
+    "contentHash": "376aca65527ff2713a436b73b7fd39479bc098d5c22a453b8333c97292de037c"
   },
   "window": {
-    "startIso": "2026-09-03",
-    "endIso": "2026-12-16"
+    "startIso": "2026-09-04",
+    "endIso": "2026-12-17"
   },
   "meetings": [
-    {
-      "id": "legistar-stpaul-meeting-7754",
-      "body_id": "legistar-stpaul-body-195",
-      "bodyName": "Legislative Hearings",
-      "date": "2026-09-03",
-      "time": "10:00",
-      "location": "Osborn 370 (Remote)",
-      "agendaStatus": "Final",
-      "agendaUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/9/7754_A_Legislative_Hearings_26-09-03_ADA_Meeting_Agenda.pdf",
-      "minutesUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/9/7754_M_Legislative_Hearings_26-09-03_Minutes_-_Final.pdf",
-      "videoStatus": "Public",
-      "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7754&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
-      "lastModifiedUtc": "2026-09-10T20:22:58.227",
-      "members": []
-    },
     {
       "id": "legistar-stpaul-meeting-7755",
       "body_id": "legistar-stpaul-body-138",
@@ -350,10 +335,10 @@
       "location": "Council Chambers, City Hall",
       "agendaStatus": "Final",
       "agendaUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/9/7763_A_Budget_Committee_26-09-16_ADA_Meeting_Agenda.pdf",
-      "minutesUrl": null,
+      "minutesUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/9/7763_M_Budget_Committee_26-09-16_Meeting_Minutes_-_Action_Only.pdf",
       "videoStatus": "Public",
       "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7763&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
-      "lastModifiedUtc": "2026-09-15T19:32:32.62",
+      "lastModifiedUtc": "2026-09-17T16:48:16.247",
       "members": [
         {
           "id": 6692,
@@ -727,48 +712,213 @@
           "type": "Councilmember"
         }
       ]
+    },
+    {
+      "id": "legistar-stpaul-meeting-7775",
+      "body_id": "legistar-stpaul-body-138",
+      "bodyName": "City Council",
+      "date": "2026-09-23",
+      "time": "15:30",
+      "location": "Council Chambers - 3rd Floor",
+      "agendaStatus": "Final",
+      "agendaUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/9/7775_A_City_Council_26-09-23_ADA_Meeting_Agenda.pdf",
+      "minutesUrl": null,
+      "videoStatus": "Public",
+      "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7775&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
+      "lastModifiedUtc": "2026-09-17T18:28:30.163",
+      "members": [
+        {
+          "id": 6692,
+          "name": "Rebecca Noecker",
+          "type": "Councilmember"
+        },
+        {
+          "id": 6859,
+          "name": "Nelsie Yang",
+          "type": "Councilmember"
+        },
+        {
+          "id": 6785,
+          "name": "HwaJeong Kim",
+          "type": "Councilmember"
+        },
+        {
+          "id": 7038,
+          "name": "Anika Bowie",
+          "type": "Councilmember"
+        },
+        {
+          "id": 7039,
+          "name": "Saura Jost",
+          "type": "Councilmember"
+        },
+        {
+          "id": 7040,
+          "name": "Cheniqua Johnson",
+          "type": "Councilmember"
+        },
+        {
+          "id": 7108,
+          "name": "Molly Coleman",
+          "type": "Councilmember"
+        }
+      ]
+    },
+    {
+      "id": "legistar-stpaul-meeting-7776",
+      "body_id": "legistar-stpaul-body-183",
+      "bodyName": "Housing & Redevelopment Authority",
+      "date": "2026-09-23",
+      "time": "14:00",
+      "location": "Council Chambers, City Hall",
+      "agendaStatus": "Final",
+      "agendaUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/9/7776_A_Housing___Redevelopment_Authority_26-09-23_Meeting_Agenda.pdf",
+      "minutesUrl": null,
+      "videoStatus": "Public",
+      "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7776&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
+      "lastModifiedUtc": "2026-09-17T17:19:09.753",
+      "members": [
+        {
+          "id": 6692,
+          "name": "Rebecca Noecker",
+          "type": "Commissioner"
+        },
+        {
+          "id": 6859,
+          "name": "Nelsie Yang",
+          "type": "Commissioner"
+        },
+        {
+          "id": 7038,
+          "name": "Anika Bowie",
+          "type": "Commissioner"
+        },
+        {
+          "id": 7040,
+          "name": "Cheniqua Johnson",
+          "type": "Commissioner"
+        },
+        {
+          "id": 7039,
+          "name": "Saura Jost",
+          "type": "Commissioner"
+        },
+        {
+          "id": 6785,
+          "name": "HwaJeong Kim",
+          "type": "Commissioner"
+        },
+        {
+          "id": 7108,
+          "name": "Molly Coleman",
+          "type": "Commissioner"
+        }
+      ]
+    },
+    {
+      "id": "legistar-stpaul-meeting-7777",
+      "body_id": "legistar-stpaul-body-188",
+      "bodyName": "Budget Committee",
+      "date": "2026-09-23",
+      "time": "10:00",
+      "location": "Council Chambers, City Hall",
+      "agendaStatus": "Final",
+      "agendaUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/9/7777_A_Budget_Committee_26-09-23_Meeting_Agenda.pdf",
+      "minutesUrl": null,
+      "videoStatus": "Public",
+      "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7777&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
+      "lastModifiedUtc": "2026-09-17T17:16:16.427",
+      "members": [
+        {
+          "id": 6692,
+          "name": "Rebecca Noecker",
+          "type": "Councilmember"
+        },
+        {
+          "id": 6859,
+          "name": "Nelsie Yang",
+          "type": "Councilmember"
+        },
+        {
+          "id": 7038,
+          "name": "Anika Bowie",
+          "type": "Councilmember"
+        },
+        {
+          "id": 7040,
+          "name": "Cheniqua Johnson",
+          "type": "Councilmember"
+        },
+        {
+          "id": 7039,
+          "name": "Saura Jost",
+          "type": "Councilmember"
+        },
+        {
+          "id": 6785,
+          "name": "HwaJeong Kim",
+          "type": "Councilmember"
+        },
+        {
+          "id": 7108,
+          "name": "Molly Coleman",
+          "type": "Councilmember"
+        }
+      ]
+    },
+    {
+      "id": "legistar-stpaul-meeting-7778",
+      "body_id": "legistar-stpaul-body-185",
+      "bodyName": "Library Board",
+      "date": "2026-09-23",
+      "time": "15:30",
+      "location": "Council Chambers",
+      "agendaStatus": "Final",
+      "agendaUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/9/7778_A_Library_Board_26-09-23_Meeting_Agenda_4.pdf",
+      "minutesUrl": null,
+      "videoStatus": "Public",
+      "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7778&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
+      "lastModifiedUtc": "2026-09-17T17:34:40.483",
+      "members": [
+        {
+          "id": 6692,
+          "name": "Rebecca Noecker",
+          "type": "Board Member"
+        },
+        {
+          "id": 6859,
+          "name": "Nelsie Yang",
+          "type": "Board Member"
+        },
+        {
+          "id": 7038,
+          "name": "Anika Bowie",
+          "type": "Board Member"
+        },
+        {
+          "id": 7040,
+          "name": "Cheniqua Johnson",
+          "type": "Board Member"
+        },
+        {
+          "id": 7039,
+          "name": "Saura Jost",
+          "type": "Board Member"
+        },
+        {
+          "id": 6785,
+          "name": "HwaJeong Kim",
+          "type": "Board Member"
+        },
+        {
+          "id": 7108,
+          "name": "Molly Coleman",
+          "type": "Board Member"
+        }
+      ]
     }
   ],
   "agendaItems": [
-    {
-      "id": "legistar-stpaul-eventitem-216851",
-      "meeting_id": "legistar-stpaul-meeting-7754",
-      "sequence": 1,
-      "agendaNumber": null,
-      "title": "10:00 a.m. Hearings",
-      "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
-      "matterFile": null,
-      "matterId": null,
-      "matterType": null
-    },
-    {
-      "id": "legistar-stpaul-eventitem-216862",
-      "meeting_id": "legistar-stpaul-meeting-7754",
-      "sequence": 2,
-      "agendaNumber": null,
-      "title": "Orders To Vacate - Fire Certificate of Occupancy",
-      "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
-      "matterFile": null,
-      "matterId": null,
-      "matterType": null
-    },
-    {
-      "id": "legistar-stpaul-eventitem-216864",
-      "meeting_id": "legistar-stpaul-meeting-7754",
-      "sequence": 3,
-      "agendaNumber": "1",
-      "title": "Appeal of Nathan Malmgren, Jr. to a Notice of Condemnation and Order to Remain Vacate at 71 MANITOBA AVENUE.",
-      "isConsent": false,
-      "actionName": "Referred",
-      "passedFlagName": null,
-      "matterFile": "RLH VO 26-39",
-      "matterId": 52870,
-      "matterType": "Resolution LH Vacate Order"
-    },
     {
       "id": "legistar-stpaul-eventitem-216873",
       "meeting_id": "legistar-stpaul-meeting-7755",
@@ -2219,7 +2369,7 @@
       "agendaNumber": null,
       "title": "Saint Paul Fire Department 2027 Budget Presentation",
       "isConsent": false,
-      "actionName": null,
+      "actionName": "Received and Filed",
       "passedFlagName": null,
       "matterFile": "SR 26-198",
       "matterId": 52903,
@@ -2776,11 +2926,11 @@
       "meeting_id": "legistar-stpaul-meeting-7764",
       "sequence": 47,
       "agendaNumber": "40",
-      "title": "Appeal of Richard Schoolmeesters to a Summary Abatement Order and Correction Notice at 1111 FOURTH STREET EAST.",
+      "title": "Making finding on the appeal of Richard Schoolmeesters to a nuisance abatement ordered for 1111 FOURTH STREET EAST in Council File RLH SAO 26-88.",
       "isConsent": false,
       "actionName": "Adopted As Amended",
       "passedFlagName": "Pass",
-      "matterFile": "RLH SAO 26-88",
+      "matterFile": null,
       "matterId": 52791,
       "matterType": "Resolution LH Summary Abatement Order"
     },
@@ -3888,43 +4038,1082 @@
       "matterFile": null,
       "matterId": null,
       "matterType": null
+    },
+    {
+      "id": "legistar-stpaul-eventitem-217348",
+      "meeting_id": "legistar-stpaul-meeting-7775",
+      "sequence": 1,
+      "agendaNumber": null,
+      "title": "ROLL CALL",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-stpaul-eventitem-217349",
+      "meeting_id": "legistar-stpaul-meeting-7775",
+      "sequence": 2,
+      "agendaNumber": null,
+      "title": "COMMUNICATIONS & RECEIVE/FILE",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-stpaul-eventitem-217350",
+      "meeting_id": "legistar-stpaul-meeting-7775",
+      "sequence": 3,
+      "agendaNumber": "1",
+      "title": "Amending the Citywide Capital Maintenance budget for the Fleet Services division in the Office of Financial Services",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "AO 26-65",
+      "matterId": 52945,
+      "matterType": "Administrative Order"
+    },
+    {
+      "id": "legistar-stpaul-eventitem-217351",
+      "meeting_id": "legistar-stpaul-meeting-7775",
+      "sequence": 4,
+      "agendaNumber": null,
+      "title": "CONSENT AGENDA\r\nItems listed under the Consent Agenda will be enacted by one motion with no separate discussion. If discussion on an item is desired, the item will be removed from the Consent Agenda for separate consideration.\r\n",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-stpaul-eventitem-217352",
+      "meeting_id": "legistar-stpaul-meeting-7775",
+      "sequence": 5,
+      "agendaNumber": "2",
+      "title": "Authorizing the Department of Planning and Economic Development to apply to the Metropolitan Council for grant proposals submitted to the Livable Communities Act (LCA) programs for site assessment, cleanup or environmental remediation, other predevelopment activities, and or funding for new construction or redevelopment from LCA Round Two of 2026.",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "RES 26-1352",
+      "matterId": 52634,
+      "matterType": "Resolution"
+    },
+    {
+      "id": "legistar-stpaul-eventitem-217353",
+      "meeting_id": "legistar-stpaul-meeting-7775",
+      "sequence": 6,
+      "agendaNumber": "3",
+      "title": "Approving the City’s cost of providing Miscellaneous Abatement services during July to August 2026, and setting date of Legislative Hearing for October 20, 2026 and City Council public hearing for January 20, 2027 to consider and levy the assessments against individual properties. (File No. J2604A, Assessment No. 268505)",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "RES 26-1365",
+      "matterId": 52648,
+      "matterType": "Resolution"
+    },
+    {
+      "id": "legistar-stpaul-eventitem-217354",
+      "meeting_id": "legistar-stpaul-meeting-7775",
+      "sequence": 7,
+      "agendaNumber": "4",
+      "title": "Approving the Memorandum of Agreement between the City of Saint Paul and the International Union of Operating Engineers, Local 70, for the purpose of providing a pilot program for off-shift differential pay for employees that are regularly scheduled to work on the weekends.  (To be laid over one week for adoption)",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "RES 26-1464",
+      "matterId": 52769,
+      "matterType": "Resolution"
+    },
+    {
+      "id": "legistar-stpaul-eventitem-217355",
+      "meeting_id": "legistar-stpaul-meeting-7775",
+      "sequence": 26,
+      "agendaNumber": "22",
+      "title": "Approving adverse action against the Tobacco Shop license (License ID #20100004254) held by Northern Tier Retail LLC d/b/a Speedway #4420 for the premises located at 1125 7th St. W. (Licensee will speak to Council on her own behalf).",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "RES 26-1553",
+      "matterId": 52871,
+      "matterType": "Resolution"
+    },
+    {
+      "id": "legistar-stpaul-eventitem-217356",
+      "meeting_id": "legistar-stpaul-meeting-7775",
+      "sequence": 8,
+      "agendaNumber": "5",
+      "title": "Authorizing the acceptance of $66,027.29 from the MN Department of Commerce’s Solar on Public Buildings Grant Program for solar installation at the Solid Waste & Recycling Facility and authorizing the execution of a grant agreement.",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "RES 26-1569",
+      "matterId": 52889,
+      "matterType": "Resolution"
+    },
+    {
+      "id": "legistar-stpaul-eventitem-217357",
+      "meeting_id": "legistar-stpaul-meeting-7775",
+      "sequence": 9,
+      "agendaNumber": "6",
+      "title": "Accepting the gift of travel expense and tuition from the Knight Foundation in partnership with the Bloomberg Center for Cities at Harvard University for Mayor Kaohly Her to attend the Leading a Government Residents Can See and Trust program from 9/28/2026  - 9/29/2026.",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "RES 26-1576",
+      "matterId": 52898,
+      "matterType": "Resolution"
+    },
+    {
+      "id": "legistar-stpaul-eventitem-217358",
+      "meeting_id": "legistar-stpaul-meeting-7775",
+      "sequence": 10,
+      "agendaNumber": "7",
+      "title": "Memorializing a City Council decision to grant the appeals of Jon Knutson, on behalf of Loucks, and Carolyn Wolf, on behalf of Tegra, from the Board of Zoning Appeals decision denying two zoning variances from City Council Resolution 23-1442 for a hotel at United Village Block D  (where 43.1% window and door openings are proposed for façade length [a 6.9% variance] and 23.3% for façade area [a 6.7% variance], below the required 50% and 30%) at 1560 University Avenue West.",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "RES 26-1583",
+      "matterId": 52906,
+      "matterType": "Resolution"
+    },
+    {
+      "id": "legistar-stpaul-eventitem-217359",
+      "meeting_id": "legistar-stpaul-meeting-7775",
+      "sequence": 11,
+      "agendaNumber": "8",
+      "title": "Memorializing a City Council decision to grant the appeal of Joe Bennett from the Board of Zoning Appeals decision denying a zoning variance to convert an existing lit freestanding sign to dynamic display at 1305 7th Street West.",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "RES 26-1584",
+      "matterId": 52907,
+      "matterType": "Resolution"
+    },
+    {
+      "id": "legistar-stpaul-eventitem-217360",
+      "meeting_id": "legistar-stpaul-meeting-7775",
+      "sequence": 12,
+      "agendaNumber": "9",
+      "title": "Setting a public hearing date of November 4, 2026 for 2027 Water Rates and Charges and 2027 Water Fees and Charges.",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "RES 26-1586",
+      "matterId": 52914,
+      "matterType": "Resolution"
+    },
+    {
+      "id": "legistar-stpaul-eventitem-217361",
+      "meeting_id": "legistar-stpaul-meeting-7775",
+      "sequence": 13,
+      "agendaNumber": "10",
+      "title": "Accepting the gift of travel expense and tuition from the Knight Foundation in partnership with Harvard University for Mary Xiong to attend the Responsive Cities Network Sprint convening from 9/29/2026  - 09/30/2026.",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "RES 26-1589",
+      "matterId": 52918,
+      "matterType": "Resolution"
+    },
+    {
+      "id": "legistar-stpaul-eventitem-217362",
+      "meeting_id": "legistar-stpaul-meeting-7775",
+      "sequence": 14,
+      "agendaNumber": "11",
+      "title": "Authorizing approval of settlement and payment in full and final settlement of the employment-related claim involving former Saint Paul Fire Department employee, Jodie Carroll against the City of St. Paul.",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "RES 26-1592",
+      "matterId": 52921,
+      "matterType": "Resolution"
+    },
+    {
+      "id": "legistar-stpaul-eventitem-217363",
+      "meeting_id": "legistar-stpaul-meeting-7775",
+      "sequence": 15,
+      "agendaNumber": "12",
+      "title": "Approving the Memorandum of Agreement between the City and the Saint Paul Police Federation to provide an accelerated program for Police. (To be laid over one week for adoption)",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "RES 26-1595",
+      "matterId": 52925,
+      "matterType": "Resolution"
+    },
+    {
+      "id": "legistar-stpaul-eventitem-217364",
+      "meeting_id": "legistar-stpaul-meeting-7775",
+      "sequence": 16,
+      "agendaNumber": "13",
+      "title": "Approving the application for a Gambling Location license (License ID #DSIBLLIQ-003262-2026) to be added to the existing Liquor On Sale and Liquor On Sale--Sunday licenses (License ID #DSIBLLIQ-000216-2025) held by NS LLC d/b/a Pizza Maya for the premises located at 1324 7th St. W.",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "RES 26-1597",
+      "matterId": 52928,
+      "matterType": "Resolution"
+    },
+    {
+      "id": "legistar-stpaul-eventitem-217365",
+      "meeting_id": "legistar-stpaul-meeting-7775",
+      "sequence": 32,
+      "agendaNumber": "25",
+      "title": "Approving a 2027 maximum property tax levy for the City.",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "RES 26-1599",
+      "matterId": 52930,
+      "matterType": "Resolution"
+    },
+    {
+      "id": "legistar-stpaul-eventitem-217366",
+      "meeting_id": "legistar-stpaul-meeting-7775",
+      "sequence": 17,
+      "agendaNumber": "14",
+      "title": "Authorizing the Fire Department to apply for the 2025 Hazardous Materials Emergency Preparedness (HMEP) grant from the State of Minnesota Department of Public Safety State Fire Marshal Division to provide hazardous materials training and purchase equipment.",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "RES 26-1601",
+      "matterId": 52932,
+      "matterType": "Resolution"
+    },
+    {
+      "id": "legistar-stpaul-eventitem-217367",
+      "meeting_id": "legistar-stpaul-meeting-7775",
+      "sequence": 18,
+      "agendaNumber": "15",
+      "title": "Approving the Mayor’s appointment of Council President Rebecca Noecker to the Saint Paul Port Authority Board of Commissioners for a temporary term beginning on September 24, 2026.",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "RES 26-1602",
+      "matterId": 52934,
+      "matterType": "Resolution"
+    },
+    {
+      "id": "legistar-stpaul-eventitem-217368",
+      "meeting_id": "legistar-stpaul-meeting-7775",
+      "sequence": 19,
+      "agendaNumber": "16",
+      "title": "Approving the Mayor’s appointment of Councilmember Cheniqua Johnson to the Board of Water Commissioners for a temporary term beginning on September 24, 2026.",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "RES 26-1603",
+      "matterId": 52935,
+      "matterType": "Resolution"
+    },
+    {
+      "id": "legistar-stpaul-eventitem-217369",
+      "meeting_id": "legistar-stpaul-meeting-7775",
+      "sequence": 31,
+      "agendaNumber": "24",
+      "title": "Approving a 2027 maximum property tax levy for the Housing and Redevelopment Authority (HRA).",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "RES 26-1605",
+      "matterId": 52937,
+      "matterType": "Resolution"
+    },
+    {
+      "id": "legistar-stpaul-eventitem-217370",
+      "meeting_id": "legistar-stpaul-meeting-7775",
+      "sequence": 20,
+      "agendaNumber": "17",
+      "title": "Approving a Public Hearing on the Issuance of Conduit Multifamily Housing Revenue Bonds by the Housing and Redevelopment Authority of the City of Saint Paul, Minnesota (the “HRA”) for a Multifamily Rental Housing Development Project Located at 408 St. Peter Street; Reciting a Proposal for a Housing Finance Program Related to Such Multifamily Rental Housing Development; Approving the Related Project and Program Pursuant to Minnesota Statutes, Chapter 462C; Authorizing the HRA to Issue Conduit Multifamily Housing Revenue Bonds and Authorizing the Preparation of Necessary Documents and Materials in Connection with Said Project and Program, and Related Documents, District 17, Ward 2.",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "RES 26-1607",
+      "matterId": 52941,
+      "matterType": "Resolution"
+    },
+    {
+      "id": "legistar-stpaul-eventitem-217371",
+      "meeting_id": "legistar-stpaul-meeting-7775",
+      "sequence": 21,
+      "agendaNumber": "18",
+      "title": "Approving the Mayor's appointment of Brian Brown, Mattias Kostov, and Rafe Stanley to the Truth-in-Sale of Housing Board.",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "RES 26-1611",
+      "matterId": 52947,
+      "matterType": "Resolution"
+    },
+    {
+      "id": "legistar-stpaul-eventitem-217372",
+      "meeting_id": "legistar-stpaul-meeting-7775",
+      "sequence": 22,
+      "agendaNumber": "19",
+      "title": "Approving the Mayor’s appointment of Jon Commers to the Saint Paul Public Housing Agency (SPPHA).",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "RES 26-1612",
+      "matterId": 52948,
+      "matterType": "Resolution"
+    },
+    {
+      "id": "legistar-stpaul-eventitem-217373",
+      "meeting_id": "legistar-stpaul-meeting-7775",
+      "sequence": 24,
+      "agendaNumber": "21",
+      "title": "Approving the City of Saint Paul Audit Committee’s next two studies concerning the Department of Safety and Inspections’ Business Licensing Operations and the Public Works Department’s Street Maintenance and Pothole Repair Operations, and authorizing Wilder Research to conduct the respective studies in 2026 and 2027.",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "RES 26-1616",
+      "matterId": 52952,
+      "matterType": "Resolution"
+    },
+    {
+      "id": "legistar-stpaul-eventitem-217374",
+      "meeting_id": "legistar-stpaul-meeting-7775",
+      "sequence": 25,
+      "agendaNumber": null,
+      "title": "FOR DISCUSSION",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-stpaul-eventitem-217375",
+      "meeting_id": "legistar-stpaul-meeting-7775",
+      "sequence": 33,
+      "agendaNumber": null,
+      "title": "ORDINANCES\r\nAn ordinance is a city law enacted by the City Council. It is read at three separate council meetings and becomes effective after passage by the Council and 30 days after publication in the Saint Paul Pioneer Press. Public hearings on ordinances are generally held at the second reading.",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-stpaul-eventitem-217376",
+      "meeting_id": "legistar-stpaul-meeting-7775",
+      "sequence": 34,
+      "agendaNumber": null,
+      "title": "Final Adoption",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-stpaul-eventitem-217377",
+      "meeting_id": "legistar-stpaul-meeting-7775",
+      "sequence": 35,
+      "agendaNumber": "26",
+      "title": "Amending Appendix B of the Legislative Code relating to Northern States Power, D/B/A Xcel Energy, Gas Franchise.",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "Ord 26-40",
+      "matterId": 52844,
+      "matterType": "Ordinance"
+    },
+    {
+      "id": "legistar-stpaul-eventitem-217378",
+      "meeting_id": "legistar-stpaul-meeting-7775",
+      "sequence": 36,
+      "agendaNumber": "27",
+      "title": "Amending Appendix C of the Legislative Code relating to Northern States Power, D/B/A Xcel Energy, Electric Franchise.",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "Ord 26-41",
+      "matterId": 52846,
+      "matterType": "Ordinance"
+    },
+    {
+      "id": "legistar-stpaul-eventitem-217379",
+      "meeting_id": "legistar-stpaul-meeting-7775",
+      "sequence": 37,
+      "agendaNumber": "28",
+      "title": "Amending the Legislative Code by adding a new Appendix B-2 relating to Northern States Power, D/B/A Xcel Energy, Gas Franchise Fee.",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "Ord 26-43",
+      "matterId": 52850,
+      "matterType": "Ordinance"
+    },
+    {
+      "id": "legistar-stpaul-eventitem-217380",
+      "meeting_id": "legistar-stpaul-meeting-7775",
+      "sequence": 38,
+      "agendaNumber": "29",
+      "title": "Amending the Legislative Code by adding a new Appendix C-2 relating to Northern States Power, D/B/A Xcel Energy, Electric Franchise Fee.",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "Ord 26-44",
+      "matterId": 52851,
+      "matterType": "Ordinance"
+    },
+    {
+      "id": "legistar-stpaul-eventitem-217381",
+      "meeting_id": "legistar-stpaul-meeting-7775",
+      "sequence": 39,
+      "agendaNumber": null,
+      "title": "First Reading",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-stpaul-eventitem-217382",
+      "meeting_id": "legistar-stpaul-meeting-7775",
+      "sequence": 40,
+      "agendaNumber": "30",
+      "title": "Amending Chapter 51.01 of the Administrative Code, titled Disposition of City Property, Authority and procedure, to allow for conveyance of real property used by the Saint Paul Regional Water Services, to the Board of Water Commissioners.",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "Ord 26-46",
+      "matterId": 52893,
+      "matterType": "Ordinance"
+    },
+    {
+      "id": "legistar-stpaul-eventitem-217384",
+      "meeting_id": "legistar-stpaul-meeting-7775",
+      "sequence": 41,
+      "agendaNumber": null,
+      "title": "PUBLIC HEARINGS\r\nLive testimony is limited to two minutes for each person. See below for optional ways to testify.",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-stpaul-eventitem-217385",
+      "meeting_id": "legistar-stpaul-meeting-7775",
+      "sequence": 43,
+      "agendaNumber": "32",
+      "title": "Ratifying the assessment for benefits, costs and expenses for the Seventh Place Mall operation and maintenance costs for 2025.  File No. 18428-25, Assessment No. 257200.",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "RES PH 26-182",
+      "matterId": 52491,
+      "matterType": "Resolution-Public Hearing"
+    },
+    {
+      "id": "legistar-stpaul-eventitem-217386",
+      "meeting_id": "legistar-stpaul-meeting-7775",
+      "sequence": 44,
+      "agendaNumber": "33",
+      "title": "Ratifying the assessment for benefits, costs and expenses for the Seventh Place Mall operation and maintenance costs for 2026.  File No. 18428-26, Assessment No. 267200.",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "RES PH 26-183",
+      "matterId": 52492,
+      "matterType": "Resolution-Public Hearing"
+    },
+    {
+      "id": "legistar-stpaul-eventitem-217387",
+      "meeting_id": "legistar-stpaul-meeting-7775",
+      "sequence": 45,
+      "agendaNumber": "34",
+      "title": "Ratifying the assessment for benefits, costs, and expenses for the Grand/Snelling parking lot operation and maintenance costs for 2027. (File No. 18746-26, Assessment No. 267202)",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "RES PH 26-193",
+      "matterId": 52542,
+      "matterType": "Resolution-Public Hearing"
+    },
+    {
+      "id": "legistar-stpaul-eventitem-217388",
+      "meeting_id": "legistar-stpaul-meeting-7775",
+      "sequence": 46,
+      "agendaNumber": "35",
+      "title": "Amending the 2026 Public Works General Fund Street Lighting Maintenance Accounting Unit budget by $450,000 to provide electrician support for the Regional Water Services (SPRWS) Lead Replacement Project.",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "RES PH 26-201",
+      "matterId": 52578,
+      "matterType": "Resolution-Public Hearing"
+    },
+    {
+      "id": "legistar-stpaul-eventitem-217389",
+      "meeting_id": "legistar-stpaul-meeting-7775",
+      "sequence": 47,
+      "agendaNumber": "36",
+      "title": "Accepting grant funds, authorizing execution of a grant agreement (with indemnity obligations and other documents related thereto) and amending the operating budget with respect to the City’s sponsorship of a Minnesota Department of Employment and Economic Development (DEED) Contamination Cleanup grant for the benefit of LSBD St. Paul Broadway II, LLC for its project known as Ember on Pine located at 500 Broadway Street (District 4, Ward 2).",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "RES PH 26-244",
+      "matterId": 52786,
+      "matterType": "Resolution-Public Hearing"
+    },
+    {
+      "id": "legistar-stpaul-eventitem-217390",
+      "meeting_id": "legistar-stpaul-meeting-7775",
+      "sequence": 49,
+      "agendaNumber": "38",
+      "title": "Amending the 2026 Saint Paul Regional Water Services budget resulting in an increase in spending and financing of $53,000 for a Metropolitan Council grant.",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "RES PH 26-268",
+      "matterId": 52912,
+      "matterType": "Resolution-Public Hearing"
+    },
+    {
+      "id": "legistar-stpaul-eventitem-217392",
+      "meeting_id": "legistar-stpaul-meeting-7775",
+      "sequence": 42,
+      "agendaNumber": "31",
+      "title": "Amending Chapter 63 of the Legislative Code pertaining to salt storage regulation.",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "Ord 26-39",
+      "matterId": 52812,
+      "matterType": "Ordinance"
+    },
+    {
+      "id": "legistar-stpaul-eventitem-217393",
+      "meeting_id": "legistar-stpaul-meeting-7775",
+      "sequence": 50,
+      "agendaNumber": null,
+      "title": "LEGISLATIVE HEARING CONSENT AGENDA\r\nItems listed under the Consent Agenda will receive a combined public hearing and be enacted by one motion with no separate discussion. Items may be removed from the Consent Agenda for a separate public hearing and discussion if desired.",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-stpaul-eventitem-217394",
+      "meeting_id": "legistar-stpaul-meeting-7775",
+      "sequence": 55,
+      "agendaNumber": "43",
+      "title": "Making finding on the appeal of Jane Myers nuisance abatement ordered for 1521 HAGUE AVENUE in Council File RLH SAO 26-58.",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "RLH SAO 26-63",
+      "matterId": 52455,
+      "matterType": "Resolution LH Summary Abatement Order"
+    },
+    {
+      "id": "legistar-stpaul-eventitem-217395",
+      "meeting_id": "legistar-stpaul-meeting-7775",
+      "sequence": 57,
+      "agendaNumber": "45",
+      "title": "Making finding on the appealed of Thomas Turbes to a nuisance abatement ordered for 2203 SELBY AVENUE in Council File RLH SAO 26-56.",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "RLH SAO 26-66",
+      "matterId": 52495,
+      "matterType": "Resolution LH Summary Abatement Order"
+    },
+    {
+      "id": "legistar-stpaul-eventitem-217396",
+      "meeting_id": "legistar-stpaul-meeting-7775",
+      "sequence": 56,
+      "agendaNumber": "44",
+      "title": "Making finding on the Appeal of Kinnell Tacket to a nuisance abatement ordered for 444 JOHNSON PARKWAY in Council File RLH CO 26-4.",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "RLH SAO 26-80",
+      "matterId": 52676,
+      "matterType": "Resolution LH Summary Abatement Order"
+    },
+    {
+      "id": "legistar-stpaul-eventitem-217397",
+      "meeting_id": "legistar-stpaul-meeting-7775",
+      "sequence": 51,
+      "agendaNumber": "39",
+      "title": "Making finding on the appeal of Rich C. Nelson to a nuisance abatement ordered for 2348 BUFORD AVENUE in Council File RLH SAO 26-84.",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "RLH SAO 26-90",
+      "matterId": 52908,
+      "matterType": "Resolution LH Summary Abatement Order"
+    },
+    {
+      "id": "legistar-stpaul-eventitem-217398",
+      "meeting_id": "legistar-stpaul-meeting-7775",
+      "sequence": 53,
+      "agendaNumber": "41",
+      "title": "Making finding on the appeal of Mary Roach to a nuisance abatement ordered for 1045 CHARLES AVENUE in Council File RLH SAO 26-78.",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "RLH SAO 26-92",
+      "matterId": 52911,
+      "matterType": "Resolution LH Summary Abatement Order"
+    },
+    {
+      "id": "legistar-stpaul-eventitem-217399",
+      "meeting_id": "legistar-stpaul-meeting-7775",
+      "sequence": 58,
+      "agendaNumber": "46",
+      "title": "Making finding on the appeal of Barry Campbell to a nuisance abatement ordered for 449 VAN DYKE STREET in Council File RLH SAO 26-71.",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "RLH SAO 26-93",
+      "matterId": 52915,
+      "matterType": "Resolution LH Summary Abatement Order"
+    },
+    {
+      "id": "legistar-stpaul-eventitem-217400",
+      "meeting_id": "legistar-stpaul-meeting-7775",
+      "sequence": 52,
+      "agendaNumber": "40",
+      "title": "Making finding on the appeal of Barbara Clark to a nuisance abatement ordered for 1552 CANFIELD AVENUE in Council File RLH SAO 26-77.  (September 22, 2026 Legislative Hearing)",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "RLH SAO 26-94",
+      "matterId": 52923,
+      "matterType": "Resolution LH Summary Abatement Order"
+    },
+    {
+      "id": "legistar-stpaul-eventitem-217401",
+      "meeting_id": "legistar-stpaul-meeting-7775",
+      "sequence": 54,
+      "agendaNumber": "42",
+      "title": "Second Making finding on the appeal of Liam Magistad to a nuisance abatement ordered for 1597 CHARLES AVENUE in Council File RLH SAO 26-61.",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "RLH SAO 26-96",
+      "matterId": 52933,
+      "matterType": "Resolution LH Summary Abatement Order"
+    },
+    {
+      "id": "legistar-stpaul-eventitem-217402",
+      "meeting_id": "legistar-stpaul-meeting-7775",
+      "sequence": 59,
+      "agendaNumber": "47",
+      "title": "Ratifying the assessment for Demolition of Vacant, Nuisance and/or Hazardous Structure from the month of June 2026. (File No. J2608C, Assessment No. 262007)",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "RLH AR 26-62",
+      "matterId": 52580,
+      "matterType": "Resolution LH Assessment Roll"
+    },
+    {
+      "id": "legistar-stpaul-eventitem-217403",
+      "meeting_id": "legistar-stpaul-meeting-7775",
+      "sequence": 60,
+      "agendaNumber": null,
+      "title": "ADJOURNMENT",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-stpaul-eventitem-217404",
+      "meeting_id": "legistar-stpaul-meeting-7775",
+      "sequence": 61,
+      "agendaNumber": null,
+      "title": "City Council meetings are open for in person attendance, but the public may also comment on public hearing items in writing.  Any comments and materials submitted by 12:00 pm of the day before the meeting will be attached to the public record and available for review by the City Council. Comments may be submitted as follows:\r\n\r\nWritten public comment on public hearing items can be submitted to Contact-Council@ci.stpaul.mn.us or CouncilHearing@ci.stpaul.mn.us. Live testimony will be taken in person in the Council Chambers.\r\n\r\nCouncil Meeting Information \r\nThe City Council is paperless which saves the environment and reduces expenses. The agendas and Council files are all available on the Web (see below). Council members use mobile devices to review the files during the meeting. Using a mobile device greatly reduces costs since most agendas, including the documents attached to files, are over 1000 pages when printed.   \r\n\r\nWeb \r\nMeetings are available on the Council's website. Email notification and web feeds (RSS) of newly released minutes, agendas, and meetings are available by subscription. Visit www.stpaul.gov/council for meeting videos and updated copies of the agendas, minutes, and supporting documents.\r\n\r\nCable\r\nMeetings are live on St Paul Channel 18 and replayed at various times.  Check your local listings.",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-stpaul-eventitem-217405",
+      "meeting_id": "legistar-stpaul-meeting-7775",
+      "sequence": 23,
+      "agendaNumber": "20",
+      "title": "Authorizing the Department of Parks and Recreation to accept a gift of travel and lodging from the Cities for Financial Empowerment Fund for two staff members to attend the 2026 Bank On Leadership Training (BOLT) convening in Charlotte, North Carolina.",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "RES 26-1614",
+      "matterId": 52950,
+      "matterType": "Resolution"
+    },
+    {
+      "id": "legistar-stpaul-eventitem-217406",
+      "meeting_id": "legistar-stpaul-meeting-7775",
+      "sequence": 48,
+      "agendaNumber": "37",
+      "title": "Authorizing the Department of Parks and Recreation to accept grant funding in the amount of $2,926,000 from the State of Minnesota and to establish a budget in the Grant Fund to reflect said funds to support arts and cultural heritage at the Como Park Zoo and Conservatory.",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "RES PH 26-250",
+      "matterId": 52841,
+      "matterType": "Resolution-Public Hearing"
+    },
+    {
+      "id": "legistar-stpaul-eventitem-217452",
+      "meeting_id": "legistar-stpaul-meeting-7775",
+      "sequence": 29,
+      "agendaNumber": null,
+      "title": "ROLL CALL",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-stpaul-eventitem-217453",
+      "meeting_id": "legistar-stpaul-meeting-7775",
+      "sequence": 28,
+      "agendaNumber": null,
+      "title": "RECESS\r\nThe City Council will recess to convene as the Library Board to take up RES 26-1594, Requesting that the City levy property taxes for the Saint Paul Public Library Agency. They will then adjourn the Library Board meeting and reconvene as the City Council.",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-stpaul-eventitem-217454",
+      "meeting_id": "legistar-stpaul-meeting-7775",
+      "sequence": 30,
+      "agendaNumber": null,
+      "title": "Budget Items",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-stpaul-eventitem-217456",
+      "meeting_id": "legistar-stpaul-meeting-7775",
+      "sequence": 27,
+      "agendaNumber": "23",
+      "title": "Proclaiming September 25, 2026, as Dolly Parton Day in the City of Saint Paul.",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "RES 26-1588",
+      "matterId": 52917,
+      "matterType": "Resolution"
+    },
+    {
+      "id": "legistar-stpaul-eventitem-217407",
+      "meeting_id": "legistar-stpaul-meeting-7776",
+      "sequence": 1,
+      "agendaNumber": null,
+      "title": "ROLL CALL",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-stpaul-eventitem-217410",
+      "meeting_id": "legistar-stpaul-meeting-7776",
+      "sequence": 2,
+      "agendaNumber": null,
+      "title": "DISCUSSION",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-stpaul-eventitem-217412",
+      "meeting_id": "legistar-stpaul-meeting-7776",
+      "sequence": 3,
+      "agendaNumber": "1",
+      "title": "Authorization to Designate DC Commercial and JB Vang as development partners, or another entity that is affiliated with and controlled by DC Commercial and JB Vang (“Developer”), as tentative developer of 0 Jackson Street (PIN 192922210112), District 6, Ward 5",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "RES 26-1536",
+      "matterId": 52848,
+      "matterType": "Resolution"
+    },
+    {
+      "id": "legistar-stpaul-eventitem-217414",
+      "meeting_id": "legistar-stpaul-meeting-7776",
+      "sequence": 4,
+      "agendaNumber": "2",
+      "title": "Resolution of the Housing and Redevelopment Authority (HRA) Board of Commissioners Approving a 2027 Maximum Property Tax Levy for the HRA, Citywide",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "RES 26-1604",
+      "matterId": 52936,
+      "matterType": "Resolution"
+    },
+    {
+      "id": "legistar-stpaul-eventitem-217415",
+      "meeting_id": "legistar-stpaul-meeting-7776",
+      "sequence": 5,
+      "agendaNumber": "3",
+      "title": "Resolution Approving the Use of Downtown Vitality Funds Economic Development for Endicott Arcade Restoration and First Floor Buildout and Activation Projects, District 17, Ward 2",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "RES 26-1606",
+      "matterId": 52938,
+      "matterType": "Resolution"
+    },
+    {
+      "id": "legistar-stpaul-eventitem-217416",
+      "meeting_id": "legistar-stpaul-meeting-7776",
+      "sequence": 7,
+      "agendaNumber": "4",
+      "title": "Resolution Authorizing the Issuance and Sale of Conduit Multifamily Housing Revenue Bonds for The Hamm Building Located at 408 St. Peter Street; Adopting a Housing Program; and Authorizing the Execution of Related Documents, District 17, Ward 2",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "RES PH 26-270",
+      "matterId": 52939,
+      "matterType": "Resolution-Public Hearing"
+    },
+    {
+      "id": "legistar-stpaul-eventitem-217417",
+      "meeting_id": "legistar-stpaul-meeting-7776",
+      "sequence": 8,
+      "agendaNumber": "5",
+      "title": "Resolution Authorizing the Sale and Conveyance of Property to Dayton’s Bluff Neighborhood Housing Services and Authorization to Amend the Development Agreement for the Village on Rivoli Project, District 5, Ward 2",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "RES PH 26-271",
+      "matterId": 52940,
+      "matterType": "Resolution-Public Hearing"
+    },
+    {
+      "id": "legistar-stpaul-eventitem-217419",
+      "meeting_id": "legistar-stpaul-meeting-7776",
+      "sequence": 9,
+      "agendaNumber": null,
+      "title": "STAFF REPORT",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-stpaul-eventitem-217423",
+      "meeting_id": "legistar-stpaul-meeting-7776",
+      "sequence": 10,
+      "agendaNumber": "6",
+      "title": "Housing and Redevelopment Authority Fund Transfer to the Department of Human Rights & Equal Economic Opportunity Presentation",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "SR 26-202",
+      "matterId": 52944,
+      "matterType": "Staff Report"
+    },
+    {
+      "id": "legistar-stpaul-eventitem-217424",
+      "meeting_id": "legistar-stpaul-meeting-7776",
+      "sequence": 11,
+      "agendaNumber": null,
+      "title": "NEXT MEETING DATE ",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-stpaul-eventitem-217425",
+      "meeting_id": "legistar-stpaul-meeting-7776",
+      "sequence": 12,
+      "agendaNumber": null,
+      "title": "ADJOURNMENT",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-stpaul-eventitem-217426",
+      "meeting_id": "legistar-stpaul-meeting-7776",
+      "sequence": 6,
+      "agendaNumber": null,
+      "title": "PUBLIC HEARINGS",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-stpaul-eventitem-217427",
+      "meeting_id": "legistar-stpaul-meeting-7776",
+      "sequence": 13,
+      "agendaNumber": null,
+      "title": "Housing and Redevelopment Authority Board of Commissioners (HRA) meetings are open for in person attendance, but the public may also comment on public hearing items in writing or via voicemail. Any comments and materials submitted by 12:00 p.m. of the day before the meeting will be attached to the public record and available for review by the Board. Comments may be submitted as follows: \r\n\r\nWritten public comment on public hearing items can be submitted to \r\n\r\nHRAHearing@ci.stpaul.mn.us. Live testimony will be taken in person in the Council Chambers, Third Floor City Hall. \r\n\r\nMembers of the public may view HRA meetings online at \r\n\r\nhttps://stpaul.legistar.com/Calendar.aspx or on local cable Channel 18. \r\n\r\nHRA Meeting Information  \r\n\r\nThe HRA is paperless which saves the environment and reduces expenses. The agendas and HRA files are all available on the Web (see below). Commissioners use mobile devices to review the files during the meeting. Using a mobile device greatly reduces costs since agendas, including the documents attached to files, can be over 100 pages when printed.  \r\n\r\nWeb \r\n\r\nMeetings are available on the City Council website. Email notification and web feeds (RSS) of newly released minutes, agendas, and meetings are available by subscription at https://public.govdelivery.com/accounts/STPAUL/subscriber/new.  \r\n\r\nVisit https://stpaul.legistar.com/Calendar.aspx for meeting videos and updated copies of the agendas, minutes and supporting documents.  \r\n\r\nCable \r\n\r\nMeetings are live on St Paul Channel 18 and replayed at various times. Check your local listings.",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-stpaul-eventitem-217428",
+      "meeting_id": "legistar-stpaul-meeting-7777",
+      "sequence": 1,
+      "agendaNumber": null,
+      "title": "Roll Call",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-stpaul-eventitem-217431",
+      "meeting_id": "legistar-stpaul-meeting-7777",
+      "sequence": 2,
+      "agendaNumber": null,
+      "title": "Discussion",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-stpaul-eventitem-217432",
+      "meeting_id": "legistar-stpaul-meeting-7777",
+      "sequence": 3,
+      "agendaNumber": "1",
+      "title": "Department of Public Works 2027 Budget Presentation.",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "SR 26-205",
+      "matterId": 52971,
+      "matterType": "Staff Report"
+    },
+    {
+      "id": "legistar-stpaul-eventitem-217438",
+      "meeting_id": "legistar-stpaul-meeting-7777",
+      "sequence": 4,
+      "agendaNumber": null,
+      "title": "Adjournment",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-stpaul-eventitem-217439",
+      "meeting_id": "legistar-stpaul-meeting-7778",
+      "sequence": 1,
+      "agendaNumber": null,
+      "title": "Roll Call",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-stpaul-eventitem-217445",
+      "meeting_id": "legistar-stpaul-meeting-7778",
+      "sequence": 2,
+      "agendaNumber": null,
+      "title": "Requesting that the City levy property taxes for the Saint Paul Public Library Agency.",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "RES 26-1594",
+      "matterId": 52924,
+      "matterType": "Resolution"
+    },
+    {
+      "id": "legistar-stpaul-eventitem-217451",
+      "meeting_id": "legistar-stpaul-meeting-7778",
+      "sequence": 3,
+      "agendaNumber": null,
+      "title": "Adjournment",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
     }
   ],
   "diff": {
     "addedIds": [
-      "legistar-stpaul-meeting-7771",
-      "legistar-stpaul-meeting-7773",
-      "legistar-stpaul-meeting-7774"
+      "legistar-stpaul-meeting-7775",
+      "legistar-stpaul-meeting-7776",
+      "legistar-stpaul-meeting-7777",
+      "legistar-stpaul-meeting-7778"
     ],
     "removedIds": [
-      "legistar-stpaul-meeting-7749",
-      "legistar-stpaul-meeting-7750",
-      "legistar-stpaul-meeting-7751",
-      "legistar-stpaul-meeting-7752"
+      "legistar-stpaul-meeting-7754"
     ],
     "changed": [
       {
-        "id": "legistar-stpaul-meeting-7764",
+        "id": "legistar-stpaul-meeting-7763",
         "field": "minutesUrl",
         "from": null,
-        "to": "https://legistar1.granicus.com/StPaul/meetings/2026/9/7764_M_City_Council_26-09-16_Meeting_Minutes_-_Action_Only.pdf"
-      },
-      {
-        "id": "legistar-stpaul-meeting-7766",
-        "field": "minutesUrl",
-        "from": null,
-        "to": "https://legistar1.granicus.com/StPaul/meetings/2026/9/7766_M_Legislative_Hearings_26-09-15_Meeting_Minutes_-_Action_Only.pdf"
-      },
-      {
-        "id": "legistar-stpaul-meeting-7768",
-        "field": "minutesUrl",
-        "from": null,
-        "to": "https://legistar1.granicus.com/StPaul/meetings/2026/9/7768_M_Policy_Committee_26-09-16_Meeting_Minutes_-_Action_Only.pdf"
+        "to": "https://legistar1.granicus.com/StPaul/meetings/2026/9/7763_M_Budget_Committee_26-09-16_Meeting_Minutes_-_Action_Only.pdf"
       }
     ]
   },
-  "previousGeneratedAt": "2026-09-16T16:31:10.654Z",
+  "previousGeneratedAt": "2026-09-17T16:35:43.598Z",
   "knownGaps": [
-    "Consent-agenda flagging uses Legistar's own EventItemConsent field only (94 of 243 agenda item(s) in this window flagged). \"No discussion\" / \"no public comment\" are NOT flagged — this API exposes no comparably reliable field for either, and AGENTS.md §3.3 rules out inferring one from absence."
+    "Consent-agenda flagging uses Legistar's own EventItemConsent field only (94 of 321 agenda item(s) in this window flagged). \"No discussion\" / \"no public comment\" are NOT flagged — this API exposes no comparably reliable field for either, and AGENTS.md §3.3 rules out inferring one from absence."
   ]
 }
