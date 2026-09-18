@@ -1,6 +1,54 @@
 {
-  "generatedAt": "2026-09-17T16:35:43.600Z",
+  "generatedAt": "2026-09-18T16:07:27.235Z",
   "meetingsThisWeek": [
+    {
+      "client": "stpaul",
+      "jurisdiction": "St. Paul City Council",
+      "bodyName": "Budget Committee",
+      "date": "2026-09-23",
+      "time": "10:00",
+      "location": "Council Chambers, City Hall",
+      "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7777&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
+      "agendaUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/9/7777_A_Budget_Committee_26-09-23_Meeting_Agenda.pdf",
+      "isCancelled": false,
+      "members": [
+        {
+          "id": 6692,
+          "name": "Rebecca Noecker",
+          "type": "Councilmember"
+        },
+        {
+          "id": 6859,
+          "name": "Nelsie Yang",
+          "type": "Councilmember"
+        },
+        {
+          "id": 7038,
+          "name": "Anika Bowie",
+          "type": "Councilmember"
+        },
+        {
+          "id": 7040,
+          "name": "Cheniqua Johnson",
+          "type": "Councilmember"
+        },
+        {
+          "id": 7039,
+          "name": "Saura Jost",
+          "type": "Councilmember"
+        },
+        {
+          "id": 6785,
+          "name": "HwaJeong Kim",
+          "type": "Councilmember"
+        },
+        {
+          "id": 7108,
+          "name": "Molly Coleman",
+          "type": "Councilmember"
+        }
+      ]
+    },
     {
       "client": "stpaul",
       "jurisdiction": "St. Paul City Council",
@@ -142,6 +190,150 @@
           "id": 7108,
           "name": "Molly Coleman",
           "type": "Councilmember"
+        }
+      ]
+    },
+    {
+      "client": "stpaul",
+      "jurisdiction": "St. Paul City Council",
+      "bodyName": "Housing & Redevelopment Authority",
+      "date": "2026-09-23",
+      "time": "14:00",
+      "location": "Council Chambers, City Hall",
+      "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7776&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
+      "agendaUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/9/7776_A_Housing___Redevelopment_Authority_26-09-23_Meeting_Agenda.pdf",
+      "isCancelled": false,
+      "members": [
+        {
+          "id": 6692,
+          "name": "Rebecca Noecker",
+          "type": "Commissioner"
+        },
+        {
+          "id": 6859,
+          "name": "Nelsie Yang",
+          "type": "Commissioner"
+        },
+        {
+          "id": 7038,
+          "name": "Anika Bowie",
+          "type": "Commissioner"
+        },
+        {
+          "id": 7040,
+          "name": "Cheniqua Johnson",
+          "type": "Commissioner"
+        },
+        {
+          "id": 7039,
+          "name": "Saura Jost",
+          "type": "Commissioner"
+        },
+        {
+          "id": 6785,
+          "name": "HwaJeong Kim",
+          "type": "Commissioner"
+        },
+        {
+          "id": 7108,
+          "name": "Molly Coleman",
+          "type": "Commissioner"
+        }
+      ]
+    },
+    {
+      "client": "stpaul",
+      "jurisdiction": "St. Paul City Council",
+      "bodyName": "City Council",
+      "date": "2026-09-23",
+      "time": "15:30",
+      "location": "Council Chambers - 3rd Floor",
+      "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7775&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
+      "agendaUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/9/7775_A_City_Council_26-09-23_ADA_Meeting_Agenda.pdf",
+      "isCancelled": false,
+      "members": [
+        {
+          "id": 6692,
+          "name": "Rebecca Noecker",
+          "type": "Councilmember"
+        },
+        {
+          "id": 6859,
+          "name": "Nelsie Yang",
+          "type": "Councilmember"
+        },
+        {
+          "id": 6785,
+          "name": "HwaJeong Kim",
+          "type": "Councilmember"
+        },
+        {
+          "id": 7038,
+          "name": "Anika Bowie",
+          "type": "Councilmember"
+        },
+        {
+          "id": 7039,
+          "name": "Saura Jost",
+          "type": "Councilmember"
+        },
+        {
+          "id": 7040,
+          "name": "Cheniqua Johnson",
+          "type": "Councilmember"
+        },
+        {
+          "id": 7108,
+          "name": "Molly Coleman",
+          "type": "Councilmember"
+        }
+      ]
+    },
+    {
+      "client": "stpaul",
+      "jurisdiction": "St. Paul City Council",
+      "bodyName": "Library Board",
+      "date": "2026-09-23",
+      "time": "15:30",
+      "location": "Council Chambers",
+      "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7778&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
+      "agendaUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/9/7778_A_Library_Board_26-09-23_Meeting_Agenda_4.pdf",
+      "isCancelled": false,
+      "members": [
+        {
+          "id": 6692,
+          "name": "Rebecca Noecker",
+          "type": "Board Member"
+        },
+        {
+          "id": 6859,
+          "name": "Nelsie Yang",
+          "type": "Board Member"
+        },
+        {
+          "id": 7038,
+          "name": "Anika Bowie",
+          "type": "Board Member"
+        },
+        {
+          "id": 7040,
+          "name": "Cheniqua Johnson",
+          "type": "Board Member"
+        },
+        {
+          "id": 7039,
+          "name": "Saura Jost",
+          "type": "Board Member"
+        },
+        {
+          "id": 6785,
+          "name": "HwaJeong Kim",
+          "type": "Board Member"
+        },
+        {
+          "id": 7108,
+          "name": "Molly Coleman",
+          "type": "Board Member"
         }
       ]
     }
