@@ -2,22 +2,22 @@
   "schemaVersion": 1,
   "client": "stpaul",
   "jurisdiction": "St. Paul City Council",
-  "generatedAt": "2026-09-19T15:39:26.455Z",
+  "generatedAt": "2026-09-20T15:44:49.407Z",
   "status": "ingested",
-  "note": "20 meeting(s) (20/20 event(s) in window) and 343 agenda item(s) ingested for 2026-09-05–2026-12-18.",
+  "note": "20 meeting(s) (20/20 event(s) in window) and 343 agenda item(s) ingested for 2026-09-06–2026-12-19.",
   "provenance": {
     "primarySourceUrl": "https://webapi.legistar.com/v1/stpaul/events",
     "sourceAgency": "St. Paul City Council",
     "documentType": "Legistar Web API — Events/EventItems",
     "documentId": null,
     "issuedDate": null,
-    "fetchedAt": "2026-09-19T15:39:26.455Z",
+    "fetchedAt": "2026-09-20T15:44:49.407Z",
     "licence": "Public records served via Legistar InSite; no separate machine-reuse licence published by the host jurisdiction as of this writing.",
-    "contentHash": "170cfaf7d3bfdf6b4e296c9717a8c6ebbf74515794b0cf83e7f85cb53447d60b"
+    "contentHash": "d88882766aa275f628d85f9a143173b674d87cf34a16af664d84fa4f37b621f0"
   },
   "window": {
-    "startIso": "2026-09-05",
-    "endIso": "2026-12-18"
+    "startIso": "2026-09-06",
+    "endIso": "2026-12-19"
   },
   "meetings": [
     {
@@ -5395,26 +5395,11 @@
     }
   ],
   "diff": {
-    "addedIds": [
-      "legistar-stpaul-meeting-7780"
-    ],
+    "addedIds": [],
     "removedIds": [],
-    "changed": [
-      {
-        "id": "legistar-stpaul-meeting-7766",
-        "field": "minutesUrl",
-        "from": "https://legistar1.granicus.com/StPaul/meetings/2026/9/7766_M_Legislative_Hearings_26-09-15_Meeting_Minutes_-_Action_Only.pdf",
-        "to": "https://legistar1.granicus.com/StPaul/meetings/2026/9/7766_M_Legislative_Hearings_26-09-15_Minutes_-_Final.pdf"
-      },
-      {
-        "id": "legistar-stpaul-meeting-7777",
-        "field": "agendaUrl",
-        "from": "https://legistar1.granicus.com/StPaul/meetings/2026/9/7777_A_Budget_Committee_26-09-23_Meeting_Agenda.pdf",
-        "to": "https://legistar1.granicus.com/StPaul/meetings/2026/9/7777_A_Budget_Committee_26-09-23_ADA_Meeting_Agenda.pdf"
-      }
-    ]
+    "changed": []
   },
-  "previousGeneratedAt": "2026-09-18T16:07:27.233Z",
+  "previousGeneratedAt": "2026-09-19T15:39:26.455Z",
   "knownGaps": [
     "Consent-agenda flagging uses Legistar's own EventItemConsent field only (94 of 343 agenda item(s) in this window flagged). \"No discussion\" / \"no public comment\" are NOT flagged — this API exposes no comparably reliable field for either, and AGENTS.md §3.3 rules out inferring one from absence."
   ]
