@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-19T15:40:24.792Z",
+  "generatedAt": "2026-09-20T15:45:49.116Z",
   "meetingsThisWeek": [
     {
       "client": "minneapolis",
@@ -2064,6 +2064,187 @@
           "id": 7964,
           "name": "Jamison Whiting",
           "type": "Council Member"
+        }
+      ]
+    },
+    {
+      "client": "minneapolis",
+      "jurisdiction": "Minneapolis City Council",
+      "bodyName": "Audit Committee",
+      "date": "2026-10-19",
+      "time": "10:00",
+      "location": null,
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/Audit/",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/Audit/",
+      "isCancelled": false,
+      "members": [
+        {
+          "id": 5633,
+          "name": "Jennifer “J.” Singleton",
+          "type": "Vice-Chair"
+        },
+        {
+          "id": 5697,
+          "name": "Aisha Chughtai",
+          "type": "Council Member"
+        },
+        {
+          "id": 5701,
+          "name": "Elliott Payne",
+          "type": "Chair"
+        },
+        {
+          "id": 6491,
+          "name": "Lily Hosbein",
+          "type": "Council Member"
+        },
+        {
+          "id": 7997,
+          "name": "Dan Engelhart",
+          "type": "Council Member"
+        },
+        {
+          "id": 8043,
+          "name": "Wajdi Al-Mowafak",
+          "type": "Council Member"
+        },
+        {
+          "id": 8140,
+          "name": "Rachael Petersen",
+          "type": "Council Member"
+        }
+      ]
+    },
+    {
+      "client": "minneapolis",
+      "jurisdiction": "Minneapolis City Council",
+      "bodyName": "Enterprise & Labor Relations Committee",
+      "date": "2026-10-19",
+      "time": "13:30",
+      "location": null,
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/ELR/",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/ELR/",
+      "isCancelled": false,
+      "members": [
+        {
+          "id": 375,
+          "name": "Linea Palmisano",
+          "type": "Chair"
+        },
+        {
+          "id": 5696,
+          "name": "LaTrisha Vetaw",
+          "type": "Council Member"
+        },
+        {
+          "id": 5697,
+          "name": "Aisha Chughtai",
+          "type": "Council Member"
+        },
+        {
+          "id": 5698,
+          "name": "Jason Chavez",
+          "type": "Council Member"
+        },
+        {
+          "id": 7962,
+          "name": "Soren Stevenson",
+          "type": "Council Member"
+        },
+        {
+          "id": 7963,
+          "name": "Elizabeth Shaffer",
+          "type": "Council Member"
+        },
+        {
+          "id": 7964,
+          "name": "Jamison Whiting",
+          "type": "Vice-Chair"
+        }
+      ]
+    },
+    {
+      "client": "minneapolis",
+      "jurisdiction": "Minneapolis City Council",
+      "bodyName": "Civil Rights Commission Engagement & Research Subcommittee",
+      "date": "2026-10-19",
+      "time": "17:00",
+      "location": null,
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/MCCR-ER/",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/MCCR-ER/",
+      "isCancelled": false,
+      "members": []
+    },
+    {
+      "client": "minneapolis",
+      "jurisdiction": "Minneapolis City Council",
+      "bodyName": "Civil Rights Commission",
+      "date": "2026-10-19",
+      "time": "18:00",
+      "location": null,
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/MCCR/",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/MCCR/",
+      "isCancelled": false,
+      "members": [
+        {
+          "id": 6087,
+          "name": "Michael Smith",
+          "type": "ABC Member"
+        },
+        {
+          "id": 6740,
+          "name": "Mark Stignani",
+          "type": "ABC Member"
+        },
+        {
+          "id": 6741,
+          "name": "William Pentelovitch",
+          "type": "ABC Member"
+        },
+        {
+          "id": 6742,
+          "name": "Viviana Salazar",
+          "type": "ABC Member"
+        },
+        {
+          "id": 6745,
+          "name": "Zamzam Mohammed",
+          "type": "ABC Member"
+        },
+        {
+          "id": 6746,
+          "name": "Ann Marie Schott",
+          "type": "ABC Member"
+        },
+        {
+          "id": 6761,
+          "name": "Tiara Brown",
+          "type": "ABC Member"
+        },
+        {
+          "id": 6970,
+          "name": "Anthony Burns",
+          "type": "ABC Member"
+        },
+        {
+          "id": 6999,
+          "name": "Amy Bergquist",
+          "type": "ABC Member"
+        },
+        {
+          "id": 7001,
+          "name": "David Jones",
+          "type": "ABC Member"
+        },
+        {
+          "id": 7014,
+          "name": "Heather Stratton",
+          "type": "ABC Member"
+        },
+        {
+          "id": 7015,
+          "name": "Rebecca Waggoner",
+          "type": "ABC Member"
         }
       ]
     }
