@@ -2,22 +2,22 @@
   "schemaVersion": 1,
   "client": "hennepinmn",
   "jurisdiction": "Hennepin County Board",
-  "generatedAt": "2026-09-20T15:45:43.911Z",
+  "generatedAt": "2026-09-21T18:06:28.621Z",
   "status": "ingested",
-  "note": "7 meeting(s) (7/7 event(s) in window) and 141 agenda item(s) ingested for 2026-09-06–2026-12-19.",
+  "note": "7 meeting(s) (7/7 event(s) in window) and 141 agenda item(s) ingested for 2026-09-07–2026-12-20.",
   "provenance": {
     "primarySourceUrl": "https://webapi.legistar.com/v1/hennepinmn/events",
     "sourceAgency": "Hennepin County Board",
     "documentType": "Legistar Web API — Events/EventItems",
     "documentId": null,
     "issuedDate": null,
-    "fetchedAt": "2026-09-20T15:45:43.911Z",
+    "fetchedAt": "2026-09-21T18:06:28.621Z",
     "licence": "Public records served via Legistar InSite; no separate machine-reuse licence published by the host jurisdiction as of this writing.",
-    "contentHash": "5587697adb803a8a240cf6dc6f80439578886b66def20043084d5550d4e03cb7"
+    "contentHash": "435d03f3dbbc6543f4f51be2ae4bc38b98ed8fb8c498dfeaf0f339302e600330"
   },
   "window": {
-    "startIso": "2026-09-06",
-    "endIso": "2026-12-19"
+    "startIso": "2026-09-07",
+    "endIso": "2026-12-20"
   },
   "meetings": [
     {
@@ -334,11 +334,11 @@
       "time": "09:30",
       "location": "Government Center Conf Rm A1860",
       "agendaStatus": "Final",
-      "agendaUrl": null,
+      "agendaUrl": "https://hennepinmn.legistar1.com/hennepinmn/meetings/2026/9/1472_A_HHS_Finance_and_Operations_Committee_26-09-23_COMMITTEE_AGENDA.pdf",
       "minutesUrl": null,
       "videoStatus": "Public",
       "sourceUrl": "https://hennepinmn.legistar.com/MeetingDetail.aspx?LEGID=1472&GID=953&G=BA9AD5D7-E82F-425B-B72E-ABFEC8B35879",
-      "lastModifiedUtc": "2026-09-18T16:21:47.11",
+      "lastModifiedUtc": "2026-09-21T15:09:13.077",
       "members": [
         {
           "id": 698,
@@ -2196,9 +2196,16 @@
   "diff": {
     "addedIds": [],
     "removedIds": [],
-    "changed": []
+    "changed": [
+      {
+        "id": "legistar-hennepinmn-meeting-1472",
+        "field": "agendaUrl",
+        "from": null,
+        "to": "https://hennepinmn.legistar1.com/hennepinmn/meetings/2026/9/1472_A_HHS_Finance_and_Operations_Committee_26-09-23_COMMITTEE_AGENDA.pdf"
+      }
+    ]
   },
-  "previousGeneratedAt": "2026-09-19T15:40:19.306Z",
+  "previousGeneratedAt": "2026-09-20T15:45:43.911Z",
   "knownGaps": [
     "Consent-agenda flagging uses Legistar's own EventItemConsent field only (24 of 141 agenda item(s) in this window flagged). \"No discussion\" / \"no public comment\" are NOT flagged — this API exposes no comparably reliable field for either, and AGENTS.md §3.3 rules out inferring one from absence."
   ]
