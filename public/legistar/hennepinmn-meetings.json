@@ -2,22 +2,22 @@
   "schemaVersion": 1,
   "client": "hennepinmn",
   "jurisdiction": "Hennepin County Board",
-  "generatedAt": "2026-09-21T18:06:28.621Z",
+  "generatedAt": "2026-09-22T16:39:08.061Z",
   "status": "ingested",
-  "note": "7 meeting(s) (7/7 event(s) in window) and 141 agenda item(s) ingested for 2026-09-07–2026-12-20.",
+  "note": "7 meeting(s) (7/7 event(s) in window) and 144 agenda item(s) ingested for 2026-09-08–2026-12-21.",
   "provenance": {
     "primarySourceUrl": "https://webapi.legistar.com/v1/hennepinmn/events",
     "sourceAgency": "Hennepin County Board",
     "documentType": "Legistar Web API — Events/EventItems",
     "documentId": null,
     "issuedDate": null,
-    "fetchedAt": "2026-09-21T18:06:28.621Z",
+    "fetchedAt": "2026-09-22T16:39:08.061Z",
     "licence": "Public records served via Legistar InSite; no separate machine-reuse licence published by the host jurisdiction as of this writing.",
-    "contentHash": "435d03f3dbbc6543f4f51be2ae4bc38b98ed8fb8c498dfeaf0f339302e600330"
+    "contentHash": "addf48cf98381cbcb0ef3d6b86b8fc340ff655bbae27ba265bec0d80dea11c02"
   },
   "window": {
-    "startIso": "2026-09-07",
-    "endIso": "2026-12-20"
+    "startIso": "2026-09-08",
+    "endIso": "2026-12-21"
   },
   "meetings": [
     {
@@ -78,12 +78,12 @@
       "date": "2026-09-22",
       "time": "13:30",
       "location": "Government Center - County Board Chambers",
-      "agendaStatus": "Preliminary",
+      "agendaStatus": "Final",
       "agendaUrl": "https://hennepinmn.legistar1.com/hennepinmn/meetings/2026/9/1467_A_Administration%2C_Operations_and_Budget_Committee_26-09-22_COMMITTEE_AGENDA.pdf",
       "minutesUrl": null,
       "videoStatus": "Public",
       "sourceUrl": "https://hennepinmn.legistar.com/MeetingDetail.aspx?LEGID=1467&GID=953&G=BA9AD5D7-E82F-425B-B72E-ABFEC8B35879",
-      "lastModifiedUtc": "2026-09-18T20:52:42.093",
+      "lastModifiedUtc": "2026-09-21T20:49:24.947",
       "members": [
         {
           "id": 508,
@@ -129,12 +129,12 @@
       "date": "2026-09-22",
       "time": "13:30",
       "location": "Government Center - County",
-      "agendaStatus": "Preliminary",
+      "agendaStatus": "Final",
       "agendaUrl": "https://hennepinmn.legistar1.com/hennepinmn/meetings/2026/9/1468_A_Health_Committee_26-09-22_COMMITTEE_AGENDA.pdf",
       "minutesUrl": null,
       "videoStatus": "Public",
       "sourceUrl": "https://hennepinmn.legistar.com/MeetingDetail.aspx?LEGID=1468&GID=953&G=BA9AD5D7-E82F-425B-B72E-ABFEC8B35879",
-      "lastModifiedUtc": "2026-09-18T20:54:49.273",
+      "lastModifiedUtc": "2026-09-21T20:52:19.937",
       "members": [
         {
           "id": 454,
@@ -180,12 +180,12 @@
       "date": "2026-09-22",
       "time": "13:30",
       "location": "Government Center - County Board Chambers",
-      "agendaStatus": "Preliminary",
+      "agendaStatus": "Final",
       "agendaUrl": "https://hennepinmn.legistar1.com/hennepinmn/meetings/2026/9/1469_A_Human_Services_Committee_26-09-22_COMMITTEE_AGENDA.pdf",
       "minutesUrl": null,
       "videoStatus": "Public",
       "sourceUrl": "https://hennepinmn.legistar.com/MeetingDetail.aspx?LEGID=1469&GID=953&G=BA9AD5D7-E82F-425B-B72E-ABFEC8B35879",
-      "lastModifiedUtc": "2026-09-18T20:57:56.45",
+      "lastModifiedUtc": "2026-09-21T20:53:54.46",
       "members": [
         {
           "id": 454,
@@ -231,12 +231,12 @@
       "date": "2026-09-22",
       "time": "13:30",
       "location": "Government Center - County Board Chambers",
-      "agendaStatus": "Preliminary",
+      "agendaStatus": "Final",
       "agendaUrl": "https://hennepinmn.legistar1.com/hennepinmn/meetings/2026/9/1470_A_Law%2C_Safety_and_Justice_Committee_26-09-22_COMMITTEE_AGENDA.pdf",
       "minutesUrl": null,
       "videoStatus": "Public",
       "sourceUrl": "https://hennepinmn.legistar.com/MeetingDetail.aspx?LEGID=1470&GID=953&G=BA9AD5D7-E82F-425B-B72E-ABFEC8B35879",
-      "lastModifiedUtc": "2026-09-18T21:02:18.73",
+      "lastModifiedUtc": "2026-09-21T21:21:46.287",
       "members": [
         {
           "id": 508,
@@ -282,12 +282,12 @@
       "date": "2026-09-22",
       "time": "13:30",
       "location": "Government Center - County Board Chambers",
-      "agendaStatus": "Preliminary",
+      "agendaStatus": "Final",
       "agendaUrl": "https://hennepinmn.legistar1.com/hennepinmn/meetings/2026/9/1471_A_Public_Works_Committee_26-09-22_COMMITTEE_AGENDA.pdf",
       "minutesUrl": null,
       "videoStatus": "Public",
       "sourceUrl": "https://hennepinmn.legistar.com/MeetingDetail.aspx?LEGID=1471&GID=953&G=BA9AD5D7-E82F-425B-B72E-ABFEC8B35879",
-      "lastModifiedUtc": "2026-09-18T21:07:26.34",
+      "lastModifiedUtc": "2026-09-21T20:47:32.723",
       "members": [
         {
           "id": 573,
@@ -1339,7 +1339,7 @@
       "meeting_id": "legistar-hennepinmn-meeting-1466",
       "sequence": 32,
       "agendaNumber": "5.S.",
-      "title": "Direct County Administration, in collaboration with the Hennepin County Sheriff’s Office, to explore, discuss and negotiate a Law Enforcement Services Agreement with the City of Minneapolis for reimbursement of County-provided law enforcement and related services- offered by Commissioner Lunde",
+      "title": "Direct County Administration, in collaboration with the Hennepin County Sheriff’s Office, to explore, discuss and negotiate a Law Enforcement Services Agreement with the City of Minneapolis for reimbursement of County-provided law enforcement and related services- offered by Commissioners Lunde and Conley",
       "isConsent": false,
       "actionName": "refer to committee",
       "passedFlagName": "Pass",
@@ -1621,6 +1621,45 @@
       "matterType": "Resolution"
     },
     {
+      "id": "legistar-hennepinmn-eventitem-37125",
+      "meeting_id": "legistar-hennepinmn-meeting-1467",
+      "sequence": 17,
+      "agendaNumber": "4.H.",
+      "title": "Establish fee schedule for 2027 and establish date and time for required public hearings and meetings for the adoption of the final 2027 budget and levy",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "26-0348",
+      "matterId": 4846,
+      "matterType": "Resolution"
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-37126",
+      "meeting_id": "legistar-hennepinmn-meeting-1467",
+      "sequence": 18,
+      "agendaNumber": "4.I.",
+      "title": "2027 Proposed Operating and Capital Budgets",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "26-0349",
+      "matterId": 4847,
+      "matterType": "Resolution"
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-37127",
+      "meeting_id": "legistar-hennepinmn-meeting-1467",
+      "sequence": 16,
+      "agendaNumber": "4.G.",
+      "title": "Set maximum 2027 property tax levy and proposed 2027 budget",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "26-0347",
+      "matterId": 4849,
+      "matterType": "Resolution"
+    },
+    {
       "id": "legistar-hennepinmn-eventitem-36893",
       "meeting_id": "legistar-hennepinmn-meeting-1468",
       "sequence": 1,
@@ -1859,7 +1898,7 @@
       "meeting_id": "legistar-hennepinmn-meeting-1470",
       "sequence": 9,
       "agendaNumber": "2.D.",
-      "title": "Direct County Administration, in collaboration with the Hennepin County Sheriff’s Office, to explore, discuss and negotiate a Law Enforcement Services Agreement with the City of Minneapolis for reimbursement of County-provided law enforcement and related services- offered by Commissioner Lunde",
+      "title": "Direct County Administration, in collaboration with the Hennepin County Sheriff’s Office, to explore, discuss and negotiate a Law Enforcement Services Agreement with the City of Minneapolis for reimbursement of County-provided law enforcement and related services- offered by Commissioners Lunde and Conley",
       "isConsent": false,
       "actionName": null,
       "passedFlagName": null,
@@ -2198,15 +2237,39 @@
     "removedIds": [],
     "changed": [
       {
-        "id": "legistar-hennepinmn-meeting-1472",
-        "field": "agendaUrl",
-        "from": null,
-        "to": "https://hennepinmn.legistar1.com/hennepinmn/meetings/2026/9/1472_A_HHS_Finance_and_Operations_Committee_26-09-23_COMMITTEE_AGENDA.pdf"
+        "id": "legistar-hennepinmn-meeting-1467",
+        "field": "agendaStatus",
+        "from": "Preliminary",
+        "to": "Final"
+      },
+      {
+        "id": "legistar-hennepinmn-meeting-1468",
+        "field": "agendaStatus",
+        "from": "Preliminary",
+        "to": "Final"
+      },
+      {
+        "id": "legistar-hennepinmn-meeting-1469",
+        "field": "agendaStatus",
+        "from": "Preliminary",
+        "to": "Final"
+      },
+      {
+        "id": "legistar-hennepinmn-meeting-1470",
+        "field": "agendaStatus",
+        "from": "Preliminary",
+        "to": "Final"
+      },
+      {
+        "id": "legistar-hennepinmn-meeting-1471",
+        "field": "agendaStatus",
+        "from": "Preliminary",
+        "to": "Final"
       }
     ]
   },
-  "previousGeneratedAt": "2026-09-20T15:45:43.911Z",
+  "previousGeneratedAt": "2026-09-21T18:06:28.621Z",
   "knownGaps": [
-    "Consent-agenda flagging uses Legistar's own EventItemConsent field only (24 of 141 agenda item(s) in this window flagged). \"No discussion\" / \"no public comment\" are NOT flagged — this API exposes no comparably reliable field for either, and AGENTS.md §3.3 rules out inferring one from absence."
+    "Consent-agenda flagging uses Legistar's own EventItemConsent field only (24 of 144 agenda item(s) in this window flagged). \"No discussion\" / \"no public comment\" are NOT flagged — this API exposes no comparably reliable field for either, and AGENTS.md §3.3 rules out inferring one from absence."
   ]
 }
