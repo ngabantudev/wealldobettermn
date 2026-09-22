@@ -1,18 +1,6 @@
 {
-  "generatedAt": "2026-09-21T18:06:34.395Z",
+  "generatedAt": "2026-09-22T16:39:14.758Z",
   "meetingsThisWeek": [
-    {
-      "client": "minneapolis",
-      "jurisdiction": "Minneapolis City Council",
-      "bodyName": "Civil Rights Commission Engagement & Research Subcommittee",
-      "date": "2026-09-21",
-      "time": "17:00",
-      "location": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/MCCR-ER/",
-      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/MCCR-ER/",
-      "isCancelled": false,
-      "members": []
-    },
     {
       "client": "minneapolis",
       "jurisdiction": "Minneapolis City Council",
@@ -263,8 +251,8 @@
       "date": "2026-09-24",
       "time": "10:00",
       "location": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/Budget/",
-      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/Budget/",
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/Budget/6236",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/Budget/6236",
       "isCancelled": false,
       "members": [
         {
@@ -417,8 +405,8 @@
       "date": "2026-09-28",
       "time": "10:00",
       "location": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/Budget/",
-      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/Budget/",
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/Budget/6240",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/Budget/6240",
       "isCancelled": false,
       "members": [
         {
@@ -674,8 +662,8 @@
       "date": "2026-09-29",
       "time": "10:00",
       "location": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/Budget/",
-      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/Budget/",
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/Budget/6237",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/Budget/6237",
       "isCancelled": false,
       "members": [
         {
@@ -1009,8 +997,8 @@
       "date": "2026-10-05",
       "time": "10:00",
       "location": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/Budget/",
-      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/Budget/",
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/Budget/6238",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/Budget/6238",
       "isCancelled": false,
       "members": [
         {
@@ -1183,8 +1171,8 @@
       "date": "2026-10-06",
       "time": "10:00",
       "location": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/Budget/",
-      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/Budget/",
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/Budget/6239",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/Budget/6239",
       "isCancelled": false,
       "members": [
         {
@@ -2446,6 +2434,92 @@
         {
           "id": 7018,
           "name": "Paul Mellblom",
+          "type": "ABC Member"
+        }
+      ]
+    },
+    {
+      "client": "minneapolis",
+      "jurisdiction": "Minneapolis City Council",
+      "bodyName": "Public Health, Safety & Equity",
+      "date": "2026-10-21",
+      "time": "13:30",
+      "location": null,
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/PHSE/",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/PHSE/",
+      "isCancelled": false,
+      "members": [
+        {
+          "id": 5692,
+          "name": "Robin Wonsley",
+          "type": "Council Member"
+        },
+        {
+          "id": 5696,
+          "name": "LaTrisha Vetaw",
+          "type": "Council Member"
+        },
+        {
+          "id": 5698,
+          "name": "Jason Chavez",
+          "type": "Chair"
+        },
+        {
+          "id": 5700,
+          "name": "Michael Rainville",
+          "type": "Council Member"
+        },
+        {
+          "id": 5701,
+          "name": "Elliott Payne",
+          "type": "Council Member"
+        },
+        {
+          "id": 7962,
+          "name": "Soren Stevenson",
+          "type": "Vice-Chair"
+        },
+        {
+          "id": 7964,
+          "name": "Jamison Whiting",
+          "type": "Council Member"
+        }
+      ]
+    },
+    {
+      "client": "minneapolis",
+      "jurisdiction": "Minneapolis City Council",
+      "bodyName": "Minneapolis Arts Commission",
+      "date": "2026-10-21",
+      "time": "17:30",
+      "location": null,
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/ARTS/",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/ARTS/",
+      "isCancelled": false,
+      "members": [
+        {
+          "id": 6710,
+          "name": "Lucy Thompson",
+          "type": "ABC Member"
+        },
+        {
+          "id": 6711,
+          "name": "Anna Wienke",
+          "type": "ABC Member"
+        },
+        {
+          "id": 6726,
+          "name": "Boo McCaleb",
+          "type": "ABC Member"
+        },
+        {
+          "id": 6871,
+          "name": "Kaytie Kamphoff",
+          "type": "ABC Member"
+        },
+        {
+          "id": 6917,
+          "name": "Juan PEREZ LA CRUZ",
           "type": "ABC Member"
         }
       ]

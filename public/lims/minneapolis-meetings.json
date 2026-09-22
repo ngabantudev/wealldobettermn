@@ -2,22 +2,22 @@
   "schemaVersion": 1,
   "client": "minneapolis",
   "jurisdiction": "Minneapolis City Council",
-  "generatedAt": "2026-09-21T18:06:34.390Z",
+  "generatedAt": "2026-09-22T16:39:14.755Z",
   "status": "ingested",
-  "note": "143 meeting(s) and 313 agenda item(s) ingested for 2026-09-07–2026-12-20.",
+  "note": "143 meeting(s) and 313 agenda item(s) ingested for 2026-09-08–2026-12-21.",
   "provenance": {
     "primarySourceUrl": "https://lims.minneapolismn.gov/",
     "sourceAgency": "City of Minneapolis, Office of the City Clerk",
     "documentType": "LIMS API v1 — meetingCalendar/FileItemSearch",
     "documentId": null,
     "issuedDate": null,
-    "fetchedAt": "2026-09-21T18:06:34.390Z",
+    "fetchedAt": "2026-09-22T16:39:14.755Z",
     "licence": "Public records served via the City of Minneapolis LIMS API; no separate machine-reuse licence published as of this writing.",
     "contentHash": null
   },
   "window": {
-    "startIso": "2026-09-07",
-    "endIso": "2026-12-20"
+    "startIso": "2026-09-08",
+    "endIso": "2026-12-21"
   },
   "meetings": [
     {
@@ -939,10 +939,10 @@
       "time": "18:00",
       "location": null,
       "agendaStatus": null,
-      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/CCPO/6216",
-      "minutesUrl": null,
+      "agendaUrl": "https://lims.minneapolismn.gov/Board/MarkedAgenda/CCPO/6216",
+      "minutesUrl": "https://lims.minneapolismn.gov/api/v1/downloads/CommitteeReport/4978/CCPO_20260915_minutes.pdf",
       "videoStatus": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/CCPO/6216",
+      "sourceUrl": "https://lims.minneapolismn.gov/Board/MarkedAgenda/CCPO/6216",
       "lastModifiedUtc": null,
       "members": [
         {
@@ -1546,10 +1546,10 @@
       "time": "10:00",
       "location": null,
       "agendaStatus": null,
-      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/Budget/",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/Budget/6236",
       "minutesUrl": null,
       "videoStatus": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/Budget/",
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/Budget/6236",
       "lastModifiedUtc": null,
       "members": [
         {
@@ -1709,10 +1709,10 @@
       "time": "10:00",
       "location": null,
       "agendaStatus": null,
-      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/Budget/",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/Budget/6240",
       "minutesUrl": null,
       "videoStatus": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/Budget/",
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/Budget/6240",
       "lastModifiedUtc": null,
       "members": [
         {
@@ -1978,10 +1978,10 @@
       "time": "10:00",
       "location": null,
       "agendaStatus": null,
-      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/Budget/",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/Budget/6237",
       "minutesUrl": null,
       "videoStatus": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/Budget/",
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/Budget/6237",
       "lastModifiedUtc": null,
       "members": [
         {
@@ -2328,10 +2328,10 @@
       "time": "10:00",
       "location": null,
       "agendaStatus": null,
-      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/Budget/",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/Budget/6238",
       "minutesUrl": null,
       "videoStatus": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/Budget/",
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/Budget/6238",
       "lastModifiedUtc": null,
       "members": [
         {
@@ -2511,10 +2511,10 @@
       "time": "10:00",
       "location": null,
       "agendaStatus": null,
-      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/Budget/",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/Budget/6239",
       "minutesUrl": null,
       "videoStatus": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/Budget/",
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/Budget/6239",
       "lastModifiedUtc": null,
       "members": [
         {
@@ -17348,9 +17348,52 @@
   "diff": {
     "addedIds": [],
     "removedIds": [],
-    "changed": []
+    "changed": [
+      {
+        "id": "lims-minneapolis-meeting-community-commission-on-police-oversight-2026-09-15T18:00:00",
+        "field": "agendaUrl",
+        "from": "https://lims.minneapolismn.gov/Agenda/CCPO/6216",
+        "to": "https://lims.minneapolismn.gov/Board/MarkedAgenda/CCPO/6216"
+      },
+      {
+        "id": "lims-minneapolis-meeting-community-commission-on-police-oversight-2026-09-15T18:00:00",
+        "field": "minutesUrl",
+        "from": null,
+        "to": "https://lims.minneapolismn.gov/api/v1/downloads/CommitteeReport/4978/CCPO_20260915_minutes.pdf"
+      },
+      {
+        "id": "lims-minneapolis-meeting-budget-committee-2026-09-24T10:00:00",
+        "field": "agendaUrl",
+        "from": "https://lims.minneapolismn.gov/Agenda/Budget/",
+        "to": "https://lims.minneapolismn.gov/Agenda/Budget/6236"
+      },
+      {
+        "id": "lims-minneapolis-meeting-budget-committee-2026-09-28T10:00:00",
+        "field": "agendaUrl",
+        "from": "https://lims.minneapolismn.gov/Agenda/Budget/",
+        "to": "https://lims.minneapolismn.gov/Agenda/Budget/6240"
+      },
+      {
+        "id": "lims-minneapolis-meeting-budget-committee-2026-09-29T10:00:00",
+        "field": "agendaUrl",
+        "from": "https://lims.minneapolismn.gov/Agenda/Budget/",
+        "to": "https://lims.minneapolismn.gov/Agenda/Budget/6237"
+      },
+      {
+        "id": "lims-minneapolis-meeting-budget-committee-2026-10-05T10:00:00",
+        "field": "agendaUrl",
+        "from": "https://lims.minneapolismn.gov/Agenda/Budget/",
+        "to": "https://lims.minneapolismn.gov/Agenda/Budget/6238"
+      },
+      {
+        "id": "lims-minneapolis-meeting-budget-committee-2026-10-06T10:00:00",
+        "field": "agendaUrl",
+        "from": "https://lims.minneapolismn.gov/Agenda/Budget/",
+        "to": "https://lims.minneapolismn.gov/Agenda/Budget/6239"
+      }
+    ]
   },
-  "previousGeneratedAt": "2026-09-20T15:45:49.111Z",
+  "previousGeneratedAt": "2026-09-21T18:06:34.390Z",
   "knownGaps": [
     "Consent-agenda flagging not implemented — LIMS has no field structurally equivalent to Legistar's EventItemConsent; every agenda item ships isConsent: false rather than a guess.",
     "3 same-day, same-body meeting collision(s) in this window — FileItemSearch's LegislativeHistory carries a date but no time, so a second same-day session for the same body can't be disambiguated; the earliest session for each colliding (body, date) pair was used."
