@@ -2,22 +2,22 @@
   "schemaVersion": 1,
   "client": "stpaul",
   "jurisdiction": "St. Paul City Council",
-  "generatedAt": "2026-09-22T16:37:50.985Z",
+  "generatedAt": "2026-09-23T16:28:53.834Z",
   "status": "ingested",
-  "note": "20 meeting(s) (20/20 event(s) in window) and 338 agenda item(s) ingested for 2026-09-08–2026-12-21.",
+  "note": "19 meeting(s) (19/19 event(s) in window) and 308 agenda item(s) ingested for 2026-09-09–2026-12-22.",
   "provenance": {
     "primarySourceUrl": "https://webapi.legistar.com/v1/stpaul/events",
     "sourceAgency": "St. Paul City Council",
     "documentType": "Legistar Web API — Events/EventItems",
     "documentId": null,
     "issuedDate": null,
-    "fetchedAt": "2026-09-22T16:37:50.985Z",
+    "fetchedAt": "2026-09-23T16:28:53.834Z",
     "licence": "Public records served via Legistar InSite; no separate machine-reuse licence published by the host jurisdiction as of this writing.",
-    "contentHash": "b200452268b5a1c09b3453743549bb3993902dd172a3356fd0845d6fbe68bc0c"
+    "contentHash": "68b46b4be70a3d64227ca01ba757296775f531a1823be40b9ab5b8bcfb0e913f"
   },
   "window": {
-    "startIso": "2026-09-08",
-    "endIso": "2026-12-21"
+    "startIso": "2026-09-09",
+    "endIso": "2026-12-22"
   },
   "meetings": [
     {
@@ -221,57 +221,6 @@
           "id": 6785,
           "name": "HwaJeong Kim",
           "type": "Councilmember"
-        }
-      ]
-    },
-    {
-      "id": "legistar-stpaul-meeting-7760",
-      "body_id": "legistar-stpaul-body-231",
-      "bodyName": "Board of Water Commissioners",
-      "date": "2026-09-08",
-      "time": "12:00",
-      "location": "Room 40 City Hall",
-      "agendaStatus": "Final",
-      "agendaUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/9/7760_A_Board_of_Water_Commissioners_26-09-08_Meeting_Agenda.pdf",
-      "minutesUrl": null,
-      "videoStatus": "Public",
-      "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7760&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
-      "lastModifiedUtc": "2026-09-09T19:41:48.853",
-      "members": [
-        {
-          "id": 6645,
-          "name": "Mara Humphrey",
-          "type": "Commissioner"
-        },
-        {
-          "id": 6990,
-          "name": "Rebecca Cave",
-          "type": "Commissioner"
-        },
-        {
-          "id": 7039,
-          "name": "Saura Jost",
-          "type": "Commissioner"
-        },
-        {
-          "id": 6550,
-          "name": "Chris Tolbert",
-          "type": "Commissioner"
-        },
-        {
-          "id": 7108,
-          "name": "Molly Coleman",
-          "type": "Commissioner"
-        },
-        {
-          "id": 7136,
-          "name": "Stephanie Levine",
-          "type": "Commissioner"
-        },
-        {
-          "id": 6859,
-          "name": "Nelsie Yang",
-          "type": "Commissioner"
         }
       ]
     },
@@ -623,7 +572,7 @@
       "minutesUrl": null,
       "videoStatus": "Public",
       "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7773&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
-      "lastModifiedUtc": "2026-09-16T21:47:17.367",
+      "lastModifiedUtc": "2026-09-23T16:16:35.453",
       "members": [
         {
           "id": 7038,
@@ -827,7 +776,7 @@
       "minutesUrl": null,
       "videoStatus": "Public",
       "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7777&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
-      "lastModifiedUtc": "2026-09-18T19:35:30.853",
+      "lastModifiedUtc": "2026-09-23T15:17:15.047",
       "members": [
         {
           "id": 6692,
@@ -874,11 +823,11 @@
       "time": "15:30",
       "location": "Council Chambers",
       "agendaStatus": "Final",
-      "agendaUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/9/7778_A_Library_Board_26-09-23_Meeting_Agenda_4.pdf",
+      "agendaUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/9/7778_A_Library_Board_26-09-23_ADA_Meeting_Agenda.pdf",
       "minutesUrl": null,
       "videoStatus": "Public",
       "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7778&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
-      "lastModifiedUtc": "2026-09-17T17:34:40.483",
+      "lastModifiedUtc": "2026-09-23T15:29:19.98",
       "members": [
         {
           "id": 6692,
@@ -1983,318 +1932,6 @@
       "isConsent": false,
       "actionName": null,
       "passedFlagName": null,
-      "matterFile": null,
-      "matterId": null,
-      "matterType": null
-    },
-    {
-      "id": "legistar-stpaul-eventitem-216977",
-      "meeting_id": "legistar-stpaul-meeting-7760",
-      "sequence": 1,
-      "agendaNumber": null,
-      "title": "Roll Call",
-      "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
-      "matterFile": null,
-      "matterId": null,
-      "matterType": null
-    },
-    {
-      "id": "legistar-stpaul-eventitem-216980",
-      "meeting_id": "legistar-stpaul-meeting-7760",
-      "sequence": 2,
-      "agendaNumber": null,
-      "title": "Consent Agenda\r\n\r\nNote:  Items listed under the Consent Agenda will be enacted by one motion with no separate discussion.  If discussion on an item is desired, the item will be removed from the Consent Agenda for separate consideration.",
-      "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
-      "matterFile": null,
-      "matterId": null,
-      "matterType": null
-    },
-    {
-      "id": "legistar-stpaul-eventitem-216981",
-      "meeting_id": "legistar-stpaul-meeting-7760",
-      "sequence": 11,
-      "agendaNumber": null,
-      "title": "Discussion",
-      "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
-      "matterFile": null,
-      "matterId": null,
-      "matterType": null
-    },
-    {
-      "id": "legistar-stpaul-eventitem-216992",
-      "meeting_id": "legistar-stpaul-meeting-7760",
-      "sequence": 3,
-      "agendaNumber": "1",
-      "title": "Approving the minutes of the August 11, 2026 meeting.",
-      "isConsent": true,
-      "actionName": "Adopted",
-      "passedFlagName": null,
-      "matterFile": "Min 26-28",
-      "matterId": 52820,
-      "matterType": "Approval of Minutes"
-    },
-    {
-      "id": "legistar-stpaul-eventitem-216993",
-      "meeting_id": "legistar-stpaul-meeting-7760",
-      "sequence": 5,
-      "agendaNumber": "3",
-      "title": "Pertaining to Amendment No. 1 to the Private Water Main Agreement with WestSP Development Partners, LLC (“Developer”) to supply water to the Thompson Oaks Development at 160 Thompson Avenue East in the city of West Saint Paul.",
-      "isConsent": true,
-      "actionName": "Adopted",
-      "passedFlagName": "Pass",
-      "matterFile": "RES 26-1510",
-      "matterId": 52822,
-      "matterType": "Resolution"
-    },
-    {
-      "id": "legistar-stpaul-eventitem-216994",
-      "meeting_id": "legistar-stpaul-meeting-7760",
-      "sequence": 6,
-      "agendaNumber": "4",
-      "title": "Pertaining to an encroachment agreement with 1215 Hawthorne Avenue East to allow the continuation of private use on Board of Water Commissioners land between Hawthorne Avenue East and Orange Avenue East.",
-      "isConsent": true,
-      "actionName": "Adopted",
-      "passedFlagName": "Pass",
-      "matterFile": "RES 26-1511",
-      "matterId": 52823,
-      "matterType": "Resolution"
-    },
-    {
-      "id": "legistar-stpaul-eventitem-216995",
-      "meeting_id": "legistar-stpaul-meeting-7760",
-      "sequence": 7,
-      "agendaNumber": "5",
-      "title": "Pertaining to Board approval to use Master Contract No. 4747 with Jacobs to provide engineering services to conduct a feasibility study for removing the Low Service Reservoir from service for future structural condition assessments and maintenance.",
-      "isConsent": true,
-      "actionName": "Adopted",
-      "passedFlagName": "Pass",
-      "matterFile": "RES 26-1512",
-      "matterId": 52824,
-      "matterType": "Resolution"
-    },
-    {
-      "id": "legistar-stpaul-eventitem-216996",
-      "meeting_id": "legistar-stpaul-meeting-7760",
-      "sequence": 8,
-      "agendaNumber": "6",
-      "title": "Pertaining to the Scope of Work for the Hazel Park pump replacement project with Black & Veatch.",
-      "isConsent": true,
-      "actionName": "Adopted",
-      "passedFlagName": "Pass",
-      "matterFile": "RES 26-1513",
-      "matterId": 52825,
-      "matterType": "Resolution"
-    },
-    {
-      "id": "legistar-stpaul-eventitem-216997",
-      "meeting_id": "legistar-stpaul-meeting-7760",
-      "sequence": 9,
-      "agendaNumber": "7",
-      "title": "Pertaining to a grant funding agreement with the Metropolitan Council to continue a water demand reduction program.",
-      "isConsent": true,
-      "actionName": "Adopted",
-      "passedFlagName": "Pass",
-      "matterFile": "RES 26-1514",
-      "matterId": 52826,
-      "matterType": "Resolution"
-    },
-    {
-      "id": "legistar-stpaul-eventitem-216998",
-      "meeting_id": "legistar-stpaul-meeting-7760",
-      "sequence": 10,
-      "agendaNumber": "8",
-      "title": "Pertaining to accepting a Met Council grant, amending the 2026 adopted budget to include the grant amount.",
-      "isConsent": true,
-      "actionName": "Adopted",
-      "passedFlagName": "Pass",
-      "matterFile": "RES 26-1515",
-      "matterId": 52827,
-      "matterType": "Resolution"
-    },
-    {
-      "id": "legistar-stpaul-eventitem-216999",
-      "meeting_id": "legistar-stpaul-meeting-7760",
-      "sequence": 12,
-      "agendaNumber": "9",
-      "title": "2027 Budget and water charges presentation",
-      "isConsent": false,
-      "actionName": "Received and Filed",
-      "passedFlagName": null,
-      "matterFile": "CO 26-38",
-      "matterId": 52831,
-      "matterType": "Communications & Receive/File"
-    },
-    {
-      "id": "legistar-stpaul-eventitem-217000",
-      "meeting_id": "legistar-stpaul-meeting-7760",
-      "sequence": 14,
-      "agendaNumber": "10",
-      "title": "Public Hearing on 2027 Water Charges",
-      "isConsent": false,
-      "actionName": "Adopted",
-      "passedFlagName": "Pass",
-      "matterFile": "RES PH 26-249",
-      "matterId": 52832,
-      "matterType": "Resolution-Public Hearing"
-    },
-    {
-      "id": "legistar-stpaul-eventitem-217001",
-      "meeting_id": "legistar-stpaul-meeting-7760",
-      "sequence": 16,
-      "agendaNumber": "11",
-      "title": "Pertaining to recommending a 2027 budget to Saint Paul City Council for approval.",
-      "isConsent": false,
-      "actionName": "Adopted",
-      "passedFlagName": "Pass",
-      "matterFile": "RES 26-1521",
-      "matterId": 52833,
-      "matterType": "Resolution"
-    },
-    {
-      "id": "legistar-stpaul-eventitem-217002",
-      "meeting_id": "legistar-stpaul-meeting-7760",
-      "sequence": 17,
-      "agendaNumber": "12",
-      "title": "Pertaining to recommending 2027 Water Charges to Saint Paul City Council for approval.",
-      "isConsent": false,
-      "actionName": "Adopted",
-      "passedFlagName": "Pass",
-      "matterFile": "RES 26-1522",
-      "matterId": 52834,
-      "matterType": "Resolution"
-    },
-    {
-      "id": "legistar-stpaul-eventitem-217003",
-      "meeting_id": "legistar-stpaul-meeting-7760",
-      "sequence": 21,
-      "agendaNumber": "15",
-      "title": "General Manager's Report",
-      "isConsent": false,
-      "actionName": "Received and Filed",
-      "passedFlagName": null,
-      "matterFile": "CO 26-39",
-      "matterId": 52837,
-      "matterType": "Communications & Receive/File"
-    },
-    {
-      "id": "legistar-stpaul-eventitem-217004",
-      "meeting_id": "legistar-stpaul-meeting-7760",
-      "sequence": 22,
-      "agendaNumber": "16",
-      "title": "Pipeline Express",
-      "isConsent": false,
-      "actionName": "Received and Filed",
-      "passedFlagName": null,
-      "matterFile": "CO 26-40",
-      "matterId": 52838,
-      "matterType": "Communications & Receive/File"
-    },
-    {
-      "id": "legistar-stpaul-eventitem-217005",
-      "meeting_id": "legistar-stpaul-meeting-7760",
-      "sequence": 13,
-      "agendaNumber": null,
-      "title": "Public Hearing",
-      "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
-      "matterFile": null,
-      "matterId": null,
-      "matterType": null
-    },
-    {
-      "id": "legistar-stpaul-eventitem-217006",
-      "meeting_id": "legistar-stpaul-meeting-7760",
-      "sequence": 15,
-      "agendaNumber": null,
-      "title": "Action Items",
-      "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
-      "matterFile": null,
-      "matterId": null,
-      "matterType": null
-    },
-    {
-      "id": "legistar-stpaul-eventitem-217008",
-      "meeting_id": "legistar-stpaul-meeting-7760",
-      "sequence": 20,
-      "agendaNumber": null,
-      "title": "Informational Items",
-      "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
-      "matterFile": null,
-      "matterId": null,
-      "matterType": null
-    },
-    {
-      "id": "legistar-stpaul-eventitem-217009",
-      "meeting_id": "legistar-stpaul-meeting-7760",
-      "sequence": 23,
-      "agendaNumber": null,
-      "title": "Adjournment",
-      "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
-      "matterFile": null,
-      "matterId": null,
-      "matterType": null
-    },
-    {
-      "id": "legistar-stpaul-eventitem-217017",
-      "meeting_id": "legistar-stpaul-meeting-7760",
-      "sequence": 19,
-      "agendaNumber": "14",
-      "title": "Pertaining to Professional Consulting Services for Asset Management Plan Development.",
-      "isConsent": false,
-      "actionName": "Adopted",
-      "passedFlagName": "Pass",
-      "matterFile": "RES 26-1524",
-      "matterId": 52836,
-      "matterType": "Resolution"
-    },
-    {
-      "id": "legistar-stpaul-eventitem-217018",
-      "meeting_id": "legistar-stpaul-meeting-7760",
-      "sequence": 18,
-      "agendaNumber": "13",
-      "title": "Pertaining to Title XI water related fees and charges of the Legislative Code of the City of Saint Paul regarding the organization of fees and charges.",
-      "isConsent": false,
-      "actionName": "Adopted",
-      "passedFlagName": "Pass",
-      "matterFile": "RES 26-1523",
-      "matterId": 52835,
-      "matterType": "Resolution"
-    },
-    {
-      "id": "legistar-stpaul-eventitem-217019",
-      "meeting_id": "legistar-stpaul-meeting-7760",
-      "sequence": 4,
-      "agendaNumber": "2",
-      "title": "Approving the Financial Statements for the month of July 2026.",
-      "isConsent": true,
-      "actionName": "Adopted",
-      "passedFlagName": "Pass",
-      "matterFile": "RES 26-1509",
-      "matterId": 52821,
-      "matterType": "Resolution"
-    },
-    {
-      "id": "legistar-stpaul-eventitem-217053",
-      "meeting_id": "legistar-stpaul-meeting-7760",
-      "sequence": null,
-      "agendaNumber": null,
-      "title": "Approval of the Consent Agenda",
-      "isConsent": true,
-      "actionName": "Adopted Consent Agenda",
-      "passedFlagName": "Pass",
       "matterFile": null,
       "matterId": null,
       "matterType": null
@@ -3665,19 +3302,6 @@
       "matterType": null
     },
     {
-      "id": "legistar-stpaul-eventitem-217265",
-      "meeting_id": "legistar-stpaul-meeting-7766",
-      "sequence": 16,
-      "agendaNumber": "7",
-      "title": "Appeal of Brian Poppoff to a Correction Notice at 1013 CENTRAL AVENUE WEST.",
-      "isConsent": false,
-      "actionName": "Laid Over",
-      "passedFlagName": null,
-      "matterFile": "RLH CO 26-10",
-      "matterId": 52891,
-      "matterType": "Resolution LH Correction Order (Code Enforcement Only)"
-    },
-    {
       "id": "legistar-stpaul-eventitem-217267",
       "meeting_id": "legistar-stpaul-meeting-7766",
       "sequence": 26,
@@ -3702,19 +3326,6 @@
       "matterFile": null,
       "matterId": null,
       "matterType": null
-    },
-    {
-      "id": "legistar-stpaul-eventitem-217270",
-      "meeting_id": "legistar-stpaul-meeting-7766",
-      "sequence": 29,
-      "agendaNumber": "17",
-      "title": "Appeal of Shai Leibovich (ShaSha Holdings) and Carolyn Brown (Community Stabilization Project) to a Vacant Building Registration Renewal Notice at 421 THOMAS AVENUE.",
-      "isConsent": false,
-      "actionName": "Laid Over",
-      "passedFlagName": null,
-      "matterFile": "RLH VBR 26-19",
-      "matterId": 52875,
-      "matterType": "Resolution LH Vacant Building Registration"
     },
     {
       "id": "legistar-stpaul-eventitem-217275",
@@ -4705,6 +4316,19 @@
       "matterType": "Resolution LH Summary Abatement Order"
     },
     {
+      "id": "legistar-stpaul-eventitem-217400",
+      "meeting_id": "legistar-stpaul-meeting-7775",
+      "sequence": 53,
+      "agendaNumber": "40",
+      "title": "Making finding on the appeal of Barbara Clark to a nuisance abatement ordered for 1552 CANFIELD AVENUE in Council File RLH SAO 26-77.  (Nuisance is abated)",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "RLH SAO 26-94",
+      "matterId": 52923,
+      "matterType": "Resolution LH Summary Abatement Order"
+    },
+    {
       "id": "legistar-stpaul-eventitem-217401",
       "meeting_id": "legistar-stpaul-meeting-7775",
       "sequence": 55,
@@ -5121,45 +4745,6 @@
       "matterType": null
     },
     {
-      "id": "legistar-stpaul-eventitem-217481",
-      "meeting_id": "legistar-stpaul-meeting-7780",
-      "sequence": 10,
-      "agendaNumber": "5",
-      "title": "Ratifying the assessment for Miscellaneous Abatement fees billed during June and July 2026. (File No. J2603A, Assessment No. 268504)",
-      "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
-      "matterFile": "RLH AR 26-63",
-      "matterId": 52643,
-      "matterType": "Resolution LH Assessment Roll"
-    },
-    {
-      "id": "legistar-stpaul-eventitem-217482",
-      "meeting_id": "legistar-stpaul-meeting-7780",
-      "sequence": 11,
-      "agendaNumber": "6",
-      "title": "Ratifying the assessment for Rubbish and Garbage Clean Up services during June 2026. (File No. J2602R, Assessment No. 268607)",
-      "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
-      "matterFile": "RLH AR 26-64",
-      "matterId": 52644,
-      "matterType": "Resolution LH Assessment Roll"
-    },
-    {
-      "id": "legistar-stpaul-eventitem-217483",
-      "meeting_id": "legistar-stpaul-meeting-7780",
-      "sequence": 8,
-      "agendaNumber": "4",
-      "title": "Ratifying the Appealed Special Tax Assessment for property at 1354 MARYLAND AVENUE EAST. (File No. J2603A, Assessment No. 268504)",
-      "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
-      "matterFile": "RLH TA 26-224",
-      "matterId": 52970,
-      "matterType": "Resolution LH Tax Assessment Appeal"
-    },
-    {
       "id": "legistar-stpaul-eventitem-217484",
       "meeting_id": "legistar-stpaul-meeting-7780",
       "sequence": 6,
@@ -5212,19 +4797,6 @@
       "matterType": null
     },
     {
-      "id": "legistar-stpaul-eventitem-217490",
-      "meeting_id": "legistar-stpaul-meeting-7780",
-      "sequence": 15,
-      "agendaNumber": "8",
-      "title": "Appeal of Mark Puchala II to a Notice to Cut Tall Grass and/or Weeds at 2016 FREMONT AVENUE.",
-      "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
-      "matterFile": "RLH SAO 26-98",
-      "matterId": 52969,
-      "matterType": "Resolution LH Summary Abatement Order"
-    },
-    {
       "id": "legistar-stpaul-eventitem-217491",
       "meeting_id": "legistar-stpaul-meeting-7780",
       "sequence": 16,
@@ -5236,19 +4808,6 @@
       "matterFile": null,
       "matterId": null,
       "matterType": null
-    },
-    {
-      "id": "legistar-stpaul-eventitem-217492",
-      "meeting_id": "legistar-stpaul-meeting-7780",
-      "sequence": 17,
-      "agendaNumber": "9",
-      "title": "Appeal of Brian Poppoff to a Correction Notice at 1013 CENTRAL AVENUE WEST.",
-      "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
-      "matterFile": "RLH CO 26-10",
-      "matterId": 52891,
-      "matterType": "Resolution LH Correction Order (Code Enforcement Only)"
     },
     {
       "id": "legistar-stpaul-eventitem-217493",
@@ -5290,17 +4849,17 @@
       "matterType": null
     },
     {
-      "id": "legistar-stpaul-eventitem-217496",
+      "id": "legistar-stpaul-eventitem-217504",
       "meeting_id": "legistar-stpaul-meeting-7780",
-      "sequence": 22,
-      "agendaNumber": "11",
-      "title": "Appeal of Shai Leibovich (ShaSha Holdings) and Carolyn Brown (Community Stabilization Project) to a Vacant Building Registration Renewal Notice at 421 THOMAS AVENUE.",
+      "sequence": 19,
+      "agendaNumber": "10",
+      "title": "Making finding on the appeal of Barbara Clark to a nuisance abatement ordered for 1552 CANFIELD AVENUE in Council File RLH SAO 26-77.  (Nuisance is abated)",
       "isConsent": false,
-      "actionName": null,
+      "actionName": "Referred",
       "passedFlagName": null,
-      "matterFile": "RLH VBR 26-19",
-      "matterId": 52875,
-      "matterType": "Resolution LH Vacant Building Registration"
+      "matterFile": "RLH SAO 26-94",
+      "matterId": 52923,
+      "matterType": "Resolution LH Summary Abatement Order"
     },
     {
       "id": "legistar-stpaul-eventitem-217592",
@@ -5331,11 +4890,20 @@
   ],
   "diff": {
     "addedIds": [],
-    "removedIds": [],
-    "changed": []
+    "removedIds": [
+      "legistar-stpaul-meeting-7760"
+    ],
+    "changed": [
+      {
+        "id": "legistar-stpaul-meeting-7778",
+        "field": "agendaUrl",
+        "from": "https://legistar1.granicus.com/StPaul/meetings/2026/9/7778_A_Library_Board_26-09-23_Meeting_Agenda_4.pdf",
+        "to": "https://legistar1.granicus.com/StPaul/meetings/2026/9/7778_A_Library_Board_26-09-23_ADA_Meeting_Agenda.pdf"
+      }
+    ]
   },
-  "previousGeneratedAt": "2026-09-21T18:05:04.791Z",
+  "previousGeneratedAt": "2026-09-22T16:37:50.985Z",
   "knownGaps": [
-    "Consent-agenda flagging uses Legistar's own EventItemConsent field only (111 of 338 agenda item(s) in this window flagged). \"No discussion\" / \"no public comment\" are NOT flagged — this API exposes no comparably reliable field for either, and AGENTS.md §3.3 rules out inferring one from absence."
+    "Consent-agenda flagging uses Legistar's own EventItemConsent field only (102 of 308 agenda item(s) in this window flagged). \"No discussion\" / \"no public comment\" are NOT flagged — this API exposes no comparably reliable field for either, and AGENTS.md §3.3 rules out inferring one from absence."
   ]
 }

@@ -2,22 +2,22 @@
   "schemaVersion": 1,
   "client": "hennepinmn",
   "jurisdiction": "Hennepin County Board",
-  "generatedAt": "2026-09-22T16:39:08.061Z",
+  "generatedAt": "2026-09-23T16:30:26.653Z",
   "status": "ingested",
-  "note": "7 meeting(s) (7/7 event(s) in window) and 144 agenda item(s) ingested for 2026-09-08–2026-12-21.",
+  "note": "7 meeting(s) (7/7 event(s) in window) and 156 agenda item(s) ingested for 2026-09-09–2026-12-22.",
   "provenance": {
     "primarySourceUrl": "https://webapi.legistar.com/v1/hennepinmn/events",
     "sourceAgency": "Hennepin County Board",
     "documentType": "Legistar Web API — Events/EventItems",
     "documentId": null,
     "issuedDate": null,
-    "fetchedAt": "2026-09-22T16:39:08.061Z",
+    "fetchedAt": "2026-09-23T16:30:26.653Z",
     "licence": "Public records served via Legistar InSite; no separate machine-reuse licence published by the host jurisdiction as of this writing.",
-    "contentHash": "addf48cf98381cbcb0ef3d6b86b8fc340ff655bbae27ba265bec0d80dea11c02"
+    "contentHash": "34b65d8a01972fc04d1e717c770d20306649c8007c5cebd46e4d7a592cb812e7"
   },
   "window": {
-    "startIso": "2026-09-08",
-    "endIso": "2026-12-21"
+    "startIso": "2026-09-09",
+    "endIso": "2026-12-22"
   },
   "meetings": [
     {
@@ -1725,6 +1725,45 @@
       "matterType": "Minutes"
     },
     {
+      "id": "legistar-hennepinmn-eventitem-37128",
+      "meeting_id": "legistar-hennepinmn-meeting-1468",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Agenda item 37128",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-37129",
+      "meeting_id": "legistar-hennepinmn-meeting-1468",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Agenda item 37129",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-37130",
+      "meeting_id": "legistar-hennepinmn-meeting-1468",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Agenda item 37130",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
       "id": "legistar-hennepinmn-eventitem-36899",
       "meeting_id": "legistar-hennepinmn-meeting-1469",
       "sequence": 1,
@@ -1827,6 +1866,45 @@
       "matterFile": "TMP-26-0730",
       "matterId": 4843,
       "matterType": "Minutes"
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-37131",
+      "meeting_id": "legistar-hennepinmn-meeting-1469",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Agenda item 37131",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-37132",
+      "meeting_id": "legistar-hennepinmn-meeting-1469",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Agenda item 37132",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-37133",
+      "meeting_id": "legistar-hennepinmn-meeting-1469",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Agenda item 37133",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
     },
     {
       "id": "legistar-hennepinmn-eventitem-36908",
@@ -1944,6 +2022,45 @@
       "matterFile": "TMP-26-0731",
       "matterId": 4844,
       "matterType": "Minutes"
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-37134",
+      "meeting_id": "legistar-hennepinmn-meeting-1470",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Agenda item 37134",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-37135",
+      "meeting_id": "legistar-hennepinmn-meeting-1470",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Agenda item 37135",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-37136",
+      "meeting_id": "legistar-hennepinmn-meeting-1470",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Agenda item 37136",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
     },
     {
       "id": "legistar-hennepinmn-eventitem-36919",
@@ -2074,6 +2191,45 @@
       "matterFile": "TMP-26-0732",
       "matterId": 4845,
       "matterType": "Minutes"
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-37137",
+      "meeting_id": "legistar-hennepinmn-meeting-1471",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Agenda item 37137",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-37138",
+      "meeting_id": "legistar-hennepinmn-meeting-1471",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Agenda item 37138",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-37139",
+      "meeting_id": "legistar-hennepinmn-meeting-1471",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Agenda item 37139",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
     },
     {
       "id": "legistar-hennepinmn-eventitem-37031",
@@ -2235,41 +2391,10 @@
   "diff": {
     "addedIds": [],
     "removedIds": [],
-    "changed": [
-      {
-        "id": "legistar-hennepinmn-meeting-1467",
-        "field": "agendaStatus",
-        "from": "Preliminary",
-        "to": "Final"
-      },
-      {
-        "id": "legistar-hennepinmn-meeting-1468",
-        "field": "agendaStatus",
-        "from": "Preliminary",
-        "to": "Final"
-      },
-      {
-        "id": "legistar-hennepinmn-meeting-1469",
-        "field": "agendaStatus",
-        "from": "Preliminary",
-        "to": "Final"
-      },
-      {
-        "id": "legistar-hennepinmn-meeting-1470",
-        "field": "agendaStatus",
-        "from": "Preliminary",
-        "to": "Final"
-      },
-      {
-        "id": "legistar-hennepinmn-meeting-1471",
-        "field": "agendaStatus",
-        "from": "Preliminary",
-        "to": "Final"
-      }
-    ]
+    "changed": []
   },
-  "previousGeneratedAt": "2026-09-21T18:06:28.621Z",
+  "previousGeneratedAt": "2026-09-22T16:39:08.061Z",
   "knownGaps": [
-    "Consent-agenda flagging uses Legistar's own EventItemConsent field only (24 of 144 agenda item(s) in this window flagged). \"No discussion\" / \"no public comment\" are NOT flagged — this API exposes no comparably reliable field for either, and AGENTS.md §3.3 rules out inferring one from absence."
+    "Consent-agenda flagging uses Legistar's own EventItemConsent field only (24 of 156 agenda item(s) in this window flagged). \"No discussion\" / \"no public comment\" are NOT flagged — this API exposes no comparably reliable field for either, and AGENTS.md §3.3 rules out inferring one from absence."
   ]
 }
