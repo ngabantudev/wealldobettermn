@@ -2,22 +2,22 @@
   "schemaVersion": 1,
   "client": "hennepinmn",
   "jurisdiction": "Hennepin County Board",
-  "generatedAt": "2026-09-23T16:30:26.653Z",
+  "generatedAt": "2026-09-24T16:51:20.409Z",
   "status": "ingested",
-  "note": "7 meeting(s) (7/7 event(s) in window) and 156 agenda item(s) ingested for 2026-09-09–2026-12-22.",
+  "note": "8 meeting(s) (8/8 event(s) in window) and 170 agenda item(s) ingested for 2026-09-10–2026-12-23.",
   "provenance": {
     "primarySourceUrl": "https://webapi.legistar.com/v1/hennepinmn/events",
     "sourceAgency": "Hennepin County Board",
     "documentType": "Legistar Web API — Events/EventItems",
     "documentId": null,
     "issuedDate": null,
-    "fetchedAt": "2026-09-23T16:30:26.653Z",
+    "fetchedAt": "2026-09-24T16:51:20.409Z",
     "licence": "Public records served via Legistar InSite; no separate machine-reuse licence published by the host jurisdiction as of this writing.",
-    "contentHash": "34b65d8a01972fc04d1e717c770d20306649c8007c5cebd46e4d7a592cb812e7"
+    "contentHash": "3786b2ea6d2d0baa734e64e0440323c3eab6c18a326032455b224ff5d7244dda"
   },
   "window": {
-    "startIso": "2026-09-09",
-    "endIso": "2026-12-22"
+    "startIso": "2026-09-10",
+    "endIso": "2026-12-23"
   },
   "meetings": [
     {
@@ -353,6 +353,37 @@
         {
           "id": 454,
           "name": "Angela Conley",
+          "type": "Commissioner"
+        }
+      ]
+    },
+    {
+      "id": "legistar-hennepinmn-meeting-1474",
+      "body_id": "legistar-hennepinmn-body-279",
+      "bodyName": "HHS Quality, Safety, Audit and Compliance Committee",
+      "date": "2026-09-28",
+      "time": "13:00",
+      "location": "Government Ctr Conf Rm A2324",
+      "agendaStatus": "Final",
+      "agendaUrl": null,
+      "minutesUrl": null,
+      "videoStatus": "Public",
+      "sourceUrl": "https://hennepinmn.legistar.com/MeetingDetail.aspx?LEGID=1474&GID=953&G=BA9AD5D7-E82F-425B-B72E-ABFEC8B35879",
+      "lastModifiedUtc": "2026-09-23T13:31:15.89",
+      "members": [
+        {
+          "id": 544,
+          "name": "Kevin Anderson",
+          "type": "Commissioner"
+        },
+        {
+          "id": 508,
+          "name": "Irene Fernando",
+          "type": "Commissioner"
+        },
+        {
+          "id": 490,
+          "name": "Debbie Goettel",
           "type": "Commissioner"
         }
       ]
@@ -2386,15 +2417,199 @@
       "matterFile": "TMP-26-0735",
       "matterId": 4848,
       "matterType": "Minutes"
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-37140",
+      "meeting_id": "legistar-hennepinmn-meeting-1474",
+      "sequence": 1,
+      "agendaNumber": "1.",
+      "title": "Call to Order",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-37149",
+      "meeting_id": "legistar-hennepinmn-meeting-1474",
+      "sequence": 2,
+      "agendaNumber": "2.",
+      "title": "Approval of the Agenda",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-37150",
+      "meeting_id": "legistar-hennepinmn-meeting-1474",
+      "sequence": 3,
+      "agendaNumber": "3.",
+      "title": "Minutes from Previous Meeting",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-37154",
+      "meeting_id": "legistar-hennepinmn-meeting-1474",
+      "sequence": 7,
+      "agendaNumber": "4.A.",
+      "title": "CEO Update on Quality and Safety",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "TMP-26-0745",
+      "matterId": 4858,
+      "matterType": "Minutes"
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-37155",
+      "meeting_id": "legistar-hennepinmn-meeting-1474",
+      "sequence": 11,
+      "agendaNumber": "6.A.",
+      "title": "2026 Patient Experience Report",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "TMP-26-0746",
+      "matterId": 4859,
+      "matterType": "Minutes"
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-37156",
+      "meeting_id": "legistar-hennepinmn-meeting-1474",
+      "sequence": 12,
+      "agendaNumber": "6.B.",
+      "title": "2026 Compliance Report",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "TMP-26-0747",
+      "matterId": 4860,
+      "matterType": "Minutes"
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-37157",
+      "meeting_id": "legistar-hennepinmn-meeting-1474",
+      "sequence": 13,
+      "agendaNumber": "6.C.",
+      "title": "2026 Privacy Report",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "TMP-26-0748",
+      "matterId": 4861,
+      "matterType": "Minutes"
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-37158",
+      "meeting_id": "legistar-hennepinmn-meeting-1474",
+      "sequence": 9,
+      "agendaNumber": "5.A.",
+      "title": "Under Minn. Stat. Section 383B.917 the remainder of this meeting is closed to the public",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "TMP-26-0749",
+      "matterId": 4862,
+      "matterType": "Minutes"
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-37159",
+      "meeting_id": "legistar-hennepinmn-meeting-1474",
+      "sequence": 6,
+      "agendaNumber": "4.",
+      "title": "New Business - open",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-37160",
+      "meeting_id": "legistar-hennepinmn-meeting-1474",
+      "sequence": 8,
+      "agendaNumber": "5.",
+      "title": "Motion to Close",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-37161",
+      "meeting_id": "legistar-hennepinmn-meeting-1474",
+      "sequence": 14,
+      "agendaNumber": "7.",
+      "title": "Adjournment",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-37162",
+      "meeting_id": "legistar-hennepinmn-meeting-1474",
+      "sequence": 10,
+      "agendaNumber": "6.",
+      "title": "New Business - closed",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-37163",
+      "meeting_id": "legistar-hennepinmn-meeting-1474",
+      "sequence": 4,
+      "agendaNumber": "3.A.",
+      "title": "March 16, 2026 Meeting Minutes",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "TMP-26-0750",
+      "matterId": 4863,
+      "matterType": "Minutes"
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-37165",
+      "meeting_id": "legistar-hennepinmn-meeting-1474",
+      "sequence": 5,
+      "agendaNumber": "3.B.",
+      "title": "June 10, 2026 Meeting Minutes",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "TMP-26-0753",
+      "matterId": 4866,
+      "matterType": "Minutes"
     }
   ],
   "diff": {
-    "addedIds": [],
+    "addedIds": [
+      "legistar-hennepinmn-meeting-1474"
+    ],
     "removedIds": [],
     "changed": []
   },
-  "previousGeneratedAt": "2026-09-22T16:39:08.061Z",
+  "previousGeneratedAt": "2026-09-23T16:30:26.653Z",
   "knownGaps": [
-    "Consent-agenda flagging uses Legistar's own EventItemConsent field only (24 of 156 agenda item(s) in this window flagged). \"No discussion\" / \"no public comment\" are NOT flagged — this API exposes no comparably reliable field for either, and AGENTS.md §3.3 rules out inferring one from absence."
+    "Consent-agenda flagging uses Legistar's own EventItemConsent field only (24 of 170 agenda item(s) in this window flagged). \"No discussion\" / \"no public comment\" are NOT flagged — this API exposes no comparably reliable field for either, and AGENTS.md §3.3 rules out inferring one from absence."
   ]
 }

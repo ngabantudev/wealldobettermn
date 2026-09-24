@@ -1,54 +1,6 @@
 {
-  "generatedAt": "2026-09-23T16:30:33.034Z",
+  "generatedAt": "2026-09-24T16:51:23.457Z",
   "meetingsThisWeek": [
-    {
-      "client": "minneapolis",
-      "jurisdiction": "Minneapolis City Council",
-      "bodyName": "Public Health, Safety & Equity",
-      "date": "2026-09-23",
-      "time": "13:30",
-      "location": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/PHSE/6209",
-      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/PHSE/6209",
-      "isCancelled": false,
-      "members": [
-        {
-          "id": 5692,
-          "name": "Robin Wonsley",
-          "type": "Council Member"
-        },
-        {
-          "id": 5696,
-          "name": "LaTrisha Vetaw",
-          "type": "Council Member"
-        },
-        {
-          "id": 5698,
-          "name": "Jason Chavez",
-          "type": "Chair"
-        },
-        {
-          "id": 5700,
-          "name": "Michael Rainville",
-          "type": "Council Member"
-        },
-        {
-          "id": 5701,
-          "name": "Elliott Payne",
-          "type": "Council Member"
-        },
-        {
-          "id": 7962,
-          "name": "Soren Stevenson",
-          "type": "Vice-Chair"
-        },
-        {
-          "id": 7964,
-          "name": "Jamison Whiting",
-          "type": "Council Member"
-        }
-      ]
-    },
     {
       "client": "minneapolis",
       "jurisdiction": "Minneapolis City Council",
@@ -394,8 +346,8 @@
       "date": "2026-09-28",
       "time": "18:00",
       "location": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/MCCR/",
-      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/MCCR/",
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/MCCR/6247",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/MCCR/6247",
       "isCancelled": false,
       "members": [
         {
@@ -779,8 +731,8 @@
       "date": "2026-10-01",
       "time": "15:00",
       "location": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/EPB/6187",
-      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/EPB/6187",
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/EPB/6245",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/EPB/6245",
       "isCancelled": false,
       "members": [
         {
@@ -880,8 +832,8 @@
       "date": "2026-10-05",
       "time": "13:30",
       "location": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/ELR/",
-      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/ELR/",
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/ELR/6243",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/ELR/6243",
       "isCancelled": false,
       "members": [
         {
@@ -2659,6 +2611,84 @@
           "id": 6876,
           "name": "Taylor Smrikarova",
           "type": "ABC Member"
+        }
+      ]
+    },
+    {
+      "client": "minneapolis",
+      "jurisdiction": "Minneapolis City Council",
+      "bodyName": "Budget Committee",
+      "date": "2026-10-23",
+      "time": "10:00",
+      "location": null,
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/Budget/",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/Budget/",
+      "isCancelled": false,
+      "members": [
+        {
+          "id": 375,
+          "name": "Linea Palmisano",
+          "type": "Council Member"
+        },
+        {
+          "id": 5269,
+          "name": "Jamal Osman",
+          "type": "Council Member"
+        },
+        {
+          "id": 5692,
+          "name": "Robin Wonsley",
+          "type": "Council Member"
+        },
+        {
+          "id": 5696,
+          "name": "LaTrisha Vetaw",
+          "type": "Council Member"
+        },
+        {
+          "id": 5697,
+          "name": "Aisha Chughtai",
+          "type": "Chair"
+        },
+        {
+          "id": 5698,
+          "name": "Jason Chavez",
+          "type": "Council Member"
+        },
+        {
+          "id": 5700,
+          "name": "Michael Rainville",
+          "type": "Council Member"
+        },
+        {
+          "id": 5701,
+          "name": "Elliott Payne",
+          "type": "Council Member"
+        },
+        {
+          "id": 5776,
+          "name": "Aurin Chowdhury",
+          "type": "Council Member"
+        },
+        {
+          "id": 7961,
+          "name": "Pearll Warren",
+          "type": "Council Member"
+        },
+        {
+          "id": 7962,
+          "name": "Soren Stevenson",
+          "type": "Council Member"
+        },
+        {
+          "id": 7963,
+          "name": "Elizabeth Shaffer",
+          "type": "Vice-Chair"
+        },
+        {
+          "id": 7964,
+          "name": "Jamison Whiting",
+          "type": "Council Member"
         }
       ]
     }
