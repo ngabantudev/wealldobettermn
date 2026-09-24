@@ -1,30 +1,30 @@
 {
-  "generatedAt": "2026-09-23T16:30:26.654Z",
+  "generatedAt": "2026-09-24T16:51:20.411Z",
   "meetingsThisWeek": [
     {
       "client": "hennepinmn",
       "jurisdiction": "Hennepin County Board",
-      "bodyName": "HHS Finance and Operations Committee",
-      "date": "2026-09-23",
-      "time": "09:30",
-      "location": "Government Center Conf Rm A1860",
-      "sourceUrl": "https://hennepinmn.legistar.com/MeetingDetail.aspx?LEGID=1472&GID=953&G=BA9AD5D7-E82F-425B-B72E-ABFEC8B35879",
-      "agendaUrl": "https://hennepinmn.legistar1.com/hennepinmn/meetings/2026/9/1472_A_HHS_Finance_and_Operations_Committee_26-09-23_COMMITTEE_AGENDA.pdf",
+      "bodyName": "HHS Quality, Safety, Audit and Compliance Committee",
+      "date": "2026-09-28",
+      "time": "13:00",
+      "location": "Government Ctr Conf Rm A2324",
+      "sourceUrl": "https://hennepinmn.legistar.com/MeetingDetail.aspx?LEGID=1474&GID=953&G=BA9AD5D7-E82F-425B-B72E-ABFEC8B35879",
+      "agendaUrl": null,
       "isCancelled": false,
       "members": [
         {
-          "id": 698,
-          "name": "Heather Edelson",
+          "id": 544,
+          "name": "Kevin Anderson",
+          "type": "Commissioner"
+        },
+        {
+          "id": 508,
+          "name": "Irene Fernando",
           "type": "Commissioner"
         },
         {
           "id": 490,
           "name": "Debbie Goettel",
-          "type": "Commissioner"
-        },
-        {
-          "id": 454,
-          "name": "Angela Conley",
           "type": "Commissioner"
         }
       ]
