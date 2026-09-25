@@ -2,22 +2,22 @@
   "schemaVersion": 1,
   "client": "stpaul",
   "jurisdiction": "St. Paul City Council",
-  "generatedAt": "2026-09-24T16:49:45.740Z",
+  "generatedAt": "2026-09-25T16:54:29.576Z",
   "status": "ingested",
-  "note": "16 meeting(s) (16/16 event(s) in window) and 236 agenda item(s) ingested for 2026-09-10–2026-12-23.",
+  "note": "17 meeting(s) (17/17 event(s) in window) and 240 agenda item(s) ingested for 2026-09-11–2026-12-24.",
   "provenance": {
     "primarySourceUrl": "https://webapi.legistar.com/v1/stpaul/events",
     "sourceAgency": "St. Paul City Council",
     "documentType": "Legistar Web API — Events/EventItems",
     "documentId": null,
     "issuedDate": null,
-    "fetchedAt": "2026-09-24T16:49:45.740Z",
+    "fetchedAt": "2026-09-25T16:54:29.576Z",
     "licence": "Public records served via Legistar InSite; no separate machine-reuse licence published by the host jurisdiction as of this writing.",
-    "contentHash": "919a4c1973f7e7ab48805d2f9621207a6756c69fcf64991201ea45846555e8e7"
+    "contentHash": "25e4f7d188068222bd3d84c9c7a0d6b436ec2a907db31c522671e1031f53e707"
   },
   "window": {
-    "startIso": "2026-09-10",
-    "endIso": "2026-12-23"
+    "startIso": "2026-09-11",
+    "endIso": "2026-12-24"
   },
   "meetings": [
     {
@@ -671,10 +671,10 @@
       "location": "Room 330 City Hall & Court House/Remote",
       "agendaStatus": "Final",
       "agendaUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/9/7780_A_Legislative_Hearings_26-09-22_ADA_Meeting_Agenda.pdf",
-      "minutesUrl": null,
+      "minutesUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/9/7780_M_Legislative_Hearings_26-09-22_Meeting_Minutes_-_Action_Only.pdf",
       "videoStatus": "Public",
       "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7780&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
-      "lastModifiedUtc": "2026-09-18T17:17:03.5",
+      "lastModifiedUtc": "2026-09-24T16:56:52.333",
       "members": []
     },
     {
@@ -719,6 +719,57 @@
         {
           "id": 6785,
           "name": "HwaJeong Kim",
+          "type": "Councilmember"
+        },
+        {
+          "id": 7108,
+          "name": "Molly Coleman",
+          "type": "Councilmember"
+        }
+      ]
+    },
+    {
+      "id": "legistar-stpaul-meeting-7783",
+      "body_id": "legistar-stpaul-body-138",
+      "bodyName": "City Council",
+      "date": "2026-09-30",
+      "time": "11:00",
+      "location": "Hearing Room 330",
+      "agendaStatus": "Final",
+      "agendaUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/9/7783_A_City_Council_26-09-30_ADA_Meeting_Agenda.pdf",
+      "minutesUrl": null,
+      "videoStatus": "Public",
+      "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7783&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
+      "lastModifiedUtc": "2026-09-25T13:22:40.07",
+      "members": [
+        {
+          "id": 6692,
+          "name": "Rebecca Noecker",
+          "type": "Councilmember"
+        },
+        {
+          "id": 6859,
+          "name": "Nelsie Yang",
+          "type": "Councilmember"
+        },
+        {
+          "id": 6785,
+          "name": "HwaJeong Kim",
+          "type": "Councilmember"
+        },
+        {
+          "id": 7038,
+          "name": "Anika Bowie",
+          "type": "Councilmember"
+        },
+        {
+          "id": 7039,
+          "name": "Saura Jost",
+          "type": "Councilmember"
+        },
+        {
+          "id": 7040,
+          "name": "Cheniqua Johnson",
           "type": "Councilmember"
         },
         {
@@ -3797,53 +3848,76 @@
       "matterFile": null,
       "matterId": null,
       "matterType": null
+    },
+    {
+      "id": "legistar-stpaul-eventitem-217676",
+      "meeting_id": "legistar-stpaul-meeting-7783",
+      "sequence": 2,
+      "agendaNumber": null,
+      "title": "ROLL CALL",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-stpaul-eventitem-217677",
+      "meeting_id": "legistar-stpaul-meeting-7783",
+      "sequence": 3,
+      "agendaNumber": null,
+      "title": "ADJOURNMENT",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-stpaul-eventitem-217678",
+      "meeting_id": "legistar-stpaul-meeting-7783",
+      "sequence": 4,
+      "agendaNumber": null,
+      "title": "City Council meetings are open for in person attendance, but the public may also comment on public hearing items in writing.  Any comments and materials submitted by 12:00 pm of the day before the meeting will be attached to the public record and available for review by the City Council. Comments may be submitted as follows:\r\n\r\nWritten public comment on public hearing items can be submitted to Contact-Council@ci.stpaul.mn.us or CouncilHearing@ci.stpaul.mn.us. Live testimony will be taken in person in the Council Chambers.\r\n\r\nCouncil Meeting Information \r\nThe City Council is paperless which saves the environment and reduces expenses. The agendas and Council files are all available on the Web (see below). Council members use mobile devices to review the files during the meeting. Using a mobile device greatly reduces costs since most agendas, including the documents attached to files, are over 1000 pages when printed.   \r\n\r\nWeb \r\nMeetings are available on the Council's website. Email notification and web feeds (RSS) of newly released minutes, agendas, and meetings are available by subscription. Visit www.stpaul.gov/council for meeting videos and updated copies of the agendas, minutes, and supporting documents.\r\n\r\nCable\r\nMeetings are live on St Paul Channel 18 and replayed at various times.  Check your local listings.",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-stpaul-eventitem-217679",
+      "meeting_id": "legistar-stpaul-meeting-7783",
+      "sequence": 1,
+      "agendaNumber": null,
+      "title": "This meeting is not open to the public.",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
     }
   ],
   "diff": {
     "addedIds": [
-      "legistar-stpaul-meeting-7782"
+      "legistar-stpaul-meeting-7783"
     ],
-    "removedIds": [
-      "legistar-stpaul-meeting-7755",
-      "legistar-stpaul-meeting-7757",
-      "legistar-stpaul-meeting-7758",
-      "legistar-stpaul-meeting-7759"
-    ],
+    "removedIds": [],
     "changed": [
       {
-        "id": "legistar-stpaul-meeting-7773",
+        "id": "legistar-stpaul-meeting-7780",
         "field": "minutesUrl",
         "from": null,
-        "to": "https://legistar1.granicus.com/StPaul/meetings/2026/9/7773_M_Public_Safety_Committee_26-09-23_Meeting_Minutes_-_Action_Only.pdf"
-      },
-      {
-        "id": "legistar-stpaul-meeting-7775",
-        "field": "minutesUrl",
-        "from": null,
-        "to": "https://legistar1.granicus.com/StPaul/meetings/2026/9/7775_M_City_Council_26-09-23_Meeting_Minutes_-_Action_Only.pdf"
-      },
-      {
-        "id": "legistar-stpaul-meeting-7776",
-        "field": "minutesUrl",
-        "from": null,
-        "to": "https://legistar1.granicus.com/StPaul/meetings/2026/9/7776_M_Housing___Redevelopment_Authority_26-09-23_Meeting_Minutes.pdf"
-      },
-      {
-        "id": "legistar-stpaul-meeting-7777",
-        "field": "minutesUrl",
-        "from": null,
-        "to": "https://legistar1.granicus.com/StPaul/meetings/2026/9/7777_M_Budget_Committee_26-09-23_Meeting_Minutes_-_Action_Only.pdf"
-      },
-      {
-        "id": "legistar-stpaul-meeting-7778",
-        "field": "minutesUrl",
-        "from": null,
-        "to": "https://legistar1.granicus.com/StPaul/meetings/2026/9/7778_M_Library_Board_26-09-23_Meeting_Minutes_-_Action_Only.pdf"
+        "to": "https://legistar1.granicus.com/StPaul/meetings/2026/9/7780_M_Legislative_Hearings_26-09-22_Meeting_Minutes_-_Action_Only.pdf"
       }
     ]
   },
-  "previousGeneratedAt": "2026-09-23T16:28:53.834Z",
+  "previousGeneratedAt": "2026-09-24T16:49:45.740Z",
   "knownGaps": [
-    "Consent-agenda flagging uses Legistar's own EventItemConsent field only (77 of 236 agenda item(s) in this window flagged). \"No discussion\" / \"no public comment\" are NOT flagged — this API exposes no comparably reliable field for either, and AGENTS.md §3.3 rules out inferring one from absence."
+    "Consent-agenda flagging uses Legistar's own EventItemConsent field only (77 of 240 agenda item(s) in this window flagged). \"No discussion\" / \"no public comment\" are NOT flagged — this API exposes no comparably reliable field for either, and AGENTS.md §3.3 rules out inferring one from absence."
   ]
 }
