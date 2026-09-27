@@ -2,22 +2,22 @@
   "schemaVersion": 1,
   "client": "hennepinmn",
   "jurisdiction": "Hennepin County Board",
-  "generatedAt": "2026-09-26T16:07:43.567Z",
+  "generatedAt": "2026-09-27T16:43:36.660Z",
   "status": "ingested",
-  "note": "11 meeting(s) (11/11 event(s) in window) and 225 agenda item(s) ingested for 2026-09-12–2026-12-25.",
+  "note": "11 meeting(s) (11/11 event(s) in window) and 225 agenda item(s) ingested for 2026-09-13–2026-12-26.",
   "provenance": {
     "primarySourceUrl": "https://webapi.legistar.com/v1/hennepinmn/events",
     "sourceAgency": "Hennepin County Board",
     "documentType": "Legistar Web API — Events/EventItems",
     "documentId": null,
     "issuedDate": null,
-    "fetchedAt": "2026-09-26T16:07:43.567Z",
+    "fetchedAt": "2026-09-27T16:43:36.660Z",
     "licence": "Public records served via Legistar InSite; no separate machine-reuse licence published by the host jurisdiction as of this writing.",
-    "contentHash": "15dd5c7dbd1b6f3b1ca055753e894a45661b03b541ef779492c6850f6a08e977"
+    "contentHash": "61d41f84ddca65b8ec27e916cc179d63bb984380da69382064f5ce3c45fdd5aa"
   },
   "window": {
-    "startIso": "2026-09-12",
-    "endIso": "2026-12-25"
+    "startIso": "2026-09-13",
+    "endIso": "2026-12-26"
   },
   "meetings": [
     {
@@ -3470,22 +3470,11 @@
     }
   ],
   "diff": {
-    "addedIds": [
-      "legistar-hennepinmn-meeting-1473",
-      "legistar-hennepinmn-meeting-1475",
-      "legistar-hennepinmn-meeting-1476"
-    ],
+    "addedIds": [],
     "removedIds": [],
-    "changed": [
-      {
-        "id": "legistar-hennepinmn-meeting-1474",
-        "field": "agendaStatus",
-        "from": "Final",
-        "to": "Final-revised"
-      }
-    ]
+    "changed": []
   },
-  "previousGeneratedAt": "2026-09-25T16:55:36.092Z",
+  "previousGeneratedAt": "2026-09-26T16:07:43.567Z",
   "knownGaps": [
     "Consent-agenda flagging uses Legistar's own EventItemConsent field only (45 of 225 agenda item(s) in this window flagged). \"No discussion\" / \"no public comment\" are NOT flagged — this API exposes no comparably reliable field for either, and AGENTS.md §3.3 rules out inferring one from absence."
   ]

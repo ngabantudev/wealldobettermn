@@ -2,22 +2,22 @@
   "schemaVersion": 1,
   "client": "stpaul",
   "jurisdiction": "St. Paul City Council",
-  "generatedAt": "2026-09-26T16:06:20.202Z",
+  "generatedAt": "2026-09-27T16:42:27.136Z",
   "status": "ingested",
-  "note": "19 meeting(s) (19/19 event(s) in window) and 254 agenda item(s) ingested for 2026-09-12–2026-12-25.",
+  "note": "19 meeting(s) (19/19 event(s) in window) and 254 agenda item(s) ingested for 2026-09-13–2026-12-26.",
   "provenance": {
     "primarySourceUrl": "https://webapi.legistar.com/v1/stpaul/events",
     "sourceAgency": "St. Paul City Council",
     "documentType": "Legistar Web API — Events/EventItems",
     "documentId": null,
     "issuedDate": null,
-    "fetchedAt": "2026-09-26T16:06:20.202Z",
+    "fetchedAt": "2026-09-27T16:42:27.136Z",
     "licence": "Public records served via Legistar InSite; no separate machine-reuse licence published by the host jurisdiction as of this writing.",
-    "contentHash": "9d94dce033faaf7b2e08f18e672924ba367d36e4a2e62bc994a524e47165fe73"
+    "contentHash": "9c0033c649d8e47b0017f5dda8dbbef5589018de2ecf6539e8ab60ae321aaf1e"
   },
   "window": {
-    "startIso": "2026-09-12",
-    "endIso": "2026-12-25"
+    "startIso": "2026-09-13",
+    "endIso": "2026-12-26"
   },
   "meetings": [
     {
@@ -4151,21 +4151,11 @@
     }
   ],
   "diff": {
-    "addedIds": [
-      "legistar-stpaul-meeting-7781",
-      "legistar-stpaul-meeting-7784"
-    ],
+    "addedIds": [],
     "removedIds": [],
-    "changed": [
-      {
-        "id": "legistar-stpaul-meeting-7782",
-        "field": "agendaStatus",
-        "from": "Final",
-        "to": "Final-revised"
-      }
-    ]
+    "changed": []
   },
-  "previousGeneratedAt": "2026-09-25T16:54:29.576Z",
+  "previousGeneratedAt": "2026-09-26T16:06:20.202Z",
   "knownGaps": [
     "Consent-agenda flagging uses Legistar's own EventItemConsent field only (77 of 254 agenda item(s) in this window flagged). \"No discussion\" / \"no public comment\" are NOT flagged — this API exposes no comparably reliable field for either, and AGENTS.md §3.3 rules out inferring one from absence."
   ]
