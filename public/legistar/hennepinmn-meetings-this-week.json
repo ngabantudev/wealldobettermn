@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-27T16:43:36.661Z",
+  "generatedAt": "2026-09-28T19:29:18.202Z",
   "meetingsThisWeek": [
     {
       "client": "hennepinmn",
@@ -134,6 +134,54 @@
       "location": "Government Center - County Board Chambers",
       "sourceUrl": "https://hennepinmn.legistar.com/MeetingDetail.aspx?LEGID=1476&GID=953&G=BA9AD5D7-E82F-425B-B72E-ABFEC8B35879",
       "agendaUrl": "https://hennepinmn.legistar1.com/hennepinmn/meetings/2026/9/1476_A_Hennepin_County_Housing_and_Redevelopment_Authority_26-09-29_Authority_Agenda.pdf",
+      "isCancelled": false,
+      "members": [
+        {
+          "id": 508,
+          "name": "Irene Fernando",
+          "type": "Commissioner"
+        },
+        {
+          "id": 573,
+          "name": "Marion Greene",
+          "type": "Commissioner"
+        },
+        {
+          "id": 454,
+          "name": "Angela Conley",
+          "type": "Commissioner"
+        },
+        {
+          "id": 490,
+          "name": "Debbie Goettel",
+          "type": "Commissioner"
+        },
+        {
+          "id": 698,
+          "name": "Heather Edelson",
+          "type": "Commissioner"
+        },
+        {
+          "id": 517,
+          "name": "Jeff Lunde",
+          "type": "Commissioner"
+        },
+        {
+          "id": 544,
+          "name": "Kevin Anderson",
+          "type": "Commissioner"
+        }
+      ]
+    },
+    {
+      "client": "hennepinmn",
+      "jurisdiction": "Hennepin County Board",
+      "bodyName": "Administration, Operations and Budget Committee",
+      "date": "2026-10-01",
+      "time": "12:00",
+      "location": "Government Center - County Board Chambers",
+      "sourceUrl": "https://hennepinmn.legistar.com/MeetingDetail.aspx?LEGID=1477&GID=953&G=BA9AD5D7-E82F-425B-B72E-ABFEC8B35879",
+      "agendaUrl": "https://hennepinmn.legistar1.com/hennepinmn/meetings/2026/10/1477_A_Administration%2C_Operations_and_Budget_Committee_26-10-01_COMMITTEE_AGENDA.pdf",
       "isCancelled": false,
       "members": [
         {

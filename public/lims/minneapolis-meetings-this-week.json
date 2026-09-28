@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-27T16:43:42.123Z",
+  "generatedAt": "2026-09-28T19:29:21.065Z",
   "meetingsThisWeek": [
     {
       "client": "minneapolis",
@@ -433,8 +433,8 @@
       "date": "2026-09-30",
       "time": "13:30",
       "location": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/Roundtable/",
-      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/Roundtable/",
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/Roundtable/6255",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/Roundtable/6255",
       "isCancelled": false,
       "members": [
         {
@@ -978,8 +978,8 @@
       "date": "2026-10-06",
       "time": "16:30",
       "location": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/HPC/",
-      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/HPC/",
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/HPC/6256",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/HPC/6256",
       "isCancelled": false,
       "members": [
         {
@@ -2730,6 +2730,218 @@
         {
           "id": 6996,
           "name": "Lucie Skjefte",
+          "type": "ABC Member"
+        }
+      ]
+    },
+    {
+      "client": "minneapolis",
+      "jurisdiction": "Minneapolis City Council",
+      "bodyName": "Intergovernmental Relations Committee",
+      "date": "2026-10-27",
+      "time": "10:00",
+      "location": null,
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/IGR/",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/IGR/",
+      "isCancelled": false,
+      "members": [
+        {
+          "id": 375,
+          "name": "Linea Palmisano",
+          "type": "Council Member"
+        },
+        {
+          "id": 5269,
+          "name": "Jamal Osman",
+          "type": "Council Member"
+        },
+        {
+          "id": 5692,
+          "name": "Robin Wonsley",
+          "type": "Council Member"
+        },
+        {
+          "id": 5696,
+          "name": "LaTrisha Vetaw",
+          "type": "Council Member"
+        },
+        {
+          "id": 5697,
+          "name": "Aisha Chughtai",
+          "type": "Council Member"
+        },
+        {
+          "id": 5698,
+          "name": "Jason Chavez",
+          "type": "Council Member"
+        },
+        {
+          "id": 5700,
+          "name": "Michael Rainville",
+          "type": "Vice-Chair"
+        },
+        {
+          "id": 5701,
+          "name": "Elliott Payne",
+          "type": "Council Member"
+        },
+        {
+          "id": 5776,
+          "name": "Aurin Chowdhury",
+          "type": "Chair"
+        },
+        {
+          "id": 7961,
+          "name": "Pearll Warren",
+          "type": "Council Member"
+        },
+        {
+          "id": 7962,
+          "name": "Soren Stevenson",
+          "type": "Council Member"
+        },
+        {
+          "id": 7963,
+          "name": "Elizabeth Shaffer",
+          "type": "Council Member"
+        },
+        {
+          "id": 7964,
+          "name": "Jamison Whiting",
+          "type": "Council Member"
+        }
+      ]
+    },
+    {
+      "client": "minneapolis",
+      "jurisdiction": "Minneapolis City Council",
+      "bodyName": "Committee of the Whole",
+      "date": "2026-10-27",
+      "time": "13:30",
+      "location": null,
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/COW/",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/COW/",
+      "isCancelled": false,
+      "members": [
+        {
+          "id": 375,
+          "name": "Linea Palmisano",
+          "type": "Council Member"
+        },
+        {
+          "id": 5269,
+          "name": "Jamal Osman",
+          "type": "Council Member"
+        },
+        {
+          "id": 5692,
+          "name": "Robin Wonsley",
+          "type": "Council Member"
+        },
+        {
+          "id": 5696,
+          "name": "LaTrisha Vetaw",
+          "type": "Council Member"
+        },
+        {
+          "id": 5697,
+          "name": "Aisha Chughtai",
+          "type": "Vice-Chair"
+        },
+        {
+          "id": 5698,
+          "name": "Jason Chavez",
+          "type": "Council Member"
+        },
+        {
+          "id": 5700,
+          "name": "Michael Rainville",
+          "type": "Council Member"
+        },
+        {
+          "id": 5701,
+          "name": "Elliott Payne",
+          "type": "Council Member"
+        },
+        {
+          "id": 5776,
+          "name": "Aurin Chowdhury",
+          "type": "Chair"
+        },
+        {
+          "id": 7961,
+          "name": "Pearll Warren",
+          "type": "Council Member"
+        },
+        {
+          "id": 7962,
+          "name": "Soren Stevenson",
+          "type": "Council Member"
+        },
+        {
+          "id": 7963,
+          "name": "Elizabeth Shaffer",
+          "type": "Council Member"
+        },
+        {
+          "id": 7964,
+          "name": "Jamison Whiting",
+          "type": "Council Member"
+        }
+      ]
+    },
+    {
+      "client": "minneapolis",
+      "jurisdiction": "Minneapolis City Council",
+      "bodyName": "Civil Service Commission",
+      "date": "2026-10-27",
+      "time": "14:00",
+      "location": null,
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/CSC/",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/CSC/",
+      "isCancelled": false,
+      "members": [
+        {
+          "id": 6964,
+          "name": "Candace Falk",
+          "type": "ABC Member"
+        },
+        {
+          "id": 6965,
+          "name": "William Walker Jr",
+          "type": "ABC Member"
+        }
+      ]
+    },
+    {
+      "client": "minneapolis",
+      "jurisdiction": "Minneapolis City Council",
+      "bodyName": "Public Health Advisory Committee",
+      "date": "2026-10-27",
+      "time": "17:00",
+      "location": null,
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/PHAC/",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/PHAC/",
+      "isCancelled": false,
+      "members": [
+        {
+          "id": 7007,
+          "name": "Hannaan Shire",
+          "type": "ABC Member"
+        },
+        {
+          "id": 7008,
+          "name": "Mariam Warsame",
+          "type": "ABC Member"
+        },
+        {
+          "id": 7009,
+          "name": "Christy Yoon",
+          "type": "ABC Member"
+        },
+        {
+          "id": 7010,
+          "name": "Jasmine Bloomdahl",
           "type": "ABC Member"
         }
       ]
