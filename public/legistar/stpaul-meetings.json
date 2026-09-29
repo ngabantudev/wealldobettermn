@@ -2,22 +2,22 @@
   "schemaVersion": 1,
   "client": "stpaul",
   "jurisdiction": "St. Paul City Council",
-  "generatedAt": "2026-09-28T19:28:19.455Z",
+  "generatedAt": "2026-09-29T17:54:45.687Z",
   "status": "ingested",
-  "note": "19 meeting(s) (19/19 event(s) in window) and 254 agenda item(s) ingested for 2026-09-14–2026-12-27.",
+  "note": "18 meeting(s) (18/18 event(s) in window) and 247 agenda item(s) ingested for 2026-09-15–2026-12-28.",
   "provenance": {
     "primarySourceUrl": "https://webapi.legistar.com/v1/stpaul/events",
     "sourceAgency": "St. Paul City Council",
     "documentType": "Legistar Web API — Events/EventItems",
     "documentId": null,
     "issuedDate": null,
-    "fetchedAt": "2026-09-28T19:28:19.455Z",
+    "fetchedAt": "2026-09-29T17:54:45.687Z",
     "licence": "Public records served via Legistar InSite; no separate machine-reuse licence published by the host jurisdiction as of this writing.",
-    "contentHash": "6336bad47ca36c39fb9173edea415e5f633f6cbfc32ea8027eb62cd1534a529e"
+    "contentHash": "810454387211a2ef32c48b7ccf1e60df5bffe7956fe53ccd4b98ed8f2506d4b2"
   },
   "window": {
-    "startIso": "2026-09-14",
-    "endIso": "2026-12-27"
+    "startIso": "2026-09-15",
+    "endIso": "2026-12-28"
   },
   "meetings": [
     {
@@ -289,21 +289,6 @@
           "type": "Councilmember"
         }
       ]
-    },
-    {
-      "id": "legistar-stpaul-meeting-7769",
-      "body_id": "legistar-stpaul-body-192",
-      "bodyName": "Licensing Hearing",
-      "date": "2026-09-14",
-      "time": "10:00",
-      "location": "Legislative Hearing Room  330, City Hall",
-      "agendaStatus": "Final",
-      "agendaUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/9/7769_A_Licensing_Hearing_26-09-14_ADA_Meeting_Agenda.pdf",
-      "minutesUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/9/7769_M_Licensing_Hearing_26-09-14_Meeting_Minutes_-_Action_Only.pdf",
-      "videoStatus": "Public",
-      "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7769&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
-      "lastModifiedUtc": "2026-09-15T20:51:09.073",
-      "members": []
     },
     {
       "id": "legistar-stpaul-meeting-7771",
@@ -806,7 +791,7 @@
       "minutesUrl": null,
       "videoStatus": "Public",
       "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7784&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
-      "lastModifiedUtc": "2026-09-28T16:29:16.71",
+      "lastModifiedUtc": "2026-09-29T17:33:37.877",
       "members": [
         {
           "id": 6692,
@@ -2031,19 +2016,6 @@
       "matterType": null
     },
     {
-      "id": "legistar-stpaul-eventitem-217247",
-      "meeting_id": "legistar-stpaul-meeting-7766",
-      "sequence": 4,
-      "agendaNumber": "2",
-      "title": "Ordering the rehabilitation or razing and removal of the structures at 799 UNIVERSITY AVENUE WEST within fifteen (15) days after the February 18, 2026 City Council Public Hearing. (Refer back to September 15, 2026 Legislative Hearing)",
-      "isConsent": false,
-      "actionName": "Laid Over",
-      "passedFlagName": null,
-      "matterFile": "RLH RR 26-2",
-      "matterId": 51062,
-      "matterType": "Resolution LH Substantial Abatement Order"
-    },
-    {
       "id": "legistar-stpaul-eventitem-217248",
       "meeting_id": "legistar-stpaul-meeting-7766",
       "sequence": 3,
@@ -2372,45 +2344,6 @@
       "id": "legistar-stpaul-eventitem-217302",
       "meeting_id": "legistar-stpaul-meeting-7768",
       "sequence": 5,
-      "agendaNumber": null,
-      "title": "Adjournment",
-      "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
-      "matterFile": null,
-      "matterId": null,
-      "matterType": null
-    },
-    {
-      "id": "legistar-stpaul-eventitem-217306",
-      "meeting_id": "legistar-stpaul-meeting-7769",
-      "sequence": 1,
-      "agendaNumber": null,
-      "title": "Discussion",
-      "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
-      "matterFile": null,
-      "matterId": null,
-      "matterType": null
-    },
-    {
-      "id": "legistar-stpaul-eventitem-217308",
-      "meeting_id": "legistar-stpaul-meeting-7769",
-      "sequence": 2,
-      "agendaNumber": "1",
-      "title": "License Application Summary for Bear Bluff LLC (License ID# DSIBLLIQ-000702-2026), d/b/a Yoerg Brewing Company, Barry Madore, co-owner, 651-235-5805",
-      "isConsent": false,
-      "actionName": "Received and Filed",
-      "passedFlagName": null,
-      "matterFile": "SR 26-199",
-      "matterId": 52913,
-      "matterType": "Staff Report"
-    },
-    {
-      "id": "legistar-stpaul-eventitem-217313",
-      "meeting_id": "legistar-stpaul-meeting-7769",
-      "sequence": 3,
       "agendaNumber": null,
       "title": "Adjournment",
       "isConsent": false,
@@ -3877,32 +3810,6 @@
       "matterType": null
     },
     {
-      "id": "legistar-stpaul-eventitem-217606",
-      "meeting_id": "legistar-stpaul-meeting-7781",
-      "sequence": 3,
-      "agendaNumber": "1",
-      "title": "Ordering the rehabilitation or razing and removal of the structures at 799 UNIVERSITY AVENUE WEST within fifteen (15) days after the February 18, 2026 City Council Public Hearing. (Refer back to September 15, 2026 Legislative Hearing)",
-      "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
-      "matterFile": "RLH RR 26-2",
-      "matterId": 51062,
-      "matterType": "Resolution LH Substantial Abatement Order"
-    },
-    {
-      "id": "legistar-stpaul-eventitem-217607",
-      "meeting_id": "legistar-stpaul-meeting-7781",
-      "sequence": 5,
-      "agendaNumber": "2",
-      "title": "Making finding on the appeal of Brian Balsaitis, dba 925 Magnolia Avenue E LLC, to a substantial abatement ordered for 925 MAGNOLIA AVENUE EAST in Council File RLH RR 26-6.",
-      "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
-      "matterFile": "RLH RR 26-18",
-      "matterId": 52896,
-      "matterType": "Resolution LH Substantial Abatement Order"
-    },
-    {
       "id": "legistar-stpaul-eventitem-217611",
       "meeting_id": "legistar-stpaul-meeting-7781",
       "sequence": 4,
@@ -3940,19 +3847,6 @@
       "matterFile": null,
       "matterId": null,
       "matterType": null
-    },
-    {
-      "id": "legistar-stpaul-eventitem-217615",
-      "meeting_id": "legistar-stpaul-meeting-7781",
-      "sequence": 8,
-      "agendaNumber": "3",
-      "title": "Making finding on the appeal of Melanie Richards to a nuisance abatement ordered for 2103 SHERWOOD AVENUE in Council File RLH SAO 26-73.",
-      "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
-      "matterFile": "RLH SAO 26-102",
-      "matterId": 52909,
-      "matterType": "Resolution LH Summary Abatement Order"
     },
     {
       "id": "legistar-stpaul-eventitem-217627",
@@ -4152,18 +4046,13 @@
   ],
   "diff": {
     "addedIds": [],
-    "removedIds": [],
-    "changed": [
-      {
-        "id": "legistar-stpaul-meeting-7781",
-        "field": "agendaUrl",
-        "from": "https://legistar1.granicus.com/StPaul/meetings/2026/9/7781_A_Legislative_Hearings_26-09-29_Meeting_Agenda.pdf",
-        "to": "https://legistar1.granicus.com/StPaul/meetings/2026/9/7781_A_Legislative_Hearings_26-09-29_ADA_Meeting_Agenda.pdf"
-      }
-    ]
+    "removedIds": [
+      "legistar-stpaul-meeting-7769"
+    ],
+    "changed": []
   },
-  "previousGeneratedAt": "2026-09-27T16:42:27.136Z",
+  "previousGeneratedAt": "2026-09-28T19:28:19.455Z",
   "knownGaps": [
-    "Consent-agenda flagging uses Legistar's own EventItemConsent field only (77 of 254 agenda item(s) in this window flagged). \"No discussion\" / \"no public comment\" are NOT flagged — this API exposes no comparably reliable field for either, and AGENTS.md §3.3 rules out inferring one from absence."
+    "Consent-agenda flagging uses Legistar's own EventItemConsent field only (77 of 247 agenda item(s) in this window flagged). \"No discussion\" / \"no public comment\" are NOT flagged — this API exposes no comparably reliable field for either, and AGENTS.md §3.3 rules out inferring one from absence."
   ]
 }
