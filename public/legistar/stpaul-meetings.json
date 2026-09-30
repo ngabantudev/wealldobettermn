@@ -2,22 +2,22 @@
   "schemaVersion": 1,
   "client": "stpaul",
   "jurisdiction": "St. Paul City Council",
-  "generatedAt": "2026-09-29T17:54:45.687Z",
+  "generatedAt": "2026-09-30T17:50:56.943Z",
   "status": "ingested",
-  "note": "18 meeting(s) (18/18 event(s) in window) and 247 agenda item(s) ingested for 2026-09-15–2026-12-28.",
+  "note": "19 meeting(s) (19/19 event(s) in window) and 231 agenda item(s) ingested for 2026-09-16–2026-12-29.",
   "provenance": {
     "primarySourceUrl": "https://webapi.legistar.com/v1/stpaul/events",
     "sourceAgency": "St. Paul City Council",
     "documentType": "Legistar Web API — Events/EventItems",
     "documentId": null,
     "issuedDate": null,
-    "fetchedAt": "2026-09-29T17:54:45.687Z",
+    "fetchedAt": "2026-09-30T17:50:56.943Z",
     "licence": "Public records served via Legistar InSite; no separate machine-reuse licence published by the host jurisdiction as of this writing.",
-    "contentHash": "810454387211a2ef32c48b7ccf1e60df5bffe7956fe53ccd4b98ed8f2506d4b2"
+    "contentHash": "533a96f337522bab974988e8ccd95d3787ae08dd6c7d7c564b9ad965d28a3631"
   },
   "window": {
-    "startIso": "2026-09-15",
-    "endIso": "2026-12-28"
+    "startIso": "2026-09-16",
+    "endIso": "2026-12-29"
   },
   "meetings": [
     {
@@ -223,21 +223,6 @@
           "type": "Commissioner"
         }
       ]
-    },
-    {
-      "id": "legistar-stpaul-meeting-7766",
-      "body_id": "legistar-stpaul-body-195",
-      "bodyName": "Legislative Hearings",
-      "date": "2026-09-15",
-      "time": "09:00",
-      "location": "Room 330 City Hall & Court House/Remote",
-      "agendaStatus": "Final-revised",
-      "agendaUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/9/7766_A_Legislative_Hearings_26-09-15_ADA_Meeting_Agenda.pdf",
-      "minutesUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/9/7766_M_Legislative_Hearings_26-09-15_Minutes_-_Final.pdf",
-      "videoStatus": "Public",
-      "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7766&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
-      "lastModifiedUtc": "2026-09-18T17:53:39.73",
-      "members": []
     },
     {
       "id": "legistar-stpaul-meeting-7768",
@@ -506,7 +491,7 @@
       "minutesUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/9/7776_M_Housing___Redevelopment_Authority_26-09-23_Meeting_Minutes.pdf",
       "videoStatus": "Public",
       "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7776&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
-      "lastModifiedUtc": "2026-09-23T21:27:38.493",
+      "lastModifiedUtc": "2026-09-29T20:56:56.377",
       "members": [
         {
           "id": 6692,
@@ -788,10 +773,112 @@
       "location": "Hearing Room 330",
       "agendaStatus": "Final",
       "agendaUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/9/7784_A_City_Council_26-09-30_ADA_Meeting_Agenda.pdf",
-      "minutesUrl": null,
+      "minutesUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/9/7784_M_City_Council_26-09-30_Meeting_Minutes.pdf",
       "videoStatus": "Public",
       "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7784&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
-      "lastModifiedUtc": "2026-09-29T17:33:37.877",
+      "lastModifiedUtc": "2026-09-30T17:22:09.553",
+      "members": [
+        {
+          "id": 6692,
+          "name": "Rebecca Noecker",
+          "type": "Councilmember"
+        },
+        {
+          "id": 6859,
+          "name": "Nelsie Yang",
+          "type": "Councilmember"
+        },
+        {
+          "id": 6785,
+          "name": "HwaJeong Kim",
+          "type": "Councilmember"
+        },
+        {
+          "id": 7038,
+          "name": "Anika Bowie",
+          "type": "Councilmember"
+        },
+        {
+          "id": 7039,
+          "name": "Saura Jost",
+          "type": "Councilmember"
+        },
+        {
+          "id": 7040,
+          "name": "Cheniqua Johnson",
+          "type": "Councilmember"
+        },
+        {
+          "id": 7108,
+          "name": "Molly Coleman",
+          "type": "Councilmember"
+        }
+      ]
+    },
+    {
+      "id": "legistar-stpaul-meeting-7785",
+      "body_id": "legistar-stpaul-body-138",
+      "bodyName": "City Council",
+      "date": "2026-09-30",
+      "time": "14:00",
+      "location": "Council Chambers - 3rd Floor",
+      "agendaStatus": "Final",
+      "agendaUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/9/7785_A_City_Council_26-09-30_ADA_Meeting_Agenda.pdf",
+      "minutesUrl": null,
+      "videoStatus": "Public",
+      "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7785&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
+      "lastModifiedUtc": "2026-09-30T17:40:23.63",
+      "members": [
+        {
+          "id": 6692,
+          "name": "Rebecca Noecker",
+          "type": "Councilmember"
+        },
+        {
+          "id": 6859,
+          "name": "Nelsie Yang",
+          "type": "Councilmember"
+        },
+        {
+          "id": 6785,
+          "name": "HwaJeong Kim",
+          "type": "Councilmember"
+        },
+        {
+          "id": 7038,
+          "name": "Anika Bowie",
+          "type": "Councilmember"
+        },
+        {
+          "id": 7039,
+          "name": "Saura Jost",
+          "type": "Councilmember"
+        },
+        {
+          "id": 7040,
+          "name": "Cheniqua Johnson",
+          "type": "Councilmember"
+        },
+        {
+          "id": 7108,
+          "name": "Molly Coleman",
+          "type": "Councilmember"
+        }
+      ]
+    },
+    {
+      "id": "legistar-stpaul-meeting-7786",
+      "body_id": "legistar-stpaul-body-138",
+      "bodyName": "City Council",
+      "date": "2026-09-30",
+      "time": "14:15",
+      "location": "Council Chambers - 3rd Floor",
+      "agendaStatus": "Final",
+      "agendaUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/9/7786_A_City_Council_26-09-30_ADA_Meeting_Agenda.pdf",
+      "minutesUrl": null,
+      "videoStatus": "Public",
+      "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7786&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
+      "lastModifiedUtc": "2026-09-30T17:39:38.17",
       "members": [
         {
           "id": 6692,
@@ -1988,305 +2075,6 @@
       "matterFile": null,
       "matterId": null,
       "matterType": null
-    },
-    {
-      "id": "legistar-stpaul-eventitem-217244",
-      "meeting_id": "legistar-stpaul-meeting-7766",
-      "sequence": 1,
-      "agendaNumber": null,
-      "title": "9:00 a.m. Hearings",
-      "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
-      "matterFile": null,
-      "matterId": null,
-      "matterType": null
-    },
-    {
-      "id": "legistar-stpaul-eventitem-217246",
-      "meeting_id": "legistar-stpaul-meeting-7766",
-      "sequence": 2,
-      "agendaNumber": null,
-      "title": "Remove/Repair Orders",
-      "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
-      "matterFile": null,
-      "matterId": null,
-      "matterType": null
-    },
-    {
-      "id": "legistar-stpaul-eventitem-217248",
-      "meeting_id": "legistar-stpaul-meeting-7766",
-      "sequence": 3,
-      "agendaNumber": "1",
-      "title": "Ordering the rehabilitation or razing and removal of the structures at 914 CENTRAL AVENUE WEST within fifteen (15) days after the August 19, 2026, City Council Public Hearing.  (Refer to September 15, 2026 on condition)",
-      "isConsent": false,
-      "actionName": "Laid Over",
-      "passedFlagName": null,
-      "matterFile": "RLH RR 26-14",
-      "matterId": 52238,
-      "matterType": "Resolution LH Substantial Abatement Order"
-    },
-    {
-      "id": "legistar-stpaul-eventitem-217249",
-      "meeting_id": "legistar-stpaul-meeting-7766",
-      "sequence": 8,
-      "agendaNumber": null,
-      "title": "Special Tax Assessments",
-      "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
-      "matterFile": null,
-      "matterId": null,
-      "matterType": null
-    },
-    {
-      "id": "legistar-stpaul-eventitem-217252",
-      "meeting_id": "legistar-stpaul-meeting-7766",
-      "sequence": 7,
-      "agendaNumber": null,
-      "title": "10:00 a.m. Hearings",
-      "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
-      "matterFile": null,
-      "matterId": null,
-      "matterType": null
-    },
-    {
-      "id": "legistar-stpaul-eventitem-217253",
-      "meeting_id": "legistar-stpaul-meeting-7766",
-      "sequence": 18,
-      "agendaNumber": null,
-      "title": "Making Finding on Nuisance Abatements",
-      "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
-      "matterFile": null,
-      "matterId": null,
-      "matterType": null
-    },
-    {
-      "id": "legistar-stpaul-eventitem-217254",
-      "meeting_id": "legistar-stpaul-meeting-7766",
-      "sequence": 10,
-      "agendaNumber": null,
-      "title": "Special Tax Assessments-Roll(s)",
-      "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
-      "matterFile": null,
-      "matterId": null,
-      "matterType": null
-    },
-    {
-      "id": "legistar-stpaul-eventitem-217255",
-      "meeting_id": "legistar-stpaul-meeting-7766",
-      "sequence": 12,
-      "agendaNumber": null,
-      "title": "11:00 a.m. Hearings",
-      "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
-      "matterFile": null,
-      "matterId": null,
-      "matterType": null
-    },
-    {
-      "id": "legistar-stpaul-eventitem-217256",
-      "meeting_id": "legistar-stpaul-meeting-7766",
-      "sequence": 13,
-      "agendaNumber": null,
-      "title": "Summary & Vehicle Abatement Orders",
-      "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
-      "matterFile": null,
-      "matterId": null,
-      "matterType": null
-    },
-    {
-      "id": "legistar-stpaul-eventitem-217257",
-      "meeting_id": "legistar-stpaul-meeting-7766",
-      "sequence": 22,
-      "agendaNumber": "12",
-      "title": "Making finding on the appeal of Jane Myers nuisance abatement ordered for 1521 HAGUE AVENUE in Council File RLH SAO 26-58.",
-      "isConsent": false,
-      "actionName": "Referred",
-      "passedFlagName": null,
-      "matterFile": "RLH SAO 26-63",
-      "matterId": 52455,
-      "matterType": "Resolution LH Summary Abatement Order"
-    },
-    {
-      "id": "legistar-stpaul-eventitem-217258",
-      "meeting_id": "legistar-stpaul-meeting-7766",
-      "sequence": 24,
-      "agendaNumber": "14",
-      "title": "Making finding on the appealed of Thomas Turbes to a nuisance abatement ordered for 2203 SELBY AVENUE in Council File RLH SAO 26-56.",
-      "isConsent": false,
-      "actionName": "Referred",
-      "passedFlagName": null,
-      "matterFile": "RLH SAO 26-66",
-      "matterId": 52495,
-      "matterType": "Resolution LH Summary Abatement Order"
-    },
-    {
-      "id": "legistar-stpaul-eventitem-217259",
-      "meeting_id": "legistar-stpaul-meeting-7766",
-      "sequence": 23,
-      "agendaNumber": "13",
-      "title": "Making finding on the Appeal of Kinnell Tacket to a nuisance abatement ordered for 444 JOHNSON PARKWAY in Council File RLH CO 26-4.",
-      "isConsent": false,
-      "actionName": "Referred",
-      "passedFlagName": null,
-      "matterFile": "RLH SAO 26-80",
-      "matterId": 52676,
-      "matterType": "Resolution LH Summary Abatement Order"
-    },
-    {
-      "id": "legistar-stpaul-eventitem-217261",
-      "meeting_id": "legistar-stpaul-meeting-7766",
-      "sequence": 19,
-      "agendaNumber": "9",
-      "title": "Making finding on the appeal of Rich C. Nelson to a nuisance abatement ordered for 2348 BUFORD AVENUE in Council File RLH SAO 26-84.",
-      "isConsent": false,
-      "actionName": "Referred",
-      "passedFlagName": null,
-      "matterFile": "RLH SAO 26-90",
-      "matterId": 52908,
-      "matterType": "Resolution LH Summary Abatement Order"
-    },
-    {
-      "id": "legistar-stpaul-eventitem-217262",
-      "meeting_id": "legistar-stpaul-meeting-7766",
-      "sequence": 20,
-      "agendaNumber": "10",
-      "title": "Making finding on the appeal of Mary Roach to a nuisance abatement ordered for 1045 CHARLES AVENUE in Council File RLH SAO 26-78.",
-      "isConsent": false,
-      "actionName": "Referred",
-      "passedFlagName": null,
-      "matterFile": "RLH SAO 26-92",
-      "matterId": 52911,
-      "matterType": "Resolution LH Summary Abatement Order"
-    },
-    {
-      "id": "legistar-stpaul-eventitem-217263",
-      "meeting_id": "legistar-stpaul-meeting-7766",
-      "sequence": 15,
-      "agendaNumber": null,
-      "title": "Correction Orders",
-      "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
-      "matterFile": null,
-      "matterId": null,
-      "matterType": null
-    },
-    {
-      "id": "legistar-stpaul-eventitem-217267",
-      "meeting_id": "legistar-stpaul-meeting-7766",
-      "sequence": 26,
-      "agendaNumber": null,
-      "title": "1:00 p.m. Hearings",
-      "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
-      "matterFile": null,
-      "matterId": null,
-      "matterType": null
-    },
-    {
-      "id": "legistar-stpaul-eventitem-217268",
-      "meeting_id": "legistar-stpaul-meeting-7766",
-      "sequence": 27,
-      "agendaNumber": null,
-      "title": "Vacant Building Registrations",
-      "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
-      "matterFile": null,
-      "matterId": null,
-      "matterType": null
-    },
-    {
-      "id": "legistar-stpaul-eventitem-217275",
-      "meeting_id": "legistar-stpaul-meeting-7766",
-      "sequence": 30,
-      "agendaNumber": null,
-      "title": "3:00 p.m. Hearings",
-      "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
-      "matterFile": null,
-      "matterId": null,
-      "matterType": null
-    },
-    {
-      "id": "legistar-stpaul-eventitem-217276",
-      "meeting_id": "legistar-stpaul-meeting-7766",
-      "sequence": 31,
-      "agendaNumber": null,
-      "title": "Other",
-      "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
-      "matterFile": null,
-      "matterId": null,
-      "matterType": null
-    },
-    {
-      "id": "legistar-stpaul-eventitem-217278",
-      "meeting_id": "legistar-stpaul-meeting-7766",
-      "sequence": 5,
-      "agendaNumber": null,
-      "title": "Staff Reports",
-      "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
-      "matterFile": null,
-      "matterId": null,
-      "matterType": null
-    },
-    {
-      "id": "legistar-stpaul-eventitem-217279",
-      "meeting_id": "legistar-stpaul-meeting-7766",
-      "sequence": 6,
-      "agendaNumber": "3",
-      "title": "Review of Appeal for ordering the rehabilitation or razing and removal of the structures at 118 MANITOBA AVENUE within fifteen (15) days after the March 18, 2026, City Council Public Hearing.",
-      "isConsent": false,
-      "actionName": "Received and Filed",
-      "passedFlagName": null,
-      "matterFile": "SR 26-189",
-      "matterId": 52814,
-      "matterType": "Staff Report"
-    },
-    {
-      "id": "legistar-stpaul-eventitem-217280",
-      "meeting_id": "legistar-stpaul-meeting-7766",
-      "sequence": 25,
-      "agendaNumber": "15",
-      "title": "Making finding on the appeal of Barry Campbell to a nuisance abatement ordered for 449 VAN DYKE STREET in Council File RLH SAO 26-71.",
-      "isConsent": false,
-      "actionName": "Referred",
-      "passedFlagName": null,
-      "matterFile": "RLH SAO 26-93",
-      "matterId": 52915,
-      "matterType": "Resolution LH Summary Abatement Order"
-    },
-    {
-      "id": "legistar-stpaul-eventitem-217315",
-      "meeting_id": "legistar-stpaul-meeting-7766",
-      "sequence": 21,
-      "agendaNumber": "11",
-      "title": "Second Making finding on the appeal of Liam Magistad to a nuisance abatement ordered for 1597 CHARLES AVENUE in Council File RLH SAO 26-61.",
-      "isConsent": false,
-      "actionName": "Referred",
-      "passedFlagName": null,
-      "matterFile": "RLH SAO 26-96",
-      "matterId": 52933,
-      "matterType": "Resolution LH Summary Abatement Order"
     },
     {
       "id": "legistar-stpaul-eventitem-217292",
@@ -3810,6 +3598,19 @@
       "matterType": null
     },
     {
+      "id": "legistar-stpaul-eventitem-217606",
+      "meeting_id": "legistar-stpaul-meeting-7781",
+      "sequence": 3,
+      "agendaNumber": "1",
+      "title": "Ordering the rehabilitation or razing and removal of the structures at 799 UNIVERSITY AVENUE WEST within fifteen (15) days after the February 18, 2026 City Council Public Hearing.",
+      "isConsent": false,
+      "actionName": "Referred",
+      "passedFlagName": null,
+      "matterFile": "RLH RR 26-2",
+      "matterId": 51062,
+      "matterType": "Resolution LH Substantial Abatement Order"
+    },
+    {
       "id": "legistar-stpaul-eventitem-217611",
       "meeting_id": "legistar-stpaul-meeting-7781",
       "sequence": 4,
@@ -4037,22 +3838,110 @@
       "agendaNumber": "1",
       "title": "Appointing the law firm of Fisher Phillips as Special Counsel for Purposes of Providing Legal Advice, Counsel, and Representation for the defense of Mayor Kaohly Her in the lawsuit captioned, Axel Henry v. Kaohly Her and City of St. Paul, Ramsey County District Court, State of Minnesota.",
       "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
+      "actionName": "Adopted As Amended",
+      "passedFlagName": "Pass",
       "matterFile": "RES 26-1659",
       "matterId": 53012,
       "matterType": "Resolution"
+    },
+    {
+      "id": "legistar-stpaul-eventitem-217694",
+      "meeting_id": "legistar-stpaul-meeting-7785",
+      "sequence": 1,
+      "agendaNumber": null,
+      "title": "Test header",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-stpaul-eventitem-217695",
+      "meeting_id": "legistar-stpaul-meeting-7785",
+      "sequence": 2,
+      "agendaNumber": "1",
+      "title": "City Council test file 9/30 2pm",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "RES 26-1684",
+      "matterId": 53045,
+      "matterType": "Resolution"
+    },
+    {
+      "id": "legistar-stpaul-eventitem-217696",
+      "meeting_id": "legistar-stpaul-meeting-7785",
+      "sequence": 3,
+      "agendaNumber": null,
+      "title": "Test footer",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-stpaul-eventitem-217697",
+      "meeting_id": "legistar-stpaul-meeting-7786",
+      "sequence": 1,
+      "agendaNumber": null,
+      "title": "Test header",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-stpaul-eventitem-217698",
+      "meeting_id": "legistar-stpaul-meeting-7786",
+      "sequence": 2,
+      "agendaNumber": "1",
+      "title": "City Council test file 9/30 2:15pm",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "RES 26-1685",
+      "matterId": 53046,
+      "matterType": "Resolution"
+    },
+    {
+      "id": "legistar-stpaul-eventitem-217699",
+      "meeting_id": "legistar-stpaul-meeting-7786",
+      "sequence": 3,
+      "agendaNumber": null,
+      "title": "Test footer",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
     }
   ],
   "diff": {
-    "addedIds": [],
-    "removedIds": [
-      "legistar-stpaul-meeting-7769"
+    "addedIds": [
+      "legistar-stpaul-meeting-7785",
+      "legistar-stpaul-meeting-7786"
     ],
-    "changed": []
+    "removedIds": [
+      "legistar-stpaul-meeting-7766"
+    ],
+    "changed": [
+      {
+        "id": "legistar-stpaul-meeting-7784",
+        "field": "minutesUrl",
+        "from": null,
+        "to": "https://legistar1.granicus.com/StPaul/meetings/2026/9/7784_M_City_Council_26-09-30_Meeting_Minutes.pdf"
+      }
+    ]
   },
-  "previousGeneratedAt": "2026-09-28T19:28:19.455Z",
+  "previousGeneratedAt": "2026-09-29T17:54:45.687Z",
   "knownGaps": [
-    "Consent-agenda flagging uses Legistar's own EventItemConsent field only (77 of 247 agenda item(s) in this window flagged). \"No discussion\" / \"no public comment\" are NOT flagged — this API exposes no comparably reliable field for either, and AGENTS.md §3.3 rules out inferring one from absence."
+    "Consent-agenda flagging uses Legistar's own EventItemConsent field only (77 of 231 agenda item(s) in this window flagged). \"No discussion\" / \"no public comment\" are NOT flagged — this API exposes no comparably reliable field for either, and AGENTS.md §3.3 rules out inferring one from absence."
   ]
 }
