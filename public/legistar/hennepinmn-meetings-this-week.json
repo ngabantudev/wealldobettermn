@@ -1,15 +1,351 @@
 {
-  "generatedAt": "2026-10-01T18:18:59.189Z",
+  "generatedAt": "2026-10-02T17:42:03.403Z",
   "meetingsThisWeek": [
     {
       "client": "hennepinmn",
       "jurisdiction": "Hennepin County Board",
       "bodyName": "Administration, Operations and Budget Committee",
-      "date": "2026-10-01",
+      "date": "2026-10-06",
+      "time": "13:30",
+      "location": "Government Center - County Board Chambers",
+      "sourceUrl": "https://hennepinmn.legistar.com/MeetingDetail.aspx?LEGID=1478&GID=953&G=BA9AD5D7-E82F-425B-B72E-ABFEC8B35879",
+      "agendaUrl": "https://hennepinmn.legistar1.com/hennepinmn/meetings/2026/10/1478_A_Administration%2C_Operations_and_Budget_Committee_26-10-06_COMMITTEE_AGENDA.pdf",
+      "isCancelled": false,
+      "members": [
+        {
+          "id": 508,
+          "name": "Irene Fernando",
+          "type": "Commissioner"
+        },
+        {
+          "id": 573,
+          "name": "Marion Greene",
+          "type": "Commissioner"
+        },
+        {
+          "id": 454,
+          "name": "Angela Conley",
+          "type": "Commissioner"
+        },
+        {
+          "id": 490,
+          "name": "Debbie Goettel",
+          "type": "Commissioner"
+        },
+        {
+          "id": 698,
+          "name": "Heather Edelson",
+          "type": "Commissioner"
+        },
+        {
+          "id": 517,
+          "name": "Jeff Lunde",
+          "type": "Commissioner"
+        },
+        {
+          "id": 544,
+          "name": "Kevin Anderson",
+          "type": "Commissioner"
+        }
+      ]
+    },
+    {
+      "client": "hennepinmn",
+      "jurisdiction": "Hennepin County Board",
+      "bodyName": "Health Committee",
+      "date": "2026-10-06",
+      "time": "13:30",
+      "location": "Government Center - County",
+      "sourceUrl": "https://hennepinmn.legistar.com/MeetingDetail.aspx?LEGID=1479&GID=953&G=BA9AD5D7-E82F-425B-B72E-ABFEC8B35879",
+      "agendaUrl": "https://hennepinmn.legistar1.com/hennepinmn/meetings/2026/10/1479_A_Health_Committee_26-10-06_COMMITTEE_AGENDA.pdf",
+      "isCancelled": false,
+      "members": [
+        {
+          "id": 454,
+          "name": "Angela Conley",
+          "type": "Commissioner"
+        },
+        {
+          "id": 698,
+          "name": "Heather Edelson",
+          "type": "Commissioner"
+        },
+        {
+          "id": 508,
+          "name": "Irene Fernando",
+          "type": "Commissioner"
+        },
+        {
+          "id": 573,
+          "name": "Marion Greene",
+          "type": "Commissioner"
+        },
+        {
+          "id": 490,
+          "name": "Debbie Goettel",
+          "type": "Commissioner"
+        },
+        {
+          "id": 517,
+          "name": "Jeff Lunde",
+          "type": "Commissioner"
+        },
+        {
+          "id": 544,
+          "name": "Kevin Anderson",
+          "type": "Commissioner"
+        }
+      ]
+    },
+    {
+      "client": "hennepinmn",
+      "jurisdiction": "Hennepin County Board",
+      "bodyName": "Human Services Committee",
+      "date": "2026-10-06",
+      "time": "13:30",
+      "location": "Government Center - County Board Chambers",
+      "sourceUrl": "https://hennepinmn.legistar.com/MeetingDetail.aspx?LEGID=1480&GID=953&G=BA9AD5D7-E82F-425B-B72E-ABFEC8B35879",
+      "agendaUrl": "https://hennepinmn.legistar1.com/hennepinmn/meetings/2026/10/1480_A_Human_Services_Committee_26-10-06_COMMITTEE_AGENDA.pdf",
+      "isCancelled": false,
+      "members": [
+        {
+          "id": 454,
+          "name": "Angela Conley",
+          "type": "Commissioner"
+        },
+        {
+          "id": 508,
+          "name": "Irene Fernando",
+          "type": "Commissioner"
+        },
+        {
+          "id": 573,
+          "name": "Marion Greene",
+          "type": "Commissioner"
+        },
+        {
+          "id": 490,
+          "name": "Debbie Goettel",
+          "type": "Commissioner"
+        },
+        {
+          "id": 517,
+          "name": "Jeff Lunde",
+          "type": "Commissioner"
+        },
+        {
+          "id": 544,
+          "name": "Kevin Anderson",
+          "type": "Commissioner"
+        },
+        {
+          "id": 698,
+          "name": "Heather Edelson",
+          "type": "Commissioner"
+        }
+      ]
+    },
+    {
+      "client": "hennepinmn",
+      "jurisdiction": "Hennepin County Board",
+      "bodyName": "Law, Safety and Justice Committee",
+      "date": "2026-10-06",
+      "time": "13:30",
+      "location": "Government Center - County Board Chambers",
+      "sourceUrl": "https://hennepinmn.legistar.com/MeetingDetail.aspx?LEGID=1481&GID=953&G=BA9AD5D7-E82F-425B-B72E-ABFEC8B35879",
+      "agendaUrl": "https://hennepinmn.legistar1.com/hennepinmn/meetings/2026/10/1481_A_Law%2C_Safety_and_Justice_Committee_26-10-06_COMMITTEE_AGENDA.pdf",
+      "isCancelled": false,
+      "members": [
+        {
+          "id": 508,
+          "name": "Irene Fernando",
+          "type": "Commissioner"
+        },
+        {
+          "id": 573,
+          "name": "Marion Greene",
+          "type": "Commissioner"
+        },
+        {
+          "id": 454,
+          "name": "Angela Conley",
+          "type": "Commissioner"
+        },
+        {
+          "id": 698,
+          "name": "Heather Edelson",
+          "type": "Commissioner"
+        },
+        {
+          "id": 490,
+          "name": "Debbie Goettel",
+          "type": "Commissioner"
+        },
+        {
+          "id": 517,
+          "name": "Jeff Lunde",
+          "type": "Commissioner"
+        },
+        {
+          "id": 544,
+          "name": "Kevin Anderson",
+          "type": "Commissioner"
+        }
+      ]
+    },
+    {
+      "client": "hennepinmn",
+      "jurisdiction": "Hennepin County Board",
+      "bodyName": "Public Works Committee",
+      "date": "2026-10-06",
+      "time": "13:30",
+      "location": "Government Center - County Board Chambers",
+      "sourceUrl": "https://hennepinmn.legistar.com/MeetingDetail.aspx?LEGID=1482&GID=953&G=BA9AD5D7-E82F-425B-B72E-ABFEC8B35879",
+      "agendaUrl": "https://hennepinmn.legistar1.com/hennepinmn/meetings/2026/10/1482_A_Public_Works_Committee_26-10-06_COMMITTEE_AGENDA.pdf",
+      "isCancelled": false,
+      "members": [
+        {
+          "id": 573,
+          "name": "Marion Greene",
+          "type": "Commissioner"
+        },
+        {
+          "id": 508,
+          "name": "Irene Fernando",
+          "type": "Commissioner"
+        },
+        {
+          "id": 454,
+          "name": "Angela Conley",
+          "type": "Commissioner"
+        },
+        {
+          "id": 698,
+          "name": "Heather Edelson",
+          "type": "Commissioner"
+        },
+        {
+          "id": 490,
+          "name": "Debbie Goettel",
+          "type": "Commissioner"
+        },
+        {
+          "id": 517,
+          "name": "Jeff Lunde",
+          "type": "Commissioner"
+        },
+        {
+          "id": 544,
+          "name": "Kevin Anderson",
+          "type": "Commissioner"
+        }
+      ]
+    },
+    {
+      "client": "hennepinmn",
+      "jurisdiction": "Hennepin County Board",
+      "bodyName": "Resident Services Committee",
+      "date": "2026-10-06",
+      "time": "13:30",
+      "location": "Government Center - County Board Chambers",
+      "sourceUrl": "https://hennepinmn.legistar.com/MeetingDetail.aspx?LEGID=1483&GID=953&G=BA9AD5D7-E82F-425B-B72E-ABFEC8B35879",
+      "agendaUrl": "https://hennepinmn.legistar1.com/hennepinmn/meetings/2026/10/1483_A_Resident_Services_Committee_26-10-06_COMMITTEE_AGENDA.pdf",
+      "isCancelled": false,
+      "members": [
+        {
+          "id": 454,
+          "name": "Angela Conley",
+          "type": "Commissioner"
+        },
+        {
+          "id": 490,
+          "name": "Debbie Goettel",
+          "type": "Commissioner"
+        },
+        {
+          "id": 698,
+          "name": "Heather Edelson",
+          "type": "Commissioner"
+        },
+        {
+          "id": 508,
+          "name": "Irene Fernando",
+          "type": "Commissioner"
+        },
+        {
+          "id": 517,
+          "name": "Jeff Lunde",
+          "type": "Commissioner"
+        },
+        {
+          "id": 544,
+          "name": "Kevin Anderson",
+          "type": "Commissioner"
+        },
+        {
+          "id": 573,
+          "name": "Marion Greene",
+          "type": "Commissioner"
+        }
+      ]
+    },
+    {
+      "client": "hennepinmn",
+      "jurisdiction": "Hennepin County Board",
+      "bodyName": "Hennepin County Housing and Redevelopment Authority",
+      "date": "2026-10-06",
+      "time": "13:30",
+      "location": "Government Center - County Board Chambers",
+      "sourceUrl": "https://hennepinmn.legistar.com/MeetingDetail.aspx?LEGID=1486&GID=953&G=BA9AD5D7-E82F-425B-B72E-ABFEC8B35879",
+      "agendaUrl": "https://hennepinmn.legistar1.com/hennepinmn/meetings/2026/10/1486_A_Hennepin_County_Housing_and_Redevelopment_Authority_26-10-06_Authority_Agenda.pdf",
+      "isCancelled": false,
+      "members": [
+        {
+          "id": 508,
+          "name": "Irene Fernando",
+          "type": "Commissioner"
+        },
+        {
+          "id": 573,
+          "name": "Marion Greene",
+          "type": "Commissioner"
+        },
+        {
+          "id": 454,
+          "name": "Angela Conley",
+          "type": "Commissioner"
+        },
+        {
+          "id": 490,
+          "name": "Debbie Goettel",
+          "type": "Commissioner"
+        },
+        {
+          "id": 698,
+          "name": "Heather Edelson",
+          "type": "Commissioner"
+        },
+        {
+          "id": 517,
+          "name": "Jeff Lunde",
+          "type": "Commissioner"
+        },
+        {
+          "id": 544,
+          "name": "Kevin Anderson",
+          "type": "Commissioner"
+        }
+      ]
+    },
+    {
+      "client": "hennepinmn",
+      "jurisdiction": "Hennepin County Board",
+      "bodyName": "Administration, Operations and Budget Committee",
+      "date": "2026-10-07",
       "time": "12:00",
       "location": "Government Center - County Board Chambers",
-      "sourceUrl": "https://hennepinmn.legistar.com/MeetingDetail.aspx?LEGID=1477&GID=953&G=BA9AD5D7-E82F-425B-B72E-ABFEC8B35879",
-      "agendaUrl": "https://hennepinmn.legistar1.com/hennepinmn/meetings/2026/10/1477_A_Administration%2C_Operations_and_Budget_Committee_26-10-01_COMMITTEE_AGENDA.pdf",
+      "sourceUrl": "https://hennepinmn.legistar.com/MeetingDetail.aspx?LEGID=1484&GID=953&G=BA9AD5D7-E82F-425B-B72E-ABFEC8B35879",
+      "agendaUrl": null,
       "isCancelled": false,
       "members": [
         {
