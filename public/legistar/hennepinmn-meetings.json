@@ -2,22 +2,22 @@
   "schemaVersion": 1,
   "client": "hennepinmn",
   "jurisdiction": "Hennepin County Board",
-  "generatedAt": "2026-10-02T17:42:03.400Z",
+  "generatedAt": "2026-10-03T16:02:23.266Z",
   "status": "ingested",
-  "note": "19 meeting(s) (19/19 event(s) in window) and 255 agenda item(s) ingested for 2026-09-18–2026-12-31.",
+  "note": "19 meeting(s) (19/19 event(s) in window) and 255 agenda item(s) ingested for 2026-09-19–2027-01-01.",
   "provenance": {
     "primarySourceUrl": "https://webapi.legistar.com/v1/hennepinmn/events",
     "sourceAgency": "Hennepin County Board",
     "documentType": "Legistar Web API — Events/EventItems",
     "documentId": null,
     "issuedDate": null,
-    "fetchedAt": "2026-10-02T17:42:03.400Z",
+    "fetchedAt": "2026-10-03T16:02:23.266Z",
     "licence": "Public records served via Legistar InSite; no separate machine-reuse licence published by the host jurisdiction as of this writing.",
-    "contentHash": "836ae22c18a6f27c1a9153791f5e21282c4c7372b363f7956315a4eae825c9ac"
+    "contentHash": "4ddfd507f90e35c5f92bb4995fc5e5145f57d8107bdffb8a9f541847a3ca416a"
   },
   "window": {
-    "startIso": "2026-09-18",
-    "endIso": "2026-12-31"
+    "startIso": "2026-09-19",
+    "endIso": "2027-01-01"
   },
   "meetings": [
     {
@@ -4268,20 +4268,11 @@
     }
   ],
   "diff": {
-    "addedIds": [
-      "legistar-hennepinmn-meeting-1478",
-      "legistar-hennepinmn-meeting-1479",
-      "legistar-hennepinmn-meeting-1480",
-      "legistar-hennepinmn-meeting-1481",
-      "legistar-hennepinmn-meeting-1482",
-      "legistar-hennepinmn-meeting-1483",
-      "legistar-hennepinmn-meeting-1484",
-      "legistar-hennepinmn-meeting-1486"
-    ],
+    "addedIds": [],
     "removedIds": [],
     "changed": []
   },
-  "previousGeneratedAt": "2026-10-01T18:18:59.183Z",
+  "previousGeneratedAt": "2026-10-02T17:42:03.400Z",
   "knownGaps": [
     "Consent-agenda flagging uses Legistar's own EventItemConsent field only (26 of 255 agenda item(s) in this window flagged). \"No discussion\" / \"no public comment\" are NOT flagged — this API exposes no comparably reliable field for either, and AGENTS.md §3.3 rules out inferring one from absence."
   ]
