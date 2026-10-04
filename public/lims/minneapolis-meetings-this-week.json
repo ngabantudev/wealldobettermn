@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-03T16:02:34.112Z",
+  "generatedAt": "2026-10-04T16:42:52.234Z",
   "meetingsThisWeek": [
     {
       "client": "minneapolis",
@@ -2495,6 +2495,97 @@
           "id": 7964,
           "name": "Jamison Whiting",
           "type": "Council Member"
+        }
+      ]
+    },
+    {
+      "client": "minneapolis",
+      "jurisdiction": "Minneapolis City Council",
+      "bodyName": "Enterprise & Labor Relations Committee",
+      "date": "2026-11-02",
+      "time": "13:30",
+      "location": null,
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/ELR/",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/ELR/",
+      "isCancelled": false,
+      "members": [
+        {
+          "id": 375,
+          "name": "Linea Palmisano",
+          "type": "Chair"
+        },
+        {
+          "id": 5696,
+          "name": "LaTrisha Vetaw",
+          "type": "Council Member"
+        },
+        {
+          "id": 5697,
+          "name": "Aisha Chughtai",
+          "type": "Council Member"
+        },
+        {
+          "id": 5698,
+          "name": "Jason Chavez",
+          "type": "Council Member"
+        },
+        {
+          "id": 7962,
+          "name": "Soren Stevenson",
+          "type": "Council Member"
+        },
+        {
+          "id": 7963,
+          "name": "Elizabeth Shaffer",
+          "type": "Council Member"
+        },
+        {
+          "id": 7964,
+          "name": "Jamison Whiting",
+          "type": "Vice-Chair"
+        }
+      ]
+    },
+    {
+      "client": "minneapolis",
+      "jurisdiction": "Minneapolis City Council",
+      "bodyName": "Heritage Preservation Commission",
+      "date": "2026-11-02",
+      "time": "16:30",
+      "location": null,
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/HPC/",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/HPC/",
+      "isCancelled": false,
+      "members": [
+        {
+          "id": 6674,
+          "name": "Toshihiko Karato",
+          "type": "ABC Member"
+        },
+        {
+          "id": 6972,
+          "name": "Lindsey Wallace",
+          "type": "ABC Member"
+        },
+        {
+          "id": 6976,
+          "name": "Amy Thomas",
+          "type": "ABC Member"
+        },
+        {
+          "id": 6983,
+          "name": "Namdi Alexander",
+          "type": "ABC Member"
+        },
+        {
+          "id": 7017,
+          "name": "Mariel Rodriguez",
+          "type": "ABC Member"
+        },
+        {
+          "id": 7018,
+          "name": "Paul Mellblom",
+          "type": "ABC Member"
         }
       ]
     }

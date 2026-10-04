@@ -2,22 +2,22 @@
   "schemaVersion": 1,
   "client": "minneapolis",
   "jurisdiction": "Minneapolis City Council",
-  "generatedAt": "2026-10-03T16:02:34.105Z",
+  "generatedAt": "2026-10-04T16:42:52.227Z",
   "status": "ingested",
-  "note": "126 meeting(s) and 391 agenda item(s) ingested for 2026-09-19–2027-01-01.",
+  "note": "126 meeting(s) and 391 agenda item(s) ingested for 2026-09-20–2027-01-02.",
   "provenance": {
     "primarySourceUrl": "https://lims.minneapolismn.gov/",
     "sourceAgency": "City of Minneapolis, Office of the City Clerk",
     "documentType": "LIMS API v1 — meetingCalendar/FileItemSearch",
     "documentId": null,
     "issuedDate": null,
-    "fetchedAt": "2026-10-03T16:02:34.105Z",
+    "fetchedAt": "2026-10-04T16:42:52.227Z",
     "licence": "Public records served via the City of Minneapolis LIMS API; no separate machine-reuse licence published as of this writing.",
     "contentHash": null
   },
   "window": {
-    "startIso": "2026-09-19",
-    "endIso": "2027-01-01"
+    "startIso": "2026-09-20",
+    "endIso": "2027-01-02"
   },
   "meetings": [
     {
@@ -20351,28 +20351,11 @@
     }
   ],
   "diff": {
-    "addedIds": [
-      "lims-minneapolis-meeting-city-council-policy-roundtable-2026-10-14T14:30:00"
-    ],
-    "removedIds": [
-      "lims-minneapolis-meeting-city-council-policy-roundtable-2026-10-14T13:30:00"
-    ],
-    "changed": [
-      {
-        "id": "lims-minneapolis-meeting-ethical-practices-board-2026-10-01T15:00:00",
-        "field": "agendaUrl",
-        "from": "https://lims.minneapolismn.gov/Agenda/EPB/6245",
-        "to": "https://lims.minneapolismn.gov/Board/MarkedAgenda/EPB/6245"
-      },
-      {
-        "id": "lims-minneapolis-meeting-ethical-practices-board-2026-10-01T15:00:00",
-        "field": "minutesUrl",
-        "from": null,
-        "to": "https://lims.minneapolismn.gov/api/v1/downloads/CommitteeReport/5002/EPB_20261001_minutes_CB-edits.pdf"
-      }
-    ]
+    "addedIds": [],
+    "removedIds": [],
+    "changed": []
   },
-  "previousGeneratedAt": "2026-10-02T17:42:14.509Z",
+  "previousGeneratedAt": "2026-10-03T16:02:34.105Z",
   "knownGaps": [
     "Consent-agenda flagging not implemented — LIMS has no field structurally equivalent to Legistar's EventItemConsent; every agenda item ships isConsent: false rather than a guess.",
     "2 same-day, same-body meeting collision(s) in this window — FileItemSearch's LegislativeHistory carries a date but no time, so a second same-day session for the same body can't be disambiguated; the earliest session for each colliding (body, date) pair was used."
