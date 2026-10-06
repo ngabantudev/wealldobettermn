@@ -2,22 +2,22 @@
   "schemaVersion": 1,
   "client": "stpaul",
   "jurisdiction": "St. Paul City Council",
-  "generatedAt": "2026-10-04T16:41:32.416Z",
+  "generatedAt": "2026-10-06T18:08:43.668Z",
   "status": "ingested",
-  "note": "16 meeting(s) (16/16 event(s) in window) and 251 agenda item(s) ingested for 2026-09-20–2027-01-02.",
+  "note": "16 meeting(s) (16/16 event(s) in window) and 244 agenda item(s) ingested for 2026-09-22–2027-01-04.",
   "provenance": {
     "primarySourceUrl": "https://webapi.legistar.com/v1/stpaul/events",
     "sourceAgency": "St. Paul City Council",
     "documentType": "Legistar Web API — Events/EventItems",
     "documentId": null,
     "issuedDate": null,
-    "fetchedAt": "2026-10-04T16:41:32.416Z",
+    "fetchedAt": "2026-10-06T18:08:43.668Z",
     "licence": "Public records served via Legistar InSite; no separate machine-reuse licence published by the host jurisdiction as of this writing.",
-    "contentHash": "170b614ea0a4fa5b1d087ae96156630b879f1a0c639f1688175c78ff8069e272"
+    "contentHash": "82a027080ff02dc1d5e9918e2b37e79899fed3c3707c07e640e2b9346e0a70c8"
   },
   "window": {
-    "startIso": "2026-09-20",
-    "endIso": "2027-01-02"
+    "startIso": "2026-09-22",
+    "endIso": "2027-01-04"
   },
   "meetings": [
     {
@@ -401,10 +401,10 @@
       "location": "Room 330 City Hall & Court House/Remote",
       "agendaStatus": "Final",
       "agendaUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/9/7781_A_Legislative_Hearings_26-09-29_ADA_Meeting_Agenda.pdf",
-      "minutesUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/9/7781_M_Legislative_Hearings_26-09-29_Meeting_Minutes_-_Action_Only.pdf",
+      "minutesUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/9/7781_M_Legislative_Hearings_26-09-29_Minutes_-_Final.pdf",
       "videoStatus": "Public",
       "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7781&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
-      "lastModifiedUtc": "2026-10-01T17:17:38.553",
+      "lastModifiedUtc": "2026-10-05T18:39:32.843",
       "members": []
     },
     {
@@ -521,7 +521,7 @@
       "minutesUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/9/7784_M_City_Council_26-09-30_Meeting_Minutes.pdf",
       "videoStatus": "Public",
       "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7784&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
-      "lastModifiedUtc": "2026-09-30T17:22:09.553",
+      "lastModifiedUtc": "2026-10-05T20:39:14.993",
       "members": [
         {
           "id": 6692,
@@ -623,7 +623,7 @@
       "minutesUrl": null,
       "videoStatus": "Public",
       "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7788&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
-      "lastModifiedUtc": "2026-10-01T19:36:32.507",
+      "lastModifiedUtc": "2026-10-06T15:29:32.94",
       "members": [
         {
           "id": 6692,
@@ -674,7 +674,7 @@
       "minutesUrl": null,
       "videoStatus": "Public",
       "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7790&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
-      "lastModifiedUtc": "2026-10-01T15:42:59.7",
+      "lastModifiedUtc": "2026-10-06T00:41:03.593",
       "members": [
         {
           "id": 6692,
@@ -725,7 +725,7 @@
       "minutesUrl": null,
       "videoStatus": "Public",
       "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7791&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
-      "lastModifiedUtc": "2026-10-02T17:23:00.92",
+      "lastModifiedUtc": "2026-10-05T19:34:32.147",
       "members": []
     }
   ],
@@ -2239,19 +2239,6 @@
       "matterType": null
     },
     {
-      "id": "legistar-stpaul-eventitem-217606",
-      "meeting_id": "legistar-stpaul-meeting-7781",
-      "sequence": 3,
-      "agendaNumber": "1",
-      "title": "Ordering the rehabilitation or razing and removal of the structures at 799 UNIVERSITY AVENUE WEST within fifteen (15) days after the February 18, 2026 City Council Public Hearing.",
-      "isConsent": false,
-      "actionName": "Referred",
-      "passedFlagName": null,
-      "matterFile": "RLH RR 26-2",
-      "matterId": 51062,
-      "matterType": "Resolution LH Substantial Abatement Order"
-    },
-    {
       "id": "legistar-stpaul-eventitem-217611",
       "meeting_id": "legistar-stpaul-meeting-7781",
       "sequence": 4,
@@ -2634,7 +2621,7 @@
       "sequence": 9,
       "agendaNumber": "4",
       "title": "Setting the date of Public Hearing for November 4, 2026 for 2027 Sanitary Sewer Rates and 2027 Storm Sewer System Charges.",
-      "isConsent": false,
+      "isConsent": true,
       "actionName": null,
       "passedFlagName": null,
       "matterFile": "RES 26-1626",
@@ -2660,7 +2647,7 @@
       "sequence": 11,
       "agendaNumber": "6",
       "title": "Authorizing the Department of Parks and Recreation to apply for up to $500,000 from the Ramsey County Environmental Response Fund (ERF) for the Mississippi River Learning Center Landscape Restoration project.",
-      "isConsent": false,
+      "isConsent": true,
       "actionName": null,
       "passedFlagName": null,
       "matterFile": "RES 26-1629",
@@ -2673,7 +2660,7 @@
       "sequence": 12,
       "agendaNumber": "7",
       "title": "Authorizing the Department of Human Rights and Equal Economic Opportunity to pay for travel-related expenses including airfare, lodging, meals, and registration, in compliance with the City’s Travel Policy, for Commissioners of the Police Civilian Internal Affairs Review Commission, who are not city employees, to attend the National Association for Civilian Oversight of Law Enforcement conference from November 8th to November 12th, 2026 in Louisville, Kentucky.",
-      "isConsent": false,
+      "isConsent": true,
       "actionName": null,
       "passedFlagName": null,
       "matterFile": "RES 26-1635",
@@ -2686,7 +2673,7 @@
       "sequence": 13,
       "agendaNumber": "8",
       "title": "Authorizing the Department of Emergency Management to pay for travel expenses for up to three City staff and one Saint Paul Public Schools staff to attend the 2026 National Student Safety & Security Conference & Workshops in Houston, TX on October 28-30, 2026, using FY2025 Urban Area Security Initiative (UASI) grant funds.",
-      "isConsent": false,
+      "isConsent": true,
       "actionName": null,
       "passedFlagName": null,
       "matterFile": "RES 26-1637",
@@ -2699,7 +2686,7 @@
       "sequence": 14,
       "agendaNumber": "9",
       "title": "Accepting the gift of lodging from EMS|MC for interim Deputy Chief Martha Fecht Krause to participate on a panel at the EMSpire Midwest Conference in Milwaukee, WI on September 23-24, 2026.",
-      "isConsent": false,
+      "isConsent": true,
       "actionName": null,
       "passedFlagName": null,
       "matterFile": "RES 26-1638",
@@ -2712,7 +2699,7 @@
       "sequence": 28,
       "agendaNumber": "23",
       "title": "Extending the appointment of Iverson Reuvers as Special Counsel for purposes of providing legal advice, counsel, and representation in civil lawsuits involving the City.",
-      "isConsent": false,
+      "isConsent": true,
       "actionName": null,
       "passedFlagName": null,
       "matterFile": "RES 26-1639",
@@ -2725,7 +2712,7 @@
       "sequence": 15,
       "agendaNumber": "10",
       "title": "Authorizing the City to renew a lease agreement with the Minnesota Pollution Control Agency for use of space on City property at 515 Concord Street.",
-      "isConsent": false,
+      "isConsent": true,
       "actionName": null,
       "passedFlagName": null,
       "matterFile": "RES 26-1650",
@@ -2751,7 +2738,7 @@
       "sequence": 17,
       "agendaNumber": "12",
       "title": "Approving a new location application for the Health/Sport Club license (License ID #DSIBLHEALT- 002922-2026) held by Athena Strength LLC d/b/a Athena Strength for the premises located at 2288 University Ave. W., Unit 101.",
-      "isConsent": false,
+      "isConsent": true,
       "actionName": null,
       "passedFlagName": null,
       "matterFile": "RES 26-1656",
@@ -2764,7 +2751,7 @@
       "sequence": 18,
       "agendaNumber": "13",
       "title": "Approving the application for change of ownership to the Liquor On Sale and Liquor On Sale - Sunday licenses (License ID #DSIBLLIQ-002281-2026) now held by Pho Hay To LLC d/b/a Pho Hay To LLC for the premises located at 605 7th St. W.",
-      "isConsent": false,
+      "isConsent": true,
       "actionName": null,
       "passedFlagName": null,
       "matterFile": "RES 26-1657",
@@ -2777,7 +2764,7 @@
       "sequence": 19,
       "agendaNumber": "14",
       "title": "Memorializing a City Council decision to grant the appeal of Kris Thielen from the Board of Zoning Appeals decision denying a zoning variance to maintain a curb cut on the property located at 649 Snelling Avenue North.",
-      "isConsent": false,
+      "isConsent": true,
       "actionName": null,
       "passedFlagName": null,
       "matterFile": "RES 26-1658",
@@ -2790,7 +2777,7 @@
       "sequence": 29,
       "agendaNumber": "24",
       "title": "Appointing the law firm of Greene Espel as Special Counsel for Purposes of Providing Legal Advice and Counsel on behalf of the City of Saint Paul regarding a determination of indemnity and defense relative to Mayor Kaohly Her pursuant to Minnesota Statute Section 466.07 in the lawsuit captioned Axel Henry v. Kaohly Her and City of St. Paul, Ramsey County District Court, State of Minnesota, Court File Number 62-CV-26-6829.",
-      "isConsent": false,
+      "isConsent": true,
       "actionName": null,
       "passedFlagName": null,
       "matterFile": "RES 26-1660",
@@ -2803,7 +2790,7 @@
       "sequence": 20,
       "agendaNumber": "15",
       "title": "Approving the use of grant funds through the Ward 6 Neighborhood Year-Round Program for Saint Paul Public Library.",
-      "isConsent": false,
+      "isConsent": true,
       "actionName": null,
       "passedFlagName": null,
       "matterFile": "RES 26-1662",
@@ -2816,7 +2803,7 @@
       "sequence": 21,
       "agendaNumber": "16",
       "title": "Approving the use of Neighborhood Star grant funds for a change in scope of work for Knyaw Poe, LLC.",
-      "isConsent": false,
+      "isConsent": true,
       "actionName": null,
       "passedFlagName": null,
       "matterFile": "RES 26-1663",
@@ -2829,7 +2816,7 @@
       "sequence": 22,
       "agendaNumber": "17",
       "title": "Approving the use of grant funds through the Ward 7 Neighborhood Star Year-Round program for Aumer Development Group, LLC.",
-      "isConsent": false,
+      "isConsent": true,
       "actionName": null,
       "passedFlagName": null,
       "matterFile": "RES 26-1668",
@@ -2842,7 +2829,7 @@
       "sequence": 23,
       "agendaNumber": "18",
       "title": "Amending RES 26-1226 Approving the City’s cost of providing Collection of Vacant Building Registration fees billed during August 2025 to May 2026, and setting date of Legislative Hearing for October 13, 2026 and City Council public hearing for October 28, 2026 to consider and levy the assessments against individual properties. (File No. VB2603, Assessment No. 268906)",
-      "isConsent": false,
+      "isConsent": true,
       "actionName": null,
       "passedFlagName": null,
       "matterFile": "RES 26-1670",
@@ -2855,7 +2842,7 @@
       "sequence": 25,
       "agendaNumber": "20",
       "title": "Authorizing the Fire Department to apply for a $15,000 grant through the Firehouse Subs Public Safety Foundation for the purchase of radio batteries and charging banks.",
-      "isConsent": false,
+      "isConsent": true,
       "actionName": null,
       "passedFlagName": null,
       "matterFile": "RES 26-1679",
@@ -2881,7 +2868,7 @@
       "sequence": 26,
       "agendaNumber": "21",
       "title": "Approving the Memorandum of Agreement between the City of Saint Paul and the International Union of Operating Engineers, Local 70, for the purpose of providing a pilot program for off-shift differential pay for employees that are regularly scheduled to work on the weekends.",
-      "isConsent": false,
+      "isConsent": true,
       "actionName": null,
       "passedFlagName": null,
       "matterFile": "RES 26-1464",
@@ -2894,7 +2881,7 @@
       "sequence": 27,
       "agendaNumber": "22",
       "title": "Approving the Memorandum of Agreement between the City and the Saint Paul Police Federation to provide an accelerated program for Police.",
-      "isConsent": false,
+      "isConsent": true,
       "actionName": null,
       "passedFlagName": null,
       "matterFile": "RES 26-1595",
@@ -3331,19 +3318,6 @@
       "matterType": null
     },
     {
-      "id": "legistar-stpaul-eventitem-217800",
-      "meeting_id": "legistar-stpaul-meeting-7788",
-      "sequence": 74,
-      "agendaNumber": "64",
-      "title": "Ordering the rehabilitation or razing and removal of the structures at 799 UNIVERSITY AVENUE WEST within fifteen (15) days after the February 18, 2026 City Council Public Hearing.",
-      "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
-      "matterFile": "RLH RR 26-2",
-      "matterId": 51062,
-      "matterType": "Resolution LH Substantial Abatement Order"
-    },
-    {
       "id": "legistar-stpaul-eventitem-217801",
       "meeting_id": "legistar-stpaul-meeting-7788",
       "sequence": 69,
@@ -3570,7 +3544,7 @@
       "sequence": 24,
       "agendaNumber": "19",
       "title": "Termination of Appeal of James W. Bush and Linda D. Dear, tenants, to a Rent Stabilization Determination at 1391 HAZELWOOD STREET, APARTMENTS, 10 AND 11.",
-      "isConsent": false,
+      "isConsent": true,
       "actionName": null,
       "passedFlagName": null,
       "matterFile": "RES 26-1674",
@@ -3747,19 +3721,6 @@
       "matterType": null
     },
     {
-      "id": "legistar-stpaul-eventitem-217857",
-      "meeting_id": "legistar-stpaul-meeting-7791",
-      "sequence": 3,
-      "agendaNumber": "1",
-      "title": "Ratifying the Appealed Special Tax Assessment for property at 777 OHIO STREET. (File No. J2602A, Assessment No. 268503)",
-      "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
-      "matterFile": "RLH TA 26-158",
-      "matterId": 52447,
-      "matterType": "Resolution LH Tax Assessment Appeal"
-    },
-    {
       "id": "legistar-stpaul-eventitem-217858",
       "meeting_id": "legistar-stpaul-meeting-7791",
       "sequence": 8,
@@ -3773,26 +3734,13 @@
       "matterType": "Resolution LH Assessment Roll"
     },
     {
-      "id": "legistar-stpaul-eventitem-217859",
-      "meeting_id": "legistar-stpaul-meeting-7791",
-      "sequence": 6,
-      "agendaNumber": "3",
-      "title": "Ratifying the Appealed Special Tax Assessment for property at 1046 WESTERN AVENUE NORTH. (File No. 2606T, Assessment No. 269007)",
-      "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
-      "matterFile": "RLH TA 26-225",
-      "matterId": 52973,
-      "matterType": "Resolution LH Tax Assessment Appeal"
-    },
-    {
       "id": "legistar-stpaul-eventitem-217860",
       "meeting_id": "legistar-stpaul-meeting-7791",
       "sequence": 4,
       "agendaNumber": "2",
       "title": "Ratifying the Appealed Special Tax Assessment for property at 1271 UNIVERSITY AVENUE WEST. (File No. J2602R, Assessment No. 268607)",
       "isConsent": false,
-      "actionName": null,
+      "actionName": "Laid Over",
       "passedFlagName": null,
       "matterFile": "RLH TA 26-231",
       "matterId": 52984,
@@ -3838,55 +3786,16 @@
       "matterType": null
     },
     {
-      "id": "legistar-stpaul-eventitem-217866",
-      "meeting_id": "legistar-stpaul-meeting-7791",
-      "sequence": 11,
-      "agendaNumber": "5",
-      "title": "Making finding on the appeal of Mary Olson to a nuisance abatement ordered for 555 ASHLAND AVENUE in Council File RLH SAO 26-82.",
-      "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
-      "matterFile": "RLH SAO 26-100",
-      "matterId": 52981,
-      "matterType": "Resolution LH Summary Abatement Order"
-    },
-    {
-      "id": "legistar-stpaul-eventitem-217867",
-      "meeting_id": "legistar-stpaul-meeting-7791",
-      "sequence": 15,
-      "agendaNumber": "8",
-      "title": "Appeal of Mr. Gent to a Summary Abatement Order at 1083 SHERBURNE AVENUE.",
-      "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
-      "matterFile": "RLH SAO 26-103",
-      "matterId": 53010,
-      "matterType": "Resolution LH Summary Abatement Order"
-    },
-    {
       "id": "legistar-stpaul-eventitem-217868",
       "meeting_id": "legistar-stpaul-meeting-7791",
       "sequence": 13,
       "agendaNumber": "6",
       "title": "Appeal of Ojulique Davidson to a Summary Abatement Order at 1415 GALTIER STREET.",
       "isConsent": false,
-      "actionName": null,
+      "actionName": "Laid Over",
       "passedFlagName": null,
       "matterFile": "RLH SAO 26-104",
       "matterId": 53042,
-      "matterType": "Resolution LH Summary Abatement Order"
-    },
-    {
-      "id": "legistar-stpaul-eventitem-217869",
-      "meeting_id": "legistar-stpaul-meeting-7791",
-      "sequence": 14,
-      "agendaNumber": "7",
-      "title": "Appeal of Julie Mildenberger to a Vehicle Abatement Order at 1702 ORANGE AVENUE EAST.",
-      "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
-      "matterFile": "RLH SAO 26-105",
-      "matterId": 53048,
       "matterType": "Resolution LH Summary Abatement Order"
     },
     {
@@ -3987,7 +3896,7 @@
       "agendaNumber": "10",
       "title": "Review Third Request for Appeal of Paris Getty to a Condemnation Unfit for Human Habitation and Order to Vacate and a Summary Abatement Order at 855 THIRD STREET EAST.",
       "isConsent": false,
-      "actionName": null,
+      "actionName": "Laid Over",
       "passedFlagName": null,
       "matterFile": "SR 26-206",
       "matterId": 52985,
@@ -3997,10 +3906,17 @@
   "diff": {
     "addedIds": [],
     "removedIds": [],
-    "changed": []
+    "changed": [
+      {
+        "id": "legistar-stpaul-meeting-7781",
+        "field": "minutesUrl",
+        "from": "https://legistar1.granicus.com/StPaul/meetings/2026/9/7781_M_Legislative_Hearings_26-09-29_Meeting_Minutes_-_Action_Only.pdf",
+        "to": "https://legistar1.granicus.com/StPaul/meetings/2026/9/7781_M_Legislative_Hearings_26-09-29_Minutes_-_Final.pdf"
+      }
+    ]
   },
-  "previousGeneratedAt": "2026-10-03T16:00:50.025Z",
+  "previousGeneratedAt": "2026-10-04T16:41:32.416Z",
   "knownGaps": [
-    "Consent-agenda flagging uses Legistar's own EventItemConsent field only (29 of 251 agenda item(s) in this window flagged). \"No discussion\" / \"no public comment\" are NOT flagged — this API exposes no comparably reliable field for either, and AGENTS.md §3.3 rules out inferring one from absence."
+    "Consent-agenda flagging uses Legistar's own EventItemConsent field only (48 of 244 agenda item(s) in this window flagged). \"No discussion\" / \"no public comment\" are NOT flagged — this API exposes no comparably reliable field for either, and AGENTS.md §3.3 rules out inferring one from absence."
   ]
 }
