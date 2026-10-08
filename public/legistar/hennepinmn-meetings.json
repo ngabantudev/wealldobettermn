@@ -2,55 +2,24 @@
   "schemaVersion": 1,
   "client": "hennepinmn",
   "jurisdiction": "Hennepin County Board",
-  "generatedAt": "2026-10-07T18:43:52.480Z",
+  "generatedAt": "2026-10-08T18:42:21.051Z",
   "status": "ingested",
-  "note": "14 meeting(s) (14/14 event(s) in window) and 213 agenda item(s) ingested for 2026-09-23–2027-01-05.",
+  "note": "14 meeting(s) (14/14 event(s) in window) and 216 agenda item(s) ingested for 2026-09-24–2027-01-06.",
   "provenance": {
     "primarySourceUrl": "https://webapi.legistar.com/v1/hennepinmn/events",
     "sourceAgency": "Hennepin County Board",
     "documentType": "Legistar Web API — Events/EventItems",
     "documentId": null,
     "issuedDate": null,
-    "fetchedAt": "2026-10-07T18:43:52.480Z",
+    "fetchedAt": "2026-10-08T18:42:21.051Z",
     "licence": "Public records served via Legistar InSite; no separate machine-reuse licence published by the host jurisdiction as of this writing.",
-    "contentHash": "885e3f5e3133e4c3187c91fe4c26e74871867d412df860adb578b8517010f8d8"
+    "contentHash": "f7e2e3c5c250b7dbfcb4bbe756ab92fe3e3e0fb1dc71f82b06ceaab67b6d2899"
   },
   "window": {
-    "startIso": "2026-09-23",
-    "endIso": "2027-01-05"
+    "startIso": "2026-09-24",
+    "endIso": "2027-01-06"
   },
   "meetings": [
-    {
-      "id": "legistar-hennepinmn-meeting-1472",
-      "body_id": "legistar-hennepinmn-body-277",
-      "bodyName": "HHS Finance and Operations Committee",
-      "date": "2026-09-23",
-      "time": "09:30",
-      "location": "Government Center Conf Rm A1860",
-      "agendaStatus": "Final",
-      "agendaUrl": "https://hennepinmn.legistar1.com/hennepinmn/meetings/2026/9/1472_A_HHS_Finance_and_Operations_Committee_26-09-23_COMMITTEE_AGENDA.pdf",
-      "minutesUrl": null,
-      "videoStatus": "Public",
-      "sourceUrl": "https://hennepinmn.legistar.com/MeetingDetail.aspx?LEGID=1472&GID=953&G=BA9AD5D7-E82F-425B-B72E-ABFEC8B35879",
-      "lastModifiedUtc": "2026-09-21T15:09:13.077",
-      "members": [
-        {
-          "id": 698,
-          "name": "Heather Edelson",
-          "type": "Commissioner"
-        },
-        {
-          "id": 490,
-          "name": "Debbie Goettel",
-          "type": "Commissioner"
-        },
-        {
-          "id": 454,
-          "name": "Angela Conley",
-          "type": "Commissioner"
-        }
-      ]
-    },
     {
       "id": "legistar-hennepinmn-meeting-1473",
       "body_id": "legistar-hennepinmn-body-138",
@@ -193,10 +162,10 @@
       "location": "Government Center - County Board Chambers",
       "agendaStatus": "Final",
       "agendaUrl": "https://hennepinmn.legistar1.com/hennepinmn/meetings/2026/9/1476_A_Hennepin_County_Housing_and_Redevelopment_Authority_26-09-29_Authority_Agenda.pdf",
-      "minutesUrl": null,
+      "minutesUrl": "https://hennepinmn.legistar1.com/hennepinmn/meetings/2026/9/1476_M_Hennepin_County_Housing_and_Redevelopment_Authority_26-09-29_AUTHORITY_MINUTES.pdf",
       "videoStatus": "Public",
       "sourceUrl": "https://hennepinmn.legistar.com/MeetingDetail.aspx?LEGID=1476&GID=953&G=BA9AD5D7-E82F-425B-B72E-ABFEC8B35879",
-      "lastModifiedUtc": "2026-09-28T21:37:57.533",
+      "lastModifiedUtc": "2026-10-08T15:57:26.14",
       "members": [
         {
           "id": 508,
@@ -644,6 +613,57 @@
       ]
     },
     {
+      "id": "legistar-hennepinmn-meeting-1485",
+      "body_id": "legistar-hennepinmn-body-260",
+      "bodyName": "Administration, Operations and Budget Committee",
+      "date": "2026-10-08",
+      "time": "12:00",
+      "location": "Government Center - County Board Chambers",
+      "agendaStatus": "Final",
+      "agendaUrl": "https://hennepinmn.legistar1.com/hennepinmn/meetings/2026/10/1485_A_Administration%2C_Operations_and_Budget_Committee_26-10-08_COMMITTEE_AGENDA.pdf",
+      "minutesUrl": null,
+      "videoStatus": "Public",
+      "sourceUrl": "https://hennepinmn.legistar.com/MeetingDetail.aspx?LEGID=1485&GID=953&G=BA9AD5D7-E82F-425B-B72E-ABFEC8B35879",
+      "lastModifiedUtc": "2026-10-08T02:49:17.97",
+      "members": [
+        {
+          "id": 508,
+          "name": "Irene Fernando",
+          "type": "Commissioner"
+        },
+        {
+          "id": 573,
+          "name": "Marion Greene",
+          "type": "Commissioner"
+        },
+        {
+          "id": 454,
+          "name": "Angela Conley",
+          "type": "Commissioner"
+        },
+        {
+          "id": 490,
+          "name": "Debbie Goettel",
+          "type": "Commissioner"
+        },
+        {
+          "id": 698,
+          "name": "Heather Edelson",
+          "type": "Commissioner"
+        },
+        {
+          "id": 517,
+          "name": "Jeff Lunde",
+          "type": "Commissioner"
+        },
+        {
+          "id": 544,
+          "name": "Kevin Anderson",
+          "type": "Commissioner"
+        }
+      ]
+    },
+    {
       "id": "legistar-hennepinmn-meeting-1486",
       "body_id": "legistar-hennepinmn-body-206",
       "bodyName": "Hennepin County Housing and Redevelopment Authority",
@@ -696,162 +716,6 @@
     }
   ],
   "agendaItems": [
-    {
-      "id": "legistar-hennepinmn-eventitem-37031",
-      "meeting_id": "legistar-hennepinmn-meeting-1472",
-      "sequence": 1,
-      "agendaNumber": "1.",
-      "title": "Call to Order",
-      "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
-      "matterFile": null,
-      "matterId": null,
-      "matterType": null
-    },
-    {
-      "id": "legistar-hennepinmn-eventitem-37056",
-      "meeting_id": "legistar-hennepinmn-meeting-1472",
-      "sequence": 6,
-      "agendaNumber": "4.A.",
-      "title": "Review applications for initial and reappointment to the HHS Medical Staff, completed Focused Professional Practice Evaluations (FPPE), and medical staff resignations",
-      "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
-      "matterFile": "26-HHS-0037",
-      "matterId": 4831,
-      "matterType": "HHS New Business"
-    },
-    {
-      "id": "legistar-hennepinmn-eventitem-37057",
-      "meeting_id": "legistar-hennepinmn-meeting-1472",
-      "sequence": 7,
-      "agendaNumber": "4.B.",
-      "title": "CEO update",
-      "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
-      "matterFile": "TMP-26-0719",
-      "matterId": 4832,
-      "matterType": "Minutes"
-    },
-    {
-      "id": "legistar-hennepinmn-eventitem-37059",
-      "meeting_id": "legistar-hennepinmn-meeting-1472",
-      "sequence": 8,
-      "agendaNumber": "4.C.",
-      "title": "Revenue Cycle update",
-      "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
-      "matterFile": "TMP-26-0721",
-      "matterId": 4834,
-      "matterType": "Minutes"
-    },
-    {
-      "id": "legistar-hennepinmn-eventitem-37064",
-      "meeting_id": "legistar-hennepinmn-meeting-1472",
-      "sequence": 2,
-      "agendaNumber": "2.",
-      "title": "Approval of the Agenda",
-      "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
-      "matterFile": null,
-      "matterId": null,
-      "matterType": null
-    },
-    {
-      "id": "legistar-hennepinmn-eventitem-37065",
-      "meeting_id": "legistar-hennepinmn-meeting-1472",
-      "sequence": 3,
-      "agendaNumber": "3.",
-      "title": "Minutes from Previous Meeting",
-      "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
-      "matterFile": null,
-      "matterId": null,
-      "matterType": null
-    },
-    {
-      "id": "legistar-hennepinmn-eventitem-37082",
-      "meeting_id": "legistar-hennepinmn-meeting-1472",
-      "sequence": 5,
-      "agendaNumber": "4.",
-      "title": "New Business - open",
-      "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
-      "matterFile": null,
-      "matterId": null,
-      "matterType": null
-    },
-    {
-      "id": "legistar-hennepinmn-eventitem-37083",
-      "meeting_id": "legistar-hennepinmn-meeting-1472",
-      "sequence": 9,
-      "agendaNumber": "5.",
-      "title": "Motion to close",
-      "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
-      "matterFile": null,
-      "matterId": null,
-      "matterType": null
-    },
-    {
-      "id": "legistar-hennepinmn-eventitem-37084",
-      "meeting_id": "legistar-hennepinmn-meeting-1472",
-      "sequence": 17,
-      "agendaNumber": "6.",
-      "title": "Adjournment",
-      "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
-      "matterFile": null,
-      "matterId": null,
-      "matterType": null
-    },
-    {
-      "id": "legistar-hennepinmn-eventitem-37085",
-      "meeting_id": "legistar-hennepinmn-meeting-1472",
-      "sequence": 11,
-      "agendaNumber": "6.",
-      "title": "New Business - closed",
-      "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
-      "matterFile": null,
-      "matterId": null,
-      "matterType": null
-    },
-    {
-      "id": "legistar-hennepinmn-eventitem-37087",
-      "meeting_id": "legistar-hennepinmn-meeting-1472",
-      "sequence": 10,
-      "agendaNumber": "5.A.",
-      "title": "Under Minn. Stat. Section 383B.917 and 145.64 the remainder of this meeting is closed to the public",
-      "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
-      "matterFile": "TMP-26-0728",
-      "matterId": 4841,
-      "matterType": "Minutes"
-    },
-    {
-      "id": "legistar-hennepinmn-eventitem-37093",
-      "meeting_id": "legistar-hennepinmn-meeting-1472",
-      "sequence": 4,
-      "agendaNumber": "3.A.",
-      "title": "August 5, 2026 Meeting Minutes",
-      "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
-      "matterFile": "TMP-26-0735",
-      "matterId": 4848,
-      "matterType": "Minutes"
-    },
     {
       "id": "legistar-hennepinmn-eventitem-37344",
       "meeting_id": "legistar-hennepinmn-meeting-1473",
@@ -2634,6 +2498,45 @@
       "matterType": "Resolution"
     },
     {
+      "id": "legistar-hennepinmn-eventitem-37585",
+      "meeting_id": "legistar-hennepinmn-meeting-1478",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Agenda item 37585",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-37586",
+      "meeting_id": "legistar-hennepinmn-meeting-1478",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Agenda item 37586",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-37587",
+      "meeting_id": "legistar-hennepinmn-meeting-1478",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Agenda item 37587",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
       "id": "legistar-hennepinmn-eventitem-37500",
       "meeting_id": "legistar-hennepinmn-meeting-1479",
       "sequence": 1,
@@ -2653,8 +2556,8 @@
       "agendaNumber": "1.A.",
       "title": "September 22, 2026 Meeting Minutes",
       "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
+      "actionName": "approve",
+      "passedFlagName": "Pass",
       "matterFile": "TMP-26-0776",
       "matterId": 4889,
       "matterType": "Minutes"
@@ -2679,8 +2582,8 @@
       "agendaNumber": "2.A.",
       "title": "Neg Agmt PR00008771 with Samsung HME America Inc., d/b/a Neurologica Corporation, for radiology suite equipment, including removal of existing equipment, delivery & installation of new equipment, training of staff in safe use of equipment, and one-year warranty of equipment, DOE-12/31/27, NTE $215,000; Neg Agmt PR00008775 with RPS Imaging for ongoing tech support, preventive maintenance, parts, and labor, DOE-12/31/33, NTE $210,000",
       "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
+      "actionName": "approve",
+      "passedFlagName": "Pass",
       "matterFile": "26-0359",
       "matterId": 4856,
       "matterType": "Resolution"
@@ -2757,8 +2660,8 @@
       "agendaNumber": "1.A.",
       "title": "September 22, 2026 Meeting MInutes",
       "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
+      "actionName": "approve",
+      "passedFlagName": "Pass",
       "matterFile": "TMP-26-0777",
       "matterId": 4890,
       "matterType": "Minutes"
@@ -2783,8 +2686,8 @@
       "agendaNumber": "2.A.",
       "title": "Human Services & Public Health resolution, including contracts and amendments to contracts with provider - 2613",
       "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
+      "actionName": "consent",
+      "passedFlagName": "Pass",
       "matterFile": "26-0360",
       "matterId": 4857,
       "matterType": "Resolution"
@@ -2861,8 +2764,8 @@
       "agendaNumber": "1.A.",
       "title": "September 22, 2026 Meeting Minutes",
       "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
+      "actionName": "approve",
+      "passedFlagName": "Pass",
       "matterFile": "TMP-26-0778",
       "matterId": 4891,
       "matterType": "Minutes"
@@ -2887,8 +2790,8 @@
       "agendaNumber": "2.A.",
       "title": "Amd 2 to Agmt PR00001344 with Centurion Detention Health Services, LLC., for comprehensive correctional healthcare to DOCCR institutions, ext the term for one year, to 10/31/2027, incr NTE by $13,687,076 for a new total NTE of $56,769,451",
       "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
+      "actionName": "consent",
+      "passedFlagName": "Pass",
       "matterFile": "26-0361",
       "matterId": 4877,
       "matterType": "Resolution"
@@ -3264,8 +3167,8 @@
       "agendaNumber": "2.A.",
       "title": "October 1 Budget Hearing Minutes - Disparity Elimination",
       "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
+      "actionName": "approve",
+      "passedFlagName": "Pass",
       "matterFile": "TMP-26-0781",
       "matterId": 4894,
       "matterType": "Minutes"
@@ -3303,8 +3206,8 @@
       "agendaNumber": "4.A.",
       "title": "2027 Proposed Operating and Capital Budgets",
       "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
+      "actionName": "laid over",
+      "passedFlagName": "Pass",
       "matterFile": "26-0349",
       "matterId": 4847,
       "matterType": "Resolution"
@@ -3347,6 +3250,162 @@
       "matterFile": null,
       "matterId": null,
       "matterType": null
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-37582",
+      "meeting_id": "legistar-hennepinmn-meeting-1484",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Agenda item 37582",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-37583",
+      "meeting_id": "legistar-hennepinmn-meeting-1484",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Agenda item 37583",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-37584",
+      "meeting_id": "legistar-hennepinmn-meeting-1484",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Agenda item 37584",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-37449",
+      "meeting_id": "legistar-hennepinmn-meeting-1485",
+      "sequence": 1,
+      "agendaNumber": "1.",
+      "title": "Open Forum Playback -  Public Works and Law, Safety and Justice",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-37451",
+      "meeting_id": "legistar-hennepinmn-meeting-1485",
+      "sequence": 9,
+      "agendaNumber": null,
+      "title": "Members of the public will be able to call in to record a comment that will be played for the board at the following budget hearing. The call in line will be open from 7:00 a.m. to 11:00 a.m. CST the day after each hearing. Comments should be related to this specific hearing. Instructions to participate are available at hennepincounty.gov/budgets.",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "TMP-26-0768",
+      "matterId": 4881,
+      "matterType": "Minutes"
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-37454",
+      "meeting_id": "legistar-hennepinmn-meeting-1485",
+      "sequence": 3,
+      "agendaNumber": "2.A.",
+      "title": "October 7 Budget Hearing Minutes - Public Works and Law, Safety and Justice",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "TMP-26-0782",
+      "matterId": 4895,
+      "matterType": "Minutes"
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-37456",
+      "meeting_id": "legistar-hennepinmn-meeting-1485",
+      "sequence": 5,
+      "agendaNumber": "3.A.",
+      "title": "2027 Proposed Budget Presentation - County Attorney’s Office and Sheriff’s Office",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "TMP-26-0784",
+      "matterId": 4897,
+      "matterType": "Minutes"
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-37457",
+      "meeting_id": "legistar-hennepinmn-meeting-1485",
+      "sequence": 6,
+      "agendaNumber": "4.",
+      "title": "Old Business",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-37461",
+      "meeting_id": "legistar-hennepinmn-meeting-1485",
+      "sequence": 2,
+      "agendaNumber": "2.",
+      "title": "Minutes from Pervious Meeting",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-37462",
+      "meeting_id": "legistar-hennepinmn-meeting-1485",
+      "sequence": 4,
+      "agendaNumber": "3.",
+      "title": "Discussion",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-37463",
+      "meeting_id": "legistar-hennepinmn-meeting-1485",
+      "sequence": 8,
+      "agendaNumber": "5.",
+      "title": "Open Forum Budget",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-37466",
+      "meeting_id": "legistar-hennepinmn-meeting-1485",
+      "sequence": 7,
+      "agendaNumber": "4.A.",
+      "title": "2027 Proposed Operating and Capital Budgets",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "26-0349",
+      "matterId": 4847,
+      "matterType": "Resolution"
     },
     {
       "id": "legistar-hennepinmn-eventitem-37548",
@@ -3467,18 +3526,23 @@
     }
   ],
   "diff": {
-    "addedIds": [],
-    "removedIds": [
-      "legistar-hennepinmn-meeting-1467",
-      "legistar-hennepinmn-meeting-1468",
-      "legistar-hennepinmn-meeting-1469",
-      "legistar-hennepinmn-meeting-1470",
-      "legistar-hennepinmn-meeting-1471"
+    "addedIds": [
+      "legistar-hennepinmn-meeting-1485"
     ],
-    "changed": []
+    "removedIds": [
+      "legistar-hennepinmn-meeting-1472"
+    ],
+    "changed": [
+      {
+        "id": "legistar-hennepinmn-meeting-1476",
+        "field": "minutesUrl",
+        "from": null,
+        "to": "https://hennepinmn.legistar1.com/hennepinmn/meetings/2026/9/1476_M_Hennepin_County_Housing_and_Redevelopment_Authority_26-09-29_AUTHORITY_MINUTES.pdf"
+      }
+    ]
   },
-  "previousGeneratedAt": "2026-10-06T18:09:42.101Z",
+  "previousGeneratedAt": "2026-10-07T18:43:52.480Z",
   "knownGaps": [
-    "Consent-agenda flagging uses Legistar's own EventItemConsent field only (25 of 213 agenda item(s) in this window flagged). \"No discussion\" / \"no public comment\" are NOT flagged — this API exposes no comparably reliable field for either, and AGENTS.md §3.3 rules out inferring one from absence."
+    "Consent-agenda flagging uses Legistar's own EventItemConsent field only (25 of 216 agenda item(s) in this window flagged). \"No discussion\" / \"no public comment\" are NOT flagged — this API exposes no comparably reliable field for either, and AGENTS.md §3.3 rules out inferring one from absence."
   ]
 }
