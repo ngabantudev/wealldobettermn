@@ -2,187 +2,24 @@
   "schemaVersion": 1,
   "client": "minneapolis",
   "jurisdiction": "Minneapolis City Council",
-  "generatedAt": "2026-10-08T18:42:37.861Z",
+  "generatedAt": "2026-10-09T18:14:10.625Z",
   "status": "ingested",
-  "note": "125 meeting(s) and 394 agenda item(s) ingested for 2026-09-24–2027-01-06.",
+  "note": "123 meeting(s) and 368 agenda item(s) ingested for 2026-09-25–2027-01-07.",
   "provenance": {
     "primarySourceUrl": "https://lims.minneapolismn.gov/",
     "sourceAgency": "City of Minneapolis, Office of the City Clerk",
     "documentType": "LIMS API v1 — meetingCalendar/FileItemSearch",
     "documentId": null,
     "issuedDate": null,
-    "fetchedAt": "2026-10-08T18:42:37.861Z",
+    "fetchedAt": "2026-10-09T18:14:10.625Z",
     "licence": "Public records served via the City of Minneapolis LIMS API; no separate machine-reuse licence published as of this writing.",
     "contentHash": null
   },
   "window": {
-    "startIso": "2026-09-24",
-    "endIso": "2027-01-06"
+    "startIso": "2026-09-25",
+    "endIso": "2027-01-07"
   },
   "meetings": [
-    {
-      "id": "lims-minneapolis-meeting-budget-committee-2026-09-24T10:00:00",
-      "body_id": "lims-minneapolis-body-budget-committee",
-      "bodyName": "Budget Committee",
-      "date": "2026-09-24",
-      "time": "10:00",
-      "location": null,
-      "agendaStatus": null,
-      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/Budget/6236",
-      "minutesUrl": "https://lims.minneapolismn.gov/api/v1/downloads/CommitteeReport/4987/Budget_09242026_Committee_Report.pdf",
-      "videoStatus": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/Budget/6236",
-      "lastModifiedUtc": null,
-      "members": [
-        {
-          "id": 375,
-          "name": "Linea Palmisano",
-          "type": "Council Member"
-        },
-        {
-          "id": 5269,
-          "name": "Jamal Osman",
-          "type": "Council Member"
-        },
-        {
-          "id": 5692,
-          "name": "Robin Wonsley",
-          "type": "Council Member"
-        },
-        {
-          "id": 5696,
-          "name": "LaTrisha Vetaw",
-          "type": "Council Member"
-        },
-        {
-          "id": 5697,
-          "name": "Aisha Chughtai",
-          "type": "Chair"
-        },
-        {
-          "id": 5698,
-          "name": "Jason Chavez",
-          "type": "Council Member"
-        },
-        {
-          "id": 5700,
-          "name": "Michael Rainville",
-          "type": "Council Member"
-        },
-        {
-          "id": 5701,
-          "name": "Elliott Payne",
-          "type": "Council Member"
-        },
-        {
-          "id": 5776,
-          "name": "Aurin Chowdhury",
-          "type": "Council Member"
-        },
-        {
-          "id": 7961,
-          "name": "Pearll Warren",
-          "type": "Council Member"
-        },
-        {
-          "id": 7962,
-          "name": "Soren Stevenson",
-          "type": "Council Member"
-        },
-        {
-          "id": 7963,
-          "name": "Elizabeth Shaffer",
-          "type": "Vice-Chair"
-        },
-        {
-          "id": 7964,
-          "name": "Jamison Whiting",
-          "type": "Council Member"
-        }
-      ]
-    },
-    {
-      "id": "lims-minneapolis-meeting-climate-infrastructure-committee-2026-09-24T13:30:00",
-      "body_id": "lims-minneapolis-body-climate-infrastructure-committee",
-      "bodyName": "Climate & Infrastructure Committee",
-      "date": "2026-09-24",
-      "time": "13:30",
-      "location": null,
-      "agendaStatus": null,
-      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/CI/6214",
-      "minutesUrl": "https://lims.minneapolismn.gov/api/v1/downloads/CommitteeReport/4990/CI_09242026_Committee_Report.pdf",
-      "videoStatus": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/CI/6214",
-      "lastModifiedUtc": null,
-      "members": [
-        {
-          "id": 375,
-          "name": "Linea Palmisano",
-          "type": "Council Member"
-        },
-        {
-          "id": 5692,
-          "name": "Robin Wonsley",
-          "type": "Chair"
-        },
-        {
-          "id": 5696,
-          "name": "LaTrisha Vetaw",
-          "type": "Council Member"
-        },
-        {
-          "id": 5697,
-          "name": "Aisha Chughtai",
-          "type": "Council Member"
-        },
-        {
-          "id": 5776,
-          "name": "Aurin Chowdhury",
-          "type": "Council Member"
-        },
-        {
-          "id": 7961,
-          "name": "Pearll Warren",
-          "type": "Council Member"
-        },
-        {
-          "id": 7962,
-          "name": "Soren Stevenson",
-          "type": "Vice-Chair"
-        }
-      ]
-    },
-    {
-      "id": "lims-minneapolis-meeting-zoning-board-of-adjustment-2026-09-24T16:30:00",
-      "body_id": "lims-minneapolis-body-zoning-board-of-adjustment",
-      "bodyName": "Zoning Board of Adjustment",
-      "date": "2026-09-24",
-      "time": "16:30",
-      "location": null,
-      "agendaStatus": null,
-      "agendaUrl": "https://lims.minneapolismn.gov/Board/MarkedAgenda/ZBA/6228",
-      "minutesUrl": "https://lims.minneapolismn.gov/api/v1/downloads/CommitteeReport/4988/ZBA-09.24.26-Minutes.pdf",
-      "videoStatus": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Board/MarkedAgenda/ZBA/6228",
-      "lastModifiedUtc": null,
-      "members": [
-        {
-          "id": 6794,
-          "name": "Derek Eicholz",
-          "type": "ABC Member"
-        },
-        {
-          "id": 6841,
-          "name": "Matthew Perry",
-          "type": "ABC Member"
-        },
-        {
-          "id": 6876,
-          "name": "Taylor Smrikarova",
-          "type": "ABC Member"
-        }
-      ]
-    },
     {
       "id": "lims-minneapolis-meeting-budget-committee-2026-09-28T10:00:00",
       "body_id": "lims-minneapolis-body-budget-committee",
@@ -719,7 +556,7 @@
       "location": null,
       "agendaStatus": null,
       "agendaUrl": "https://lims.minneapolismn.gov/Agenda/Council/16258",
-      "minutesUrl": null,
+      "minutesUrl": "https://lims.minneapolismn.gov/api/v1/downloads/CommitteeReport/5018/Council-Proceedings-1001.pdf",
       "videoStatus": null,
       "sourceUrl": "https://lims.minneapolismn.gov/Agenda/Council/16258",
       "lastModifiedUtc": null,
@@ -1140,10 +977,10 @@
       "time": "16:00",
       "location": null,
       "agendaStatus": null,
-      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/BAC/16261",
-      "minutesUrl": null,
+      "agendaUrl": "https://lims.minneapolismn.gov/Board/MarkedAgenda/BAC/16261",
+      "minutesUrl": "https://lims.minneapolismn.gov/api/v1/downloads/CommitteeReport/5019/Minutes_2026_10_06_BAC.pdf",
       "videoStatus": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/BAC/16261",
+      "sourceUrl": "https://lims.minneapolismn.gov/Board/MarkedAgenda/BAC/16261",
       "lastModifiedUtc": null,
       "members": [
         {
@@ -2189,10 +2026,10 @@
       "time": "13:30",
       "location": null,
       "agendaStatus": null,
-      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/ELR/",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/ELR/16284",
       "minutesUrl": null,
       "videoStatus": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/ELR/",
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/ELR/16284",
       "lastModifiedUtc": null,
       "members": [
         {
@@ -2493,10 +2330,10 @@
       "time": "13:30",
       "location": null,
       "agendaStatus": null,
-      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/BHZ/",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/BHZ/16285",
       "minutesUrl": null,
       "videoStatus": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/BHZ/",
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/BHZ/16285",
       "lastModifiedUtc": null,
       "members": [
         {
@@ -2626,10 +2463,10 @@
       "time": "13:30",
       "location": null,
       "agendaStatus": null,
-      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/PHSE/",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/PHSE/16282",
       "minutesUrl": null,
       "videoStatus": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/PHSE/",
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/PHSE/16282",
       "lastModifiedUtc": null,
       "members": [
         {
@@ -2799,10 +2636,10 @@
       "time": "13:30",
       "location": null,
       "agendaStatus": null,
-      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/CI/",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/CI/16286",
       "minutesUrl": null,
       "videoStatus": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/CI/",
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/CI/16286",
       "lastModifiedUtc": null,
       "members": [
         {
@@ -6766,6 +6603,57 @@
           "type": "Council Member"
         }
       ]
+    },
+    {
+      "id": "lims-minneapolis-meeting-climate-infrastructure-committee-2027-01-07T13:30:00",
+      "body_id": "lims-minneapolis-body-climate-infrastructure-committee",
+      "bodyName": "Climate & Infrastructure Committee",
+      "date": "2027-01-07",
+      "time": "13:30",
+      "location": null,
+      "agendaStatus": null,
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/CI/",
+      "minutesUrl": null,
+      "videoStatus": null,
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/CI/",
+      "lastModifiedUtc": null,
+      "members": [
+        {
+          "id": 375,
+          "name": "Linea Palmisano",
+          "type": "Council Member"
+        },
+        {
+          "id": 5692,
+          "name": "Robin Wonsley",
+          "type": "Chair"
+        },
+        {
+          "id": 5696,
+          "name": "LaTrisha Vetaw",
+          "type": "Council Member"
+        },
+        {
+          "id": 5697,
+          "name": "Aisha Chughtai",
+          "type": "Council Member"
+        },
+        {
+          "id": 5776,
+          "name": "Aurin Chowdhury",
+          "type": "Council Member"
+        },
+        {
+          "id": 7961,
+          "name": "Pearll Warren",
+          "type": "Council Member"
+        },
+        {
+          "id": 7962,
+          "name": "Soren Stevenson",
+          "type": "Vice-Chair"
+        }
+      ]
     }
   ],
   "agendaItems": [
@@ -6776,8 +6664,8 @@
       "agendaNumber": null,
       "title": "Receiving and filing a report in response to a legislative directive requesting the costs toimplement, enforce, and managethe revised boulevard ordinance.",
       "isConsent": false,
-      "actionName": "Scheduled",
-      "passedFlagName": "Failed",
+      "actionName": "Received and filed",
+      "passedFlagName": "Passed",
       "matterFile": "2026-00170",
       "matterId": null,
       "matterType": "Receive & File",
@@ -7026,21 +6914,6 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-1889-0",
-      "meeting_id": "lims-minneapolis-meeting-climate-infrastructure-committee-2026-09-24T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0704",
-      "title": "Approving Michelle Einstein for appointment to Seat 15 beginning July 1, 2026, and ending June 30, 2028.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-00699",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00699",
-      "votes": []
-    },
-    {
       "id": "lims-minneapolis-fileitem-1889-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
@@ -7107,21 +6980,6 @@
           "value": "Aye"
         }
       ]
-    },
-    {
-      "id": "lims-minneapolis-fileitem-1899-0",
-      "meeting_id": "lims-minneapolis-meeting-climate-infrastructure-committee-2026-09-24T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0704",
-      "title": "Approving Eli Harvey for appointment to Seat 2 beginning July 1, 2025, and ending June 30, 2027.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-00699",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00699",
-      "votes": []
     },
     {
       "id": "lims-minneapolis-fileitem-1899-1",
@@ -7328,21 +7186,6 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2173-1",
-      "meeting_id": "lims-minneapolis-meeting-climate-infrastructure-committee-2026-09-24T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026R-372",
-      "title": "Passage of Resolution approving the 2027operating plan, special services, cost estimates, service charges, and the list of 2027service charges for the Downtown Business Improvement Special Service District (428A District).",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-00855",
-      "matterId": null,
-      "matterType": "Resolution",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00855",
-      "votes": []
-    },
-    {
       "id": "lims-minneapolis-fileitem-2173-2",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
@@ -7409,21 +7252,6 @@
           "value": "Aye"
         }
       ]
-    },
-    {
-      "id": "lims-minneapolis-fileitem-2175-0",
-      "meeting_id": "lims-minneapolis-meeting-climate-infrastructure-committee-2026-09-24T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026R-371",
-      "title": "Passage of Resolution adopting the assessments, levying the assessments, and adopting the assessment roll for sanitary sewer availability charges (SAC) on the list of properties as on file in the City Engineer’s Special Assessment Office.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-00856",
-      "matterId": null,
-      "matterType": "Resolution",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00856",
-      "votes": []
     },
     {
       "id": "lims-minneapolis-fileitem-2175-1",
@@ -7651,8 +7479,8 @@
       "agendaNumber": null,
       "title": "Passage of Resolution approving the 2027operating plans, special services, cost estimates, service charges, and the lists of 2027service charges for the 48th & Chicago, Central Avenue, Dinkytown, Eat Street, Linden Hills, Lowry Hill, Stadium Village, and Uptown Special Service Districts (Non-428A Districts), and authorizing the Department of Public Works to proceed with the work.",
       "isConsent": false,
-      "actionName": "Scheduled",
-      "passedFlagName": "Failed",
+      "actionName": "Approved",
+      "passedFlagName": "Passed",
       "matterFile": "2026-00919",
       "matterId": null,
       "matterType": "Resolution",
@@ -7666,8 +7494,8 @@
       "agendaNumber": null,
       "title": "Passage of Resolution adopting the assessments, levying the assessments, and adopting the assessment roll for the 2027 Street Maintenance Assessment Project 1337M.",
       "isConsent": false,
-      "actionName": "Scheduled",
-      "passedFlagName": "Failed",
+      "actionName": "Approved",
+      "passedFlagName": "Passed",
       "matterFile": "2026-00920",
       "matterId": null,
       "matterType": "Resolution",
@@ -7681,8 +7509,8 @@
       "agendaNumber": null,
       "title": "Passage of Resolution adopting the assessments, levying the assessments, and adopting the assessment roll for the 2027 Street Light Operations Fee Assessment Project 1337L.",
       "isConsent": false,
-      "actionName": "Scheduled",
-      "passedFlagName": "Failed",
+      "actionName": "Approved",
+      "passedFlagName": "Passed",
       "matterFile": "2026-00921",
       "matterId": null,
       "matterType": "Resolution",
@@ -7690,13 +7518,13 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2341-3",
-      "meeting_id": "lims-minneapolis-meeting-climate-infrastructure-committee-2026-09-24T13:30:00",
+      "id": "lims-minneapolis-fileitem-2342-4",
+      "meeting_id": "lims-minneapolis-meeting-climate-infrastructure-committee-2026-10-08T13:30:00",
       "sequence": null,
       "agendaNumber": null,
       "title": "Passage of Ordinanceamending Title 3, Chapter 47 of the Minneapolis Code of Ordinances relating to Air Pollution and Environmental Protection: Energy and Air Pollution, repealing Section 47.190 entitled “Commercial and multifamily residential building rating and disclosure.”",
       "isConsent": false,
-      "actionName": "Continued to meeting of  10/8/2026",
+      "actionName": "Continued to meeting of  10/22/2026",
       "passedFlagName": "Passed",
       "matterFile": "2026-00968",
       "matterId": null,
@@ -7705,22 +7533,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2341-4",
-      "meeting_id": "lims-minneapolis-meeting-climate-infrastructure-committee-2026-10-08T13:30:00",
-      "sequence": null,
-      "agendaNumber": null,
-      "title": "Passage of Ordinanceamending Title 3, Chapter 47 of the Minneapolis Code of Ordinances relating to Air Pollution and Environmental Protection: Energy and Air Pollution, repealing Section 47.190 entitled “Commercial and multifamily residential building rating and disclosure.”",
-      "isConsent": false,
-      "actionName": "Scheduled",
-      "passedFlagName": "Failed",
-      "matterFile": "2026-00968",
-      "matterId": null,
-      "matterType": "Ordinance",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00968",
-      "votes": []
-    },
-    {
-      "id": "lims-minneapolis-fileitem-2371-3",
+      "id": "lims-minneapolis-fileitem-2372-3",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0715",
@@ -7788,37 +7601,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2397-0",
-      "meeting_id": "lims-minneapolis-meeting-climate-infrastructure-committee-2026-09-24T13:30:00",
-      "sequence": null,
-      "agendaNumber": null,
-      "title": "Receiving and filing a response to a legislative directive relating toCommercial and multifamily energy disclosure repeal ordinance.",
-      "isConsent": false,
-      "actionName": "Received and filed",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01007",
-      "matterId": null,
-      "matterType": "Receive & File",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01007",
-      "votes": []
-    },
-    {
-      "id": "lims-minneapolis-fileitem-2426-3",
-      "meeting_id": "lims-minneapolis-meeting-budget-committee-2026-09-24T10:00:00",
-      "sequence": null,
-      "agendaNumber": null,
-      "title": "Receiving and filing presentations on the Mayor's 2027Recommended Budget.",
-      "isConsent": false,
-      "actionName": "Received and filed",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01017",
-      "matterId": null,
-      "matterType": "Receive & File",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01017",
-      "votes": []
-    },
-    {
-      "id": "lims-minneapolis-fileitem-2426-4",
+      "id": "lims-minneapolis-fileitem-2427-4",
       "meeting_id": "lims-minneapolis-meeting-budget-committee-2026-09-28T10:00:00",
       "sequence": null,
       "agendaNumber": null,
@@ -7833,7 +7616,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2426-5",
+      "id": "lims-minneapolis-fileitem-2427-5",
       "meeting_id": "lims-minneapolis-meeting-budget-committee-2026-09-28T10:00:00",
       "sequence": null,
       "agendaNumber": null,
@@ -7848,7 +7631,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2426-6",
+      "id": "lims-minneapolis-fileitem-2427-6",
       "meeting_id": "lims-minneapolis-meeting-budget-committee-2026-09-29T10:00:00",
       "sequence": null,
       "agendaNumber": null,
@@ -7863,7 +7646,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2426-7",
+      "id": "lims-minneapolis-fileitem-2427-7",
       "meeting_id": "lims-minneapolis-meeting-budget-committee-2026-10-05T10:00:00",
       "sequence": null,
       "agendaNumber": null,
@@ -7878,7 +7661,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2426-8",
+      "id": "lims-minneapolis-fileitem-2427-8",
       "meeting_id": "lims-minneapolis-meeting-budget-committee-2026-10-06T10:00:00",
       "sequence": null,
       "agendaNumber": null,
@@ -7893,7 +7676,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2426-9",
+      "id": "lims-minneapolis-fileitem-2427-9",
       "meeting_id": "lims-minneapolis-meeting-budget-committee-2026-10-08T10:00:00",
       "sequence": null,
       "agendaNumber": null,
@@ -7908,14 +7691,14 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2426-10",
+      "id": "lims-minneapolis-fileitem-2427-10",
       "meeting_id": "lims-minneapolis-meeting-budget-committee-2026-10-09T10:00:00",
       "sequence": null,
       "agendaNumber": null,
       "title": "Receiving and filing presentations on the Mayor's 2027Recommended Budget.",
       "isConsent": false,
-      "actionName": "Scheduled",
-      "passedFlagName": "Failed",
+      "actionName": "Received and filed",
+      "passedFlagName": "Passed",
       "matterFile": "2026-01017",
       "matterId": null,
       "matterType": "Receive & File",
@@ -7923,7 +7706,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2426-11",
+      "id": "lims-minneapolis-fileitem-2427-11",
       "meeting_id": "lims-minneapolis-meeting-budget-committee-2026-10-13T10:00:00",
       "sequence": null,
       "agendaNumber": null,
@@ -7938,7 +7721,22 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2427-1",
+      "id": "lims-minneapolis-fileitem-2428-0",
+      "meeting_id": "lims-minneapolis-meeting-budget-committee-2026-10-07T18:05:00",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Receiving and filing public comment on the proposed 2027City Budget and tax levy, the Fiscal Year 2027Consolidated Plan, and the proposed water and sewer rates.",
+      "isConsent": false,
+      "actionName": "Received and filed",
+      "passedFlagName": "Passed",
+      "matterFile": "2026-01018",
+      "matterId": null,
+      "matterType": "Receive & File",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01018",
+      "votes": []
+    },
+    {
+      "id": "lims-minneapolis-fileitem-2429-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0712",
@@ -8006,7 +7804,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2428-1",
+      "id": "lims-minneapolis-fileitem-2430-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0713",
@@ -8074,7 +7872,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2432-1",
+      "id": "lims-minneapolis-fileitem-2434-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -8142,7 +7940,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2432-2",
+      "id": "lims-minneapolis-fileitem-2434-2",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -8157,7 +7955,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2434-1",
+      "id": "lims-minneapolis-fileitem-2436-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026R-380",
@@ -8225,7 +8023,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2435-1",
+      "id": "lims-minneapolis-fileitem-2437-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0717",
@@ -8293,7 +8091,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2436-1",
+      "id": "lims-minneapolis-fileitem-2438-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0717",
@@ -8361,7 +8159,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2437-1",
+      "id": "lims-minneapolis-fileitem-2439-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026R-378",
@@ -8429,7 +8227,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2438-1",
+      "id": "lims-minneapolis-fileitem-2440-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0717",
@@ -8497,7 +8295,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2439-1",
+      "id": "lims-minneapolis-fileitem-2441-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0717",
@@ -8565,7 +8363,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2440-1",
+      "id": "lims-minneapolis-fileitem-2442-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0717",
@@ -8633,7 +8431,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2441-1",
+      "id": "lims-minneapolis-fileitem-2443-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0717",
@@ -8701,7 +8499,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2442-1",
+      "id": "lims-minneapolis-fileitem-2444-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0718",
@@ -8769,7 +8567,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2443-1",
+      "id": "lims-minneapolis-fileitem-2445-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0718",
@@ -8837,7 +8635,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2444-1",
+      "id": "lims-minneapolis-fileitem-2446-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026R-379",
@@ -8905,7 +8703,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2445-1",
+      "id": "lims-minneapolis-fileitem-2447-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0718",
@@ -8973,7 +8771,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2446-1",
+      "id": "lims-minneapolis-fileitem-2448-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0720",
@@ -9041,7 +8839,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2448-1",
+      "id": "lims-minneapolis-fileitem-2450-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0719",
@@ -9109,7 +8907,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2449-1",
+      "id": "lims-minneapolis-fileitem-2451-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0719",
@@ -9177,22 +8975,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2450-0",
-      "meeting_id": "lims-minneapolis-meeting-climate-infrastructure-committee-2026-09-24T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0702",
-      "title": "Approving a legislative directive related to intersectionswhere a one- or two-way bike lane or bikeway crossing configuration exists.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01032",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01032",
-      "votes": []
-    },
-    {
-      "id": "lims-minneapolis-fileitem-2450-1",
+      "id": "lims-minneapolis-fileitem-2452-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0702",
@@ -9260,177 +9043,11 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2451-1",
-      "meeting_id": "lims-minneapolis-meeting-committee-of-the-whole-2026-09-29T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0706",
-      "title": "Accepting a grantfrom the Minnesota Department of Employment and Economic Development (DEED), in the total amount of $671,119, for the following projects: InnerCity Tennis, 155 Irving Ave N ($530,077), and Seven Points Residential, 3045 Hennepin Ave ($141,042).",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01033",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01033",
-      "votes": []
-    },
-    {
-      "id": "lims-minneapolis-fileitem-2451-3",
-      "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0706",
-      "title": "Accepting a grantfrom the Minnesota Department of Employment and Economic Development (DEED), in the total amount of $671,119, for the following projects: InnerCity Tennis, 155 Irving Ave N ($530,077), and Seven Points Residential, 3045 Hennepin Ave ($141,042).",
-      "isConsent": false,
-      "actionName": "Adopted",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01033",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01033",
-      "votes": [
-        {
-          "memberName": "Elliott Payne",
-          "value": "Aye"
-        },
-        {
-          "memberName": "Jamal Osman",
-          "value": "Aye"
-        },
-        {
-          "memberName": "Aisha Chughtai",
-          "value": "Aye"
-        },
-        {
-          "memberName": "Robin Wonsley",
-          "value": "Aye"
-        },
-        {
-          "memberName": "Michael Rainville",
-          "value": "Aye"
-        },
-        {
-          "memberName": "LaTrisha Vetaw",
-          "value": "Aye"
-        },
-        {
-          "memberName": "Pearll Warren",
-          "value": "Aye"
-        },
-        {
-          "memberName": "Elizabeth Shaffer",
-          "value": "Aye"
-        },
-        {
-          "memberName": "Soren Stevenson",
-          "value": "Aye"
-        },
-        {
-          "memberName": "Jason Chavez",
-          "value": "Aye"
-        },
-        {
-          "memberName": "Jamison Whiting",
-          "value": "Aye"
-        },
-        {
-          "memberName": "Aurin Chowdhury",
-          "value": "Aye"
-        },
-        {
-          "memberName": "Linea Palmisano",
-          "value": "Aye"
-        }
-      ]
-    },
-    {
-      "id": "lims-minneapolis-fileitem-2452-1",
-      "meeting_id": "lims-minneapolis-meeting-committee-of-the-whole-2026-09-29T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0706",
-      "title": "Accepting a grant from the Metropolitan Council’s Livable Communities Program, in the amount of $1,500,000, for the following project: Grain Exchange Redevelopment, 400 4th St Sand 301 4th Ave S.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01033",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01033",
-      "votes": []
-    },
-    {
-      "id": "lims-minneapolis-fileitem-2452-3",
-      "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0706",
-      "title": "Accepting a grant from the Metropolitan Council’s Livable Communities Program, in the amount of $1,500,000, for the following project: Grain Exchange Redevelopment, 400 4th St Sand 301 4th Ave S.",
-      "isConsent": false,
-      "actionName": "Adopted",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01033",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01033",
-      "votes": [
-        {
-          "memberName": "Elliott Payne",
-          "value": "Aye"
-        },
-        {
-          "memberName": "Jamal Osman",
-          "value": "Aye"
-        },
-        {
-          "memberName": "Aisha Chughtai",
-          "value": "Aye"
-        },
-        {
-          "memberName": "Robin Wonsley",
-          "value": "Aye"
-        },
-        {
-          "memberName": "Michael Rainville",
-          "value": "Aye"
-        },
-        {
-          "memberName": "LaTrisha Vetaw",
-          "value": "Aye"
-        },
-        {
-          "memberName": "Pearll Warren",
-          "value": "Aye"
-        },
-        {
-          "memberName": "Elizabeth Shaffer",
-          "value": "Aye"
-        },
-        {
-          "memberName": "Soren Stevenson",
-          "value": "Aye"
-        },
-        {
-          "memberName": "Jason Chavez",
-          "value": "Aye"
-        },
-        {
-          "memberName": "Jamison Whiting",
-          "value": "Aye"
-        },
-        {
-          "memberName": "Aurin Chowdhury",
-          "value": "Aye"
-        },
-        {
-          "memberName": "Linea Palmisano",
-          "value": "Aye"
-        }
-      ]
-    },
-    {
       "id": "lims-minneapolis-fileitem-2453-1",
       "meeting_id": "lims-minneapolis-meeting-committee-of-the-whole-2026-09-29T13:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0706",
-      "title": "Accepting a grantfrom Hennepin County’s Environmental Response Fund (ERF), in the amount of $1,218,483, for the following projects: 250 Fremont, 250 Fremont Ave N ($143,983);Grain Exchange Redevelopment, 400 4th St Sand 301 4th Ave S ($466,000); and InnerCity Tennis, 155 Irving Ave N ($608,500).",
+      "title": "Accepting a grantfrom the Minnesota Department of Employment and Economic Development (DEED), in the total amount of $671,119, for the following projects: InnerCity Tennis, 155 Irving Ave N ($530,077), and Seven Points Residential, 3045 Hennepin Ave ($141,042).",
       "isConsent": false,
       "actionName": "Approved",
       "passedFlagName": "Passed",
@@ -9445,7 +9062,7 @@
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0706",
-      "title": "Accepting a grantfrom Hennepin County’s Environmental Response Fund (ERF), in the amount of $1,218,483, for the following projects: 250 Fremont, 250 Fremont Ave N ($143,983);Grain Exchange Redevelopment, 400 4th St Sand 301 4th Ave S ($466,000); and InnerCity Tennis, 155 Irving Ave N ($608,500).",
+      "title": "Accepting a grantfrom the Minnesota Department of Employment and Economic Development (DEED), in the total amount of $671,119, for the following projects: InnerCity Tennis, 155 Irving Ave N ($530,077), and Seven Points Residential, 3045 Hennepin Ave ($141,042).",
       "isConsent": false,
       "actionName": "Adopted",
       "passedFlagName": "Passed",
@@ -9513,7 +9130,7 @@
       "meeting_id": "lims-minneapolis-meeting-committee-of-the-whole-2026-09-29T13:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0706",
-      "title": "Authorizing a contractwith DEED, the Metropolitan Council, and Hennepin County for thegrants.",
+      "title": "Accepting a grant from the Metropolitan Council’s Livable Communities Program, in the amount of $1,500,000, for the following project: Grain Exchange Redevelopment, 400 4th St Sand 301 4th Ave S.",
       "isConsent": false,
       "actionName": "Approved",
       "passedFlagName": "Passed",
@@ -9528,7 +9145,7 @@
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0706",
-      "title": "Authorizing a contractwith DEED, the Metropolitan Council, and Hennepin County for thegrants.",
+      "title": "Accepting a grant from the Metropolitan Council’s Livable Communities Program, in the amount of $1,500,000, for the following project: Grain Exchange Redevelopment, 400 4th St Sand 301 4th Ave S.",
       "isConsent": false,
       "actionName": "Adopted",
       "passedFlagName": "Passed",
@@ -9596,7 +9213,7 @@
       "meeting_id": "lims-minneapolis-meeting-committee-of-the-whole-2026-09-29T13:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0706",
-      "title": "Authorizing execution of one or more funding agreements with each of the sub-recipients identified below(or an affiliated entity), and/or disbursement and related agreements for these grants.",
+      "title": "Accepting a grantfrom Hennepin County’s Environmental Response Fund (ERF), in the amount of $1,218,483, for the following projects: 250 Fremont, 250 Fremont Ave N ($143,983);Grain Exchange Redevelopment, 400 4th St Sand 301 4th Ave S ($466,000); and InnerCity Tennis, 155 Irving Ave N ($608,500).",
       "isConsent": false,
       "actionName": "Approved",
       "passedFlagName": "Passed",
@@ -9608,6 +9225,172 @@
     },
     {
       "id": "lims-minneapolis-fileitem-2455-3",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
+      "sequence": null,
+      "agendaNumber": "2026A-0706",
+      "title": "Accepting a grantfrom Hennepin County’s Environmental Response Fund (ERF), in the amount of $1,218,483, for the following projects: 250 Fremont, 250 Fremont Ave N ($143,983);Grain Exchange Redevelopment, 400 4th St Sand 301 4th Ave S ($466,000); and InnerCity Tennis, 155 Irving Ave N ($608,500).",
+      "isConsent": false,
+      "actionName": "Adopted",
+      "passedFlagName": "Passed",
+      "matterFile": "2026-01033",
+      "matterId": null,
+      "matterType": "Action",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01033",
+      "votes": [
+        {
+          "memberName": "Elliott Payne",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jamal Osman",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Aisha Chughtai",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Robin Wonsley",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Michael Rainville",
+          "value": "Aye"
+        },
+        {
+          "memberName": "LaTrisha Vetaw",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Pearll Warren",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Elizabeth Shaffer",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Soren Stevenson",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jason Chavez",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jamison Whiting",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Aurin Chowdhury",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Linea Palmisano",
+          "value": "Aye"
+        }
+      ]
+    },
+    {
+      "id": "lims-minneapolis-fileitem-2456-1",
+      "meeting_id": "lims-minneapolis-meeting-committee-of-the-whole-2026-09-29T13:30:00",
+      "sequence": null,
+      "agendaNumber": "2026A-0706",
+      "title": "Authorizing a contractwith DEED, the Metropolitan Council, and Hennepin County for thegrants.",
+      "isConsent": false,
+      "actionName": "Approved",
+      "passedFlagName": "Passed",
+      "matterFile": "2026-01033",
+      "matterId": null,
+      "matterType": "Action",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01033",
+      "votes": []
+    },
+    {
+      "id": "lims-minneapolis-fileitem-2456-3",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
+      "sequence": null,
+      "agendaNumber": "2026A-0706",
+      "title": "Authorizing a contractwith DEED, the Metropolitan Council, and Hennepin County for thegrants.",
+      "isConsent": false,
+      "actionName": "Adopted",
+      "passedFlagName": "Passed",
+      "matterFile": "2026-01033",
+      "matterId": null,
+      "matterType": "Action",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01033",
+      "votes": [
+        {
+          "memberName": "Elliott Payne",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jamal Osman",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Aisha Chughtai",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Robin Wonsley",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Michael Rainville",
+          "value": "Aye"
+        },
+        {
+          "memberName": "LaTrisha Vetaw",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Pearll Warren",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Elizabeth Shaffer",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Soren Stevenson",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jason Chavez",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jamison Whiting",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Aurin Chowdhury",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Linea Palmisano",
+          "value": "Aye"
+        }
+      ]
+    },
+    {
+      "id": "lims-minneapolis-fileitem-2457-1",
+      "meeting_id": "lims-minneapolis-meeting-committee-of-the-whole-2026-09-29T13:30:00",
+      "sequence": null,
+      "agendaNumber": "2026A-0706",
+      "title": "Authorizing execution of one or more funding agreements with each of the sub-recipients identified below(or an affiliated entity), and/or disbursement and related agreements for these grants.",
+      "isConsent": false,
+      "actionName": "Approved",
+      "passedFlagName": "Passed",
+      "matterFile": "2026-01033",
+      "matterId": null,
+      "matterType": "Action",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01033",
+      "votes": []
+    },
+    {
+      "id": "lims-minneapolis-fileitem-2457-3",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0706",
@@ -9675,7 +9458,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2456-1",
+      "id": "lims-minneapolis-fileitem-2458-1",
       "meeting_id": "lims-minneapolis-meeting-committee-of-the-whole-2026-09-29T13:30:00",
       "sequence": null,
       "agendaNumber": "2026R-375",
@@ -9690,7 +9473,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2456-3",
+      "id": "lims-minneapolis-fileitem-2458-3",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026R-375",
@@ -9758,7 +9541,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2457-1",
+      "id": "lims-minneapolis-fileitem-2459-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026R-381",
@@ -9826,7 +9609,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2458-1",
+      "id": "lims-minneapolis-fileitem-2460-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0721",
@@ -9894,7 +9677,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2459-1",
+      "id": "lims-minneapolis-fileitem-2461-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026R-370",
@@ -9962,7 +9745,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2460-1",
+      "id": "lims-minneapolis-fileitem-2462-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026R-382",
@@ -10030,7 +9813,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2461-1",
+      "id": "lims-minneapolis-fileitem-2463-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0682",
@@ -10098,7 +9881,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2462-2",
+      "id": "lims-minneapolis-fileitem-2464-2",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0680",
@@ -10166,7 +9949,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2463-1",
+      "id": "lims-minneapolis-fileitem-2465-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0681",
@@ -10234,7 +10017,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2464-1",
+      "id": "lims-minneapolis-fileitem-2466-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0681",
@@ -10302,7 +10085,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2465-1",
+      "id": "lims-minneapolis-fileitem-2467-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0681",
@@ -10370,7 +10153,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2466-1",
+      "id": "lims-minneapolis-fileitem-2468-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0681",
@@ -10438,7 +10221,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2467-1",
+      "id": "lims-minneapolis-fileitem-2469-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0681",
@@ -10506,7 +10289,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2468-1",
+      "id": "lims-minneapolis-fileitem-2470-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0681",
@@ -10574,7 +10357,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2469-1",
+      "id": "lims-minneapolis-fileitem-2471-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0681",
@@ -10642,7 +10425,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2470-1",
+      "id": "lims-minneapolis-fileitem-2472-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0681",
@@ -10710,7 +10493,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2471-1",
+      "id": "lims-minneapolis-fileitem-2473-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0681",
@@ -10778,7 +10561,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2472-1",
+      "id": "lims-minneapolis-fileitem-2474-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0681",
@@ -10846,7 +10629,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2473-1",
+      "id": "lims-minneapolis-fileitem-2475-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0681",
@@ -10914,7 +10697,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2474-1",
+      "id": "lims-minneapolis-fileitem-2476-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0681",
@@ -10982,7 +10765,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2475-1",
+      "id": "lims-minneapolis-fileitem-2477-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0681",
@@ -11050,7 +10833,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2476-1",
+      "id": "lims-minneapolis-fileitem-2478-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0681",
@@ -11118,7 +10901,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2477-1",
+      "id": "lims-minneapolis-fileitem-2479-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0681",
@@ -11186,7 +10969,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2478-1",
+      "id": "lims-minneapolis-fileitem-2480-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0681",
@@ -11254,7 +11037,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2479-1",
+      "id": "lims-minneapolis-fileitem-2481-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0681",
@@ -11322,7 +11105,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2480-1",
+      "id": "lims-minneapolis-fileitem-2482-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0681",
@@ -11390,7 +11173,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2481-1",
+      "id": "lims-minneapolis-fileitem-2483-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0681",
@@ -11458,7 +11241,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2482-1",
+      "id": "lims-minneapolis-fileitem-2484-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0681",
@@ -11526,7 +11309,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2483-1",
+      "id": "lims-minneapolis-fileitem-2485-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0681",
@@ -11594,7 +11377,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2484-1",
+      "id": "lims-minneapolis-fileitem-2486-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0681",
@@ -11662,7 +11445,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2485-1",
+      "id": "lims-minneapolis-fileitem-2487-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0681",
@@ -11730,7 +11513,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2486-1",
+      "id": "lims-minneapolis-fileitem-2488-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0681",
@@ -11798,7 +11581,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2487-1",
+      "id": "lims-minneapolis-fileitem-2489-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0681",
@@ -11866,7 +11649,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2488-1",
+      "id": "lims-minneapolis-fileitem-2490-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0681",
@@ -11934,7 +11717,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2489-1",
+      "id": "lims-minneapolis-fileitem-2491-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0681",
@@ -12002,7 +11785,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2490-1",
+      "id": "lims-minneapolis-fileitem-2492-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0681",
@@ -12070,7 +11853,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2491-1",
+      "id": "lims-minneapolis-fileitem-2493-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0681",
@@ -12138,7 +11921,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2492-1",
+      "id": "lims-minneapolis-fileitem-2494-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0681",
@@ -12206,7 +11989,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2493-1",
+      "id": "lims-minneapolis-fileitem-2495-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0681",
@@ -12274,7 +12057,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2494-1",
+      "id": "lims-minneapolis-fileitem-2496-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0681",
@@ -12342,7 +12125,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2495-1",
+      "id": "lims-minneapolis-fileitem-2497-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0681",
@@ -12410,7 +12193,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2496-1",
+      "id": "lims-minneapolis-fileitem-2498-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0681",
@@ -12478,7 +12261,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2497-1",
+      "id": "lims-minneapolis-fileitem-2499-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0681",
@@ -12546,7 +12329,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2498-1",
+      "id": "lims-minneapolis-fileitem-2500-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0681",
@@ -12614,7 +12397,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2499-1",
+      "id": "lims-minneapolis-fileitem-2501-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0681",
@@ -12682,7 +12465,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2500-1",
+      "id": "lims-minneapolis-fileitem-2502-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0681",
@@ -12750,7 +12533,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2501-1",
+      "id": "lims-minneapolis-fileitem-2503-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0681",
@@ -12818,7 +12601,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2502-1",
+      "id": "lims-minneapolis-fileitem-2504-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0681",
@@ -12886,7 +12669,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2503-1",
+      "id": "lims-minneapolis-fileitem-2505-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0681",
@@ -12954,7 +12737,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2504-1",
+      "id": "lims-minneapolis-fileitem-2506-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0681",
@@ -13022,7 +12805,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2505-1",
+      "id": "lims-minneapolis-fileitem-2507-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0681",
@@ -13090,7 +12873,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2506-1",
+      "id": "lims-minneapolis-fileitem-2508-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0681",
@@ -13158,7 +12941,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2507-1",
+      "id": "lims-minneapolis-fileitem-2509-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0681",
@@ -13226,7 +13009,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2508-1",
+      "id": "lims-minneapolis-fileitem-2510-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0681",
@@ -13294,7 +13077,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2509-1",
+      "id": "lims-minneapolis-fileitem-2511-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0681",
@@ -13362,7 +13145,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2510-1",
+      "id": "lims-minneapolis-fileitem-2512-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0681",
@@ -13430,7 +13213,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2511-1",
+      "id": "lims-minneapolis-fileitem-2513-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0681",
@@ -13498,7 +13281,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2512-1",
+      "id": "lims-minneapolis-fileitem-2514-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0681",
@@ -13566,7 +13349,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2513-1",
+      "id": "lims-minneapolis-fileitem-2515-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0681",
@@ -13634,7 +13417,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2514-1",
+      "id": "lims-minneapolis-fileitem-2516-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0681",
@@ -13702,7 +13485,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2515-1",
+      "id": "lims-minneapolis-fileitem-2517-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0681",
@@ -13770,7 +13553,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2516-1",
+      "id": "lims-minneapolis-fileitem-2518-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0681",
@@ -13838,7 +13621,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2517-1",
+      "id": "lims-minneapolis-fileitem-2519-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0681",
@@ -13906,7 +13689,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2518-1",
+      "id": "lims-minneapolis-fileitem-2520-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0681",
@@ -13974,7 +13757,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2519-1",
+      "id": "lims-minneapolis-fileitem-2521-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0681",
@@ -14042,7 +13825,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2520-1",
+      "id": "lims-minneapolis-fileitem-2522-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0681",
@@ -14110,7 +13893,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2521-1",
+      "id": "lims-minneapolis-fileitem-2523-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0681",
@@ -14178,7 +13961,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2522-1",
+      "id": "lims-minneapolis-fileitem-2524-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0681",
@@ -14246,7 +14029,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2523-1",
+      "id": "lims-minneapolis-fileitem-2525-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0681",
@@ -14314,7 +14097,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2524-1",
+      "id": "lims-minneapolis-fileitem-2526-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0681",
@@ -14382,7 +14165,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2525-0",
+      "id": "lims-minneapolis-fileitem-2527-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -14397,7 +14180,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2526-0",
+      "id": "lims-minneapolis-fileitem-2528-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -14412,7 +14195,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2527-1",
+      "id": "lims-minneapolis-fileitem-2529-1",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -14456,7 +14239,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2528-1",
+      "id": "lims-minneapolis-fileitem-2530-1",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -14500,7 +14283,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2529-1",
+      "id": "lims-minneapolis-fileitem-2531-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0716",
@@ -14568,7 +14351,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2530-1",
+      "id": "lims-minneapolis-fileitem-2532-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0709",
@@ -14636,7 +14419,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2531-1",
+      "id": "lims-minneapolis-fileitem-2533-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0708",
@@ -14704,7 +14487,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2532-1",
+      "id": "lims-minneapolis-fileitem-2534-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026R-376",
@@ -14772,7 +14555,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2533-1",
+      "id": "lims-minneapolis-fileitem-2535-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0710",
@@ -14840,7 +14623,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2534-1",
+      "id": "lims-minneapolis-fileitem-2536-1",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-06T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -14855,7 +14638,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2535-1",
+      "id": "lims-minneapolis-fileitem-2537-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0678",
@@ -14923,7 +14706,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2536-1",
+      "id": "lims-minneapolis-fileitem-2538-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0722",
@@ -14991,7 +14774,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2537-1",
+      "id": "lims-minneapolis-fileitem-2539-1",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -15006,22 +14789,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2538-0",
-      "meeting_id": "lims-minneapolis-meeting-climate-infrastructure-committee-2026-09-24T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0697",
-      "title": "Authorizing a contract with Stantec Consulting Services, Inc. in the amount of $809,918, for engineering and design services for the 34th St Neighborhood Greenway Project.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01053",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01053",
-      "votes": []
-    },
-    {
-      "id": "lims-minneapolis-fileitem-2538-1",
+      "id": "lims-minneapolis-fileitem-2540-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0697",
@@ -15089,7 +14857,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2539-2",
+      "id": "lims-minneapolis-fileitem-2541-2",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0679",
@@ -15157,22 +14925,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2540-0",
-      "meeting_id": "lims-minneapolis-meeting-climate-infrastructure-committee-2026-09-24T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0699",
-      "title": "Authorizing an increase to contract COM0010776 with Morcon Construction, Inc., in the amount of $15,682for a total amount not to exceed $550,682.00, for additional work necessary to complete the Jerry Haaf Parking Ramp Roof Replacement Project.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01055",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01055",
-      "votes": []
-    },
-    {
-      "id": "lims-minneapolis-fileitem-2540-1",
+      "id": "lims-minneapolis-fileitem-2542-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0699",
@@ -15240,14 +14993,14 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2541-0",
+      "id": "lims-minneapolis-fileitem-2543-0",
       "meeting_id": "lims-minneapolis-meeting-climate-infrastructure-committee-2026-10-08T13:30:00",
       "sequence": null,
       "agendaNumber": null,
       "title": "Authorizing an increase to contract COM0010801 with Hennepin County,in the amount of $7,876,000 for a newnot to exceed amount of $15,213,000, and a one-yearextension through Dec31, 2027,at a rate of $88.00 (eighty-eight dollars) per ton for the extended year,for processing and disposal of municipal solid wastes collected in Minneapolis by the Public Works Divisions of Solid Waste and Recycling, and Transportation Maintenance and Repair.",
       "isConsent": false,
-      "actionName": "Scheduled",
-      "passedFlagName": "Failed",
+      "actionName": "Approved",
+      "passedFlagName": "Passed",
       "matterFile": "2026-01056",
       "matterId": null,
       "matterType": "Action",
@@ -15255,7 +15008,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2542-1",
+      "id": "lims-minneapolis-fileitem-2544-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0684",
@@ -15323,22 +15076,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2543-0",
-      "meeting_id": "lims-minneapolis-meeting-climate-infrastructure-committee-2026-09-24T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0700",
-      "title": "Authorizing an increase to contractCOM0002570 with Stantec Consulting Services Inc., in the amount of $330,238 for a total amount not to exceed $3,700,841, and an extensionthrough Dec 31, 2028, for additional engineering and design services on the Upper Harbor Terminal Project.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01058",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01058",
-      "votes": []
-    },
-    {
-      "id": "lims-minneapolis-fileitem-2543-1",
+      "id": "lims-minneapolis-fileitem-2545-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0700",
@@ -15406,7 +15144,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2544-1",
+      "id": "lims-minneapolis-fileitem-2546-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0711",
@@ -15474,7 +15212,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2545-1",
+      "id": "lims-minneapolis-fileitem-2547-1",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-06T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -15489,22 +15227,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2546-0",
-      "meeting_id": "lims-minneapolis-meeting-climate-infrastructure-committee-2026-09-24T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0698",
-      "title": "Authorizing an increase to contract COM0010701 with Meyer Contracting, Inc., in the amount of $437,941.71 for a total amount not to exceed $1,694,858.72, and an extension through July 31, 2027, for construction work on the16th Avenue South Sewer Improvement Project.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01061",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01061",
-      "votes": []
-    },
-    {
-      "id": "lims-minneapolis-fileitem-2546-1",
+      "id": "lims-minneapolis-fileitem-2548-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0698",
@@ -15572,7 +15295,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2547-1",
+      "id": "lims-minneapolis-fileitem-2549-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -15640,7 +15363,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2547-2",
+      "id": "lims-minneapolis-fileitem-2549-2",
       "meeting_id": "lims-minneapolis-meeting-enterprise-labor-relations-committee-2026-10-05T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -15655,7 +15378,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2549-0",
+      "id": "lims-minneapolis-fileitem-2551-0",
       "meeting_id": "lims-minneapolis-meeting-city-council-policy-roundtable-2026-09-30T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -15670,22 +15393,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2550-0",
-      "meeting_id": "lims-minneapolis-meeting-climate-infrastructure-committee-2026-09-24T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0695",
-      "title": "Accepting the low responsive bid of PCiRoads LLC, submitted on Event 4173, in the amount of $4,396,735, to provide all materials, labor, equipment and incidentals necessary for the Phillips/TH 55 Storm Tunnel Rehabilitation Project, and authorizing a contract for the project, all in accordance with City specifications.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01065",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01065",
-      "votes": []
-    },
-    {
-      "id": "lims-minneapolis-fileitem-2550-2",
+      "id": "lims-minneapolis-fileitem-2552-2",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0695",
@@ -15753,22 +15461,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2551-0",
-      "meeting_id": "lims-minneapolis-meeting-climate-infrastructure-committee-2026-09-24T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0703",
-      "title": "Approvingthe Green Cost Share program guidelines for large greenhouse reduction funding opportunities.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01066",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01066",
-      "votes": []
-    },
-    {
-      "id": "lims-minneapolis-fileitem-2551-2",
+      "id": "lims-minneapolis-fileitem-2553-2",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0703",
@@ -15780,172 +15473,6 @@
       "matterId": null,
       "matterType": "Action",
       "fileUrl": "https://lims.minneapolismn.gov/File/2026-01066",
-      "votes": [
-        {
-          "memberName": "Elliott Payne",
-          "value": "Aye"
-        },
-        {
-          "memberName": "Jamal Osman",
-          "value": "Aye"
-        },
-        {
-          "memberName": "Aisha Chughtai",
-          "value": "Aye"
-        },
-        {
-          "memberName": "Robin Wonsley",
-          "value": "Aye"
-        },
-        {
-          "memberName": "Michael Rainville",
-          "value": "Aye"
-        },
-        {
-          "memberName": "LaTrisha Vetaw",
-          "value": "Aye"
-        },
-        {
-          "memberName": "Pearll Warren",
-          "value": "Aye"
-        },
-        {
-          "memberName": "Elizabeth Shaffer",
-          "value": "Aye"
-        },
-        {
-          "memberName": "Soren Stevenson",
-          "value": "Aye"
-        },
-        {
-          "memberName": "Jason Chavez",
-          "value": "Aye"
-        },
-        {
-          "memberName": "Jamison Whiting",
-          "value": "Aye"
-        },
-        {
-          "memberName": "Aurin Chowdhury",
-          "value": "Aye"
-        },
-        {
-          "memberName": "Linea Palmisano",
-          "value": "Aye"
-        }
-      ]
-    },
-    {
-      "id": "lims-minneapolis-fileitem-2552-0",
-      "meeting_id": "lims-minneapolis-meeting-climate-infrastructure-committee-2026-09-24T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0701",
-      "title": "Authorizing an increase to Contract COM0011699 with Thomas and Sons Construction, Inc., in the amount of $181,657.29 for a total amount not to exceed $1,783,737.70, for additional work to complete the West River Road Phase II Project, all in accordance with City specifications.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01067",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01067",
-      "votes": []
-    },
-    {
-      "id": "lims-minneapolis-fileitem-2552-1",
-      "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0701",
-      "title": "Authorizing an increase to Contract COM0011699 with Thomas and Sons Construction, Inc., in the amount of $181,657.29 for a total amount not to exceed $1,783,737.70, for additional work to complete the West River Road Phase II Project, all in accordance with City specifications.",
-      "isConsent": false,
-      "actionName": "Adopted",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01067",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01067",
-      "votes": [
-        {
-          "memberName": "Elliott Payne",
-          "value": "Aye"
-        },
-        {
-          "memberName": "Jamal Osman",
-          "value": "Aye"
-        },
-        {
-          "memberName": "Aisha Chughtai",
-          "value": "Aye"
-        },
-        {
-          "memberName": "Robin Wonsley",
-          "value": "Aye"
-        },
-        {
-          "memberName": "Michael Rainville",
-          "value": "Aye"
-        },
-        {
-          "memberName": "LaTrisha Vetaw",
-          "value": "Aye"
-        },
-        {
-          "memberName": "Pearll Warren",
-          "value": "Aye"
-        },
-        {
-          "memberName": "Elizabeth Shaffer",
-          "value": "Aye"
-        },
-        {
-          "memberName": "Soren Stevenson",
-          "value": "Aye"
-        },
-        {
-          "memberName": "Jason Chavez",
-          "value": "Aye"
-        },
-        {
-          "memberName": "Jamison Whiting",
-          "value": "Aye"
-        },
-        {
-          "memberName": "Aurin Chowdhury",
-          "value": "Aye"
-        },
-        {
-          "memberName": "Linea Palmisano",
-          "value": "Aye"
-        }
-      ]
-    },
-    {
-      "id": "lims-minneapolis-fileitem-2553-0",
-      "meeting_id": "lims-minneapolis-meeting-climate-infrastructure-committee-2026-09-24T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0696",
-      "title": "Authorizing a contract with Alliant Engineering, Inc., in the amount of $3,613,187.29, for engineering services for the Citywide Traffic Signal Retiming project.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01068",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01068",
-      "votes": []
-    },
-    {
-      "id": "lims-minneapolis-fileitem-2553-1",
-      "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0696",
-      "title": "Authorizing a contract with Alliant Engineering, Inc., in the amount of $3,613,187.29, for engineering services for the Citywide Traffic Signal Retiming project.",
-      "isConsent": false,
-      "actionName": "Adopted",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01068",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01068",
       "votes": [
         {
           "memberName": "Elliott Payne",
@@ -16003,32 +15530,17 @@
     },
     {
       "id": "lims-minneapolis-fileitem-2554-1",
-      "meeting_id": "lims-minneapolis-meeting-committee-of-the-whole-2026-09-29T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0707",
-      "title": "Approving therelease of City mortgage and declaration of restrictive covenants related to aNaturally Occurring Affordable Housing Preservation Fund loan, in the amount of $4,500,000, for Aeon’s Villa Nova project, in exchange for a partialpayment of $100,000, receipt of excess proceeds after the first mortgage lender is paid in full, and tenant protection commitments.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01069",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01069",
-      "votes": []
-    },
-    {
-      "id": "lims-minneapolis-fileitem-2554-3",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
-      "agendaNumber": "2026A-0707",
-      "title": "Approving therelease of City mortgage and declaration of restrictive covenants related to aNaturally Occurring Affordable Housing Preservation Fund loan, in the amount of $4,500,000, for Aeon’s Villa Nova project, in exchange for a partialpayment of $100,000, receipt of excess proceeds after the first mortgage lender is paid in full, and tenant protection commitments.",
+      "agendaNumber": "2026A-0701",
+      "title": "Authorizing an increase to Contract COM0011699 with Thomas and Sons Construction, Inc., in the amount of $181,657.29 for a total amount not to exceed $1,783,737.70, for additional work to complete the West River Road Phase II Project, all in accordance with City specifications.",
       "isConsent": false,
       "actionName": "Adopted",
       "passedFlagName": "Passed",
-      "matterFile": "2026-01069",
+      "matterFile": "2026-01067",
       "matterId": null,
       "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01069",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01067",
       "votes": [
         {
           "memberName": "Elliott Payne",
@@ -16086,6 +15598,157 @@
     },
     {
       "id": "lims-minneapolis-fileitem-2555-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
+      "sequence": null,
+      "agendaNumber": "2026A-0696",
+      "title": "Authorizing a contract with Alliant Engineering, Inc., in the amount of $3,613,187.29, for engineering services for the Citywide Traffic Signal Retiming project.",
+      "isConsent": false,
+      "actionName": "Adopted",
+      "passedFlagName": "Passed",
+      "matterFile": "2026-01068",
+      "matterId": null,
+      "matterType": "Action",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01068",
+      "votes": [
+        {
+          "memberName": "Elliott Payne",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jamal Osman",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Aisha Chughtai",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Robin Wonsley",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Michael Rainville",
+          "value": "Aye"
+        },
+        {
+          "memberName": "LaTrisha Vetaw",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Pearll Warren",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Elizabeth Shaffer",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Soren Stevenson",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jason Chavez",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jamison Whiting",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Aurin Chowdhury",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Linea Palmisano",
+          "value": "Aye"
+        }
+      ]
+    },
+    {
+      "id": "lims-minneapolis-fileitem-2556-1",
+      "meeting_id": "lims-minneapolis-meeting-committee-of-the-whole-2026-09-29T13:30:00",
+      "sequence": null,
+      "agendaNumber": "2026A-0707",
+      "title": "Approving therelease of City mortgage and declaration of restrictive covenants related to aNaturally Occurring Affordable Housing Preservation Fund loan, in the amount of $4,500,000, for Aeon’s Villa Nova project, in exchange for a partialpayment of $100,000, receipt of excess proceeds after the first mortgage lender is paid in full, and tenant protection commitments.",
+      "isConsent": false,
+      "actionName": "Approved",
+      "passedFlagName": "Passed",
+      "matterFile": "2026-01069",
+      "matterId": null,
+      "matterType": "Action",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01069",
+      "votes": []
+    },
+    {
+      "id": "lims-minneapolis-fileitem-2556-3",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
+      "sequence": null,
+      "agendaNumber": "2026A-0707",
+      "title": "Approving therelease of City mortgage and declaration of restrictive covenants related to aNaturally Occurring Affordable Housing Preservation Fund loan, in the amount of $4,500,000, for Aeon’s Villa Nova project, in exchange for a partialpayment of $100,000, receipt of excess proceeds after the first mortgage lender is paid in full, and tenant protection commitments.",
+      "isConsent": false,
+      "actionName": "Adopted",
+      "passedFlagName": "Passed",
+      "matterFile": "2026-01069",
+      "matterId": null,
+      "matterType": "Action",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01069",
+      "votes": [
+        {
+          "memberName": "Elliott Payne",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jamal Osman",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Aisha Chughtai",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Robin Wonsley",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Michael Rainville",
+          "value": "Aye"
+        },
+        {
+          "memberName": "LaTrisha Vetaw",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Pearll Warren",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Elizabeth Shaffer",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Soren Stevenson",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jason Chavez",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jamison Whiting",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Aurin Chowdhury",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Linea Palmisano",
+          "value": "Aye"
+        }
+      ]
+    },
+    {
+      "id": "lims-minneapolis-fileitem-2557-1",
       "meeting_id": "lims-minneapolis-meeting-committee-of-the-whole-2026-09-29T13:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0707",
@@ -16100,7 +15763,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2555-3",
+      "id": "lims-minneapolis-fileitem-2557-3",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0707",
@@ -16168,7 +15831,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2556-1",
+      "id": "lims-minneapolis-fileitem-2558-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0685",
@@ -16236,7 +15899,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2557-1",
+      "id": "lims-minneapolis-fileitem-2559-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0686",
@@ -16304,7 +15967,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2558-1",
+      "id": "lims-minneapolis-fileitem-2560-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0688",
@@ -16372,7 +16035,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2559-1",
+      "id": "lims-minneapolis-fileitem-2561-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0688",
@@ -16440,22 +16103,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2560-0",
-      "meeting_id": "lims-minneapolis-meeting-climate-infrastructure-committee-2026-09-24T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0692",
-      "title": "Accepting the low bid of Sheehy Construction Company, submitted on Event 4220, in the amount of $521,300, to provide all materials, labor, equipment and incidentals necessary for the Haaf Ramp Vehicle Door Installation Project, and authorizing a contract for the project, all in accordance with City specifications.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01073",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01073",
-      "votes": []
-    },
-    {
-      "id": "lims-minneapolis-fileitem-2560-1",
+      "id": "lims-minneapolis-fileitem-2562-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0692",
@@ -16523,7 +16171,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2561-1",
+      "id": "lims-minneapolis-fileitem-2563-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0714",
@@ -16591,7 +16239,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2562-1",
+      "id": "lims-minneapolis-fileitem-2564-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026R-377",
@@ -16659,22 +16307,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2563-0",
-      "meeting_id": "lims-minneapolis-meeting-climate-infrastructure-committee-2026-09-24T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0694",
-      "title": "Accepting the sole bid of Bluesky Electric, submitted on Event 4234, in the amount of $296,500,to provide all materials, labor, equipment and incidentals necessary for the Hawthorne Fire Alarm Replacement Project, and authorizing a contract for the project all in accordance with City specifications.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01076",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01076",
-      "votes": []
-    },
-    {
-      "id": "lims-minneapolis-fileitem-2563-1",
+      "id": "lims-minneapolis-fileitem-2565-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0694",
@@ -16740,124 +16373,79 @@
           "value": "Aye"
         }
       ]
-    },
-    {
-      "id": "lims-minneapolis-fileitem-2564-0",
-      "meeting_id": "lims-minneapolis-meeting-climate-infrastructure-committee-2026-09-24T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0693",
-      "title": "Accepting the low responsive bid of New Look Contracting, Inc., submitted on Event 4242, in the annual amount of $3,800,000.00, to provide all materials, labor, equipment and incidentals necessary for Hauling and Disposal of Waste Materials and authorizing a contract for on-call service for Public Works, for a one (1) year term with the option for a one (1) year extension, all in accordance with City specifications.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01077",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01077",
-      "votes": []
-    },
-    {
-      "id": "lims-minneapolis-fileitem-2564-1",
-      "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0693",
-      "title": "Accepting the low responsive bid of New Look Contracting, Inc., submitted on Event 4242, in the annual amount of $3,800,000.00, to provide all materials, labor, equipment and incidentals necessary for Hauling and Disposal of Waste Materials and authorizing a contract for on-call service for Public Works, for a one (1) year term with the option for a one (1) year extension, all in accordance with City specifications.",
-      "isConsent": false,
-      "actionName": "Adopted",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01077",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01077",
-      "votes": [
-        {
-          "memberName": "Elliott Payne",
-          "value": "Aye"
-        },
-        {
-          "memberName": "Jamal Osman",
-          "value": "Aye"
-        },
-        {
-          "memberName": "Aisha Chughtai",
-          "value": "Aye"
-        },
-        {
-          "memberName": "Robin Wonsley",
-          "value": "Aye"
-        },
-        {
-          "memberName": "Michael Rainville",
-          "value": "Aye"
-        },
-        {
-          "memberName": "LaTrisha Vetaw",
-          "value": "Aye"
-        },
-        {
-          "memberName": "Pearll Warren",
-          "value": "Aye"
-        },
-        {
-          "memberName": "Elizabeth Shaffer",
-          "value": "Aye"
-        },
-        {
-          "memberName": "Soren Stevenson",
-          "value": "Aye"
-        },
-        {
-          "memberName": "Jason Chavez",
-          "value": "Aye"
-        },
-        {
-          "memberName": "Jamison Whiting",
-          "value": "Aye"
-        },
-        {
-          "memberName": "Aurin Chowdhury",
-          "value": "Aye"
-        },
-        {
-          "memberName": "Linea Palmisano",
-          "value": "Aye"
-        }
-      ]
-    },
-    {
-      "id": "lims-minneapolis-fileitem-2565-0",
-      "meeting_id": "lims-minneapolis-meeting-climate-infrastructure-committee-2026-09-24T13:30:00",
-      "sequence": null,
-      "agendaNumber": null,
-      "title": "Receiving and filing 2025annual reports for the 48th & Chicago, 50th and France, 54th & Lyndale, Bloomington-Lake, Central Avenue, Chicago-Lake, Dinkytown, East Lake Street, Eat Street, Linden Hills, Lowry Hill, Lyndale-Lake, Stadium Village, Uptown, and West Broadway Improvement Special Service Districts.",
-      "isConsent": false,
-      "actionName": "Received and filed",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01078",
-      "matterId": null,
-      "matterType": "Receive & File",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01078",
-      "votes": []
-    },
-    {
-      "id": "lims-minneapolis-fileitem-2566-0",
-      "meeting_id": "lims-minneapolis-meeting-climate-infrastructure-committee-2026-09-24T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0691",
-      "title": "Authorizing 2025year-end budget procedures for the 48th & Chicago, 50th and France, 54th & Lyndale, Bloomington-Lake, Central Avenue, Chicago-Lake, Dinkytown, East Lake Street, Eat Street, Linden Hills, Lowry Hill, Lyndale-Lake, Stadium Village, Uptown, and West Broadway Improvement Special Service Districts.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01078",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01078",
-      "votes": []
     },
     {
       "id": "lims-minneapolis-fileitem-2566-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
+      "agendaNumber": "2026A-0693",
+      "title": "Accepting the low responsive bid of New Look Contracting, Inc., submitted on Event 4242, in the annual amount of $3,800,000.00, to provide all materials, labor, equipment and incidentals necessary for Hauling and Disposal of Waste Materials and authorizing a contract for on-call service for Public Works, for a one (1) year term with the option for a one (1) year extension, all in accordance with City specifications.",
+      "isConsent": false,
+      "actionName": "Adopted",
+      "passedFlagName": "Passed",
+      "matterFile": "2026-01077",
+      "matterId": null,
+      "matterType": "Action",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01077",
+      "votes": [
+        {
+          "memberName": "Elliott Payne",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jamal Osman",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Aisha Chughtai",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Robin Wonsley",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Michael Rainville",
+          "value": "Aye"
+        },
+        {
+          "memberName": "LaTrisha Vetaw",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Pearll Warren",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Elizabeth Shaffer",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Soren Stevenson",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jason Chavez",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jamison Whiting",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Aurin Chowdhury",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Linea Palmisano",
+          "value": "Aye"
+        }
+      ]
+    },
+    {
+      "id": "lims-minneapolis-fileitem-2568-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
+      "sequence": null,
       "agendaNumber": "2026A-0691",
       "title": "Authorizing 2025year-end budget procedures for the 48th & Chicago, 50th and France, 54th & Lyndale, Bloomington-Lake, Central Avenue, Chicago-Lake, Dinkytown, East Lake Street, Eat Street, Linden Hills, Lowry Hill, Lyndale-Lake, Stadium Village, Uptown, and West Broadway Improvement Special Service Districts.",
       "isConsent": false,
@@ -16923,22 +16511,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2567-0",
-      "meeting_id": "lims-minneapolis-meeting-climate-infrastructure-committee-2026-09-24T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0690",
-      "title": "Approving City of Minneapolis comments on the METRO H Line Bus Rapid Transit (BRT) Recommended Corridor Plan and directing submittal of the City comments to Metro Transit.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01079",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01079",
-      "votes": []
-    },
-    {
-      "id": "lims-minneapolis-fileitem-2567-2",
+      "id": "lims-minneapolis-fileitem-2569-2",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0690",
@@ -17006,190 +16579,145 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2568-0",
-      "meeting_id": "lims-minneapolis-meeting-climate-infrastructure-committee-2026-09-24T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026R-374",
-      "title": "Passage of Resolution updating uniform assessment rates for street construction, street renovation, street resurfacing, alley construction and alley resurfacing improvements.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01080",
-      "matterId": null,
-      "matterType": "Resolution",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01080",
-      "votes": []
-    },
-    {
-      "id": "lims-minneapolis-fileitem-2568-1",
-      "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
-      "sequence": null,
-      "agendaNumber": "2026R-374",
-      "title": "Passage of Resolution updating uniform assessment rates for street construction, street renovation, street resurfacing, alley construction and alley resurfacing improvements.",
-      "isConsent": false,
-      "actionName": "Adopted",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01080",
-      "matterId": null,
-      "matterType": "Resolution",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01080",
-      "votes": [
-        {
-          "memberName": "Elliott Payne",
-          "value": "Aye"
-        },
-        {
-          "memberName": "Jamal Osman",
-          "value": "Aye"
-        },
-        {
-          "memberName": "Aisha Chughtai",
-          "value": "Aye"
-        },
-        {
-          "memberName": "Robin Wonsley",
-          "value": "Aye"
-        },
-        {
-          "memberName": "Michael Rainville",
-          "value": "Aye"
-        },
-        {
-          "memberName": "LaTrisha Vetaw",
-          "value": "Aye"
-        },
-        {
-          "memberName": "Pearll Warren",
-          "value": "Aye"
-        },
-        {
-          "memberName": "Elizabeth Shaffer",
-          "value": "Aye"
-        },
-        {
-          "memberName": "Soren Stevenson",
-          "value": "Aye"
-        },
-        {
-          "memberName": "Jason Chavez",
-          "value": "Aye"
-        },
-        {
-          "memberName": "Jamison Whiting",
-          "value": "Aye"
-        },
-        {
-          "memberName": "Aurin Chowdhury",
-          "value": "Aye"
-        },
-        {
-          "memberName": "Linea Palmisano",
-          "value": "Aye"
-        }
-      ]
-    },
-    {
-      "id": "lims-minneapolis-fileitem-2569-0",
-      "meeting_id": "lims-minneapolis-meeting-climate-infrastructure-committee-2026-09-24T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026R-373",
-      "title": "Passage of Resolution designating thelocation of the former Allina pedestrian tunnel for areaway removal between 1800 1st Ave S and 110 18th St E as part of the 1st Ave S Reconstruction Project No 2347(CPV160)",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01081",
-      "matterId": null,
-      "matterType": "Resolution",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01081",
-      "votes": []
-    },
-    {
-      "id": "lims-minneapolis-fileitem-2569-1",
-      "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
-      "sequence": null,
-      "agendaNumber": "2026R-373",
-      "title": "Passage of Resolution designating thelocation of the former Allina pedestrian tunnel for areaway removal between 1800 1st Ave S and 110 18th St E as part of the 1st Ave S Reconstruction Project No 2347(CPV160)",
-      "isConsent": false,
-      "actionName": "Adopted",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01081",
-      "matterId": null,
-      "matterType": "Resolution",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01081",
-      "votes": [
-        {
-          "memberName": "Elliott Payne",
-          "value": "Aye"
-        },
-        {
-          "memberName": "Jamal Osman",
-          "value": "Aye"
-        },
-        {
-          "memberName": "Aisha Chughtai",
-          "value": "Aye"
-        },
-        {
-          "memberName": "Robin Wonsley",
-          "value": "Aye"
-        },
-        {
-          "memberName": "Michael Rainville",
-          "value": "Aye"
-        },
-        {
-          "memberName": "LaTrisha Vetaw",
-          "value": "Aye"
-        },
-        {
-          "memberName": "Pearll Warren",
-          "value": "Aye"
-        },
-        {
-          "memberName": "Elizabeth Shaffer",
-          "value": "Aye"
-        },
-        {
-          "memberName": "Soren Stevenson",
-          "value": "Aye"
-        },
-        {
-          "memberName": "Jason Chavez",
-          "value": "Aye"
-        },
-        {
-          "memberName": "Jamison Whiting",
-          "value": "Aye"
-        },
-        {
-          "memberName": "Aurin Chowdhury",
-          "value": "Aye"
-        },
-        {
-          "memberName": "Linea Palmisano",
-          "value": "Aye"
-        }
-      ]
-    },
-    {
-      "id": "lims-minneapolis-fileitem-2570-0",
-      "meeting_id": "lims-minneapolis-meeting-climate-infrastructure-committee-2026-09-24T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0689",
-      "title": "Adopting report receiving cost estimateof $584,371.03 anddirecting the preparation of proposed special assessments against the benefitted property.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01081",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01081",
-      "votes": []
-    },
-    {
       "id": "lims-minneapolis-fileitem-2570-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
+      "agendaNumber": "2026R-374",
+      "title": "Passage of Resolution updating uniform assessment rates for street construction, street renovation, street resurfacing, alley construction and alley resurfacing improvements.",
+      "isConsent": false,
+      "actionName": "Adopted",
+      "passedFlagName": "Passed",
+      "matterFile": "2026-01080",
+      "matterId": null,
+      "matterType": "Resolution",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01080",
+      "votes": [
+        {
+          "memberName": "Elliott Payne",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jamal Osman",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Aisha Chughtai",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Robin Wonsley",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Michael Rainville",
+          "value": "Aye"
+        },
+        {
+          "memberName": "LaTrisha Vetaw",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Pearll Warren",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Elizabeth Shaffer",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Soren Stevenson",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jason Chavez",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jamison Whiting",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Aurin Chowdhury",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Linea Palmisano",
+          "value": "Aye"
+        }
+      ]
+    },
+    {
+      "id": "lims-minneapolis-fileitem-2571-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
+      "sequence": null,
+      "agendaNumber": "2026R-373",
+      "title": "Passage of Resolution designating thelocation of the former Allina pedestrian tunnel for areaway removal between 1800 1st Ave S and 110 18th St E as part of the 1st Ave S Reconstruction Project No 2347(CPV160)",
+      "isConsent": false,
+      "actionName": "Adopted",
+      "passedFlagName": "Passed",
+      "matterFile": "2026-01081",
+      "matterId": null,
+      "matterType": "Resolution",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01081",
+      "votes": [
+        {
+          "memberName": "Elliott Payne",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jamal Osman",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Aisha Chughtai",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Robin Wonsley",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Michael Rainville",
+          "value": "Aye"
+        },
+        {
+          "memberName": "LaTrisha Vetaw",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Pearll Warren",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Elizabeth Shaffer",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Soren Stevenson",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jason Chavez",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Jamison Whiting",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Aurin Chowdhury",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Linea Palmisano",
+          "value": "Aye"
+        }
+      ]
+    },
+    {
+      "id": "lims-minneapolis-fileitem-2572-1",
+      "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
+      "sequence": null,
       "agendaNumber": "2026A-0689",
       "title": "Adopting report receiving cost estimateof $584,371.03 anddirecting the preparation of proposed special assessments against the benefitted property.",
       "isConsent": false,
@@ -17255,52 +16783,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2571-0",
-      "meeting_id": "lims-minneapolis-meeting-climate-infrastructure-committee-2026-09-24T13:30:00",
-      "sequence": null,
-      "agendaNumber": null,
-      "title": "Setting a public hearing for November 5, 2026, to consider the areaway removal project and assessments.",
-      "isConsent": false,
-      "actionName": "Public hearing set for   11/5/2026",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01081",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01081",
-      "votes": []
-    },
-    {
-      "id": "lims-minneapolis-fileitem-2578-0",
-      "meeting_id": "lims-minneapolis-meeting-climate-infrastructure-committee-2026-09-24T13:30:00",
-      "sequence": null,
-      "agendaNumber": null,
-      "title": "Receiving and filing a community reportrelated the Zero Burn Coalition's work and advocacy around the closure of the Hennepin Energy Recovery Center (HERC).",
-      "isConsent": false,
-      "actionName": "Received and filed",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01088",
-      "matterId": null,
-      "matterType": "Receive & File",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01088",
-      "votes": []
-    },
-    {
-      "id": "lims-minneapolis-fileitem-2579-0",
-      "meeting_id": "lims-minneapolis-meeting-climate-infrastructure-committee-2026-09-24T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0705",
-      "title": "Approving deviations from the Minneapolis Code of Ordinances for a commercialblock event permit submitted by The Dakota Jazz Club and Restaurant, allowing the Dakota Block Party Block event held September 26,2026, located on 10th St Sbetween LaSalle Ave and Marquette Ave, and Nicollet Mall between 9th St S and 11th St S to operate outside the hours permitted.",
-      "isConsent": false,
-      "actionName": "Sent forward without recommendation",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01089",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01089",
-      "votes": []
-    },
-    {
-      "id": "lims-minneapolis-fileitem-2579-1",
+      "id": "lims-minneapolis-fileitem-2581-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0705",
@@ -17368,7 +16851,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2580-0",
+      "id": "lims-minneapolis-fileitem-2582-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -17383,7 +16866,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2581-0",
+      "id": "lims-minneapolis-fileitem-2583-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -17398,7 +16881,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2582-0",
+      "id": "lims-minneapolis-fileitem-2584-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -17413,7 +16896,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2583-0",
+      "id": "lims-minneapolis-fileitem-2585-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -17428,7 +16911,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2584-0",
+      "id": "lims-minneapolis-fileitem-2586-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -17443,7 +16926,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2585-0",
+      "id": "lims-minneapolis-fileitem-2587-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-06T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -17458,7 +16941,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2586-0",
+      "id": "lims-minneapolis-fileitem-2588-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -17473,7 +16956,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2587-0",
+      "id": "lims-minneapolis-fileitem-2589-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-06T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -17488,7 +16971,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2588-0",
+      "id": "lims-minneapolis-fileitem-2590-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -17503,7 +16986,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2589-0",
+      "id": "lims-minneapolis-fileitem-2591-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -17518,7 +17001,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2590-0",
+      "id": "lims-minneapolis-fileitem-2592-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -17533,7 +17016,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2591-0",
+      "id": "lims-minneapolis-fileitem-2593-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -17548,7 +17031,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2592-0",
+      "id": "lims-minneapolis-fileitem-2594-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -17563,7 +17046,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2593-0",
+      "id": "lims-minneapolis-fileitem-2595-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -17578,7 +17061,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2594-0",
+      "id": "lims-minneapolis-fileitem-2596-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -17593,7 +17076,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2595-0",
+      "id": "lims-minneapolis-fileitem-2597-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -17608,7 +17091,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2596-0",
+      "id": "lims-minneapolis-fileitem-2598-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -17623,7 +17106,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2597-0",
+      "id": "lims-minneapolis-fileitem-2599-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -17638,7 +17121,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2598-0",
+      "id": "lims-minneapolis-fileitem-2600-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -17653,7 +17136,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2599-0",
+      "id": "lims-minneapolis-fileitem-2601-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -17668,7 +17151,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2600-0",
+      "id": "lims-minneapolis-fileitem-2602-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -17683,7 +17166,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2601-0",
+      "id": "lims-minneapolis-fileitem-2603-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -17698,7 +17181,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2602-0",
+      "id": "lims-minneapolis-fileitem-2604-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -17713,7 +17196,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2603-0",
+      "id": "lims-minneapolis-fileitem-2605-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -17728,7 +17211,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2604-0",
+      "id": "lims-minneapolis-fileitem-2606-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -17743,7 +17226,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2605-0",
+      "id": "lims-minneapolis-fileitem-2607-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -17758,7 +17241,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2606-0",
+      "id": "lims-minneapolis-fileitem-2608-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -17773,7 +17256,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2607-0",
+      "id": "lims-minneapolis-fileitem-2609-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -17788,7 +17271,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2608-0",
+      "id": "lims-minneapolis-fileitem-2610-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -17803,7 +17286,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2609-0",
+      "id": "lims-minneapolis-fileitem-2611-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -17818,7 +17301,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2610-0",
+      "id": "lims-minneapolis-fileitem-2612-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -17833,7 +17316,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2611-0",
+      "id": "lims-minneapolis-fileitem-2613-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -17848,7 +17331,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2612-0",
+      "id": "lims-minneapolis-fileitem-2614-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -17863,7 +17346,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2613-0",
+      "id": "lims-minneapolis-fileitem-2615-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -17878,7 +17361,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2614-0",
+      "id": "lims-minneapolis-fileitem-2616-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -17893,7 +17376,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2615-0",
+      "id": "lims-minneapolis-fileitem-2617-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -17908,7 +17391,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2616-0",
+      "id": "lims-minneapolis-fileitem-2618-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -17923,7 +17406,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2617-0",
+      "id": "lims-minneapolis-fileitem-2619-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -17938,7 +17421,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2618-0",
+      "id": "lims-minneapolis-fileitem-2620-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -17953,7 +17436,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2619-0",
+      "id": "lims-minneapolis-fileitem-2621-0",
       "meeting_id": "lims-minneapolis-meeting-enterprise-labor-relations-committee-2026-10-05T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -17968,7 +17451,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2620-0",
+      "id": "lims-minneapolis-fileitem-2622-0",
       "meeting_id": "lims-minneapolis-meeting-enterprise-labor-relations-committee-2026-10-05T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -17983,7 +17466,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2621-0",
+      "id": "lims-minneapolis-fileitem-2623-0",
       "meeting_id": "lims-minneapolis-meeting-enterprise-labor-relations-committee-2026-10-05T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -17998,7 +17481,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2622-0",
+      "id": "lims-minneapolis-fileitem-2624-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -18013,7 +17496,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2623-0",
+      "id": "lims-minneapolis-fileitem-2625-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -18028,7 +17511,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2624-0",
+      "id": "lims-minneapolis-fileitem-2626-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -18043,7 +17526,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2625-0",
+      "id": "lims-minneapolis-fileitem-2627-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -18058,7 +17541,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2626-0",
+      "id": "lims-minneapolis-fileitem-2628-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -18073,7 +17556,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2627-0",
+      "id": "lims-minneapolis-fileitem-2629-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -18088,7 +17571,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2628-0",
+      "id": "lims-minneapolis-fileitem-2630-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -18103,7 +17586,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2629-0",
+      "id": "lims-minneapolis-fileitem-2631-0",
       "meeting_id": "lims-minneapolis-meeting-enterprise-labor-relations-committee-2026-10-05T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -18118,7 +17601,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2630-0",
+      "id": "lims-minneapolis-fileitem-2632-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -18133,7 +17616,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2631-0",
+      "id": "lims-minneapolis-fileitem-2633-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -18148,7 +17631,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2632-0",
+      "id": "lims-minneapolis-fileitem-2634-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -18163,7 +17646,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2633-0",
+      "id": "lims-minneapolis-fileitem-2635-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -18178,7 +17661,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2634-0",
+      "id": "lims-minneapolis-fileitem-2636-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -18193,7 +17676,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2635-0",
+      "id": "lims-minneapolis-fileitem-2637-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -18208,7 +17691,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2636-0",
+      "id": "lims-minneapolis-fileitem-2638-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -18223,7 +17706,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2637-0",
+      "id": "lims-minneapolis-fileitem-2639-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -18238,7 +17721,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2638-0",
+      "id": "lims-minneapolis-fileitem-2640-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -18253,7 +17736,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2639-0",
+      "id": "lims-minneapolis-fileitem-2641-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -18268,7 +17751,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2640-0",
+      "id": "lims-minneapolis-fileitem-2642-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -18283,7 +17766,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2641-0",
+      "id": "lims-minneapolis-fileitem-2643-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -18298,7 +17781,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2642-0",
+      "id": "lims-minneapolis-fileitem-2644-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -18313,7 +17796,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2643-0",
+      "id": "lims-minneapolis-fileitem-2645-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -18328,7 +17811,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2644-0",
+      "id": "lims-minneapolis-fileitem-2646-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -18343,7 +17826,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2645-0",
+      "id": "lims-minneapolis-fileitem-2647-0",
       "meeting_id": "lims-minneapolis-meeting-enterprise-labor-relations-committee-2026-10-05T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -18358,7 +17841,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2646-0",
+      "id": "lims-minneapolis-fileitem-2648-0",
       "meeting_id": "lims-minneapolis-meeting-enterprise-labor-relations-committee-2026-10-05T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -18373,7 +17856,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2647-0",
+      "id": "lims-minneapolis-fileitem-2649-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -18388,7 +17871,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2648-0",
+      "id": "lims-minneapolis-fileitem-2650-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -18403,7 +17886,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2649-0",
+      "id": "lims-minneapolis-fileitem-2651-0",
       "meeting_id": "lims-minneapolis-meeting-enterprise-labor-relations-committee-2026-10-05T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -18418,7 +17901,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2650-0",
+      "id": "lims-minneapolis-fileitem-2652-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -18433,7 +17916,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2651-0",
+      "id": "lims-minneapolis-fileitem-2653-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -18448,7 +17931,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2652-0",
+      "id": "lims-minneapolis-fileitem-2654-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -18463,7 +17946,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2653-0",
+      "id": "lims-minneapolis-fileitem-2655-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -18478,7 +17961,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2654-0",
+      "id": "lims-minneapolis-fileitem-2656-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -18493,7 +17976,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2655-0",
+      "id": "lims-minneapolis-fileitem-2657-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -18508,7 +17991,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2656-0",
+      "id": "lims-minneapolis-fileitem-2658-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -18523,7 +18006,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2657-0",
+      "id": "lims-minneapolis-fileitem-2659-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -18538,7 +18021,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2658-0",
+      "id": "lims-minneapolis-fileitem-2660-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -18553,7 +18036,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2659-0",
+      "id": "lims-minneapolis-fileitem-2661-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -18568,7 +18051,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2660-0",
+      "id": "lims-minneapolis-fileitem-2662-0",
       "meeting_id": "lims-minneapolis-meeting-enterprise-labor-relations-committee-2026-10-05T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -18583,14 +18066,14 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2661-0",
+      "id": "lims-minneapolis-fileitem-2663-0",
       "meeting_id": "lims-minneapolis-meeting-climate-infrastructure-committee-2026-10-08T13:30:00",
       "sequence": null,
       "agendaNumber": null,
       "title": "Authorizing an increase to contract COM0011383withThomas & Sons Construction Inc.in theamount of $100,000for a total amount not to exceed $3,024,275,foradditional work to complete the 26th Street East and Hiawatha Avenue Safety Improvement Project, all in accordance with City specifications.",
       "isConsent": false,
-      "actionName": "Scheduled",
-      "passedFlagName": "Failed",
+      "actionName": "Approved",
+      "passedFlagName": "Passed",
       "matterFile": "2026-01118",
       "matterId": null,
       "matterType": "Action",
@@ -18598,22 +18081,22 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2662-0",
+      "id": "lims-minneapolis-fileitem-2664-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
       "sequence": null,
       "agendaNumber": null,
-      "title": "Schedulinga public comment period for October 21, 2026, to receive comments on theCity's response to domestic violence-related calls for service by Mariah Samuels.",
+      "title": "Receiving and filing public comments on theCity's response to domestic violence-related calls for service by Mariah Samuels.",
       "isConsent": false,
       "actionName": "Public comment scheduled for  10/21/2026",
       "passedFlagName": "Passed",
       "matterFile": "2026-01119",
       "matterId": null,
-      "matterType": "Action",
+      "matterType": "Receive & File",
       "fileUrl": "https://lims.minneapolismn.gov/File/2026-01119",
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2663-0",
+      "id": "lims-minneapolis-fileitem-2665-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-06T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -18628,7 +18111,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2664-0",
+      "id": "lims-minneapolis-fileitem-2666-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-06T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -18643,7 +18126,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2665-0",
+      "id": "lims-minneapolis-fileitem-2667-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-06T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -18658,7 +18141,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2666-0",
+      "id": "lims-minneapolis-fileitem-2668-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-06T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -18673,7 +18156,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2667-0",
+      "id": "lims-minneapolis-fileitem-2669-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-06T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -18688,7 +18171,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2668-0",
+      "id": "lims-minneapolis-fileitem-2670-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-06T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -18703,7 +18186,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2669-0",
+      "id": "lims-minneapolis-fileitem-2671-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-06T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -18718,7 +18201,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2670-0",
+      "id": "lims-minneapolis-fileitem-2672-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -18733,7 +18216,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2671-0",
+      "id": "lims-minneapolis-fileitem-2673-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -18748,7 +18231,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2672-0",
+      "id": "lims-minneapolis-fileitem-2674-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -18763,7 +18246,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2673-0",
+      "id": "lims-minneapolis-fileitem-2675-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -18778,7 +18261,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2674-0",
+      "id": "lims-minneapolis-fileitem-2676-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -18793,7 +18276,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2675-0",
+      "id": "lims-minneapolis-fileitem-2677-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -18808,7 +18291,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2676-0",
+      "id": "lims-minneapolis-fileitem-2678-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -18823,7 +18306,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2677-0",
+      "id": "lims-minneapolis-fileitem-2679-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -18838,7 +18321,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2678-0",
+      "id": "lims-minneapolis-fileitem-2680-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -18853,7 +18336,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2679-0",
+      "id": "lims-minneapolis-fileitem-2681-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -18868,7 +18351,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2680-0",
+      "id": "lims-minneapolis-fileitem-2682-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -18883,7 +18366,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2681-0",
+      "id": "lims-minneapolis-fileitem-2683-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -18898,7 +18381,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2682-0",
+      "id": "lims-minneapolis-fileitem-2684-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -18913,7 +18396,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2683-0",
+      "id": "lims-minneapolis-fileitem-2685-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -18928,7 +18411,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2684-0",
+      "id": "lims-minneapolis-fileitem-2686-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -18943,7 +18426,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2685-0",
+      "id": "lims-minneapolis-fileitem-2687-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -18958,7 +18441,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2686-0",
+      "id": "lims-minneapolis-fileitem-2688-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -18973,7 +18456,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2687-0",
+      "id": "lims-minneapolis-fileitem-2689-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -18988,7 +18471,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2688-0",
+      "id": "lims-minneapolis-fileitem-2690-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -19003,7 +18486,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2689-0",
+      "id": "lims-minneapolis-fileitem-2691-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-06T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -19018,7 +18501,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2690-0",
+      "id": "lims-minneapolis-fileitem-2692-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-06T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -19033,7 +18516,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2691-0",
+      "id": "lims-minneapolis-fileitem-2693-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-06T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -19048,7 +18531,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2692-0",
+      "id": "lims-minneapolis-fileitem-2694-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-06T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -19063,7 +18546,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2693-0",
+      "id": "lims-minneapolis-fileitem-2695-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-06T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -19078,7 +18561,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2694-0",
+      "id": "lims-minneapolis-fileitem-2696-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-06T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -19093,7 +18576,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2695-0",
+      "id": "lims-minneapolis-fileitem-2697-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-06T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -19108,7 +18591,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2696-0",
+      "id": "lims-minneapolis-fileitem-2698-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-06T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -19123,7 +18606,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2697-0",
+      "id": "lims-minneapolis-fileitem-2699-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-06T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -19138,7 +18621,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2698-0",
+      "id": "lims-minneapolis-fileitem-2700-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-06T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -19153,7 +18636,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2699-0",
+      "id": "lims-minneapolis-fileitem-2701-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-06T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -19168,7 +18651,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2700-0",
+      "id": "lims-minneapolis-fileitem-2702-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-06T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -19183,7 +18666,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2701-0",
+      "id": "lims-minneapolis-fileitem-2703-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-06T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -19198,7 +18681,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2702-0",
+      "id": "lims-minneapolis-fileitem-2704-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-06T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -19213,7 +18696,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2703-0",
+      "id": "lims-minneapolis-fileitem-2705-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-06T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -19228,7 +18711,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2704-0",
+      "id": "lims-minneapolis-fileitem-2706-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-06T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -19243,7 +18726,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2705-0",
+      "id": "lims-minneapolis-fileitem-2707-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-06T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -19258,7 +18741,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2706-0",
+      "id": "lims-minneapolis-fileitem-2708-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-06T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -19273,7 +18756,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2707-0",
+      "id": "lims-minneapolis-fileitem-2709-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-06T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -19288,7 +18771,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2708-0",
+      "id": "lims-minneapolis-fileitem-2710-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-06T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -19303,7 +18786,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2709-0",
+      "id": "lims-minneapolis-fileitem-2711-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-06T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -19318,7 +18801,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2710-0",
+      "id": "lims-minneapolis-fileitem-2712-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-06T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -19333,7 +18816,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2711-0",
+      "id": "lims-minneapolis-fileitem-2713-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-06T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -19348,7 +18831,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2712-0",
+      "id": "lims-minneapolis-fileitem-2714-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-06T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -19363,7 +18846,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2713-0",
+      "id": "lims-minneapolis-fileitem-2715-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-06T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -19378,7 +18861,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2714-0",
+      "id": "lims-minneapolis-fileitem-2716-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-06T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -19393,7 +18876,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2715-0",
+      "id": "lims-minneapolis-fileitem-2717-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-06T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -19408,7 +18891,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2716-0",
+      "id": "lims-minneapolis-fileitem-2718-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-06T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -19423,7 +18906,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2717-0",
+      "id": "lims-minneapolis-fileitem-2719-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-06T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -19438,7 +18921,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2718-0",
+      "id": "lims-minneapolis-fileitem-2720-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-06T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -19453,7 +18936,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2719-0",
+      "id": "lims-minneapolis-fileitem-2721-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-06T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -19468,7 +18951,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2720-0",
+      "id": "lims-minneapolis-fileitem-2722-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-06T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -19483,7 +18966,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2721-0",
+      "id": "lims-minneapolis-fileitem-2723-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-06T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -19498,7 +18981,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2722-0",
+      "id": "lims-minneapolis-fileitem-2724-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-06T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -19513,7 +18996,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2723-0",
+      "id": "lims-minneapolis-fileitem-2725-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -19528,7 +19011,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2724-0",
+      "id": "lims-minneapolis-fileitem-2726-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-06T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -19543,7 +19026,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2725-0",
+      "id": "lims-minneapolis-fileitem-2727-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-06T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -19558,7 +19041,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2726-0",
+      "id": "lims-minneapolis-fileitem-2728-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-06T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -19573,7 +19056,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2727-0",
+      "id": "lims-minneapolis-fileitem-2729-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-06T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -19588,7 +19071,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2728-0",
+      "id": "lims-minneapolis-fileitem-2730-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-06T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -19603,7 +19086,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2729-0",
+      "id": "lims-minneapolis-fileitem-2731-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-06T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -19618,7 +19101,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2730-0",
+      "id": "lims-minneapolis-fileitem-2732-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-06T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -19633,7 +19116,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2731-0",
+      "id": "lims-minneapolis-fileitem-2733-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-06T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -19648,7 +19131,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2732-0",
+      "id": "lims-minneapolis-fileitem-2734-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-06T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -19663,7 +19146,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2733-0",
+      "id": "lims-minneapolis-fileitem-2735-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-06T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -19678,7 +19161,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2734-0",
+      "id": "lims-minneapolis-fileitem-2736-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-06T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -19693,14 +19176,14 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2735-0",
+      "id": "lims-minneapolis-fileitem-2737-0",
       "meeting_id": "lims-minneapolis-meeting-climate-infrastructure-committee-2026-10-08T13:30:00",
       "sequence": null,
       "agendaNumber": null,
       "title": "Accepting the sole bid of MN Petroleum Inc., submitted on Event 4211, in the amount of $1,565,738, to provide all materials, labor, equipment and incidentals necessary for the Pump Station 5 (PS5) Added Fuel for Generators projectand authorizing a contract for the project, all in accordance with City specifications.",
       "isConsent": false,
-      "actionName": "Scheduled",
-      "passedFlagName": "Failed",
+      "actionName": "Approved",
+      "passedFlagName": "Passed",
       "matterFile": "2026-01133",
       "matterId": null,
       "matterType": "Action",
@@ -19708,14 +19191,14 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2736-0",
+      "id": "lims-minneapolis-fileitem-2738-0",
       "meeting_id": "lims-minneapolis-meeting-climate-infrastructure-committee-2026-10-08T13:30:00",
       "sequence": null,
       "agendaNumber": null,
       "title": "Accepting the sole bid of R&H Painting submitted on Event 4252, in the amount of $346,500, to provide all materials, labor, equipment and incidentals necessary for the Maintenance Hole Spray Lining Project and authorizing a contract for the project, all in accordance with City specifications.",
       "isConsent": false,
-      "actionName": "Scheduled",
-      "passedFlagName": "Failed",
+      "actionName": "Approved",
+      "passedFlagName": "Passed",
       "matterFile": "2026-01134",
       "matterId": null,
       "matterType": "Action",
@@ -19723,14 +19206,14 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2737-0",
+      "id": "lims-minneapolis-fileitem-2739-0",
       "meeting_id": "lims-minneapolis-meeting-climate-infrastructure-committee-2026-10-08T13:30:00",
       "sequence": null,
       "agendaNumber": null,
       "title": "Authorizing an increase to Contract No. COM0010977with Advanced Sewer and Water, Inc., in the amount of $124,700for a total amount not to exceed $544,150, for the Lead Service Line Replacement Year 3 project, Event 1of 2, RedPackage.",
       "isConsent": false,
-      "actionName": "Scheduled",
-      "passedFlagName": "Failed",
+      "actionName": "Approved",
+      "passedFlagName": "Passed",
       "matterFile": "2026-01135",
       "matterId": null,
       "matterType": "Action",
@@ -19738,14 +19221,14 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2738-0",
+      "id": "lims-minneapolis-fileitem-2740-0",
       "meeting_id": "lims-minneapolis-meeting-climate-infrastructure-committee-2026-10-08T13:30:00",
       "sequence": null,
       "agendaNumber": null,
       "title": "Accepting the lowbid of New Look Contracting, Inc., submitted on Event 4235, for an annual amount up to $397,583, to provide all materials, labor, equipment and incidentals necessary forCrushing Rubble Concrete for a one (1) year contract with the option to the option to extend one(1) 12-month period, all in accordance with City specifications.",
       "isConsent": false,
-      "actionName": "Scheduled",
-      "passedFlagName": "Failed",
+      "actionName": "Approved",
+      "passedFlagName": "Passed",
       "matterFile": "2026-01136",
       "matterId": null,
       "matterType": "Action",
@@ -19753,14 +19236,14 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2739-0",
+      "id": "lims-minneapolis-fileitem-2741-0",
       "meeting_id": "lims-minneapolis-meeting-climate-infrastructure-committee-2026-10-08T13:30:00",
       "sequence": null,
       "agendaNumber": null,
       "title": "Authorizing a contract with Neighborhood Recycling Corporation (dba Eureka Recycling), in an amount not toexceed $5,900,000, for a period of ten (10) years, from December 1, 2026, through November 30, 2036, for the processing, marketing and sale of 100% of the City’s recyclable materials.",
       "isConsent": false,
-      "actionName": "Scheduled",
-      "passedFlagName": "Failed",
+      "actionName": "Approved",
+      "passedFlagName": "Passed",
       "matterFile": "2026-01137",
       "matterId": null,
       "matterType": "Action",
@@ -19768,14 +19251,14 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2740-0",
+      "id": "lims-minneapolis-fileitem-2742-0",
       "meeting_id": "lims-minneapolis-meeting-climate-infrastructure-committee-2026-10-08T13:30:00",
       "sequence": null,
       "agendaNumber": null,
       "title": "Authorizing customization of the Cloud Based Storage, Termination, Labor Peace sections of City’s Terms and Conditions for Professional Services as negotiated by the parties and approved by the City Attorney’s Office.",
       "isConsent": false,
-      "actionName": "Scheduled",
-      "passedFlagName": "Failed",
+      "actionName": "Approved",
+      "passedFlagName": "Passed",
       "matterFile": "2026-01137",
       "matterId": null,
       "matterType": "Action",
@@ -19783,14 +19266,14 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2741-0",
+      "id": "lims-minneapolis-fileitem-2743-0",
       "meeting_id": "lims-minneapolis-meeting-climate-infrastructure-committee-2026-10-08T13:30:00",
       "sequence": null,
       "agendaNumber": null,
       "title": "Accepting the low bid of Core Mechanical Services LLC,submitted on Event 4181, in the amount of $444,000,to provide all materials, labor, equipment and incidentals necessary for the Hilton Ramp Sanitary Plumbing Replacement Project, and authorizing a contract for the project, all in accordance with City specifications.",
       "isConsent": false,
-      "actionName": "Scheduled",
-      "passedFlagName": "Failed",
+      "actionName": "Approved",
+      "passedFlagName": "Passed",
       "matterFile": "2026-01138",
       "matterId": null,
       "matterType": "Action",
@@ -19798,7 +19281,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2742-0",
+      "id": "lims-minneapolis-fileitem-2744-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-06T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -19813,7 +19296,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2743-0",
+      "id": "lims-minneapolis-fileitem-2745-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-06T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -19828,7 +19311,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2744-0",
+      "id": "lims-minneapolis-fileitem-2746-0",
       "meeting_id": "lims-minneapolis-meeting-enterprise-labor-relations-committee-2026-10-05T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -19843,7 +19326,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2745-0",
+      "id": "lims-minneapolis-fileitem-2747-0",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -19858,7 +19341,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2746-0",
+      "id": "lims-minneapolis-fileitem-2748-0",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -19873,7 +19356,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2747-0",
+      "id": "lims-minneapolis-fileitem-2749-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -19888,7 +19371,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2748-0",
+      "id": "lims-minneapolis-fileitem-2750-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -19903,7 +19386,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2749-0",
+      "id": "lims-minneapolis-fileitem-2751-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -19918,7 +19401,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2750-0",
+      "id": "lims-minneapolis-fileitem-2752-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -19933,7 +19416,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2751-0",
+      "id": "lims-minneapolis-fileitem-2753-0",
       "meeting_id": "lims-minneapolis-meeting-enterprise-labor-relations-committee-2026-10-05T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -19948,14 +19431,14 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2752-0",
+      "id": "lims-minneapolis-fileitem-2754-0",
       "meeting_id": "lims-minneapolis-meeting-climate-infrastructure-committee-2026-10-08T13:30:00",
       "sequence": null,
       "agendaNumber": null,
       "title": "Passage of Resolution cancelling Non-Governmental Tax-Exempt Parcel special assessments and related charges certified against parcel 21-029-24-43-0012, including delinquent charges for tax years 2024 and 2025 and payable 2026 special assessments.",
       "isConsent": false,
-      "actionName": "Scheduled",
-      "passedFlagName": "Failed",
+      "actionName": "Approved",
+      "passedFlagName": "Passed",
       "matterFile": "2026-01146",
       "matterId": null,
       "matterType": "Resolution",
@@ -19963,7 +19446,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2753-0",
+      "id": "lims-minneapolis-fileitem-2755-0",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026R-385",
@@ -20031,7 +19514,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2754-0",
+      "id": "lims-minneapolis-fileitem-2756-0",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026R-384",
@@ -20099,7 +19582,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2755-0",
+      "id": "lims-minneapolis-fileitem-2757-0",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026R-383",
@@ -20167,7 +19650,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2756-0",
+      "id": "lims-minneapolis-fileitem-2758-0",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026R-386",
@@ -20235,7 +19718,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2757-0",
+      "id": "lims-minneapolis-fileitem-2759-0",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
       "sequence": null,
       "agendaNumber": "2026R-387",
@@ -20303,7 +19786,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2758-0",
+      "id": "lims-minneapolis-fileitem-2760-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -20318,7 +19801,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2759-0",
+      "id": "lims-minneapolis-fileitem-2761-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -20333,7 +19816,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2760-0",
+      "id": "lims-minneapolis-fileitem-2762-0",
       "meeting_id": "lims-minneapolis-meeting-enterprise-labor-relations-committee-2026-10-05T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -20348,7 +19831,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2761-0",
+      "id": "lims-minneapolis-fileitem-2763-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -20363,7 +19846,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2762-0",
+      "id": "lims-minneapolis-fileitem-2764-0",
       "meeting_id": "lims-minneapolis-meeting-committee-of-the-whole-2026-10-13T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -20378,7 +19861,22 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2763-0",
+      "id": "lims-minneapolis-fileitem-2765-0",
+      "meeting_id": "lims-minneapolis-meeting-city-council-policy-roundtable-2026-10-14T14:30:00",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Receivingand filing a briefing on 311's Minneapolis Agent Reporting System (MARS).",
+      "isConsent": false,
+      "actionName": "Scheduled",
+      "passedFlagName": "Failed",
+      "matterFile": "2026-01159",
+      "matterId": null,
+      "matterType": "Receive & File",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01159",
+      "votes": []
+    },
+    {
+      "id": "lims-minneapolis-fileitem-2766-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -20393,7 +19891,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2764-0",
+      "id": "lims-minneapolis-fileitem-2767-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -20408,7 +19906,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2765-0",
+      "id": "lims-minneapolis-fileitem-2768-0",
       "meeting_id": "lims-minneapolis-meeting-committee-of-the-whole-2026-10-13T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -20425,57 +19923,59 @@
   ],
   "diff": {
     "addedIds": [
-      "lims-minneapolis-meeting-public-health-safety-equity-2027-01-06T13:30:00"
+      "lims-minneapolis-meeting-climate-infrastructure-committee-2027-01-07T13:30:00"
     ],
     "removedIds": [
-      "lims-minneapolis-meeting-public-health-safety-equity-2026-09-23T13:30:00"
+      "lims-minneapolis-meeting-budget-committee-2026-09-24T10:00:00",
+      "lims-minneapolis-meeting-climate-infrastructure-committee-2026-09-24T13:30:00",
+      "lims-minneapolis-meeting-zoning-board-of-adjustment-2026-09-24T16:30:00"
     ],
     "changed": [
       {
-        "id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-06T13:30:00",
+        "id": "lims-minneapolis-meeting-city-council-2026-10-01T09:30:00",
         "field": "minutesUrl",
         "from": null,
-        "to": "https://lims.minneapolismn.gov/api/v1/downloads/CommitteeReport/5016/BHZ_10062026_Committee_Report.pdf"
+        "to": "https://lims.minneapolismn.gov/api/v1/downloads/CommitteeReport/5018/Council-Proceedings-1001.pdf"
       },
       {
-        "id": "lims-minneapolis-meeting-heritage-preservation-commission-2026-10-06T16:30:00",
+        "id": "lims-minneapolis-meeting-bicycle-advisory-committee-2026-10-06T16:00:00",
         "field": "agendaUrl",
-        "from": "https://lims.minneapolismn.gov/Agenda/HPC/6256",
-        "to": "https://lims.minneapolismn.gov/Board/MarkedAgenda/HPC/6256"
+        "from": "https://lims.minneapolismn.gov/Agenda/BAC/16261",
+        "to": "https://lims.minneapolismn.gov/Board/MarkedAgenda/BAC/16261"
       },
       {
-        "id": "lims-minneapolis-meeting-heritage-preservation-commission-2026-10-06T16:30:00",
+        "id": "lims-minneapolis-meeting-bicycle-advisory-committee-2026-10-06T16:00:00",
         "field": "minutesUrl",
         "from": null,
-        "to": "https://lims.minneapolismn.gov/api/v1/downloads/CommitteeReport/5011/HPC_20261006_minutes.pdf"
+        "to": "https://lims.minneapolismn.gov/api/v1/downloads/CommitteeReport/5019/Minutes_2026_10_06_BAC.pdf"
       },
       {
-        "id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
-        "field": "minutesUrl",
-        "from": null,
-        "to": "https://lims.minneapolismn.gov/api/v1/downloads/CommitteeReport/5009/PHSE_10072026_Committee_Report.pdf"
-      },
-      {
-        "id": "lims-minneapolis-meeting-budget-committee-2026-10-07T18:05:00",
-        "field": "minutesUrl",
-        "from": null,
-        "to": "https://lims.minneapolismn.gov/api/v1/downloads/CommitteeReport/5012/Budget_10072026_Committee_Report.pdf"
-      },
-      {
-        "id": "lims-minneapolis-meeting-budget-committee-2026-10-08T10:00:00",
-        "field": "minutesUrl",
-        "from": null,
-        "to": "https://lims.minneapolismn.gov/api/v1/downloads/CommitteeReport/5015/Budget_10082026_Committee_Report.pdf"
-      },
-      {
-        "id": "lims-minneapolis-meeting-planning-commission-2026-10-13T16:30:00",
+        "id": "lims-minneapolis-meeting-enterprise-labor-relations-committee-2026-10-19T13:30:00",
         "field": "agendaUrl",
-        "from": "https://lims.minneapolismn.gov/Agenda/CPC/",
-        "to": "https://lims.minneapolismn.gov/Agenda/CPC/16279"
+        "from": "https://lims.minneapolismn.gov/Agenda/ELR/",
+        "to": "https://lims.minneapolismn.gov/Agenda/ELR/16284"
+      },
+      {
+        "id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-20T13:30:00",
+        "field": "agendaUrl",
+        "from": "https://lims.minneapolismn.gov/Agenda/BHZ/",
+        "to": "https://lims.minneapolismn.gov/Agenda/BHZ/16285"
+      },
+      {
+        "id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-21T13:30:00",
+        "field": "agendaUrl",
+        "from": "https://lims.minneapolismn.gov/Agenda/PHSE/",
+        "to": "https://lims.minneapolismn.gov/Agenda/PHSE/16282"
+      },
+      {
+        "id": "lims-minneapolis-meeting-climate-infrastructure-committee-2026-10-22T13:30:00",
+        "field": "agendaUrl",
+        "from": "https://lims.minneapolismn.gov/Agenda/CI/",
+        "to": "https://lims.minneapolismn.gov/Agenda/CI/16286"
       }
     ]
   },
-  "previousGeneratedAt": "2026-10-07T18:44:05.094Z",
+  "previousGeneratedAt": "2026-10-08T18:42:37.861Z",
   "knownGaps": [
     "Consent-agenda flagging not implemented — LIMS has no field structurally equivalent to Legistar's EventItemConsent; every agenda item ships isConsent: false rather than a guess.",
     "2 same-day, same-body meeting collision(s) in this window — FileItemSearch's LegislativeHistory carries a date but no time, so a second same-day session for the same body can't be disambiguated; the earliest session for each colliding (body, date) pair was used."

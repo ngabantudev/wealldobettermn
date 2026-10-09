@@ -2,22 +2,22 @@
   "schemaVersion": 1,
   "client": "hennepinmn",
   "jurisdiction": "Hennepin County Board",
-  "generatedAt": "2026-10-08T18:42:21.051Z",
+  "generatedAt": "2026-10-09T18:13:56.828Z",
   "status": "ingested",
-  "note": "14 meeting(s) (14/14 event(s) in window) and 216 agenda item(s) ingested for 2026-09-24–2027-01-06.",
+  "note": "14 meeting(s) (14/14 event(s) in window) and 216 agenda item(s) ingested for 2026-09-25–2027-01-07.",
   "provenance": {
     "primarySourceUrl": "https://webapi.legistar.com/v1/hennepinmn/events",
     "sourceAgency": "Hennepin County Board",
     "documentType": "Legistar Web API — Events/EventItems",
     "documentId": null,
     "issuedDate": null,
-    "fetchedAt": "2026-10-08T18:42:21.051Z",
+    "fetchedAt": "2026-10-09T18:13:56.828Z",
     "licence": "Public records served via Legistar InSite; no separate machine-reuse licence published by the host jurisdiction as of this writing.",
-    "contentHash": "f7e2e3c5c250b7dbfcb4bbe756ab92fe3e3e0fb1dc71f82b06ceaab67b6d2899"
+    "contentHash": "78ad98f042992fb9a74e339b566e7c661232f3057c0c1c0366460d1a574df71e"
   },
   "window": {
-    "startIso": "2026-09-24",
-    "endIso": "2027-01-06"
+    "startIso": "2026-09-25",
+    "endIso": "2027-01-07"
   },
   "meetings": [
     {
@@ -2868,8 +2868,8 @@
       "agendaNumber": "1.A.",
       "title": "September 22, 2026 Meeting Minutes",
       "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
+      "actionName": "approve",
+      "passedFlagName": "Pass",
       "matterFile": "TMP-26-0779",
       "matterId": 4892,
       "matterType": "Minutes"
@@ -2894,8 +2894,8 @@
       "agendaNumber": "2.A.",
       "title": "Amd 1 to Agmt A2513181 with Minneapolis for waste delivery, ext end date to 12/31/27",
       "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
+      "actionName": "progress",
+      "passedFlagName": "Pass",
       "matterFile": "26-0362",
       "matterId": 4868,
       "matterType": "Resolution"
@@ -2907,8 +2907,8 @@
       "agendaNumber": "2.C.",
       "title": "Work Order PR00008783 for land-based carbon sequestration measurement and modeling with the University of Minnesota, 01/01/27-03/31/29, NTE $450,000",
       "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
+      "actionName": "consent",
+      "passedFlagName": "Pass",
       "matterFile": "26-0364",
       "matterId": 4869,
       "matterType": "Resolution"
@@ -2920,8 +2920,8 @@
       "agendaNumber": "2.D.",
       "title": "Neg agmts PR00008483 with Hagen Trucking and PR00008482 with Nitti Contracting and Trucking Service for waste transportation services, 01/01/27-12/31/33, combined est annual amount of $3 million",
       "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
+      "actionName": "consent",
+      "passedFlagName": "Pass",
       "matterFile": "26-0365",
       "matterId": 4870,
       "matterType": "Resolution"
@@ -2933,8 +2933,8 @@
       "agendaNumber": "2.E.",
       "title": "Authorization to acquire right of way by direct purchase or condemnation for various transportation projects",
       "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
+      "actionName": "consent",
+      "passedFlagName": "Pass",
       "matterFile": "26-0366",
       "matterId": 4871,
       "matterType": "Resolution"
@@ -2946,8 +2946,8 @@
       "agendaNumber": "2.B.",
       "title": "Amd 1 to Agmt PR00006149 with ACES to expand the scope of services, no change in contract period or NTE",
       "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
+      "actionName": "consent",
+      "passedFlagName": "Pass",
       "matterFile": "26-0363",
       "matterId": 4876,
       "matterType": "Resolution"
@@ -2959,8 +2959,8 @@
       "agendaNumber": "2.F.",
       "title": "Convey surplus property to the Hennepin County Regional Railroad Authority",
       "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
+      "actionName": "consent",
+      "passedFlagName": "Pass",
       "matterFile": "26-0367",
       "matterId": 4878,
       "matterType": "Resolution"
@@ -3037,8 +3037,8 @@
       "agendaNumber": "1.A.",
       "title": "August 25, 2026 Meeting Minutes",
       "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
+      "actionName": "approve",
+      "passedFlagName": "Pass",
       "matterFile": "TMP-26-0780",
       "matterId": 4893,
       "matterType": "Minutes"
@@ -3063,8 +3063,8 @@
       "agendaNumber": "2.A.",
       "title": "Agmt with Bertelsmann Publishing Group, Inc. to provide hardcover children’s read-along books with embedded audio players, 10/20/26-10/19/29, NTE $500,000",
       "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
+      "actionName": "consent",
+      "passedFlagName": "Pass",
       "matterFile": "26-0368",
       "matterId": 4827,
       "matterType": "Resolution"
@@ -3076,8 +3076,8 @@
       "agendaNumber": "2.B.",
       "title": "Agmt with Library Ideas, LLC to provide hardcover children’s read-along books with embedded audio players, 10/20/26-10/19/29, NTE $250,000",
       "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
+      "actionName": "consent",
+      "passedFlagName": "Pass",
       "matterFile": "26-0369",
       "matterId": 4828,
       "matterType": "Resolution"
@@ -3526,22 +3526,11 @@
     }
   ],
   "diff": {
-    "addedIds": [
-      "legistar-hennepinmn-meeting-1485"
-    ],
-    "removedIds": [
-      "legistar-hennepinmn-meeting-1472"
-    ],
-    "changed": [
-      {
-        "id": "legistar-hennepinmn-meeting-1476",
-        "field": "minutesUrl",
-        "from": null,
-        "to": "https://hennepinmn.legistar1.com/hennepinmn/meetings/2026/9/1476_M_Hennepin_County_Housing_and_Redevelopment_Authority_26-09-29_AUTHORITY_MINUTES.pdf"
-      }
-    ]
+    "addedIds": [],
+    "removedIds": [],
+    "changed": []
   },
-  "previousGeneratedAt": "2026-10-07T18:43:52.480Z",
+  "previousGeneratedAt": "2026-10-08T18:42:21.051Z",
   "knownGaps": [
     "Consent-agenda flagging uses Legistar's own EventItemConsent field only (25 of 216 agenda item(s) in this window flagged). \"No discussion\" / \"no public comment\" are NOT flagged — this API exposes no comparably reliable field for either, and AGENTS.md §3.3 rules out inferring one from absence."
   ]
