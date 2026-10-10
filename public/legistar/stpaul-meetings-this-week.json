@@ -1,6 +1,18 @@
 {
-  "generatedAt": "2026-10-09T18:11:19.669Z",
+  "generatedAt": "2026-10-10T17:10:25.601Z",
   "meetingsThisWeek": [
+    {
+      "client": "stpaul",
+      "jurisdiction": "St. Paul City Council",
+      "bodyName": "Legislative Hearings",
+      "date": "2026-10-13",
+      "time": "10:00",
+      "location": "Room 330 City Hall & Court House/Remote",
+      "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7798&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
+      "agendaUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/10/7798_A_Legislative_Hearings_26-10-13_ADA_Meeting_Agenda.pdf",
+      "isCancelled": false,
+      "members": []
+    },
     {
       "client": "stpaul",
       "jurisdiction": "St. Paul City Council",
