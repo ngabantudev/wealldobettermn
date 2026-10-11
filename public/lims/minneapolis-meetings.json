@@ -2,22 +2,22 @@
   "schemaVersion": 1,
   "client": "minneapolis",
   "jurisdiction": "Minneapolis City Council",
-  "generatedAt": "2026-10-10T17:11:54.969Z",
+  "generatedAt": "2026-10-11T17:34:34.861Z",
   "status": "ingested",
-  "note": "123 meeting(s) and 368 agenda item(s) ingested for 2026-09-26–2027-01-08.",
+  "note": "123 meeting(s) and 368 agenda item(s) ingested for 2026-09-27–2027-01-09.",
   "provenance": {
     "primarySourceUrl": "https://lims.minneapolismn.gov/",
     "sourceAgency": "City of Minneapolis, Office of the City Clerk",
     "documentType": "LIMS API v1 — meetingCalendar/FileItemSearch",
     "documentId": null,
     "issuedDate": null,
-    "fetchedAt": "2026-10-10T17:11:54.969Z",
+    "fetchedAt": "2026-10-11T17:34:34.861Z",
     "licence": "Public records served via the City of Minneapolis LIMS API; no separate machine-reuse licence published as of this writing.",
     "contentHash": null
   },
   "window": {
-    "startIso": "2026-09-26",
-    "endIso": "2027-01-08"
+    "startIso": "2026-09-27",
+    "endIso": "2027-01-09"
   },
   "meetings": [
     {
@@ -19924,22 +19924,9 @@
   "diff": {
     "addedIds": [],
     "removedIds": [],
-    "changed": [
-      {
-        "id": "lims-minneapolis-meeting-climate-infrastructure-committee-2026-10-08T13:30:00",
-        "field": "minutesUrl",
-        "from": null,
-        "to": "https://lims.minneapolismn.gov/api/v1/downloads/CommitteeReport/5021/CI_10082026_Committee_Report.pdf"
-      },
-      {
-        "id": "lims-minneapolis-meeting-budget-committee-2026-10-09T10:00:00",
-        "field": "minutesUrl",
-        "from": null,
-        "to": "https://lims.minneapolismn.gov/api/v1/downloads/CommitteeReport/5020/Budget_10092026_Committee_Report.pdf"
-      }
-    ]
+    "changed": []
   },
-  "previousGeneratedAt": "2026-10-09T18:14:10.625Z",
+  "previousGeneratedAt": "2026-10-10T17:11:54.969Z",
   "knownGaps": [
     "Consent-agenda flagging not implemented — LIMS has no field structurally equivalent to Legistar's EventItemConsent; every agenda item ships isConsent: false rather than a guess.",
     "2 same-day, same-body meeting collision(s) in this window — FileItemSearch's LegislativeHistory carries a date but no time, so a second same-day session for the same body can't be disambiguated; the earliest session for each colliding (body, date) pair was used."
