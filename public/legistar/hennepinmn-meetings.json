@@ -2,22 +2,22 @@
   "schemaVersion": 1,
   "client": "hennepinmn",
   "jurisdiction": "Hennepin County Board",
-  "generatedAt": "2026-10-11T17:34:24.325Z",
+  "generatedAt": "2026-10-12T21:10:06.458Z",
   "status": "ingested",
-  "note": "14 meeting(s) (14/14 event(s) in window) and 216 agenda item(s) ingested for 2026-09-27–2027-01-09.",
+  "note": "14 meeting(s) (14/14 event(s) in window) and 217 agenda item(s) ingested for 2026-09-28–2027-01-10.",
   "provenance": {
     "primarySourceUrl": "https://webapi.legistar.com/v1/hennepinmn/events",
     "sourceAgency": "Hennepin County Board",
     "documentType": "Legistar Web API — Events/EventItems",
     "documentId": null,
     "issuedDate": null,
-    "fetchedAt": "2026-10-11T17:34:24.325Z",
+    "fetchedAt": "2026-10-12T21:10:06.458Z",
     "licence": "Public records served via Legistar InSite; no separate machine-reuse licence published by the host jurisdiction as of this writing.",
-    "contentHash": "bdb613e47fbd4fed6715dd98e02e1761c8a14655993cadf432a66fa37c080af0"
+    "contentHash": "442359f28b7d556aca81fb0c2e42ecab98d8fef3b3371a37dace4a9a95ac5654"
   },
   "window": {
-    "startIso": "2026-09-27",
-    "endIso": "2027-01-09"
+    "startIso": "2026-09-28",
+    "endIso": "2027-01-10"
   },
   "meetings": [
     {
@@ -2335,8 +2335,8 @@
       "agendaNumber": "1.A.",
       "title": "September 22, 2026 Meeting Minutes",
       "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
+      "actionName": "approve",
+      "passedFlagName": "Pass",
       "matterFile": "TMP-26-0775",
       "matterId": 4888,
       "matterType": "Minutes"
@@ -2361,8 +2361,8 @@
       "agendaNumber": "3.A.",
       "title": "Agmt PR00008670 with City of Wayzata to purchase law enforcement and terrorism prevention equipment, 07/15/26-12/31/26, NTE $9,985",
       "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
+      "actionName": "consent",
+      "passedFlagName": "Pass",
       "matterFile": "26-0354",
       "matterId": 4777,
       "matterType": "Resolution"
@@ -2374,8 +2374,8 @@
       "agendaNumber": "3.B.",
       "title": "Agmt PR00008671 with City of Richfield to purchase law enforcement and terrorism prevention equipment, 07/15/26-12/31/26, NTE $12,258",
       "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
+      "actionName": "consent",
+      "passedFlagName": "Pass",
       "matterFile": "26-0355",
       "matterId": 4780,
       "matterType": "Resolution"
@@ -2387,8 +2387,8 @@
       "agendaNumber": "3.C.",
       "title": "Agmt CM00001571 with the Tasks Unlimited Building Services to provide commercial janitorial services for the 625 Building, 11/01/26-10/31/28, NTE $800,000",
       "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
+      "actionName": "consent",
+      "passedFlagName": "Pass",
       "matterFile": "26-0356",
       "matterId": 4818,
       "matterType": "Resolution"
@@ -2400,8 +2400,8 @@
       "agendaNumber": "3.D.",
       "title": "Terminate and forgive HOME Investment Partnership Agmts A14354, A18627, and A15921 with Trellis Louisiana Court Acquisition LLC",
       "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
+      "actionName": "consent",
+      "passedFlagName": "Pass",
       "matterFile": "26-0357",
       "matterId": 4823,
       "matterType": "Resolution"
@@ -2413,8 +2413,8 @@
       "agendaNumber": "3.E.",
       "title": "Neg Amd 4 to Lease Agmt A07661 with St. Anthony Shopping Center, LLC for lease space at 2941 Pentagon Drive N.E., St. Anthony for the St. Anthony Library, extending the contract period to 05/31/32 ($115,430 first year rent and operating expenses)",
       "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
+      "actionName": "consent",
+      "passedFlagName": "Pass",
       "matterFile": "26-0358",
       "matterId": 4854,
       "matterType": "Resolution"
@@ -2452,8 +2452,8 @@
       "agendaNumber": "3.F.",
       "title": "Direct the County Administrator to explore options for the provision of medical services in County-Operated Correctional Facilities - offered by Commissioner Conley",
       "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
+      "actionName": "consent",
+      "passedFlagName": "Pass",
       "matterFile": "26-0375",
       "matterId": 4901,
       "matterType": "Resolution"
@@ -2478,8 +2478,8 @@
       "agendaNumber": "2.A.",
       "title": "Public comment on the updated Workforce Innovation Opportunity Act (WIOA) Regional Plan for Metropolitan Regional Workforce Development Area #4",
       "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
+      "actionName": "approve",
+      "passedFlagName": "Pass",
       "matterFile": "TMP-26-0789",
       "matterId": 4902,
       "matterType": "Minutes"
@@ -2491,8 +2491,8 @@
       "agendaNumber": "3.G.",
       "title": "Establish Hennepin County Committee on Child Well-Being - Offered by Commissioners Goettel, Edelson, and Fernando",
       "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
+      "actionName": "revise",
+      "passedFlagName": "Pass",
       "matterFile": "26-0376",
       "matterId": 4903,
       "matterType": "Resolution"
@@ -2535,6 +2535,19 @@
       "matterFile": null,
       "matterId": null,
       "matterType": null
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-37588",
+      "meeting_id": "legistar-hennepinmn-meeting-1478",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Establish Hennepin County Committee on Child Well-Being - Offered by Commissioners Goettel, Edelson, and Fernando",
+      "isConsent": false,
+      "actionName": "progress",
+      "passedFlagName": "Pass",
+      "matterFile": "26-0376 R1",
+      "matterId": 4920,
+      "matterType": "Resolution"
     },
     {
       "id": "legistar-hennepinmn-eventitem-37500",
@@ -3414,8 +3427,8 @@
       "agendaNumber": "1.",
       "title": "Approval of the Agenda",
       "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
+      "actionName": "approve",
+      "passedFlagName": "Pass",
       "matterFile": null,
       "matterId": null,
       "matterType": null
@@ -3466,11 +3479,11 @@
       "agendaNumber": "4.A.",
       "title": "Neg Amend to Agmt PR00001996 with Greater MN Housing Fund for acquisition of naturally occurring affordable housing, extend the term to 12/31/42; no change to NTE",
       "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
+      "actionName": "adopt",
+      "passedFlagName": "Pass",
       "matterFile": "26-HCHRA-0030",
       "matterId": 4885,
-      "matterType": "HRA New Business"
+      "matterType": "Resolution"
     },
     {
       "id": "legistar-hennepinmn-eventitem-37554",
@@ -3479,8 +3492,8 @@
       "agendaNumber": "2.A.",
       "title": "September 29, 2026 Meeting Minutes",
       "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
+      "actionName": "approve",
+      "passedFlagName": "Pass",
       "matterFile": "TMP-26-0786",
       "matterId": 4899,
       "matterType": "Minutes"
@@ -3530,8 +3543,8 @@
     "removedIds": [],
     "changed": []
   },
-  "previousGeneratedAt": "2026-10-10T17:11:39.218Z",
+  "previousGeneratedAt": "2026-10-11T17:34:24.325Z",
   "knownGaps": [
-    "Consent-agenda flagging uses Legistar's own EventItemConsent field only (25 of 216 agenda item(s) in this window flagged). \"No discussion\" / \"no public comment\" are NOT flagged — this API exposes no comparably reliable field for either, and AGENTS.md §3.3 rules out inferring one from absence."
+    "Consent-agenda flagging uses Legistar's own EventItemConsent field only (25 of 217 agenda item(s) in this window flagged). \"No discussion\" / \"no public comment\" are NOT flagged — this API exposes no comparably reliable field for either, and AGENTS.md §3.3 rules out inferring one from absence."
   ]
 }
