@@ -2,22 +2,22 @@
   "schemaVersion": 1,
   "client": "stpaul",
   "jurisdiction": "St. Paul City Council",
-  "generatedAt": "2026-10-11T17:33:25.291Z",
+  "generatedAt": "2026-10-12T21:08:10.206Z",
   "status": "ingested",
-  "note": "14 meeting(s) (14/14 event(s) in window) and 264 agenda item(s) ingested for 2026-09-27–2027-01-09.",
+  "note": "14 meeting(s) (14/14 event(s) in window) and 264 agenda item(s) ingested for 2026-09-28–2027-01-10.",
   "provenance": {
     "primarySourceUrl": "https://webapi.legistar.com/v1/stpaul/events",
     "sourceAgency": "St. Paul City Council",
     "documentType": "Legistar Web API — Events/EventItems",
     "documentId": null,
     "issuedDate": null,
-    "fetchedAt": "2026-10-11T17:33:25.291Z",
+    "fetchedAt": "2026-10-12T21:08:10.206Z",
     "licence": "Public records served via Legistar InSite; no separate machine-reuse licence published by the host jurisdiction as of this writing.",
-    "contentHash": "9a986db7172d905661455706e8551b1785790621599840be9494f2d304a64ec1"
+    "contentHash": "c7efdab62842dc11aff8e5d90c5ee515b3c9acbe9e193122c622dc01244a1073"
   },
   "window": {
-    "startIso": "2026-09-27",
-    "endIso": "2027-01-09"
+    "startIso": "2026-09-28",
+    "endIso": "2027-01-10"
   },
   "meetings": [
     {
@@ -350,10 +350,10 @@
       "location": "Room 330 City Hall & Court House/Remote",
       "agendaStatus": "Final",
       "agendaUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/10/7791_A_Legislative_Hearings_26-10-06_ADA_Meeting_Agenda.pdf",
-      "minutesUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/10/7791_M_Legislative_Hearings_26-10-06_Meeting_Minutes_-_Action_Only.pdf",
+      "minutesUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/10/7791_M_Legislative_Hearings_26-10-06_Minutes_-_Final.pdf",
       "videoStatus": "Public",
       "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7791&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
-      "lastModifiedUtc": "2026-10-08T19:23:41.95",
+      "lastModifiedUtc": "2026-10-12T19:40:12.607",
       "members": []
     },
     {
@@ -450,7 +450,7 @@
       "minutesUrl": null,
       "videoStatus": "Public",
       "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7795&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
-      "lastModifiedUtc": "2026-10-08T18:04:57.67",
+      "lastModifiedUtc": "2026-10-12T14:18:11.47",
       "members": [
         {
           "id": 6692,
@@ -603,7 +603,7 @@
       "minutesUrl": null,
       "videoStatus": "Public",
       "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7798&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
-      "lastModifiedUtc": "2026-10-09T19:01:17.923",
+      "lastModifiedUtc": "2026-10-12T19:25:33.707",
       "members": []
     }
   ],
@@ -4044,9 +4044,16 @@
   "diff": {
     "addedIds": [],
     "removedIds": [],
-    "changed": []
+    "changed": [
+      {
+        "id": "legistar-stpaul-meeting-7791",
+        "field": "minutesUrl",
+        "from": "https://legistar1.granicus.com/StPaul/meetings/2026/10/7791_M_Legislative_Hearings_26-10-06_Meeting_Minutes_-_Action_Only.pdf",
+        "to": "https://legistar1.granicus.com/StPaul/meetings/2026/10/7791_M_Legislative_Hearings_26-10-06_Minutes_-_Final.pdf"
+      }
+    ]
   },
-  "previousGeneratedAt": "2026-10-10T17:10:25.599Z",
+  "previousGeneratedAt": "2026-10-11T17:33:25.291Z",
   "knownGaps": [
     "Consent-agenda flagging uses Legistar's own EventItemConsent field only (33 of 264 agenda item(s) in this window flagged). \"No discussion\" / \"no public comment\" are NOT flagged — this API exposes no comparably reliable field for either, and AGENTS.md §3.3 rules out inferring one from absence."
   ]

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-11T17:34:34.868Z",
+  "generatedAt": "2026-10-12T21:10:22.781Z",
   "meetingsThisWeek": [
     {
       "client": "minneapolis",
@@ -2134,6 +2134,39 @@
         {
           "id": 6996,
           "name": "Lucie Skjefte",
+          "type": "ABC Member"
+        }
+      ]
+    },
+    {
+      "client": "minneapolis",
+      "jurisdiction": "Minneapolis City Council",
+      "bodyName": "Community Environmental Advisory Commission",
+      "date": "2026-11-10",
+      "time": "16:00",
+      "location": null,
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/CEAC/",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/CEAC/",
+      "isCancelled": false,
+      "members": [
+        {
+          "id": 6982,
+          "name": "Johnny Hill",
+          "type": "ABC Member"
+        },
+        {
+          "id": 6995,
+          "name": "Madyson Hoese",
+          "type": "ABC Member"
+        },
+        {
+          "id": 7042,
+          "name": "Zamzam Ahmed",
+          "type": "ABC Member"
+        },
+        {
+          "id": 7044,
+          "name": "Joshua Hauf",
           "type": "ABC Member"
         }
       ]
