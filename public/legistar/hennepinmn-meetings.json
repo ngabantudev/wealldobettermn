@@ -2,22 +2,22 @@
   "schemaVersion": 1,
   "client": "hennepinmn",
   "jurisdiction": "Hennepin County Board",
-  "generatedAt": "2026-10-12T21:10:06.458Z",
+  "generatedAt": "2026-10-13T19:08:02.669Z",
   "status": "ingested",
-  "note": "14 meeting(s) (14/14 event(s) in window) and 217 agenda item(s) ingested for 2026-09-28–2027-01-10.",
+  "note": "13 meeting(s) (13/13 event(s) in window) and 204 agenda item(s) ingested for 2026-09-29–2027-01-11.",
   "provenance": {
     "primarySourceUrl": "https://webapi.legistar.com/v1/hennepinmn/events",
     "sourceAgency": "Hennepin County Board",
     "documentType": "Legistar Web API — Events/EventItems",
     "documentId": null,
     "issuedDate": null,
-    "fetchedAt": "2026-10-12T21:10:06.458Z",
+    "fetchedAt": "2026-10-13T19:08:02.669Z",
     "licence": "Public records served via Legistar InSite; no separate machine-reuse licence published by the host jurisdiction as of this writing.",
-    "contentHash": "442359f28b7d556aca81fb0c2e42ecab98d8fef3b3371a37dace4a9a95ac5654"
+    "contentHash": "a03434f1c1f0eb52b1ab3db953c76b69bf5d5b14fef61e6dff3498439578c174"
   },
   "window": {
-    "startIso": "2026-09-28",
-    "endIso": "2027-01-10"
+    "startIso": "2026-09-29",
+    "endIso": "2027-01-11"
   },
   "meetings": [
     {
@@ -62,37 +62,6 @@
         {
           "id": 544,
           "name": "Kevin Anderson",
-          "type": "Commissioner"
-        },
-        {
-          "id": 490,
-          "name": "Debbie Goettel",
-          "type": "Commissioner"
-        }
-      ]
-    },
-    {
-      "id": "legistar-hennepinmn-meeting-1474",
-      "body_id": "legistar-hennepinmn-body-279",
-      "bodyName": "HHS Quality, Safety, Audit and Compliance Committee",
-      "date": "2026-09-28",
-      "time": "13:00",
-      "location": "Government Ctr Conf Rm A2324",
-      "agendaStatus": "Final-revised",
-      "agendaUrl": "https://hennepinmn.legistar1.com/hennepinmn/meetings/2026/9/1474_A_HHS_Quality%2C_Safety%2C_Audit_and_Compliance_Committee_26-09-28_COMMITTEE_AGENDA.pdf",
-      "minutesUrl": null,
-      "videoStatus": "Public",
-      "sourceUrl": "https://hennepinmn.legistar.com/MeetingDetail.aspx?LEGID=1474&GID=953&G=BA9AD5D7-E82F-425B-B72E-ABFEC8B35879",
-      "lastModifiedUtc": "2026-09-25T18:08:24.41",
-      "members": [
-        {
-          "id": 544,
-          "name": "Kevin Anderson",
-          "type": "Commissioner"
-        },
-        {
-          "id": 508,
-          "name": "Irene Fernando",
           "type": "Commissioner"
         },
         {
@@ -1757,175 +1726,6 @@
       "matterType": "Resolution"
     },
     {
-      "id": "legistar-hennepinmn-eventitem-37140",
-      "meeting_id": "legistar-hennepinmn-meeting-1474",
-      "sequence": 1,
-      "agendaNumber": "1.",
-      "title": "Call to Order",
-      "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
-      "matterFile": null,
-      "matterId": null,
-      "matterType": null
-    },
-    {
-      "id": "legistar-hennepinmn-eventitem-37149",
-      "meeting_id": "legistar-hennepinmn-meeting-1474",
-      "sequence": 2,
-      "agendaNumber": "2.",
-      "title": "Approval of the Agenda",
-      "isConsent": false,
-      "actionName": "approve",
-      "passedFlagName": "Pass",
-      "matterFile": null,
-      "matterId": null,
-      "matterType": null
-    },
-    {
-      "id": "legistar-hennepinmn-eventitem-37150",
-      "meeting_id": "legistar-hennepinmn-meeting-1474",
-      "sequence": 3,
-      "agendaNumber": "3.",
-      "title": "Minutes from Previous Meeting",
-      "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
-      "matterFile": null,
-      "matterId": null,
-      "matterType": null
-    },
-    {
-      "id": "legistar-hennepinmn-eventitem-37154",
-      "meeting_id": "legistar-hennepinmn-meeting-1474",
-      "sequence": 7,
-      "agendaNumber": "4.A.",
-      "title": "CEO Update on Quality and Safety",
-      "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
-      "matterFile": "TMP-26-0745",
-      "matterId": 4858,
-      "matterType": "Minutes"
-    },
-    {
-      "id": "legistar-hennepinmn-eventitem-37158",
-      "meeting_id": "legistar-hennepinmn-meeting-1474",
-      "sequence": 9,
-      "agendaNumber": "5.A.",
-      "title": "Under Minn. Stat. Section 383B.917 the remainder of this meeting is closed to the public",
-      "isConsent": false,
-      "actionName": "approve",
-      "passedFlagName": "Pass",
-      "matterFile": "TMP-26-0749",
-      "matterId": 4862,
-      "matterType": "Minutes"
-    },
-    {
-      "id": "legistar-hennepinmn-eventitem-37159",
-      "meeting_id": "legistar-hennepinmn-meeting-1474",
-      "sequence": 6,
-      "agendaNumber": "4.",
-      "title": "New Business - open",
-      "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
-      "matterFile": null,
-      "matterId": null,
-      "matterType": null
-    },
-    {
-      "id": "legistar-hennepinmn-eventitem-37160",
-      "meeting_id": "legistar-hennepinmn-meeting-1474",
-      "sequence": 8,
-      "agendaNumber": "5.",
-      "title": "Motion to Close",
-      "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
-      "matterFile": null,
-      "matterId": null,
-      "matterType": null
-    },
-    {
-      "id": "legistar-hennepinmn-eventitem-37161",
-      "meeting_id": "legistar-hennepinmn-meeting-1474",
-      "sequence": 15,
-      "agendaNumber": "7.",
-      "title": "Adjournment",
-      "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
-      "matterFile": null,
-      "matterId": null,
-      "matterType": null
-    },
-    {
-      "id": "legistar-hennepinmn-eventitem-37162",
-      "meeting_id": "legistar-hennepinmn-meeting-1474",
-      "sequence": 10,
-      "agendaNumber": "6.",
-      "title": "New Business - closed",
-      "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
-      "matterFile": null,
-      "matterId": null,
-      "matterType": null
-    },
-    {
-      "id": "legistar-hennepinmn-eventitem-37163",
-      "meeting_id": "legistar-hennepinmn-meeting-1474",
-      "sequence": 4,
-      "agendaNumber": "3.A.",
-      "title": "March 16, 2026 Meeting Minutes",
-      "isConsent": false,
-      "actionName": "approve",
-      "passedFlagName": "Pass",
-      "matterFile": "TMP-26-0750",
-      "matterId": 4863,
-      "matterType": "Minutes"
-    },
-    {
-      "id": "legistar-hennepinmn-eventitem-37165",
-      "meeting_id": "legistar-hennepinmn-meeting-1474",
-      "sequence": 5,
-      "agendaNumber": "3.B.",
-      "title": "June 10, 2026 Meeting Minutes",
-      "isConsent": false,
-      "actionName": "approve",
-      "passedFlagName": "Pass",
-      "matterFile": "TMP-26-0753",
-      "matterId": 4866,
-      "matterType": "Minutes"
-    },
-    {
-      "id": "legistar-hennepinmn-eventitem-37489",
-      "meeting_id": "legistar-hennepinmn-meeting-1474",
-      "sequence": null,
-      "agendaNumber": null,
-      "title": "Agenda item 37489",
-      "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
-      "matterFile": null,
-      "matterId": null,
-      "matterType": null
-    },
-    {
-      "id": "legistar-hennepinmn-eventitem-37490",
-      "meeting_id": "legistar-hennepinmn-meeting-1474",
-      "sequence": null,
-      "agendaNumber": null,
-      "title": "Agenda item 37490",
-      "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
-      "matterFile": null,
-      "matterId": null,
-      "matterType": null
-    },
-    {
       "id": "legistar-hennepinmn-eventitem-37309",
       "meeting_id": "legistar-hennepinmn-meeting-1475",
       "sequence": 1,
@@ -2595,7 +2395,7 @@
       "agendaNumber": "2.A.",
       "title": "Neg Agmt PR00008771 with Samsung HME America Inc., d/b/a Neurologica Corporation, for radiology suite equipment, including removal of existing equipment, delivery & installation of new equipment, training of staff in safe use of equipment, and one-year warranty of equipment, DOE-12/31/27, NTE $215,000; Neg Agmt PR00008775 with RPS Imaging for ongoing tech support, preventive maintenance, parts, and labor, DOE-12/31/33, NTE $210,000",
       "isConsent": false,
-      "actionName": "approve",
+      "actionName": "consent",
       "passedFlagName": "Pass",
       "matterFile": "26-0359",
       "matterId": 4856,
@@ -3540,11 +3340,13 @@
   ],
   "diff": {
     "addedIds": [],
-    "removedIds": [],
+    "removedIds": [
+      "legistar-hennepinmn-meeting-1474"
+    ],
     "changed": []
   },
-  "previousGeneratedAt": "2026-10-11T17:34:24.325Z",
+  "previousGeneratedAt": "2026-10-12T21:10:06.458Z",
   "knownGaps": [
-    "Consent-agenda flagging uses Legistar's own EventItemConsent field only (25 of 217 agenda item(s) in this window flagged). \"No discussion\" / \"no public comment\" are NOT flagged — this API exposes no comparably reliable field for either, and AGENTS.md §3.3 rules out inferring one from absence."
+    "Consent-agenda flagging uses Legistar's own EventItemConsent field only (25 of 204 agenda item(s) in this window flagged). \"No discussion\" / \"no public comment\" are NOT flagged — this API exposes no comparably reliable field for either, and AGENTS.md §3.3 rules out inferring one from absence."
   ]
 }
