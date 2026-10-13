@@ -2,22 +2,22 @@
   "schemaVersion": 1,
   "client": "stpaul",
   "jurisdiction": "St. Paul City Council",
-  "generatedAt": "2026-10-12T21:08:10.206Z",
+  "generatedAt": "2026-10-13T19:06:32.018Z",
   "status": "ingested",
-  "note": "14 meeting(s) (14/14 event(s) in window) and 264 agenda item(s) ingested for 2026-09-28–2027-01-10.",
+  "note": "14 meeting(s) (14/14 event(s) in window) and 260 agenda item(s) ingested for 2026-09-29–2027-01-11.",
   "provenance": {
     "primarySourceUrl": "https://webapi.legistar.com/v1/stpaul/events",
     "sourceAgency": "St. Paul City Council",
     "documentType": "Legistar Web API — Events/EventItems",
     "documentId": null,
     "issuedDate": null,
-    "fetchedAt": "2026-10-12T21:08:10.206Z",
+    "fetchedAt": "2026-10-13T19:06:32.018Z",
     "licence": "Public records served via Legistar InSite; no separate machine-reuse licence published by the host jurisdiction as of this writing.",
-    "contentHash": "c7efdab62842dc11aff8e5d90c5ee515b3c9acbe9e193122c622dc01244a1073"
+    "contentHash": "e6260829837335a00e419c192221d664094b1898fa71a848b6e58f9a8c2cf88c"
   },
   "window": {
-    "startIso": "2026-09-28",
-    "endIso": "2027-01-10"
+    "startIso": "2026-09-29",
+    "endIso": "2027-01-11"
   },
   "meetings": [
     {
@@ -357,37 +357,6 @@
       "members": []
     },
     {
-      "id": "legistar-stpaul-meeting-7792",
-      "body_id": "legistar-stpaul-body-236",
-      "bodyName": "Audit Committee",
-      "date": "2026-10-20",
-      "time": "16:00",
-      "location": "City Hall, 3rd Floor",
-      "agendaStatus": "Final",
-      "agendaUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/10/7792_A_Audit_Committee_26-10-20_ADA_Meeting_Agenda.pdf",
-      "minutesUrl": null,
-      "videoStatus": "Public",
-      "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7792&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
-      "lastModifiedUtc": "2026-10-07T20:55:50.413",
-      "members": [
-        {
-          "id": 6692,
-          "name": "Rebecca Noecker",
-          "type": "Chair"
-        },
-        {
-          "id": 7108,
-          "name": "Molly Coleman",
-          "type": "Councilmember"
-        },
-        {
-          "id": 7040,
-          "name": "Cheniqua Johnson",
-          "type": "Councilmember"
-        }
-      ]
-    },
-    {
       "id": "legistar-stpaul-meeting-7794",
       "body_id": "legistar-stpaul-body-183",
       "bodyName": "Housing & Redevelopment Authority",
@@ -450,7 +419,7 @@
       "minutesUrl": null,
       "videoStatus": "Public",
       "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7795&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
-      "lastModifiedUtc": "2026-10-12T14:18:11.47",
+      "lastModifiedUtc": "2026-10-13T16:14:36.48",
       "members": [
         {
           "id": 6692,
@@ -603,8 +572,39 @@
       "minutesUrl": null,
       "videoStatus": "Public",
       "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7798&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
-      "lastModifiedUtc": "2026-10-12T19:25:33.707",
+      "lastModifiedUtc": "2026-10-13T13:35:06.39",
       "members": []
+    },
+    {
+      "id": "legistar-stpaul-meeting-7799",
+      "body_id": "legistar-stpaul-body-236",
+      "bodyName": "Audit Committee",
+      "date": "2026-10-20",
+      "time": "16:00",
+      "location": "City Hall, 3rd Floor",
+      "agendaStatus": "Final",
+      "agendaUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/10/7799_A_Audit_Committee_26-10-20_ADA_Meeting_Agenda.pdf",
+      "minutesUrl": null,
+      "videoStatus": "Public",
+      "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7799&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
+      "lastModifiedUtc": "2026-10-13T16:52:23.79",
+      "members": [
+        {
+          "id": 6692,
+          "name": "Rebecca Noecker",
+          "type": "Chair"
+        },
+        {
+          "id": 7108,
+          "name": "Molly Coleman",
+          "type": "Councilmember"
+        },
+        {
+          "id": 7040,
+          "name": "Cheniqua Johnson",
+          "type": "Councilmember"
+        }
+      ]
     }
   ],
   "agendaItems": [
@@ -2455,84 +2455,6 @@
       "matterType": "Staff Report"
     },
     {
-      "id": "legistar-stpaul-eventitem-217887",
-      "meeting_id": "legistar-stpaul-meeting-7792",
-      "sequence": 1,
-      "agendaNumber": null,
-      "title": "Roll Call",
-      "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
-      "matterFile": null,
-      "matterId": null,
-      "matterType": null
-    },
-    {
-      "id": "legistar-stpaul-eventitem-217895",
-      "meeting_id": "legistar-stpaul-meeting-7792",
-      "sequence": 2,
-      "agendaNumber": null,
-      "title": "1)  Wilder Research Update - Business Licensing Operations (Presenter: Dr. Heather Britt, Wilder Research)",
-      "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
-      "matterFile": "SR 26-216",
-      "matterId": 53092,
-      "matterType": "Staff Report"
-    },
-    {
-      "id": "legistar-stpaul-eventitem-217896",
-      "meeting_id": "legistar-stpaul-meeting-7792",
-      "sequence": 3,
-      "agendaNumber": null,
-      "title": "2) Capstone Paper Update (Presenter: Community Advisor Noah McVay)",
-      "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
-      "matterFile": "SR 26-217",
-      "matterId": 53093,
-      "matterType": "Staff Report"
-    },
-    {
-      "id": "legistar-stpaul-eventitem-217897",
-      "meeting_id": "legistar-stpaul-meeting-7792",
-      "sequence": 4,
-      "agendaNumber": null,
-      "title": "3)Community Engagement Update (Presenter: Community Advisor Noah McVay)",
-      "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
-      "matterFile": "SR 26-218",
-      "matterId": 53094,
-      "matterType": "Staff Report"
-    },
-    {
-      "id": "legistar-stpaul-eventitem-217898",
-      "meeting_id": "legistar-stpaul-meeting-7792",
-      "sequence": 5,
-      "agendaNumber": null,
-      "title": "Next Meeting Date",
-      "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
-      "matterFile": null,
-      "matterId": null,
-      "matterType": null
-    },
-    {
-      "id": "legistar-stpaul-eventitem-217899",
-      "meeting_id": "legistar-stpaul-meeting-7792",
-      "sequence": 6,
-      "agendaNumber": null,
-      "title": "Adjournment",
-      "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
-      "matterFile": null,
-      "matterId": null,
-      "matterType": null
-    },
-    {
       "id": "legistar-stpaul-eventitem-217903",
       "meeting_id": "legistar-stpaul-meeting-7794",
       "sequence": 1,
@@ -2746,7 +2668,7 @@
       "sequence": 9,
       "agendaNumber": "3",
       "title": "Approving the City’s cost of providing Removal of Diseased and/or Dangerous Tree(s) in June and August 2026, and setting date of Legislative Hearing for November 3, 2026 and City Council public hearing for January 27, 2027 to consider and levy the assessments against individual properties. (File No. 2607T, Assessment No. 269008)",
-      "isConsent": false,
+      "isConsent": true,
       "actionName": null,
       "passedFlagName": null,
       "matterFile": "RES 26-1413",
@@ -2759,7 +2681,7 @@
       "sequence": 10,
       "agendaNumber": "4",
       "title": "Approving the application for an expansion of the Liquor Service Area into an adjacent space of approximately 1,000 square feet in size for a business with existing Liquor On Sale, Liquor On Sale--Sunday, Liquor On Sale--2 AM Closing, Liquor Outdoor Service Area (Patio), Entertainment (A), and Gambling location licenses (License ID #20230001411) for ZBAM LLC d/b/a Zamboni's on 7th for the premises located at 174 7th St. W.",
-      "isConsent": false,
+      "isConsent": true,
       "actionName": null,
       "passedFlagName": null,
       "matterFile": "RES 26-1596",
@@ -2772,7 +2694,7 @@
       "sequence": 11,
       "agendaNumber": "5",
       "title": "Approving the City’s cost of providing Collection of Delinquent Garbage Bills for service during April to June 2026, and setting date of legislative hearing for November 12, 2026 and City Council public hearing for January 20, 2027 to consider and levy the assessments against individual properties. (File No.CG26Q2B1, Assessment No.260161)",
-      "isConsent": false,
+      "isConsent": true,
       "actionName": null,
       "passedFlagName": null,
       "matterFile": "RES 26-1619",
@@ -2785,7 +2707,7 @@
       "sequence": 12,
       "agendaNumber": "6",
       "title": "Approving the City’s cost of providing Collection of Delinquent Garbage Bills for service during April to June 2026, and setting date of legislative hearing for November 12, 2026 and City Council public hearing for January 20, 2027 to consider and levy the assessments against individual properties. (File No.CG26Q2B2, Assessment No.260162)",
-      "isConsent": false,
+      "isConsent": true,
       "actionName": null,
       "passedFlagName": null,
       "matterFile": "RES 26-1620",
@@ -2798,7 +2720,7 @@
       "sequence": 13,
       "agendaNumber": "7",
       "title": "Approving the City’s cost of providing Collection of Delinquent Garbage Bills for service during April to June 2026, and setting date of legislative hearing for November 12, 2026 and City Council public hearing for January 20, 2027 to consider and levy the assessments against individual properties. (File No.CG26Q2B3, Assessment No.260163)",
-      "isConsent": false,
+      "isConsent": true,
       "actionName": null,
       "passedFlagName": null,
       "matterFile": "RES 26-1621",
@@ -2811,7 +2733,7 @@
       "sequence": 14,
       "agendaNumber": "8",
       "title": "Approving the City’s cost of providing Collection of Delinquent Garbage Bills for service during April to June 2026, and setting date of legislative hearing for November 12, 2026 and City Council public hearing for January 20, 2027 to consider and levy the assessments against individual properties. (File No.CG26Q2B4, Assessment No.260164)",
-      "isConsent": false,
+      "isConsent": true,
       "actionName": null,
       "passedFlagName": null,
       "matterFile": "RES 26-1622",
@@ -2824,7 +2746,7 @@
       "sequence": 15,
       "agendaNumber": "9",
       "title": "Approving the City’s cost of providing Collection of Delinquent Garbage Bills for service during April to June 2026, and setting date of legislative hearing for November 12, 2026 and City Council public hearing for January 20, 2027 to consider and levy the assessments against individual properties. (File No.CG26Q2B5, Assessment No.260165)",
-      "isConsent": false,
+      "isConsent": true,
       "actionName": null,
       "passedFlagName": null,
       "matterFile": "RES 26-1623",
@@ -2837,7 +2759,7 @@
       "sequence": 16,
       "agendaNumber": "10",
       "title": "Approving the City’s cost of providing Collection of Delinquent YardWaste Bills for service during April to June 2026, and setting date of legislative hearing for November 12, 2026 and City Council public hearing for January 20, 2027 to consider and levy the assessments against individual properties. (File No.YW26Q2B1, Assessment No.260502)",
-      "isConsent": false,
+      "isConsent": true,
       "actionName": null,
       "passedFlagName": null,
       "matterFile": "RES 26-1624",
@@ -2850,7 +2772,7 @@
       "sequence": 17,
       "agendaNumber": "11",
       "title": "Approving the City’s cost of providing Collection of Delinquent YardWaste Bills for service during April to June 2026, and setting date of legislative hearing for November 12, 2026 and City Council public hearing for January 20, 2027 to consider and levy the assessments against individual properties. (File No.YW26Q2B2, Assessment No.260503)",
-      "isConsent": false,
+      "isConsent": true,
       "actionName": null,
       "passedFlagName": null,
       "matterFile": "RES 26-1625",
@@ -2863,7 +2785,7 @@
       "sequence": 18,
       "agendaNumber": "12",
       "title": "Amending Council File RES 25-1920 to acknowledge that in order for the Saint Peter Street clear zone variance to be granted, a list of all applicable locations that the clear zone variance applies to will need to be provided to MnDOT.",
-      "isConsent": false,
+      "isConsent": true,
       "actionName": null,
       "passedFlagName": null,
       "matterFile": "RES 26-1633",
@@ -2876,7 +2798,7 @@
       "sequence": 19,
       "agendaNumber": "13",
       "title": "Amending Council File RES 25-1919 to add dimensions to the Saint Peter Bridge Municipal State Aid variance request.",
-      "isConsent": false,
+      "isConsent": true,
       "actionName": null,
       "passedFlagName": null,
       "matterFile": "RES 26-1634",
@@ -2889,7 +2811,7 @@
       "sequence": 20,
       "agendaNumber": "14",
       "title": "Approving the City’s cost for Demolition of Vacant, Nuisance and/or Hazardous Structure from the month of September 2026, and setting date of Legislative Hearing for November 24, 2026 and City Council public hearing for February 3, 2027 to consider and levy the assessments against individual property, at 610 Charles Ave, St Paul, MN 55103. (File No. J2609C, Assessment No. 262008)",
-      "isConsent": false,
+      "isConsent": true,
       "actionName": null,
       "passedFlagName": null,
       "matterFile": "RES 26-1706",
@@ -2902,7 +2824,7 @@
       "sequence": 21,
       "agendaNumber": "15",
       "title": "Approving a new location application for the Health/Sport Club license (License ID #DSIBLHEALT- 002937-2026) to Element Boxing and Fitness SBC d/b/a Element Gym for the premises located at 928 7th St. W.",
-      "isConsent": false,
+      "isConsent": true,
       "actionName": null,
       "passedFlagName": null,
       "matterFile": "RES 26-1675",
@@ -2928,7 +2850,7 @@
       "sequence": 23,
       "agendaNumber": "17",
       "title": "Authorizing the City to enter into a one-year license agreement with two year-long renewal options with the State of Minnesota, Department of the Administration on behalf of the Department of Public Safety, Bureau of Criminal Apprehension to use a portion of the City’s Fire Station No. 7.",
-      "isConsent": false,
+      "isConsent": true,
       "actionName": null,
       "passedFlagName": null,
       "matterFile": "RES 26-1680",
@@ -2941,7 +2863,7 @@
       "sequence": 24,
       "agendaNumber": "18",
       "title": "Authorizing the Department of Planning and Economic Development to Apply to the Ramsey County Critical Corridors Program to Test Recommendations from the Downtown Streets and Sidewalks Plan Along 5th Street.",
-      "isConsent": false,
+      "isConsent": true,
       "actionName": null,
       "passedFlagName": null,
       "matterFile": "RES 26-1687",
@@ -2993,7 +2915,7 @@
       "sequence": 28,
       "agendaNumber": "22",
       "title": "Authorizing the Fire Department to accept the donation of lunch for firefighters valued at $5,000 from Operation BBQ Relief and the National Propane Gas Association (NPGA).",
-      "isConsent": false,
+      "isConsent": true,
       "actionName": null,
       "passedFlagName": null,
       "matterFile": "RES 26-1692",
@@ -3032,7 +2954,7 @@
       "sequence": 29,
       "agendaNumber": "23",
       "title": "Supplementing the General Resolution (CF 88-835) Relating to Sewer Revenue Bonds and providing for the issuance of Sewer Revenue Bonds, Series 2026D (Green Bonds) and taking other required actions.",
-      "isConsent": false,
+      "isConsent": true,
       "actionName": null,
       "passedFlagName": null,
       "matterFile": "RES 26-1705",
@@ -3045,7 +2967,7 @@
       "sequence": 30,
       "agendaNumber": "24",
       "title": "Authorizing the Department of Public Works-Sewer Utility to enter into a Cooperative Maintenance Agreement with the Ramsey-Washington Metro Watershed District for maintenance of the City-owned Birmingham-York, Wildview-Lenox, and Burg-Stinchfield Ponds.",
-      "isConsent": false,
+      "isConsent": true,
       "actionName": null,
       "passedFlagName": null,
       "matterFile": "RES 26-1718",
@@ -3058,7 +2980,7 @@
       "sequence": 31,
       "agendaNumber": "25",
       "title": "Reciting a proposal for a housing program for a Multifamily Rental Housing Project; approving the project and the program pursuant to Minnesota Statutes, Chapter 462C; authorizing the Housing and Redevelopment Authority to issue Conduit Multifamily Housing Revenue Obligations and authorizing the preparation of necessary documents and materials in connection with said project and program, Afton View Apartments Project Located at 371 and 373 Winthrop Street South, 2180 and 2178 Londin Lane and 365 Winthrop Street South (District 1, Ward 7).",
-      "isConsent": false,
+      "isConsent": true,
       "actionName": null,
       "passedFlagName": null,
       "matterFile": "RES 26-1720",
@@ -3071,7 +2993,7 @@
       "sequence": 32,
       "agendaNumber": "26",
       "title": "Authorizing  and approving the non-use of a Project Labor Agreement (PLA) on SKD Auto Tek LLC’s Neighborhood STAR project located at 80 Cottage Ave.",
-      "isConsent": false,
+      "isConsent": true,
       "actionName": null,
       "passedFlagName": null,
       "matterFile": "RES 26-1721",
@@ -3084,7 +3006,7 @@
       "sequence": 33,
       "agendaNumber": "27",
       "title": "Approving the 2027 City Council meeting schedule.",
-      "isConsent": false,
+      "isConsent": true,
       "actionName": null,
       "passedFlagName": null,
       "matterFile": "RES 26-1723",
@@ -3097,7 +3019,7 @@
       "sequence": 34,
       "agendaNumber": "28",
       "title": "Establishing the rate of pay for the classification of Human Resources Manager II, Grade 028, EG 17.",
-      "isConsent": false,
+      "isConsent": true,
       "actionName": null,
       "passedFlagName": null,
       "matterFile": "RES 26-1618",
@@ -3565,7 +3487,7 @@
       "sequence": 36,
       "agendaNumber": "30",
       "title": "Amending RES 26-1543 to Correct the Honorary Co-Naming Boundaries of Mahmoud El-Kati Avenue.",
-      "isConsent": false,
+      "isConsent": true,
       "actionName": null,
       "passedFlagName": null,
       "matterFile": "RES 26-1739",
@@ -3630,12 +3552,25 @@
       "sequence": 35,
       "agendaNumber": "29",
       "title": "Authorizing stipend payments for the public members serving on the Public Administrative Citations Implementation Working Group.",
-      "isConsent": false,
+      "isConsent": true,
       "actionName": null,
       "passedFlagName": null,
       "matterFile": "RES 26-1707",
       "matterId": 53072,
       "matterType": "Resolution"
+    },
+    {
+      "id": "legistar-stpaul-eventitem-218112",
+      "meeting_id": "legistar-stpaul-meeting-7795",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "FOR DISCUSSION",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
     },
     {
       "id": "legistar-stpaul-eventitem-218004",
@@ -3826,7 +3761,7 @@
       "agendaNumber": "2",
       "title": "Ratifying the Appealed Special Tax Assessment for property at 372 AURORA AVENUE. (File No. VB2605, Assessment No. 268908)",
       "isConsent": false,
-      "actionName": null,
+      "actionName": "Laid Over",
       "passedFlagName": null,
       "matterFile": "RLH TA 26-234",
       "matterId": 53026,
@@ -3843,19 +3778,6 @@
       "passedFlagName": null,
       "matterFile": "RLH TA 26-236",
       "matterId": 53049,
-      "matterType": "Resolution LH Tax Assessment Appeal"
-    },
-    {
-      "id": "legistar-stpaul-eventitem-218035",
-      "meeting_id": "legistar-stpaul-meeting-7798",
-      "sequence": 3,
-      "agendaNumber": "1",
-      "title": "Ratifying the Appealed Special Tax Assessment for property at 1047 ARCADE STREET. (File No. VB2605, Assessment No. 268908)",
-      "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
-      "matterFile": "RLH TA 26-237",
-      "matterId": 53054,
       "matterType": "Resolution LH Tax Assessment Appeal"
     },
     {
@@ -4028,33 +3950,56 @@
       "matterType": "Resolution LH Tax Assessment Appeal"
     },
     {
-      "id": "legistar-stpaul-eventitem-218060",
-      "meeting_id": "legistar-stpaul-meeting-7798",
-      "sequence": 6,
-      "agendaNumber": "4",
-      "title": "Ratifying the Appealed Special Tax Assessment for property at 433 ROBERT STREET SOUTH. (File No. VB2603, Assessment No. 268906)",
+      "id": "legistar-stpaul-eventitem-218113",
+      "meeting_id": "legistar-stpaul-meeting-7799",
+      "sequence": 1,
+      "agendaNumber": null,
+      "title": "Roll Call",
       "isConsent": false,
       "actionName": null,
       "passedFlagName": null,
-      "matterFile": "RLH TA 26-242",
-      "matterId": 53118,
-      "matterType": "Resolution LH Tax Assessment Appeal"
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-stpaul-eventitem-218114",
+      "meeting_id": "legistar-stpaul-meeting-7799",
+      "sequence": 2,
+      "agendaNumber": null,
+      "title": "Consent Agenda\r\n\r\nNote:  Items listed under the Consent Agenda will be enacted by one motion with no separate discussion.  If discussion on an item is desired, the item will be removed from the Consent Agenda for separate consideration.",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-stpaul-eventitem-218128",
+      "meeting_id": "legistar-stpaul-meeting-7799",
+      "sequence": 3,
+      "agendaNumber": null,
+      "title": "Adjournment",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
     }
   ],
   "diff": {
-    "addedIds": [],
-    "removedIds": [],
-    "changed": [
-      {
-        "id": "legistar-stpaul-meeting-7791",
-        "field": "minutesUrl",
-        "from": "https://legistar1.granicus.com/StPaul/meetings/2026/10/7791_M_Legislative_Hearings_26-10-06_Meeting_Minutes_-_Action_Only.pdf",
-        "to": "https://legistar1.granicus.com/StPaul/meetings/2026/10/7791_M_Legislative_Hearings_26-10-06_Minutes_-_Final.pdf"
-      }
-    ]
+    "addedIds": [
+      "legistar-stpaul-meeting-7799"
+    ],
+    "removedIds": [
+      "legistar-stpaul-meeting-7792"
+    ],
+    "changed": []
   },
-  "previousGeneratedAt": "2026-10-11T17:33:25.291Z",
+  "previousGeneratedAt": "2026-10-12T21:08:10.206Z",
   "knownGaps": [
-    "Consent-agenda flagging uses Legistar's own EventItemConsent field only (33 of 264 agenda item(s) in this window flagged). \"No discussion\" / \"no public comment\" are NOT flagged — this API exposes no comparably reliable field for either, and AGENTS.md §3.3 rules out inferring one from absence."
+    "Consent-agenda flagging uses Legistar's own EventItemConsent field only (57 of 260 agenda item(s) in this window flagged). \"No discussion\" / \"no public comment\" are NOT flagged — this API exposes no comparably reliable field for either, and AGENTS.md §3.3 rules out inferring one from absence."
   ]
 }
