@@ -2,22 +2,22 @@
   "schemaVersion": 1,
   "client": "hennepinmn",
   "jurisdiction": "Hennepin County Board",
-  "generatedAt": "2026-10-14T16:55:31.662Z",
+  "generatedAt": "2026-10-15T16:38:49.274Z",
   "status": "ingested",
-  "note": "10 meeting(s) (10/10 event(s) in window) and 103 agenda item(s) ingested for 2026-09-30–2027-01-12.",
+  "note": "10 meeting(s) (10/10 event(s) in window) and 106 agenda item(s) ingested for 2026-10-01–2027-01-13.",
   "provenance": {
     "primarySourceUrl": "https://webapi.legistar.com/v1/hennepinmn/events",
     "sourceAgency": "Hennepin County Board",
     "documentType": "Legistar Web API — Events/EventItems",
     "documentId": null,
     "issuedDate": null,
-    "fetchedAt": "2026-10-14T16:55:31.662Z",
+    "fetchedAt": "2026-10-15T16:38:49.274Z",
     "licence": "Public records served via Legistar InSite; no separate machine-reuse licence published by the host jurisdiction as of this writing.",
-    "contentHash": "f9a012043de6f5a8112f89d37734002f0710632da95345e57317362d8afcf1c7"
+    "contentHash": "2efc77ac225dba3242f24234ee8de526aee1690585aa5bed7cd67b632450d709"
   },
   "window": {
-    "startIso": "2026-09-30",
-    "endIso": "2027-01-12"
+    "startIso": "2026-10-01",
+    "endIso": "2027-01-13"
   },
   "meetings": [
     {
@@ -1670,8 +1670,8 @@
       "agendaNumber": "2.A.",
       "title": "October 7 Budget Hearing Minutes - Public Works and Law, Safety and Justice",
       "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
+      "actionName": "approve",
+      "passedFlagName": "Pass",
       "matterFile": "TMP-26-0782",
       "matterId": 4895,
       "matterType": "Minutes"
@@ -1748,11 +1748,50 @@
       "agendaNumber": "4.A.",
       "title": "2027 Proposed Operating and Capital Budgets",
       "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
+      "actionName": "laid over",
+      "passedFlagName": "Pass",
       "matterFile": "26-0349",
       "matterId": 4847,
       "matterType": "Resolution"
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-37731",
+      "meeting_id": "legistar-hennepinmn-meeting-1485",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Agenda item 37731",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-37732",
+      "meeting_id": "legistar-hennepinmn-meeting-1485",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Agenda item 37732",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-37733",
+      "meeting_id": "legistar-hennepinmn-meeting-1485",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Agenda item 37733",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
     },
     {
       "id": "legistar-hennepinmn-eventitem-37548",
@@ -1874,15 +1913,11 @@
   ],
   "diff": {
     "addedIds": [],
-    "removedIds": [
-      "legistar-hennepinmn-meeting-1473",
-      "legistar-hennepinmn-meeting-1475",
-      "legistar-hennepinmn-meeting-1476"
-    ],
+    "removedIds": [],
     "changed": []
   },
-  "previousGeneratedAt": "2026-10-13T19:08:02.669Z",
+  "previousGeneratedAt": "2026-10-14T16:55:31.662Z",
   "knownGaps": [
-    "Consent-agenda flagging uses Legistar's own EventItemConsent field only (0 of 103 agenda item(s) in this window flagged). \"No discussion\" / \"no public comment\" are NOT flagged — this API exposes no comparably reliable field for either, and AGENTS.md §3.3 rules out inferring one from absence."
+    "Consent-agenda flagging uses Legistar's own EventItemConsent field only (0 of 106 agenda item(s) in this window flagged). \"No discussion\" / \"no public comment\" are NOT flagged — this API exposes no comparably reliable field for either, and AGENTS.md §3.3 rules out inferring one from absence."
   ]
 }
