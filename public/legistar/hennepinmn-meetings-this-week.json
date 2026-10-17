@@ -1,6 +1,54 @@
 {
-  "generatedAt": "2026-10-16T16:23:18.741Z",
+  "generatedAt": "2026-10-17T15:18:48.393Z",
   "meetingsThisWeek": [
+    {
+      "client": "hennepinmn",
+      "jurisdiction": "Hennepin County Board",
+      "bodyName": "Administration, Operations and Budget Committee",
+      "date": "2026-10-19",
+      "time": "12:00",
+      "location": "Government Center - County Board Chambers",
+      "sourceUrl": "https://hennepinmn.legistar.com/MeetingDetail.aspx?LEGID=1489&GID=953&G=BA9AD5D7-E82F-425B-B72E-ABFEC8B35879",
+      "agendaUrl": "https://hennepinmn.legistar1.com/hennepinmn/meetings/2026/10/1489_A_Administration%2C_Operations_and_Budget_Committee_26-10-19_COMMITTEE_AGENDA.pdf",
+      "isCancelled": false,
+      "members": [
+        {
+          "id": 508,
+          "name": "Irene Fernando",
+          "type": "Commissioner"
+        },
+        {
+          "id": 573,
+          "name": "Marion Greene",
+          "type": "Commissioner"
+        },
+        {
+          "id": 454,
+          "name": "Angela Conley",
+          "type": "Commissioner"
+        },
+        {
+          "id": 490,
+          "name": "Debbie Goettel",
+          "type": "Commissioner"
+        },
+        {
+          "id": 698,
+          "name": "Heather Edelson",
+          "type": "Commissioner"
+        },
+        {
+          "id": 517,
+          "name": "Jeff Lunde",
+          "type": "Commissioner"
+        },
+        {
+          "id": 544,
+          "name": "Kevin Anderson",
+          "type": "Commissioner"
+        }
+      ]
+    },
     {
       "client": "hennepinmn",
       "jurisdiction": "Hennepin County Board",
@@ -9,7 +57,7 @@
       "time": "13:30",
       "location": "Government Center - County Board Chambers",
       "sourceUrl": "https://hennepinmn.legistar.com/MeetingDetail.aspx?LEGID=1487&GID=953&G=BA9AD5D7-E82F-425B-B72E-ABFEC8B35879",
-      "agendaUrl": null,
+      "agendaUrl": "https://hennepinmn.legistar1.com/hennepinmn/meetings/2026/10/1487_A_Board_of_Hennepin_County_Commissioners_26-10-20_BOARD_AGENDA.pdf",
       "isCancelled": false,
       "members": [
         {
@@ -57,7 +105,7 @@
       "time": "13:30",
       "location": "Government Center - County Board Chambers",
       "sourceUrl": "https://hennepinmn.legistar.com/MeetingDetail.aspx?LEGID=1488&GID=953&G=BA9AD5D7-E82F-425B-B72E-ABFEC8B35879",
-      "agendaUrl": null,
+      "agendaUrl": "https://hennepinmn.legistar1.com/hennepinmn/meetings/2026/10/1488_A_Hennepin_County_Regional_Railroad_Authority_26-10-20_AUTHORITY_AGENDA.pdf",
       "isCancelled": false,
       "members": [
         {
