@@ -2,22 +2,22 @@
   "schemaVersion": 1,
   "client": "hennepinmn",
   "jurisdiction": "Hennepin County Board",
-  "generatedAt": "2026-10-16T16:23:18.740Z",
+  "generatedAt": "2026-10-17T15:18:48.392Z",
   "status": "ingested",
-  "note": "11 meeting(s) (11/11 event(s) in window) and 143 agenda item(s) ingested for 2026-10-02–2027-01-14.",
+  "note": "12 meeting(s) (12/12 event(s) in window) and 152 agenda item(s) ingested for 2026-10-03–2027-01-15.",
   "provenance": {
     "primarySourceUrl": "https://webapi.legistar.com/v1/hennepinmn/events",
     "sourceAgency": "Hennepin County Board",
     "documentType": "Legistar Web API — Events/EventItems",
     "documentId": null,
     "issuedDate": null,
-    "fetchedAt": "2026-10-16T16:23:18.740Z",
+    "fetchedAt": "2026-10-17T15:18:48.392Z",
     "licence": "Public records served via Legistar InSite; no separate machine-reuse licence published by the host jurisdiction as of this writing.",
-    "contentHash": "c4b7014c4cc953868932766002b5a46d509e834604373e72428dd2bb50e75649"
+    "contentHash": "eea8ffcb7b390582fa85a02e9b7fefd6e287dc4c4c82704e833f4e6b6307dfcc"
   },
   "window": {
-    "startIso": "2026-10-02",
-    "endIso": "2027-01-14"
+    "startIso": "2026-10-03",
+    "endIso": "2027-01-15"
   },
   "meetings": [
     {
@@ -487,11 +487,11 @@
       "time": "13:30",
       "location": "Government Center - County Board Chambers",
       "agendaStatus": "Preliminary",
-      "agendaUrl": null,
+      "agendaUrl": "https://hennepinmn.legistar1.com/hennepinmn/meetings/2026/10/1487_A_Board_of_Hennepin_County_Commissioners_26-10-20_BOARD_AGENDA.pdf",
       "minutesUrl": null,
       "videoStatus": "Public",
       "sourceUrl": "https://hennepinmn.legistar.com/MeetingDetail.aspx?LEGID=1487&GID=953&G=BA9AD5D7-E82F-425B-B72E-ABFEC8B35879",
-      "lastModifiedUtc": "2026-10-08T13:45:03.337",
+      "lastModifiedUtc": "2026-10-16T17:36:31.883",
       "members": [
         {
           "id": 508,
@@ -538,11 +538,11 @@
       "time": "13:30",
       "location": "Government Center - County Board Chambers",
       "agendaStatus": "Preliminary",
-      "agendaUrl": null,
+      "agendaUrl": "https://hennepinmn.legistar1.com/hennepinmn/meetings/2026/10/1488_A_Hennepin_County_Regional_Railroad_Authority_26-10-20_AUTHORITY_AGENDA.pdf",
       "minutesUrl": null,
       "videoStatus": "Public",
       "sourceUrl": "https://hennepinmn.legistar.com/MeetingDetail.aspx?LEGID=1488&GID=953&G=BA9AD5D7-E82F-425B-B72E-ABFEC8B35879",
-      "lastModifiedUtc": "2026-10-08T13:45:18.133",
+      "lastModifiedUtc": "2026-10-16T17:38:29.423",
       "members": [
         {
           "id": 517,
@@ -572,6 +572,57 @@
         {
           "id": 573,
           "name": "Marion Greene",
+          "type": "Commissioner"
+        },
+        {
+          "id": 544,
+          "name": "Kevin Anderson",
+          "type": "Commissioner"
+        }
+      ]
+    },
+    {
+      "id": "legistar-hennepinmn-meeting-1489",
+      "body_id": "legistar-hennepinmn-body-260",
+      "bodyName": "Administration, Operations and Budget Committee",
+      "date": "2026-10-19",
+      "time": "12:00",
+      "location": "Government Center - County Board Chambers",
+      "agendaStatus": "Final",
+      "agendaUrl": "https://hennepinmn.legistar1.com/hennepinmn/meetings/2026/10/1489_A_Administration%2C_Operations_and_Budget_Committee_26-10-19_COMMITTEE_AGENDA.pdf",
+      "minutesUrl": null,
+      "videoStatus": "Public",
+      "sourceUrl": "https://hennepinmn.legistar.com/MeetingDetail.aspx?LEGID=1489&GID=953&G=BA9AD5D7-E82F-425B-B72E-ABFEC8B35879",
+      "lastModifiedUtc": "2026-10-16T23:05:34.567",
+      "members": [
+        {
+          "id": 508,
+          "name": "Irene Fernando",
+          "type": "Commissioner"
+        },
+        {
+          "id": 573,
+          "name": "Marion Greene",
+          "type": "Commissioner"
+        },
+        {
+          "id": 454,
+          "name": "Angela Conley",
+          "type": "Commissioner"
+        },
+        {
+          "id": 490,
+          "name": "Debbie Goettel",
+          "type": "Commissioner"
+        },
+        {
+          "id": 698,
+          "name": "Heather Edelson",
+          "type": "Commissioner"
+        },
+        {
+          "id": 517,
+          "name": "Jeff Lunde",
           "type": "Commissioner"
         },
         {
@@ -2441,20 +2492,147 @@
       "matterFile": "26-HCRRA-0022",
       "matterId": 4925,
       "matterType": "RRA New Business"
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-37696",
+      "meeting_id": "legistar-hennepinmn-meeting-1489",
+      "sequence": 2,
+      "agendaNumber": "2.",
+      "title": "Minutes from Previous Meeting",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-37697",
+      "meeting_id": "legistar-hennepinmn-meeting-1489",
+      "sequence": 9,
+      "agendaNumber": null,
+      "title": "Members of the public will be able to call in to record a comment that will be played for the board at the following budget hearing. The call in line will be open from 7:00 a.m. to 11:00 a.m. CST the day after each hearing. Comments should be related to this specific hearing. Instructions to participate are available at hennepincounty.gov/budgets.",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "TMP-26-0768",
+      "matterId": 4881,
+      "matterType": "Minutes"
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-37699",
+      "meeting_id": "legistar-hennepinmn-meeting-1489",
+      "sequence": 4,
+      "agendaNumber": "3.",
+      "title": "Discussion",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-37708",
+      "meeting_id": "legistar-hennepinmn-meeting-1489",
+      "sequence": 1,
+      "agendaNumber": "1.",
+      "title": "Open Forum Playback - County Attorney's Office and Sheriff's Office",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-37709",
+      "meeting_id": "legistar-hennepinmn-meeting-1489",
+      "sequence": 6,
+      "agendaNumber": "4.",
+      "title": "Old Business",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-37710",
+      "meeting_id": "legistar-hennepinmn-meeting-1489",
+      "sequence": 8,
+      "agendaNumber": "5.",
+      "title": "Open Forum Budget",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-37711",
+      "meeting_id": "legistar-hennepinmn-meeting-1489",
+      "sequence": 7,
+      "agendaNumber": "4.A.",
+      "title": "2027 Proposed Operating and Capital Budgets",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "26-0349",
+      "matterId": 4847,
+      "matterType": "Resolution"
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-37712",
+      "meeting_id": "legistar-hennepinmn-meeting-1489",
+      "sequence": 5,
+      "agendaNumber": "3.A.",
+      "title": "2027 Proposed Budget Presentation - Resident Services and Operations",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "TMP-26-0824",
+      "matterId": 4937,
+      "matterType": "Minutes"
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-37792",
+      "meeting_id": "legistar-hennepinmn-meeting-1489",
+      "sequence": 3,
+      "agendaNumber": "2.A.",
+      "title": "October 8 Budget Hearing Minutes - County Attorney’s Office and Sheriff’s Office",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "TMP-26-0837",
+      "matterId": 4950,
+      "matterType": "Minutes"
     }
   ],
   "diff": {
     "addedIds": [
-      "legistar-hennepinmn-meeting-1487",
-      "legistar-hennepinmn-meeting-1488"
+      "legistar-hennepinmn-meeting-1489"
     ],
-    "removedIds": [
-      "legistar-hennepinmn-meeting-1477"
-    ],
-    "changed": []
+    "removedIds": [],
+    "changed": [
+      {
+        "id": "legistar-hennepinmn-meeting-1487",
+        "field": "agendaUrl",
+        "from": null,
+        "to": "https://hennepinmn.legistar1.com/hennepinmn/meetings/2026/10/1487_A_Board_of_Hennepin_County_Commissioners_26-10-20_BOARD_AGENDA.pdf"
+      },
+      {
+        "id": "legistar-hennepinmn-meeting-1488",
+        "field": "agendaUrl",
+        "from": null,
+        "to": "https://hennepinmn.legistar1.com/hennepinmn/meetings/2026/10/1488_A_Hennepin_County_Regional_Railroad_Authority_26-10-20_AUTHORITY_AGENDA.pdf"
+      }
+    ]
   },
-  "previousGeneratedAt": "2026-10-15T16:38:49.274Z",
+  "previousGeneratedAt": "2026-10-16T16:23:18.740Z",
   "knownGaps": [
-    "Consent-agenda flagging uses Legistar's own EventItemConsent field only (16 of 143 agenda item(s) in this window flagged). \"No discussion\" / \"no public comment\" are NOT flagged — this API exposes no comparably reliable field for either, and AGENTS.md §3.3 rules out inferring one from absence."
+    "Consent-agenda flagging uses Legistar's own EventItemConsent field only (16 of 152 agenda item(s) in this window flagged). \"No discussion\" / \"no public comment\" are NOT flagged — this API exposes no comparably reliable field for either, and AGENTS.md §3.3 rules out inferring one from absence."
   ]
 }

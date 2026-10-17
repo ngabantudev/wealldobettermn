@@ -1,6 +1,18 @@
 {
-  "generatedAt": "2026-10-16T16:22:12.705Z",
+  "generatedAt": "2026-10-17T15:17:38.431Z",
   "meetingsThisWeek": [
+    {
+      "client": "stpaul",
+      "jurisdiction": "St. Paul City Council",
+      "bodyName": "Legislative Hearings",
+      "date": "2026-10-20",
+      "time": "10:00",
+      "location": "Room 42 City Hall & Court House/Remote",
+      "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7804&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
+      "agendaUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/10/7804_A_Legislative_Hearings_26-10-20_ADA_Meeting_Agenda.pdf",
+      "isCancelled": false,
+      "members": []
+    },
     {
       "client": "stpaul",
       "jurisdiction": "St. Paul City Council",
@@ -85,7 +97,7 @@
       "time": "13:00",
       "location": "Council Chambers, City Hall",
       "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7801&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
-      "agendaUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/10/7801_A_Policy_Committee_26-10-21_Meeting_Agenda.pdf",
+      "agendaUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/10/7801_A_Policy_Committee_26-10-21_ADA_Meeting_Agenda.pdf",
       "isCancelled": false,
       "members": [
         {
