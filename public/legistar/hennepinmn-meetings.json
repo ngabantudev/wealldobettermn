@@ -2,22 +2,22 @@
   "schemaVersion": 1,
   "client": "hennepinmn",
   "jurisdiction": "Hennepin County Board",
-  "generatedAt": "2026-10-17T15:18:48.392Z",
+  "generatedAt": "2026-10-18T15:40:08.658Z",
   "status": "ingested",
-  "note": "12 meeting(s) (12/12 event(s) in window) and 152 agenda item(s) ingested for 2026-10-03–2027-01-15.",
+  "note": "13 meeting(s) (13/13 event(s) in window) and 163 agenda item(s) ingested for 2026-10-04–2027-01-16.",
   "provenance": {
     "primarySourceUrl": "https://webapi.legistar.com/v1/hennepinmn/events",
     "sourceAgency": "Hennepin County Board",
     "documentType": "Legistar Web API — Events/EventItems",
     "documentId": null,
     "issuedDate": null,
-    "fetchedAt": "2026-10-17T15:18:48.392Z",
+    "fetchedAt": "2026-10-18T15:40:08.658Z",
     "licence": "Public records served via Legistar InSite; no separate machine-reuse licence published by the host jurisdiction as of this writing.",
-    "contentHash": "eea8ffcb7b390582fa85a02e9b7fefd6e287dc4c4c82704e833f4e6b6307dfcc"
+    "contentHash": "902ba7db56fc04c1fb54b94f7ad3a984dbec23a0fdd1809e4c36b96d5449c9b1"
   },
   "window": {
-    "startIso": "2026-10-03",
-    "endIso": "2027-01-15"
+    "startIso": "2026-10-04",
+    "endIso": "2027-01-16"
   },
   "meetings": [
     {
@@ -623,6 +623,57 @@
         {
           "id": 517,
           "name": "Jeff Lunde",
+          "type": "Commissioner"
+        },
+        {
+          "id": 544,
+          "name": "Kevin Anderson",
+          "type": "Commissioner"
+        }
+      ]
+    },
+    {
+      "id": "legistar-hennepinmn-meeting-1491",
+      "body_id": "legistar-hennepinmn-body-276",
+      "bodyName": "Hennepin Healthcare System Inc. Governing Board",
+      "date": "2026-10-20",
+      "time": "10:00",
+      "location": null,
+      "agendaStatus": "Final",
+      "agendaUrl": "https://hennepinmn.legistar1.com/hennepinmn/meetings/2026/10/1491_A_Hennepin_Healthcare_System_Inc._Governing_Board_26-10-20_BOARD_AGENDA.pdf",
+      "minutesUrl": null,
+      "videoStatus": "Public",
+      "sourceUrl": "https://hennepinmn.legistar.com/MeetingDetail.aspx?LEGID=1491&GID=953&G=BA9AD5D7-E82F-425B-B72E-ABFEC8B35879",
+      "lastModifiedUtc": "2026-10-17T18:52:14.997",
+      "members": [
+        {
+          "id": 517,
+          "name": "Jeff Lunde",
+          "type": "Commissioner"
+        },
+        {
+          "id": 573,
+          "name": "Marion Greene",
+          "type": "Commissioner"
+        },
+        {
+          "id": 454,
+          "name": "Angela Conley",
+          "type": "Commissioner"
+        },
+        {
+          "id": 508,
+          "name": "Irene Fernando",
+          "type": "Commissioner"
+        },
+        {
+          "id": 490,
+          "name": "Debbie Goettel",
+          "type": "Commissioner"
+        },
+        {
+          "id": 698,
+          "name": "Heather Edelson",
           "type": "Commissioner"
         },
         {
@@ -2609,30 +2660,160 @@
       "matterFile": "TMP-26-0837",
       "matterId": 4950,
       "matterType": "Minutes"
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-37734",
+      "meeting_id": "legistar-hennepinmn-meeting-1491",
+      "sequence": 1,
+      "agendaNumber": "1.",
+      "title": "Approval of the Agenda",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-37756",
+      "meeting_id": "legistar-hennepinmn-meeting-1491",
+      "sequence": 3,
+      "agendaNumber": "3.",
+      "title": "Minutes from Previous Meeting",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-37767",
+      "meeting_id": "legistar-hennepinmn-meeting-1491",
+      "sequence": 5,
+      "agendaNumber": "4.",
+      "title": "New Business - open",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-37768",
+      "meeting_id": "legistar-hennepinmn-meeting-1491",
+      "sequence": 10,
+      "agendaNumber": "6.",
+      "title": "New Business - closed",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-37773",
+      "meeting_id": "legistar-hennepinmn-meeting-1491",
+      "sequence": 6,
+      "agendaNumber": "4.A.",
+      "title": "Review applications for initial appointment and reappointment to the HHS Medical Staff, completed Focused Professional Practice Evaluations (FPPE), clinical privilege modification requests, and medical staff resignations",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "26-HHS-0042",
+      "matterId": 4943,
+      "matterType": "HHS New Business"
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-37774",
+      "meeting_id": "legistar-hennepinmn-meeting-1491",
+      "sequence": 2,
+      "agendaNumber": "2.",
+      "title": "Open Forum / Public Comment",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-37775",
+      "meeting_id": "legistar-hennepinmn-meeting-1491",
+      "sequence": 7,
+      "agendaNumber": "4.B.",
+      "title": "CEO update",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "TMP-26-0832",
+      "matterId": 4945,
+      "matterType": "Minutes"
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-37776",
+      "meeting_id": "legistar-hennepinmn-meeting-1491",
+      "sequence": 9,
+      "agendaNumber": "5.A.",
+      "title": "Under Minn. Stat. Section 383B.917, the remainder of this meeting is closed to the public",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "TMP-26-0833",
+      "matterId": 4946,
+      "matterType": "Minutes"
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-37778",
+      "meeting_id": "legistar-hennepinmn-meeting-1491",
+      "sequence": 8,
+      "agendaNumber": "5.",
+      "title": "Motion to Close",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-37788",
+      "meeting_id": "legistar-hennepinmn-meeting-1491",
+      "sequence": null,
+      "agendaNumber": "3.A.",
+      "title": "August 25, 2026 Meeting Minutes",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "TMP-26-0835",
+      "matterId": 4948,
+      "matterType": "Minutes"
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-37793",
+      "meeting_id": "legistar-hennepinmn-meeting-1491",
+      "sequence": 4,
+      "agendaNumber": "3.A.",
+      "title": "August 25, 2026 Meeting Minutes",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "TMP-26-0835",
+      "matterId": 4948,
+      "matterType": "Minutes"
     }
   ],
   "diff": {
     "addedIds": [
-      "legistar-hennepinmn-meeting-1489"
+      "legistar-hennepinmn-meeting-1491"
     ],
     "removedIds": [],
-    "changed": [
-      {
-        "id": "legistar-hennepinmn-meeting-1487",
-        "field": "agendaUrl",
-        "from": null,
-        "to": "https://hennepinmn.legistar1.com/hennepinmn/meetings/2026/10/1487_A_Board_of_Hennepin_County_Commissioners_26-10-20_BOARD_AGENDA.pdf"
-      },
-      {
-        "id": "legistar-hennepinmn-meeting-1488",
-        "field": "agendaUrl",
-        "from": null,
-        "to": "https://hennepinmn.legistar1.com/hennepinmn/meetings/2026/10/1488_A_Hennepin_County_Regional_Railroad_Authority_26-10-20_AUTHORITY_AGENDA.pdf"
-      }
-    ]
+    "changed": []
   },
-  "previousGeneratedAt": "2026-10-16T16:23:18.740Z",
+  "previousGeneratedAt": "2026-10-17T15:18:48.392Z",
   "knownGaps": [
-    "Consent-agenda flagging uses Legistar's own EventItemConsent field only (16 of 152 agenda item(s) in this window flagged). \"No discussion\" / \"no public comment\" are NOT flagged — this API exposes no comparably reliable field for either, and AGENTS.md §3.3 rules out inferring one from absence."
+    "Consent-agenda flagging uses Legistar's own EventItemConsent field only (16 of 163 agenda item(s) in this window flagged). \"No discussion\" / \"no public comment\" are NOT flagged — this API exposes no comparably reliable field for either, and AGENTS.md §3.3 rules out inferring one from absence."
   ]
 }

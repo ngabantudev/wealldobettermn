@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-17T15:19:00.591Z",
+  "generatedAt": "2026-10-18T15:40:24.695Z",
   "meetingsThisWeek": [
     {
       "client": "minneapolis",
@@ -517,8 +517,8 @@
       "date": "2026-10-21",
       "time": "17:30",
       "location": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/ARTS/",
-      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/ARTS/",
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/ARTS/16306",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/ARTS/16306",
       "isCancelled": false,
       "members": [
         {
@@ -2081,6 +2081,175 @@
         {
           "id": 7018,
           "name": "Paul Mellblom",
+          "type": "ABC Member"
+        }
+      ]
+    },
+    {
+      "client": "minneapolis",
+      "jurisdiction": "Minneapolis City Council",
+      "bodyName": "Enterprise & Labor Relations Committee",
+      "date": "2026-11-16",
+      "time": "13:30",
+      "location": null,
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/ELR/",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/ELR/",
+      "isCancelled": false,
+      "members": [
+        {
+          "id": 375,
+          "name": "Linea Palmisano",
+          "type": "Chair"
+        },
+        {
+          "id": 5696,
+          "name": "LaTrisha Vetaw",
+          "type": "Council Member"
+        },
+        {
+          "id": 5697,
+          "name": "Aisha Chughtai",
+          "type": "Council Member"
+        },
+        {
+          "id": 5698,
+          "name": "Jason Chavez",
+          "type": "Council Member"
+        },
+        {
+          "id": 7962,
+          "name": "Soren Stevenson",
+          "type": "Council Member"
+        },
+        {
+          "id": 7963,
+          "name": "Elizabeth Shaffer",
+          "type": "Council Member"
+        },
+        {
+          "id": 7964,
+          "name": "Jamison Whiting",
+          "type": "Vice-Chair"
+        }
+      ]
+    },
+    {
+      "client": "minneapolis",
+      "jurisdiction": "Minneapolis City Council",
+      "bodyName": "Civil Rights Commission",
+      "date": "2026-11-16",
+      "time": "18:00",
+      "location": null,
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/MCCR/",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/MCCR/",
+      "isCancelled": false,
+      "members": [
+        {
+          "id": 6087,
+          "name": "Michael Smith",
+          "type": "ABC Member"
+        },
+        {
+          "id": 6740,
+          "name": "Mark Stignani",
+          "type": "ABC Member"
+        },
+        {
+          "id": 6741,
+          "name": "William Pentelovitch",
+          "type": "ABC Member"
+        },
+        {
+          "id": 6742,
+          "name": "Viviana Salazar",
+          "type": "ABC Member"
+        },
+        {
+          "id": 6745,
+          "name": "Zamzam Mohammed",
+          "type": "ABC Member"
+        },
+        {
+          "id": 6746,
+          "name": "Ann Marie Schott",
+          "type": "ABC Member"
+        },
+        {
+          "id": 6761,
+          "name": "Tiara Brown",
+          "type": "ABC Member"
+        },
+        {
+          "id": 6970,
+          "name": "Anthony Burns",
+          "type": "ABC Member"
+        },
+        {
+          "id": 6999,
+          "name": "Amy Bergquist",
+          "type": "ABC Member"
+        },
+        {
+          "id": 7001,
+          "name": "David Jones",
+          "type": "ABC Member"
+        },
+        {
+          "id": 7014,
+          "name": "Heather Stratton",
+          "type": "ABC Member"
+        },
+        {
+          "id": 7015,
+          "name": "Rebecca Waggoner",
+          "type": "ABC Member"
+        }
+      ]
+    },
+    {
+      "client": "minneapolis",
+      "jurisdiction": "Minneapolis City Council",
+      "bodyName": "Community Commission on Police Oversight",
+      "date": "2026-11-16",
+      "time": "18:00",
+      "location": null,
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/CCPO/",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/CCPO/",
+      "isCancelled": false,
+      "members": [
+        {
+          "id": 6900,
+          "name": "Melissa Newman",
+          "type": "ABC Member"
+        },
+        {
+          "id": 6901,
+          "name": "Jennifer Clement",
+          "type": "ABC Member"
+        },
+        {
+          "id": 6902,
+          "name": "Bridgette Stewart",
+          "type": "ABC Member"
+        },
+        {
+          "id": 6903,
+          "name": "Nichelle Williams-Johnson",
+          "type": "ABC Member"
+        },
+        {
+          "id": 6904,
+          "name": "Latonya Reeves",
+          "type": "ABC Member"
+        },
+        {
+          "id": 6905,
+          "name": "James Canaday",
+          "type": "ABC Member"
+        },
+        {
+          "id": 6931,
+          "name": "Carolyn Bastick",
           "type": "ABC Member"
         }
       ]

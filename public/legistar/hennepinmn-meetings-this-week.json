@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-17T15:18:48.393Z",
+  "generatedAt": "2026-10-18T15:40:08.660Z",
   "meetingsThisWeek": [
     {
       "client": "hennepinmn",
@@ -40,6 +40,54 @@
         {
           "id": 517,
           "name": "Jeff Lunde",
+          "type": "Commissioner"
+        },
+        {
+          "id": 544,
+          "name": "Kevin Anderson",
+          "type": "Commissioner"
+        }
+      ]
+    },
+    {
+      "client": "hennepinmn",
+      "jurisdiction": "Hennepin County Board",
+      "bodyName": "Hennepin Healthcare System Inc. Governing Board",
+      "date": "2026-10-20",
+      "time": "10:00",
+      "location": null,
+      "sourceUrl": "https://hennepinmn.legistar.com/MeetingDetail.aspx?LEGID=1491&GID=953&G=BA9AD5D7-E82F-425B-B72E-ABFEC8B35879",
+      "agendaUrl": "https://hennepinmn.legistar1.com/hennepinmn/meetings/2026/10/1491_A_Hennepin_Healthcare_System_Inc._Governing_Board_26-10-20_BOARD_AGENDA.pdf",
+      "isCancelled": false,
+      "members": [
+        {
+          "id": 517,
+          "name": "Jeff Lunde",
+          "type": "Commissioner"
+        },
+        {
+          "id": 573,
+          "name": "Marion Greene",
+          "type": "Commissioner"
+        },
+        {
+          "id": 454,
+          "name": "Angela Conley",
+          "type": "Commissioner"
+        },
+        {
+          "id": 508,
+          "name": "Irene Fernando",
+          "type": "Commissioner"
+        },
+        {
+          "id": 490,
+          "name": "Debbie Goettel",
+          "type": "Commissioner"
+        },
+        {
+          "id": 698,
+          "name": "Heather Edelson",
           "type": "Commissioner"
         },
         {
