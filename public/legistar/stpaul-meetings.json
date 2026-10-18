@@ -2,22 +2,22 @@
   "schemaVersion": 1,
   "client": "stpaul",
   "jurisdiction": "St. Paul City Council",
-  "generatedAt": "2026-10-17T15:17:38.429Z",
+  "generatedAt": "2026-10-18T15:38:59.891Z",
   "status": "ingested",
-  "note": "16 meeting(s) (16/16 event(s) in window) and 320 agenda item(s) ingested for 2026-10-03–2027-01-15.",
+  "note": "16 meeting(s) (16/16 event(s) in window) and 320 agenda item(s) ingested for 2026-10-04–2027-01-16.",
   "provenance": {
     "primarySourceUrl": "https://webapi.legistar.com/v1/stpaul/events",
     "sourceAgency": "St. Paul City Council",
     "documentType": "Legistar Web API — Events/EventItems",
     "documentId": null,
     "issuedDate": null,
-    "fetchedAt": "2026-10-17T15:17:38.429Z",
+    "fetchedAt": "2026-10-18T15:38:59.891Z",
     "licence": "Public records served via Legistar InSite; no separate machine-reuse licence published by the host jurisdiction as of this writing.",
-    "contentHash": "4d4bfd6447814c29b40facfae28d0f24bc4cf8cb7df1ddec0bb41127de6aca73"
+    "contentHash": "a88cf88ecee2f9562a55a3d77a66da80ad06c3d00f7624dbfca11c67ad4927cc"
   },
   "window": {
-    "startIso": "2026-10-03",
-    "endIso": "2027-01-15"
+    "startIso": "2026-10-04",
+    "endIso": "2027-01-16"
   },
   "meetings": [
     {
@@ -4872,20 +4872,11 @@
     }
   ],
   "diff": {
-    "addedIds": [
-      "legistar-stpaul-meeting-7804"
-    ],
+    "addedIds": [],
     "removedIds": [],
-    "changed": [
-      {
-        "id": "legistar-stpaul-meeting-7801",
-        "field": "agendaUrl",
-        "from": "https://legistar1.granicus.com/StPaul/meetings/2026/10/7801_A_Policy_Committee_26-10-21_Meeting_Agenda.pdf",
-        "to": "https://legistar1.granicus.com/StPaul/meetings/2026/10/7801_A_Policy_Committee_26-10-21_ADA_Meeting_Agenda.pdf"
-      }
-    ]
+    "changed": []
   },
-  "previousGeneratedAt": "2026-10-16T16:22:12.702Z",
+  "previousGeneratedAt": "2026-10-17T15:17:38.429Z",
   "knownGaps": [
     "Consent-agenda flagging uses Legistar's own EventItemConsent field only (75 of 320 agenda item(s) in this window flagged). \"No discussion\" / \"no public comment\" are NOT flagged — this API exposes no comparably reliable field for either, and AGENTS.md §3.3 rules out inferring one from absence."
   ]

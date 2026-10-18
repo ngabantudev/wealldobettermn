@@ -2,22 +2,22 @@
   "schemaVersion": 1,
   "client": "minneapolis",
   "jurisdiction": "Minneapolis City Council",
-  "generatedAt": "2026-10-17T15:19:00.584Z",
+  "generatedAt": "2026-10-18T15:40:24.688Z",
   "status": "ingested",
-  "note": "117 meeting(s) and 506 agenda item(s) ingested for 2026-10-03–2027-01-15.",
+  "note": "117 meeting(s) and 506 agenda item(s) ingested for 2026-10-04–2027-01-16.",
   "provenance": {
     "primarySourceUrl": "https://lims.minneapolismn.gov/",
     "sourceAgency": "City of Minneapolis, Office of the City Clerk",
     "documentType": "LIMS API v1 — meetingCalendar/FileItemSearch",
     "documentId": null,
     "issuedDate": null,
-    "fetchedAt": "2026-10-17T15:19:00.584Z",
+    "fetchedAt": "2026-10-18T15:40:24.688Z",
     "licence": "Public records served via the City of Minneapolis LIMS API; no separate machine-reuse licence published as of this writing.",
     "contentHash": null
   },
   "window": {
-    "startIso": "2026-10-03",
-    "endIso": "2027-01-15"
+    "startIso": "2026-10-04",
+    "endIso": "2027-01-16"
   },
   "meetings": [
     {
@@ -1880,10 +1880,10 @@
       "time": "17:30",
       "location": null,
       "agendaStatus": null,
-      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/ARTS/",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/ARTS/16306",
       "minutesUrl": null,
       "videoStatus": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/ARTS/",
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/ARTS/16306",
       "lastModifiedUtc": null,
       "members": [
         {
@@ -24387,9 +24387,16 @@
   "diff": {
     "addedIds": [],
     "removedIds": [],
-    "changed": []
+    "changed": [
+      {
+        "id": "lims-minneapolis-meeting-minneapolis-arts-commission-2026-10-21T17:30:00",
+        "field": "agendaUrl",
+        "from": "https://lims.minneapolismn.gov/Agenda/ARTS/",
+        "to": "https://lims.minneapolismn.gov/Agenda/ARTS/16306"
+      }
+    ]
   },
-  "previousGeneratedAt": "2026-10-16T16:23:29.263Z",
+  "previousGeneratedAt": "2026-10-17T15:19:00.584Z",
   "knownGaps": [
     "Consent-agenda flagging not implemented — LIMS has no field structurally equivalent to Legistar's EventItemConsent; every agenda item ships isConsent: false rather than a guess.",
     "1 same-day, same-body meeting collision(s) in this window — FileItemSearch's LegislativeHistory carries a date but no time, so a second same-day session for the same body can't be disambiguated; the earliest session for each colliding (body, date) pair was used."
