@@ -2,22 +2,22 @@
   "schemaVersion": 1,
   "client": "stpaul",
   "jurisdiction": "St. Paul City Council",
-  "generatedAt": "2026-10-18T15:38:59.891Z",
+  "generatedAt": "2026-10-19T18:34:26.990Z",
   "status": "ingested",
-  "note": "16 meeting(s) (16/16 event(s) in window) and 320 agenda item(s) ingested for 2026-10-04–2027-01-16.",
+  "note": "16 meeting(s) (16/16 event(s) in window) and 320 agenda item(s) ingested for 2026-10-05–2027-01-17.",
   "provenance": {
     "primarySourceUrl": "https://webapi.legistar.com/v1/stpaul/events",
     "sourceAgency": "St. Paul City Council",
     "documentType": "Legistar Web API — Events/EventItems",
     "documentId": null,
     "issuedDate": null,
-    "fetchedAt": "2026-10-18T15:38:59.891Z",
+    "fetchedAt": "2026-10-19T18:34:26.990Z",
     "licence": "Public records served via Legistar InSite; no separate machine-reuse licence published by the host jurisdiction as of this writing.",
-    "contentHash": "a88cf88ecee2f9562a55a3d77a66da80ad06c3d00f7624dbfca11c67ad4927cc"
+    "contentHash": "5e87d30b426f58032d7fb09e759388fd44610d58153ff6cda4af2ab575bfc01c"
   },
   "window": {
-    "startIso": "2026-10-04",
-    "endIso": "2027-01-16"
+    "startIso": "2026-10-05",
+    "endIso": "2027-01-17"
   },
   "meetings": [
     {
@@ -501,7 +501,7 @@
       "minutesUrl": null,
       "videoStatus": "Public",
       "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7800&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
-      "lastModifiedUtc": "2026-10-16T18:46:04.017",
+      "lastModifiedUtc": "2026-10-19T16:00:52.443",
       "members": [
         {
           "id": 6692,
@@ -4678,7 +4678,7 @@
     {
       "id": "legistar-stpaul-eventitem-218296",
       "meeting_id": "legistar-stpaul-meeting-7804",
-      "sequence": 4,
+      "sequence": 7,
       "agendaNumber": null,
       "title": "11:00 a.m. Hearings",
       "isConsent": false,
@@ -4691,7 +4691,7 @@
     {
       "id": "legistar-stpaul-eventitem-218297",
       "meeting_id": "legistar-stpaul-meeting-7804",
-      "sequence": 5,
+      "sequence": 4,
       "agendaNumber": null,
       "title": "Summary & Vehicle Abatement Orders",
       "isConsent": false,
@@ -4717,7 +4717,7 @@
     {
       "id": "legistar-stpaul-eventitem-218299",
       "meeting_id": "legistar-stpaul-meeting-7804",
-      "sequence": 7,
+      "sequence": 6,
       "agendaNumber": "3",
       "title": "Appeal of Preston Lorenz to a Summary Abatement Order at 751 OAKDALE AVENUE.",
       "isConsent": false,
@@ -4730,7 +4730,7 @@
     {
       "id": "legistar-stpaul-eventitem-218300",
       "meeting_id": "legistar-stpaul-meeting-7804",
-      "sequence": 6,
+      "sequence": 5,
       "agendaNumber": "2",
       "title": "Appeal of Bryan Dale Purdom to a Summary Abatement Order at 1104 FARRINGTON STREET.",
       "isConsent": false,
@@ -4876,7 +4876,7 @@
     "removedIds": [],
     "changed": []
   },
-  "previousGeneratedAt": "2026-10-17T15:17:38.429Z",
+  "previousGeneratedAt": "2026-10-18T15:38:59.891Z",
   "knownGaps": [
     "Consent-agenda flagging uses Legistar's own EventItemConsent field only (75 of 320 agenda item(s) in this window flagged). \"No discussion\" / \"no public comment\" are NOT flagged — this API exposes no comparably reliable field for either, and AGENTS.md §3.3 rules out inferring one from absence."
   ]

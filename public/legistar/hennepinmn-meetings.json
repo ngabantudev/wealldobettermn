@@ -2,22 +2,22 @@
   "schemaVersion": 1,
   "client": "hennepinmn",
   "jurisdiction": "Hennepin County Board",
-  "generatedAt": "2026-10-18T15:40:08.658Z",
+  "generatedAt": "2026-10-19T18:35:38.207Z",
   "status": "ingested",
-  "note": "13 meeting(s) (13/13 event(s) in window) and 163 agenda item(s) ingested for 2026-10-04–2027-01-16.",
+  "note": "13 meeting(s) (13/13 event(s) in window) and 199 agenda item(s) ingested for 2026-10-05–2027-01-17.",
   "provenance": {
     "primarySourceUrl": "https://webapi.legistar.com/v1/hennepinmn/events",
     "sourceAgency": "Hennepin County Board",
     "documentType": "Legistar Web API — Events/EventItems",
     "documentId": null,
     "issuedDate": null,
-    "fetchedAt": "2026-10-18T15:40:08.658Z",
+    "fetchedAt": "2026-10-19T18:35:38.207Z",
     "licence": "Public records served via Legistar InSite; no separate machine-reuse licence published by the host jurisdiction as of this writing.",
-    "contentHash": "902ba7db56fc04c1fb54b94f7ad3a984dbec23a0fdd1809e4c36b96d5449c9b1"
+    "contentHash": "1ba07cff6f39a13cd569655da331d9f1949ad8c857b6aaaa62e9445ca16e62fe"
   },
   "window": {
-    "startIso": "2026-10-04",
-    "endIso": "2027-01-16"
+    "startIso": "2026-10-05",
+    "endIso": "2027-01-17"
   },
   "meetings": [
     {
@@ -1947,7 +1947,7 @@
       "matterType": null
     },
     {
-      "id": "legistar-hennepinmn-eventitem-37646",
+      "id": "legistar-hennepinmn-eventitem-37794",
       "meeting_id": "legistar-hennepinmn-meeting-1487",
       "sequence": 1,
       "agendaNumber": "1.",
@@ -1960,7 +1960,7 @@
       "matterType": null
     },
     {
-      "id": "legistar-hennepinmn-eventitem-37647",
+      "id": "legistar-hennepinmn-eventitem-37795",
       "meeting_id": "legistar-hennepinmn-meeting-1487",
       "sequence": 2,
       "agendaNumber": "2.",
@@ -1973,7 +1973,7 @@
       "matterType": null
     },
     {
-      "id": "legistar-hennepinmn-eventitem-37648",
+      "id": "legistar-hennepinmn-eventitem-37796",
       "meeting_id": "legistar-hennepinmn-meeting-1487",
       "sequence": 3,
       "agendaNumber": "3.",
@@ -1986,9 +1986,9 @@
       "matterType": null
     },
     {
-      "id": "legistar-hennepinmn-eventitem-37649",
+      "id": "legistar-hennepinmn-eventitem-37797",
       "meeting_id": "legistar-hennepinmn-meeting-1487",
-      "sequence": 4,
+      "sequence": 5,
       "agendaNumber": "4.",
       "title": "Minutes from Previous Meeting",
       "isConsent": false,
@@ -1999,9 +1999,9 @@
       "matterType": null
     },
     {
-      "id": "legistar-hennepinmn-eventitem-37650",
+      "id": "legistar-hennepinmn-eventitem-37798",
       "meeting_id": "legistar-hennepinmn-meeting-1487",
-      "sequence": 5,
+      "sequence": 6,
       "agendaNumber": "4.A.",
       "title": "September 29, 2026 Meeting Minutes",
       "isConsent": false,
@@ -2012,9 +2012,9 @@
       "matterType": "Minutes"
     },
     {
-      "id": "legistar-hennepinmn-eventitem-37651",
+      "id": "legistar-hennepinmn-eventitem-37799",
       "meeting_id": "legistar-hennepinmn-meeting-1487",
-      "sequence": 6,
+      "sequence": 7,
       "agendaNumber": "5.",
       "title": "Referral of Correspondence and Department Communications",
       "isConsent": false,
@@ -2025,9 +2025,9 @@
       "matterType": null
     },
     {
-      "id": "legistar-hennepinmn-eventitem-37652",
+      "id": "legistar-hennepinmn-eventitem-37800",
       "meeting_id": "legistar-hennepinmn-meeting-1487",
-      "sequence": 7,
+      "sequence": 8,
       "agendaNumber": null,
       "title": "Correspondence",
       "isConsent": false,
@@ -2038,9 +2038,74 @@
       "matterType": null
     },
     {
-      "id": "legistar-hennepinmn-eventitem-37656",
+      "id": "legistar-hennepinmn-eventitem-37802",
       "meeting_id": "legistar-hennepinmn-meeting-1487",
-      "sequence": 8,
+      "sequence": 11,
+      "agendaNumber": "C.",
+      "title": "Summary of Hennepin Health agreements and amendments to agreements approved in third quarter (Q3) of 2026 by the Hennepin Health Executive Director",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "26N-0041",
+      "matterId": 4917,
+      "matterType": "Correspondence"
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-37803",
+      "meeting_id": "legistar-hennepinmn-meeting-1487",
+      "sequence": 10,
+      "agendaNumber": "B.",
+      "title": "Summary of Hennepin Health agreements and amendments to agreements approved in second quarter (Q2) of 2026 by the Hennepin Health Executive Director",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "26N-0040",
+      "matterId": 4918,
+      "matterType": "Correspondence"
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-37804",
+      "meeting_id": "legistar-hennepinmn-meeting-1487",
+      "sequence": 9,
+      "agendaNumber": "A.",
+      "title": "Professional and Personal Service Agmts/Amds of $100,000 or less which have been approved by Department Director, Assistant/County Administrator. Report Number: 26RAA-13",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "26N-0039",
+      "matterId": 4930,
+      "matterType": "Correspondence"
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-37805",
+      "meeting_id": "legistar-hennepinmn-meeting-1487",
+      "sequence": 12,
+      "agendaNumber": "D.",
+      "title": "Claim/Summons - 1. April Mildred Liljedahl - RE: April Mildred Liljedahl Personal Injury Claim. - 2. Hashim Haret Abdi - RE: Hashim Haret Abdi Motor Vehicle Damage Claim. - 3. Jules Langlois - RE: Jules Langlois Personal Injury Claim. - 4. James Cook, BNC John Burris, Nisenbaum, and Curry LLP - RE: Matthew Voorhies Personal Injury Claim.",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "26N-0042",
+      "matterId": 4951,
+      "matterType": "Correspondence"
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-37806",
+      "meeting_id": "legistar-hennepinmn-meeting-1487",
+      "sequence": 13,
+      "agendaNumber": "E.",
+      "title": "Letters - 1. Staffan Peterson, Archaeologist, FERC - RE: Recreation Resource Management Plan Update.",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "26N-0043",
+      "matterId": 4952,
+      "matterType": "Correspondence"
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-37807",
+      "meeting_id": "legistar-hennepinmn-meeting-1487",
+      "sequence": 14,
       "agendaNumber": null,
       "title": "Department Communications",
       "isConsent": false,
@@ -2051,9 +2116,386 @@
       "matterType": null
     },
     {
-      "id": "legistar-hennepinmn-eventitem-37662",
+      "id": "legistar-hennepinmn-eventitem-37808",
       "meeting_id": "legistar-hennepinmn-meeting-1487",
-      "sequence": 9,
+      "sequence": 15,
+      "agendaNumber": "F.",
+      "title": "Claims Register for the period ending October 30, 2026",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "TMP-26-0646",
+      "matterId": 4759,
+      "matterType": "Resolution"
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-37809",
+      "meeting_id": "legistar-hennepinmn-meeting-1487",
+      "sequence": 16,
+      "agendaNumber": "G.",
+      "title": "Claims Register for the period ending November 6, 2026",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "TMP-26-0647",
+      "matterId": 4760,
+      "matterType": "Resolution"
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-37810",
+      "meeting_id": "legistar-hennepinmn-meeting-1487",
+      "sequence": 19,
+      "agendaNumber": "I.",
+      "title": "Agmt A2613520, a Joint Powers Agreement between Hennepin County and the Counties of Isanti and Sherburne to collaborate in the Next Generation Employment Services Grant and launch the “Together We Thrive” pilot program, 10/01/26-09/30/27, $558,235.29 (recv)",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "TMP-26-0793",
+      "matterId": 4906,
+      "matterType": "Resolution"
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-37811",
+      "meeting_id": "legistar-hennepinmn-meeting-1487",
+      "sequence": 20,
+      "agendaNumber": "J.",
+      "title": "Neg 2 Agmts for lead education and grant recruitment services, 11/15/26-11/14/29, total combined NTE $560,000",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "TMP-26-0794",
+      "matterId": 4907,
+      "matterType": "Resolution"
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-37812",
+      "meeting_id": "legistar-hennepinmn-meeting-1487",
+      "sequence": 30,
+      "agendaNumber": "O.",
+      "title": "Neg Agmt PW 57-50-26 with Minnetrista for cost participation related to stabilization improvements at the intersection of CSAHs 151 and 110 (CP 2201139, a subproject of 2201100; NTE $40,950 property tax)",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "TMP-26-0795",
+      "matterId": 4908,
+      "matterType": "Resolution"
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-37813",
+      "meeting_id": "legistar-hennepinmn-meeting-1487",
+      "sequence": 33,
+      "agendaNumber": "R.",
+      "title": "Agmt PW 55-33-26 with Loretto relating to construction on CSAH 19 (CP 2201128, a subproject of 2201100; est recv $15,000)",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "TMP-26-0796",
+      "matterId": 4909,
+      "matterType": "Resolution"
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-37814",
+      "meeting_id": "legistar-hennepinmn-meeting-1487",
+      "sequence": 34,
+      "agendaNumber": "S.",
+      "title": "Agmt PR00008744 with SRF Consulting Group for preliminary design, engineering, and professional services for the reconstruction of CSAH 23, CP 2142100, (NTE $1,250,000 State Aid Regular)",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "TMP-26-0797",
+      "matterId": 4910,
+      "matterType": "Resolution"
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-37815",
+      "meeting_id": "legistar-hennepinmn-meeting-1487",
+      "sequence": 39,
+      "agendaNumber": "X.",
+      "title": "Authorization to apply for state discretionary grant funding from MnDOT through the 2026 Local Road Improvement Program for CSAH 50 (Rebecca Park Trail) Rehabilitation Project (CP 2220902, a subproject of 2220900)",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "TMP-26-0798",
+      "matterId": 4911,
+      "matterType": "Resolution"
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-37816",
+      "meeting_id": "legistar-hennepinmn-meeting-1487",
+      "sequence": 31,
+      "agendaNumber": "P.",
+      "title": "Neg Agmt PW 59-17-26 with Plymouth for jurisdictional transfer of CSAH 73 between Sunset Trail and TH 55, CP 2850700 (no county cost)",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "TMP-26-0799",
+      "matterId": 4912,
+      "matterType": "Resolution"
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-37817",
+      "meeting_id": "legistar-hennepinmn-meeting-1487",
+      "sequence": 36,
+      "agendaNumber": "U.",
+      "title": "Amd 1 to Contract PR00007170 with SRF Consulting Group, Inc for final design, engineering, and professional services for CSAH 152 reconstruction, CP 2240700, ext period to 12/31/30, new NTE $2,650,000 (State Aid)",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "TMP-26-0800",
+      "matterId": 4913,
+      "matterType": "Resolution"
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-37818",
+      "meeting_id": "legistar-hennepinmn-meeting-1487",
+      "sequence": 21,
+      "agendaNumber": "K.",
+      "title": "Approval and submission of the updated Workforce Innovation Opportunity Act (WIOA) Regional Plan for Metropolitan Regional Workforce Development Area #4 to the State of Minnesota",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "TMP-26-0801",
+      "matterId": 4914,
+      "matterType": "Resolution"
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-37819",
+      "meeting_id": "legistar-hennepinmn-meeting-1487",
+      "sequence": 32,
+      "agendaNumber": "Q.",
+      "title": "Agmt PW 31-10-26 with City of St. Anthony for routine maintenance on county roadways in St. Anthony, 01/01/27-12/31/31 (est county cost $35,000 per year - Operating Budget)",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "TMP-26-0802",
+      "matterId": 4915,
+      "matterType": "Resolution"
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-37820",
+      "meeting_id": "legistar-hennepinmn-meeting-1487",
+      "sequence": 27,
+      "agendaNumber": "N.",
+      "title": "2027 State Legislative Priorities and Platform",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "TMP-26-0808",
+      "matterId": 4921,
+      "matterType": "Resolution"
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-37821",
+      "meeting_id": "legistar-hennepinmn-meeting-1487",
+      "sequence": 35,
+      "agendaNumber": "T.",
+      "title": "Amd 1 to Work Order Contract PR00006767 with SRF Consulting Group for final design, engineering, and professional services for reconstruction of CSAH 15, CP 2194500, ext period to 12/31/29 and incr NTE $1,243,101 (State Aid Regular)",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "TMP-26-0809",
+      "matterId": 4922,
+      "matterType": "Resolution"
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-37822",
+      "meeting_id": "legistar-hennepinmn-meeting-1487",
+      "sequence": 38,
+      "agendaNumber": "W.",
+      "title": "Amd 1 to Work Order PR00007220 for Agmt PL00000769 with Houston Engineering, Inc for final design, engineering, and professional services for CSAH 10, CP 2210404, a subproject of 2210400, incr NTE to $630,155 (County Bonds)",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "TMP-26-0810",
+      "matterId": 4923,
+      "matterType": "Resolution"
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-37823",
+      "meeting_id": "legistar-hennepinmn-meeting-1487",
+      "sequence": 41,
+      "agendaNumber": "Z.",
+      "title": "Neg various agmts for building material reuse services, 01/01/27-12/31/28, total NTE $600,000",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "TMP-26-0813",
+      "matterId": 4926,
+      "matterType": "Resolution"
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-37824",
+      "meeting_id": "legistar-hennepinmn-meeting-1487",
+      "sequence": 42,
+      "agendaNumber": "AA.",
+      "title": "Neg ERF Grant Agmt PR00008849 with the City of Rogers for costs incurred 08/02/22-08/05/27, NTE $286,700",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "TMP-26-0814",
+      "matterId": 4927,
+      "matterType": "Resolution"
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-37825",
+      "meeting_id": "legistar-hennepinmn-meeting-1487",
+      "sequence": 40,
+      "agendaNumber": "Y.",
+      "title": "Neg Brownfields Revolving Loan Fund Agmt PR00008854 with Trellis Co. for cleanup of the Cheatham Apartments property in Minneapolis, NTE $710,000",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "TMP-26-0815",
+      "matterId": 4928,
+      "matterType": "Resolution"
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-37826",
+      "meeting_id": "legistar-hennepinmn-meeting-1487",
+      "sequence": 23,
+      "agendaNumber": "L.",
+      "title": "Amd 2 to Agmt PR00003192 with Cotiviti, Inc., to provide HEDIS audit software services, ext end date to 12/31/29, inc NTE by $410,666 for a new total NTE of $1,219,391",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "TMP-26-0816",
+      "matterId": 4929,
+      "matterType": "Resolution"
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-37827",
+      "meeting_id": "legistar-hennepinmn-meeting-1487",
+      "sequence": 18,
+      "agendaNumber": "H.",
+      "title": "Amd 1 to Agmt PR00007357 with Kutak Rock LLP for legal services related to renewable energy, ext term to 12/31/27, incr NTE by $100,000 for a new total NTE of $200,000",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "TMP-26-0818",
+      "matterId": 4931,
+      "matterType": "Resolution"
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-37828",
+      "meeting_id": "legistar-hennepinmn-meeting-1487",
+      "sequence": 25,
+      "agendaNumber": "M.",
+      "title": "Human Services & Public Health resolution, including contracts and amendments to contracts with provider - 2614",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "TMP-26-0819",
+      "matterId": 4932,
+      "matterType": "Resolution"
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-37829",
+      "meeting_id": "legistar-hennepinmn-meeting-1487",
+      "sequence": 73,
+      "agendaNumber": "13.A.",
+      "title": "Agmt A2613615 an MOU with MDH for donation of congenital syphilis outreach testing and treatment supplies, 08/26/26-02/28/27",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "TMP-26-0820",
+      "matterId": 4933,
+      "matterType": "Resolution"
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-37830",
+      "meeting_id": "legistar-hennepinmn-meeting-1487",
+      "sequence": 37,
+      "agendaNumber": "V.",
+      "title": "Amd 1 to Agmt PR0007698 with Alliant Engineering Inc for final design, engineering, and professional services for CSAH 152, CP 2221000, ext period to 03/31/30, and incr NTE by $1,150,000 for a new total NTE of $2,410,000 (TAA, City of Mpls, Met Council); adjust budget",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "TMP-26-0823",
+      "matterId": 4936,
+      "matterType": "Resolution"
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-37831",
+      "meeting_id": "legistar-hennepinmn-meeting-1487",
+      "sequence": 74,
+      "agendaNumber": "13.B.",
+      "title": "Recognizing Native American Heritage Month in Hennepin County - Offered by Commissioner Conley",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "TMP-26-0840",
+      "matterId": 4953,
+      "matterType": "Resolution"
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-37832",
+      "meeting_id": "legistar-hennepinmn-meeting-1487",
+      "sequence": 17,
+      "agendaNumber": null,
+      "title": "Referred to Administration, Operations and Budget Committee",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-37833",
+      "meeting_id": "legistar-hennepinmn-meeting-1487",
+      "sequence": 22,
+      "agendaNumber": null,
+      "title": "Referred to Health Committee",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-37834",
+      "meeting_id": "legistar-hennepinmn-meeting-1487",
+      "sequence": 28,
+      "agendaNumber": null,
+      "title": "Referred to Law, Safety and Justice Committee",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-37835",
+      "meeting_id": "legistar-hennepinmn-meeting-1487",
+      "sequence": 29,
+      "agendaNumber": null,
+      "title": "Referred to Public Works Committee",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-37836",
+      "meeting_id": "legistar-hennepinmn-meeting-1487",
+      "sequence": 26,
+      "agendaNumber": null,
+      "title": "Referred to Intergovernmental Affairs Committee",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-37837",
+      "meeting_id": "legistar-hennepinmn-meeting-1487",
+      "sequence": 43,
       "agendaNumber": "6.",
       "title": "Commendations",
       "isConsent": false,
@@ -2064,9 +2506,9 @@
       "matterType": null
     },
     {
-      "id": "legistar-hennepinmn-eventitem-37663",
+      "id": "legistar-hennepinmn-eventitem-37838",
       "meeting_id": "legistar-hennepinmn-meeting-1487",
-      "sequence": 10,
+      "sequence": 44,
       "agendaNumber": "7.",
       "title": "Commissioner Communications/Updates",
       "isConsent": false,
@@ -2077,9 +2519,9 @@
       "matterType": null
     },
     {
-      "id": "legistar-hennepinmn-eventitem-37664",
+      "id": "legistar-hennepinmn-eventitem-37839",
       "meeting_id": "legistar-hennepinmn-meeting-1487",
-      "sequence": 11,
+      "sequence": 45,
       "agendaNumber": "8.",
       "title": "Claims Register",
       "isConsent": false,
@@ -2090,9 +2532,9 @@
       "matterType": null
     },
     {
-      "id": "legistar-hennepinmn-eventitem-37665",
+      "id": "legistar-hennepinmn-eventitem-37840",
       "meeting_id": "legistar-hennepinmn-meeting-1487",
-      "sequence": 13,
+      "sequence": 47,
       "agendaNumber": "8.B.",
       "title": "Claims Register for the period ending October 9, 2026",
       "isConsent": false,
@@ -2103,9 +2545,9 @@
       "matterType": "Resolution"
     },
     {
-      "id": "legistar-hennepinmn-eventitem-37666",
+      "id": "legistar-hennepinmn-eventitem-37841",
       "meeting_id": "legistar-hennepinmn-meeting-1487",
-      "sequence": 14,
+      "sequence": 48,
       "agendaNumber": "8.C.",
       "title": "Claims Register for the period ending October 16, 2026",
       "isConsent": false,
@@ -2116,9 +2558,9 @@
       "matterType": "Resolution"
     },
     {
-      "id": "legistar-hennepinmn-eventitem-37667",
+      "id": "legistar-hennepinmn-eventitem-37842",
       "meeting_id": "legistar-hennepinmn-meeting-1487",
-      "sequence": 12,
+      "sequence": 46,
       "agendaNumber": "8.A.",
       "title": "Claims Register for the period ending October 2, 2026",
       "isConsent": false,
@@ -2129,9 +2571,9 @@
       "matterType": "Resolution"
     },
     {
-      "id": "legistar-hennepinmn-eventitem-37668",
+      "id": "legistar-hennepinmn-eventitem-37843",
       "meeting_id": "legistar-hennepinmn-meeting-1487",
-      "sequence": 15,
+      "sequence": 49,
       "agendaNumber": "8.D.",
       "title": "Claims Register for the period ending October 23, 2026",
       "isConsent": false,
@@ -2142,9 +2584,9 @@
       "matterType": "Resolution"
     },
     {
-      "id": "legistar-hennepinmn-eventitem-37669",
+      "id": "legistar-hennepinmn-eventitem-37844",
       "meeting_id": "legistar-hennepinmn-meeting-1487",
-      "sequence": 16,
+      "sequence": 50,
       "agendaNumber": "9.",
       "title": "Consent",
       "isConsent": false,
@@ -2155,9 +2597,9 @@
       "matterType": null
     },
     {
-      "id": "legistar-hennepinmn-eventitem-37673",
+      "id": "legistar-hennepinmn-eventitem-37845",
       "meeting_id": "legistar-hennepinmn-meeting-1487",
-      "sequence": 17,
+      "sequence": 51,
       "agendaNumber": "9.A.",
       "title": "Agmt PR00008670 with City of Wayzata to purchase law enforcement and terrorism prevention equipment, 07/15/26-12/31/26, NTE $9,985",
       "isConsent": true,
@@ -2168,9 +2610,9 @@
       "matterType": "Resolution"
     },
     {
-      "id": "legistar-hennepinmn-eventitem-37674",
+      "id": "legistar-hennepinmn-eventitem-37846",
       "meeting_id": "legistar-hennepinmn-meeting-1487",
-      "sequence": 18,
+      "sequence": 52,
       "agendaNumber": "9.B.",
       "title": "Agmt PR00008671 with City of Richfield to purchase law enforcement and terrorism prevention equipment, 07/15/26-12/31/26, NTE $12,258",
       "isConsent": true,
@@ -2181,9 +2623,9 @@
       "matterType": "Resolution"
     },
     {
-      "id": "legistar-hennepinmn-eventitem-37675",
+      "id": "legistar-hennepinmn-eventitem-37847",
       "meeting_id": "legistar-hennepinmn-meeting-1487",
-      "sequence": 19,
+      "sequence": 53,
       "agendaNumber": "9.C.",
       "title": "Agmt CM00001571 with the Tasks Unlimited Building Services to provide commercial janitorial services for the 625 Building, 11/01/26-10/31/28, NTE $800,000",
       "isConsent": true,
@@ -2194,9 +2636,9 @@
       "matterType": "Resolution"
     },
     {
-      "id": "legistar-hennepinmn-eventitem-37676",
+      "id": "legistar-hennepinmn-eventitem-37848",
       "meeting_id": "legistar-hennepinmn-meeting-1487",
-      "sequence": 20,
+      "sequence": 54,
       "agendaNumber": "9.D.",
       "title": "Terminate and forgive HOME Investment Partnership Agmts A14354, A18627, and A15921 with Trellis Louisiana Court Acquisition LLC",
       "isConsent": true,
@@ -2207,9 +2649,9 @@
       "matterType": "Resolution"
     },
     {
-      "id": "legistar-hennepinmn-eventitem-37677",
+      "id": "legistar-hennepinmn-eventitem-37849",
       "meeting_id": "legistar-hennepinmn-meeting-1487",
-      "sequence": 30,
+      "sequence": 64,
       "agendaNumber": "9.N.",
       "title": "Agmt with Bertelsmann Publishing Group, Inc. to provide hardcover children’s read-along books with embedded audio players, 10/20/26-10/19/29, NTE $500,000",
       "isConsent": true,
@@ -2220,9 +2662,9 @@
       "matterType": "Resolution"
     },
     {
-      "id": "legistar-hennepinmn-eventitem-37678",
+      "id": "legistar-hennepinmn-eventitem-37850",
       "meeting_id": "legistar-hennepinmn-meeting-1487",
-      "sequence": 31,
+      "sequence": 65,
       "agendaNumber": "9.O.",
       "title": "Agmt with Library Ideas, LLC to provide hardcover children’s read-along books with embedded audio players, 10/20/26-10/19/29, NTE $250,000",
       "isConsent": true,
@@ -2233,9 +2675,9 @@
       "matterType": "Resolution"
     },
     {
-      "id": "legistar-hennepinmn-eventitem-37679",
+      "id": "legistar-hennepinmn-eventitem-37853",
       "meeting_id": "legistar-hennepinmn-meeting-1487",
-      "sequence": 21,
+      "sequence": 55,
       "agendaNumber": "9.E.",
       "title": "Neg Amd 4 to Lease Agmt A07661 with St. Anthony Shopping Center, LLC for lease space at 2941 Pentagon Drive N.E., St. Anthony for the St. Anthony Library, extending the contract period to 05/31/32 ($115,430 first year rent and operating expenses)",
       "isConsent": true,
@@ -2246,9 +2688,22 @@
       "matterType": "Resolution"
     },
     {
-      "id": "legistar-hennepinmn-eventitem-37680",
+      "id": "legistar-hennepinmn-eventitem-37854",
       "meeting_id": "legistar-hennepinmn-meeting-1487",
-      "sequence": 23,
+      "sequence": 56,
+      "agendaNumber": "9.F.",
+      "title": "Neg Agmt PR00008771 with Samsung HME America Inc., d/b/a Neurologica Corporation, for radiology suite equipment, including removal of existing equipment, delivery & installation of new equipment, training of staff in safe use of equipment, and one-year warranty of equipment, DOE-12/31/27, NTE $215,000; Neg Agmt PR00008775 with RPS Imaging for ongoing tech support, preventive maintenance, parts, and labor, DOE-12/31/33, NTE $210,000",
+      "isConsent": true,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "26-0359",
+      "matterId": 4856,
+      "matterType": "Resolution"
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-37855",
+      "meeting_id": "legistar-hennepinmn-meeting-1487",
+      "sequence": 57,
       "agendaNumber": "9.G.",
       "title": "Human Services & Public Health resolution, including contracts and amendments to contracts with provider - 2613",
       "isConsent": true,
@@ -2259,9 +2714,9 @@
       "matterType": "Resolution"
     },
     {
-      "id": "legistar-hennepinmn-eventitem-37681",
+      "id": "legistar-hennepinmn-eventitem-37856",
       "meeting_id": "legistar-hennepinmn-meeting-1487",
-      "sequence": 26,
+      "sequence": 60,
       "agendaNumber": "9.J.",
       "title": "Work Order PR00008783 for land-based carbon sequestration measurement and modeling with the University of Minnesota, 01/01/27-03/31/29, NTE $450,000",
       "isConsent": true,
@@ -2272,9 +2727,9 @@
       "matterType": "Resolution"
     },
     {
-      "id": "legistar-hennepinmn-eventitem-37682",
+      "id": "legistar-hennepinmn-eventitem-37857",
       "meeting_id": "legistar-hennepinmn-meeting-1487",
-      "sequence": 27,
+      "sequence": 61,
       "agendaNumber": "9.K.",
       "title": "Neg agmts PR00008483 with Hagen Trucking and PR00008482 with Nitti Contracting and Trucking Service for waste transportation services, 01/01/27-12/31/33, combined est annual amount of $3 million",
       "isConsent": true,
@@ -2285,9 +2740,9 @@
       "matterType": "Resolution"
     },
     {
-      "id": "legistar-hennepinmn-eventitem-37683",
+      "id": "legistar-hennepinmn-eventitem-37858",
       "meeting_id": "legistar-hennepinmn-meeting-1487",
-      "sequence": 28,
+      "sequence": 62,
       "agendaNumber": "9.L.",
       "title": "Authorization to acquire right of way by direct purchase or condemnation for various transportation projects",
       "isConsent": true,
@@ -2298,9 +2753,9 @@
       "matterType": "Resolution"
     },
     {
-      "id": "legistar-hennepinmn-eventitem-37684",
+      "id": "legistar-hennepinmn-eventitem-37859",
       "meeting_id": "legistar-hennepinmn-meeting-1487",
-      "sequence": 25,
+      "sequence": 59,
       "agendaNumber": "9.I.",
       "title": "Amd 1 to Agmt PR00006149 with ACES to expand the scope of services, no change in contract period or NTE",
       "isConsent": true,
@@ -2311,9 +2766,9 @@
       "matterType": "Resolution"
     },
     {
-      "id": "legistar-hennepinmn-eventitem-37685",
+      "id": "legistar-hennepinmn-eventitem-37860",
       "meeting_id": "legistar-hennepinmn-meeting-1487",
-      "sequence": 24,
+      "sequence": 58,
       "agendaNumber": "9.H.",
       "title": "Amd 2 to Agmt PR00001344 with Centurion Detention Health Services, LLC., for comprehensive correctional healthcare to DOCCR institutions, ext the term for one year, to 10/31/2027, incr NTE by $13,687,076 for a new total NTE of $56,769,451",
       "isConsent": true,
@@ -2324,9 +2779,9 @@
       "matterType": "Resolution"
     },
     {
-      "id": "legistar-hennepinmn-eventitem-37686",
+      "id": "legistar-hennepinmn-eventitem-37861",
       "meeting_id": "legistar-hennepinmn-meeting-1487",
-      "sequence": 29,
+      "sequence": 63,
       "agendaNumber": "9.M.",
       "title": "Convey surplus property to the Hennepin County Regional Railroad Authority",
       "isConsent": true,
@@ -2337,9 +2792,9 @@
       "matterType": "Resolution"
     },
     {
-      "id": "legistar-hennepinmn-eventitem-37687",
+      "id": "legistar-hennepinmn-eventitem-37862",
       "meeting_id": "legistar-hennepinmn-meeting-1487",
-      "sequence": 32,
+      "sequence": 66,
       "agendaNumber": "9.P.",
       "title": "Direct the County Administrator to explore options for the provision of medical services in County-Operated Correctional Facilities - offered by Commissioner Conley",
       "isConsent": true,
@@ -2350,9 +2805,9 @@
       "matterType": "Resolution"
     },
     {
-      "id": "legistar-hennepinmn-eventitem-37688",
+      "id": "legistar-hennepinmn-eventitem-37863",
       "meeting_id": "legistar-hennepinmn-meeting-1487",
-      "sequence": 33,
+      "sequence": 67,
       "agendaNumber": "10.",
       "title": "Non-Consent",
       "isConsent": false,
@@ -2363,9 +2818,9 @@
       "matterType": null
     },
     {
-      "id": "legistar-hennepinmn-eventitem-37689",
+      "id": "legistar-hennepinmn-eventitem-37864",
       "meeting_id": "legistar-hennepinmn-meeting-1487",
-      "sequence": 34,
+      "sequence": 68,
       "agendaNumber": "11.",
       "title": "Progressed",
       "isConsent": false,
@@ -2376,9 +2831,9 @@
       "matterType": null
     },
     {
-      "id": "legistar-hennepinmn-eventitem-37690",
+      "id": "legistar-hennepinmn-eventitem-37866",
       "meeting_id": "legistar-hennepinmn-meeting-1487",
-      "sequence": 35,
+      "sequence": 69,
       "agendaNumber": "11.A.",
       "title": "Amd 1 to Agmt A2513181 with Minneapolis for waste delivery, ext end date to 12/31/27",
       "isConsent": false,
@@ -2389,9 +2844,9 @@
       "matterType": "Resolution"
     },
     {
-      "id": "legistar-hennepinmn-eventitem-37691",
+      "id": "legistar-hennepinmn-eventitem-37867",
       "meeting_id": "legistar-hennepinmn-meeting-1487",
-      "sequence": 36,
+      "sequence": 70,
       "agendaNumber": "11.B.",
       "title": "Establish Hennepin County Committee on Child Well-Being - Offered by Commissioners Goettel, Edelson, and Fernando",
       "isConsent": false,
@@ -2402,9 +2857,9 @@
       "matterType": "Resolution"
     },
     {
-      "id": "legistar-hennepinmn-eventitem-37692",
+      "id": "legistar-hennepinmn-eventitem-37868",
       "meeting_id": "legistar-hennepinmn-meeting-1487",
-      "sequence": 37,
+      "sequence": 71,
       "agendaNumber": "12.",
       "title": "Old Business",
       "isConsent": false,
@@ -2415,9 +2870,9 @@
       "matterType": null
     },
     {
-      "id": "legistar-hennepinmn-eventitem-37693",
+      "id": "legistar-hennepinmn-eventitem-37869",
       "meeting_id": "legistar-hennepinmn-meeting-1487",
-      "sequence": 38,
+      "sequence": 72,
       "agendaNumber": "13.",
       "title": "Immediate Approvals",
       "isConsent": false,
@@ -2428,17 +2883,30 @@
       "matterType": null
     },
     {
-      "id": "legistar-hennepinmn-eventitem-37694",
+      "id": "legistar-hennepinmn-eventitem-37870",
       "meeting_id": "legistar-hennepinmn-meeting-1487",
-      "sequence": 22,
-      "agendaNumber": "9.F.",
-      "title": "Neg Agmt PR00008771 with Samsung HME America Inc., d/b/a Neurologica Corporation, for radiology suite equipment, including removal of existing equipment, delivery & installation of new equipment, training of staff in safe use of equipment, and one-year warranty of equipment, DOE-12/31/27, NTE $215,000; Neg Agmt PR00008775 with RPS Imaging for ongoing tech support, preventive maintenance, parts, and labor, DOE-12/31/33, NTE $210,000",
-      "isConsent": true,
+      "sequence": 24,
+      "agendaNumber": null,
+      "title": "Referred to Human Services",
+      "isConsent": false,
       "actionName": null,
       "passedFlagName": null,
-      "matterFile": "26-0359",
-      "matterId": 4856,
-      "matterType": "Resolution"
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-37871",
+      "meeting_id": "legistar-hennepinmn-meeting-1487",
+      "sequence": 4,
+      "agendaNumber": "3.A.",
+      "title": "Farm Family of the Year - Presented by Lia Spaniolo, UMN Extension; Elyssa Eull, California Street Farm",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "TMP-26-0841",
+      "matterId": 4954,
+      "matterType": "Hennepin Highlights"
     },
     {
       "id": "legistar-hennepinmn-eventitem-37779",
@@ -2806,14 +3274,12 @@
     }
   ],
   "diff": {
-    "addedIds": [
-      "legistar-hennepinmn-meeting-1491"
-    ],
+    "addedIds": [],
     "removedIds": [],
     "changed": []
   },
-  "previousGeneratedAt": "2026-10-17T15:18:48.392Z",
+  "previousGeneratedAt": "2026-10-18T15:40:08.658Z",
   "knownGaps": [
-    "Consent-agenda flagging uses Legistar's own EventItemConsent field only (16 of 163 agenda item(s) in this window flagged). \"No discussion\" / \"no public comment\" are NOT flagged — this API exposes no comparably reliable field for either, and AGENTS.md §3.3 rules out inferring one from absence."
+    "Consent-agenda flagging uses Legistar's own EventItemConsent field only (16 of 199 agenda item(s) in this window flagged). \"No discussion\" / \"no public comment\" are NOT flagged — this API exposes no comparably reliable field for either, and AGENTS.md §3.3 rules out inferring one from absence."
   ]
 }
