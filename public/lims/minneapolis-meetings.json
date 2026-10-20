@@ -2,207 +2,24 @@
   "schemaVersion": 1,
   "client": "minneapolis",
   "jurisdiction": "Minneapolis City Council",
-  "generatedAt": "2026-10-19T18:35:50.014Z",
+  "generatedAt": "2026-10-20T16:38:48.863Z",
   "status": "ingested",
-  "note": "117 meeting(s) and 528 agenda item(s) ingested for 2026-10-05–2027-01-17.",
+  "note": "114 meeting(s) and 514 agenda item(s) ingested for 2026-10-06–2027-01-18.",
   "provenance": {
     "primarySourceUrl": "https://lims.minneapolismn.gov/",
     "sourceAgency": "City of Minneapolis, Office of the City Clerk",
     "documentType": "LIMS API v1 — meetingCalendar/FileItemSearch",
     "documentId": null,
     "issuedDate": null,
-    "fetchedAt": "2026-10-19T18:35:50.014Z",
+    "fetchedAt": "2026-10-20T16:38:48.863Z",
     "licence": "Public records served via the City of Minneapolis LIMS API; no separate machine-reuse licence published as of this writing.",
     "contentHash": null
   },
   "window": {
-    "startIso": "2026-10-05",
-    "endIso": "2027-01-17"
+    "startIso": "2026-10-06",
+    "endIso": "2027-01-18"
   },
   "meetings": [
-    {
-      "id": "lims-minneapolis-meeting-budget-committee-2026-10-05T10:00:00",
-      "body_id": "lims-minneapolis-body-budget-committee",
-      "bodyName": "Budget Committee",
-      "date": "2026-10-05",
-      "time": "10:00",
-      "location": null,
-      "agendaStatus": null,
-      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/Budget/6238",
-      "minutesUrl": "https://lims.minneapolismn.gov/api/v1/downloads/CommitteeReport/5006/Budget_10052026_Committee_Report.pdf",
-      "videoStatus": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/Budget/6238",
-      "lastModifiedUtc": null,
-      "members": [
-        {
-          "id": 375,
-          "name": "Linea Palmisano",
-          "type": "Council Member"
-        },
-        {
-          "id": 5269,
-          "name": "Jamal Osman",
-          "type": "Council Member"
-        },
-        {
-          "id": 5692,
-          "name": "Robin Wonsley",
-          "type": "Council Member"
-        },
-        {
-          "id": 5696,
-          "name": "LaTrisha Vetaw",
-          "type": "Council Member"
-        },
-        {
-          "id": 5697,
-          "name": "Aisha Chughtai",
-          "type": "Chair"
-        },
-        {
-          "id": 5698,
-          "name": "Jason Chavez",
-          "type": "Council Member"
-        },
-        {
-          "id": 5700,
-          "name": "Michael Rainville",
-          "type": "Council Member"
-        },
-        {
-          "id": 5701,
-          "name": "Elliott Payne",
-          "type": "Council Member"
-        },
-        {
-          "id": 5776,
-          "name": "Aurin Chowdhury",
-          "type": "Council Member"
-        },
-        {
-          "id": 7961,
-          "name": "Pearll Warren",
-          "type": "Council Member"
-        },
-        {
-          "id": 7962,
-          "name": "Soren Stevenson",
-          "type": "Council Member"
-        },
-        {
-          "id": 7963,
-          "name": "Elizabeth Shaffer",
-          "type": "Vice-Chair"
-        },
-        {
-          "id": 7964,
-          "name": "Jamison Whiting",
-          "type": "Council Member"
-        }
-      ]
-    },
-    {
-      "id": "lims-minneapolis-meeting-enterprise-labor-relations-committee-2026-10-05T13:30:00",
-      "body_id": "lims-minneapolis-body-enterprise-labor-relations-committee",
-      "bodyName": "Enterprise & Labor Relations Committee",
-      "date": "2026-10-05",
-      "time": "13:30",
-      "location": null,
-      "agendaStatus": null,
-      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/ELR/6253",
-      "minutesUrl": "https://lims.minneapolismn.gov/api/v1/downloads/CommitteeReport/5004/ELR_10052026_Committee_Report.pdf",
-      "videoStatus": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/ELR/6253",
-      "lastModifiedUtc": null,
-      "members": [
-        {
-          "id": 375,
-          "name": "Linea Palmisano",
-          "type": "Chair"
-        },
-        {
-          "id": 5696,
-          "name": "LaTrisha Vetaw",
-          "type": "Council Member"
-        },
-        {
-          "id": 5697,
-          "name": "Aisha Chughtai",
-          "type": "Council Member"
-        },
-        {
-          "id": 5698,
-          "name": "Jason Chavez",
-          "type": "Council Member"
-        },
-        {
-          "id": 7962,
-          "name": "Soren Stevenson",
-          "type": "Council Member"
-        },
-        {
-          "id": 7963,
-          "name": "Elizabeth Shaffer",
-          "type": "Council Member"
-        },
-        {
-          "id": 7964,
-          "name": "Jamison Whiting",
-          "type": "Vice-Chair"
-        }
-      ]
-    },
-    {
-      "id": "lims-minneapolis-meeting-community-commission-on-police-oversight-2026-10-05T18:00:00",
-      "body_id": "lims-minneapolis-body-community-commission-on-police-oversight",
-      "bodyName": "Community Commission on Police Oversight",
-      "date": "2026-10-05",
-      "time": "18:00",
-      "location": null,
-      "agendaStatus": null,
-      "agendaUrl": "https://lims.minneapolismn.gov/Board/MarkedAgenda/CCPO/16260",
-      "minutesUrl": "https://lims.minneapolismn.gov/api/v1/downloads/CommitteeReport/5023/CCPO_20261005_minutes.pdf",
-      "videoStatus": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Board/MarkedAgenda/CCPO/16260",
-      "lastModifiedUtc": null,
-      "members": [
-        {
-          "id": 6900,
-          "name": "Melissa Newman",
-          "type": "ABC Member"
-        },
-        {
-          "id": 6901,
-          "name": "Jennifer Clement",
-          "type": "ABC Member"
-        },
-        {
-          "id": 6902,
-          "name": "Bridgette Stewart",
-          "type": "ABC Member"
-        },
-        {
-          "id": 6903,
-          "name": "Nichelle Williams-Johnson",
-          "type": "ABC Member"
-        },
-        {
-          "id": 6904,
-          "name": "Latonya Reeves",
-          "type": "ABC Member"
-        },
-        {
-          "id": 6905,
-          "name": "James Canaday",
-          "type": "ABC Member"
-        },
-        {
-          "id": 6931,
-          "name": "Carolyn Bastick",
-          "type": "ABC Member"
-        }
-      ]
-    },
     {
       "id": "lims-minneapolis-meeting-budget-committee-2026-10-06T10:00:00",
       "body_id": "lims-minneapolis-body-budget-committee",
@@ -1342,7 +1159,7 @@
       "location": null,
       "agendaStatus": null,
       "agendaUrl": "https://lims.minneapolismn.gov/Agenda/Audit/16293",
-      "minutesUrl": null,
+      "minutesUrl": "https://lims.minneapolismn.gov/api/v1/downloads/CommitteeReport/5034/Audit_10192026_Committee_Report.pdf",
       "videoStatus": null,
       "sourceUrl": "https://lims.minneapolismn.gov/Agenda/Audit/16293",
       "lastModifiedUtc": null,
@@ -6444,8 +6261,8 @@
       "agendaNumber": null,
       "title": "Receiving and filing a list of Staff Purchasing Letters (low bid awards) and Joint Purchase Letters (Cooperative Purchasing Ventures) issued from July 1, 2026, through September30, 2026.",
       "isConsent": false,
-      "actionName": "Scheduled",
-      "passedFlagName": "Failed",
+      "actionName": "Received and filed",
+      "passedFlagName": "Passed",
       "matterFile": "2026-00476",
       "matterId": null,
       "matterType": "Receive & File",
@@ -6459,27 +6276,12 @@
       "agendaNumber": null,
       "title": "Receiving and filing a list of Professional Services contracts between $5,000 and$175,000 issued from July 1, 2026, through September 30, 2026, in accordance with the Code of Ordinances,Section 18.200.",
       "isConsent": false,
-      "actionName": "Scheduled",
-      "passedFlagName": "Failed",
+      "actionName": "Received and filed",
+      "passedFlagName": "Passed",
       "matterFile": "2026-00477",
       "matterId": null,
       "matterType": "Receive & File",
       "fileUrl": "https://lims.minneapolismn.gov/File/2026-00477",
-      "votes": []
-    },
-    {
-      "id": "lims-minneapolis-fileitem-1408-5",
-      "meeting_id": "lims-minneapolis-meeting-budget-committee-2026-10-05T10:00:00",
-      "sequence": null,
-      "agendaNumber": null,
-      "title": "Receiving and filing a response to a legislative directive requesting information on the Minneapolis Police Department (MPD)'s 2025 spending.",
-      "isConsent": false,
-      "actionName": "Continued to meeting of  10/26/2026",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-00495",
-      "matterId": null,
-      "matterType": "Receive & File",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00495",
       "votes": []
     },
     {
@@ -7033,21 +6835,6 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2433-7",
-      "meeting_id": "lims-minneapolis-meeting-budget-committee-2026-10-05T10:00:00",
-      "sequence": null,
-      "agendaNumber": null,
-      "title": "Receiving and filing presentations on the Mayor's 2027Recommended Budget.",
-      "isConsent": false,
-      "actionName": "Received and filed",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01017",
-      "matterId": null,
-      "matterType": "Receive & File",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01017",
-      "votes": []
-    },
-    {
       "id": "lims-minneapolis-fileitem-2433-8",
       "meeting_id": "lims-minneapolis-meeting-budget-committee-2026-10-06T10:00:00",
       "sequence": null,
@@ -7144,8 +6931,8 @@
       "agendaNumber": null,
       "title": "Receiving and filing public comment on the proposed 2027City Budget and tax levy, the Fiscal Year 2027Consolidated Plan, and the proposed water and sewer rates.",
       "isConsent": false,
-      "actionName": "Scheduled",
-      "passedFlagName": "Failed",
+      "actionName": "Received and filed",
+      "passedFlagName": "Passed",
       "matterFile": "2026-01018",
       "matterId": null,
       "matterType": "Receive & File",
@@ -7918,21 +7705,6 @@
           "value": "Aye"
         }
       ]
-    },
-    {
-      "id": "lims-minneapolis-fileitem-2556-2",
-      "meeting_id": "lims-minneapolis-meeting-enterprise-labor-relations-committee-2026-10-05T13:30:00",
-      "sequence": null,
-      "agendaNumber": null,
-      "title": "Passage of Ordinanceamending Title 2, Chapter 15 of the Minneapolis Code of Ordinances relating to Administration: Ethics in Government, amending provisions to update ethics standards for enhanced accountability and clarity and to address recommendations from the Ethical Practices Board in its 2026 annual report.",
-      "isConsent": false,
-      "actionName": "Referred to staff",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01062",
-      "matterId": null,
-      "matterType": "Ordinance",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01062",
-      "votes": []
     },
     {
       "id": "lims-minneapolis-fileitem-2589-0",
@@ -11187,48 +10959,18 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2630-0",
-      "meeting_id": "lims-minneapolis-meeting-enterprise-labor-relations-committee-2026-10-05T13:30:00",
-      "sequence": null,
-      "agendaNumber": null,
-      "title": "Setting a public hearing for October 19, 2026, to consider the appointment of finalists Peter Meringolo and Drew Duffey to the Ethical Practices Board.",
-      "isConsent": false,
-      "actionName": "Public hearing set for   10/19/2026",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01105",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01105",
-      "votes": []
-    },
-    {
       "id": "lims-minneapolis-fileitem-2631-0",
       "meeting_id": "lims-minneapolis-meeting-enterprise-labor-relations-committee-2026-10-19T13:30:00",
       "sequence": null,
       "agendaNumber": null,
       "title": "Receiving and filing public comments for the appointment of finalists Peter Meringolo and Drew Duffey to the Ethical Practices Board.",
       "isConsent": false,
-      "actionName": "Scheduled",
-      "passedFlagName": "Failed",
+      "actionName": "Received and filed",
+      "passedFlagName": "Passed",
       "matterFile": "2026-01105",
       "matterId": null,
       "matterType": "Receive & File",
       "fileUrl": "https://lims.minneapolismn.gov/File/2026-01105",
-      "votes": []
-    },
-    {
-      "id": "lims-minneapolis-fileitem-2632-0",
-      "meeting_id": "lims-minneapolis-meeting-enterprise-labor-relations-committee-2026-10-05T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0747",
-      "title": "Approving the settlement of the claim of Alice Nah by payment of $13,000 to Alice Nah and attorneys by check made out to Alice Nah and Johnson Gonko Flaskamp, and authorizing the City Attorney's Office to execute any documents necessary to effectuate the settlement.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01106",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01106",
       "votes": []
     },
     {
@@ -11298,21 +11040,6 @@
           "value": "Aye"
         }
       ]
-    },
-    {
-      "id": "lims-minneapolis-fileitem-2633-0",
-      "meeting_id": "lims-minneapolis-meeting-enterprise-labor-relations-committee-2026-10-05T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0741",
-      "title": "Authorizing an increase tocontract COM0006232 with Keystone Compensation Group LLC,in the amount of $50,000, for a total amount not to exceed $550,000, to continue providing classification and compensation consulting services.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01107",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01107",
-      "votes": []
     },
     {
       "id": "lims-minneapolis-fileitem-2633-1",
@@ -11962,21 +11689,6 @@
           "value": "Aye"
         }
       ]
-    },
-    {
-      "id": "lims-minneapolis-fileitem-2641-0",
-      "meeting_id": "lims-minneapolis-meeting-enterprise-labor-relations-committee-2026-10-05T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0742",
-      "title": "Authorizing an increase to contract COM0007246 with Good Works Consulting LLC, in the amount of $50,000, for a total amount not to exceed $1,550,000, and an extension through Dec31, 2026, to continue consulting services related to change management services.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01109",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01109",
-      "votes": []
     },
     {
       "id": "lims-minneapolis-fileitem-2641-1",
@@ -13292,21 +13004,6 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2657-0",
-      "meeting_id": "lims-minneapolis-meeting-enterprise-labor-relations-committee-2026-10-05T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0743",
-      "title": "Authorizing an extension to contract COM0007199 with Aliveness Project through June 30, 2027 for Tenant Based Rental Assistance programming to be executed in accordance with Resolution 2025R-112 related to federally-funded grants.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01111",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01111",
-      "votes": []
-    },
-    {
       "id": "lims-minneapolis-fileitem-2657-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
@@ -13373,21 +13070,6 @@
           "value": "Aye"
         }
       ]
-    },
-    {
-      "id": "lims-minneapolis-fileitem-2658-0",
-      "meeting_id": "lims-minneapolis-meeting-enterprise-labor-relations-committee-2026-10-05T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0743",
-      "title": "Authorizing time of performance extension to contract COM0007199 with Aliveness Project through June 30, 2026, for Transitional Housingprogramming.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01111",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01111",
-      "votes": []
     },
     {
       "id": "lims-minneapolis-fileitem-2658-1",
@@ -13622,21 +13304,6 @@
           "value": "Aye"
         }
       ]
-    },
-    {
-      "id": "lims-minneapolis-fileitem-2661-0",
-      "meeting_id": "lims-minneapolis-meeting-enterprise-labor-relations-committee-2026-10-05T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0744",
-      "title": "Authorizing an extension to contract C-23711C with Cordia LLC for one year, through Aug31, 2027, with the option to renew for one (1) additional year, for steam service at the Public Service Center.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01113",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01113",
-      "votes": []
     },
     {
       "id": "lims-minneapolis-fileitem-2661-1",
@@ -14535,21 +14202,6 @@
           "value": "Aye"
         }
       ]
-    },
-    {
-      "id": "lims-minneapolis-fileitem-2672-0",
-      "meeting_id": "lims-minneapolis-meeting-enterprise-labor-relations-committee-2026-10-05T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0748",
-      "title": "Authorizing an increase to contract COM0009495 with LSE Architects, Inc. in the amount of $429,000for a total amount not to exceed $1,300,500, for additional professional architectural and engineering services associated with the Minneapolis Democracy Center project.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01117",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01117",
-      "votes": []
     },
     {
       "id": "lims-minneapolis-fileitem-2672-1",
@@ -21365,21 +21017,6 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2757-0",
-      "meeting_id": "lims-minneapolis-meeting-enterprise-labor-relations-committee-2026-10-05T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0745",
-      "title": "Authorizing a contract with Principal Financial Solutions in an initial amount not to exceed $175,000, for a three (3)-year term from Jan1, 2027, through Dec31, 2030, with the option to extend the contract for up to two (2) additional one-year terms, to provide Investment Custody, Securities Lending, and Trustee Services.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01140",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01140",
-      "votes": []
-    },
-    {
       "id": "lims-minneapolis-fileitem-2757-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
@@ -21931,21 +21568,6 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2764-0",
-      "meeting_id": "lims-minneapolis-meeting-enterprise-labor-relations-committee-2026-10-05T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0746",
-      "title": "Authorizing an increase to contract COM0003410 with SUEZ SES North America, Inc., in the amount of $109,475, for a new total amount not to exceed $271,465, and an extension for an additional three (3) years through Feb28, 2029, with the option, at the City’s sole discretion, to extend the Contract for either two (2) additional one-year periods or one (1) additional two-year period, for the support and maintenance of the City’s water laboratory and operational data management system.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01144",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01144",
-      "votes": []
-    },
-    {
       "id": "lims-minneapolis-fileitem-2764-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
@@ -22261,21 +21883,6 @@
           "value": "Aye"
         }
       ]
-    },
-    {
-      "id": "lims-minneapolis-fileitem-2773-0",
-      "meeting_id": "lims-minneapolis-meeting-enterprise-labor-relations-committee-2026-10-05T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0740",
-      "title": "Approving a modification tothe Winter Work Reserve Pool Letter of Agreement (LOA) for Laborers Local 363to increase the rates.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01156",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01156",
-      "votes": []
     },
     {
       "id": "lims-minneapolis-fileitem-2773-1",
@@ -22752,8 +22359,8 @@
       "agendaNumber": null,
       "title": "Authorizing a contract with HealthEquity, Inc, in the amount of $350,000, from Jan1, 2027, to Dec 31, 2028, with three (3)optional one (1) yearextensions, with a not to exceed amount of $200,000 for each annual extension, for flexible spending account and transportation benefit administration services.",
       "isConsent": false,
-      "actionName": "Scheduled",
-      "passedFlagName": "Failed",
+      "actionName": "Approved",
+      "passedFlagName": "Passed",
       "matterFile": "2026-01164",
       "matterId": null,
       "matterType": "Action",
@@ -24058,8 +23665,8 @@
       "agendaNumber": null,
       "title": "Authorizing a contract with Code 4 Group, LLC., in an amount not to exceed $52,200, for a term of one (1) yearfrom Nov15, 2026, through Nov14, 2027, for the configuration, support, and maintenance of the City’s CAD/Mobile safety system.",
       "isConsent": false,
-      "actionName": "Scheduled",
-      "passedFlagName": "Failed",
+      "actionName": "Approved",
+      "passedFlagName": "Passed",
       "matterFile": "2026-01183",
       "matterId": null,
       "matterType": "Action",
@@ -24774,10 +24381,21 @@
   ],
   "diff": {
     "addedIds": [],
-    "removedIds": [],
-    "changed": []
+    "removedIds": [
+      "lims-minneapolis-meeting-budget-committee-2026-10-05T10:00:00",
+      "lims-minneapolis-meeting-enterprise-labor-relations-committee-2026-10-05T13:30:00",
+      "lims-minneapolis-meeting-community-commission-on-police-oversight-2026-10-05T18:00:00"
+    ],
+    "changed": [
+      {
+        "id": "lims-minneapolis-meeting-audit-committee-2026-10-19T10:00:00",
+        "field": "minutesUrl",
+        "from": null,
+        "to": "https://lims.minneapolismn.gov/api/v1/downloads/CommitteeReport/5034/Audit_10192026_Committee_Report.pdf"
+      }
+    ]
   },
-  "previousGeneratedAt": "2026-10-18T15:40:24.688Z",
+  "previousGeneratedAt": "2026-10-19T18:35:50.014Z",
   "knownGaps": [
     "Consent-agenda flagging not implemented — LIMS has no field structurally equivalent to Legistar's EventItemConsent; every agenda item ships isConsent: false rather than a guess.",
     "1 same-day, same-body meeting collision(s) in this window — FileItemSearch's LegislativeHistory carries a date but no time, so a second same-day session for the same body can't be disambiguated; the earliest session for each colliding (body, date) pair was used."
