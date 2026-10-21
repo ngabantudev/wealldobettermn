@@ -1,46 +1,6 @@
 {
-  "generatedAt": "2026-10-20T16:37:27.736Z",
+  "generatedAt": "2026-10-21T16:56:28.209Z",
   "meetingsThisWeek": [
-    {
-      "client": "stpaul",
-      "jurisdiction": "St. Paul City Council",
-      "bodyName": "Legislative Hearings",
-      "date": "2026-10-20",
-      "time": "10:00",
-      "location": "Room 42 City Hall & Court House/Remote",
-      "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7804&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
-      "agendaUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/10/7804_A_Legislative_Hearings_26-10-20_ADA_Meeting_Agenda.pdf",
-      "isCancelled": false,
-      "members": []
-    },
-    {
-      "client": "stpaul",
-      "jurisdiction": "St. Paul City Council",
-      "bodyName": "Audit Committee",
-      "date": "2026-10-20",
-      "time": "16:00",
-      "location": "City Hall, 3rd Floor",
-      "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7799&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
-      "agendaUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/10/7799_A_Audit_Committee_26-10-20_ADA_Meeting_Agenda.pdf",
-      "isCancelled": false,
-      "members": [
-        {
-          "id": 6692,
-          "name": "Rebecca Noecker",
-          "type": "Chair"
-        },
-        {
-          "id": 7108,
-          "name": "Molly Coleman",
-          "type": "Councilmember"
-        },
-        {
-          "id": 7040,
-          "name": "Cheniqua Johnson",
-          "type": "Councilmember"
-        }
-      ]
-    },
     {
       "client": "stpaul",
       "jurisdiction": "St. Paul City Council",
