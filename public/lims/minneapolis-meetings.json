@@ -2,156 +2,24 @@
   "schemaVersion": 1,
   "client": "minneapolis",
   "jurisdiction": "Minneapolis City Council",
-  "generatedAt": "2026-10-21T16:58:07.268Z",
+  "generatedAt": "2026-10-22T16:57:46.173Z",
   "status": "ingested",
-  "note": "112 meeting(s) and 476 agenda item(s) ingested for 2026-10-07–2027-01-19.",
+  "note": "111 meeting(s) and 369 agenda item(s) ingested for 2026-10-08–2027-01-20.",
   "provenance": {
     "primarySourceUrl": "https://lims.minneapolismn.gov/",
     "sourceAgency": "City of Minneapolis, Office of the City Clerk",
     "documentType": "LIMS API v1 — meetingCalendar/FileItemSearch",
     "documentId": null,
     "issuedDate": null,
-    "fetchedAt": "2026-10-21T16:58:07.268Z",
+    "fetchedAt": "2026-10-22T16:57:46.173Z",
     "licence": "Public records served via the City of Minneapolis LIMS API; no separate machine-reuse licence published as of this writing.",
     "contentHash": null
   },
   "window": {
-    "startIso": "2026-10-07",
-    "endIso": "2027-01-19"
+    "startIso": "2026-10-08",
+    "endIso": "2027-01-20"
   },
   "meetings": [
-    {
-      "id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
-      "body_id": "lims-minneapolis-body-public-health-safety-equity",
-      "bodyName": "Public Health, Safety & Equity",
-      "date": "2026-10-07",
-      "time": "13:30",
-      "location": null,
-      "agendaStatus": null,
-      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/PHSE/16257",
-      "minutesUrl": "https://lims.minneapolismn.gov/api/v1/downloads/CommitteeReport/5009/PHSE_10072026_Committee_Report.pdf",
-      "videoStatus": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/PHSE/16257",
-      "lastModifiedUtc": null,
-      "members": [
-        {
-          "id": 5692,
-          "name": "Robin Wonsley",
-          "type": "Council Member"
-        },
-        {
-          "id": 5696,
-          "name": "LaTrisha Vetaw",
-          "type": "Council Member"
-        },
-        {
-          "id": 5698,
-          "name": "Jason Chavez",
-          "type": "Chair"
-        },
-        {
-          "id": 5700,
-          "name": "Michael Rainville",
-          "type": "Council Member"
-        },
-        {
-          "id": 5701,
-          "name": "Elliott Payne",
-          "type": "Council Member"
-        },
-        {
-          "id": 7962,
-          "name": "Soren Stevenson",
-          "type": "Vice-Chair"
-        },
-        {
-          "id": 7964,
-          "name": "Jamison Whiting",
-          "type": "Council Member"
-        }
-      ]
-    },
-    {
-      "id": "lims-minneapolis-meeting-budget-committee-2026-10-07T18:05:00",
-      "body_id": "lims-minneapolis-body-budget-committee",
-      "bodyName": "Budget Committee",
-      "date": "2026-10-07",
-      "time": "18:05",
-      "location": null,
-      "agendaStatus": null,
-      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/Budget/16268",
-      "minutesUrl": "https://lims.minneapolismn.gov/api/v1/downloads/CommitteeReport/5012/Budget_10072026_Committee_Report.pdf",
-      "videoStatus": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/Budget/16268",
-      "lastModifiedUtc": null,
-      "members": [
-        {
-          "id": 375,
-          "name": "Linea Palmisano",
-          "type": "Council Member"
-        },
-        {
-          "id": 5269,
-          "name": "Jamal Osman",
-          "type": "Council Member"
-        },
-        {
-          "id": 5692,
-          "name": "Robin Wonsley",
-          "type": "Council Member"
-        },
-        {
-          "id": 5696,
-          "name": "LaTrisha Vetaw",
-          "type": "Council Member"
-        },
-        {
-          "id": 5697,
-          "name": "Aisha Chughtai",
-          "type": "Chair"
-        },
-        {
-          "id": 5698,
-          "name": "Jason Chavez",
-          "type": "Council Member"
-        },
-        {
-          "id": 5700,
-          "name": "Michael Rainville",
-          "type": "Council Member"
-        },
-        {
-          "id": 5701,
-          "name": "Elliott Payne",
-          "type": "Council Member"
-        },
-        {
-          "id": 5776,
-          "name": "Aurin Chowdhury",
-          "type": "Council Member"
-        },
-        {
-          "id": 7961,
-          "name": "Pearll Warren",
-          "type": "Council Member"
-        },
-        {
-          "id": 7962,
-          "name": "Soren Stevenson",
-          "type": "Council Member"
-        },
-        {
-          "id": 7963,
-          "name": "Elizabeth Shaffer",
-          "type": "Vice-Chair"
-        },
-        {
-          "id": 7964,
-          "name": "Jamison Whiting",
-          "type": "Council Member"
-        }
-      ]
-    },
     {
       "id": "lims-minneapolis-meeting-budget-committee-2026-10-08T10:00:00",
       "body_id": "lims-minneapolis-body-budget-committee",
@@ -1264,7 +1132,7 @@
       "location": null,
       "agendaStatus": null,
       "agendaUrl": "https://lims.minneapolismn.gov/Agenda/BHZ/16285",
-      "minutesUrl": null,
+      "minutesUrl": "https://lims.minneapolismn.gov/api/v1/downloads/CommitteeReport/5040/BHZ_10202026_Committee_Report.pdf",
       "videoStatus": null,
       "sourceUrl": "https://lims.minneapolismn.gov/Agenda/BHZ/16285",
       "lastModifiedUtc": null,
@@ -1350,10 +1218,10 @@
       "time": "16:30",
       "location": null,
       "agendaStatus": null,
-      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/HPC/16292",
-      "minutesUrl": null,
+      "agendaUrl": "https://lims.minneapolismn.gov/Board/MarkedAgenda/HPC/16292",
+      "minutesUrl": "https://lims.minneapolismn.gov/api/v1/downloads/CommitteeReport/5039/HPC_20261020_minutes.pdf",
       "videoStatus": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/HPC/16292",
+      "sourceUrl": "https://lims.minneapolismn.gov/Board/MarkedAgenda/HPC/16292",
       "lastModifiedUtc": null,
       "members": [
         {
@@ -1397,7 +1265,7 @@
       "location": null,
       "agendaStatus": null,
       "agendaUrl": "https://lims.minneapolismn.gov/Agenda/PHSE/16282",
-      "minutesUrl": null,
+      "minutesUrl": "https://lims.minneapolismn.gov/api/v1/downloads/CommitteeReport/5041/PHSE_10212026_Committee_Report.pdf",
       "videoStatus": null,
       "sourceUrl": "https://lims.minneapolismn.gov/Agenda/PHSE/16282",
       "lastModifiedUtc": null,
@@ -2113,10 +1981,10 @@
       "time": "14:00",
       "location": null,
       "agendaStatus": null,
-      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/CSC/",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/CSC/16314",
       "minutesUrl": null,
       "videoStatus": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/CSC/",
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/CSC/16314",
       "lastModifiedUtc": null,
       "members": [
         {
@@ -2139,10 +2007,10 @@
       "time": "17:00",
       "location": null,
       "agendaStatus": null,
-      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/PHAC/",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/PHAC/16316",
       "minutesUrl": null,
       "videoStatus": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/PHAC/",
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/PHAC/16316",
       "lastModifiedUtc": null,
       "members": [
         {
@@ -2337,10 +2205,10 @@
       "time": "13:30",
       "location": null,
       "agendaStatus": null,
-      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/ELR/",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/ELR/16317",
       "minutesUrl": null,
       "videoStatus": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/ELR/",
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/ELR/16317",
       "lastModifiedUtc": null,
       "members": [
         {
@@ -2612,10 +2480,10 @@
       "time": "10:00",
       "location": null,
       "agendaStatus": null,
-      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/BHZ/",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/BHZ/16315",
       "minutesUrl": null,
       "videoStatus": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/BHZ/",
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/BHZ/16315",
       "lastModifiedUtc": null,
       "members": [
         {
@@ -2663,10 +2531,10 @@
       "time": "13:30",
       "location": null,
       "agendaStatus": null,
-      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/CI/",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/CI/16318",
       "minutesUrl": null,
       "videoStatus": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/CI/",
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/CI/16318",
       "lastModifiedUtc": null,
       "members": [
         {
@@ -6104,6 +5972,57 @@
           "type": "Council Member"
         }
       ]
+    },
+    {
+      "id": "lims-minneapolis-meeting-public-health-safety-equity-2027-01-20T13:30:00",
+      "body_id": "lims-minneapolis-body-public-health-safety-equity",
+      "bodyName": "Public Health, Safety & Equity",
+      "date": "2027-01-20",
+      "time": "13:30",
+      "location": null,
+      "agendaStatus": null,
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/PHSE/",
+      "minutesUrl": null,
+      "videoStatus": null,
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/PHSE/",
+      "lastModifiedUtc": null,
+      "members": [
+        {
+          "id": 5692,
+          "name": "Robin Wonsley",
+          "type": "Council Member"
+        },
+        {
+          "id": 5696,
+          "name": "LaTrisha Vetaw",
+          "type": "Council Member"
+        },
+        {
+          "id": 5698,
+          "name": "Jason Chavez",
+          "type": "Chair"
+        },
+        {
+          "id": 5700,
+          "name": "Michael Rainville",
+          "type": "Council Member"
+        },
+        {
+          "id": 5701,
+          "name": "Elliott Payne",
+          "type": "Council Member"
+        },
+        {
+          "id": 7962,
+          "name": "Soren Stevenson",
+          "type": "Vice-Chair"
+        },
+        {
+          "id": 7964,
+          "name": "Jamison Whiting",
+          "type": "Council Member"
+        }
+      ]
     }
   ],
   "agendaItems": [
@@ -6355,8 +6274,8 @@
       "agendaNumber": null,
       "title": "Receiving and filinga policy brief and presentation created by the Legislative Research and Oversight Division (LRO) regarding research and analysis of public safety organizational structures in cities, counties, and/or states that provide comprehensive public safety services.",
       "isConsent": false,
-      "actionName": "Scheduled",
-      "passedFlagName": "Failed",
+      "actionName": "Received and filed",
+      "passedFlagName": "Passed",
       "matterFile": "2026-00746",
       "matterId": null,
       "matterType": "Receive & File",
@@ -6430,8 +6349,8 @@
       "agendaNumber": null,
       "title": "Passage of Ordinanceamending Title 9, Chapter 174 of the Minneapolis Code of Ordinances relating to Fire and Police Protection: Minneapolis Fire Department; Fire Prevention Bureau, amending provisions related to the commercial hood and exhaust cleaning program.",
       "isConsent": false,
-      "actionName": "Scheduled",
-      "passedFlagName": "Failed",
+      "actionName": "Public hearing set for   11/4/2026",
+      "passedFlagName": "Passed",
       "matterFile": "2026-00889",
       "matterId": null,
       "matterType": "Ordinance",
@@ -6838,18 +6757,18 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2436-0",
-      "meeting_id": "lims-minneapolis-meeting-budget-committee-2026-10-07T18:05:00",
+      "id": "lims-minneapolis-fileitem-2435-14",
+      "meeting_id": "lims-minneapolis-meeting-budget-committee-2026-10-23T10:00:00",
       "sequence": null,
       "agendaNumber": null,
-      "title": "Receiving and filing public comment on the proposed 2027City Budget and tax levy, the Fiscal Year 2027Consolidated Plan, and the proposed water and sewer rates.",
+      "title": "Receiving and filing presentations on the Mayor's 2027Recommended Budget.",
       "isConsent": false,
-      "actionName": "Received and filed",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01018",
+      "actionName": "Scheduled",
+      "passedFlagName": "Failed",
+      "matterFile": "2026-01017",
       "matterId": null,
       "matterType": "Receive & File",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01018",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01017",
       "votes": []
     },
     {
@@ -6868,29 +6787,14 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2442-2",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
-      "sequence": null,
-      "agendaNumber": null,
-      "title": "Passage of Ordinanceamending Title 9, Chapter 172 of the Minneapolis Code of Ordinances relating to Fire and Police Protection: Police Conduct Oversight, amending the requirements for completion of ethics education training for Community Commission on Police Oversight.",
-      "isConsent": false,
-      "actionName": "Public hearing set for   10/21/2026",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01024",
-      "matterId": null,
-      "matterType": "Ordinance",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01024",
-      "votes": []
-    },
-    {
       "id": "lims-minneapolis-fileitem-2442-3",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-21T13:30:00",
       "sequence": null,
       "agendaNumber": null,
       "title": "Passage of Ordinanceamending Title 9, Chapter 172 of the Minneapolis Code of Ordinances relating to Fire and Police Protection: Police Conduct Oversight, amending the requirements for completion of ethics education training for Community Commission on Police Oversight.",
       "isConsent": false,
-      "actionName": "Scheduled",
-      "passedFlagName": "Failed",
+      "actionName": "Approved",
+      "passedFlagName": "Passed",
       "matterFile": "2026-01024",
       "matterId": null,
       "matterType": "Ordinance",
@@ -6996,21 +6900,6 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2537-0",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0761",
-      "title": "Accepting a grant from Minnesota Division of Homeland Security and Emergency Management and U.S. Homeland Security and Emergency Management, in the amount of $100,000,to assist the Police Department in purchasingmeridian vehicle intrusion mitigation barricades.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01041",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01041",
-      "votes": []
-    },
-    {
       "id": "lims-minneapolis-fileitem-2537-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
@@ -7077,21 +6966,6 @@
           "value": "Aye"
         }
       ]
-    },
-    {
-      "id": "lims-minneapolis-fileitem-2538-0",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0761",
-      "title": "Authorizing a contract with Minnesota Division of Homeland Security and Emergency Management and U.S. Homeland Security and Emergency Managementfor the grant,to be executed in accordance with Resolution 2025R-112 related to federally-funded grants.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01041",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01041",
-      "votes": []
     },
     {
       "id": "lims-minneapolis-fileitem-2538-1",
@@ -7162,50 +7036,6 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2539-1",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0766",
-      "title": "Denying a contract with Community Bridges, Inc., in the annual amount of up to $5,900,000 for Mobile Crisis Response services from January 1, 2027, to December 31, 2028, with an option to extend the contract on an annual basis, at the sole option of the City, for three (3) additional years.",
-      "isConsent": false,
-      "actionName": "Denied",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01042",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01042",
-      "votes": [
-        {
-          "memberName": "Jason Chavez",
-          "value": "Aye"
-        },
-        {
-          "memberName": "Soren Stevenson",
-          "value": "Aye"
-        },
-        {
-          "memberName": "Elliott Payne",
-          "value": "Aye"
-        },
-        {
-          "memberName": "Robin Wonsley",
-          "value": "Aye"
-        },
-        {
-          "memberName": "Michael Rainville",
-          "value": "Nay"
-        },
-        {
-          "memberName": "LaTrisha Vetaw",
-          "value": "Nay"
-        },
-        {
-          "memberName": "Jamison Whiting",
-          "value": "Absent"
-        }
-      ]
-    },
-    {
       "id": "lims-minneapolis-fileitem-2539-2",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
@@ -7270,50 +7100,6 @@
         {
           "memberName": "Linea Palmisano",
           "value": "Nay"
-        }
-      ]
-    },
-    {
-      "id": "lims-minneapolis-fileitem-2540-1",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0766",
-      "title": "Denying customization of the termination terms and conditions in the contract to allow both parties to terminate the contract without cause.",
-      "isConsent": false,
-      "actionName": "Denied",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01042",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01042",
-      "votes": [
-        {
-          "memberName": "Jason Chavez",
-          "value": "Aye"
-        },
-        {
-          "memberName": "Soren Stevenson",
-          "value": "Aye"
-        },
-        {
-          "memberName": "Elliott Payne",
-          "value": "Aye"
-        },
-        {
-          "memberName": "Robin Wonsley",
-          "value": "Aye"
-        },
-        {
-          "memberName": "Michael Rainville",
-          "value": "Nay"
-        },
-        {
-          "memberName": "LaTrisha Vetaw",
-          "value": "Nay"
-        },
-        {
-          "memberName": "Jamison Whiting",
-          "value": "Absent"
         }
       ]
     },
@@ -7452,21 +7238,6 @@
           "value": "Aye"
         }
       ]
-    },
-    {
-      "id": "lims-minneapolis-fileitem-2549-1",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
-      "sequence": null,
-      "agendaNumber": null,
-      "title": "Receiving and filing Encampment Closure Reports for Quarters 1 and 2,includingahomeless responsememo,encampmentreporting data, a data dictionary,and shelter availability.",
-      "isConsent": false,
-      "actionName": "Received and filed",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01052",
-      "matterId": null,
-      "matterType": "Receive & File",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01052",
-      "votes": []
     },
     {
       "id": "lims-minneapolis-fileitem-2553-0",
@@ -7762,27 +7533,12 @@
       "agendaNumber": null,
       "title": "Considering the Mayor's nomination of Heidi Ritchieto the appointed position of Health Commissionerfor a term ending January 2030.",
       "isConsent": false,
-      "actionName": "Scheduled",
-      "passedFlagName": "Failed",
+      "actionName": "Public hearing set for   11/4/2026",
+      "passedFlagName": "Passed",
       "matterFile": "2026-01090",
       "matterId": null,
       "matterType": "Action",
       "fileUrl": "https://lims.minneapolismn.gov/File/2026-01090",
-      "votes": []
-    },
-    {
-      "id": "lims-minneapolis-fileitem-2594-0",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026R-406",
-      "title": "Passage of Resolution accepting donation from Special Olympics Minnesotafor Police Inspector Beth Mota andLieutenant Sherral Schmidt to attend theLaw Enforcement International Conference for Special Olympics inGrand Rapids, Michigan, fromNovember 4-8, 2026.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01091",
-      "matterId": null,
-      "matterType": "Resolution",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01091",
       "votes": []
     },
     {
@@ -7854,21 +7610,6 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2595-0",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026R-407",
-      "title": "Passage of Resolution accepting donation from Law Enforcement & Emergency Services Video Association (LEVA) for Police Forensic Scientist Alison Murray to attend theAnnual LEVA Training Symposium in Tampa, Florida,from October 22-30, 2026.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01092",
-      "matterId": null,
-      "matterType": "Resolution",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01092",
-      "votes": []
-    },
-    {
       "id": "lims-minneapolis-fileitem-2595-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
@@ -7935,21 +7676,6 @@
           "value": "Aye"
         }
       ]
-    },
-    {
-      "id": "lims-minneapolis-fileitem-2596-0",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0764",
-      "title": "Directingthe Legislative Department to undertake research and analysis on automotive business regulation and enforcement.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01093",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01093",
-      "votes": []
     },
     {
       "id": "lims-minneapolis-fileitem-2596-1",
@@ -8020,21 +7746,6 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2597-0",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0762",
-      "title": "Accepting redistribution funding from the Minnesota Board of Firefighter Training and Education (MBFTE), in the amount of $222,001.98, for MBFTE-approved training conducted between July 1, 2025, and June 30, 2026.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01094",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01094",
-      "votes": []
-    },
-    {
       "id": "lims-minneapolis-fileitem-2597-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
@@ -8103,21 +7814,6 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2598-0",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026R-405",
-      "title": "Passage of Resolution approving appropriation of funds to the Fire Department.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01094",
-      "matterId": null,
-      "matterType": "Resolution",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01094",
-      "votes": []
-    },
-    {
       "id": "lims-minneapolis-fileitem-2598-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
@@ -8184,21 +7880,6 @@
           "value": "Aye"
         }
       ]
-    },
-    {
-      "id": "lims-minneapolis-fileitem-2600-0",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0759",
-      "title": "Authorizing an increase to contract COM0009557with North Star Sustainability, in the amount of $19,800for a total amount not to exceed $53,930,for additional services associated with implementing Food Forward,a wasted food prevention initiative, funded by the Health Department’s Compost and Food Waste Reduction (CFWR) cooperative agreement with the USDA NIFA.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01096",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01096",
-      "votes": []
     },
     {
       "id": "lims-minneapolis-fileitem-2600-1",
@@ -8337,21 +8018,6 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2602-0",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0749",
-      "title": "Authorizing a contract with Cellebrite USA Corporation, in the amount of $443,714, for the software support package for Cellebrite Inseyets license, for three (3) years through October 29, 2029.",
-      "isConsent": false,
-      "actionName": "Sent forward without recommendation",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01098",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01098",
-      "votes": []
-    },
-    {
       "id": "lims-minneapolis-fileitem-2602-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
@@ -8418,21 +8084,6 @@
           "value": "Aye"
         }
       ]
-    },
-    {
-      "id": "lims-minneapolis-fileitem-2603-0",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0750",
-      "title": "Authorizing an increase to master contract COM0010444 with Center for Energy and Environment, in the amount of $9,000,000 for a total amount not to exceed $14,000,000, for the eligible agencies list.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01099",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01099",
-      "votes": []
     },
     {
       "id": "lims-minneapolis-fileitem-2603-1",
@@ -8503,21 +8154,6 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2604-0",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0750",
-      "title": "Authorizing an increase to master contract COM0010437 with Cooperative Energy Futures, in the amount of $2,400,000 for a total amount not to exceed $2,600,000, for the eligible agencies list.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01099",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01099",
-      "votes": []
-    },
-    {
       "id": "lims-minneapolis-fileitem-2604-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
@@ -8584,21 +8220,6 @@
           "value": "Aye"
         }
       ]
-    },
-    {
-      "id": "lims-minneapolis-fileitem-2605-0",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0750",
-      "title": "Authorizing an increase to master contract COM0010447 with Emerge Community Development, in the amount of $100,000 for a total amount not to exceed $250,000, for the eligible agencies list.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01099",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01099",
-      "votes": []
     },
     {
       "id": "lims-minneapolis-fileitem-2605-1",
@@ -8669,21 +8290,6 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2606-0",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0750",
-      "title": "Authorizing an increase to master contract COM0010933 with Environmental Initiative, in the amount of $200,000 for a total amount not to exceed $235,000, for the eligible agencies list.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01099",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01099",
-      "votes": []
-    },
-    {
       "id": "lims-minneapolis-fileitem-2606-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
@@ -8750,21 +8356,6 @@
           "value": "Aye"
         }
       ]
-    },
-    {
-      "id": "lims-minneapolis-fileitem-2607-0",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0750",
-      "title": "Authorizing an increase to master contract COM0011264 with Frontier Energy, in the amount of $4,000,000 for a total amount not to exceed $4,010,000, for the eligible agencies list.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01099",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01099",
-      "votes": []
     },
     {
       "id": "lims-minneapolis-fileitem-2607-1",
@@ -8835,21 +8426,6 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2608-0",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0750",
-      "title": "Authorizing an increase to master contract COM0011265 with Go Solar Education, in the amount of $70,000 for a total amount not to exceed $195,000, for the eligible agencies list.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01099",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01099",
-      "votes": []
-    },
-    {
       "id": "lims-minneapolis-fileitem-2608-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
@@ -8916,21 +8492,6 @@
           "value": "Aye"
         }
       ]
-    },
-    {
-      "id": "lims-minneapolis-fileitem-2609-0",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0750",
-      "title": "Authorizing an increase to master contract COM0011353 with Great Plains Institute, in the amount of $230,000 for a total amount not to exceed $240,000, for the eligible agencies list.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01099",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01099",
-      "votes": []
     },
     {
       "id": "lims-minneapolis-fileitem-2609-1",
@@ -9001,21 +8562,6 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2610-0",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0750",
-      "title": "Authorizing an increase to master contract COM0010936 with Metro Blooms, in the amount of $100,000 for a total amount not to exceed $150,000, for the eligible agencies list.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01099",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01099",
-      "votes": []
-    },
-    {
       "id": "lims-minneapolis-fileitem-2610-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
@@ -9082,21 +8628,6 @@
           "value": "Aye"
         }
       ]
-    },
-    {
-      "id": "lims-minneapolis-fileitem-2611-0",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0750",
-      "title": "Authorizing an increase to master contract COM0010760 with Metro Blooms Design & Build, in the amount of $600,000 for a total amount not to exceed $900,000, for the eligible agencies list.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01099",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01099",
-      "votes": []
     },
     {
       "id": "lims-minneapolis-fileitem-2611-1",
@@ -9167,21 +8698,6 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2612-0",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0750",
-      "title": "Authorizing an increase to master contract COM0011050 with Michaels Energy, in the amount of $30,000 for a total amount not to exceed $45,000, for the eligible agencies list.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01099",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01099",
-      "votes": []
-    },
-    {
       "id": "lims-minneapolis-fileitem-2612-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
@@ -9248,21 +8764,6 @@
           "value": "Aye"
         }
       ]
-    },
-    {
-      "id": "lims-minneapolis-fileitem-2613-0",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0750",
-      "title": "Authorizing an increase to master contract COM0010822 with Midwest Select Contracting, in the amount of $40,000 for a total amount not to exceed $120,000, for the eligible agencies list.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01099",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01099",
-      "votes": []
     },
     {
       "id": "lims-minneapolis-fileitem-2613-1",
@@ -9333,21 +8834,6 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2614-0",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0750",
-      "title": "Authorizing an increase to master contract COM0011266 with Minnesota Chamber Environmental Sustainability, in the amount of $400,000 for a total amount not to exceed $700,000, for the eligible agencies list.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01099",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01099",
-      "votes": []
-    },
-    {
       "id": "lims-minneapolis-fileitem-2614-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
@@ -9414,21 +8900,6 @@
           "value": "Aye"
         }
       ]
-    },
-    {
-      "id": "lims-minneapolis-fileitem-2615-0",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0750",
-      "title": "Authorizing an increase to master contract COM0011054 with Navigate, in the amount of $220,000 for a total amount not to exceed $230,000, for the eligible agencies list.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01099",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01099",
-      "votes": []
     },
     {
       "id": "lims-minneapolis-fileitem-2615-1",
@@ -9499,21 +8970,6 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2616-0",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0750",
-      "title": "Authorizing an increase to master contract COM0010458 with Project for Pride in Living, in the amount of $200,000 for a total amount not to exceed $295,000, for the eligible agencies list.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01099",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01099",
-      "votes": []
-    },
-    {
       "id": "lims-minneapolis-fileitem-2616-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
@@ -9580,21 +9036,6 @@
           "value": "Aye"
         }
       ]
-    },
-    {
-      "id": "lims-minneapolis-fileitem-2617-0",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0750",
-      "title": "Authorizing an increase to master contract COM0011051 with Resilient Cities and Communities, in the amount of $80,000 for a total amount not to exceed $120,000, for the eligible agencies list.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01099",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01099",
-      "votes": []
     },
     {
       "id": "lims-minneapolis-fileitem-2617-1",
@@ -9665,21 +9106,6 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2618-0",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0750",
-      "title": "Authorizing an increase to master contract COM0011215 with Salas O’Brien North, in the amount of $180,000 for a total amount not to exceed $230,000, for the eligible agencies list.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01099",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01099",
-      "votes": []
-    },
-    {
       "id": "lims-minneapolis-fileitem-2618-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
@@ -9746,21 +9172,6 @@
           "value": "Aye"
         }
       ]
-    },
-    {
-      "id": "lims-minneapolis-fileitem-2619-0",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0750",
-      "title": "Authorizing an increase to master contract COM0010460 with Spark Youth, in the amount of $100,000 for a total amount not to exceed $120,000, for the eligible agencies list.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01099",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01099",
-      "votes": []
     },
     {
       "id": "lims-minneapolis-fileitem-2619-1",
@@ -9831,21 +9242,6 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2620-0",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0750",
-      "title": "Authorizing an increase to master contract COM0010568 with Sustainable Resources Center, in the amount of $200,000 for a total amount not to exceed $310,000, for the eligible agencies list.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01099",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01099",
-      "votes": []
-    },
-    {
       "id": "lims-minneapolis-fileitem-2620-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
@@ -9912,21 +9308,6 @@
           "value": "Aye"
         }
       ]
-    },
-    {
-      "id": "lims-minneapolis-fileitem-2621-0",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0750",
-      "title": "Authorizing an increase to master contract COM0011374 with The Good Acre, in the amount of $20,000 for a total amount not to exceed $70,000, for the eligible agencies list.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01099",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01099",
-      "votes": []
     },
     {
       "id": "lims-minneapolis-fileitem-2621-1",
@@ -9997,21 +9378,6 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2622-0",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0750",
-      "title": "Authorizing an increase to master contract COM0010462 with Tree Trust, in the amount of $1,000,000 for a total amount not to exceed $1,125,000, for the eligible agencies list.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01099",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01099",
-      "votes": []
-    },
-    {
       "id": "lims-minneapolis-fileitem-2622-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
@@ -10078,21 +9444,6 @@
           "value": "Aye"
         }
       ]
-    },
-    {
-      "id": "lims-minneapolis-fileitem-2623-0",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0750",
-      "title": "Authorizing an increase to master contract COM0011057 with WSB, in the amount of $20,000 for a total amount not to exceed $30,000, for the eligible agencies list.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01099",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01099",
-      "votes": []
     },
     {
       "id": "lims-minneapolis-fileitem-2623-1",
@@ -10163,21 +9514,6 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2624-0",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0750",
-      "title": "Authorizing a master contract with Cooperative Energy Futures, in the not to exceed amount of $2,600,000, to be added to the eligible agencies list, for the period of January 1, 2027, to December 31, 2028.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01099",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01099",
-      "votes": []
-    },
-    {
       "id": "lims-minneapolis-fileitem-2624-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
@@ -10244,21 +9580,6 @@
           "value": "Aye"
         }
       ]
-    },
-    {
-      "id": "lims-minneapolis-fileitem-2625-0",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0750",
-      "title": "Authorizing an increase to master contract COM0011053 with Tides Center, as fiscal agent for Community Members for Environmental Justice (CMEJ), in the amount of $150,000 for a total amount not to exceed $160,000, for the eligible agencies list.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01099",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01099",
-      "votes": []
     },
     {
       "id": "lims-minneapolis-fileitem-2625-1",
@@ -10329,36 +9650,6 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2626-0",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
-      "sequence": null,
-      "agendaNumber": null,
-      "title": "Receiving and filing a report relating to Environmental Health’s 2026 work, including an overview and special projects.",
-      "isConsent": false,
-      "actionName": "Received and filed",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01100",
-      "matterId": null,
-      "matterType": "Receive & File",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01100",
-      "votes": []
-    },
-    {
-      "id": "lims-minneapolis-fileitem-2627-0",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0751",
-      "title": "Authorizing an increase to master contract COM0010443 with Advocates for Better Health, in the amount of $150,000 for a total amount not to exceed $230,000, for the eligible agencies list.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01101",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01101",
-      "votes": []
-    },
-    {
       "id": "lims-minneapolis-fileitem-2627-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
@@ -10425,21 +9716,6 @@
           "value": "Aye"
         }
       ]
-    },
-    {
-      "id": "lims-minneapolis-fileitem-2628-0",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0751",
-      "title": "Authorizing an increase to master contract COM0011275 with Smart North, in the amount of $100,000 for a total amount not to exceed $150,000, for the eligible agencies list.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01101",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01101",
-      "votes": []
     },
     {
       "id": "lims-minneapolis-fileitem-2628-1",
@@ -10510,21 +9786,6 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2629-0",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0752",
-      "title": "Authorizing an increase to master contract COM0011032 with Hope Community, in the amount of $20,000 for a total amount not to exceed $70,000, for the eligible agencies list.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01102",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01102",
-      "votes": []
-    },
-    {
       "id": "lims-minneapolis-fileitem-2629-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
@@ -10591,21 +9852,6 @@
           "value": "Aye"
         }
       ]
-    },
-    {
-      "id": "lims-minneapolis-fileitem-2630-0",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0752",
-      "title": "Authorizing an increase to master contract COM0011033 with Open Arms of MN, in the amount of $20,000 for a total amount not to exceed $70,000, for the eligible agencies list.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01102",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01102",
-      "votes": []
     },
     {
       "id": "lims-minneapolis-fileitem-2630-1",
@@ -10676,21 +9922,6 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2631-0",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0752",
-      "title": "Authorizing an increase to master contract COM0010464 with WellShare International, in the amount of $50,000 for a total amount not to exceed $110,000, for the eligible agencies list.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01102",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01102",
-      "votes": []
-    },
-    {
       "id": "lims-minneapolis-fileitem-2631-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
@@ -10757,21 +9988,6 @@
           "value": "Aye"
         }
       ]
-    },
-    {
-      "id": "lims-minneapolis-fileitem-2632-0",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0765",
-      "title": "Approving the 2026-2029 Public Health, Safety & Equity (PHSE) Committee Work Plan.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01103",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01103",
-      "votes": []
     },
     {
       "id": "lims-minneapolis-fileitem-2632-1",
@@ -10993,21 +10209,6 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2637-0",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0753",
-      "title": "Authorizing an increase to master contract COM0011055 with Abdur Razzaq Counseling and Social Architecture, in the amount of $100,000 for a total amount not to exceed $150,000, for the eligible agencies list.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01108",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01108",
-      "votes": []
-    },
-    {
       "id": "lims-minneapolis-fileitem-2637-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
@@ -11074,21 +10275,6 @@
           "value": "Aye"
         }
       ]
-    },
-    {
-      "id": "lims-minneapolis-fileitem-2638-0",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0753",
-      "title": "Authorizing an increase to master contract COM0011267 with Generation Hope, in the amount of $20,000 for a total amount not to exceed $30,000, for the eligible agencies list.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01108",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01108",
-      "votes": []
     },
     {
       "id": "lims-minneapolis-fileitem-2638-1",
@@ -11159,21 +10345,6 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2639-0",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0753",
-      "title": "Authorizing an increase to master contract COM0010450 with Hue-Man Partnership, in the amount of $400,000 for a total amount not to exceed $555,000, for the eligible agencies list.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01108",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01108",
-      "votes": []
-    },
-    {
       "id": "lims-minneapolis-fileitem-2639-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
@@ -11240,21 +10411,6 @@
           "value": "Aye"
         }
       ]
-    },
-    {
-      "id": "lims-minneapolis-fileitem-2640-0",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0753",
-      "title": "Authorizing an increase to master contract COM0011269 with Minnesota Care Partner, in the amount of $20,000 for a total amount not to exceed $30,000, for the eligible agencies list.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01108",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01108",
-      "votes": []
     },
     {
       "id": "lims-minneapolis-fileitem-2640-1",
@@ -11325,21 +10481,6 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2641-0",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0753",
-      "title": "Authorizing an increase to master contract COM0010453 with Native American Community Clinic, in the amount of $400,000 for a total amount not to exceed $480,000, for the eligible agencies list.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01108",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01108",
-      "votes": []
-    },
-    {
       "id": "lims-minneapolis-fileitem-2641-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
@@ -11408,21 +10549,6 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2642-0",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0753",
-      "title": "Authorizing an increase to master contract COM0011056 with Restoration Incorporated, in the amount of $20,000 for a total amount not to exceed $40,000, for the eligible agencies list.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01108",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01108",
-      "votes": []
-    },
-    {
       "id": "lims-minneapolis-fileitem-2642-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
@@ -11489,21 +10615,6 @@
           "value": "Aye"
         }
       ]
-    },
-    {
-      "id": "lims-minneapolis-fileitem-2643-0",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0753",
-      "title": "Authorizing an increase to master contract COM0010565 with St. David’s, in the amount of $400,000 for a total amount not to exceed $600,000, for the eligible agencies list.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01108",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01108",
-      "votes": []
     },
     {
       "id": "lims-minneapolis-fileitem-2643-1",
@@ -11642,21 +10753,6 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2645-0",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0754",
-      "title": "Authorizing an increase to master contract COM0010563 with Annex Teen Clinic, in the amount of $300,000 for a total amount not to exceed $350,000, for the eligible agencies list.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01110",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01110",
-      "votes": []
-    },
-    {
       "id": "lims-minneapolis-fileitem-2645-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
@@ -11723,21 +10819,6 @@
           "value": "Aye"
         }
       ]
-    },
-    {
-      "id": "lims-minneapolis-fileitem-2646-0",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0754",
-      "title": "Authorizing an increase to master contract COM0010946 with Association for Nonsmokers MN, in the amount of $100,000 for a total amount not to exceed $180,000, for the eligible agencies list.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01110",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01110",
-      "votes": []
     },
     {
       "id": "lims-minneapolis-fileitem-2646-1",
@@ -11808,21 +10889,6 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2647-0",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0754",
-      "title": "Authorizing an increase to master contract COM0010947 with Bridge Healthcare Partners, in the amount of $100,000 for a total amount not to exceed $200,000, for the eligible agencies list.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01110",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01110",
-      "votes": []
-    },
-    {
       "id": "lims-minneapolis-fileitem-2647-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
@@ -11889,21 +10955,6 @@
           "value": "Aye"
         }
       ]
-    },
-    {
-      "id": "lims-minneapolis-fileitem-2648-0",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0754",
-      "title": "Authorizing an increase to master contract COM0010913 with Centro Tyrone Guzman, in the amount of $180,000 for a total amount not to exceed $270,000, for the eligible agencies list.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01110",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01110",
-      "votes": []
     },
     {
       "id": "lims-minneapolis-fileitem-2648-1",
@@ -11974,21 +11025,6 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2649-0",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0754",
-      "title": "Authorizing an increase to master contract COM0010572 with Children’s Dental Services, in the amount of $170,000 for a total amount not to exceed $255,000, for the eligible agencies list.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01110",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01110",
-      "votes": []
-    },
-    {
       "id": "lims-minneapolis-fileitem-2649-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
@@ -12055,21 +11091,6 @@
           "value": "Aye"
         }
       ]
-    },
-    {
-      "id": "lims-minneapolis-fileitem-2650-0",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0754",
-      "title": "Authorizing an increase to master contract COM0011143 with Community Emergency Service, in the amount of $20,000 for a total amount not to exceed $70,000, for the eligible agencies list.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01110",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01110",
-      "votes": []
     },
     {
       "id": "lims-minneapolis-fileitem-2650-1",
@@ -12140,21 +11161,6 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2651-0",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0754",
-      "title": "Authorizing an increase to master contract COM0010564 with Division of Indian Work, in the amount of $315,000 for a total amount not to exceed $575,000, for the eligible agencies list.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01110",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01110",
-      "votes": []
-    },
-    {
       "id": "lims-minneapolis-fileitem-2651-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
@@ -12221,21 +11227,6 @@
           "value": "Aye"
         }
       ]
-    },
-    {
-      "id": "lims-minneapolis-fileitem-2652-0",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0754",
-      "title": "Authorizing an increase to master contract COM0011733 with Every Meal, in the amount of $20,000 for a total amount not to exceed $30,000, for the eligible agencies list.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01110",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01110",
-      "votes": []
     },
     {
       "id": "lims-minneapolis-fileitem-2652-1",
@@ -12306,21 +11297,6 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2653-0",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0754",
-      "title": "Authorizing an increase to master contract COM0010448 with Family Tree, in the amount of $270,000 for a total amount not to exceed $405,000, for the eligible agencies list.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01110",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01110",
-      "votes": []
-    },
-    {
       "id": "lims-minneapolis-fileitem-2653-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
@@ -12387,21 +11363,6 @@
           "value": "Aye"
         }
       ]
-    },
-    {
-      "id": "lims-minneapolis-fileitem-2654-0",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0754",
-      "title": "Authorizing an increase to master contract COM0010578 with Neighborhood HealthSource, in the amount of $1,200,000 for a total amount not to exceed $1,710,000, for the eligible agencies list.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01110",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01110",
-      "votes": []
     },
     {
       "id": "lims-minneapolis-fileitem-2654-1",
@@ -12472,21 +11433,6 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2655-0",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0754",
-      "title": "Authorizing an increase to master contract COM0010455 with Parents in Community Action, in the amount of $300,000 for a total amount not to exceed $450,000, for the eligible agencies list.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01110",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01110",
-      "votes": []
-    },
-    {
       "id": "lims-minneapolis-fileitem-2655-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
@@ -12553,21 +11499,6 @@
           "value": "Aye"
         }
       ]
-    },
-    {
-      "id": "lims-minneapolis-fileitem-2656-0",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0754",
-      "title": "Authorizing an increase to master contract COM0010457 with Planned Parenthood MN, ND, SD, in the amount of $200,000 for a total amount not to exceed $235,000, for the eligible agencies list.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01110",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01110",
-      "votes": []
     },
     {
       "id": "lims-minneapolis-fileitem-2656-1",
@@ -12638,21 +11569,6 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2657-0",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0754",
-      "title": "Authorizing an increase to master contract COM0010569 with St. Mary’s Health Clinics, in the amount of $30,000 for a total amount not to exceed $85,000, for the eligible agencies list.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01110",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01110",
-      "votes": []
-    },
-    {
       "id": "lims-minneapolis-fileitem-2657-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
@@ -12721,21 +11637,6 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2658-0",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0754",
-      "title": "Authorizing an increase to master contract COM0010461 with The Neighborhood Hub, in the amount of $40,000 for a total amount not to exceed $90,000, for the eligible agencies list.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01110",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01110",
-      "votes": []
-    },
-    {
       "id": "lims-minneapolis-fileitem-2658-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
@@ -12802,21 +11703,6 @@
           "value": "Aye"
         }
       ]
-    },
-    {
-      "id": "lims-minneapolis-fileitem-2659-0",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0754",
-      "title": "Authorizing an increase to master contract COM0010567 with Way to Grow, in the amount of $1,500,000 for a total amount not to exceed $1,825,000, for the eligible agencies list.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01110",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01110",
-      "votes": []
     },
     {
       "id": "lims-minneapolis-fileitem-2659-1",
@@ -13023,21 +11909,6 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2662-0",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0755",
-      "title": "Authorizing an increase to master contract COM0011277 with American Indian Community Development Center, in the amount of $150,000 for a total amount not to exceed $225,000, for the eligible agencies list.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01112",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01112",
-      "votes": []
-    },
-    {
       "id": "lims-minneapolis-fileitem-2662-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
@@ -13104,21 +11975,6 @@
           "value": "Aye"
         }
       ]
-    },
-    {
-      "id": "lims-minneapolis-fileitem-2663-0",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0755",
-      "title": "Authorizing an increase to master contract COM0010562 with Southside Harm Reduction Services, in the amount of $40,000 for a total amount not to exceed $60,000, for the eligible agencies list.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01112",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01112",
-      "votes": []
     },
     {
       "id": "lims-minneapolis-fileitem-2663-1",
@@ -13257,21 +12113,6 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2665-0",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0756",
-      "title": "Authorizing an increase to master contract COM0011282 with Common Sense Consulting @ Work, in the amount of $10,000 for a total amount not to exceed $60,000, for the eligible agencies list.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01114",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01114",
-      "votes": []
-    },
-    {
       "id": "lims-minneapolis-fileitem-2665-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
@@ -13338,21 +12179,6 @@
           "value": "Aye"
         }
       ]
-    },
-    {
-      "id": "lims-minneapolis-fileitem-2666-0",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0756",
-      "title": "Authorizing an increase to master contract COM0011283 with Karen DeYoung, in the amount of $20,000 for a total amount not to exceed $40,000, for the eligible agencies list.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01114",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01114",
-      "votes": []
     },
     {
       "id": "lims-minneapolis-fileitem-2666-1",
@@ -13423,21 +12249,6 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2667-0",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0757",
-      "title": "Authorizing an increase to master contract COM0010405 with Hennepin County, in the amount of $10,000,000 for a total amount not to exceed $14,770,000, for the eligible agencies list of governmental and political subdivision entities.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01115",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01115",
-      "votes": []
-    },
-    {
       "id": "lims-minneapolis-fileitem-2667-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
@@ -13504,21 +12315,6 @@
           "value": "Aye"
         }
       ]
-    },
-    {
-      "id": "lims-minneapolis-fileitem-2668-0",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0757",
-      "title": "Authorizing an increase to master contract COM0010756 with Hennepin Healthcare, in the amount of $300,000 for a total amount not to exceed $740,000, for the eligible agencies list of governmental and political subdivision entities.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01115",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01115",
-      "votes": []
     },
     {
       "id": "lims-minneapolis-fileitem-2668-1",
@@ -13589,21 +12385,6 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2669-0",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0757",
-      "title": "Authorizing an increase to master contract COM0010434 with Fairview Health Services, in the amount of $600,000 for a total amount not to exceed $1,305,000, for the eligible agencies list of governmental and political subdivision entities.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01115",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01115",
-      "votes": []
-    },
-    {
       "id": "lims-minneapolis-fileitem-2669-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
@@ -13670,21 +12451,6 @@
           "value": "Aye"
         }
       ]
-    },
-    {
-      "id": "lims-minneapolis-fileitem-2670-0",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0757",
-      "title": "Authorizing an increase to master contract COM0010753 with Minneapolis Public Housing Authority, in the amount of $20,000 for a total amount not to exceed $70,000, for the eligible agencies list of governmental and political subdivision entities.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01115",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01115",
-      "votes": []
     },
     {
       "id": "lims-minneapolis-fileitem-2670-1",
@@ -13755,21 +12521,6 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2671-0",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0757",
-      "title": "Authorizing an increase to master contract COM0010757 with Minneapolis Public Schools, in the amount of $300,000 for a total amount not to exceed $510,000, for the eligible agencies list of governmental and political subdivision entities.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01115",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01115",
-      "votes": []
-    },
-    {
       "id": "lims-minneapolis-fileitem-2671-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
@@ -13836,21 +12587,6 @@
           "value": "Aye"
         }
       ]
-    },
-    {
-      "id": "lims-minneapolis-fileitem-2672-0",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0757",
-      "title": "Authorizing an increase to master contract COM0010436 with University of Minnesota, in the amount of $3,000,000 for a total amount not to exceed $4,095,000, for the eligible agencies list of governmental and political subdivision entities.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01115",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01115",
-      "votes": []
     },
     {
       "id": "lims-minneapolis-fileitem-2672-1",
@@ -13921,21 +12657,6 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2673-0",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0757",
-      "title": "Authorizing an increase to master contract COM0010752 with Youth Coordinating Board, in the amount of $2,210,000 for a total amount not to exceed $3,315,000, for the eligible agencies list of governmental and political subdivision entities.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01115",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01115",
-      "votes": []
-    },
-    {
       "id": "lims-minneapolis-fileitem-2673-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
@@ -14002,21 +12723,6 @@
           "value": "Aye"
         }
       ]
-    },
-    {
-      "id": "lims-minneapolis-fileitem-2674-0",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026R-409",
-      "title": "Passage of Resolution requesting the Audit Committee request the City Auditor to undertake an independent After Action Review of the City's response to domestic violence-related calls for service by Mariah Samuels, as well as the City’s investigation into her death.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01116",
-      "matterId": null,
-      "matterType": "Resolution",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01116",
-      "votes": []
     },
     {
       "id": "lims-minneapolis-fileitem-2674-1",
@@ -14238,29 +12944,14 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2677-0",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
-      "sequence": null,
-      "agendaNumber": null,
-      "title": "Receiving and filing public comments on theCity's response to domestic violence-related calls for service by Mariah Samuels.",
-      "isConsent": false,
-      "actionName": "Public comment scheduled for  10/21/2026",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01119",
-      "matterId": null,
-      "matterType": "Receive & File",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01119",
-      "votes": []
-    },
-    {
       "id": "lims-minneapolis-fileitem-2677-1",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-21T13:30:00",
       "sequence": null,
       "agendaNumber": null,
       "title": "Receiving and filing public comments on theCity's response to domestic violence-related calls for service by Mariah Samuels.",
       "isConsent": false,
-      "actionName": "Scheduled",
-      "passedFlagName": "Failed",
+      "actionName": "Received and filed",
+      "passedFlagName": "Passed",
       "matterFile": "2026-01119",
       "matterId": null,
       "matterType": "Receive & File",
@@ -14744,21 +13435,6 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2685-0",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0758",
-      "title": "Authorizing an increase to master contract COM0010442 with A Mother’s Love, in the amount of $250,000 for a total amount not to exceed $375,000, for the eligible agencies list.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01122",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01122",
-      "votes": []
-    },
-    {
       "id": "lims-minneapolis-fileitem-2685-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
@@ -14825,21 +13501,6 @@
           "value": "Aye"
         }
       ]
-    },
-    {
-      "id": "lims-minneapolis-fileitem-2686-0",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0758",
-      "title": "Authorizing an increase to master contract COM0010813 with A&R Training, in the amount of $30,000 for a total amount not to exceed $45,000, for the eligible agencies list.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01122",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01122",
-      "votes": []
     },
     {
       "id": "lims-minneapolis-fileitem-2686-1",
@@ -14910,21 +13571,6 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2687-0",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0758",
-      "title": "Authorizing an increase to master contract COM0010561 with Aliveness Project, in the amount of $20,000 for a total amount not to exceed $90,000, for the eligible agencies list.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01122",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01122",
-      "votes": []
-    },
-    {
       "id": "lims-minneapolis-fileitem-2687-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
@@ -14991,21 +13637,6 @@
           "value": "Aye"
         }
       ]
-    },
-    {
-      "id": "lims-minneapolis-fileitem-2688-0",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0758",
-      "title": "Authorizing an increase to master contract COM0010814 with COPAL, in the amount of $100,000 for a total amount not to exceed $170,000, for the eligible agencies list.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01122",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01122",
-      "votes": []
     },
     {
       "id": "lims-minneapolis-fileitem-2688-1",
@@ -15076,21 +13707,6 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2689-0",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0758",
-      "title": "Authorizing an increase to master contract COM0010940 with Daryeel Youth Services, in the amount of $60,000 for a total amount not to exceed $90,000, for the eligible agencies list.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01122",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01122",
-      "votes": []
-    },
-    {
       "id": "lims-minneapolis-fileitem-2689-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
@@ -15157,21 +13773,6 @@
           "value": "Aye"
         }
       ]
-    },
-    {
-      "id": "lims-minneapolis-fileitem-2690-0",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0758",
-      "title": "Authorizing an increase to master contract COM0010866 with Heather Turngren, in the amount of $5,000 for a total amount not to exceed $20,000, for the eligible agencies list.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01122",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01122",
-      "votes": []
     },
     {
       "id": "lims-minneapolis-fileitem-2690-1",
@@ -15242,21 +13843,6 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2691-0",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0758",
-      "title": "Authorizing an increase to master contract COM0010451 with Liberty Community Church (formerly Kwanzaa Community Church), in the amount of $50,000 for a total amount not to exceed $60,000, for the eligible agencies list.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01122",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01122",
-      "votes": []
-    },
-    {
       "id": "lims-minneapolis-fileitem-2691-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
@@ -15323,21 +13909,6 @@
           "value": "Aye"
         }
       ]
-    },
-    {
-      "id": "lims-minneapolis-fileitem-2692-0",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0758",
-      "title": "Authorizing an increase to master contract COM0010941 with Little Earth Residents Association, in the amount of $150,000 for a total amount not to exceed $260,000, for the eligible agencies list.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01122",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01122",
-      "votes": []
     },
     {
       "id": "lims-minneapolis-fileitem-2692-1",
@@ -15408,21 +13979,6 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2693-0",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0758",
-      "title": "Authorizing an increase to master contract COM0010942 with Mill City Farmers Market Charitable Fund, in the amount of $20,000 for a total amount not to exceed $70,000, for the eligible agencies list.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01122",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01122",
-      "votes": []
-    },
-    {
       "id": "lims-minneapolis-fileitem-2693-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
@@ -15489,21 +14045,6 @@
           "value": "Aye"
         }
       ]
-    },
-    {
-      "id": "lims-minneapolis-fileitem-2694-0",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0758",
-      "title": "Authorizing an increase to master contract COM0010939 with Minneapolis Climate Action, in the amount of $200,000 for a total amount not to exceed $230,000, for the eligible agencies list.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01122",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01122",
-      "votes": []
     },
     {
       "id": "lims-minneapolis-fileitem-2694-1",
@@ -15574,21 +14115,6 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2695-0",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0758",
-      "title": "Authorizing an increase to master contract COM0010454 with Northpoint Health and Wellness Center, in the amount of $220,000 for a total amount not to exceed $300,000, for the eligible agencies list.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01122",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01122",
-      "votes": []
-    },
-    {
       "id": "lims-minneapolis-fileitem-2695-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
@@ -15655,21 +14181,6 @@
           "value": "Aye"
         }
       ]
-    },
-    {
-      "id": "lims-minneapolis-fileitem-2696-0",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0758",
-      "title": "Authorizing an increase to master contract COM0010790 with Roxxanne LLC, in the amount of $75,000 for a total amount not to exceed $110,000, for the eligible agencies list.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01122",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01122",
-      "votes": []
     },
     {
       "id": "lims-minneapolis-fileitem-2696-1",
@@ -15740,21 +14251,6 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2697-0",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0758",
-      "title": "Authorizing an increase to master contract COM0010439 with Russell Herder, in the amount of $200,000 for a total amount not to exceed $300,000, for the eligible agencies list.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01122",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01122",
-      "votes": []
-    },
-    {
       "id": "lims-minneapolis-fileitem-2697-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
@@ -15821,21 +14317,6 @@
           "value": "Aye"
         }
       ]
-    },
-    {
-      "id": "lims-minneapolis-fileitem-2698-0",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0758",
-      "title": "Authorizing an increase to master contract COM0010459 with Sabathani Community Center, in the amount of $50,000 for a total amount not to exceed $136,000, for the eligible agencies list.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01122",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01122",
-      "votes": []
     },
     {
       "id": "lims-minneapolis-fileitem-2698-1",
@@ -15906,21 +14387,6 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2699-0",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0758",
-      "title": "Authorizing an increase to master contract COM0011651 with Second Harvest Heartland, in the amount of $100,000 for a total amount not to exceed $150,000, for the eligible agencies list.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01122",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01122",
-      "votes": []
-    },
-    {
       "id": "lims-minneapolis-fileitem-2699-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
@@ -15987,21 +14453,6 @@
           "value": "Aye"
         }
       ]
-    },
-    {
-      "id": "lims-minneapolis-fileitem-2700-0",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0758",
-      "title": "Authorizing an increase to master contract COM0010943 with Skellegense, in the amount of $50,000 for a total amount not to exceed $74,000, for the eligible agencies list.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01122",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01122",
-      "votes": []
     },
     {
       "id": "lims-minneapolis-fileitem-2700-1",
@@ -16072,21 +14523,6 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2701-0",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0758",
-      "title": "Authorizing an increase to master contract COM0010944 with Twin Cities Food Justice, in the amount of $20,000 for a total amount not to exceed $70,000, for the eligible agencies list.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01122",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01122",
-      "votes": []
-    },
-    {
       "id": "lims-minneapolis-fileitem-2701-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
@@ -16155,21 +14591,6 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2702-0",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0758",
-      "title": "Authorizing an increase to master contract COM0010945 with The Sanneh Foundation, in the amount of $20,000 for a total amount not to exceed $70,000, for the eligible agencies list.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01122",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01122",
-      "votes": []
-    },
-    {
       "id": "lims-minneapolis-fileitem-2702-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
@@ -16236,21 +14657,6 @@
           "value": "Aye"
         }
       ]
-    },
-    {
-      "id": "lims-minneapolis-fileitem-2703-0",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0758",
-      "title": "Authorizing an increase to master contract COM0010463 with Urban League Twin Cities, in the amount of $40,000 for a total amount not to exceed $70,000, for the eligible agencies list.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01122",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01122",
-      "votes": []
     },
     {
       "id": "lims-minneapolis-fileitem-2703-1",
@@ -18633,21 +17039,6 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2738-0",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026R-408",
-      "title": "Passage of Resolution approving the disposition of Minneapolis Police Department Mounted Patrol surplus property by donation to the Minneapolis Mounted Police Foundation, subject to the requirements of Minneapolis Code of Ordinances &sect; 18.160, the City's Surplus Property Disposal Policy and Procedures, and applicable law.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01127",
-      "matterId": null,
-      "matterType": "Resolution",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01127",
-      "votes": []
-    },
-    {
       "id": "lims-minneapolis-fileitem-2738-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
@@ -20315,27 +18706,12 @@
       "agendaNumber": null,
       "title": "Passage of Ordinanceamending Title 11, Chapter 234 of the Minneapolis Code of Ordinances relating to Health and Sanitation: Indoor Smoking, prohibiting the use of smokeless tobacco in stadiums.",
       "isConsent": false,
-      "actionName": "Scheduled",
-      "passedFlagName": "Failed",
+      "actionName": "Referred to staff",
+      "passedFlagName": "Passed",
       "matterFile": "2026-01142",
       "matterId": null,
       "matterType": "Ordinance",
       "fileUrl": "https://lims.minneapolismn.gov/File/2026-01142",
-      "votes": []
-    },
-    {
-      "id": "lims-minneapolis-fileitem-2763-0",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0760",
-      "title": "Authorizing a Memorandum of Understanding (MOU) between the City of Minneapolis Health Department and Neighborhood HealthSource Central Clinicto expand access to long-acting injectable buprenorphine for people with opioid use disorder until December 31, 2027.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01143",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01143",
       "votes": []
     },
     {
@@ -20407,21 +18783,6 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2764-0",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0760",
-      "title": "Authorizing a Memorandum of Understanding (MOU) between the City of Minneapolis Health Department and Neighborhood HealthSource Fremont Clinicto expand access to long-acting injectable buprenorphine for people with opioid use disorder until December 31, 2027.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01143",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01143",
-      "votes": []
-    },
-    {
       "id": "lims-minneapolis-fileitem-2764-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
@@ -20490,21 +18851,6 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2765-0",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0760",
-      "title": "Authorizing a Memorandum of Understanding (MOU) between the City of Minneapolis Health Department and Fairview RecoveryClinicto expand access to long-acting injectable buprenorphine for people with opioid use disorder until December 31, 2027.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01143",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01143",
-      "votes": []
-    },
-    {
       "id": "lims-minneapolis-fileitem-2765-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
@@ -20571,21 +18917,6 @@
           "value": "Aye"
         }
       ]
-    },
-    {
-      "id": "lims-minneapolis-fileitem-2766-0",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0760",
-      "title": "Authorizing a Memorandum of Understanding(MOU) between the City of Minneapolis Health Department and Red DoorClinicto expand access to long-acting injectable buprenorphine for people with opioid use disorder until December 31, 2027.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01143",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01143",
-      "votes": []
     },
     {
       "id": "lims-minneapolis-fileitem-2766-1",
@@ -20807,21 +19138,6 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2774-0",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0768",
-      "title": "Approving a legislative directive related to the Unresolved Management Corrective Action Plans: Police Off-duty Work Audit.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01154",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01154",
-      "votes": []
-    },
-    {
       "id": "lims-minneapolis-fileitem-2774-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
@@ -20888,21 +19204,6 @@
           "value": "Aye"
         }
       ]
-    },
-    {
-      "id": "lims-minneapolis-fileitem-2775-0",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0769",
-      "title": "Approving a legislative directive related to the Unresolved Management Corrective Action Plans: Minneapolis Police Department Fleet Management Audit.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01155",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01155",
-      "votes": []
     },
     {
       "id": "lims-minneapolis-fileitem-2775-1",
@@ -21039,21 +19340,6 @@
           "value": "Aye"
         }
       ]
-    },
-    {
-      "id": "lims-minneapolis-fileitem-2777-0",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026A-0763",
-      "title": "Accepting a Staffing for Adequate Fire and Emergency Response (SAFER) grant from Federal Emergency Management Agency (FEMA), pending City Attorney's Office approval, in the amount of $3,382,280.43, to be used for 15 additional firefighter positions.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01157",
-      "matterId": null,
-      "matterType": "Action",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01157",
-      "votes": []
     },
     {
       "id": "lims-minneapolis-fileitem-2777-1",
@@ -21275,21 +19561,6 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2780-0",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026R-411",
-      "title": "Passage of Resolution accepting donation from CityMatch for Stephanie Graves, Maternal, Child, and Adolescent Health Manager, Maria Skjefte, Public Health Specialist, and Elizabeth Govrik-McCoy, Community Health Specialist, to attend a meeting with Indigenous Alaskan birth workers in Anchorage, Alaska, fromOctober 14-16, 2026.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01160",
-      "matterId": null,
-      "matterType": "Resolution",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01160",
-      "votes": []
-    },
-    {
       "id": "lims-minneapolis-fileitem-2780-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
@@ -21356,21 +19627,6 @@
           "value": "Aye"
         }
       ]
-    },
-    {
-      "id": "lims-minneapolis-fileitem-2781-0",
-      "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
-      "sequence": null,
-      "agendaNumber": "2026R-410",
-      "title": "Passage of Resolution requesting the City Audit Committee request the City Auditor to conduct an independent audit of the Police Department overtime management, controls, and use.",
-      "isConsent": false,
-      "actionName": "Approved",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01161",
-      "matterId": null,
-      "matterType": "Resolution",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01161",
-      "votes": []
     },
     {
       "id": "lims-minneapolis-fileitem-2781-1",
@@ -22633,8 +20889,8 @@
       "agendaNumber": null,
       "title": "Authorizing a contract with Roche Diagnostics, in the amount of $175,000, for the purchase of point of care (POC) testing equipment and reagents for use in the Mobile Medical Unit for STI testing.",
       "isConsent": false,
-      "actionName": "Scheduled",
-      "passedFlagName": "Failed",
+      "actionName": "Approved",
+      "passedFlagName": "Passed",
       "matterFile": "2026-01174",
       "matterId": null,
       "matterType": "Action",
@@ -22663,8 +20919,8 @@
       "agendaNumber": null,
       "title": "Authorizing a contract with Keepers Wellness, LLC, in the amount of $439,530, for a three (3) year period beginning November 16, 2026, through November 15, 2029, with the option to extend for two (2) one-year extensions,for firefighter mental health services.",
       "isConsent": false,
-      "actionName": "Scheduled",
-      "passedFlagName": "Failed",
+      "actionName": "Approved",
+      "passedFlagName": "Passed",
       "matterFile": "2026-01176",
       "matterId": null,
       "matterType": "Action",
@@ -22723,8 +20979,8 @@
       "agendaNumber": null,
       "title": "Authorizing a contract with the Minnesota Department of Natural Resources (MDNR) to provide fire and emergency response services to the Fort Snelling Upper Post Housing Development for a five (5) year period beginning on the date that all signatures are obtained.",
       "isConsent": false,
-      "actionName": "Scheduled",
-      "passedFlagName": "Failed",
+      "actionName": "Approved",
+      "passedFlagName": "Passed",
       "matterFile": "2026-01179",
       "matterId": null,
       "matterType": "Action",
@@ -22753,8 +21009,8 @@
       "agendaNumber": null,
       "title": "Authorizing a Joint Powers Agreement with Hennepin Countyin the amount of $704,030, from December 1,2026, through December 31, 2028, for Community Trauma Response services.",
       "isConsent": false,
-      "actionName": "Scheduled",
-      "passedFlagName": "Failed",
+      "actionName": "Approved",
+      "passedFlagName": "Passed",
       "matterFile": "2026-01181",
       "matterId": null,
       "matterType": "Action",
@@ -22798,8 +21054,8 @@
       "agendaNumber": null,
       "title": "Accepting a grant from the Minnesota Department of Health (MDH), in the amount of $880,623, to support maternal and child health efforts from October 1, 2026, through September 30, 2027.",
       "isConsent": false,
-      "actionName": "Scheduled",
-      "passedFlagName": "Failed",
+      "actionName": "Approved",
+      "passedFlagName": "Passed",
       "matterFile": "2026-01184",
       "matterId": null,
       "matterType": "Action",
@@ -22813,8 +21069,8 @@
       "agendaNumber": null,
       "title": "Passage of Resolution approving appropriation of funds to the Health Department.",
       "isConsent": false,
-      "actionName": "Scheduled",
-      "passedFlagName": "Failed",
+      "actionName": "Approved",
+      "passedFlagName": "Passed",
       "matterFile": "2026-01184",
       "matterId": null,
       "matterType": "Resolution",
@@ -22828,8 +21084,8 @@
       "agendaNumber": null,
       "title": "Approving a legislative directive related to Automated License Plate Readers (ALPRs) in Minneapolis.",
       "isConsent": false,
-      "actionName": "Scheduled",
-      "passedFlagName": "Failed",
+      "actionName": "Approved",
+      "passedFlagName": "Passed",
       "matterFile": "2026-01186",
       "matterId": null,
       "matterType": "Action",
@@ -22843,8 +21099,8 @@
       "agendaNumber": null,
       "title": "Approving a legislative directive related to transition plans to bring the Mobile or Behavioral Crisis Response (BCR) program in-house at current scope and service levels.",
       "isConsent": false,
-      "actionName": "Scheduled",
-      "passedFlagName": "Failed",
+      "actionName": "Approved",
+      "passedFlagName": "Passed",
       "matterFile": "2026-01187",
       "matterId": null,
       "matterType": "Action",
@@ -22858,8 +21114,8 @@
       "agendaNumber": null,
       "title": "Passage of Resolution recognizing the Month of October as Health Literacy Awareness Month.",
       "isConsent": false,
-      "actionName": "Scheduled",
-      "passedFlagName": "Failed",
+      "actionName": "Approved",
+      "passedFlagName": "Passed",
       "matterFile": "2026-01188",
       "matterId": null,
       "matterType": "Resolution",
@@ -22873,8 +21129,8 @@
       "agendaNumber": null,
       "title": "Receiving and filing a resolution approved by the Community Commission on Police Oversight (CCPO) related to community involvement in the hiring process for the next Police Chief.",
       "isConsent": false,
-      "actionName": "Scheduled",
-      "passedFlagName": "Failed",
+      "actionName": "Received and filed",
+      "passedFlagName": "Passed",
       "matterFile": "2026-01189",
       "matterId": null,
       "matterType": "Receive & File",
@@ -23173,8 +21429,8 @@
       "agendaNumber": null,
       "title": "Passage of Resolution accepting donation from the National Association for Civilian Oversight of Law Enforcement (NACOLE) for Police DepartmentCompliance Specialist, Dennis Vande Stouwe,to attend the 2026 Annual NACOLE Conference in Louisville, Kentucky, from November 8-12, 2026.",
       "isConsent": false,
-      "actionName": "Scheduled",
-      "passedFlagName": "Failed",
+      "actionName": "Approved",
+      "passedFlagName": "Passed",
       "matterFile": "2026-01205",
       "matterId": null,
       "matterType": "Resolution",
@@ -23315,8 +21571,8 @@
       "agendaNumber": null,
       "title": "Accepting a grant from The Minneapolis Foundation's EPA Environmental Justice Thriving Communities Grantmaking Program, in the amountof $250,000, to fund the continuation of the Community Air Monitoring Project.",
       "isConsent": false,
-      "actionName": "Scheduled",
-      "passedFlagName": "Failed",
+      "actionName": "Approved",
+      "passedFlagName": "Passed",
       "matterFile": "2026-01209",
       "matterId": null,
       "matterType": "Action",
@@ -23330,8 +21586,8 @@
       "agendaNumber": null,
       "title": "Authorizing an agreement with The Minneapolis Foundation's EPA Environmental Justice Thriving Communities Grantmaking Program for the grant,to be executed in accordance with Resolution 2025R-112 related to federally-funded grants.",
       "isConsent": false,
-      "actionName": "Scheduled",
-      "passedFlagName": "Failed",
+      "actionName": "Approved",
+      "passedFlagName": "Passed",
       "matterFile": "2026-01209",
       "matterId": null,
       "matterType": "Action",
@@ -23345,8 +21601,8 @@
       "agendaNumber": null,
       "title": "Passage of Resolution approving appropriation of funds to theHealthDepartment.",
       "isConsent": false,
-      "actionName": "Scheduled",
-      "passedFlagName": "Failed",
+      "actionName": "Approved",
+      "passedFlagName": "Passed",
       "matterFile": "2026-01209",
       "matterId": null,
       "matterType": "Resolution",
@@ -23511,8 +21767,8 @@
       "agendaNumber": null,
       "title": "Considering the Mayor's nomination of Bill Peterson to the appointed position of Police Chief for a term ending January 2030.",
       "isConsent": false,
-      "actionName": "Scheduled",
-      "passedFlagName": "Failed",
+      "actionName": "Public hearing set for   11/4/2026",
+      "passedFlagName": "Passed",
       "matterFile": "2026-01211",
       "matterId": null,
       "matterType": "Action",
@@ -23526,8 +21782,8 @@
       "agendaNumber": null,
       "title": "Receiving and filing a letterapproved by the Minneapolis Commission on Civil Rights (MCCR)related tothe Commission's involvement with the hiring of the next Police Chiefand their recommendations for officials to consider.",
       "isConsent": false,
-      "actionName": "Scheduled",
-      "passedFlagName": "Failed",
+      "actionName": "Received and filed",
+      "passedFlagName": "Passed",
       "matterFile": "2026-01214",
       "matterId": null,
       "matterType": "Receive & File",
@@ -23783,69 +22039,70 @@
   ],
   "diff": {
     "addedIds": [
-      "lims-minneapolis-meeting-charter-commission-government-structure-work-group-2026-11-04T16:00:00",
-      "lims-minneapolis-meeting-enterprise-labor-relations-committee-2027-01-19T10:00:00",
-      "lims-minneapolis-meeting-business-housing-zoning-committee-2027-01-19T13:30:00"
+      "lims-minneapolis-meeting-public-health-safety-equity-2027-01-20T13:30:00"
     ],
     "removedIds": [
-      "lims-minneapolis-meeting-budget-committee-2026-10-06T10:00:00",
-      "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-06T13:30:00",
-      "lims-minneapolis-meeting-bicycle-advisory-committee-2026-10-06T16:00:00",
-      "lims-minneapolis-meeting-community-environmental-advisory-commission-2026-10-06T16:00:00",
-      "lims-minneapolis-meeting-heritage-preservation-commission-2026-10-06T16:30:00"
+      "lims-minneapolis-meeting-public-health-safety-equity-2026-10-07T13:30:00",
+      "lims-minneapolis-meeting-budget-committee-2026-10-07T18:05:00"
     ],
     "changed": [
       {
-        "id": "lims-minneapolis-meeting-enterprise-labor-relations-committee-2026-10-19T13:30:00",
+        "id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-20T13:30:00",
         "field": "minutesUrl",
         "from": null,
-        "to": "https://lims.minneapolismn.gov/api/v1/downloads/CommitteeReport/5037/ELR_10192026_Committee_Report.pdf"
+        "to": "https://lims.minneapolismn.gov/api/v1/downloads/CommitteeReport/5040/BHZ_10202026_Committee_Report.pdf"
       },
       {
-        "id": "lims-minneapolis-meeting-budget-committee-2026-10-19T18:05:00",
+        "id": "lims-minneapolis-meeting-heritage-preservation-commission-2026-10-20T16:30:00",
+        "field": "agendaUrl",
+        "from": "https://lims.minneapolismn.gov/Agenda/HPC/16292",
+        "to": "https://lims.minneapolismn.gov/Board/MarkedAgenda/HPC/16292"
+      },
+      {
+        "id": "lims-minneapolis-meeting-heritage-preservation-commission-2026-10-20T16:30:00",
         "field": "minutesUrl",
         "from": null,
-        "to": "https://lims.minneapolismn.gov/api/v1/downloads/CommitteeReport/5035/Budget_10192026_Committee_Report.pdf"
+        "to": "https://lims.minneapolismn.gov/api/v1/downloads/CommitteeReport/5039/HPC_20261020_minutes.pdf"
       },
       {
-        "id": "lims-minneapolis-meeting-budget-committee-2026-10-20T10:00:00",
+        "id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-21T13:30:00",
         "field": "minutesUrl",
         "from": null,
-        "to": "https://lims.minneapolismn.gov/api/v1/downloads/CommitteeReport/5036/Budget_10202026_Committee_Report.pdf"
+        "to": "https://lims.minneapolismn.gov/api/v1/downloads/CommitteeReport/5041/PHSE_10212026_Committee_Report.pdf"
       },
       {
-        "id": "lims-minneapolis-meeting-bicycle-advisory-committee-2026-10-20T16:00:00",
+        "id": "lims-minneapolis-meeting-civil-service-commission-2026-10-27T14:00:00",
         "field": "agendaUrl",
-        "from": "https://lims.minneapolismn.gov/Agenda/BAC/16296",
-        "to": "https://lims.minneapolismn.gov/Board/MarkedAgenda/BAC/16296"
+        "from": "https://lims.minneapolismn.gov/Agenda/CSC/",
+        "to": "https://lims.minneapolismn.gov/Agenda/CSC/16314"
       },
       {
-        "id": "lims-minneapolis-meeting-bicycle-advisory-committee-2026-10-20T16:00:00",
-        "field": "minutesUrl",
-        "from": null,
-        "to": "https://lims.minneapolismn.gov/api/v1/downloads/CommitteeReport/5038/Minutes_2026_10_20_BAC.pdf"
-      },
-      {
-        "id": "lims-minneapolis-meeting-budget-committee-2026-10-22T10:00:00",
+        "id": "lims-minneapolis-meeting-public-health-advisory-committee-2026-10-27T17:00:00",
         "field": "agendaUrl",
-        "from": "https://lims.minneapolismn.gov/Agenda/Budget/",
-        "to": "https://lims.minneapolismn.gov/Agenda/Budget/16309"
+        "from": "https://lims.minneapolismn.gov/Agenda/PHAC/",
+        "to": "https://lims.minneapolismn.gov/Agenda/PHAC/16316"
       },
       {
-        "id": "lims-minneapolis-meeting-budget-committee-2026-10-23T10:00:00",
+        "id": "lims-minneapolis-meeting-enterprise-labor-relations-committee-2026-11-02T13:30:00",
         "field": "agendaUrl",
-        "from": "https://lims.minneapolismn.gov/Agenda/Budget/",
-        "to": "https://lims.minneapolismn.gov/Agenda/Budget/16312"
+        "from": "https://lims.minneapolismn.gov/Agenda/ELR/",
+        "to": "https://lims.minneapolismn.gov/Agenda/ELR/16317"
       },
       {
-        "id": "lims-minneapolis-meeting-planning-commission-2026-10-26T16:30:00",
+        "id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-11-05T10:00:00",
         "field": "agendaUrl",
-        "from": "https://lims.minneapolismn.gov/Agenda/CPC/",
-        "to": "https://lims.minneapolismn.gov/Agenda/CPC/16310"
+        "from": "https://lims.minneapolismn.gov/Agenda/BHZ/",
+        "to": "https://lims.minneapolismn.gov/Agenda/BHZ/16315"
+      },
+      {
+        "id": "lims-minneapolis-meeting-climate-infrastructure-committee-2026-11-05T13:30:00",
+        "field": "agendaUrl",
+        "from": "https://lims.minneapolismn.gov/Agenda/CI/",
+        "to": "https://lims.minneapolismn.gov/Agenda/CI/16318"
       }
     ]
   },
-  "previousGeneratedAt": "2026-10-20T16:38:48.863Z",
+  "previousGeneratedAt": "2026-10-21T16:58:07.268Z",
   "knownGaps": [
     "Consent-agenda flagging not implemented — LIMS has no field structurally equivalent to Legistar's EventItemConsent; every agenda item ships isConsent: false rather than a guess.",
     "1 same-day, same-body meeting collision(s) in this window — FileItemSearch's LegislativeHistory carries a date but no time, so a second same-day session for the same body can't be disambiguated; the earliest session for each colliding (body, date) pair was used."

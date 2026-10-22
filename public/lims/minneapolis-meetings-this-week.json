@@ -1,92 +1,6 @@
 {
-  "generatedAt": "2026-10-21T16:58:07.276Z",
+  "generatedAt": "2026-10-22T16:57:46.178Z",
   "meetingsThisWeek": [
-    {
-      "client": "minneapolis",
-      "jurisdiction": "Minneapolis City Council",
-      "bodyName": "Public Health, Safety & Equity",
-      "date": "2026-10-21",
-      "time": "13:30",
-      "location": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/PHSE/16282",
-      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/PHSE/16282",
-      "isCancelled": false,
-      "members": [
-        {
-          "id": 5692,
-          "name": "Robin Wonsley",
-          "type": "Council Member"
-        },
-        {
-          "id": 5696,
-          "name": "LaTrisha Vetaw",
-          "type": "Council Member"
-        },
-        {
-          "id": 5698,
-          "name": "Jason Chavez",
-          "type": "Chair"
-        },
-        {
-          "id": 5700,
-          "name": "Michael Rainville",
-          "type": "Council Member"
-        },
-        {
-          "id": 5701,
-          "name": "Elliott Payne",
-          "type": "Council Member"
-        },
-        {
-          "id": 7962,
-          "name": "Soren Stevenson",
-          "type": "Vice-Chair"
-        },
-        {
-          "id": 7964,
-          "name": "Jamison Whiting",
-          "type": "Council Member"
-        }
-      ]
-    },
-    {
-      "client": "minneapolis",
-      "jurisdiction": "Minneapolis City Council",
-      "bodyName": "Minneapolis Arts Commission",
-      "date": "2026-10-21",
-      "time": "17:30",
-      "location": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/ARTS/16306",
-      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/ARTS/16306",
-      "isCancelled": false,
-      "members": [
-        {
-          "id": 6710,
-          "name": "Lucy Thompson",
-          "type": "ABC Member"
-        },
-        {
-          "id": 6711,
-          "name": "Anna Wienke",
-          "type": "ABC Member"
-        },
-        {
-          "id": 6726,
-          "name": "Boo McCaleb",
-          "type": "ABC Member"
-        },
-        {
-          "id": 6871,
-          "name": "Kaytie Kamphoff",
-          "type": "ABC Member"
-        },
-        {
-          "id": 6917,
-          "name": "Juan PEREZ LA CRUZ",
-          "type": "ABC Member"
-        }
-      ]
-    },
     {
       "client": "minneapolis",
       "jurisdiction": "Minneapolis City Council",
@@ -689,8 +603,8 @@
       "date": "2026-10-27",
       "time": "14:00",
       "location": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/CSC/",
-      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/CSC/",
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/CSC/16314",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/CSC/16314",
       "isCancelled": false,
       "members": [
         {
@@ -712,8 +626,8 @@
       "date": "2026-10-27",
       "time": "17:00",
       "location": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/PHAC/",
-      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/PHAC/",
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/PHAC/16316",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/PHAC/16316",
       "isCancelled": false,
       "members": [
         {
@@ -901,8 +815,8 @@
       "date": "2026-11-02",
       "time": "13:30",
       "location": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/ELR/",
-      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/ELR/",
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/ELR/16317",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/ELR/16317",
       "isCancelled": false,
       "members": [
         {
@@ -1161,8 +1075,8 @@
       "date": "2026-11-05",
       "time": "10:00",
       "location": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/BHZ/",
-      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/BHZ/",
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/BHZ/16315",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/BHZ/16315",
       "isCancelled": false,
       "members": [
         {
@@ -1209,8 +1123,8 @@
       "date": "2026-11-05",
       "time": "13:30",
       "location": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/CI/",
-      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/CI/",
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/CI/16318",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/CI/16318",
       "isCancelled": false,
       "members": [
         {
