@@ -2,105 +2,24 @@
   "schemaVersion": 1,
   "client": "minneapolis",
   "jurisdiction": "Minneapolis City Council",
-  "generatedAt": "2026-10-23T16:48:28.892Z",
+  "generatedAt": "2026-10-24T15:41:55.675Z",
   "status": "ingested",
-  "note": "106 meeting(s) and 360 agenda item(s) ingested for 2026-10-09–2027-01-21.",
+  "note": "105 meeting(s) and 362 agenda item(s) ingested for 2026-10-10–2027-01-22.",
   "provenance": {
     "primarySourceUrl": "https://lims.minneapolismn.gov/",
     "sourceAgency": "City of Minneapolis, Office of the City Clerk",
     "documentType": "LIMS API v1 — meetingCalendar/FileItemSearch",
     "documentId": null,
     "issuedDate": null,
-    "fetchedAt": "2026-10-23T16:48:28.892Z",
+    "fetchedAt": "2026-10-24T15:41:55.675Z",
     "licence": "Public records served via the City of Minneapolis LIMS API; no separate machine-reuse licence published as of this writing.",
     "contentHash": null
   },
   "window": {
-    "startIso": "2026-10-09",
-    "endIso": "2027-01-21"
+    "startIso": "2026-10-10",
+    "endIso": "2027-01-22"
   },
   "meetings": [
-    {
-      "id": "lims-minneapolis-meeting-budget-committee-2026-10-09T10:00:00",
-      "body_id": "lims-minneapolis-body-budget-committee",
-      "bodyName": "Budget Committee",
-      "date": "2026-10-09",
-      "time": "10:00",
-      "location": null,
-      "agendaStatus": null,
-      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/Budget/16271",
-      "minutesUrl": "https://lims.minneapolismn.gov/api/v1/downloads/CommitteeReport/5020/Budget_10092026_Committee_Report.pdf",
-      "videoStatus": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/Budget/16271",
-      "lastModifiedUtc": null,
-      "members": [
-        {
-          "id": 375,
-          "name": "Linea Palmisano",
-          "type": "Council Member"
-        },
-        {
-          "id": 5269,
-          "name": "Jamal Osman",
-          "type": "Council Member"
-        },
-        {
-          "id": 5692,
-          "name": "Robin Wonsley",
-          "type": "Council Member"
-        },
-        {
-          "id": 5696,
-          "name": "LaTrisha Vetaw",
-          "type": "Council Member"
-        },
-        {
-          "id": 5697,
-          "name": "Aisha Chughtai",
-          "type": "Chair"
-        },
-        {
-          "id": 5698,
-          "name": "Jason Chavez",
-          "type": "Council Member"
-        },
-        {
-          "id": 5700,
-          "name": "Michael Rainville",
-          "type": "Council Member"
-        },
-        {
-          "id": 5701,
-          "name": "Elliott Payne",
-          "type": "Council Member"
-        },
-        {
-          "id": 5776,
-          "name": "Aurin Chowdhury",
-          "type": "Council Member"
-        },
-        {
-          "id": 7961,
-          "name": "Pearll Warren",
-          "type": "Council Member"
-        },
-        {
-          "id": 7962,
-          "name": "Soren Stevenson",
-          "type": "Council Member"
-        },
-        {
-          "id": 7963,
-          "name": "Elizabeth Shaffer",
-          "type": "Vice-Chair"
-        },
-        {
-          "id": 7964,
-          "name": "Jamison Whiting",
-          "type": "Council Member"
-        }
-      ]
-    },
     {
       "id": "lims-minneapolis-meeting-budget-committee-2026-10-13T10:00:00",
       "body_id": "lims-minneapolis-body-budget-committee",
@@ -1147,7 +1066,7 @@
       "location": null,
       "agendaStatus": null,
       "agendaUrl": "https://lims.minneapolismn.gov/Agenda/CI/16286",
-      "minutesUrl": null,
+      "minutesUrl": "https://lims.minneapolismn.gov/api/v1/downloads/CommitteeReport/5049/CI_10222026_Committee_Report.pdf",
       "videoStatus": null,
       "sourceUrl": "https://lims.minneapolismn.gov/Agenda/CI/16286",
       "lastModifiedUtc": null,
@@ -1255,7 +1174,7 @@
       "location": null,
       "agendaStatus": null,
       "agendaUrl": "https://lims.minneapolismn.gov/Agenda/Budget/16312",
-      "minutesUrl": null,
+      "minutesUrl": "https://lims.minneapolismn.gov/api/v1/downloads/CommitteeReport/5048/Budget_10232026_Committee_Report.pdf",
       "videoStatus": null,
       "sourceUrl": "https://lims.minneapolismn.gov/Agenda/Budget/16312",
       "lastModifiedUtc": null,
@@ -2098,10 +2017,10 @@
       "time": "16:00",
       "location": null,
       "agendaStatus": null,
-      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/charter-gs/",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/charter-gs/16321",
       "minutesUrl": null,
       "videoStatus": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/charter-gs/",
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/charter-gs/16321",
       "lastModifiedUtc": null,
       "members": [
         {
@@ -5817,6 +5736,21 @@
       "votes": []
     },
     {
+      "id": "lims-minneapolis-fileitem-530-3",
+      "meeting_id": "lims-minneapolis-meeting-committee-of-the-whole-2026-10-27T13:30:00",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Passage of Ordinanceamending Title 2, Chapter 12 of the Minneapolis Code of Ordinances relating to Administration:City Administration, updating government structure implementation to address outstanding gaps and improve government operations and collaboration.",
+      "isConsent": false,
+      "actionName": "Scheduled",
+      "passedFlagName": "Failed",
+      "matterFile": "2026-00178",
+      "matterId": null,
+      "matterType": "Ordinance",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-00178",
+      "votes": []
+    },
+    {
       "id": "lims-minneapolis-fileitem-957-4",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-20T13:30:00",
       "sequence": null,
@@ -6364,7 +6298,36 @@
       "matterId": null,
       "matterType": "Ordinance",
       "fileUrl": "https://lims.minneapolismn.gov/File/2026-00968",
-      "votes": []
+      "votes": [
+        {
+          "memberName": "Robin Wonsley",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Soren Stevenson",
+          "value": "Aye"
+        },
+        {
+          "memberName": "LaTrisha Vetaw",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Pearll Warren",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Aisha Chughtai",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Aurin Chowdhury",
+          "value": "Aye"
+        },
+        {
+          "memberName": "Linea Palmisano",
+          "value": "Aye"
+        }
+      ]
     },
     {
       "id": "lims-minneapolis-fileitem-2414-3",
@@ -6379,21 +6342,6 @@
       "matterId": null,
       "matterType": "Ordinance",
       "fileUrl": "https://lims.minneapolismn.gov/File/2026-01015",
-      "votes": []
-    },
-    {
-      "id": "lims-minneapolis-fileitem-2435-10",
-      "meeting_id": "lims-minneapolis-meeting-budget-committee-2026-10-09T10:00:00",
-      "sequence": null,
-      "agendaNumber": null,
-      "title": "Receiving and filing presentations on the Mayor's 2027Recommended Budget.",
-      "isConsent": false,
-      "actionName": "Received and filed",
-      "passedFlagName": "Passed",
-      "matterFile": "2026-01017",
-      "matterId": null,
-      "matterType": "Receive & File",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01017",
       "votes": []
     },
     {
@@ -6448,8 +6396,8 @@
       "agendaNumber": null,
       "title": "Receiving and filing presentations on the Mayor's 2027Recommended Budget.",
       "isConsent": false,
-      "actionName": "Scheduled",
-      "passedFlagName": "Failed",
+      "actionName": "Received and filed",
+      "passedFlagName": "Passed",
       "matterFile": "2026-01017",
       "matterId": null,
       "matterType": "Receive & File",
@@ -21357,6 +21305,21 @@
     },
     {
       "id": "lims-minneapolis-fileitem-2900-0",
+      "meeting_id": "lims-minneapolis-meeting-intergovernmental-relations-committee-2026-10-27T10:00:00",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Receiving and filing an update related to federal legislative policies.",
+      "isConsent": false,
+      "actionName": "Scheduled",
+      "passedFlagName": "Failed",
+      "matterFile": "2026-01212",
+      "matterId": null,
+      "matterType": "Receive & File",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01212",
+      "votes": []
+    },
+    {
+      "id": "lims-minneapolis-fileitem-2901-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-21T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -21371,7 +21334,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2901-0",
+      "id": "lims-minneapolis-fileitem-2902-0",
       "meeting_id": "lims-minneapolis-meeting-climate-infrastructure-committee-2026-10-22T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -21386,7 +21349,22 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2902-0",
+      "id": "lims-minneapolis-fileitem-2903-0",
+      "meeting_id": "lims-minneapolis-meeting-intergovernmental-relations-committee-2026-10-27T10:00:00",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Receiving and filing a presentation on the draft 2027Legislative Agenda and Policy Positions.",
+      "isConsent": false,
+      "actionName": "Scheduled",
+      "passedFlagName": "Failed",
+      "matterFile": "2026-01216",
+      "matterId": null,
+      "matterType": "Receive & File",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01216",
+      "votes": []
+    },
+    {
+      "id": "lims-minneapolis-fileitem-2904-0",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0767",
@@ -21454,7 +21432,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2903-0",
+      "id": "lims-minneapolis-fileitem-2905-0",
       "meeting_id": "lims-minneapolis-meeting-budget-committee-2026-10-26T10:00:00",
       "sequence": null,
       "agendaNumber": null,
@@ -21469,7 +21447,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2904-0",
+      "id": "lims-minneapolis-fileitem-2906-0",
       "meeting_id": "lims-minneapolis-meeting-budget-committee-2026-10-26T10:00:00",
       "sequence": null,
       "agendaNumber": null,
@@ -21484,7 +21462,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2905-0",
+      "id": "lims-minneapolis-fileitem-2907-0",
       "meeting_id": "lims-minneapolis-meeting-budget-committee-2026-10-26T10:00:00",
       "sequence": null,
       "agendaNumber": null,
@@ -21499,7 +21477,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2906-0",
+      "id": "lims-minneapolis-fileitem-2908-0",
       "meeting_id": "lims-minneapolis-meeting-climate-infrastructure-committee-2026-10-22T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -21514,7 +21492,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2916-0",
+      "id": "lims-minneapolis-fileitem-2918-0",
       "meeting_id": "lims-minneapolis-meeting-audit-committee-2026-10-19T10:00:00",
       "sequence": null,
       "agendaNumber": null,
@@ -21529,7 +21507,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2939-0",
+      "id": "lims-minneapolis-fileitem-2941-0",
       "meeting_id": "lims-minneapolis-meeting-audit-committee-2026-10-19T10:00:00",
       "sequence": null,
       "agendaNumber": null,
@@ -21544,7 +21522,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2952-0",
+      "id": "lims-minneapolis-fileitem-2954-0",
       "meeting_id": "lims-minneapolis-meeting-audit-committee-2026-10-19T10:00:00",
       "sequence": null,
       "agendaNumber": null,
@@ -21559,7 +21537,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2953-0",
+      "id": "lims-minneapolis-fileitem-2955-0",
       "meeting_id": "lims-minneapolis-meeting-audit-committee-2026-10-19T10:00:00",
       "sequence": null,
       "agendaNumber": null,
@@ -21603,7 +21581,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2954-0",
+      "id": "lims-minneapolis-fileitem-2956-0",
       "meeting_id": "lims-minneapolis-meeting-audit-committee-2026-10-19T10:00:00",
       "sequence": null,
       "agendaNumber": null,
@@ -21618,7 +21596,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2955-0",
+      "id": "lims-minneapolis-fileitem-2957-0",
       "meeting_id": "lims-minneapolis-meeting-audit-committee-2026-10-19T10:00:00",
       "sequence": null,
       "agendaNumber": null,
@@ -21663,57 +21641,32 @@
     }
   ],
   "diff": {
-    "addedIds": [
-      "lims-minneapolis-meeting-climate-infrastructure-committee-2027-01-21T13:30:00"
-    ],
+    "addedIds": [],
     "removedIds": [
-      "lims-minneapolis-meeting-budget-committee-2026-10-08T10:00:00",
-      "lims-minneapolis-meeting-climate-infrastructure-committee-2026-10-08T13:30:00",
-      "lims-minneapolis-meeting-minneapolis-advisory-committee-on-housing-2026-10-08T15:00:00",
-      "lims-minneapolis-meeting-pedestrian-advisory-committee-2026-10-08T16:00:00",
-      "lims-minneapolis-meeting-zoning-board-of-adjustment-2026-10-08T16:30:00",
-      "lims-minneapolis-meeting-neighborhood-revitalization-program-policy-board-2026-10-08T17:00:00"
+      "lims-minneapolis-meeting-budget-committee-2026-10-09T10:00:00"
     ],
     "changed": [
       {
-        "id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
+        "id": "lims-minneapolis-meeting-climate-infrastructure-committee-2026-10-22T13:30:00",
         "field": "minutesUrl",
         "from": null,
-        "to": "https://lims.minneapolismn.gov/api/v1/downloads/CommitteeReport/5046/Council-Proceedings-10-15.pdf"
+        "to": "https://lims.minneapolismn.gov/api/v1/downloads/CommitteeReport/5049/CI_10222026_Committee_Report.pdf"
       },
       {
-        "id": "lims-minneapolis-meeting-budget-committee-2026-10-22T10:00:00",
+        "id": "lims-minneapolis-meeting-budget-committee-2026-10-23T10:00:00",
         "field": "minutesUrl",
         "from": null,
-        "to": "https://lims.minneapolismn.gov/api/v1/downloads/CommitteeReport/5043/Budget_10222026_Committee_Report.pdf"
+        "to": "https://lims.minneapolismn.gov/api/v1/downloads/CommitteeReport/5048/Budget_10232026_Committee_Report.pdf"
       },
       {
-        "id": "lims-minneapolis-meeting-zoning-board-of-adjustment-2026-10-22T16:30:00",
+        "id": "lims-minneapolis-meeting-charter-commission-government-structure-work-group-2026-11-04T16:00:00",
         "field": "agendaUrl",
-        "from": "https://lims.minneapolismn.gov/Agenda/ZBA/16275",
-        "to": "https://lims.minneapolismn.gov/Board/MarkedAgenda/ZBA/16275"
-      },
-      {
-        "id": "lims-minneapolis-meeting-zoning-board-of-adjustment-2026-10-22T16:30:00",
-        "field": "minutesUrl",
-        "from": null,
-        "to": "https://lims.minneapolismn.gov/api/v1/downloads/CommitteeReport/5045/ZBOA-Meeting-Minutes-10.22.2026.pdf"
-      },
-      {
-        "id": "lims-minneapolis-meeting-budget-committee-2026-10-26T10:00:00",
-        "field": "agendaUrl",
-        "from": "https://lims.minneapolismn.gov/Agenda/Budget/",
-        "to": "https://lims.minneapolismn.gov/Agenda/Budget/16319"
-      },
-      {
-        "id": "lims-minneapolis-meeting-public-health-safety-equity-2026-11-04T13:30:00",
-        "field": "agendaUrl",
-        "from": "https://lims.minneapolismn.gov/Agenda/PHSE/",
-        "to": "https://lims.minneapolismn.gov/Agenda/PHSE/16320"
+        "from": "https://lims.minneapolismn.gov/Agenda/charter-gs/",
+        "to": "https://lims.minneapolismn.gov/Agenda/charter-gs/16321"
       }
     ]
   },
-  "previousGeneratedAt": "2026-10-22T16:57:46.173Z",
+  "previousGeneratedAt": "2026-10-23T16:48:28.892Z",
   "knownGaps": [
     "Consent-agenda flagging not implemented — LIMS has no field structurally equivalent to Legistar's EventItemConsent; every agenda item ships isConsent: false rather than a guess.",
     "1 same-day, same-body meeting collision(s) in this window — FileItemSearch's LegislativeHistory carries a date but no time, so a second same-day session for the same body can't be disambiguated; the earliest session for each colliding (body, date) pair was used."
