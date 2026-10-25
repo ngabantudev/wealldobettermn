@@ -2,22 +2,22 @@
   "schemaVersion": 1,
   "client": "stpaul",
   "jurisdiction": "St. Paul City Council",
-  "generatedAt": "2026-10-24T15:40:16.010Z",
+  "generatedAt": "2026-10-25T15:50:05.867Z",
   "status": "ingested",
-  "note": "16 meeting(s) (16/16 event(s) in window) and 281 agenda item(s) ingested for 2026-10-10–2027-01-22.",
+  "note": "16 meeting(s) (16/16 event(s) in window) and 281 agenda item(s) ingested for 2026-10-11–2027-01-23.",
   "provenance": {
     "primarySourceUrl": "https://webapi.legistar.com/v1/stpaul/events",
     "sourceAgency": "St. Paul City Council",
     "documentType": "Legistar Web API — Events/EventItems",
     "documentId": null,
     "issuedDate": null,
-    "fetchedAt": "2026-10-24T15:40:16.010Z",
+    "fetchedAt": "2026-10-25T15:50:05.867Z",
     "licence": "Public records served via Legistar InSite; no separate machine-reuse licence published by the host jurisdiction as of this writing.",
-    "contentHash": "d501e87e0acb415d2df876392c9230e0417e28ef2bbc6ae14ac5f056a30e274c"
+    "contentHash": "01bc67379a86c8372adf643a7b69ff75bf6c72655a7089b95f1fb9eb70b973b5"
   },
   "window": {
-    "startIso": "2026-10-10",
-    "endIso": "2027-01-22"
+    "startIso": "2026-10-11",
+    "endIso": "2027-01-23"
   },
   "meetings": [
     {
@@ -4365,22 +4365,11 @@
     }
   ],
   "diff": {
-    "addedIds": [
-      "legistar-stpaul-meeting-7810"
-    ],
-    "removedIds": [
-      "legistar-stpaul-meeting-7809"
-    ],
-    "changed": [
-      {
-        "id": "legistar-stpaul-meeting-7808",
-        "field": "agendaUrl",
-        "from": "https://legistar1.granicus.com/StPaul/meetings/2026/10/7808_A_City_Council_26-10-28_Meeting_Agenda.pdf",
-        "to": "https://legistar1.granicus.com/StPaul/meetings/2026/10/7808_A_City_Council_26-10-28_ADA_Meeting_Agenda.pdf"
-      }
-    ]
+    "addedIds": [],
+    "removedIds": [],
+    "changed": []
   },
-  "previousGeneratedAt": "2026-10-23T16:46:48.369Z",
+  "previousGeneratedAt": "2026-10-24T15:40:16.010Z",
   "knownGaps": [
     "Consent-agenda flagging uses Legistar's own EventItemConsent field only (62 of 281 agenda item(s) in this window flagged). \"No discussion\" / \"no public comment\" are NOT flagged — this API exposes no comparably reliable field for either, and AGENTS.md §3.3 rules out inferring one from absence."
   ]
