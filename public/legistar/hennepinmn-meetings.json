@@ -2,22 +2,22 @@
   "schemaVersion": 1,
   "client": "hennepinmn",
   "jurisdiction": "Hennepin County Board",
-  "generatedAt": "2026-10-24T15:41:41.176Z",
+  "generatedAt": "2026-10-25T15:51:28.026Z",
   "status": "ingested",
-  "note": "13 meeting(s) (13/13 event(s) in window) and 198 agenda item(s) ingested for 2026-10-10–2027-01-22.",
+  "note": "13 meeting(s) (13/13 event(s) in window) and 198 agenda item(s) ingested for 2026-10-11–2027-01-23.",
   "provenance": {
     "primarySourceUrl": "https://webapi.legistar.com/v1/hennepinmn/events",
     "sourceAgency": "Hennepin County Board",
     "documentType": "Legistar Web API — Events/EventItems",
     "documentId": null,
     "issuedDate": null,
-    "fetchedAt": "2026-10-24T15:41:41.176Z",
+    "fetchedAt": "2026-10-25T15:51:28.026Z",
     "licence": "Public records served via Legistar InSite; no separate machine-reuse licence published by the host jurisdiction as of this writing.",
-    "contentHash": "85e4f2713913c06b36e10445eeda932419599c19c571fc7c9000a6329ea2c499"
+    "contentHash": "80057e066c10da549524ab078f3a5ef1e577aa5f20751734b110d9c230cc2396"
   },
   "window": {
-    "startIso": "2026-10-10",
-    "endIso": "2027-01-22"
+    "startIso": "2026-10-11",
+    "endIso": "2027-01-23"
   },
   "meetings": [
     {
@@ -3263,52 +3263,9 @@
   "diff": {
     "addedIds": [],
     "removedIds": [],
-    "changed": [
-      {
-        "id": "legistar-hennepinmn-meeting-1492",
-        "field": "agendaUrl",
-        "from": null,
-        "to": "https://hennepinmn.legistar1.com/hennepinmn/meetings/2026/10/1492_A_Administration%2C_Operations_and_Budget_Committee_26-10-27_COMMITTEE_AGENDA.pdf"
-      },
-      {
-        "id": "legistar-hennepinmn-meeting-1493",
-        "field": "agendaUrl",
-        "from": null,
-        "to": "https://hennepinmn.legistar1.com/hennepinmn/meetings/2026/10/1493_A_Health_Committee_26-10-27_COMMITTEE_AGENDA.pdf"
-      },
-      {
-        "id": "legistar-hennepinmn-meeting-1494",
-        "field": "agendaUrl",
-        "from": null,
-        "to": "https://hennepinmn.legistar1.com/hennepinmn/meetings/2026/10/1494_A_Human_Services_Committee_26-10-27_COMMITTEE_AGENDA.pdf"
-      },
-      {
-        "id": "legistar-hennepinmn-meeting-1495",
-        "field": "agendaUrl",
-        "from": null,
-        "to": "https://hennepinmn.legistar1.com/hennepinmn/meetings/2026/10/1495_A_Intergovernmental_Committee_26-10-27_COMMITTEE_AGENDA.pdf"
-      },
-      {
-        "id": "legistar-hennepinmn-meeting-1496",
-        "field": "agendaUrl",
-        "from": null,
-        "to": "https://hennepinmn.legistar1.com/hennepinmn/meetings/2026/10/1496_A_Law%2C_Safety_and_Justice_Committee_26-10-27_COMMITTEE_AGENDA.pdf"
-      },
-      {
-        "id": "legistar-hennepinmn-meeting-1497",
-        "field": "agendaUrl",
-        "from": null,
-        "to": "https://hennepinmn.legistar1.com/hennepinmn/meetings/2026/10/1497_A_Public_Works_Committee_26-10-27_COMMITTEE_AGENDA.pdf"
-      },
-      {
-        "id": "legistar-hennepinmn-meeting-1498",
-        "field": "agendaUrl",
-        "from": null,
-        "to": "https://hennepinmn.legistar1.com/hennepinmn/meetings/2026/10/1498_A_Resident_Services_Committee_26-10-27_COMMITTEE_AGENDA.pdf"
-      }
-    ]
+    "changed": []
   },
-  "previousGeneratedAt": "2026-10-23T16:48:12.536Z",
+  "previousGeneratedAt": "2026-10-24T15:41:41.176Z",
   "knownGaps": [
     "Consent-agenda flagging uses Legistar's own EventItemConsent field only (23 of 198 agenda item(s) in this window flagged). \"No discussion\" / \"no public comment\" are NOT flagged — this API exposes no comparably reliable field for either, and AGENTS.md §3.3 rules out inferring one from absence."
   ]
