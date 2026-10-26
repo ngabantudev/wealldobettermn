@@ -26,6 +26,8 @@
     "data:probe-legistar": "node scripts/ingest/probe-legistar.mjs",
     "data:minneapolis-lims": "node scripts/ingest/lims-minneapolis.mjs",
     "data:campaign-finance": "node scripts/ingest/mn-campaign-finance.mjs",
+    "data:election-results": "node scripts/ingest/mn-election-results.mjs",
+    "data:election-results:selftest": "node scripts/ingest/mn-election-results.mjs --self-test",
     "data:bills": "node scripts/ingest/state-bills.mjs",
     "data:bills:backfill": "node scripts/ingest/state-bills.mjs --backfill",
     "data:bills:selftest": "node scripts/ingest/state-bills.mjs --self-test",

@@ -220,10 +220,54 @@ export const ECONOMIC_INTEREST_LAYER: LayerRegistryEntry = {
   ],
 };
 
+// MN Secretary of State election results — starting with the 2026 MN state
+// primary (Aug 11, 2026, ersElectionId=200). status is "partial" as of the
+// 2026-08-12 rework: the interactive site (electionresults.sos.mn.gov /
+// sos.mn.gov) still sits behind a bot-management wall this project will
+// not evade (AGENTS.md §2.2) — but a separate, undocumented static file
+// host, electionresultsfiles.sos.mn.gov, was confirmed live to serve the
+// same underlying result files with no bot wall at all (clean robots.txt
+// 404, HTTP 200 + Last-Modified on every configured source). The ingest
+// script (scripts/ingest/mn-election-results.mjs) now fetches from that
+// host automatically as its primary path — real, current data flows. The
+// manual local drop directory (scripts/ingest/data/mn-election-results-raw/
+// README.md) is kept as an explicit, opt-in fallback (--offline /
+// --from-manual-drop) for if that host's URL pattern ever changes or the
+// host disappears — see AGENTS.md §0.8.
+//
+// No "LIVE" framing anywhere in this entry's copy, deliberately: see
+// certificationStatus/resultsAsOf/fetchedAt's three-way split in
+// src/lib/electionResultsTypes.ts's header comment. No winner/projected/
+// leading field exists anywhere in this layer's output, structurally
+// (same file, same header comment) — this is a hard AGENTS.md §1c rule,
+// not a style choice.
+export const ELECTION_RESULTS_LAYER: LayerRegistryEntry = {
+  id: "election-results",
+  label: "2026 MN State Primary Results",
+  description:
+    "Contest-level vote totals for the 2026 Minnesota state primary — ordered vote counts and percentages only, never a computed winner, projected outcome, or 'advances to November' label (AGENTS.md §1c). County + state legislature + federal contests, statewide/district-level results only (not precinct).",
+  ingestScript: "scripts/ingest/mn-election-results.mjs",
+  publicDataPath: "/election-results/index.json",
+  status: "partial",
+  coverage:
+    "The 2026 Minnesota state primary (Aug 11, 2026) only — no other election, past or future, is covered by this layer yet. Statewide and district-level results, not precinct-level: precinct geometry is not joined here. County, state legislature, and federal contests on the primary ballot, full scope (not narrowed to any one office type). No Minneapolis or St. Paul city races appear on this ballot at all: Minneapolis and St. Paul hold their own municipal elections in odd years, on a separate cycle from Minnesota's even-year state/federal elections — 2026 simply has no city contests to show. Results are unofficial until the relevant county canvassing board (~Aug 14, 2026) and the State Canvassing Board (~Aug 18, 2026, per Minn. Stat. § 204C.32) certify them — see certificationStatus on every emitted record, set by hand, never inferred from a date. status is 'partial' rather than 'live' because certification is still pending and no automatic refresh cadence is wired up yet — a human re-runs the ingest script by hand.",
+  primarySourceUrl: "https://electionresults.sos.mn.gov/Select/MediaFiles/Index?ersElectionId=200",
+  sourceAgency: "Office of the Minnesota Secretary of State",
+  knownGaps: [
+    "electionresults.sos.mn.gov and sos.mn.gov (the interactive results website) sit behind a Radware bot-management wall that blocks automated fetching outright, verified live (even a polite fetch with an honest, descriptive User-Agent is redirected to a JS challenge) — this importer does not fetch from that host at all, by design (AGENTS.md §2.2 forbids solving or evading the challenge).",
+    "This importer instead fetches from electionresultsfiles.sos.mn.gov, a separate static file host serving the same underlying result files with no bot wall (confirmed live, 2026-08-12). That host's URL pattern was found by direct inspection of a real results link, not published or documented anywhere by SOS — it could change or disappear without notice (AGENTS.md §0.8). If it does, the ingest script fails loudly (throws on any non-2xx response) rather than silently serving stale data; the manual drop-directory workflow (--offline / --from-manual-drop, see scripts/ingest/data/mn-election-results-raw/README.md) is the documented recovery path.",
+    "Precinct-level results and precinct geometry are not ingested or joined — only statewide/county/district-level files. A precinct-resolution layer is a distinct, larger scope decision, not made here.",
+    "No candidate/person records exist anywhere in this layer — results are contest-level vote totals only. A candidate name is a label on a vote total, never joined to this app's officeholder/Person data.",
+    "The semicolon-delimited column layout is now confirmed directly against real rows fetched live from electionresultsfiles.sos.mn.gov (2026-08-12), not just corroborated via a third party's parser — per AGENTS.md §3.3 tiering.",
+    "resultsAsOf is the most recent Last-Modified response header across all 10 fetched sources, used as one combined 'as of' timestamp for the whole pull — not a per-contest-precise value.",
+  ],
+};
+
 export const LAYER_REGISTRY: readonly LayerRegistryEntry[] = [
   MINNEAPOLIS_MEETINGS_VOTES_LAYER,
   CAMPAIGN_FINANCE_LAYER,
   ECONOMIC_INTEREST_LAYER,
   CITY_BOUNDARIES_LAYER,
   STATE_LEGISLATURE_BIO_LAYER,
+  ELECTION_RESULTS_LAYER,
 ];

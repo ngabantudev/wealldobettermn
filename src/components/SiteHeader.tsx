@@ -33,6 +33,7 @@ const NAV_LINKS: { href: string; label: string }[] = [
   { href: "/", label: "Map" },
   { href: "/meetings", label: "Meetings" },
   { href: "/bills", label: "Bills" },
+  { href: "/election-results", label: "Results" },
   { href: "/recap", label: "Recap" },
   { href: "/sources", label: "Sources" },
   { href: "/about", label: "About" },

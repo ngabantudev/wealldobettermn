@@ -88,7 +88,20 @@ export type GlossaryKey =
   | "vote-absent"
   | "vote-excused"
   | "vote-not-voting"
-  | "vote-other";
+  | "vote-other"
+  // (d) Election-results terms, added for the 2026 MN state primary layer
+  // (src/lib/layers.ts's ELECTION_RESULTS_LAYER) — the "no LIVE framing"
+  // distinctions in src/lib/electionResultsTypes.ts's header comment made
+  // user-facing, plus the state-primary-vs-municipal-primary confusion
+  // flagged as the single most likely point of user confusion for this
+  // layer (see src/lib/coverage.ts's ELECTION_RESULTS_NOTE).
+  | "canvass"
+  | "county-canvassing-board"
+  | "state-canvassing-board"
+  | "certified-results"
+  | "unofficial-results"
+  | "state-primary"
+  | "partisan-primary-ballot";
 
 export const GLOSSARY: Record<GlossaryKey, GlossaryEntry> = {
   // --- (a) Civic/legal terms of art -----------------------------------
@@ -207,6 +220,36 @@ export const GLOSSARY: Record<GlossaryKey, GlossaryEntry> = {
   "vote-other": {
     term: "Other",
     gloss: "Recorded outside the usual yes/no options — see the source record for the specifics.",
+  },
+
+  // --- (d) Election-results terms --------------------------------------
+  canvass: {
+    term: "Canvass",
+    gloss: "The official process of reviewing and totaling election returns after Election Day, done by a canvassing board rather than the initial election-night count. A result isn't official until it's been canvassed — see \"Certified results\" and \"Unofficial results.\"",
+  },
+  "county-canvassing-board": {
+    term: "County canvassing board",
+    gloss: "A board (typically the county board of commissioners, sitting in that role) that reviews and certifies election returns for that county a few days after Election Day, under Minn. Stat. § 204C.32. Results for most local and legislative-district contests become official at this stage.",
+  },
+  "state-canvassing-board": {
+    term: "State Canvassing Board",
+    gloss: "The state-level board that reviews and certifies statewide and federal election results after every county has canvassed its own returns, under Minn. Stat. § 204C.32. This is the last certification step for a statewide race.",
+  },
+  "certified-results": {
+    term: "Certified results",
+    gloss: "Vote totals that a county or state canvassing board has formally reviewed and approved. Certified results are the official record; election-night and other pre-canvass totals are \"unofficial\" even if they turn out to match exactly.",
+  },
+  "unofficial-results": {
+    term: "Unofficial results",
+    gloss: "Vote totals reported before a canvassing board has formally certified them — including election-night counts. Unofficial results can still change slightly as canvassing boards resolve close counts, provisional ballots, and reporting corrections.",
+  },
+  "state-primary": {
+    term: "State primary",
+    gloss: "A statewide election, held in even-numbered years, where each political party's voters choose that party's nominee for state legislative, congressional, and other partisan offices ahead of the November general election. This is a separate election, on a separate cycle, from a city's own municipal primary — see \"Partisan primary ballot.\"",
+  },
+  "partisan-primary-ballot": {
+    term: "Partisan primary ballot",
+    gloss: "In Minnesota, a state primary ballot is split by party: a voter picks one party's ballot and can only vote in that party's contests. This is different from Minneapolis and St. Paul's own municipal elections, which use ranked-choice voting and don't hold a separate party primary at all — one reason no city council or mayoral race appears on a state primary ballot.",
   },
 };
 
