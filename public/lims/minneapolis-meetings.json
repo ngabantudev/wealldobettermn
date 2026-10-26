@@ -2,22 +2,22 @@
   "schemaVersion": 1,
   "client": "minneapolis",
   "jurisdiction": "Minneapolis City Council",
-  "generatedAt": "2026-10-25T15:51:40.781Z",
+  "generatedAt": "2026-10-26T18:33:14.290Z",
   "status": "ingested",
-  "note": "105 meeting(s) and 362 agenda item(s) ingested for 2026-10-11–2027-01-23.",
+  "note": "106 meeting(s) and 363 agenda item(s) ingested for 2026-10-12–2027-01-24.",
   "provenance": {
     "primarySourceUrl": "https://lims.minneapolismn.gov/",
     "sourceAgency": "City of Minneapolis, Office of the City Clerk",
     "documentType": "LIMS API v1 — meetingCalendar/FileItemSearch",
     "documentId": null,
     "issuedDate": null,
-    "fetchedAt": "2026-10-25T15:51:40.781Z",
+    "fetchedAt": "2026-10-26T18:33:14.290Z",
     "licence": "Public records served via the City of Minneapolis LIMS API; no separate machine-reuse licence published as of this writing.",
     "contentHash": null
   },
   "window": {
-    "startIso": "2026-10-11",
-    "endIso": "2027-01-23"
+    "startIso": "2026-10-12",
+    "endIso": "2027-01-24"
   },
   "meetings": [
     {
@@ -1752,10 +1752,10 @@
       "time": "09:30",
       "location": null,
       "agendaStatus": null,
-      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/Council/",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/Council/16322",
       "minutesUrl": null,
       "videoStatus": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/Council/",
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/Council/16322",
       "lastModifiedUtc": null,
       "members": [
         {
@@ -1826,6 +1826,87 @@
       ]
     },
     {
+      "id": "lims-minneapolis-meeting-budget-committee-2026-11-02T10:00:00",
+      "body_id": "lims-minneapolis-body-budget-committee",
+      "bodyName": "Budget Committee",
+      "date": "2026-11-02",
+      "time": "10:00",
+      "location": null,
+      "agendaStatus": null,
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/Budget/",
+      "minutesUrl": null,
+      "videoStatus": null,
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/Budget/",
+      "lastModifiedUtc": null,
+      "members": [
+        {
+          "id": 375,
+          "name": "Linea Palmisano",
+          "type": "Council Member"
+        },
+        {
+          "id": 5269,
+          "name": "Jamal Osman",
+          "type": "Council Member"
+        },
+        {
+          "id": 5692,
+          "name": "Robin Wonsley",
+          "type": "Council Member"
+        },
+        {
+          "id": 5696,
+          "name": "LaTrisha Vetaw",
+          "type": "Council Member"
+        },
+        {
+          "id": 5697,
+          "name": "Aisha Chughtai",
+          "type": "Chair"
+        },
+        {
+          "id": 5698,
+          "name": "Jason Chavez",
+          "type": "Council Member"
+        },
+        {
+          "id": 5700,
+          "name": "Michael Rainville",
+          "type": "Council Member"
+        },
+        {
+          "id": 5701,
+          "name": "Elliott Payne",
+          "type": "Council Member"
+        },
+        {
+          "id": 5776,
+          "name": "Aurin Chowdhury",
+          "type": "Council Member"
+        },
+        {
+          "id": 7961,
+          "name": "Pearll Warren",
+          "type": "Council Member"
+        },
+        {
+          "id": 7962,
+          "name": "Soren Stevenson",
+          "type": "Council Member"
+        },
+        {
+          "id": 7963,
+          "name": "Elizabeth Shaffer",
+          "type": "Vice-Chair"
+        },
+        {
+          "id": 7964,
+          "name": "Jamison Whiting",
+          "type": "Council Member"
+        }
+      ]
+    },
+    {
       "id": "lims-minneapolis-meeting-enterprise-labor-relations-committee-2026-11-02T13:30:00",
       "body_id": "lims-minneapolis-body-enterprise-labor-relations-committee",
       "bodyName": "Enterprise & Labor Relations Committee",
@@ -1884,10 +1965,10 @@
       "time": "16:30",
       "location": null,
       "agendaStatus": null,
-      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/HPC/",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/HPC/16323",
       "minutesUrl": null,
       "videoStatus": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/HPC/",
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/HPC/16323",
       "lastModifiedUtc": null,
       "members": [
         {
@@ -2235,7 +2316,7 @@
       "date": "2026-11-05",
       "time": "16:30",
       "location": null,
-      "agendaStatus": null,
+      "agendaStatus": "Cancelled",
       "agendaUrl": "https://lims.minneapolismn.gov/Agenda/ZBA/",
       "minutesUrl": null,
       "videoStatus": null,
@@ -5811,7 +5892,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-1815-1",
+      "id": "lims-minneapolis-fileitem-1816-1",
       "meeting_id": "lims-minneapolis-meeting-committee-of-the-whole-2026-10-13T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -5826,7 +5907,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-1959-9",
+      "id": "lims-minneapolis-fileitem-1960-9",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026-034",
@@ -5894,7 +5975,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-1961-1",
+      "id": "lims-minneapolis-fileitem-1962-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0770",
@@ -5962,7 +6043,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-1968-0",
+      "id": "lims-minneapolis-fileitem-1969-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-21T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -5977,7 +6058,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-1972-0",
+      "id": "lims-minneapolis-fileitem-1973-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-20T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -5992,7 +6073,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2173-0",
+      "id": "lims-minneapolis-fileitem-2174-0",
       "meeting_id": "lims-minneapolis-meeting-climate-infrastructure-committee-2026-10-22T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -6007,7 +6088,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2204-0",
+      "id": "lims-minneapolis-fileitem-2205-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-20T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -6022,7 +6103,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2218-0",
+      "id": "lims-minneapolis-fileitem-2219-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-20T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -6037,7 +6118,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2229-3",
+      "id": "lims-minneapolis-fileitem-2230-3",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-21T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -6052,7 +6133,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2261-3",
+      "id": "lims-minneapolis-fileitem-2262-3",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-20T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -6067,7 +6148,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2285-1",
+      "id": "lims-minneapolis-fileitem-2286-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026R-402",
@@ -6135,7 +6216,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2288-1",
+      "id": "lims-minneapolis-fileitem-2289-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026R-401",
@@ -6203,7 +6284,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2291-1",
+      "id": "lims-minneapolis-fileitem-2292-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026R-400",
@@ -6271,7 +6352,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2300-0",
+      "id": "lims-minneapolis-fileitem-2301-0",
       "meeting_id": "lims-minneapolis-meeting-climate-infrastructure-committee-2026-10-22T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -6286,7 +6367,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2350-5",
+      "id": "lims-minneapolis-fileitem-2351-5",
       "meeting_id": "lims-minneapolis-meeting-climate-infrastructure-committee-2026-10-22T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -6330,7 +6411,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2414-3",
+      "id": "lims-minneapolis-fileitem-2415-3",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-20T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -6345,7 +6426,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2435-11",
+      "id": "lims-minneapolis-fileitem-2436-11",
       "meeting_id": "lims-minneapolis-meeting-budget-committee-2026-10-13T10:00:00",
       "sequence": null,
       "agendaNumber": null,
@@ -6360,7 +6441,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2435-12",
+      "id": "lims-minneapolis-fileitem-2436-12",
       "meeting_id": "lims-minneapolis-meeting-budget-committee-2026-10-20T10:00:00",
       "sequence": null,
       "agendaNumber": null,
@@ -6375,7 +6456,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2435-13",
+      "id": "lims-minneapolis-fileitem-2436-13",
       "meeting_id": "lims-minneapolis-meeting-budget-committee-2026-10-22T10:00:00",
       "sequence": null,
       "agendaNumber": null,
@@ -6390,7 +6471,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2435-14",
+      "id": "lims-minneapolis-fileitem-2436-14",
       "meeting_id": "lims-minneapolis-meeting-budget-committee-2026-10-23T10:00:00",
       "sequence": null,
       "agendaNumber": null,
@@ -6405,7 +6486,22 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2435-15",
+      "id": "lims-minneapolis-fileitem-2436-15",
+      "meeting_id": "lims-minneapolis-meeting-budget-committee-2026-10-26T10:00:00",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Receiving and filing presentations on the Mayor's 2027Recommended Budget.",
+      "isConsent": false,
+      "actionName": "Received and filed",
+      "passedFlagName": "Passed",
+      "matterFile": "2026-01017",
+      "matterId": null,
+      "matterType": "Receive & File",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01017",
+      "votes": []
+    },
+    {
+      "id": "lims-minneapolis-fileitem-2436-16",
       "meeting_id": "lims-minneapolis-meeting-budget-committee-2026-10-26T10:00:00",
       "sequence": null,
       "agendaNumber": null,
@@ -6420,22 +6516,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2435-16",
-      "meeting_id": "lims-minneapolis-meeting-budget-committee-2026-10-26T10:00:00",
-      "sequence": null,
-      "agendaNumber": null,
-      "title": "Receiving and filing presentations on the Mayor's 2027Recommended Budget.",
-      "isConsent": false,
-      "actionName": "Scheduled",
-      "passedFlagName": "Failed",
-      "matterFile": "2026-01017",
-      "matterId": null,
-      "matterType": "Receive & File",
-      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01017",
-      "votes": []
-    },
-    {
-      "id": "lims-minneapolis-fileitem-2436-1",
+      "id": "lims-minneapolis-fileitem-2437-1",
       "meeting_id": "lims-minneapolis-meeting-budget-committee-2026-10-19T18:05:00",
       "sequence": null,
       "agendaNumber": null,
@@ -6450,7 +6531,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2441-0",
+      "id": "lims-minneapolis-fileitem-2442-0",
       "meeting_id": "lims-minneapolis-meeting-budget-committee-2026-10-26T10:00:00",
       "sequence": null,
       "agendaNumber": null,
@@ -6465,7 +6546,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2443-3",
+      "id": "lims-minneapolis-fileitem-2444-3",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-21T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -6480,7 +6561,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2462-0",
+      "id": "lims-minneapolis-fileitem-2463-0",
       "meeting_id": "lims-minneapolis-meeting-climate-infrastructure-committee-2026-10-22T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -6495,7 +6576,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2470-0",
+      "id": "lims-minneapolis-fileitem-2471-0",
       "meeting_id": "lims-minneapolis-meeting-committee-of-the-whole-2026-10-13T13:30:00",
       "sequence": null,
       "agendaNumber": "2026R-404",
@@ -6510,7 +6591,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2470-1",
+      "id": "lims-minneapolis-fileitem-2471-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026R-404",
@@ -6578,7 +6659,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2538-1",
+      "id": "lims-minneapolis-fileitem-2539-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0761",
@@ -6646,7 +6727,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2539-1",
+      "id": "lims-minneapolis-fileitem-2540-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0761",
@@ -6714,7 +6795,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2540-2",
+      "id": "lims-minneapolis-fileitem-2541-2",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0766",
@@ -6782,7 +6863,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2541-2",
+      "id": "lims-minneapolis-fileitem-2542-2",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0766",
@@ -6850,7 +6931,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2547-2",
+      "id": "lims-minneapolis-fileitem-2548-2",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0727",
@@ -6918,7 +6999,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2554-1",
+      "id": "lims-minneapolis-fileitem-2555-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0738",
@@ -6986,7 +7067,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2558-2",
+      "id": "lims-minneapolis-fileitem-2559-2",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0728",
@@ -7054,7 +7135,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2593-0",
+      "id": "lims-minneapolis-fileitem-2594-0",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -7122,7 +7203,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2594-0",
+      "id": "lims-minneapolis-fileitem-2595-0",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -7190,7 +7271,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2594-1",
+      "id": "lims-minneapolis-fileitem-2595-1",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-21T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -7205,7 +7286,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2595-1",
+      "id": "lims-minneapolis-fileitem-2596-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026R-406",
@@ -7273,7 +7354,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2596-1",
+      "id": "lims-minneapolis-fileitem-2597-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026R-407",
@@ -7341,7 +7422,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2597-1",
+      "id": "lims-minneapolis-fileitem-2598-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0764",
@@ -7409,7 +7490,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2598-1",
+      "id": "lims-minneapolis-fileitem-2599-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0762",
@@ -7477,7 +7558,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2599-1",
+      "id": "lims-minneapolis-fileitem-2600-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026R-405",
@@ -7545,7 +7626,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2601-1",
+      "id": "lims-minneapolis-fileitem-2602-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0759",
@@ -7613,7 +7694,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2602-1",
+      "id": "lims-minneapolis-fileitem-2603-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026R-389",
@@ -7681,7 +7762,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2603-1",
+      "id": "lims-minneapolis-fileitem-2604-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0749",
@@ -7749,7 +7830,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2604-1",
+      "id": "lims-minneapolis-fileitem-2605-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0750",
@@ -7817,7 +7898,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2605-1",
+      "id": "lims-minneapolis-fileitem-2606-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0750",
@@ -7885,7 +7966,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2606-1",
+      "id": "lims-minneapolis-fileitem-2607-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0750",
@@ -7953,7 +8034,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2607-1",
+      "id": "lims-minneapolis-fileitem-2608-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0750",
@@ -8021,7 +8102,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2608-1",
+      "id": "lims-minneapolis-fileitem-2609-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0750",
@@ -8089,7 +8170,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2609-1",
+      "id": "lims-minneapolis-fileitem-2610-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0750",
@@ -8157,7 +8238,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2610-1",
+      "id": "lims-minneapolis-fileitem-2611-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0750",
@@ -8225,7 +8306,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2611-1",
+      "id": "lims-minneapolis-fileitem-2612-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0750",
@@ -8293,7 +8374,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2612-1",
+      "id": "lims-minneapolis-fileitem-2613-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0750",
@@ -8361,7 +8442,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2613-1",
+      "id": "lims-minneapolis-fileitem-2614-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0750",
@@ -8429,7 +8510,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2614-1",
+      "id": "lims-minneapolis-fileitem-2615-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0750",
@@ -8497,7 +8578,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2615-1",
+      "id": "lims-minneapolis-fileitem-2616-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0750",
@@ -8565,7 +8646,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2616-1",
+      "id": "lims-minneapolis-fileitem-2617-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0750",
@@ -8633,7 +8714,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2617-1",
+      "id": "lims-minneapolis-fileitem-2618-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0750",
@@ -8701,7 +8782,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2618-1",
+      "id": "lims-minneapolis-fileitem-2619-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0750",
@@ -8769,7 +8850,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2619-1",
+      "id": "lims-minneapolis-fileitem-2620-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0750",
@@ -8837,7 +8918,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2620-1",
+      "id": "lims-minneapolis-fileitem-2621-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0750",
@@ -8905,7 +8986,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2621-1",
+      "id": "lims-minneapolis-fileitem-2622-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0750",
@@ -8973,7 +9054,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2622-1",
+      "id": "lims-minneapolis-fileitem-2623-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0750",
@@ -9041,7 +9122,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2623-1",
+      "id": "lims-minneapolis-fileitem-2624-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0750",
@@ -9109,7 +9190,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2624-1",
+      "id": "lims-minneapolis-fileitem-2625-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0750",
@@ -9177,7 +9258,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2625-1",
+      "id": "lims-minneapolis-fileitem-2626-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0750",
@@ -9245,7 +9326,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2626-1",
+      "id": "lims-minneapolis-fileitem-2627-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0750",
@@ -9313,7 +9394,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2628-1",
+      "id": "lims-minneapolis-fileitem-2629-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0751",
@@ -9381,7 +9462,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2629-1",
+      "id": "lims-minneapolis-fileitem-2630-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0751",
@@ -9449,7 +9530,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2630-1",
+      "id": "lims-minneapolis-fileitem-2631-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0752",
@@ -9517,7 +9598,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2631-1",
+      "id": "lims-minneapolis-fileitem-2632-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0752",
@@ -9585,7 +9666,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2632-1",
+      "id": "lims-minneapolis-fileitem-2633-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0752",
@@ -9653,7 +9734,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2633-1",
+      "id": "lims-minneapolis-fileitem-2634-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0765",
@@ -9721,7 +9802,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2635-0",
+      "id": "lims-minneapolis-fileitem-2636-0",
       "meeting_id": "lims-minneapolis-meeting-enterprise-labor-relations-committee-2026-10-19T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -9736,7 +9817,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2636-1",
+      "id": "lims-minneapolis-fileitem-2637-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0747",
@@ -9804,7 +9885,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2637-1",
+      "id": "lims-minneapolis-fileitem-2638-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0741",
@@ -9872,7 +9953,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2638-1",
+      "id": "lims-minneapolis-fileitem-2639-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0753",
@@ -9940,7 +10021,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2639-1",
+      "id": "lims-minneapolis-fileitem-2640-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0753",
@@ -10008,7 +10089,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2640-1",
+      "id": "lims-minneapolis-fileitem-2641-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0753",
@@ -10076,7 +10157,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2641-1",
+      "id": "lims-minneapolis-fileitem-2642-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0753",
@@ -10144,7 +10225,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2642-1",
+      "id": "lims-minneapolis-fileitem-2643-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0753",
@@ -10212,7 +10293,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2643-1",
+      "id": "lims-minneapolis-fileitem-2644-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0753",
@@ -10280,7 +10361,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2644-1",
+      "id": "lims-minneapolis-fileitem-2645-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0753",
@@ -10348,7 +10429,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2645-1",
+      "id": "lims-minneapolis-fileitem-2646-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0742",
@@ -10416,7 +10497,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2646-1",
+      "id": "lims-minneapolis-fileitem-2647-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0754",
@@ -10484,7 +10565,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2647-1",
+      "id": "lims-minneapolis-fileitem-2648-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0754",
@@ -10552,7 +10633,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2648-1",
+      "id": "lims-minneapolis-fileitem-2649-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0754",
@@ -10620,7 +10701,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2649-1",
+      "id": "lims-minneapolis-fileitem-2650-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0754",
@@ -10688,7 +10769,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2650-1",
+      "id": "lims-minneapolis-fileitem-2651-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0754",
@@ -10756,7 +10837,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2651-1",
+      "id": "lims-minneapolis-fileitem-2652-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0754",
@@ -10824,7 +10905,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2652-1",
+      "id": "lims-minneapolis-fileitem-2653-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0754",
@@ -10892,7 +10973,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2653-1",
+      "id": "lims-minneapolis-fileitem-2654-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0754",
@@ -10960,7 +11041,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2654-1",
+      "id": "lims-minneapolis-fileitem-2655-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0754",
@@ -11028,7 +11109,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2655-1",
+      "id": "lims-minneapolis-fileitem-2656-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0754",
@@ -11096,7 +11177,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2656-1",
+      "id": "lims-minneapolis-fileitem-2657-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0754",
@@ -11164,7 +11245,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2657-1",
+      "id": "lims-minneapolis-fileitem-2658-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0754",
@@ -11232,7 +11313,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2658-1",
+      "id": "lims-minneapolis-fileitem-2659-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0754",
@@ -11300,7 +11381,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2659-1",
+      "id": "lims-minneapolis-fileitem-2660-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0754",
@@ -11368,7 +11449,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2660-1",
+      "id": "lims-minneapolis-fileitem-2661-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0754",
@@ -11436,7 +11517,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2661-1",
+      "id": "lims-minneapolis-fileitem-2662-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0743",
@@ -11504,7 +11585,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2662-1",
+      "id": "lims-minneapolis-fileitem-2663-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0743",
@@ -11572,7 +11653,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2663-1",
+      "id": "lims-minneapolis-fileitem-2664-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0755",
@@ -11640,7 +11721,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2664-1",
+      "id": "lims-minneapolis-fileitem-2665-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0755",
@@ -11708,7 +11789,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2665-1",
+      "id": "lims-minneapolis-fileitem-2666-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0744",
@@ -11776,7 +11857,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2666-1",
+      "id": "lims-minneapolis-fileitem-2667-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0756",
@@ -11844,7 +11925,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2667-1",
+      "id": "lims-minneapolis-fileitem-2668-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0756",
@@ -11912,7 +11993,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2668-1",
+      "id": "lims-minneapolis-fileitem-2669-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0757",
@@ -11980,7 +12061,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2669-1",
+      "id": "lims-minneapolis-fileitem-2670-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0757",
@@ -12048,7 +12129,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2670-1",
+      "id": "lims-minneapolis-fileitem-2671-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0757",
@@ -12116,7 +12197,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2671-1",
+      "id": "lims-minneapolis-fileitem-2672-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0757",
@@ -12184,7 +12265,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2672-1",
+      "id": "lims-minneapolis-fileitem-2673-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0757",
@@ -12252,7 +12333,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2673-1",
+      "id": "lims-minneapolis-fileitem-2674-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0757",
@@ -12320,7 +12401,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2674-1",
+      "id": "lims-minneapolis-fileitem-2675-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0757",
@@ -12388,7 +12469,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2675-1",
+      "id": "lims-minneapolis-fileitem-2676-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026R-409",
@@ -12456,7 +12537,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2676-1",
+      "id": "lims-minneapolis-fileitem-2677-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0748",
@@ -12524,7 +12605,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2677-1",
+      "id": "lims-minneapolis-fileitem-2678-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0737",
@@ -12592,7 +12673,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2678-1",
+      "id": "lims-minneapolis-fileitem-2679-1",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-21T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -12607,7 +12688,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2679-1",
+      "id": "lims-minneapolis-fileitem-2680-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0724",
@@ -12675,7 +12756,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2680-1",
+      "id": "lims-minneapolis-fileitem-2681-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0724",
@@ -12743,7 +12824,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2681-1",
+      "id": "lims-minneapolis-fileitem-2682-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0724",
@@ -12811,7 +12892,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2682-1",
+      "id": "lims-minneapolis-fileitem-2683-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0724",
@@ -12879,7 +12960,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2683-1",
+      "id": "lims-minneapolis-fileitem-2684-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0724",
@@ -12947,7 +13028,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2684-1",
+      "id": "lims-minneapolis-fileitem-2685-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0724",
@@ -13015,7 +13096,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2685-1",
+      "id": "lims-minneapolis-fileitem-2686-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0726",
@@ -13083,7 +13164,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2686-1",
+      "id": "lims-minneapolis-fileitem-2687-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0758",
@@ -13151,7 +13232,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2687-1",
+      "id": "lims-minneapolis-fileitem-2688-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0758",
@@ -13219,7 +13300,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2688-1",
+      "id": "lims-minneapolis-fileitem-2689-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0758",
@@ -13287,7 +13368,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2689-1",
+      "id": "lims-minneapolis-fileitem-2690-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0758",
@@ -13355,7 +13436,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2690-1",
+      "id": "lims-minneapolis-fileitem-2691-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0758",
@@ -13423,7 +13504,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2691-1",
+      "id": "lims-minneapolis-fileitem-2692-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0758",
@@ -13491,7 +13572,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2692-1",
+      "id": "lims-minneapolis-fileitem-2693-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0758",
@@ -13559,7 +13640,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2693-1",
+      "id": "lims-minneapolis-fileitem-2694-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0758",
@@ -13627,7 +13708,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2694-1",
+      "id": "lims-minneapolis-fileitem-2695-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0758",
@@ -13695,7 +13776,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2695-1",
+      "id": "lims-minneapolis-fileitem-2696-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0758",
@@ -13763,7 +13844,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2696-1",
+      "id": "lims-minneapolis-fileitem-2697-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0758",
@@ -13831,7 +13912,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2697-1",
+      "id": "lims-minneapolis-fileitem-2698-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0758",
@@ -13899,7 +13980,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2698-1",
+      "id": "lims-minneapolis-fileitem-2699-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0758",
@@ -13967,7 +14048,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2699-1",
+      "id": "lims-minneapolis-fileitem-2700-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0758",
@@ -14035,7 +14116,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2700-1",
+      "id": "lims-minneapolis-fileitem-2701-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0758",
@@ -14103,7 +14184,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2701-1",
+      "id": "lims-minneapolis-fileitem-2702-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0758",
@@ -14171,7 +14252,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2702-1",
+      "id": "lims-minneapolis-fileitem-2703-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0758",
@@ -14239,7 +14320,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2703-1",
+      "id": "lims-minneapolis-fileitem-2704-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0758",
@@ -14307,7 +14388,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2704-1",
+      "id": "lims-minneapolis-fileitem-2705-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0758",
@@ -14375,7 +14456,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2705-1",
+      "id": "lims-minneapolis-fileitem-2706-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0725",
@@ -14443,7 +14524,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2706-1",
+      "id": "lims-minneapolis-fileitem-2707-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0725",
@@ -14511,7 +14592,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2707-1",
+      "id": "lims-minneapolis-fileitem-2708-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0725",
@@ -14579,7 +14660,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2708-1",
+      "id": "lims-minneapolis-fileitem-2709-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0725",
@@ -14647,7 +14728,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2709-1",
+      "id": "lims-minneapolis-fileitem-2710-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0725",
@@ -14715,7 +14796,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2710-1",
+      "id": "lims-minneapolis-fileitem-2711-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0725",
@@ -14783,7 +14864,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2711-1",
+      "id": "lims-minneapolis-fileitem-2712-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0725",
@@ -14851,7 +14932,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2712-1",
+      "id": "lims-minneapolis-fileitem-2713-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0725",
@@ -14919,7 +15000,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2713-1",
+      "id": "lims-minneapolis-fileitem-2714-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0725",
@@ -14987,7 +15068,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2714-1",
+      "id": "lims-minneapolis-fileitem-2715-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0725",
@@ -15055,7 +15136,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2715-1",
+      "id": "lims-minneapolis-fileitem-2716-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0725",
@@ -15123,7 +15204,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2716-1",
+      "id": "lims-minneapolis-fileitem-2717-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0725",
@@ -15191,7 +15272,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2717-1",
+      "id": "lims-minneapolis-fileitem-2718-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0725",
@@ -15259,7 +15340,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2718-1",
+      "id": "lims-minneapolis-fileitem-2719-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0725",
@@ -15327,7 +15408,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2719-1",
+      "id": "lims-minneapolis-fileitem-2720-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0725",
@@ -15395,7 +15476,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2720-1",
+      "id": "lims-minneapolis-fileitem-2721-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0725",
@@ -15463,7 +15544,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2721-1",
+      "id": "lims-minneapolis-fileitem-2722-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0725",
@@ -15531,7 +15612,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2722-1",
+      "id": "lims-minneapolis-fileitem-2723-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0725",
@@ -15599,7 +15680,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2723-1",
+      "id": "lims-minneapolis-fileitem-2724-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0725",
@@ -15667,7 +15748,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2724-1",
+      "id": "lims-minneapolis-fileitem-2725-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0725",
@@ -15735,7 +15816,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2725-1",
+      "id": "lims-minneapolis-fileitem-2726-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0725",
@@ -15803,7 +15884,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2726-1",
+      "id": "lims-minneapolis-fileitem-2727-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0725",
@@ -15871,7 +15952,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2727-1",
+      "id": "lims-minneapolis-fileitem-2728-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0725",
@@ -15939,7 +16020,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2728-1",
+      "id": "lims-minneapolis-fileitem-2729-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0725",
@@ -16007,7 +16088,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2729-1",
+      "id": "lims-minneapolis-fileitem-2730-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0725",
@@ -16075,7 +16156,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2730-1",
+      "id": "lims-minneapolis-fileitem-2731-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0725",
@@ -16143,7 +16224,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2731-1",
+      "id": "lims-minneapolis-fileitem-2732-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0725",
@@ -16211,7 +16292,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2732-1",
+      "id": "lims-minneapolis-fileitem-2733-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0725",
@@ -16279,7 +16360,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2733-1",
+      "id": "lims-minneapolis-fileitem-2734-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0725",
@@ -16347,7 +16428,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2734-1",
+      "id": "lims-minneapolis-fileitem-2735-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0725",
@@ -16415,7 +16496,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2735-1",
+      "id": "lims-minneapolis-fileitem-2736-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0725",
@@ -16483,7 +16564,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2736-1",
+      "id": "lims-minneapolis-fileitem-2737-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0729",
@@ -16551,7 +16632,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2737-1",
+      "id": "lims-minneapolis-fileitem-2738-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0730",
@@ -16619,7 +16700,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2738-1",
+      "id": "lims-minneapolis-fileitem-2739-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0730",
@@ -16687,7 +16768,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2739-1",
+      "id": "lims-minneapolis-fileitem-2740-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026R-408",
@@ -16755,7 +16836,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2740-1",
+      "id": "lims-minneapolis-fileitem-2741-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026R-388",
@@ -16823,7 +16904,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2741-1",
+      "id": "lims-minneapolis-fileitem-2742-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026R-390",
@@ -16891,7 +16972,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2742-1",
+      "id": "lims-minneapolis-fileitem-2743-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026R-394",
@@ -16959,7 +17040,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2743-1",
+      "id": "lims-minneapolis-fileitem-2744-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026R-395",
@@ -17027,7 +17108,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2744-1",
+      "id": "lims-minneapolis-fileitem-2745-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026R-396",
@@ -17095,7 +17176,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2745-1",
+      "id": "lims-minneapolis-fileitem-2746-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026R-397",
@@ -17163,7 +17244,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2746-1",
+      "id": "lims-minneapolis-fileitem-2747-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026R-398",
@@ -17231,7 +17312,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2747-1",
+      "id": "lims-minneapolis-fileitem-2748-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026R-399",
@@ -17299,7 +17380,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2748-0",
+      "id": "lims-minneapolis-fileitem-2749-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-20T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -17314,7 +17395,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2749-1",
+      "id": "lims-minneapolis-fileitem-2750-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026R-391",
@@ -17382,7 +17463,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2750-1",
+      "id": "lims-minneapolis-fileitem-2751-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026R-392",
@@ -17450,7 +17531,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2751-1",
+      "id": "lims-minneapolis-fileitem-2752-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026R-393",
@@ -17518,7 +17599,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2752-1",
+      "id": "lims-minneapolis-fileitem-2753-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0734",
@@ -17586,7 +17667,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2753-1",
+      "id": "lims-minneapolis-fileitem-2754-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0733",
@@ -17654,7 +17735,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2754-1",
+      "id": "lims-minneapolis-fileitem-2755-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0736",
@@ -17722,7 +17803,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2755-1",
+      "id": "lims-minneapolis-fileitem-2756-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0731",
@@ -17790,7 +17871,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2756-1",
+      "id": "lims-minneapolis-fileitem-2757-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0735",
@@ -17858,7 +17939,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2757-1",
+      "id": "lims-minneapolis-fileitem-2758-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0735",
@@ -17926,7 +18007,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2758-1",
+      "id": "lims-minneapolis-fileitem-2759-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0732",
@@ -17994,7 +18075,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2759-1",
+      "id": "lims-minneapolis-fileitem-2760-1",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-20T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -18009,7 +18090,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2760-1",
+      "id": "lims-minneapolis-fileitem-2761-1",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-20T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -18024,7 +18105,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2761-1",
+      "id": "lims-minneapolis-fileitem-2762-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0745",
@@ -18092,7 +18173,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2762-1",
+      "id": "lims-minneapolis-fileitem-2763-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -18160,7 +18241,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2762-2",
+      "id": "lims-minneapolis-fileitem-2763-2",
       "meeting_id": "lims-minneapolis-meeting-climate-infrastructure-committee-2026-10-22T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -18175,7 +18256,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2763-1",
+      "id": "lims-minneapolis-fileitem-2764-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -18243,7 +18324,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2763-2",
+      "id": "lims-minneapolis-fileitem-2764-2",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-21T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -18258,7 +18339,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2764-1",
+      "id": "lims-minneapolis-fileitem-2765-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0760",
@@ -18326,7 +18407,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2765-1",
+      "id": "lims-minneapolis-fileitem-2766-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0760",
@@ -18394,7 +18475,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2766-1",
+      "id": "lims-minneapolis-fileitem-2767-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0760",
@@ -18462,7 +18543,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2767-1",
+      "id": "lims-minneapolis-fileitem-2768-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0760",
@@ -18530,7 +18611,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2768-1",
+      "id": "lims-minneapolis-fileitem-2769-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0746",
@@ -18598,7 +18679,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2769-1",
+      "id": "lims-minneapolis-fileitem-2770-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026R-403",
@@ -18666,7 +18747,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2775-1",
+      "id": "lims-minneapolis-fileitem-2776-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0768",
@@ -18734,7 +18815,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2776-1",
+      "id": "lims-minneapolis-fileitem-2777-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0769",
@@ -18802,7 +18883,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2777-1",
+      "id": "lims-minneapolis-fileitem-2778-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0740",
@@ -18870,7 +18951,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2778-1",
+      "id": "lims-minneapolis-fileitem-2779-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0763",
@@ -18938,7 +19019,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2779-0",
+      "id": "lims-minneapolis-fileitem-2780-0",
       "meeting_id": "lims-minneapolis-meeting-committee-of-the-whole-2026-10-13T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -19006,7 +19087,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2779-1",
+      "id": "lims-minneapolis-fileitem-2780-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -19074,7 +19155,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2780-0",
+      "id": "lims-minneapolis-fileitem-2781-0",
       "meeting_id": "lims-minneapolis-meeting-city-council-policy-roundtable-2026-10-14T14:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -19089,7 +19170,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2781-1",
+      "id": "lims-minneapolis-fileitem-2782-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026R-411",
@@ -19157,7 +19238,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2782-1",
+      "id": "lims-minneapolis-fileitem-2783-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026R-410",
@@ -19225,7 +19306,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2783-0",
+      "id": "lims-minneapolis-fileitem-2784-0",
       "meeting_id": "lims-minneapolis-meeting-climate-infrastructure-committee-2026-10-22T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -19240,7 +19321,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2784-0",
+      "id": "lims-minneapolis-fileitem-2785-0",
       "meeting_id": "lims-minneapolis-meeting-enterprise-labor-relations-committee-2026-10-19T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -19255,7 +19336,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2785-0",
+      "id": "lims-minneapolis-fileitem-2786-0",
       "meeting_id": "lims-minneapolis-meeting-climate-infrastructure-committee-2026-10-22T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -19270,7 +19351,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2786-0",
+      "id": "lims-minneapolis-fileitem-2787-0",
       "meeting_id": "lims-minneapolis-meeting-committee-of-the-whole-2026-10-13T13:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0739",
@@ -19338,7 +19419,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2786-1",
+      "id": "lims-minneapolis-fileitem-2787-1",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0739",
@@ -19406,7 +19487,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2787-0",
+      "id": "lims-minneapolis-fileitem-2788-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-20T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -19421,7 +19502,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2788-0",
+      "id": "lims-minneapolis-fileitem-2789-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-20T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -19436,7 +19517,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2789-0",
+      "id": "lims-minneapolis-fileitem-2790-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-20T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -19451,7 +19532,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2790-0",
+      "id": "lims-minneapolis-fileitem-2791-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-20T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -19466,7 +19547,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2791-0",
+      "id": "lims-minneapolis-fileitem-2792-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-20T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -19481,7 +19562,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2792-0",
+      "id": "lims-minneapolis-fileitem-2793-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-20T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -19496,7 +19577,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2793-0",
+      "id": "lims-minneapolis-fileitem-2794-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-20T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -19511,7 +19592,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2794-0",
+      "id": "lims-minneapolis-fileitem-2795-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-20T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -19526,7 +19607,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2795-0",
+      "id": "lims-minneapolis-fileitem-2796-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-20T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -19541,7 +19622,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2796-0",
+      "id": "lims-minneapolis-fileitem-2797-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-20T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -19556,7 +19637,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2797-0",
+      "id": "lims-minneapolis-fileitem-2798-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-20T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -19571,7 +19652,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2798-0",
+      "id": "lims-minneapolis-fileitem-2799-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-20T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -19586,7 +19667,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2799-0",
+      "id": "lims-minneapolis-fileitem-2800-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-20T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -19601,7 +19682,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2800-0",
+      "id": "lims-minneapolis-fileitem-2801-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-20T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -19616,7 +19697,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2801-0",
+      "id": "lims-minneapolis-fileitem-2802-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-20T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -19631,7 +19712,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2802-0",
+      "id": "lims-minneapolis-fileitem-2803-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-20T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -19646,7 +19727,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2803-0",
+      "id": "lims-minneapolis-fileitem-2804-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-20T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -19661,7 +19742,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2804-0",
+      "id": "lims-minneapolis-fileitem-2805-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-20T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -19676,7 +19757,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2805-0",
+      "id": "lims-minneapolis-fileitem-2806-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-20T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -19691,7 +19772,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2806-0",
+      "id": "lims-minneapolis-fileitem-2807-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-20T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -19706,7 +19787,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2807-0",
+      "id": "lims-minneapolis-fileitem-2808-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-20T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -19721,7 +19802,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2808-0",
+      "id": "lims-minneapolis-fileitem-2809-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-20T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -19736,7 +19817,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2809-0",
+      "id": "lims-minneapolis-fileitem-2810-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-20T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -19751,7 +19832,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2810-0",
+      "id": "lims-minneapolis-fileitem-2811-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-20T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -19766,7 +19847,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2811-0",
+      "id": "lims-minneapolis-fileitem-2812-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-20T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -19781,7 +19862,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2812-0",
+      "id": "lims-minneapolis-fileitem-2813-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-20T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -19796,7 +19877,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2813-0",
+      "id": "lims-minneapolis-fileitem-2814-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-20T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -19811,7 +19892,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2814-0",
+      "id": "lims-minneapolis-fileitem-2815-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-20T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -19826,7 +19907,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2815-0",
+      "id": "lims-minneapolis-fileitem-2816-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-20T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -19841,7 +19922,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2816-0",
+      "id": "lims-minneapolis-fileitem-2817-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-20T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -19856,7 +19937,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2817-0",
+      "id": "lims-minneapolis-fileitem-2818-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-20T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -19871,7 +19952,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2818-0",
+      "id": "lims-minneapolis-fileitem-2819-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-20T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -19886,7 +19967,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2819-0",
+      "id": "lims-minneapolis-fileitem-2820-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-20T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -19901,7 +19982,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2820-0",
+      "id": "lims-minneapolis-fileitem-2821-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-20T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -19916,7 +19997,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2821-0",
+      "id": "lims-minneapolis-fileitem-2822-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-20T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -19931,7 +20012,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2822-0",
+      "id": "lims-minneapolis-fileitem-2823-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-20T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -19946,7 +20027,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2823-0",
+      "id": "lims-minneapolis-fileitem-2824-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-20T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -19961,7 +20042,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2824-0",
+      "id": "lims-minneapolis-fileitem-2825-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-20T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -19976,7 +20057,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2825-0",
+      "id": "lims-minneapolis-fileitem-2826-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-20T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -19991,7 +20072,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2826-0",
+      "id": "lims-minneapolis-fileitem-2827-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-20T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -20006,7 +20087,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2827-0",
+      "id": "lims-minneapolis-fileitem-2828-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-20T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -20021,7 +20102,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2828-0",
+      "id": "lims-minneapolis-fileitem-2829-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-20T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -20036,7 +20117,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2829-0",
+      "id": "lims-minneapolis-fileitem-2830-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-20T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -20051,7 +20132,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2830-0",
+      "id": "lims-minneapolis-fileitem-2831-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-20T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -20066,7 +20147,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2831-0",
+      "id": "lims-minneapolis-fileitem-2832-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-20T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -20081,7 +20162,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2832-0",
+      "id": "lims-minneapolis-fileitem-2833-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-20T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -20096,7 +20177,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2833-0",
+      "id": "lims-minneapolis-fileitem-2834-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-20T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -20111,7 +20192,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2834-0",
+      "id": "lims-minneapolis-fileitem-2835-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-20T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -20126,7 +20207,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2835-0",
+      "id": "lims-minneapolis-fileitem-2836-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-20T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -20141,7 +20222,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2836-0",
+      "id": "lims-minneapolis-fileitem-2837-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-20T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -20156,7 +20237,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2837-0",
+      "id": "lims-minneapolis-fileitem-2838-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-20T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -20171,7 +20252,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2838-0",
+      "id": "lims-minneapolis-fileitem-2839-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-20T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -20186,7 +20267,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2839-0",
+      "id": "lims-minneapolis-fileitem-2840-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-20T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -20201,7 +20282,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2840-0",
+      "id": "lims-minneapolis-fileitem-2841-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-20T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -20216,7 +20297,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2841-0",
+      "id": "lims-minneapolis-fileitem-2842-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-20T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -20231,7 +20312,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2842-0",
+      "id": "lims-minneapolis-fileitem-2843-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-20T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -20246,7 +20327,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2843-0",
+      "id": "lims-minneapolis-fileitem-2844-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-20T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -20261,7 +20342,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2844-0",
+      "id": "lims-minneapolis-fileitem-2845-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-20T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -20276,7 +20357,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2845-0",
+      "id": "lims-minneapolis-fileitem-2846-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-20T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -20291,7 +20372,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2846-0",
+      "id": "lims-minneapolis-fileitem-2847-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-20T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -20306,7 +20387,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2847-0",
+      "id": "lims-minneapolis-fileitem-2848-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-20T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -20321,7 +20402,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2848-0",
+      "id": "lims-minneapolis-fileitem-2849-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-20T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -20336,7 +20417,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2849-0",
+      "id": "lims-minneapolis-fileitem-2850-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-20T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -20351,7 +20432,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2850-0",
+      "id": "lims-minneapolis-fileitem-2851-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-20T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -20366,7 +20447,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2851-0",
+      "id": "lims-minneapolis-fileitem-2852-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-20T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -20381,7 +20462,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2852-0",
+      "id": "lims-minneapolis-fileitem-2853-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-20T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -20396,7 +20477,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2853-0",
+      "id": "lims-minneapolis-fileitem-2854-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-20T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -20411,7 +20492,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2854-0",
+      "id": "lims-minneapolis-fileitem-2855-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-21T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -20426,7 +20507,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2855-0",
+      "id": "lims-minneapolis-fileitem-2856-0",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -20441,7 +20522,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2856-0",
+      "id": "lims-minneapolis-fileitem-2857-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-21T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -20456,7 +20537,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2857-0",
+      "id": "lims-minneapolis-fileitem-2858-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-20T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -20471,7 +20552,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2858-0",
+      "id": "lims-minneapolis-fileitem-2859-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-20T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -20486,7 +20567,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2859-0",
+      "id": "lims-minneapolis-fileitem-2860-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-20T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -20501,7 +20582,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2860-0",
+      "id": "lims-minneapolis-fileitem-2861-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-21T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -20516,7 +20597,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2861-0",
+      "id": "lims-minneapolis-fileitem-2862-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-20T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -20531,7 +20612,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2862-0",
+      "id": "lims-minneapolis-fileitem-2863-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-21T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -20546,7 +20627,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2863-0",
+      "id": "lims-minneapolis-fileitem-2864-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-20T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -20561,7 +20642,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2864-0",
+      "id": "lims-minneapolis-fileitem-2865-0",
       "meeting_id": "lims-minneapolis-meeting-enterprise-labor-relations-committee-2026-10-19T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -20576,7 +20657,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2865-0",
+      "id": "lims-minneapolis-fileitem-2866-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-21T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -20591,7 +20672,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2866-0",
+      "id": "lims-minneapolis-fileitem-2867-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-21T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -20606,7 +20687,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2867-0",
+      "id": "lims-minneapolis-fileitem-2868-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-21T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -20621,7 +20702,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2868-0",
+      "id": "lims-minneapolis-fileitem-2869-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-21T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -20636,7 +20717,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2869-0",
+      "id": "lims-minneapolis-fileitem-2870-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-21T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -20651,7 +20732,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2870-0",
+      "id": "lims-minneapolis-fileitem-2871-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-21T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -20666,7 +20747,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2871-0",
+      "id": "lims-minneapolis-fileitem-2872-0",
       "meeting_id": "lims-minneapolis-meeting-climate-infrastructure-committee-2026-10-22T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -20681,7 +20762,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2872-0",
+      "id": "lims-minneapolis-fileitem-2873-0",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -20696,7 +20777,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2873-0",
+      "id": "lims-minneapolis-fileitem-2874-0",
       "meeting_id": "lims-minneapolis-meeting-climate-infrastructure-committee-2026-10-22T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -20711,7 +20792,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2874-0",
+      "id": "lims-minneapolis-fileitem-2875-0",
       "meeting_id": "lims-minneapolis-meeting-climate-infrastructure-committee-2026-10-22T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -20726,7 +20807,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2875-0",
+      "id": "lims-minneapolis-fileitem-2876-0",
       "meeting_id": "lims-minneapolis-meeting-climate-infrastructure-committee-2026-10-22T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -20741,7 +20822,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2876-0",
+      "id": "lims-minneapolis-fileitem-2877-0",
       "meeting_id": "lims-minneapolis-meeting-climate-infrastructure-committee-2026-10-22T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -20756,7 +20837,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2877-0",
+      "id": "lims-minneapolis-fileitem-2878-0",
       "meeting_id": "lims-minneapolis-meeting-climate-infrastructure-committee-2026-10-22T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -20771,7 +20852,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2878-0",
+      "id": "lims-minneapolis-fileitem-2879-0",
       "meeting_id": "lims-minneapolis-meeting-climate-infrastructure-committee-2026-10-22T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -20786,7 +20867,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2879-0",
+      "id": "lims-minneapolis-fileitem-2880-0",
       "meeting_id": "lims-minneapolis-meeting-climate-infrastructure-committee-2026-10-22T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -20801,7 +20882,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2880-0",
+      "id": "lims-minneapolis-fileitem-2881-0",
       "meeting_id": "lims-minneapolis-meeting-climate-infrastructure-committee-2026-10-22T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -20816,7 +20897,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2881-0",
+      "id": "lims-minneapolis-fileitem-2882-0",
       "meeting_id": "lims-minneapolis-meeting-climate-infrastructure-committee-2026-10-22T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -20831,7 +20912,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2882-0",
+      "id": "lims-minneapolis-fileitem-2883-0",
       "meeting_id": "lims-minneapolis-meeting-climate-infrastructure-committee-2026-10-22T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -20846,7 +20927,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2883-0",
+      "id": "lims-minneapolis-fileitem-2884-0",
       "meeting_id": "lims-minneapolis-meeting-climate-infrastructure-committee-2026-10-22T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -20861,7 +20942,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2884-0",
+      "id": "lims-minneapolis-fileitem-2885-0",
       "meeting_id": "lims-minneapolis-meeting-climate-infrastructure-committee-2026-10-22T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -20876,7 +20957,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2885-0",
+      "id": "lims-minneapolis-fileitem-2886-0",
       "meeting_id": "lims-minneapolis-meeting-climate-infrastructure-committee-2026-10-22T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -20891,7 +20972,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2886-0",
+      "id": "lims-minneapolis-fileitem-2887-0",
       "meeting_id": "lims-minneapolis-meeting-climate-infrastructure-committee-2026-10-22T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -20906,7 +20987,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2887-0",
+      "id": "lims-minneapolis-fileitem-2888-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-20T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -20921,7 +21002,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2888-0",
+      "id": "lims-minneapolis-fileitem-2889-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-20T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -20936,7 +21017,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2889-0",
+      "id": "lims-minneapolis-fileitem-2890-0",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -20951,7 +21032,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2890-0",
+      "id": "lims-minneapolis-fileitem-2891-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-21T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -20966,7 +21047,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2891-0",
+      "id": "lims-minneapolis-fileitem-2892-0",
       "meeting_id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-10-20T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -21010,7 +21091,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2892-0",
+      "id": "lims-minneapolis-fileitem-2893-0",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026R-412",
@@ -21078,7 +21159,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2893-0",
+      "id": "lims-minneapolis-fileitem-2894-0",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -21093,7 +21174,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2894-0",
+      "id": "lims-minneapolis-fileitem-2895-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-21T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -21108,7 +21189,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2895-0",
+      "id": "lims-minneapolis-fileitem-2896-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-21T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -21123,7 +21204,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2896-0",
+      "id": "lims-minneapolis-fileitem-2897-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-21T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -21138,7 +21219,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2897-0",
+      "id": "lims-minneapolis-fileitem-2898-0",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -21153,7 +21234,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2898-0",
+      "id": "lims-minneapolis-fileitem-2899-0",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -21221,7 +21302,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2899-0",
+      "id": "lims-minneapolis-fileitem-2900-0",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -21289,7 +21370,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2899-1",
+      "id": "lims-minneapolis-fileitem-2900-1",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-21T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -21304,7 +21385,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2900-0",
+      "id": "lims-minneapolis-fileitem-2901-0",
       "meeting_id": "lims-minneapolis-meeting-intergovernmental-relations-committee-2026-10-27T10:00:00",
       "sequence": null,
       "agendaNumber": null,
@@ -21319,7 +21400,22 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2901-0",
+      "id": "lims-minneapolis-fileitem-2902-0",
+      "meeting_id": "lims-minneapolis-meeting-city-council-policy-roundtable-2026-10-28T13:30:00",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Receiving and filing a briefingon the 2026 General Election, including information on how elections are proceeding and election security.",
+      "isConsent": false,
+      "actionName": "Scheduled",
+      "passedFlagName": "Failed",
+      "matterFile": "2026-01213",
+      "matterId": null,
+      "matterType": "Receive & File",
+      "fileUrl": "https://lims.minneapolismn.gov/File/2026-01213",
+      "votes": []
+    },
+    {
+      "id": "lims-minneapolis-fileitem-2903-0",
       "meeting_id": "lims-minneapolis-meeting-public-health-safety-equity-2026-10-21T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -21334,7 +21430,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2902-0",
+      "id": "lims-minneapolis-fileitem-2904-0",
       "meeting_id": "lims-minneapolis-meeting-climate-infrastructure-committee-2026-10-22T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -21349,7 +21445,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2903-0",
+      "id": "lims-minneapolis-fileitem-2905-0",
       "meeting_id": "lims-minneapolis-meeting-intergovernmental-relations-committee-2026-10-27T10:00:00",
       "sequence": null,
       "agendaNumber": null,
@@ -21364,7 +21460,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2904-0",
+      "id": "lims-minneapolis-fileitem-2906-0",
       "meeting_id": "lims-minneapolis-meeting-city-council-2026-10-15T09:30:00",
       "sequence": null,
       "agendaNumber": "2026A-0767",
@@ -21432,7 +21528,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2905-0",
+      "id": "lims-minneapolis-fileitem-2907-0",
       "meeting_id": "lims-minneapolis-meeting-budget-committee-2026-10-26T10:00:00",
       "sequence": null,
       "agendaNumber": null,
@@ -21447,7 +21543,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2906-0",
+      "id": "lims-minneapolis-fileitem-2908-0",
       "meeting_id": "lims-minneapolis-meeting-budget-committee-2026-10-26T10:00:00",
       "sequence": null,
       "agendaNumber": null,
@@ -21462,7 +21558,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2907-0",
+      "id": "lims-minneapolis-fileitem-2909-0",
       "meeting_id": "lims-minneapolis-meeting-budget-committee-2026-10-26T10:00:00",
       "sequence": null,
       "agendaNumber": null,
@@ -21477,7 +21573,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2908-0",
+      "id": "lims-minneapolis-fileitem-2910-0",
       "meeting_id": "lims-minneapolis-meeting-climate-infrastructure-committee-2026-10-22T13:30:00",
       "sequence": null,
       "agendaNumber": null,
@@ -21492,7 +21588,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2918-0",
+      "id": "lims-minneapolis-fileitem-2920-0",
       "meeting_id": "lims-minneapolis-meeting-audit-committee-2026-10-19T10:00:00",
       "sequence": null,
       "agendaNumber": null,
@@ -21507,7 +21603,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2941-0",
+      "id": "lims-minneapolis-fileitem-2943-0",
       "meeting_id": "lims-minneapolis-meeting-audit-committee-2026-10-19T10:00:00",
       "sequence": null,
       "agendaNumber": null,
@@ -21522,7 +21618,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2954-0",
+      "id": "lims-minneapolis-fileitem-2956-0",
       "meeting_id": "lims-minneapolis-meeting-audit-committee-2026-10-19T10:00:00",
       "sequence": null,
       "agendaNumber": null,
@@ -21537,7 +21633,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2955-0",
+      "id": "lims-minneapolis-fileitem-2957-0",
       "meeting_id": "lims-minneapolis-meeting-audit-committee-2026-10-19T10:00:00",
       "sequence": null,
       "agendaNumber": null,
@@ -21581,7 +21677,7 @@
       ]
     },
     {
-      "id": "lims-minneapolis-fileitem-2956-0",
+      "id": "lims-minneapolis-fileitem-2958-0",
       "meeting_id": "lims-minneapolis-meeting-audit-committee-2026-10-19T10:00:00",
       "sequence": null,
       "agendaNumber": null,
@@ -21596,7 +21692,7 @@
       "votes": []
     },
     {
-      "id": "lims-minneapolis-fileitem-2957-0",
+      "id": "lims-minneapolis-fileitem-2959-0",
       "meeting_id": "lims-minneapolis-meeting-audit-committee-2026-10-19T10:00:00",
       "sequence": null,
       "agendaNumber": null,
@@ -21641,11 +21737,32 @@
     }
   ],
   "diff": {
-    "addedIds": [],
+    "addedIds": [
+      "lims-minneapolis-meeting-budget-committee-2026-11-02T10:00:00"
+    ],
     "removedIds": [],
-    "changed": []
+    "changed": [
+      {
+        "id": "lims-minneapolis-meeting-city-council-2026-10-29T09:30:00",
+        "field": "agendaUrl",
+        "from": "https://lims.minneapolismn.gov/Agenda/Council/",
+        "to": "https://lims.minneapolismn.gov/Agenda/Council/16322"
+      },
+      {
+        "id": "lims-minneapolis-meeting-heritage-preservation-commission-2026-11-02T16:30:00",
+        "field": "agendaUrl",
+        "from": "https://lims.minneapolismn.gov/Agenda/HPC/",
+        "to": "https://lims.minneapolismn.gov/Agenda/HPC/16323"
+      },
+      {
+        "id": "lims-minneapolis-meeting-zoning-board-of-adjustment-2026-11-05T16:30:00",
+        "field": "agendaStatus",
+        "from": null,
+        "to": "Cancelled"
+      }
+    ]
   },
-  "previousGeneratedAt": "2026-10-24T15:41:55.675Z",
+  "previousGeneratedAt": "2026-10-25T15:51:40.781Z",
   "knownGaps": [
     "Consent-agenda flagging not implemented — LIMS has no field structurally equivalent to Legistar's EventItemConsent; every agenda item ships isConsent: false rather than a guess.",
     "1 same-day, same-body meeting collision(s) in this window — FileItemSearch's LegislativeHistory carries a date but no time, so a second same-day session for the same body can't be disambiguated; the earliest session for each colliding (body, date) pair was used."
