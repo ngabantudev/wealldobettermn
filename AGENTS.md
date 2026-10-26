@@ -8,6 +8,8 @@ data ingestion.
 `CLAUDE.md` is a pointer to this file. Edit here.
 `LESSONS.md` tracks operational gotchas across sessions. Read it alongside this file.
 
+@DURABILITY.md
+
 ## What this project answers
 
 Four questions, in this order. Every feature earns its place by serving one of them.
