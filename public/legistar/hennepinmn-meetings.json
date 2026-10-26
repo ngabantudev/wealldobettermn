@@ -2,22 +2,22 @@
   "schemaVersion": 1,
   "client": "hennepinmn",
   "jurisdiction": "Hennepin County Board",
-  "generatedAt": "2026-10-25T15:51:28.026Z",
+  "generatedAt": "2026-10-26T18:33:02.476Z",
   "status": "ingested",
-  "note": "13 meeting(s) (13/13 event(s) in window) and 198 agenda item(s) ingested for 2026-10-11–2027-01-23.",
+  "note": "13 meeting(s) (13/13 event(s) in window) and 200 agenda item(s) ingested for 2026-10-12–2027-01-24.",
   "provenance": {
     "primarySourceUrl": "https://webapi.legistar.com/v1/hennepinmn/events",
     "sourceAgency": "Hennepin County Board",
     "documentType": "Legistar Web API — Events/EventItems",
     "documentId": null,
     "issuedDate": null,
-    "fetchedAt": "2026-10-25T15:51:28.026Z",
+    "fetchedAt": "2026-10-26T18:33:02.476Z",
     "licence": "Public records served via Legistar InSite; no separate machine-reuse licence published by the host jurisdiction as of this writing.",
-    "contentHash": "80057e066c10da549524ab078f3a5ef1e577aa5f20751734b110d9c230cc2396"
+    "contentHash": "150f08a52c898b99167161bf53972e4cbbe825ca9be7f4325e34e29862929cf7"
   },
   "window": {
-    "startIso": "2026-10-11",
-    "endIso": "2027-01-23"
+    "startIso": "2026-10-12",
+    "endIso": "2027-01-24"
   },
   "meetings": [
     {
@@ -640,11 +640,11 @@
       "time": "12:00",
       "location": "Government Center - County Board Chambers",
       "agendaStatus": "Final",
-      "agendaUrl": null,
+      "agendaUrl": "https://hennepinmn.legistar1.com/hennepinmn/meetings/2026/10/1499_A_Administration%2C_Operations_and_Budget_Committee_26-10-26_COMMITTEE_AGENDA.pdf",
       "minutesUrl": null,
       "videoStatus": "Public",
       "sourceUrl": "https://hennepinmn.legistar.com/MeetingDetail.aspx?LEGID=1499&GID=953&G=BA9AD5D7-E82F-425B-B72E-ABFEC8B35879",
-      "lastModifiedUtc": "2026-10-22T20:42:20.367",
+      "lastModifiedUtc": "2026-10-26T01:45:53.55",
       "members": [
         {
           "id": 508,
@@ -2532,6 +2532,19 @@
       "matterType": "Minutes"
     },
     {
+      "id": "legistar-hennepinmn-eventitem-38010",
+      "meeting_id": "legistar-hennepinmn-meeting-1492",
+      "sequence": 10,
+      "agendaNumber": null,
+      "title": "Addendum",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
       "id": "legistar-hennepinmn-eventitem-37902",
       "meeting_id": "legistar-hennepinmn-meeting-1493",
       "sequence": 1,
@@ -2706,6 +2719,19 @@
       "sequence": 6,
       "agendaNumber": null,
       "title": "Items for Discussion and Action",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-38008",
+      "meeting_id": "legistar-hennepinmn-meeting-1494",
+      "sequence": 8,
+      "agendaNumber": null,
+      "title": "Addendum",
       "isConsent": false,
       "actionName": null,
       "passedFlagName": null,
@@ -3263,10 +3289,17 @@
   "diff": {
     "addedIds": [],
     "removedIds": [],
-    "changed": []
+    "changed": [
+      {
+        "id": "legistar-hennepinmn-meeting-1499",
+        "field": "agendaUrl",
+        "from": null,
+        "to": "https://hennepinmn.legistar1.com/hennepinmn/meetings/2026/10/1499_A_Administration%2C_Operations_and_Budget_Committee_26-10-26_COMMITTEE_AGENDA.pdf"
+      }
+    ]
   },
-  "previousGeneratedAt": "2026-10-24T15:41:41.176Z",
+  "previousGeneratedAt": "2026-10-25T15:51:28.026Z",
   "knownGaps": [
-    "Consent-agenda flagging uses Legistar's own EventItemConsent field only (23 of 198 agenda item(s) in this window flagged). \"No discussion\" / \"no public comment\" are NOT flagged — this API exposes no comparably reliable field for either, and AGENTS.md §3.3 rules out inferring one from absence."
+    "Consent-agenda flagging uses Legistar's own EventItemConsent field only (23 of 200 agenda item(s) in this window flagged). \"No discussion\" / \"no public comment\" are NOT flagged — this API exposes no comparably reliable field for either, and AGENTS.md §3.3 rules out inferring one from absence."
   ]
 }
