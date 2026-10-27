@@ -2,22 +2,22 @@
   "schemaVersion": 1,
   "client": "stpaul",
   "jurisdiction": "St. Paul City Council",
-  "generatedAt": "2026-10-26T18:31:33.333Z",
+  "generatedAt": "2026-10-27T17:47:24.765Z",
   "status": "ingested",
-  "note": "16 meeting(s) (16/16 event(s) in window) and 285 agenda item(s) ingested for 2026-10-12–2027-01-24.",
+  "note": "16 meeting(s) (16/16 event(s) in window) and 279 agenda item(s) ingested for 2026-10-13–2027-01-25.",
   "provenance": {
     "primarySourceUrl": "https://webapi.legistar.com/v1/stpaul/events",
     "sourceAgency": "St. Paul City Council",
     "documentType": "Legistar Web API — Events/EventItems",
     "documentId": null,
     "issuedDate": null,
-    "fetchedAt": "2026-10-26T18:31:33.333Z",
+    "fetchedAt": "2026-10-27T17:47:24.765Z",
     "licence": "Public records served via Legistar InSite; no separate machine-reuse licence published by the host jurisdiction as of this writing.",
-    "contentHash": "880e3abc4eb8370a866f9047e56a6fb96cf2305fc43a599c1bdbde1b7d46853f"
+    "contentHash": "3b9ca565d73a6908a7cf3f0d799c96383722792c31f4555d12db8f4c0ed74a41"
   },
   "window": {
-    "startIso": "2026-10-12",
-    "endIso": "2027-01-24"
+    "startIso": "2026-10-13",
+    "endIso": "2027-01-25"
   },
   "meetings": [
     {
@@ -501,7 +501,7 @@
       "minutesUrl": null,
       "videoStatus": "Public",
       "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7808&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
-      "lastModifiedUtc": "2026-10-23T19:39:15.93",
+      "lastModifiedUtc": "2026-10-26T22:28:40.797",
       "members": [
         {
           "id": 6692,
@@ -552,7 +552,7 @@
       "minutesUrl": null,
       "videoStatus": "Public",
       "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7810&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
-      "lastModifiedUtc": "2026-10-26T17:39:46.717",
+      "lastModifiedUtc": "2026-10-27T12:39:35.76",
       "members": []
     },
     {
@@ -567,7 +567,7 @@
       "minutesUrl": null,
       "videoStatus": "Public",
       "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7811&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
-      "lastModifiedUtc": "2026-10-22T19:24:07.4",
+      "lastModifiedUtc": "2026-10-27T16:19:52.75",
       "members": [
         {
           "id": 7038,
@@ -3355,7 +3355,7 @@
       "sequence": 6,
       "agendaNumber": "3",
       "title": "Authorizing the City to accept a donation from the Responsive Cities Network to reimburse the travel expenses of City employees Dan Niziolek and Derek Engleking to an upcoming event hosted by Responsive Cities Network.",
-      "isConsent": false,
+      "isConsent": true,
       "actionName": null,
       "passedFlagName": null,
       "matterFile": "RES 26-1654",
@@ -3368,7 +3368,7 @@
       "sequence": 7,
       "agendaNumber": "4",
       "title": "Approving the City’s cost of providing Securing and/or Emergency Boarding services during August 2026, and setting date of Legislative Hearing for November 24, 2026 and City Council public hearing for February 3, 2027 to consider and levy the assessments against individual properties. (File No. J2616B, Assessment No. 268122)",
-      "isConsent": false,
+      "isConsent": true,
       "actionName": null,
       "passedFlagName": null,
       "matterFile": "RES 26-1671",
@@ -3381,7 +3381,7 @@
       "sequence": 8,
       "agendaNumber": "5",
       "title": "Approving the addition of a Gambling Location license (License ID #DSIBLLIQ-003445-2026) to the existing Liquor On Sale, Liquor On Sale - Sunday, and Entertainment (A) licenses (License ID #20220001905) for Habanero Tacos Mexican Grill & Bar Corp d/b/a Habanero Tacos for the premises located at 80 Snelling Ave. N.",
-      "isConsent": false,
+      "isConsent": true,
       "actionName": null,
       "passedFlagName": null,
       "matterFile": "RES 26-1748",
@@ -3394,7 +3394,7 @@
       "sequence": 9,
       "agendaNumber": "6",
       "title": "Approving the application for change of ownership to the Malt On Sale (Brewery Taproom), Liquor On Sale - Sunday, Liquor Outdoor Service Area (Patio), Malt Off Sale (Brewery), and Malt Off Sale (Small Brewery - 128oz) licenses (License ID #DSIBLLIQ-004332-2026) now held by 7th Street Beer Company d/b/a Barrel Theory Beer Company for the premises located at 550 Vandalia St., Unit #160.",
-      "isConsent": false,
+      "isConsent": true,
       "actionName": null,
       "passedFlagName": null,
       "matterFile": "RES 26-1750",
@@ -3407,7 +3407,7 @@
       "sequence": 10,
       "agendaNumber": "7",
       "title": "Approving the application for change of ownership to the Health/Sport Club license (License ID #DSIBHEALTH-001018-2026) now held by Demerise Cooper d/b/a Mexifino Boxing Studio for the premises located at 240 Fillmore Ave. E.",
-      "isConsent": false,
+      "isConsent": true,
       "actionName": null,
       "passedFlagName": null,
       "matterFile": "RES 26-1751",
@@ -3420,7 +3420,7 @@
       "sequence": 11,
       "agendaNumber": "8",
       "title": "Approving a new location application for the Second Hand Dealer - Motor Vehicle license (License ID #DSIBLAUTO- 000739-2026) submitted by Aldossari Auto Sales LLC d/b/a Aldossari Auto Sales for the premises located at 220 Robert St. S.",
-      "isConsent": false,
+      "isConsent": true,
       "actionName": null,
       "passedFlagName": null,
       "matterFile": "RES 26-1752",
@@ -3433,7 +3433,7 @@
       "sequence": 12,
       "agendaNumber": "9",
       "title": "Accepting the gift of conference registration from the Minnesota Task Force One team for Fire District Chief Sam Breckenridge to attend the 2026 State Urban Search and Rescue Alliance (SUSAR) conference.",
-      "isConsent": false,
+      "isConsent": true,
       "actionName": null,
       "passedFlagName": null,
       "matterFile": "RES 26-1768",
@@ -3446,7 +3446,7 @@
       "sequence": 13,
       "agendaNumber": "10",
       "title": "Authorizing the Emergency Management Department to enter into an Amended Joint Powers Agreement with Ramsey County for the continued utilization of the Computer Aided Dispatch and Mobile Data Agreement.",
-      "isConsent": false,
+      "isConsent": true,
       "actionName": null,
       "passedFlagName": null,
       "matterFile": "RES 26-1774",
@@ -3459,7 +3459,7 @@
       "sequence": 14,
       "agendaNumber": "11",
       "title": "Authorizing the Emergency Management Department to enter into an Amended Joint Powers Agreement with Ramsey County for the continued utilization of the Radio Subscriber Agreement.",
-      "isConsent": false,
+      "isConsent": true,
       "actionName": null,
       "passedFlagName": null,
       "matterFile": "RES 26-1775",
@@ -3472,7 +3472,7 @@
       "sequence": 16,
       "agendaNumber": "13",
       "title": "Approving the naming of Koom Siab Park.",
-      "isConsent": false,
+      "isConsent": true,
       "actionName": null,
       "passedFlagName": null,
       "matterFile": "RES 26-1782",
@@ -3485,7 +3485,7 @@
       "sequence": 15,
       "agendaNumber": "12",
       "title": "Approving and authorizing an extension of the Lease/Use Agreement between the City and Twin Cities Public Media Commons (Ward 2, District 17).",
-      "isConsent": false,
+      "isConsent": true,
       "actionName": null,
       "passedFlagName": null,
       "matterFile": "RES 26-1788",
@@ -3766,19 +3766,6 @@
       "matterType": "Resolution LH Tax Assessment Appeal"
     },
     {
-      "id": "legistar-stpaul-eventitem-218428",
-      "meeting_id": "legistar-stpaul-meeting-7808",
-      "sequence": 34,
-      "agendaNumber": "27",
-      "title": "Ratifying the Appealed Special Tax Assessment for property at 364 MAPLE STREET. (File No. VB2603, Assessment No. 268906) (October 27, 2026 Legislative Hearing)",
-      "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
-      "matterFile": "RLH TA 26-251",
-      "matterId": 53168,
-      "matterType": "Resolution LH Tax Assessment Appeal"
-    },
-    {
       "id": "legistar-stpaul-eventitem-218429",
       "meeting_id": "legistar-stpaul-meeting-7808",
       "sequence": 39,
@@ -3837,7 +3824,7 @@
       "agendaNumber": "1",
       "title": "Ordering the rehabilitation or razing and removal of the structures at 633 CAPITOL BOULEVARD within fifteen (15) days after the May 20, 2026, City Council Public Hearing.",
       "isConsent": false,
-      "actionName": null,
+      "actionName": "Laid Over",
       "passedFlagName": null,
       "matterFile": "RLH RR 26-7",
       "matterId": 51653,
@@ -3850,7 +3837,7 @@
       "agendaNumber": "2",
       "title": "Ordering the rehabilitation or razing and removal of the structures at 914 CENTRAL AVENUE WEST within fifteen (15) days after the August 19, 2026, City Council Public Hearing.  (Refer to September 15, 2026 on condition)",
       "isConsent": false,
-      "actionName": null,
+      "actionName": "Laid Over",
       "passedFlagName": null,
       "matterFile": "RLH RR 26-14",
       "matterId": 52238,
@@ -3876,7 +3863,7 @@
       "agendaNumber": "5",
       "title": "Ratifying the Appealed Special Tax Assessment for property at 829 LAWSON AVENUE EAST. (File No. VB2605, Assessment No. 268908)",
       "isConsent": false,
-      "actionName": null,
+      "actionName": "Laid Over",
       "passedFlagName": null,
       "matterFile": "RLH TA 26-238",
       "matterId": 53055,
@@ -3893,32 +3880,6 @@
       "passedFlagName": null,
       "matterFile": "RLH TA 26-244",
       "matterId": 53129,
-      "matterType": "Resolution LH Tax Assessment Appeal"
-    },
-    {
-      "id": "legistar-stpaul-eventitem-218443",
-      "meeting_id": "legistar-stpaul-meeting-7810",
-      "sequence": 8,
-      "agendaNumber": "4",
-      "title": "Ratifying the Appealed Special Tax Assessment for property at 2098 BUSH AVENUE. (File No. J2615B, Assessment No. 268121)",
-      "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
-      "matterFile": "RLH TA 26-247",
-      "matterId": 53151,
-      "matterType": "Resolution LH Tax Assessment Appeal"
-    },
-    {
-      "id": "legistar-stpaul-eventitem-218444",
-      "meeting_id": "legistar-stpaul-meeting-7810",
-      "sequence": 12,
-      "agendaNumber": "8",
-      "title": "Ratifying the Appealed Special Tax Assessment for property at 1141 UNIVERSITY AVENUE WEST. (File No. VB2605, Assessment No. 268908)",
-      "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
-      "matterFile": "RLH TA 26-248",
-      "matterId": 53152,
       "matterType": "Resolution LH Tax Assessment Appeal"
     },
     {
@@ -3984,19 +3945,6 @@
       "passedFlagName": null,
       "matterFile": "RLH SAO 26-104",
       "matterId": 53042,
-      "matterType": "Resolution LH Summary Abatement Order"
-    },
-    {
-      "id": "legistar-stpaul-eventitem-218451",
-      "meeting_id": "legistar-stpaul-meeting-7810",
-      "sequence": 17,
-      "agendaNumber": "10",
-      "title": "Making finding on the appealed of Lucky \"Tiger Jack\" Rosenbloom to a nuisance abatement ordered for 369 DALE STREET NORTH in Council File RLH SAO 26-62.",
-      "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
-      "matterFile": "RLH SAO 26-79",
-      "matterId": 52675,
       "matterType": "Resolution LH Summary Abatement Order"
     },
     {
@@ -4117,32 +4065,6 @@
       "matterType": "Resolution LH Other Appeal Type"
     },
     {
-      "id": "legistar-stpaul-eventitem-218538",
-      "meeting_id": "legistar-stpaul-meeting-7810",
-      "sequence": 5,
-      "agendaNumber": "3",
-      "title": "Third Making finding on the appeal of Jay Mitchell, o/b/o The Money Man, LLC, to a substantial abatement ordered for 947 FREMONT AVENUE in Council File RLH 26-16.",
-      "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
-      "matterFile": "RLH RR 26-19",
-      "matterId": 52904,
-      "matterType": "Resolution LH Substantial Abatement Order"
-    },
-    {
-      "id": "legistar-stpaul-eventitem-218544",
-      "meeting_id": "legistar-stpaul-meeting-7810",
-      "sequence": 10,
-      "agendaNumber": "6",
-      "title": "Ratifying the Appealed Special Tax Assessment for property at 364 MAPLE STREET. (File No. VB2603, Assessment No. 268906) (October 27, 2026 Legislative Hearing)",
-      "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
-      "matterFile": "RLH TA 26-251",
-      "matterId": 53168,
-      "matterType": "Resolution LH Tax Assessment Appeal"
-    },
-    {
       "id": "legistar-stpaul-eventitem-218466",
       "meeting_id": "legistar-stpaul-meeting-7811",
       "sequence": 1,
@@ -4198,7 +4120,7 @@
       "id": "legistar-stpaul-eventitem-218482",
       "meeting_id": "legistar-stpaul-meeting-7811",
       "sequence": 3,
-      "agendaNumber": null,
+      "agendaNumber": "1",
       "title": "Tiny-Home Villages: Supportive Services, Housing Pathways, and Collaborative Public Safety Solutions - Virtual Presentation by Sharon Lee, LIHI Executive Director, Donna Anderson, LIHI Regional Shelter Operations Mananger, Marta Kidane, LIHI Community Engagement Manager",
       "isConsent": false,
       "actionName": null,
@@ -4211,7 +4133,7 @@
       "id": "legistar-stpaul-eventitem-218483",
       "meeting_id": "legistar-stpaul-meeting-7811",
       "sequence": 4,
-      "agendaNumber": null,
+      "agendaNumber": "2",
       "title": "Alternative Housing Development: Zoning, Financial Feasibility, and Scalability of Barndominium Models - Chris Dalton, City Manager, New Ulm",
       "isConsent": false,
       "actionName": null,
@@ -4224,7 +4146,7 @@
       "id": "legistar-stpaul-eventitem-218484",
       "meeting_id": "legistar-stpaul-meeting-7811",
       "sequence": 5,
-      "agendaNumber": null,
+      "agendaNumber": "3",
       "title": "Indoor Village Shelter Models: Public Safety, Community Partnerships, and Operational Considerations - Kelly Matter, President & CEO, Avivo",
       "isConsent": false,
       "actionName": null,
@@ -4419,17 +4341,10 @@
   "diff": {
     "addedIds": [],
     "removedIds": [],
-    "changed": [
-      {
-        "id": "legistar-stpaul-meeting-7810",
-        "field": "agendaStatus",
-        "from": "Final",
-        "to": "Final-revised"
-      }
-    ]
+    "changed": []
   },
-  "previousGeneratedAt": "2026-10-25T15:50:05.867Z",
+  "previousGeneratedAt": "2026-10-26T18:31:33.333Z",
   "knownGaps": [
-    "Consent-agenda flagging uses Legistar's own EventItemConsent field only (62 of 285 agenda item(s) in this window flagged). \"No discussion\" / \"no public comment\" are NOT flagged — this API exposes no comparably reliable field for either, and AGENTS.md §3.3 rules out inferring one from absence."
+    "Consent-agenda flagging uses Legistar's own EventItemConsent field only (73 of 279 agenda item(s) in this window flagged). \"No discussion\" / \"no public comment\" are NOT flagged — this API exposes no comparably reliable field for either, and AGENTS.md §3.3 rules out inferring one from absence."
   ]
 }
