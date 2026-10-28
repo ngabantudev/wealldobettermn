@@ -1,18 +1,6 @@
 {
-  "generatedAt": "2026-10-27T17:47:24.768Z",
+  "generatedAt": "2026-10-28T18:08:06.158Z",
   "meetingsThisWeek": [
-    {
-      "client": "stpaul",
-      "jurisdiction": "St. Paul City Council",
-      "bodyName": "Legislative Hearings",
-      "date": "2026-10-27",
-      "time": "09:00",
-      "location": "Room 330 City Hall & Court House/Remote",
-      "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7810&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
-      "agendaUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/10/7810_A_Legislative_Hearings_26-10-27_ADA_Meeting_Agenda.pdf",
-      "isCancelled": false,
-      "members": []
-    },
     {
       "client": "stpaul",
       "jurisdiction": "St. Paul City Council",
@@ -117,7 +105,7 @@
       "time": "14:00",
       "location": "Council Chambers, City Hall",
       "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7813&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
-      "agendaUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/10/7813_A_Housing___Redevelopment_Authority_26-10-28_Meeting_Agenda.pdf",
+      "agendaUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/10/7813_A_Housing___Redevelopment_Authority_26-10-28_ADA_Meeting_Agenda.pdf",
       "isCancelled": false,
       "members": [
         {
@@ -202,6 +190,54 @@
           "id": 7108,
           "name": "Molly Coleman",
           "type": "Councilmember"
+        }
+      ]
+    },
+    {
+      "client": "stpaul",
+      "jurisdiction": "St. Paul City Council",
+      "bodyName": "Library Board",
+      "date": "2026-11-04",
+      "time": "13:00",
+      "location": "Council Chambers",
+      "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7814&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
+      "agendaUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/11/7814_A_Library_Board_26-11-04_ADA_Meeting_Agenda.pdf",
+      "isCancelled": false,
+      "members": [
+        {
+          "id": 6692,
+          "name": "Rebecca Noecker",
+          "type": "Board Member"
+        },
+        {
+          "id": 6859,
+          "name": "Nelsie Yang",
+          "type": "Board Member"
+        },
+        {
+          "id": 7038,
+          "name": "Anika Bowie",
+          "type": "Board Member"
+        },
+        {
+          "id": 7040,
+          "name": "Cheniqua Johnson",
+          "type": "Board Member"
+        },
+        {
+          "id": 7039,
+          "name": "Saura Jost",
+          "type": "Board Member"
+        },
+        {
+          "id": 6785,
+          "name": "HwaJeong Kim",
+          "type": "Board Member"
+        },
+        {
+          "id": 7108,
+          "name": "Molly Coleman",
+          "type": "Board Member"
         }
       ]
     }

@@ -2,22 +2,22 @@
   "schemaVersion": 1,
   "client": "hennepinmn",
   "jurisdiction": "Hennepin County Board",
-  "generatedAt": "2026-10-27T17:49:13.832Z",
+  "generatedAt": "2026-10-28T18:09:19.351Z",
   "status": "ingested",
-  "note": "13 meeting(s) (13/13 event(s) in window) and 206 agenda item(s) ingested for 2026-10-13–2027-01-25.",
+  "note": "13 meeting(s) (13/13 event(s) in window) and 227 agenda item(s) ingested for 2026-10-14–2027-01-26.",
   "provenance": {
     "primarySourceUrl": "https://webapi.legistar.com/v1/hennepinmn/events",
     "sourceAgency": "Hennepin County Board",
     "documentType": "Legistar Web API — Events/EventItems",
     "documentId": null,
     "issuedDate": null,
-    "fetchedAt": "2026-10-27T17:49:13.832Z",
+    "fetchedAt": "2026-10-28T18:09:19.351Z",
     "licence": "Public records served via Legistar InSite; no separate machine-reuse licence published by the host jurisdiction as of this writing.",
-    "contentHash": "5f06c2b58fda8145af5148581c3335c0cde019ab2f05155123d857b9fd97c1de"
+    "contentHash": "94359261b3f69f36b8d8c90a39b34000ff1f2f3bce26ab7ade0454b853c73ff0"
   },
   "window": {
-    "startIso": "2026-10-13",
-    "endIso": "2027-01-25"
+    "startIso": "2026-10-14",
+    "endIso": "2027-01-26"
   },
   "meetings": [
     {
@@ -2571,6 +2571,45 @@
       "matterType": "Resolution"
     },
     {
+      "id": "legistar-hennepinmn-eventitem-38051",
+      "meeting_id": "legistar-hennepinmn-meeting-1492",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Agenda item 38051",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-38052",
+      "meeting_id": "legistar-hennepinmn-meeting-1492",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Agenda item 38052",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-38053",
+      "meeting_id": "legistar-hennepinmn-meeting-1492",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Agenda item 38053",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
       "id": "legistar-hennepinmn-eventitem-37902",
       "meeting_id": "legistar-hennepinmn-meeting-1493",
       "sequence": 1,
@@ -2660,6 +2699,45 @@
       "matterFile": "TMP-26-0844",
       "matterId": 4957,
       "matterType": "Minutes"
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-38032",
+      "meeting_id": "legistar-hennepinmn-meeting-1493",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Agenda item 38032",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-38033",
+      "meeting_id": "legistar-hennepinmn-meeting-1493",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Agenda item 38033",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-38034",
+      "meeting_id": "legistar-hennepinmn-meeting-1493",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Agenda item 38034",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
     },
     {
       "id": "legistar-hennepinmn-eventitem-37940",
@@ -2779,6 +2857,45 @@
       "matterType": "Resolution"
     },
     {
+      "id": "legistar-hennepinmn-eventitem-38035",
+      "meeting_id": "legistar-hennepinmn-meeting-1494",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Agenda item 38035",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-38036",
+      "meeting_id": "legistar-hennepinmn-meeting-1494",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Agenda item 38036",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-38037",
+      "meeting_id": "legistar-hennepinmn-meeting-1494",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Agenda item 38037",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
       "id": "legistar-hennepinmn-eventitem-37949",
       "meeting_id": "legistar-hennepinmn-meeting-1495",
       "sequence": 1,
@@ -2836,6 +2953,45 @@
       "sequence": 4,
       "agendaNumber": null,
       "title": "Items for Discussion and Action",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-38038",
+      "meeting_id": "legistar-hennepinmn-meeting-1495",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Agenda item 38038",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-38039",
+      "meeting_id": "legistar-hennepinmn-meeting-1495",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Agenda item 38039",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-38040",
+      "meeting_id": "legistar-hennepinmn-meeting-1495",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Agenda item 38040",
       "isConsent": false,
       "actionName": null,
       "passedFlagName": null,
@@ -2914,6 +3070,45 @@
       "sequence": 4,
       "agendaNumber": null,
       "title": "Routine Items",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-38041",
+      "meeting_id": "legistar-hennepinmn-meeting-1496",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Agenda item 38041",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-38042",
+      "meeting_id": "legistar-hennepinmn-meeting-1496",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Agenda item 38042",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-38043",
+      "meeting_id": "legistar-hennepinmn-meeting-1496",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Agenda item 38043",
       "isConsent": false,
       "actionName": null,
       "passedFlagName": null,
@@ -3143,6 +3338,45 @@
       "matterType": null
     },
     {
+      "id": "legistar-hennepinmn-eventitem-38044",
+      "meeting_id": "legistar-hennepinmn-meeting-1497",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Agenda item 38044",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-38045",
+      "meeting_id": "legistar-hennepinmn-meeting-1497",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Agenda item 38045",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-38046",
+      "meeting_id": "legistar-hennepinmn-meeting-1497",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Agenda item 38046",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
       "id": "legistar-hennepinmn-eventitem-37983",
       "meeting_id": "legistar-hennepinmn-meeting-1498",
       "sequence": 1,
@@ -3200,6 +3434,45 @@
       "sequence": 4,
       "agendaNumber": null,
       "title": "Items for Discussion and Action",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-38047",
+      "meeting_id": "legistar-hennepinmn-meeting-1498",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Agenda item 38047",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-38048",
+      "meeting_id": "legistar-hennepinmn-meeting-1498",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Agenda item 38048",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-38050",
+      "meeting_id": "legistar-hennepinmn-meeting-1498",
+      "sequence": null,
+      "agendaNumber": null,
+      "title": "Agenda item 38050",
       "isConsent": false,
       "actionName": null,
       "passedFlagName": null,
@@ -3367,53 +3640,10 @@
   "diff": {
     "addedIds": [],
     "removedIds": [],
-    "changed": [
-      {
-        "id": "legistar-hennepinmn-meeting-1492",
-        "field": "agendaStatus",
-        "from": "Preliminary",
-        "to": "Final"
-      },
-      {
-        "id": "legistar-hennepinmn-meeting-1493",
-        "field": "agendaStatus",
-        "from": "Preliminary",
-        "to": "Final"
-      },
-      {
-        "id": "legistar-hennepinmn-meeting-1494",
-        "field": "agendaStatus",
-        "from": "Preliminary",
-        "to": "Final"
-      },
-      {
-        "id": "legistar-hennepinmn-meeting-1495",
-        "field": "agendaStatus",
-        "from": "Preliminary",
-        "to": "Final"
-      },
-      {
-        "id": "legistar-hennepinmn-meeting-1496",
-        "field": "agendaStatus",
-        "from": "Preliminary",
-        "to": "Final"
-      },
-      {
-        "id": "legistar-hennepinmn-meeting-1497",
-        "field": "agendaStatus",
-        "from": "Preliminary",
-        "to": "Final"
-      },
-      {
-        "id": "legistar-hennepinmn-meeting-1498",
-        "field": "agendaStatus",
-        "from": "Preliminary",
-        "to": "Final"
-      }
-    ]
+    "changed": []
   },
-  "previousGeneratedAt": "2026-10-26T18:33:02.476Z",
+  "previousGeneratedAt": "2026-10-27T17:49:13.832Z",
   "knownGaps": [
-    "Consent-agenda flagging uses Legistar's own EventItemConsent field only (23 of 206 agenda item(s) in this window flagged). \"No discussion\" / \"no public comment\" are NOT flagged — this API exposes no comparably reliable field for either, and AGENTS.md §3.3 rules out inferring one from absence."
+    "Consent-agenda flagging uses Legistar's own EventItemConsent field only (23 of 227 agenda item(s) in this window flagged). \"No discussion\" / \"no public comment\" are NOT flagged — this API exposes no comparably reliable field for either, and AGENTS.md §3.3 rules out inferring one from absence."
   ]
 }
