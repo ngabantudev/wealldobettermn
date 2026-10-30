@@ -2,22 +2,22 @@
   "schemaVersion": 1,
   "client": "hennepinmn",
   "jurisdiction": "Hennepin County Board",
-  "generatedAt": "2026-10-29T18:17:40.297Z",
+  "generatedAt": "2026-10-30T17:53:53.401Z",
   "status": "ingested",
-  "note": "13 meeting(s) (13/13 event(s) in window) and 227 agenda item(s) ingested for 2026-10-15–2027-01-27.",
+  "note": "13 meeting(s) (13/13 event(s) in window) and 227 agenda item(s) ingested for 2026-10-16–2027-01-28.",
   "provenance": {
     "primarySourceUrl": "https://webapi.legistar.com/v1/hennepinmn/events",
     "sourceAgency": "Hennepin County Board",
     "documentType": "Legistar Web API — Events/EventItems",
     "documentId": null,
     "issuedDate": null,
-    "fetchedAt": "2026-10-29T18:17:40.297Z",
+    "fetchedAt": "2026-10-30T17:53:53.401Z",
     "licence": "Public records served via Legistar InSite; no separate machine-reuse licence published by the host jurisdiction as of this writing.",
-    "contentHash": "e37569672447059cf1252045517f72f5d557725ecb15661ec1476baf9f1b7eb8"
+    "contentHash": "777fe9198d18160f020815afd5a492cc34ecb735d044edb65981af8384aa0ec1"
   },
   "window": {
-    "startIso": "2026-10-15",
-    "endIso": "2027-01-27"
+    "startIso": "2026-10-16",
+    "endIso": "2027-01-28"
   },
   "meetings": [
     {
@@ -2434,8 +2434,8 @@
       "agendaNumber": "2.A.",
       "title": "October 6, 2026 Meeting Minutes",
       "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
+      "actionName": "approve",
+      "passedFlagName": "Pass",
       "matterFile": "TMP-26-0843",
       "matterId": 4956,
       "matterType": "Minutes"
@@ -2460,8 +2460,8 @@
       "agendaNumber": "3.C.",
       "title": "Neg 2 Agmts for lead education and grant recruitment services, 11/15/26-11/14/29, total combined NTE $560,000",
       "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
+      "actionName": "consent",
+      "passedFlagName": "Pass",
       "matterFile": "26-0379",
       "matterId": 4907,
       "matterType": "Resolution"
@@ -2473,8 +2473,8 @@
       "agendaNumber": "3.A.",
       "title": "Approval and submission of the updated Workforce Innovation Opportunity Act (WIOA) Regional Plan for Metropolitan Regional Workforce Development Area #4 to the State of Minnesota",
       "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
+      "actionName": "consent",
+      "passedFlagName": "Pass",
       "matterFile": "26-0377",
       "matterId": 4914,
       "matterType": "Resolution"
@@ -2486,8 +2486,8 @@
       "agendaNumber": "3.B.",
       "title": "Amd 1 to Agmt PR00007357 with Kutak Rock LLP for legal services related to renewable energy, ext term to 12/31/27, incr NTE by $100,000 for a new total NTE of $200,000",
       "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
+      "actionName": "consent",
+      "passedFlagName": "Pass",
       "matterFile": "26-0378",
       "matterId": 4931,
       "matterType": "Resolution"
@@ -2551,8 +2551,8 @@
       "agendaNumber": "3.D.",
       "title": "Authorize Investment Officer to use additional statutory investment authority relating to repurchase agreements and reverse repurchase agreements through 2027 within statutory and board-authorized limits",
       "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
+      "actionName": "consent",
+      "passedFlagName": "Pass",
       "matterFile": "26-0405",
       "matterId": 4904,
       "matterType": "Resolution"
@@ -2564,8 +2564,8 @@
       "agendaNumber": "3.E.",
       "title": "Direct County Administration to implement strategies that prevent, reduce, and mitigate the impact of domestic violence through data-informed decision-making; develop a Hennepin County Domestic Violence Dashboard, build capacity for culturally responsive victim navigation services, resources, and support; establish a Domestic Violence Victim-Survivor Advisory Committee guided by community-driven solutions that increase public awareness and address the most immediate needs of victim survivors. - Offered by Commissioners Fernando and Conley",
       "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
+      "actionName": "progress",
+      "passedFlagName": "Pass",
       "matterFile": "26-0406",
       "matterId": 4969,
       "matterType": "Resolution"
@@ -2642,8 +2642,8 @@
       "agendaNumber": "2.A.",
       "title": "Amd 2 to Agmt PR00003192 with Cotiviti, Inc., to provide HEDIS audit software services, ext end date to 12/31/29, inc NTE by $410,666 for a new total NTE of $1,219,391",
       "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
+      "actionName": "consent",
+      "passedFlagName": "Pass",
       "matterFile": "26-0380",
       "matterId": 4929,
       "matterType": "Resolution"
@@ -2655,8 +2655,8 @@
       "agendaNumber": "2.B.",
       "title": "Authorize use of Opioid Settlement Special Revenues for 2026 budget",
       "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
+      "actionName": "consent",
+      "passedFlagName": "Pass",
       "matterFile": "26-0381",
       "matterId": 4942,
       "matterType": "Resolution"
@@ -2694,8 +2694,8 @@
       "agendaNumber": "1.A.",
       "title": "October 6, 2026 Meeting Minutes",
       "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
+      "actionName": "approve",
+      "passedFlagName": "Pass",
       "matterFile": "TMP-26-0844",
       "matterId": 4957,
       "matterType": "Minutes"
@@ -2759,8 +2759,8 @@
       "agendaNumber": "1.A.",
       "title": "October 6, 2026 Meeting Minutes",
       "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
+      "actionName": "approve",
+      "passedFlagName": "Pass",
       "matterFile": "TMP-26-0845",
       "matterId": 4958,
       "matterType": "Minutes"
@@ -2785,8 +2785,8 @@
       "agendaNumber": "2.B.",
       "title": "Agmt A2613520, a Joint Powers Agreement between Hennepin County and the Counties of Isanti and Sherburne to collaborate in the Next Generation Employment Services Grant and launch the “Together We Thrive” pilot program, 10/01/26-09/30/27, $558,235.29 (recv)",
       "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
+      "actionName": "consent",
+      "passedFlagName": "Pass",
       "matterFile": "26-0383",
       "matterId": 4906,
       "matterType": "Resolution"
@@ -2798,8 +2798,8 @@
       "agendaNumber": "2.A.",
       "title": "Human Services & Public Health resolution, including contracts and amendments to contracts with provider - 2614",
       "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
+      "actionName": "consent",
+      "passedFlagName": "Pass",
       "matterFile": "26-0382",
       "matterId": 4932,
       "matterType": "Resolution"
@@ -2850,8 +2850,8 @@
       "agendaNumber": "2.C.",
       "title": "Amd 1 to Agmt A2412592 with MN Dept of Human Services to fund implementation of the Minnesota African American Family Preservation and Child Welfare Disproportionality Act SFY 2025 and 2026, ext end date through 12/31/26, $2,500,000 (recv); Continue 2.0 grant funded FTE",
       "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
+      "actionName": "consent",
+      "passedFlagName": "Pass",
       "matterFile": "26-0407",
       "matterId": 4919,
       "matterType": "Resolution"
@@ -2915,8 +2915,8 @@
       "agendaNumber": "1.A.",
       "title": "February 5, 2026 Meeting Minutes",
       "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
+      "actionName": "approve",
+      "passedFlagName": "Pass",
       "matterFile": "TMP-26-0846",
       "matterId": 4959,
       "matterType": "Minutes"
@@ -2941,8 +2941,8 @@
       "agendaNumber": "2.A.",
       "title": "2027 State Legislative Priorities and Platform",
       "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
+      "actionName": "progress",
+      "passedFlagName": "Pass",
       "matterFile": "26-0384",
       "matterId": 4921,
       "matterType": "Resolution"
@@ -3019,8 +3019,8 @@
       "agendaNumber": "1.A.",
       "title": "October 6, 2026 Meeting Minutes",
       "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
+      "actionName": "approve",
+      "passedFlagName": "Pass",
       "matterFile": "TMP-26-0848",
       "matterId": 4961,
       "matterType": "Minutes"
@@ -3045,8 +3045,8 @@
       "agendaNumber": "2.B.",
       "title": "Amd 2 to Agmt PR00002772 with ARMS Purchaseco, Inc. to provide a jail management system for the Hennepin County Jail, ext end date 12/31/29, incr NTE by $1,301,139 for a new total NTE of $3,907,151.50",
       "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
+      "actionName": "consent",
+      "passedFlagName": "Pass",
       "matterFile": "26-0386",
       "matterId": 4939,
       "matterType": "Resolution"
@@ -3058,8 +3058,8 @@
       "agendaNumber": "2.A.",
       "title": "Amd 2 to Agmt PR00004614 with CornerHouse Interagency Child Abuse Evaluation Center to conduct interviews of children and vulnerable adults involved in or witnessing abuse or maltreatment, ext end date 12/31/28 and incr NTE by $4,015 for new total NTE of $44,662",
       "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
+      "actionName": "consent",
+      "passedFlagName": "Pass",
       "matterFile": "26-0385",
       "matterId": 4940,
       "matterType": "Resolution"
@@ -3136,8 +3136,8 @@
       "agendaNumber": "1.A.",
       "title": "October 6, 2026  Meeting Minutes",
       "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
+      "actionName": "approve",
+      "passedFlagName": "Pass",
       "matterFile": "TMP-26-0849",
       "matterId": 4962,
       "matterType": "Minutes"
@@ -3162,8 +3162,8 @@
       "agendaNumber": "2.A.",
       "title": "Neg Agmt PW 57-50-26 with Minnetrista for cost participation related to stabilization improvements at the intersection of CSAHs 151 and 110 (CP 2201139, a subproject of 2201100; NTE $40,950 property tax)",
       "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
+      "actionName": "consent",
+      "passedFlagName": "Pass",
       "matterFile": "26-0387",
       "matterId": 4908,
       "matterType": "Resolution"
@@ -3175,8 +3175,8 @@
       "agendaNumber": "2.D.",
       "title": "Agmt PW 55-33-26 with Loretto relating to construction on CSAH 19 (CP 2201128, a subproject of 2201100; est recv $15,000)",
       "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
+      "actionName": "consent",
+      "passedFlagName": "Pass",
       "matterFile": "26-0390",
       "matterId": 4909,
       "matterType": "Resolution"
@@ -3188,8 +3188,8 @@
       "agendaNumber": "2.E.",
       "title": "Agmt PR00008744 with SRF Consulting Group for preliminary design, engineering, and professional services for the reconstruction of CSAH 23, CP 2142100, (NTE $1,250,000 State Aid Regular)",
       "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
+      "actionName": "consent",
+      "passedFlagName": "Pass",
       "matterFile": "26-0391",
       "matterId": 4910,
       "matterType": "Resolution"
@@ -3201,8 +3201,8 @@
       "agendaNumber": "2.J.",
       "title": "Authorization to apply for state discretionary grant funding from MnDOT through the 2026 Local Road Improvement Program for CSAH 50 (Rebecca Park Trail) Rehabilitation Project (CP 2220902, a subproject of 2220900)",
       "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
+      "actionName": "consent",
+      "passedFlagName": "Pass",
       "matterFile": "26-0396",
       "matterId": 4911,
       "matterType": "Resolution"
@@ -3214,8 +3214,8 @@
       "agendaNumber": "2.B.",
       "title": "Neg Agmt PW 59-17-26 with Plymouth for jurisdictional transfer of CSAH 73 between Sunset Trail and TH 55, CP 2850700 (no county cost)",
       "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
+      "actionName": "consent",
+      "passedFlagName": "Pass",
       "matterFile": "26-0388",
       "matterId": 4912,
       "matterType": "Resolution"
@@ -3227,8 +3227,8 @@
       "agendaNumber": "2.G.",
       "title": "Amd 1 to Contract PR00007170 with SRF Consulting Group, Inc for final design, engineering, and professional services for CSAH 152 reconstruction, CP 2240700, ext period to 12/31/30, new NTE $2,650,000 (State Aid)",
       "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
+      "actionName": "consent",
+      "passedFlagName": "Pass",
       "matterFile": "26-0393",
       "matterId": 4913,
       "matterType": "Resolution"
@@ -3240,8 +3240,8 @@
       "agendaNumber": "2.C.",
       "title": "Agmt PW 31-10-26 with City of St. Anthony for routine maintenance on county roadways in St. Anthony, 01/01/27-12/31/31 (est county cost $35,000 per year - Operating Budget)",
       "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
+      "actionName": "consent",
+      "passedFlagName": "Pass",
       "matterFile": "26-0389",
       "matterId": 4915,
       "matterType": "Resolution"
@@ -3253,8 +3253,8 @@
       "agendaNumber": "2.F.",
       "title": "Amd 1 to Work Order Contract PR00006767 with SRF Consulting Group for final design, engineering, and professional services for reconstruction of CSAH 15, CP 2194500, ext period to 12/31/29 and incr NTE $1,243,101 (State Aid Regular)",
       "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
+      "actionName": "consent",
+      "passedFlagName": "Pass",
       "matterFile": "26-0392",
       "matterId": 4922,
       "matterType": "Resolution"
@@ -3266,8 +3266,8 @@
       "agendaNumber": "2.I.",
       "title": "Amd 1 to Work Order PR00007220 for Agmt PL00000769 with Houston Engineering, Inc for final design, engineering, and professional services for CSAH 10, CP 2210404, a subproject of 2210400, incr NTE to $630,155 (County Bonds)",
       "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
+      "actionName": "consent",
+      "passedFlagName": "Pass",
       "matterFile": "26-0395",
       "matterId": 4923,
       "matterType": "Resolution"
@@ -3279,8 +3279,8 @@
       "agendaNumber": "2.L.",
       "title": "Neg various agmts for building material reuse services, 01/01/27-12/31/28, total NTE $600,000",
       "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
+      "actionName": "consent",
+      "passedFlagName": "Pass",
       "matterFile": "26-0398",
       "matterId": 4926,
       "matterType": "Resolution"
@@ -3292,8 +3292,8 @@
       "agendaNumber": "2.M.",
       "title": "Neg ERF Grant Agmt PR00008849 with the City of Rogers for costs incurred 08/02/22-08/05/27, NTE $286,700",
       "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
+      "actionName": "consent",
+      "passedFlagName": "Pass",
       "matterFile": "26-0399",
       "matterId": 4927,
       "matterType": "Resolution"
@@ -3305,8 +3305,8 @@
       "agendaNumber": "2.K.",
       "title": "Neg Brownfields Revolving Loan Fund Agmt PR00008854 with Trellis Co. for cleanup of the Cheatham Apartments property in Minneapolis, NTE $710,000",
       "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
+      "actionName": "consent",
+      "passedFlagName": "Pass",
       "matterFile": "26-0397",
       "matterId": 4928,
       "matterType": "Resolution"
@@ -3318,8 +3318,8 @@
       "agendaNumber": "2.H.",
       "title": "Amd 1 to Agmt PR0007698 with Alliant Engineering Inc for final design, engineering, and professional services for CSAH 152, CP 2221000, ext period to 03/31/30, and incr NTE by $1,150,000 for a new total NTE of $2,410,000 (TAA, City of Mpls, Met Council); adjust budget",
       "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
+      "actionName": "consent",
+      "passedFlagName": "Pass",
       "matterFile": "26-0394",
       "matterId": 4936,
       "matterType": "Resolution"
@@ -3396,8 +3396,8 @@
       "agendaNumber": "1.A.",
       "title": "October 6, 2026 Meeting Minutes",
       "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
+      "actionName": "approve",
+      "passedFlagName": "Pass",
       "matterFile": "TMP-26-0850",
       "matterId": 4963,
       "matterType": "Minutes"
@@ -3422,8 +3422,8 @@
       "agendaNumber": "2.A.",
       "title": "Negotiate a cooperative agreement to provide title examination services for Clay County, Minnesota",
       "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
+      "actionName": "consent",
+      "passedFlagName": "Pass",
       "matterFile": "26-0404",
       "matterId": 4949,
       "matterType": "Resolution"
@@ -3642,7 +3642,7 @@
     "removedIds": [],
     "changed": []
   },
-  "previousGeneratedAt": "2026-10-28T18:09:19.351Z",
+  "previousGeneratedAt": "2026-10-29T18:17:40.297Z",
   "knownGaps": [
     "Consent-agenda flagging uses Legistar's own EventItemConsent field only (23 of 227 agenda item(s) in this window flagged). \"No discussion\" / \"no public comment\" are NOT flagged — this API exposes no comparably reliable field for either, and AGENTS.md §3.3 rules out inferring one from absence."
   ]
