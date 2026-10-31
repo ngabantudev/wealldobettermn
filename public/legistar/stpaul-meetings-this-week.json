@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-30T17:52:57.454Z",
+  "generatedAt": "2026-10-31T17:01:50.277Z",
   "meetingsThisWeek": [
     {
       "client": "stpaul",
@@ -35,43 +35,7 @@
       "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7815&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
       "agendaUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/11/7815_A_Budget_Committee_26-11-04_ADA_Meeting_Agenda.pdf",
       "isCancelled": false,
-      "members": [
-        {
-          "id": 6692,
-          "name": "Rebecca Noecker",
-          "type": "Councilmember"
-        },
-        {
-          "id": 6859,
-          "name": "Nelsie Yang",
-          "type": "Councilmember"
-        },
-        {
-          "id": 7038,
-          "name": "Anika Bowie",
-          "type": "Councilmember"
-        },
-        {
-          "id": 7040,
-          "name": "Cheniqua Johnson",
-          "type": "Councilmember"
-        },
-        {
-          "id": 7039,
-          "name": "Saura Jost",
-          "type": "Councilmember"
-        },
-        {
-          "id": 6785,
-          "name": "HwaJeong Kim",
-          "type": "Councilmember"
-        },
-        {
-          "id": 7108,
-          "name": "Molly Coleman",
-          "type": "Councilmember"
-        }
-      ]
+      "members": []
     },
     {
       "client": "stpaul",
@@ -83,43 +47,7 @@
       "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7814&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
       "agendaUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/11/7814_A_Library_Board_26-11-04_ADA_Meeting_Agenda.pdf",
       "isCancelled": false,
-      "members": [
-        {
-          "id": 6692,
-          "name": "Rebecca Noecker",
-          "type": "Board Member"
-        },
-        {
-          "id": 6859,
-          "name": "Nelsie Yang",
-          "type": "Board Member"
-        },
-        {
-          "id": 7038,
-          "name": "Anika Bowie",
-          "type": "Board Member"
-        },
-        {
-          "id": 7040,
-          "name": "Cheniqua Johnson",
-          "type": "Board Member"
-        },
-        {
-          "id": 7039,
-          "name": "Saura Jost",
-          "type": "Board Member"
-        },
-        {
-          "id": 6785,
-          "name": "HwaJeong Kim",
-          "type": "Board Member"
-        },
-        {
-          "id": 7108,
-          "name": "Molly Coleman",
-          "type": "Board Member"
-        }
-      ]
+      "members": []
     },
     {
       "client": "stpaul",
@@ -131,43 +59,7 @@
       "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7817&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
       "agendaUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/11/7817_A_Housing___Redevelopment_Authority_26-11-04_Meeting_Agenda.pdf",
       "isCancelled": false,
-      "members": [
-        {
-          "id": 6692,
-          "name": "Rebecca Noecker",
-          "type": "Commissioner"
-        },
-        {
-          "id": 6859,
-          "name": "Nelsie Yang",
-          "type": "Commissioner"
-        },
-        {
-          "id": 7038,
-          "name": "Anika Bowie",
-          "type": "Commissioner"
-        },
-        {
-          "id": 7040,
-          "name": "Cheniqua Johnson",
-          "type": "Commissioner"
-        },
-        {
-          "id": 7039,
-          "name": "Saura Jost",
-          "type": "Commissioner"
-        },
-        {
-          "id": 6785,
-          "name": "HwaJeong Kim",
-          "type": "Commissioner"
-        },
-        {
-          "id": 7108,
-          "name": "Molly Coleman",
-          "type": "Commissioner"
-        }
-      ]
+      "members": []
     },
     {
       "client": "stpaul",
@@ -179,43 +71,7 @@
       "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7816&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
       "agendaUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/11/7816_A_City_Council_26-11-04_ADA_Meeting_Agenda.pdf",
       "isCancelled": false,
-      "members": [
-        {
-          "id": 6692,
-          "name": "Rebecca Noecker",
-          "type": "Councilmember"
-        },
-        {
-          "id": 6859,
-          "name": "Nelsie Yang",
-          "type": "Councilmember"
-        },
-        {
-          "id": 6785,
-          "name": "HwaJeong Kim",
-          "type": "Councilmember"
-        },
-        {
-          "id": 7038,
-          "name": "Anika Bowie",
-          "type": "Councilmember"
-        },
-        {
-          "id": 7039,
-          "name": "Saura Jost",
-          "type": "Councilmember"
-        },
-        {
-          "id": 7040,
-          "name": "Cheniqua Johnson",
-          "type": "Councilmember"
-        },
-        {
-          "id": 7108,
-          "name": "Molly Coleman",
-          "type": "Councilmember"
-        }
-      ]
+      "members": []
     }
   ]
 }

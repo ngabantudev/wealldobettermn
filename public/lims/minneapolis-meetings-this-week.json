@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-30T17:54:04.749Z",
+  "generatedAt": "2026-10-31T17:03:19.589Z",
   "meetingsThisWeek": [
     {
       "client": "minneapolis",
@@ -1278,8 +1278,8 @@
       "date": "2026-11-18",
       "time": "13:30",
       "location": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/PHSE/",
-      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/PHSE/",
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/PHSE/16332",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/PHSE/16332",
       "isCancelled": false,
       "members": [
         {
