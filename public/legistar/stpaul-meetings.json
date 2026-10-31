@@ -2,22 +2,22 @@
   "schemaVersion": 1,
   "client": "stpaul",
   "jurisdiction": "St. Paul City Council",
-  "generatedAt": "2026-10-30T17:52:57.453Z",
+  "generatedAt": "2026-10-31T17:01:50.270Z",
   "status": "ingested",
-  "note": "17 meeting(s) (17/17 event(s) in window) and 269 agenda item(s) ingested for 2026-10-16–2027-01-28.",
+  "note": "17 meeting(s) (17/17 event(s) in window) and 270 agenda item(s) ingested for 2026-10-17–2027-01-29.",
   "provenance": {
     "primarySourceUrl": "https://webapi.legistar.com/v1/stpaul/events",
     "sourceAgency": "St. Paul City Council",
     "documentType": "Legistar Web API — Events/EventItems",
     "documentId": null,
     "issuedDate": null,
-    "fetchedAt": "2026-10-30T17:52:57.453Z",
+    "fetchedAt": "2026-10-31T17:01:50.270Z",
     "licence": "Public records served via Legistar InSite; no separate machine-reuse licence published by the host jurisdiction as of this writing.",
-    "contentHash": "a2e232033a6d666df2398c635394b9819ac1084dfbe206699d41feb462a731ac"
+    "contentHash": "2862016d8d34be1fe8b07144b47e89f4afa3c75f6dd718fd932d86556994a1c3"
   },
   "window": {
-    "startIso": "2026-10-16",
-    "endIso": "2027-01-28"
+    "startIso": "2026-10-17",
+    "endIso": "2027-01-29"
   },
   "meetings": [
     {
@@ -33,23 +33,7 @@
       "videoStatus": "Public",
       "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7799&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
       "lastModifiedUtc": "2026-10-13T16:52:23.79",
-      "members": [
-        {
-          "id": 6692,
-          "name": "Rebecca Noecker",
-          "type": "Chair"
-        },
-        {
-          "id": 7108,
-          "name": "Molly Coleman",
-          "type": "Councilmember"
-        },
-        {
-          "id": 7040,
-          "name": "Cheniqua Johnson",
-          "type": "Councilmember"
-        }
-      ]
+      "members": []
     },
     {
       "id": "legistar-stpaul-meeting-7800",
@@ -64,43 +48,7 @@
       "videoStatus": "Public",
       "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7800&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
       "lastModifiedUtc": "2026-10-22T15:14:29.093",
-      "members": [
-        {
-          "id": 6692,
-          "name": "Rebecca Noecker",
-          "type": "Councilmember"
-        },
-        {
-          "id": 6859,
-          "name": "Nelsie Yang",
-          "type": "Councilmember"
-        },
-        {
-          "id": 6785,
-          "name": "HwaJeong Kim",
-          "type": "Councilmember"
-        },
-        {
-          "id": 7038,
-          "name": "Anika Bowie",
-          "type": "Councilmember"
-        },
-        {
-          "id": 7039,
-          "name": "Saura Jost",
-          "type": "Councilmember"
-        },
-        {
-          "id": 7040,
-          "name": "Cheniqua Johnson",
-          "type": "Councilmember"
-        },
-        {
-          "id": 7108,
-          "name": "Molly Coleman",
-          "type": "Councilmember"
-        }
-      ]
+      "members": []
     },
     {
       "id": "legistar-stpaul-meeting-7801",
@@ -115,43 +63,7 @@
       "videoStatus": "Public",
       "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7801&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
       "lastModifiedUtc": "2026-10-22T15:15:52.573",
-      "members": [
-        {
-          "id": 6692,
-          "name": "Rebecca Noecker",
-          "type": "Councilmember"
-        },
-        {
-          "id": 7038,
-          "name": "Anika Bowie",
-          "type": "Councilmember"
-        },
-        {
-          "id": 7108,
-          "name": "Molly Coleman",
-          "type": "Councilmember"
-        },
-        {
-          "id": 7039,
-          "name": "Saura Jost",
-          "type": "Councilmember"
-        },
-        {
-          "id": 7040,
-          "name": "Cheniqua Johnson",
-          "type": "Councilmember"
-        },
-        {
-          "id": 6859,
-          "name": "Nelsie Yang",
-          "type": "Councilmember"
-        },
-        {
-          "id": 6785,
-          "name": "HwaJeong Kim",
-          "type": "Councilmember"
-        }
-      ]
+      "members": []
     },
     {
       "id": "legistar-stpaul-meeting-7802",
@@ -166,43 +78,7 @@
       "videoStatus": "Public",
       "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7802&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
       "lastModifiedUtc": "2026-10-22T15:15:16.273",
-      "members": [
-        {
-          "id": 6692,
-          "name": "Rebecca Noecker",
-          "type": "Councilmember"
-        },
-        {
-          "id": 6859,
-          "name": "Nelsie Yang",
-          "type": "Councilmember"
-        },
-        {
-          "id": 7038,
-          "name": "Anika Bowie",
-          "type": "Councilmember"
-        },
-        {
-          "id": 7040,
-          "name": "Cheniqua Johnson",
-          "type": "Councilmember"
-        },
-        {
-          "id": 7039,
-          "name": "Saura Jost",
-          "type": "Councilmember"
-        },
-        {
-          "id": 6785,
-          "name": "HwaJeong Kim",
-          "type": "Councilmember"
-        },
-        {
-          "id": 7108,
-          "name": "Molly Coleman",
-          "type": "Councilmember"
-        }
-      ]
+      "members": []
     },
     {
       "id": "legistar-stpaul-meeting-7803",
@@ -217,43 +93,7 @@
       "videoStatus": "Public",
       "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7803&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
       "lastModifiedUtc": "2026-10-22T15:16:34.037",
-      "members": [
-        {
-          "id": 6692,
-          "name": "Rebecca Noecker",
-          "type": "Councilmember"
-        },
-        {
-          "id": 6859,
-          "name": "Nelsie Yang",
-          "type": "Councilmember"
-        },
-        {
-          "id": 7038,
-          "name": "Anika Bowie",
-          "type": "Councilmember"
-        },
-        {
-          "id": 7040,
-          "name": "Cheniqua Johnson",
-          "type": "Councilmember"
-        },
-        {
-          "id": 7039,
-          "name": "Saura Jost",
-          "type": "Councilmember"
-        },
-        {
-          "id": 6785,
-          "name": "HwaJeong Kim",
-          "type": "Councilmember"
-        },
-        {
-          "id": 7108,
-          "name": "Molly Coleman",
-          "type": "Councilmember"
-        }
-      ]
+      "members": []
     },
     {
       "id": "legistar-stpaul-meeting-7804",
@@ -283,43 +123,7 @@
       "videoStatus": "Public",
       "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7808&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
       "lastModifiedUtc": "2026-10-29T14:04:22.067",
-      "members": [
-        {
-          "id": 6692,
-          "name": "Rebecca Noecker",
-          "type": "Councilmember"
-        },
-        {
-          "id": 6859,
-          "name": "Nelsie Yang",
-          "type": "Councilmember"
-        },
-        {
-          "id": 6785,
-          "name": "HwaJeong Kim",
-          "type": "Councilmember"
-        },
-        {
-          "id": 7038,
-          "name": "Anika Bowie",
-          "type": "Councilmember"
-        },
-        {
-          "id": 7039,
-          "name": "Saura Jost",
-          "type": "Councilmember"
-        },
-        {
-          "id": 7040,
-          "name": "Cheniqua Johnson",
-          "type": "Councilmember"
-        },
-        {
-          "id": 7108,
-          "name": "Molly Coleman",
-          "type": "Councilmember"
-        }
-      ]
+      "members": []
     },
     {
       "id": "legistar-stpaul-meeting-7810",
@@ -349,43 +153,7 @@
       "videoStatus": "Public",
       "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7811&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
       "lastModifiedUtc": "2026-10-27T16:19:52.75",
-      "members": [
-        {
-          "id": 7038,
-          "name": "Anika Bowie",
-          "type": "Councilmember"
-        },
-        {
-          "id": 6692,
-          "name": "Rebecca Noecker",
-          "type": "Councilmember"
-        },
-        {
-          "id": 7039,
-          "name": "Saura Jost",
-          "type": "Councilmember"
-        },
-        {
-          "id": 6785,
-          "name": "HwaJeong Kim",
-          "type": "Councilmember"
-        },
-        {
-          "id": 6859,
-          "name": "Nelsie Yang",
-          "type": "Councilmember"
-        },
-        {
-          "id": 7040,
-          "name": "Cheniqua Johnson",
-          "type": "Councilmember"
-        },
-        {
-          "id": 7108,
-          "name": "Molly Coleman",
-          "type": "Councilmember"
-        }
-      ]
+      "members": []
     },
     {
       "id": "legistar-stpaul-meeting-7812",
@@ -400,43 +168,7 @@
       "videoStatus": "Public",
       "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7812&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
       "lastModifiedUtc": "2026-10-28T19:08:13.98",
-      "members": [
-        {
-          "id": 6692,
-          "name": "Rebecca Noecker",
-          "type": "Councilmember"
-        },
-        {
-          "id": 6859,
-          "name": "Nelsie Yang",
-          "type": "Councilmember"
-        },
-        {
-          "id": 7038,
-          "name": "Anika Bowie",
-          "type": "Councilmember"
-        },
-        {
-          "id": 7040,
-          "name": "Cheniqua Johnson",
-          "type": "Councilmember"
-        },
-        {
-          "id": 7039,
-          "name": "Saura Jost",
-          "type": "Councilmember"
-        },
-        {
-          "id": 6785,
-          "name": "HwaJeong Kim",
-          "type": "Councilmember"
-        },
-        {
-          "id": 7108,
-          "name": "Molly Coleman",
-          "type": "Councilmember"
-        }
-      ]
+      "members": []
     },
     {
       "id": "legistar-stpaul-meeting-7813",
@@ -451,43 +183,7 @@
       "videoStatus": "Public",
       "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7813&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
       "lastModifiedUtc": "2026-10-28T20:59:46.003",
-      "members": [
-        {
-          "id": 6692,
-          "name": "Rebecca Noecker",
-          "type": "Commissioner"
-        },
-        {
-          "id": 6859,
-          "name": "Nelsie Yang",
-          "type": "Commissioner"
-        },
-        {
-          "id": 7038,
-          "name": "Anika Bowie",
-          "type": "Commissioner"
-        },
-        {
-          "id": 7040,
-          "name": "Cheniqua Johnson",
-          "type": "Commissioner"
-        },
-        {
-          "id": 7039,
-          "name": "Saura Jost",
-          "type": "Commissioner"
-        },
-        {
-          "id": 6785,
-          "name": "HwaJeong Kim",
-          "type": "Commissioner"
-        },
-        {
-          "id": 7108,
-          "name": "Molly Coleman",
-          "type": "Commissioner"
-        }
-      ]
+      "members": []
     },
     {
       "id": "legistar-stpaul-meeting-7814",
@@ -502,43 +198,7 @@
       "videoStatus": "Public",
       "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7814&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
       "lastModifiedUtc": "2026-10-30T16:20:46.637",
-      "members": [
-        {
-          "id": 6692,
-          "name": "Rebecca Noecker",
-          "type": "Board Member"
-        },
-        {
-          "id": 6859,
-          "name": "Nelsie Yang",
-          "type": "Board Member"
-        },
-        {
-          "id": 7038,
-          "name": "Anika Bowie",
-          "type": "Board Member"
-        },
-        {
-          "id": 7040,
-          "name": "Cheniqua Johnson",
-          "type": "Board Member"
-        },
-        {
-          "id": 7039,
-          "name": "Saura Jost",
-          "type": "Board Member"
-        },
-        {
-          "id": 6785,
-          "name": "HwaJeong Kim",
-          "type": "Board Member"
-        },
-        {
-          "id": 7108,
-          "name": "Molly Coleman",
-          "type": "Board Member"
-        }
-      ]
+      "members": []
     },
     {
       "id": "legistar-stpaul-meeting-7815",
@@ -552,44 +212,8 @@
       "minutesUrl": null,
       "videoStatus": "Public",
       "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7815&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
-      "lastModifiedUtc": "2026-10-29T20:43:35.243",
-      "members": [
-        {
-          "id": 6692,
-          "name": "Rebecca Noecker",
-          "type": "Councilmember"
-        },
-        {
-          "id": 6859,
-          "name": "Nelsie Yang",
-          "type": "Councilmember"
-        },
-        {
-          "id": 7038,
-          "name": "Anika Bowie",
-          "type": "Councilmember"
-        },
-        {
-          "id": 7040,
-          "name": "Cheniqua Johnson",
-          "type": "Councilmember"
-        },
-        {
-          "id": 7039,
-          "name": "Saura Jost",
-          "type": "Councilmember"
-        },
-        {
-          "id": 6785,
-          "name": "HwaJeong Kim",
-          "type": "Councilmember"
-        },
-        {
-          "id": 7108,
-          "name": "Molly Coleman",
-          "type": "Councilmember"
-        }
-      ]
+      "lastModifiedUtc": "2026-10-30T20:24:37.603",
+      "members": []
     },
     {
       "id": "legistar-stpaul-meeting-7816",
@@ -604,43 +228,7 @@
       "videoStatus": "Public",
       "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7816&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
       "lastModifiedUtc": "2026-10-29T18:09:07.083",
-      "members": [
-        {
-          "id": 6692,
-          "name": "Rebecca Noecker",
-          "type": "Councilmember"
-        },
-        {
-          "id": 6859,
-          "name": "Nelsie Yang",
-          "type": "Councilmember"
-        },
-        {
-          "id": 6785,
-          "name": "HwaJeong Kim",
-          "type": "Councilmember"
-        },
-        {
-          "id": 7038,
-          "name": "Anika Bowie",
-          "type": "Councilmember"
-        },
-        {
-          "id": 7039,
-          "name": "Saura Jost",
-          "type": "Councilmember"
-        },
-        {
-          "id": 7040,
-          "name": "Cheniqua Johnson",
-          "type": "Councilmember"
-        },
-        {
-          "id": 7108,
-          "name": "Molly Coleman",
-          "type": "Councilmember"
-        }
-      ]
+      "members": []
     },
     {
       "id": "legistar-stpaul-meeting-7817",
@@ -655,43 +243,7 @@
       "videoStatus": "Public",
       "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7817&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
       "lastModifiedUtc": "2026-10-30T15:18:56.977",
-      "members": [
-        {
-          "id": 6692,
-          "name": "Rebecca Noecker",
-          "type": "Commissioner"
-        },
-        {
-          "id": 6859,
-          "name": "Nelsie Yang",
-          "type": "Commissioner"
-        },
-        {
-          "id": 7038,
-          "name": "Anika Bowie",
-          "type": "Commissioner"
-        },
-        {
-          "id": 7040,
-          "name": "Cheniqua Johnson",
-          "type": "Commissioner"
-        },
-        {
-          "id": 7039,
-          "name": "Saura Jost",
-          "type": "Commissioner"
-        },
-        {
-          "id": 6785,
-          "name": "HwaJeong Kim",
-          "type": "Commissioner"
-        },
-        {
-          "id": 7108,
-          "name": "Molly Coleman",
-          "type": "Commissioner"
-        }
-      ]
+      "members": []
     },
     {
       "id": "legistar-stpaul-meeting-7818",
@@ -3081,7 +2633,7 @@
     {
       "id": "legistar-stpaul-eventitem-218594",
       "meeting_id": "legistar-stpaul-meeting-7815",
-      "sequence": 5,
+      "sequence": 6,
       "agendaNumber": null,
       "title": "Adjournment",
       "isConsent": false,
@@ -3102,6 +2654,19 @@
       "passedFlagName": null,
       "matterFile": "SR 26-255",
       "matterId": 53275,
+      "matterType": "Staff Report"
+    },
+    {
+      "id": "legistar-stpaul-eventitem-218716",
+      "meeting_id": "legistar-stpaul-meeting-7815",
+      "sequence": 5,
+      "agendaNumber": "3",
+      "title": "Office of the City Council.",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "SR 26-256",
+      "matterId": 53277,
       "matterType": "Staff Report"
     },
     {
@@ -4224,35 +3789,12 @@
     }
   ],
   "diff": {
-    "addedIds": [
-      "legistar-stpaul-meeting-7817",
-      "legistar-stpaul-meeting-7818",
-      "legistar-stpaul-meeting-7819"
-    ],
+    "addedIds": [],
     "removedIds": [],
-    "changed": [
-      {
-        "id": "legistar-stpaul-meeting-7810",
-        "field": "minutesUrl",
-        "from": "https://legistar1.granicus.com/StPaul/meetings/2026/10/7810_M_Legislative_Hearings_26-10-27_Minutes_-_Final.pdf",
-        "to": "https://legistar1.granicus.com/StPaul/meetings/2026/10/7810_M_Legislative_Hearings_26-10-27_Meeting_Minutes_-_Action_Only.pdf"
-      },
-      {
-        "id": "legistar-stpaul-meeting-7814",
-        "field": "agendaStatus",
-        "from": "Final",
-        "to": "Final-revised"
-      },
-      {
-        "id": "legistar-stpaul-meeting-7815",
-        "field": "agendaStatus",
-        "from": "Final",
-        "to": "Final-revised"
-      }
-    ]
+    "changed": []
   },
-  "previousGeneratedAt": "2026-10-29T18:16:15.965Z",
+  "previousGeneratedAt": "2026-10-30T17:52:57.453Z",
   "knownGaps": [
-    "Consent-agenda flagging uses Legistar's own EventItemConsent field only (41 of 269 agenda item(s) in this window flagged). \"No discussion\" / \"no public comment\" are NOT flagged — this API exposes no comparably reliable field for either, and AGENTS.md §3.3 rules out inferring one from absence."
+    "Consent-agenda flagging uses Legistar's own EventItemConsent field only (41 of 270 agenda item(s) in this window flagged). \"No discussion\" / \"no public comment\" are NOT flagged — this API exposes no comparably reliable field for either, and AGENTS.md §3.3 rules out inferring one from absence."
   ]
 }
