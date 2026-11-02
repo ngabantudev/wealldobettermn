@@ -2,22 +2,22 @@
   "schemaVersion": 1,
   "client": "stpaul",
   "jurisdiction": "St. Paul City Council",
-  "generatedAt": "2026-11-01T17:48:23.252Z",
+  "generatedAt": "2026-11-02T21:35:10.069Z",
   "status": "ingested",
-  "note": "17 meeting(s) (17/17 event(s) in window) and 270 agenda item(s) ingested for 2026-10-18–2027-01-30.",
+  "note": "17 meeting(s) (17/17 event(s) in window) and 271 agenda item(s) ingested for 2026-10-19–2027-01-31.",
   "provenance": {
     "primarySourceUrl": "https://webapi.legistar.com/v1/stpaul/events",
     "sourceAgency": "St. Paul City Council",
     "documentType": "Legistar Web API — Events/EventItems",
     "documentId": null,
     "issuedDate": null,
-    "fetchedAt": "2026-11-01T17:48:23.252Z",
+    "fetchedAt": "2026-11-02T21:35:10.069Z",
     "licence": "Public records served via Legistar InSite; no separate machine-reuse licence published by the host jurisdiction as of this writing.",
-    "contentHash": "4acd5140c037aa2f209087b8730a566a57e36884ee69e47c8cee5a2fcb0483ab"
+    "contentHash": "eb2f084e40171f8b9a1074bce49e90636e4b0be631eade590c2060c7cd5a3df2"
   },
   "window": {
-    "startIso": "2026-10-18",
-    "endIso": "2027-01-30"
+    "startIso": "2026-10-19",
+    "endIso": "2027-01-31"
   },
   "meetings": [
     {
@@ -501,7 +501,7 @@
       "minutesUrl": null,
       "videoStatus": "Public",
       "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7814&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
-      "lastModifiedUtc": "2026-10-30T16:20:46.637",
+      "lastModifiedUtc": "2026-11-02T21:03:35.6",
       "members": [
         {
           "id": 6692,
@@ -603,7 +603,7 @@
       "minutesUrl": null,
       "videoStatus": "Public",
       "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7816&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
-      "lastModifiedUtc": "2026-10-29T18:09:07.083",
+      "lastModifiedUtc": "2026-11-02T20:54:25.15",
       "members": [
         {
           "id": 6692,
@@ -654,7 +654,7 @@
       "minutesUrl": null,
       "videoStatus": "Public",
       "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7817&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
-      "lastModifiedUtc": "2026-10-30T15:18:56.977",
+      "lastModifiedUtc": "2026-11-02T18:59:39.483",
       "members": [
         {
           "id": 6692,
@@ -3175,7 +3175,7 @@
       "sequence": 5,
       "agendaNumber": "2",
       "title": "Approving the Mayor’s appointment of Tony Poole to a three-year term on the District Energy Board of Directors.",
-      "isConsent": false,
+      "isConsent": true,
       "actionName": null,
       "passedFlagName": null,
       "matterFile": "RES 26-1613",
@@ -3188,7 +3188,7 @@
       "sequence": 6,
       "agendaNumber": "3",
       "title": "Preliminary Order setting the date of Public Hearing for December 9, 2026, to consider approval of the Reconstruction and Capital City Bikeway Extension Project in Wabasha/St. Peter area as part of the 2027 Street Improvement Program (Project No. 19286, Asmt. No. 275206 ).",
-      "isConsent": false,
+      "isConsent": true,
       "actionName": null,
       "passedFlagName": null,
       "matterFile": "RES 26-1783",
@@ -3201,7 +3201,7 @@
       "sequence": 7,
       "agendaNumber": "4",
       "title": "Authorizing the City to submit information to the Minnesota Public Facilities Authority (MPFA) and to enter into a Grant Agreement with the MPFA.",
-      "isConsent": false,
+      "isConsent": true,
       "actionName": null,
       "passedFlagName": null,
       "matterFile": "RES 26-1792",
@@ -3214,7 +3214,7 @@
       "sequence": 8,
       "agendaNumber": "5",
       "title": "Authorizing the Department of Parks and Recreation to accept a donation in the amount of $500, from the Northwest Como Booster Club, to be used as reimbursement for supplies for the Northwest Como halloween bonfire.",
-      "isConsent": false,
+      "isConsent": true,
       "actionName": null,
       "passedFlagName": null,
       "matterFile": "RES 26-1796",
@@ -3227,7 +3227,7 @@
       "sequence": 9,
       "agendaNumber": "6",
       "title": "Authorizing the Department of Parks and Recreation to accept a donation of $800, from the North End Community Foundation, to be used for the Halloween party at the McDonough Recreation Center.",
-      "isConsent": false,
+      "isConsent": true,
       "actionName": null,
       "passedFlagName": null,
       "matterFile": "RES 26-1799",
@@ -3240,7 +3240,7 @@
       "sequence": 10,
       "agendaNumber": "7",
       "title": "Authorizing the Department of Parks and Recreation to accept a donation of $1,000, from the North End Improvement Club, to be used for the annual Halloween party at McDonough Recreation Center.",
-      "isConsent": false,
+      "isConsent": true,
       "actionName": null,
       "passedFlagName": null,
       "matterFile": "RES 26-1803",
@@ -3253,7 +3253,7 @@
       "sequence": 11,
       "agendaNumber": "8",
       "title": "Authorizing the Office of Financial Empowerment and the Department of Parks and Recreation’s Right Track Program to apply as subrecipients to the University of Michigan for a grant through the Anthropic Economic Futures Research Fund.",
-      "isConsent": false,
+      "isConsent": true,
       "actionName": null,
       "passedFlagName": null,
       "matterFile": "RES 26-1809",
@@ -3266,7 +3266,7 @@
       "sequence": 12,
       "agendaNumber": "9",
       "title": "Authorizing the Department of Parks and Recreation to apply for up to $1,000,000 per application in Regional Parks and Trails System Competitive Equity grant funds from the Metropolitan Council.",
-      "isConsent": false,
+      "isConsent": true,
       "actionName": null,
       "passedFlagName": null,
       "matterFile": "RES 26-1824",
@@ -3279,7 +3279,7 @@
       "sequence": 13,
       "agendaNumber": "10",
       "title": "Adopting findings of fact for approval of a Job Creation Fund application in connection with UNREAL LLC for a project proposed near 400 Snelling Avenue N in the United Village Development (District 13, Ward 1).",
-      "isConsent": false,
+      "isConsent": true,
       "actionName": null,
       "passedFlagName": null,
       "matterFile": "RES 26-1826",
@@ -3292,7 +3292,7 @@
       "sequence": 14,
       "agendaNumber": "11",
       "title": "Authorizing the City's Sponsorship of a Minnesota Investment Fund Application by UNREAL LLC for a Project Proposed Near 400 Snelling Avenue N in the United Village Development (District 13, Ward 1).",
-      "isConsent": false,
+      "isConsent": true,
       "actionName": null,
       "passedFlagName": null,
       "matterFile": "RES 26-1827",
@@ -3305,7 +3305,7 @@
       "sequence": 15,
       "agendaNumber": "12",
       "title": "Approving the use of grant funds through the Ward 4 Neighborhood STAR Year-Round Program for Eme Coffee and Tea Cooperative.",
-      "isConsent": false,
+      "isConsent": true,
       "actionName": null,
       "passedFlagName": null,
       "matterFile": "RES 26-1829",
@@ -3331,7 +3331,7 @@
       "sequence": 16,
       "agendaNumber": "13",
       "title": "Approving the Mayor’s appointment of Allison Xiong and Fernando Bejarano Aguilera to two-year terms on the Humans Rights and Equal Economic Opportunity Commission.",
-      "isConsent": false,
+      "isConsent": true,
       "actionName": null,
       "passedFlagName": null,
       "matterFile": "RES 26-1839",
@@ -3344,7 +3344,7 @@
       "sequence": 17,
       "agendaNumber": "14",
       "title": "Authorizing Carryforward of Unused Private Activity Bond Volume Cap.",
-      "isConsent": false,
+      "isConsent": true,
       "actionName": null,
       "passedFlagName": null,
       "matterFile": "RES 26-1847",
@@ -3357,7 +3357,7 @@
       "sequence": 18,
       "agendaNumber": "15",
       "title": "Approving the Mayor's appointment of Emmanuel Adeogun to a two-year term to the Capital Improvement Budget Committee.",
-      "isConsent": false,
+      "isConsent": true,
       "actionName": null,
       "passedFlagName": null,
       "matterFile": "RES 26-1869",
@@ -3370,7 +3370,7 @@
       "sequence": 19,
       "agendaNumber": "16",
       "title": "Authorizing the proper city officials to accept the donation from the Vera Institute for the Office of Neighborhood Safety Deputy Director Rachel Holzemer and Program Administrator Faith Lofton to Attend the All In: Leading the Community Safety Revolution Summit from November 17-18, 2026.",
-      "isConsent": false,
+      "isConsent": true,
       "actionName": null,
       "passedFlagName": null,
       "matterFile": "RES 26-1850",
@@ -3924,6 +3924,19 @@
       "matterType": null
     },
     {
+      "id": "legistar-stpaul-eventitem-218735",
+      "meeting_id": "legistar-stpaul-meeting-7817",
+      "sequence": 13,
+      "agendaNumber": null,
+      "title": "Housing and Redevelopment Authority Board of Commissioners (HRA) meetings are open for in person attendance, but the public may also comment on public hearing items in writing or via voicemail. Any comments and materials submitted by 12:00 p.m. of the day before the meeting will be attached to the public record and available for review by the Board. Comments may be submitted as follows: \r\n\r\nWritten public comment on public hearing items can be submitted to \r\n\r\nHRAHearing@ci.stpaul.mn.us. Live testimony will be taken in person in the Council Chambers, Third Floor City Hall. \r\n\r\nMembers of the public may view HRA meetings online at \r\n\r\nhttps://stpaul.legistar.com/Calendar.aspx or on local cable Channel 18. \r\n\r\nHRA Meeting Information  \r\n\r\nThe HRA is paperless which saves the environment and reduces expenses. The agendas and HRA files are all available on the Web (see below). Commissioners use mobile devices to review the files during the meeting. Using a mobile device greatly reduces costs since agendas, including the documents attached to files, can be over 100 pages when printed.  \r\n\r\nWeb \r\n\r\nMeetings are available on the City Council website. Email notification and web feeds (RSS) of newly released minutes, agendas, and meetings are available by subscription at https://public.govdelivery.com/accounts/STPAUL/subscriber/new.  \r\n\r\nVisit https://stpaul.legistar.com/Calendar.aspx for meeting videos and updated copies of the agendas, minutes and supporting documents.  \r\n\r\nCable \r\n\r\nMeetings are live on St Paul Channel 18 and replayed at various times. Check your local listings.",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
       "id": "legistar-stpaul-eventitem-218677",
       "meeting_id": "legistar-stpaul-meeting-7818",
       "sequence": 6,
@@ -3941,7 +3954,7 @@
       "meeting_id": "legistar-stpaul-meeting-7818",
       "sequence": 3,
       "agendaNumber": "1",
-      "title": "Ratifying the Appealed Special Tax Assessment for property at 1046 WESTERN AVENUE NORTH. (File No. 2606T, Assessment No. 269007) (Refer to November 3, 2026 Legislative Hearing)",
+      "title": "Ratifying the Appealed Special Tax Assessment for property at 1046 WESTERN AVENUE NORTH. (File No. 2606T1, Assessment No. 269007) (Refer to November 3, 2026 Legislative Hearing)",
       "isConsent": false,
       "actionName": null,
       "passedFlagName": null,
@@ -4241,8 +4254,8 @@
     "removedIds": [],
     "changed": []
   },
-  "previousGeneratedAt": "2026-10-31T17:01:50.270Z",
+  "previousGeneratedAt": "2026-11-01T17:48:23.252Z",
   "knownGaps": [
-    "Consent-agenda flagging uses Legistar's own EventItemConsent field only (41 of 270 agenda item(s) in this window flagged). \"No discussion\" / \"no public comment\" are NOT flagged — this API exposes no comparably reliable field for either, and AGENTS.md §3.3 rules out inferring one from absence."
+    "Consent-agenda flagging uses Legistar's own EventItemConsent field only (56 of 271 agenda item(s) in this window flagged). \"No discussion\" / \"no public comment\" are NOT flagged — this API exposes no comparably reliable field for either, and AGENTS.md §3.3 rules out inferring one from absence."
   ]
 }
