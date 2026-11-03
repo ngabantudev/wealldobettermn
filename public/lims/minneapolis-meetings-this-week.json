@@ -1,175 +1,6 @@
 {
-  "generatedAt": "2026-11-02T21:36:54.961Z",
+  "generatedAt": "2026-11-03T19:22:52.246Z",
   "meetingsThisWeek": [
-    {
-      "client": "minneapolis",
-      "jurisdiction": "Minneapolis City Council",
-      "bodyName": "Budget Committee",
-      "date": "2026-11-02",
-      "time": "10:00",
-      "location": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/Budget/16327",
-      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/Budget/16327",
-      "isCancelled": false,
-      "members": [
-        {
-          "id": 375,
-          "name": "Linea Palmisano",
-          "type": "Council Member"
-        },
-        {
-          "id": 5269,
-          "name": "Jamal Osman",
-          "type": "Council Member"
-        },
-        {
-          "id": 5692,
-          "name": "Robin Wonsley",
-          "type": "Council Member"
-        },
-        {
-          "id": 5696,
-          "name": "LaTrisha Vetaw",
-          "type": "Council Member"
-        },
-        {
-          "id": 5697,
-          "name": "Aisha Chughtai",
-          "type": "Chair"
-        },
-        {
-          "id": 5698,
-          "name": "Jason Chavez",
-          "type": "Council Member"
-        },
-        {
-          "id": 5700,
-          "name": "Michael Rainville",
-          "type": "Council Member"
-        },
-        {
-          "id": 5701,
-          "name": "Elliott Payne",
-          "type": "Council Member"
-        },
-        {
-          "id": 5776,
-          "name": "Aurin Chowdhury",
-          "type": "Council Member"
-        },
-        {
-          "id": 7961,
-          "name": "Pearll Warren",
-          "type": "Council Member"
-        },
-        {
-          "id": 7962,
-          "name": "Soren Stevenson",
-          "type": "Council Member"
-        },
-        {
-          "id": 7963,
-          "name": "Elizabeth Shaffer",
-          "type": "Vice-Chair"
-        },
-        {
-          "id": 7964,
-          "name": "Jamison Whiting",
-          "type": "Council Member"
-        }
-      ]
-    },
-    {
-      "client": "minneapolis",
-      "jurisdiction": "Minneapolis City Council",
-      "bodyName": "Enterprise & Labor Relations Committee",
-      "date": "2026-11-02",
-      "time": "13:30",
-      "location": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/ELR/16317",
-      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/ELR/16317",
-      "isCancelled": false,
-      "members": [
-        {
-          "id": 375,
-          "name": "Linea Palmisano",
-          "type": "Chair"
-        },
-        {
-          "id": 5696,
-          "name": "LaTrisha Vetaw",
-          "type": "Council Member"
-        },
-        {
-          "id": 5697,
-          "name": "Aisha Chughtai",
-          "type": "Council Member"
-        },
-        {
-          "id": 5698,
-          "name": "Jason Chavez",
-          "type": "Council Member"
-        },
-        {
-          "id": 7962,
-          "name": "Soren Stevenson",
-          "type": "Council Member"
-        },
-        {
-          "id": 7963,
-          "name": "Elizabeth Shaffer",
-          "type": "Council Member"
-        },
-        {
-          "id": 7964,
-          "name": "Jamison Whiting",
-          "type": "Vice-Chair"
-        }
-      ]
-    },
-    {
-      "client": "minneapolis",
-      "jurisdiction": "Minneapolis City Council",
-      "bodyName": "Heritage Preservation Commission",
-      "date": "2026-11-02",
-      "time": "16:30",
-      "location": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/HPC/16323",
-      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/HPC/16323",
-      "isCancelled": false,
-      "members": [
-        {
-          "id": 6674,
-          "name": "Toshihiko Karato",
-          "type": "ABC Member"
-        },
-        {
-          "id": 6972,
-          "name": "Lindsey Wallace",
-          "type": "ABC Member"
-        },
-        {
-          "id": 6976,
-          "name": "Amy Thomas",
-          "type": "ABC Member"
-        },
-        {
-          "id": 6983,
-          "name": "Namdi Alexander",
-          "type": "ABC Member"
-        },
-        {
-          "id": 7017,
-          "name": "Mariel Rodriguez",
-          "type": "ABC Member"
-        },
-        {
-          "id": 7018,
-          "name": "Paul Mellblom",
-          "type": "ABC Member"
-        }
-      ]
-    },
     {
       "client": "minneapolis",
       "jurisdiction": "Minneapolis City Council",
@@ -1326,8 +1157,8 @@
       "date": "2026-11-18",
       "time": "17:30",
       "location": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/HMFC/",
-      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/HMFC/",
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/HMFC/16336",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/HMFC/16336",
       "isCancelled": false,
       "members": [
         {
@@ -1855,6 +1686,94 @@
           "id": 7044,
           "name": "Joshua Hauf",
           "type": "ABC Member"
+        }
+      ]
+    },
+    {
+      "client": "minneapolis",
+      "jurisdiction": "Minneapolis City Council",
+      "bodyName": "Charter Commission",
+      "date": "2026-12-02",
+      "time": "16:00",
+      "location": null,
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/Charter/",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/Charter/",
+      "isCancelled": false,
+      "members": [
+        {
+          "id": 323,
+          "name": "Matt Perry",
+          "type": "Council Member"
+        },
+        {
+          "id": 326,
+          "name": "Barry Clegg",
+          "type": "Council Member"
+        },
+        {
+          "id": 347,
+          "name": "Andrea Rubenstein",
+          "type": "Vice-Chair"
+        },
+        {
+          "id": 348,
+          "name": "Andrew Kozak",
+          "type": "Council Member"
+        },
+        {
+          "id": 353,
+          "name": "Jill Garcia",
+          "type": "Secretary"
+        },
+        {
+          "id": 4267,
+          "name": "Peter Ginder",
+          "type": "Chair"
+        },
+        {
+          "id": 4295,
+          "name": "Christopher Smith",
+          "type": "Council Member"
+        },
+        {
+          "id": 5883,
+          "name": "Julie Doherty",
+          "type": "Council Member"
+        },
+        {
+          "id": 5884,
+          "name": "Sherri Boone",
+          "type": "Council Member"
+        },
+        {
+          "id": 6531,
+          "name": "Mariam DeMello",
+          "type": "Council Member"
+        },
+        {
+          "id": 6630,
+          "name": "Joshua Ney",
+          "type": "Council Member"
+        },
+        {
+          "id": 7020,
+          "name": "Ben Cooper",
+          "type": "Council Member"
+        },
+        {
+          "id": 7763,
+          "name": "Samantha Holquist",
+          "type": "Council Member"
+        },
+        {
+          "id": 7768,
+          "name": "Jeff Schneider",
+          "type": "Council Member"
+        },
+        {
+          "id": 7846,
+          "name": "Eric Prindle",
+          "type": "Council Member"
         }
       ]
     }
