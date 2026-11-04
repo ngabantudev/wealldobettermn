@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-03T19:22:52.246Z",
+  "generatedAt": "2026-11-04T19:36:38.721Z",
   "meetingsThisWeek": [
     {
       "client": "minneapolis",
@@ -480,8 +480,8 @@
       "date": "2026-11-09",
       "time": "16:30",
       "location": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/CPC/",
-      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/CPC/",
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/CPC/16337",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/CPC/16337",
       "isCancelled": false,
       "members": [
         {
@@ -692,8 +692,8 @@
       "date": "2026-11-12",
       "time": "15:00",
       "location": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/HPC/",
-      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/HPC/",
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/HPC/16338",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/HPC/16338",
       "isCancelled": false,
       "members": [
         {
@@ -856,8 +856,8 @@
       "date": "2026-11-16",
       "time": "18:00",
       "location": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/CCPO/",
-      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/CCPO/",
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/CCPO/16339",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/CCPO/16339",
       "isCancelled": false,
       "members": [
         {
@@ -1774,6 +1774,107 @@
           "id": 7846,
           "name": "Eric Prindle",
           "type": "Council Member"
+        }
+      ]
+    },
+    {
+      "client": "minneapolis",
+      "jurisdiction": "Minneapolis City Council",
+      "bodyName": "City Council",
+      "date": "2026-12-03",
+      "time": "09:30",
+      "location": null,
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/Council/",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/Council/",
+      "isCancelled": false,
+      "members": [
+        {
+          "id": 375,
+          "name": "Linea Palmisano",
+          "type": "Council Member"
+        },
+        {
+          "id": 5269,
+          "name": "Jamal Osman",
+          "type": "Vice-President"
+        },
+        {
+          "id": 5692,
+          "name": "Robin Wonsley",
+          "type": "Minority Leader"
+        },
+        {
+          "id": 5696,
+          "name": "LaTrisha Vetaw",
+          "type": "Council Member"
+        },
+        {
+          "id": 5697,
+          "name": "Aisha Chughtai",
+          "type": "Majority Leader"
+        },
+        {
+          "id": 5698,
+          "name": "Jason Chavez",
+          "type": "Council Member"
+        },
+        {
+          "id": 5700,
+          "name": "Michael Rainville",
+          "type": "Council Member"
+        },
+        {
+          "id": 5701,
+          "name": "Elliott Payne",
+          "type": "President"
+        },
+        {
+          "id": 5776,
+          "name": "Aurin Chowdhury",
+          "type": "Council Member"
+        },
+        {
+          "id": 7961,
+          "name": "Pearll Warren",
+          "type": "Council Member"
+        },
+        {
+          "id": 7962,
+          "name": "Soren Stevenson",
+          "type": "Council Member"
+        },
+        {
+          "id": 7963,
+          "name": "Elizabeth Shaffer",
+          "type": "Council Member"
+        },
+        {
+          "id": 7964,
+          "name": "Jamison Whiting",
+          "type": "Council Member"
+        }
+      ]
+    },
+    {
+      "client": "minneapolis",
+      "jurisdiction": "Minneapolis City Council",
+      "bodyName": "Pedestrian Advisory Committee",
+      "date": "2026-12-03",
+      "time": "16:00",
+      "location": null,
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/PAC/",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/PAC/",
+      "isCancelled": false,
+      "members": [
+        {
+          "id": 6920,
+          "name": "Leisa Meeuwen-Ristuben",
+          "type": "ABC Member"
+        },
+        {
+          "id": 6921,
+          "name": "Andrea Riehl",
+          "type": "ABC Member"
         }
       ]
     }
