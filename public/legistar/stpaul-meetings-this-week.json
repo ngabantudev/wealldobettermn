@@ -1,18 +1,6 @@
 {
-  "generatedAt": "2026-11-03T19:20:26.572Z",
+  "generatedAt": "2026-11-04T19:35:08.307Z",
   "meetingsThisWeek": [
-    {
-      "client": "stpaul",
-      "jurisdiction": "St. Paul City Council",
-      "bodyName": "Legislative Hearings",
-      "date": "2026-11-03",
-      "time": "10:00",
-      "location": "Room 330 City Hall & Court House/Remote",
-      "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7818&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
-      "agendaUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/11/7818_A_Legislative_Hearings_26-11-03_ADA_Meeting_Agenda.pdf",
-      "isCancelled": false,
-      "members": []
-    },
     {
       "client": "stpaul",
       "jurisdiction": "St. Paul City Council",
@@ -204,6 +192,18 @@
           "type": "Councilmember"
         }
       ]
+    },
+    {
+      "client": "stpaul",
+      "jurisdiction": "St. Paul City Council",
+      "bodyName": "Rent Stabilization Appeal Hearings",
+      "date": "2026-11-05",
+      "time": "01:00",
+      "location": "Room 330 City Hall & Court House",
+      "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7805&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
+      "agendaUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/11/7805_A_Rent_Stabilization_Appeal_Hearings_26-11-05_Meeting_Agenda.pdf",
+      "isCancelled": false,
+      "members": []
     },
     {
       "client": "stpaul",
