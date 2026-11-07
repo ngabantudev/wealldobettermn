@@ -2,22 +2,22 @@
   "schemaVersion": 1,
   "client": "stpaul",
   "jurisdiction": "St. Paul City Council",
-  "generatedAt": "2026-11-06T19:07:45.120Z",
+  "generatedAt": "2026-11-07T17:40:09.238Z",
   "status": "ingested",
-  "note": "15 meeting(s) (15/15 event(s) in window) and 208 agenda item(s) ingested for 2026-10-23–2027-02-04.",
+  "note": "15 meeting(s) (15/15 event(s) in window) and 208 agenda item(s) ingested for 2026-10-24–2027-02-05.",
   "provenance": {
     "primarySourceUrl": "https://webapi.legistar.com/v1/stpaul/events",
     "sourceAgency": "St. Paul City Council",
     "documentType": "Legistar Web API — Events/EventItems",
     "documentId": null,
     "issuedDate": null,
-    "fetchedAt": "2026-11-06T19:07:45.120Z",
+    "fetchedAt": "2026-11-07T17:40:09.238Z",
     "licence": "Public records served via Legistar InSite; no separate machine-reuse licence published by the host jurisdiction as of this writing.",
-    "contentHash": "552982d1d78c34ea742cc3a83113baa271e02f9890a495480c220dc95e058ea3"
+    "contentHash": "73f6c1301234475ac2a967f10f10aada90827e55b71349391c6fdd27cf83bffd"
   },
   "window": {
-    "startIso": "2026-10-23",
-    "endIso": "2027-02-04"
+    "startIso": "2026-10-24",
+    "endIso": "2027-02-05"
   },
   "meetings": [
     {
@@ -511,11 +511,11 @@
       "time": "12:00",
       "location": "Council Chambers - 3rd Floor",
       "agendaStatus": "Final",
-      "agendaUrl": null,
+      "agendaUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/11/7822_A_Board_of_Water_Commissioners_26-11-10_Meeting_Agenda.pdf",
       "minutesUrl": null,
       "videoStatus": "Public",
       "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7822&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
-      "lastModifiedUtc": "2026-11-05T15:20:31.743",
+      "lastModifiedUtc": "2026-11-06T19:49:39.247",
       "members": [
         {
           "id": 6645,
@@ -3313,14 +3313,18 @@
     }
   ],
   "diff": {
-    "addedIds": [
-      "legistar-stpaul-meeting-7822",
-      "legistar-stpaul-meeting-7823"
-    ],
+    "addedIds": [],
     "removedIds": [],
-    "changed": []
+    "changed": [
+      {
+        "id": "legistar-stpaul-meeting-7822",
+        "field": "agendaUrl",
+        "from": null,
+        "to": "https://legistar1.granicus.com/StPaul/meetings/2026/11/7822_A_Board_of_Water_Commissioners_26-11-10_Meeting_Agenda.pdf"
+      }
+    ]
   },
-  "previousGeneratedAt": "2026-11-05T19:45:52.610Z",
+  "previousGeneratedAt": "2026-11-06T19:07:45.120Z",
   "knownGaps": [
     "Consent-agenda flagging uses Legistar's own EventItemConsent field only (42 of 208 agenda item(s) in this window flagged). \"No discussion\" / \"no public comment\" are NOT flagged — this API exposes no comparably reliable field for either, and AGENTS.md §3.3 rules out inferring one from absence."
   ]

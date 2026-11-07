@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-06T19:09:12.896Z",
+  "generatedAt": "2026-11-07T17:41:45.368Z",
   "meetingsThisWeek": [
     {
       "client": "minneapolis",
@@ -859,8 +859,8 @@
       "date": "2026-11-18",
       "time": "17:30",
       "location": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/ARTS/",
-      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/ARTS/",
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/ARTS/16347",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/ARTS/16347",
       "isCancelled": false,
       "members": [
         {
