@@ -2,22 +2,22 @@
   "schemaVersion": 1,
   "client": "hennepinmn",
   "jurisdiction": "Hennepin County Board",
-  "generatedAt": "2026-11-07T17:41:26.549Z",
+  "generatedAt": "2026-11-08T17:50:29.887Z",
   "status": "ingested",
-  "note": "11 meeting(s) (11/11 event(s) in window) and 154 agenda item(s) ingested for 2026-10-24–2027-02-05.",
+  "note": "11 meeting(s) (11/11 event(s) in window) and 154 agenda item(s) ingested for 2026-10-25–2027-02-06.",
   "provenance": {
     "primarySourceUrl": "https://webapi.legistar.com/v1/hennepinmn/events",
     "sourceAgency": "Hennepin County Board",
     "documentType": "Legistar Web API — Events/EventItems",
     "documentId": null,
     "issuedDate": null,
-    "fetchedAt": "2026-11-07T17:41:26.549Z",
+    "fetchedAt": "2026-11-08T17:50:29.887Z",
     "licence": "Public records served via Legistar InSite; no separate machine-reuse licence published by the host jurisdiction as of this writing.",
-    "contentHash": "e11058e2dbe7a088d5e67f4280df849456d257f4c4d0717bdee1f56cb8b715ce"
+    "contentHash": "8edc471e2ff7dfb1bec084c5ebf2b0fccec57fc5f3041a902b08f4105dd448fc"
   },
   "window": {
-    "startIso": "2026-10-24",
-    "endIso": "2027-02-05"
+    "startIso": "2026-10-25",
+    "endIso": "2027-02-06"
   },
   "meetings": [
     {
@@ -2587,26 +2587,11 @@
     }
   ],
   "diff": {
-    "addedIds": [
-      "legistar-hennepinmn-meeting-1500"
-    ],
+    "addedIds": [],
     "removedIds": [],
-    "changed": [
-      {
-        "id": "legistar-hennepinmn-meeting-1501",
-        "field": "agendaUrl",
-        "from": null,
-        "to": "https://hennepinmn.legistar1.com/hennepinmn/meetings/2026/11/1501_A_Board_of_Hennepin_County_Commissioners_26-11-10_BOARD_AGENDA.pdf"
-      },
-      {
-        "id": "legistar-hennepinmn-meeting-1502",
-        "field": "agendaUrl",
-        "from": null,
-        "to": "https://hennepinmn.legistar1.com/hennepinmn/meetings/2026/11/1502_A_Hennepin_County_Regional_Railroad_Authority_26-11-10_AUTHORITY_AGENDA.pdf"
-      }
-    ]
+    "changed": []
   },
-  "previousGeneratedAt": "2026-11-06T19:08:59.840Z",
+  "previousGeneratedAt": "2026-11-07T17:41:26.549Z",
   "knownGaps": [
     "Consent-agenda flagging uses Legistar's own EventItemConsent field only (26 of 154 agenda item(s) in this window flagged). \"No discussion\" / \"no public comment\" are NOT flagged — this API exposes no comparably reliable field for either, and AGENTS.md §3.3 rules out inferring one from absence."
   ]

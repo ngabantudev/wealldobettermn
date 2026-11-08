@@ -2,22 +2,22 @@
   "schemaVersion": 1,
   "client": "minneapolis",
   "jurisdiction": "Minneapolis City Council",
-  "generatedAt": "2026-11-07T17:41:45.363Z",
+  "generatedAt": "2026-11-08T17:50:43.013Z",
   "status": "ingested",
-  "note": "102 meeting(s) and 261 agenda item(s) ingested for 2026-10-24–2027-02-05.",
+  "note": "102 meeting(s) and 261 agenda item(s) ingested for 2026-10-25–2027-02-06.",
   "provenance": {
     "primarySourceUrl": "https://lims.minneapolismn.gov/",
     "sourceAgency": "City of Minneapolis, Office of the City Clerk",
     "documentType": "LIMS API v1 — meetingCalendar/FileItemSearch",
     "documentId": null,
     "issuedDate": null,
-    "fetchedAt": "2026-11-07T17:41:45.363Z",
+    "fetchedAt": "2026-11-08T17:50:43.013Z",
     "licence": "Public records served via the City of Minneapolis LIMS API; no separate machine-reuse licence published as of this writing.",
     "contentHash": null
   },
   "window": {
-    "startIso": "2026-10-24",
-    "endIso": "2027-02-05"
+    "startIso": "2026-10-25",
+    "endIso": "2027-02-06"
   },
   "meetings": [
     {
@@ -16957,31 +16957,10 @@
   ],
   "diff": {
     "addedIds": [],
-    "removedIds": [
-      "lims-minneapolis-meeting-budget-committee-2026-10-23T10:00:00"
-    ],
-    "changed": [
-      {
-        "id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-11-05T10:00:00",
-        "field": "minutesUrl",
-        "from": null,
-        "to": "https://lims.minneapolismn.gov/api/v1/downloads/CommitteeReport/5067/BHZ_11052026_Committee_Report.pdf"
-      },
-      {
-        "id": "lims-minneapolis-meeting-climate-infrastructure-committee-2026-11-05T13:30:00",
-        "field": "minutesUrl",
-        "from": null,
-        "to": "https://lims.minneapolismn.gov/api/v1/downloads/CommitteeReport/5069/CI_11052026_Committee_Report.pdf"
-      },
-      {
-        "id": "lims-minneapolis-meeting-minneapolis-arts-commission-2026-11-18T17:30:00",
-        "field": "agendaUrl",
-        "from": "https://lims.minneapolismn.gov/Agenda/ARTS/",
-        "to": "https://lims.minneapolismn.gov/Agenda/ARTS/16347"
-      }
-    ]
+    "removedIds": [],
+    "changed": []
   },
-  "previousGeneratedAt": "2026-11-06T19:09:12.891Z",
+  "previousGeneratedAt": "2026-11-07T17:41:45.363Z",
   "knownGaps": [
     "Consent-agenda flagging not implemented — LIMS has no field structurally equivalent to Legistar's EventItemConsent; every agenda item ships isConsent: false rather than a guess.",
     "1 same-day, same-body meeting collision(s) in this window — FileItemSearch's LegislativeHistory carries a date but no time, so a second same-day session for the same body can't be disambiguated; the earliest session for each colliding (body, date) pair was used."
