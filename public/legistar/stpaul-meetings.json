@@ -2,22 +2,22 @@
   "schemaVersion": 1,
   "client": "stpaul",
   "jurisdiction": "St. Paul City Council",
-  "generatedAt": "2026-11-07T17:40:09.238Z",
+  "generatedAt": "2026-11-08T17:49:13.870Z",
   "status": "ingested",
-  "note": "15 meeting(s) (15/15 event(s) in window) and 208 agenda item(s) ingested for 2026-10-24–2027-02-05.",
+  "note": "15 meeting(s) (15/15 event(s) in window) and 208 agenda item(s) ingested for 2026-10-25–2027-02-06.",
   "provenance": {
     "primarySourceUrl": "https://webapi.legistar.com/v1/stpaul/events",
     "sourceAgency": "St. Paul City Council",
     "documentType": "Legistar Web API — Events/EventItems",
     "documentId": null,
     "issuedDate": null,
-    "fetchedAt": "2026-11-07T17:40:09.238Z",
+    "fetchedAt": "2026-11-08T17:49:13.870Z",
     "licence": "Public records served via Legistar InSite; no separate machine-reuse licence published by the host jurisdiction as of this writing.",
-    "contentHash": "73f6c1301234475ac2a967f10f10aada90827e55b71349391c6fdd27cf83bffd"
+    "contentHash": "fa6d11e06974f4269c49102ecec205d8a5cac41a140004e847f2c3043339b976"
   },
   "window": {
-    "startIso": "2026-10-24",
-    "endIso": "2027-02-05"
+    "startIso": "2026-10-25",
+    "endIso": "2027-02-06"
   },
   "meetings": [
     {
@@ -3315,16 +3315,9 @@
   "diff": {
     "addedIds": [],
     "removedIds": [],
-    "changed": [
-      {
-        "id": "legistar-stpaul-meeting-7822",
-        "field": "agendaUrl",
-        "from": null,
-        "to": "https://legistar1.granicus.com/StPaul/meetings/2026/11/7822_A_Board_of_Water_Commissioners_26-11-10_Meeting_Agenda.pdf"
-      }
-    ]
+    "changed": []
   },
-  "previousGeneratedAt": "2026-11-06T19:07:45.120Z",
+  "previousGeneratedAt": "2026-11-07T17:40:09.238Z",
   "knownGaps": [
     "Consent-agenda flagging uses Legistar's own EventItemConsent field only (42 of 208 agenda item(s) in this window flagged). \"No discussion\" / \"no public comment\" are NOT flagged — this API exposes no comparably reliable field for either, and AGENTS.md §3.3 rules out inferring one from absence."
   ]
