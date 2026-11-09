@@ -2,22 +2,22 @@
   "schemaVersion": 1,
   "client": "minneapolis",
   "jurisdiction": "Minneapolis City Council",
-  "generatedAt": "2026-11-08T17:50:43.013Z",
+  "generatedAt": "2026-11-09T22:10:05.090Z",
   "status": "ingested",
-  "note": "102 meeting(s) and 261 agenda item(s) ingested for 2026-10-25–2027-02-06.",
+  "note": "102 meeting(s) and 261 agenda item(s) ingested for 2026-10-26–2027-02-07.",
   "provenance": {
     "primarySourceUrl": "https://lims.minneapolismn.gov/",
     "sourceAgency": "City of Minneapolis, Office of the City Clerk",
     "documentType": "LIMS API v1 — meetingCalendar/FileItemSearch",
     "documentId": null,
     "issuedDate": null,
-    "fetchedAt": "2026-11-08T17:50:43.013Z",
+    "fetchedAt": "2026-11-09T22:10:05.090Z",
     "licence": "Public records served via the City of Minneapolis LIMS API; no separate machine-reuse licence published as of this writing.",
     "contentHash": null
   },
   "window": {
-    "startIso": "2026-10-25",
-    "endIso": "2027-02-06"
+    "startIso": "2026-10-26",
+    "endIso": "2027-02-07"
   },
   "meetings": [
     {
@@ -1123,7 +1123,7 @@
       "location": null,
       "agendaStatus": null,
       "agendaUrl": "https://lims.minneapolismn.gov/Agenda/Budget/16331",
-      "minutesUrl": null,
+      "minutesUrl": "https://lims.minneapolismn.gov/api/v1/downloads/CommitteeReport/5070/Budget_11092026_Committee_Report.pdf",
       "videoStatus": null,
       "sourceUrl": "https://lims.minneapolismn.gov/Agenda/Budget/16331",
       "lastModifiedUtc": null,
@@ -1351,10 +1351,10 @@
       "time": "09:30",
       "location": null,
       "agendaStatus": null,
-      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/Council/16344",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/Council/16351",
       "minutesUrl": null,
       "videoStatus": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/Council/16344",
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/Council/16351",
       "lastModifiedUtc": null,
       "members": [
         {
@@ -1432,10 +1432,10 @@
       "time": "15:00",
       "location": null,
       "agendaStatus": null,
-      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/MACH/",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/MACH/16352",
       "minutesUrl": null,
       "videoStatus": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/MACH/",
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/MACH/16352",
       "lastModifiedUtc": null,
       "members": [
         {
@@ -14659,8 +14659,8 @@
       "agendaNumber": null,
       "title": "Passage of Resolution amending the 2026 General Appropriation Resolution to reallocate funding within the 38th Street THRIVE Implementation amendment.",
       "isConsent": false,
-      "actionName": "Scheduled",
-      "passedFlagName": "Failed",
+      "actionName": "Approved",
+      "passedFlagName": "Passed",
       "matterFile": "2026-01221",
       "matterId": null,
       "matterType": "Resolution",
@@ -16795,8 +16795,8 @@
       "agendaNumber": null,
       "title": "Accepting the low bid of Lunda Construction Company, submitted on Event 4250, in the amount of $6,159,946.29, to provide all materials, labor, equipment and incidentals necessary for the Reconstruction of 18thAvenueBridge over Midtown Greenway project, and authorizing a contract for the project, all in accordance with City specifications.",
       "isConsent": false,
-      "actionName": null,
-      "passedFlagName": "Failed",
+      "actionName": "Approved",
+      "passedFlagName": "Passed",
       "matterFile": "2026-01272",
       "matterId": null,
       "matterType": "Action",
@@ -16958,9 +16958,28 @@
   "diff": {
     "addedIds": [],
     "removedIds": [],
-    "changed": []
+    "changed": [
+      {
+        "id": "lims-minneapolis-meeting-budget-committee-2026-11-09T10:00:00",
+        "field": "minutesUrl",
+        "from": null,
+        "to": "https://lims.minneapolismn.gov/api/v1/downloads/CommitteeReport/5070/Budget_11092026_Committee_Report.pdf"
+      },
+      {
+        "id": "lims-minneapolis-meeting-city-council-2026-11-12T09:30:00",
+        "field": "agendaUrl",
+        "from": "https://lims.minneapolismn.gov/Agenda/Council/16344",
+        "to": "https://lims.minneapolismn.gov/Agenda/Council/16351"
+      },
+      {
+        "id": "lims-minneapolis-meeting-minneapolis-advisory-committee-on-housing-2026-11-12T15:00:00",
+        "field": "agendaUrl",
+        "from": "https://lims.minneapolismn.gov/Agenda/MACH/",
+        "to": "https://lims.minneapolismn.gov/Agenda/MACH/16352"
+      }
+    ]
   },
-  "previousGeneratedAt": "2026-11-07T17:41:45.363Z",
+  "previousGeneratedAt": "2026-11-08T17:50:43.013Z",
   "knownGaps": [
     "Consent-agenda flagging not implemented — LIMS has no field structurally equivalent to Legistar's EventItemConsent; every agenda item ships isConsent: false rather than a guess.",
     "1 same-day, same-body meeting collision(s) in this window — FileItemSearch's LegislativeHistory carries a date but no time, so a second same-day session for the same body can't be disambiguated; the earliest session for each colliding (body, date) pair was used."

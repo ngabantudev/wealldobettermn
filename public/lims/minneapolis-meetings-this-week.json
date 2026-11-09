@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-08T17:50:43.019Z",
+  "generatedAt": "2026-11-09T22:10:05.094Z",
   "meetingsThisWeek": [
     {
       "client": "minneapolis",
@@ -225,8 +225,8 @@
       "date": "2026-11-12",
       "time": "09:30",
       "location": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/Council/16344",
-      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/Council/16344",
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/Council/16351",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/Council/16351",
       "isCancelled": false,
       "members": [
         {
@@ -303,8 +303,8 @@
       "date": "2026-11-12",
       "time": "15:00",
       "location": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/MACH/",
-      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/MACH/",
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/MACH/16352",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/MACH/16352",
       "isCancelled": false,
       "members": [
         {
@@ -1654,6 +1654,97 @@
         {
           "id": 6931,
           "name": "Carolyn Bastick",
+          "type": "ABC Member"
+        }
+      ]
+    },
+    {
+      "client": "minneapolis",
+      "jurisdiction": "Minneapolis City Council",
+      "bodyName": "Business, Housing & Zoning Committee",
+      "date": "2026-12-08",
+      "time": "13:30",
+      "location": null,
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/BHZ/",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/BHZ/",
+      "isCancelled": false,
+      "members": [
+        {
+          "id": 5269,
+          "name": "Jamal Osman",
+          "type": "Chair"
+        },
+        {
+          "id": 5697,
+          "name": "Aisha Chughtai",
+          "type": "Council Member"
+        },
+        {
+          "id": 5698,
+          "name": "Jason Chavez",
+          "type": "Council Member"
+        },
+        {
+          "id": 5700,
+          "name": "Michael Rainville",
+          "type": "Council Member"
+        },
+        {
+          "id": 5776,
+          "name": "Aurin Chowdhury",
+          "type": "Vice-Chair"
+        },
+        {
+          "id": 7961,
+          "name": "Pearll Warren",
+          "type": "Council Member"
+        },
+        {
+          "id": 7963,
+          "name": "Elizabeth Shaffer",
+          "type": "Council Member"
+        }
+      ]
+    },
+    {
+      "client": "minneapolis",
+      "jurisdiction": "Minneapolis City Council",
+      "bodyName": "Heritage Preservation Commission",
+      "date": "2026-12-08",
+      "time": "16:30",
+      "location": null,
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/HPC/",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/HPC/",
+      "isCancelled": false,
+      "members": [
+        {
+          "id": 6674,
+          "name": "Toshihiko Karato",
+          "type": "ABC Member"
+        },
+        {
+          "id": 6972,
+          "name": "Lindsey Wallace",
+          "type": "ABC Member"
+        },
+        {
+          "id": 6976,
+          "name": "Amy Thomas",
+          "type": "ABC Member"
+        },
+        {
+          "id": 6983,
+          "name": "Namdi Alexander",
+          "type": "ABC Member"
+        },
+        {
+          "id": 7017,
+          "name": "Mariel Rodriguez",
+          "type": "ABC Member"
+        },
+        {
+          "id": 7018,
+          "name": "Paul Mellblom",
           "type": "ABC Member"
         }
       ]

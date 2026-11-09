@@ -2,22 +2,22 @@
   "schemaVersion": 1,
   "client": "stpaul",
   "jurisdiction": "St. Paul City Council",
-  "generatedAt": "2026-11-08T17:49:13.870Z",
+  "generatedAt": "2026-11-09T22:08:21.948Z",
   "status": "ingested",
-  "note": "15 meeting(s) (15/15 event(s) in window) and 208 agenda item(s) ingested for 2026-10-25–2027-02-06.",
+  "note": "16 meeting(s) (16/16 event(s) in window) and 218 agenda item(s) ingested for 2026-10-26–2027-02-07.",
   "provenance": {
     "primarySourceUrl": "https://webapi.legistar.com/v1/stpaul/events",
     "sourceAgency": "St. Paul City Council",
     "documentType": "Legistar Web API — Events/EventItems",
     "documentId": null,
     "issuedDate": null,
-    "fetchedAt": "2026-11-08T17:49:13.870Z",
+    "fetchedAt": "2026-11-09T22:08:21.948Z",
     "licence": "Public records served via Legistar InSite; no separate machine-reuse licence published by the host jurisdiction as of this writing.",
-    "contentHash": "fa6d11e06974f4269c49102ecec205d8a5cac41a140004e847f2c3043339b976"
+    "contentHash": "53f78e800c16e776a639a21d669f5f8acb37ea5b3689cf5b490401a9753447e7"
   },
   "window": {
-    "startIso": "2026-10-25",
-    "endIso": "2027-02-06"
+    "startIso": "2026-10-26",
+    "endIso": "2027-02-07"
   },
   "meetings": [
     {
@@ -504,6 +504,21 @@
       "members": []
     },
     {
+      "id": "legistar-stpaul-meeting-7821",
+      "body_id": "legistar-stpaul-body-195",
+      "bodyName": "Legislative Hearings",
+      "date": "2026-11-10",
+      "time": "09:00",
+      "location": "Room 330 City Hall & Court House/Remote",
+      "agendaStatus": "Final",
+      "agendaUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/11/7821_A_Legislative_Hearings_26-11-10_Meeting_Agenda.pdf",
+      "minutesUrl": null,
+      "videoStatus": "Public",
+      "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7821&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
+      "lastModifiedUtc": "2026-11-09T12:54:33.887",
+      "members": []
+    },
+    {
       "id": "legistar-stpaul-meeting-7822",
       "body_id": "legistar-stpaul-body-231",
       "bodyName": "Board of Water Commissioners",
@@ -566,7 +581,7 @@
       "minutesUrl": null,
       "videoStatus": "Public",
       "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7823&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
-      "lastModifiedUtc": "2026-11-06T15:47:08.77",
+      "lastModifiedUtc": "2026-11-09T17:50:40.76",
       "members": [
         {
           "id": 6692,
@@ -619,19 +634,6 @@
       "matterFile": null,
       "matterId": null,
       "matterType": null
-    },
-    {
-      "id": "legistar-stpaul-eventitem-218747",
-      "meeting_id": "legistar-stpaul-meeting-7805",
-      "sequence": 2,
-      "agendaNumber": null,
-      "title": "Appeal of Mehkai Baker to a Rent Stabilization Determination at 808 BERRY STREET, APT. 404.",
-      "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
-      "matterFile": "RLH RSA 26-25",
-      "matterId": 53180,
-      "matterType": "Resolution LH Rent Stabilization Appeal"
     },
     {
       "id": "legistar-stpaul-eventitem-218387",
@@ -2662,19 +2664,6 @@
       "matterType": null
     },
     {
-      "id": "legistar-stpaul-eventitem-218657",
-      "meeting_id": "legistar-stpaul-meeting-7817",
-      "sequence": 5,
-      "agendaNumber": "2",
-      "title": "Resolution Approving and Authorizing Entering into a Parking Use Agreement with Hamm Building Commercial, LLC, or Its Affiliated Entity, for Parking Spaces in the Lawson Parking Ramp Located at 10 West Sixth Street, District 17, Ward 2.2.",
-      "isConsent": false,
-      "actionName": "Referred",
-      "passedFlagName": null,
-      "matterFile": "RES 26-1832",
-      "matterId": 53232,
-      "matterType": "Resolution"
-    },
-    {
       "id": "legistar-stpaul-eventitem-218662",
       "meeting_id": "legistar-stpaul-meeting-7817",
       "sequence": 6,
@@ -3039,6 +3028,162 @@
       "matterType": null
     },
     {
+      "id": "legistar-stpaul-eventitem-218766",
+      "meeting_id": "legistar-stpaul-meeting-7821",
+      "sequence": 1,
+      "agendaNumber": null,
+      "title": "9:00 a.m. Hearings",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-stpaul-eventitem-218768",
+      "meeting_id": "legistar-stpaul-meeting-7821",
+      "sequence": 2,
+      "agendaNumber": null,
+      "title": "Remove/Repair Orders",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-stpaul-eventitem-218769",
+      "meeting_id": "legistar-stpaul-meeting-7821",
+      "sequence": 3,
+      "agendaNumber": "1",
+      "title": "Making finding on the appeal of Rashad Kennedy to a substantial abatement ordered for 299 SHERBURNE AVENUE in Council File RLH RR 26-5.",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "RLH RR 26-21",
+      "matterId": 53188,
+      "matterType": "Resolution LH Substantial Abatement Order"
+    },
+    {
+      "id": "legistar-stpaul-eventitem-218770",
+      "meeting_id": "legistar-stpaul-meeting-7821",
+      "sequence": 5,
+      "agendaNumber": null,
+      "title": "Special Tax Assessments",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-stpaul-eventitem-218771",
+      "meeting_id": "legistar-stpaul-meeting-7821",
+      "sequence": 6,
+      "agendaNumber": "2",
+      "title": "Ratifying the Appealed Special Tax Assessment for property at 829 LAWSON AVENUE EAST. (File No. VB2605, Assessment No. 268908)",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "RLH TA 26-238",
+      "matterId": 53055,
+      "matterType": "Resolution LH Tax Assessment Appeal"
+    },
+    {
+      "id": "legistar-stpaul-eventitem-218772",
+      "meeting_id": "legistar-stpaul-meeting-7821",
+      "sequence": 7,
+      "agendaNumber": "3",
+      "title": "Ratifying the Appealed Special Tax Assessment for property at 570 PRIOR STREET NORTH, aka 576 PRIOR STREET NORTH. (File No. J2615B, Assessment No. 268121)",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "RLH TA 26-244",
+      "matterId": 53129,
+      "matterType": "Resolution LH Tax Assessment Appeal"
+    },
+    {
+      "id": "legistar-stpaul-eventitem-218774",
+      "meeting_id": "legistar-stpaul-meeting-7821",
+      "sequence": 4,
+      "agendaNumber": null,
+      "title": "10:00 a.m. Hearings",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-stpaul-eventitem-218777",
+      "meeting_id": "legistar-stpaul-meeting-7821",
+      "sequence": 8,
+      "agendaNumber": null,
+      "title": "11:00 a.m. Hearings",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-stpaul-eventitem-218781",
+      "meeting_id": "legistar-stpaul-meeting-7821",
+      "sequence": 9,
+      "agendaNumber": null,
+      "title": "Correction Orders",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-stpaul-eventitem-218782",
+      "meeting_id": "legistar-stpaul-meeting-7821",
+      "sequence": 10,
+      "agendaNumber": "4",
+      "title": "Appeal of Mary Pfundstein to a Correction Order at 1989 SELBY AVENUE.",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "RLH CO 26-12",
+      "matterId": 53272,
+      "matterType": "Resolution LH Correction Order (Code Enforcement Only)"
+    },
+    {
+      "id": "legistar-stpaul-eventitem-218787",
+      "meeting_id": "legistar-stpaul-meeting-7821",
+      "sequence": 11,
+      "agendaNumber": null,
+      "title": "Orders to Vacate Code Enforcement",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-stpaul-eventitem-218788",
+      "meeting_id": "legistar-stpaul-meeting-7821",
+      "sequence": 12,
+      "agendaNumber": "5",
+      "title": "Appeal of Lita Fierro to a Notice of Condemnation as Unfit for Human Habitation & Order to Vacate at 927 DESOTO STREET.",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "RLH VO 26-43",
+      "matterId": 53117,
+      "matterType": "Resolution LH Vacate Order"
+    },
+    {
       "id": "legistar-stpaul-eventitem-218828",
       "meeting_id": "legistar-stpaul-meeting-7822",
       "sequence": 1,
@@ -3313,12 +3458,14 @@
     }
   ],
   "diff": {
-    "addedIds": [],
+    "addedIds": [
+      "legistar-stpaul-meeting-7821"
+    ],
     "removedIds": [],
     "changed": []
   },
-  "previousGeneratedAt": "2026-11-07T17:40:09.238Z",
+  "previousGeneratedAt": "2026-11-08T17:49:13.870Z",
   "knownGaps": [
-    "Consent-agenda flagging uses Legistar's own EventItemConsent field only (42 of 208 agenda item(s) in this window flagged). \"No discussion\" / \"no public comment\" are NOT flagged — this API exposes no comparably reliable field for either, and AGENTS.md §3.3 rules out inferring one from absence."
+    "Consent-agenda flagging uses Legistar's own EventItemConsent field only (42 of 218 agenda item(s) in this window flagged). \"No discussion\" / \"no public comment\" are NOT flagged — this API exposes no comparably reliable field for either, and AGENTS.md §3.3 rules out inferring one from absence."
   ]
 }
