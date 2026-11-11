@@ -2,22 +2,22 @@
   "schemaVersion": 1,
   "client": "stpaul",
   "jurisdiction": "St. Paul City Council",
-  "generatedAt": "2026-11-10T19:32:38.670Z",
+  "generatedAt": "2026-11-11T19:26:09.589Z",
   "status": "ingested",
-  "note": "17 meeting(s) (17/17 event(s) in window) and 237 agenda item(s) ingested for 2026-10-27–2027-02-08.",
+  "note": "16 meeting(s) (16/16 event(s) in window) and 216 agenda item(s) ingested for 2026-10-28–2027-02-09.",
   "provenance": {
     "primarySourceUrl": "https://webapi.legistar.com/v1/stpaul/events",
     "sourceAgency": "St. Paul City Council",
     "documentType": "Legistar Web API — Events/EventItems",
     "documentId": null,
     "issuedDate": null,
-    "fetchedAt": "2026-11-10T19:32:38.670Z",
+    "fetchedAt": "2026-11-11T19:26:09.589Z",
     "licence": "Public records served via Legistar InSite; no separate machine-reuse licence published by the host jurisdiction as of this writing.",
-    "contentHash": "9aaf771c3e23b6d44c6475eadf4d6963767a43d87f39d127432fa1a3e31f3262"
+    "contentHash": "88693daeed027d9592879bae10cd73b3268a78993675aa23f00c4c01a040ddd7"
   },
   "window": {
-    "startIso": "2026-10-27",
-    "endIso": "2027-02-08"
+    "startIso": "2026-10-28",
+    "endIso": "2027-02-09"
   },
   "meetings": [
     {
@@ -85,21 +85,6 @@
           "type": "Councilmember"
         }
       ]
-    },
-    {
-      "id": "legistar-stpaul-meeting-7810",
-      "body_id": "legistar-stpaul-body-195",
-      "bodyName": "Legislative Hearings",
-      "date": "2026-10-27",
-      "time": "09:00",
-      "location": "Room 330 City Hall & Court House/Remote",
-      "agendaStatus": "Final-revised",
-      "agendaUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/10/7810_A_Legislative_Hearings_26-10-27_ADA_Meeting_Agenda.pdf",
-      "minutesUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/10/7810_M_Legislative_Hearings_26-10-27_Minutes_-_Final.pdf",
-      "videoStatus": "Public",
-      "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7810&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
-      "lastModifiedUtc": "2026-11-05T16:53:50.187",
-      "members": []
     },
     {
       "id": "legistar-stpaul-meeting-7811",
@@ -467,10 +452,10 @@
       "location": "Room 330 City Hall & Court House/Remote",
       "agendaStatus": "Final",
       "agendaUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/11/7818_A_Legislative_Hearings_26-11-03_ADA_Meeting_Agenda.pdf",
-      "minutesUrl": null,
+      "minutesUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/11/7818_M_Legislative_Hearings_26-11-03_Minutes_-_Final.pdf",
       "videoStatus": "Public",
       "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7818&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
-      "lastModifiedUtc": "2026-10-29T19:20:41.143",
+      "lastModifiedUtc": "2026-11-10T20:53:12.543",
       "members": []
     },
     {
@@ -578,10 +563,10 @@
       "location": "Council Chambers - 3rd Floor",
       "agendaStatus": "Final",
       "agendaUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/11/7823_A_City_Council_26-11-10_ADA_Meeting_Agenda.pdf",
-      "minutesUrl": null,
+      "minutesUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/11/7823_M_City_Council_26-11-10_Meeting_Minutes_-_Action_Only.pdf",
       "videoStatus": "Public",
       "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7823&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
-      "lastModifiedUtc": "2026-11-09T17:50:40.76",
+      "lastModifiedUtc": "2026-11-10T20:08:55.903",
       "members": [
         {
           "id": 6692,
@@ -627,12 +612,12 @@
       "date": "2026-11-12",
       "time": "10:00",
       "location": "Room 330 City Hall & Court House/Remote",
-      "agendaStatus": "Final",
+      "agendaStatus": "Final-revised",
       "agendaUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/11/7824_A_Legislative_Hearings_26-11-12_ADA_Meeting_Agenda.pdf",
       "minutesUrl": null,
       "videoStatus": "Public",
       "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7824&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
-      "lastModifiedUtc": "2026-11-10T14:38:15.72",
+      "lastModifiedUtc": "2026-11-10T20:30:56.08",
       "members": []
     }
   ],
@@ -1195,292 +1180,6 @@
       "matterFile": null,
       "matterId": null,
       "matterType": null
-    },
-    {
-      "id": "legistar-stpaul-eventitem-218435",
-      "meeting_id": "legistar-stpaul-meeting-7810",
-      "sequence": 1,
-      "agendaNumber": null,
-      "title": "9:00 a.m. Hearings",
-      "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
-      "matterFile": null,
-      "matterId": null,
-      "matterType": null
-    },
-    {
-      "id": "legistar-stpaul-eventitem-218437",
-      "meeting_id": "legistar-stpaul-meeting-7810",
-      "sequence": 2,
-      "agendaNumber": null,
-      "title": "Remove/Repair Orders",
-      "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
-      "matterFile": null,
-      "matterId": null,
-      "matterType": null
-    },
-    {
-      "id": "legistar-stpaul-eventitem-218438",
-      "meeting_id": "legistar-stpaul-meeting-7810",
-      "sequence": 3,
-      "agendaNumber": "1",
-      "title": "Ordering the rehabilitation or razing and removal of the structures at 633 CAPITOL BOULEVARD within fifteen (15) days after the May 20, 2026, City Council Public Hearing.",
-      "isConsent": false,
-      "actionName": "Laid Over",
-      "passedFlagName": null,
-      "matterFile": "RLH RR 26-7",
-      "matterId": 51653,
-      "matterType": "Resolution LH Substantial Abatement Order"
-    },
-    {
-      "id": "legistar-stpaul-eventitem-218439",
-      "meeting_id": "legistar-stpaul-meeting-7810",
-      "sequence": 4,
-      "agendaNumber": "2",
-      "title": "Ordering the rehabilitation or razing and removal of the structures at 914 CENTRAL AVENUE WEST within fifteen (15) days after the August 19, 2026, City Council Public Hearing.  (Refer to September 15, 2026 on condition)",
-      "isConsent": false,
-      "actionName": "Laid Over",
-      "passedFlagName": null,
-      "matterFile": "RLH RR 26-14",
-      "matterId": 52238,
-      "matterType": "Resolution LH Substantial Abatement Order"
-    },
-    {
-      "id": "legistar-stpaul-eventitem-218440",
-      "meeting_id": "legistar-stpaul-meeting-7810",
-      "sequence": 7,
-      "agendaNumber": null,
-      "title": "Special Tax Assessments",
-      "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
-      "matterFile": null,
-      "matterId": null,
-      "matterType": null
-    },
-    {
-      "id": "legistar-stpaul-eventitem-218441",
-      "meeting_id": "legistar-stpaul-meeting-7810",
-      "sequence": 9,
-      "agendaNumber": "5",
-      "title": "Ratifying the Appealed Special Tax Assessment for property at 829 LAWSON AVENUE EAST. (File No. VB2605, Assessment No. 268908)",
-      "isConsent": false,
-      "actionName": "Laid Over",
-      "passedFlagName": null,
-      "matterFile": "RLH TA 26-238",
-      "matterId": 53055,
-      "matterType": "Resolution LH Tax Assessment Appeal"
-    },
-    {
-      "id": "legistar-stpaul-eventitem-218442",
-      "meeting_id": "legistar-stpaul-meeting-7810",
-      "sequence": 11,
-      "agendaNumber": "7",
-      "title": "Ratifying the Appealed Special Tax Assessment for property at 570 PRIOR STREET NORTH, aka 576 PRIOR STREET NORTH. (File No. J2615B, Assessment No. 268121)",
-      "isConsent": false,
-      "actionName": "Laid Over",
-      "passedFlagName": null,
-      "matterFile": "RLH TA 26-244",
-      "matterId": 53129,
-      "matterType": "Resolution LH Tax Assessment Appeal"
-    },
-    {
-      "id": "legistar-stpaul-eventitem-218443",
-      "meeting_id": "legistar-stpaul-meeting-7810",
-      "sequence": 8,
-      "agendaNumber": "4",
-      "title": "Ratifying the Appealed Special Tax Assessment for property at 2098 BUSH AVENUE. (File No. J2615B, Assessment No. 268121)",
-      "isConsent": false,
-      "actionName": "Referred",
-      "passedFlagName": null,
-      "matterFile": "RLH TA 26-247",
-      "matterId": 53151,
-      "matterType": "Resolution LH Tax Assessment Appeal"
-    },
-    {
-      "id": "legistar-stpaul-eventitem-218445",
-      "meeting_id": "legistar-stpaul-meeting-7810",
-      "sequence": 6,
-      "agendaNumber": null,
-      "title": "10:00 a.m. Hearings",
-      "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
-      "matterFile": null,
-      "matterId": null,
-      "matterType": null
-    },
-    {
-      "id": "legistar-stpaul-eventitem-218446",
-      "meeting_id": "legistar-stpaul-meeting-7810",
-      "sequence": 16,
-      "agendaNumber": null,
-      "title": "Making Finding on Nuisance Abatements",
-      "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
-      "matterFile": null,
-      "matterId": null,
-      "matterType": null
-    },
-    {
-      "id": "legistar-stpaul-eventitem-218448",
-      "meeting_id": "legistar-stpaul-meeting-7810",
-      "sequence": 13,
-      "agendaNumber": null,
-      "title": "11:00 a.m. Hearings",
-      "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
-      "matterFile": null,
-      "matterId": null,
-      "matterType": null
-    },
-    {
-      "id": "legistar-stpaul-eventitem-218449",
-      "meeting_id": "legistar-stpaul-meeting-7810",
-      "sequence": 14,
-      "agendaNumber": null,
-      "title": "Summary & Vehicle Abatement Orders",
-      "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
-      "matterFile": null,
-      "matterId": null,
-      "matterType": null
-    },
-    {
-      "id": "legistar-stpaul-eventitem-218456",
-      "meeting_id": "legistar-stpaul-meeting-7810",
-      "sequence": 18,
-      "agendaNumber": null,
-      "title": "1:30 p.m. Hearings",
-      "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
-      "matterFile": null,
-      "matterId": null,
-      "matterType": null
-    },
-    {
-      "id": "legistar-stpaul-eventitem-218457",
-      "meeting_id": "legistar-stpaul-meeting-7810",
-      "sequence": 19,
-      "agendaNumber": null,
-      "title": "Orders To Vacate - Fire Certificate of Occupancy",
-      "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
-      "matterFile": null,
-      "matterId": null,
-      "matterType": null
-    },
-    {
-      "id": "legistar-stpaul-eventitem-218458",
-      "meeting_id": "legistar-stpaul-meeting-7810",
-      "sequence": 20,
-      "agendaNumber": "11",
-      "title": "Appeal of Ashray Gupta to a Fire Inspection Correction Notice, including Revocation and Order to Vacate at 251 MARIA AVENUE.",
-      "isConsent": false,
-      "actionName": "Laid Over",
-      "passedFlagName": null,
-      "matterFile": "RLH VO 26-48",
-      "matterId": 53164,
-      "matterType": "Resolution LH Vacate Order"
-    },
-    {
-      "id": "legistar-stpaul-eventitem-218459",
-      "meeting_id": "legistar-stpaul-meeting-7810",
-      "sequence": 21,
-      "agendaNumber": null,
-      "title": "2:00 p.m. Hearings",
-      "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
-      "matterFile": null,
-      "matterId": null,
-      "matterType": null
-    },
-    {
-      "id": "legistar-stpaul-eventitem-218460",
-      "meeting_id": "legistar-stpaul-meeting-7810",
-      "sequence": 22,
-      "agendaNumber": null,
-      "title": "Fire Certificates of Occupancy",
-      "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
-      "matterFile": null,
-      "matterId": null,
-      "matterType": null
-    },
-    {
-      "id": "legistar-stpaul-eventitem-218461",
-      "meeting_id": "legistar-stpaul-meeting-7810",
-      "sequence": 23,
-      "agendaNumber": "12",
-      "title": "Appeal of Ashray Gupta, Representative on behalf of ENCF MK DREY MSP 03 LLC, to a Fire Certificate of Occupancy Correction Notice at 1863 SEVENTH STREET EAST.",
-      "isConsent": false,
-      "actionName": "Laid Over",
-      "passedFlagName": null,
-      "matterFile": "RLH FCO 26-89",
-      "matterId": 53187,
-      "matterType": "Resolution LH Fire C of O OR Correction Order"
-    },
-    {
-      "id": "legistar-stpaul-eventitem-218462",
-      "meeting_id": "legistar-stpaul-meeting-7810",
-      "sequence": 24,
-      "agendaNumber": null,
-      "title": "3:00 p.m. Hearings",
-      "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
-      "matterFile": null,
-      "matterId": null,
-      "matterType": null
-    },
-    {
-      "id": "legistar-stpaul-eventitem-218463",
-      "meeting_id": "legistar-stpaul-meeting-7810",
-      "sequence": 25,
-      "agendaNumber": null,
-      "title": "Other - Fence Variance ",
-      "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
-      "matterFile": null,
-      "matterId": null,
-      "matterType": null
-    },
-    {
-      "id": "legistar-stpaul-eventitem-218538",
-      "meeting_id": "legistar-stpaul-meeting-7810",
-      "sequence": 5,
-      "agendaNumber": "3",
-      "title": "Third Making finding on the appeal of Jay Mitchell, o/b/o The Money Man, LLC, to a substantial abatement ordered for 947 FREMONT AVENUE in Council File RLH 26-16.",
-      "isConsent": false,
-      "actionName": "Referred",
-      "passedFlagName": null,
-      "matterFile": "RLH RR 26-19",
-      "matterId": 52904,
-      "matterType": "Resolution LH Substantial Abatement Order"
-    },
-    {
-      "id": "legistar-stpaul-eventitem-218544",
-      "meeting_id": "legistar-stpaul-meeting-7810",
-      "sequence": 10,
-      "agendaNumber": "6",
-      "title": "Ratifying the Appealed Special Tax Assessment for property at 364 MAPLE STREET. (File No. VB2603, Assessment No. 268906)",
-      "isConsent": false,
-      "actionName": "Referred",
-      "passedFlagName": null,
-      "matterFile": "RLH TA 26-251",
-      "matterId": 53168,
-      "matterType": "Resolution LH Tax Assessment Appeal"
     },
     {
       "id": "legistar-stpaul-eventitem-218466",
@@ -3439,8 +3138,8 @@
       "agendaNumber": "1",
       "title": "Canvassing the returns and declaring the results of the City General Election held November 3, 2026.",
       "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
+      "actionName": "Adopted",
+      "passedFlagName": "Pass",
       "matterFile": "RES 26-1892",
       "matterId": 53299,
       "matterType": "Resolution"
@@ -3500,7 +3199,7 @@
     {
       "id": "legistar-stpaul-eventitem-218864",
       "meeting_id": "legistar-stpaul-meeting-7824",
-      "sequence": 12,
+      "sequence": 13,
       "agendaNumber": "9",
       "title": "Ratifying the assessment for the City’s cost of providing Collection of Delinquent Garbage Bills for services during April to June 2026. (File No. CG26Q2B1, Assessment No. 260161)",
       "isConsent": false,
@@ -3513,7 +3212,7 @@
     {
       "id": "legistar-stpaul-eventitem-218865",
       "meeting_id": "legistar-stpaul-meeting-7824",
-      "sequence": 13,
+      "sequence": 14,
       "agendaNumber": "10",
       "title": "Ratifying the assessment for the City’s cost of providing Collection of Delinquent Garbage Bills for services during April to June 2026. (File No. CG26Q2B2, Assessment No. 260162)",
       "isConsent": false,
@@ -3526,7 +3225,7 @@
     {
       "id": "legistar-stpaul-eventitem-218866",
       "meeting_id": "legistar-stpaul-meeting-7824",
-      "sequence": 14,
+      "sequence": 15,
       "agendaNumber": "11",
       "title": "Ratifying the assessment for the City’s cost of providing Collection of Delinquent Garbage Bills for services during April to June 2026. (File No. CG26Q2B3, Assessment No. 260163)",
       "isConsent": false,
@@ -3539,7 +3238,7 @@
     {
       "id": "legistar-stpaul-eventitem-218867",
       "meeting_id": "legistar-stpaul-meeting-7824",
-      "sequence": 15,
+      "sequence": 16,
       "agendaNumber": "12",
       "title": "Ratifying the assessment for the City’s cost of providing Collection of Delinquent Garbage Bills for services during April to June 2026. (File No. CG26Q2B4, Assessment No. 260164)",
       "isConsent": false,
@@ -3552,7 +3251,7 @@
     {
       "id": "legistar-stpaul-eventitem-218868",
       "meeting_id": "legistar-stpaul-meeting-7824",
-      "sequence": 16,
+      "sequence": 17,
       "agendaNumber": "13",
       "title": "Ratifying the assessment for the City’s cost of providing Collection of Delinquent Garbage Bills for services during April to June 2026. (File No. CG26Q2B5, Assessment No. 260165)",
       "isConsent": false,
@@ -3565,7 +3264,7 @@
     {
       "id": "legistar-stpaul-eventitem-218869",
       "meeting_id": "legistar-stpaul-meeting-7824",
-      "sequence": 17,
+      "sequence": 18,
       "agendaNumber": "14",
       "title": "Ratifying the assessment for the City’s cost of providing Collection of Delinquent Yard Waste Bills for services during April to June 2026. (File No. YW26Q2B1, Assessment No. 260502)",
       "isConsent": false,
@@ -3578,7 +3277,7 @@
     {
       "id": "legistar-stpaul-eventitem-218870",
       "meeting_id": "legistar-stpaul-meeting-7824",
-      "sequence": 18,
+      "sequence": 19,
       "agendaNumber": "15",
       "title": "Ratifying the assessment for the City’s cost of providing Collection of Delinquent Yard Waste Bills for services during April to June 2026. (File No. YW26Q2B2, Assessment No. 260503)",
       "isConsent": false,
@@ -3643,7 +3342,7 @@
     {
       "id": "legistar-stpaul-eventitem-218875",
       "meeting_id": "legistar-stpaul-meeting-7824",
-      "sequence": 10,
+      "sequence": 11,
       "agendaNumber": "8",
       "title": "Ratifying the Appealed Special Tax Assessment for property at 1665 SHERBURNE AVENUE. (File No. CG26Q2B5, Assessment No. 260165)",
       "isConsent": false,
@@ -3708,9 +3407,22 @@
     {
       "id": "legistar-stpaul-eventitem-218881",
       "meeting_id": "legistar-stpaul-meeting-7824",
-      "sequence": 11,
+      "sequence": 12,
       "agendaNumber": null,
       "title": "Special Tax Assessments - Rolls",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-stpaul-eventitem-218906",
+      "meeting_id": "legistar-stpaul-meeting-7824",
+      "sequence": 10,
+      "agendaNumber": null,
+      "title": "11:00 a.m. Hearings",
       "isConsent": false,
       "actionName": null,
       "passedFlagName": null,
@@ -3720,14 +3432,33 @@
     }
   ],
   "diff": {
-    "addedIds": [
-      "legistar-stpaul-meeting-7824"
+    "addedIds": [],
+    "removedIds": [
+      "legistar-stpaul-meeting-7810"
     ],
-    "removedIds": [],
-    "changed": []
+    "changed": [
+      {
+        "id": "legistar-stpaul-meeting-7818",
+        "field": "minutesUrl",
+        "from": null,
+        "to": "https://legistar1.granicus.com/StPaul/meetings/2026/11/7818_M_Legislative_Hearings_26-11-03_Minutes_-_Final.pdf"
+      },
+      {
+        "id": "legistar-stpaul-meeting-7823",
+        "field": "minutesUrl",
+        "from": null,
+        "to": "https://legistar1.granicus.com/StPaul/meetings/2026/11/7823_M_City_Council_26-11-10_Meeting_Minutes_-_Action_Only.pdf"
+      },
+      {
+        "id": "legistar-stpaul-meeting-7824",
+        "field": "agendaStatus",
+        "from": "Final",
+        "to": "Final-revised"
+      }
+    ]
   },
-  "previousGeneratedAt": "2026-11-09T22:08:21.948Z",
+  "previousGeneratedAt": "2026-11-10T19:32:38.670Z",
   "knownGaps": [
-    "Consent-agenda flagging uses Legistar's own EventItemConsent field only (42 of 237 agenda item(s) in this window flagged). \"No discussion\" / \"no public comment\" are NOT flagged — this API exposes no comparably reliable field for either, and AGENTS.md §3.3 rules out inferring one from absence."
+    "Consent-agenda flagging uses Legistar's own EventItemConsent field only (42 of 216 agenda item(s) in this window flagged). \"No discussion\" / \"no public comment\" are NOT flagged — this API exposes no comparably reliable field for either, and AGENTS.md §3.3 rules out inferring one from absence."
   ]
 }
