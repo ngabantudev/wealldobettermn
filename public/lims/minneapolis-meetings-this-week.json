@@ -1,39 +1,6 @@
 {
-  "generatedAt": "2026-11-10T19:34:05.160Z",
+  "generatedAt": "2026-11-11T19:27:14.104Z",
   "meetingsThisWeek": [
-    {
-      "client": "minneapolis",
-      "jurisdiction": "Minneapolis City Council",
-      "bodyName": "Community Environmental Advisory Commission",
-      "date": "2026-11-10",
-      "time": "16:00",
-      "location": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/CEAC/16345",
-      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/CEAC/16345",
-      "isCancelled": false,
-      "members": [
-        {
-          "id": 6982,
-          "name": "Johnny Hill",
-          "type": "ABC Member"
-        },
-        {
-          "id": 6995,
-          "name": "Madyson Hoese",
-          "type": "ABC Member"
-        },
-        {
-          "id": 7042,
-          "name": "Zamzam Ahmed",
-          "type": "ABC Member"
-        },
-        {
-          "id": 7044,
-          "name": "Joshua Hauf",
-          "type": "ABC Member"
-        }
-      ]
-    },
     {
       "client": "minneapolis",
       "jurisdiction": "Minneapolis City Council",
@@ -566,8 +533,8 @@
       "date": "2026-11-17",
       "time": "16:30",
       "location": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/HPC/",
-      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/HPC/",
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/HPC/16353",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/HPC/16353",
       "isCancelled": false,
       "members": [
         {
@@ -1627,6 +1594,155 @@
         {
           "id": 6928,
           "name": "Madison Taylor",
+          "type": "ABC Member"
+        }
+      ]
+    },
+    {
+      "client": "minneapolis",
+      "jurisdiction": "Minneapolis City Council",
+      "bodyName": "Climate & Infrastructure Committee",
+      "date": "2026-12-10",
+      "time": "13:30",
+      "location": null,
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/CI/",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/CI/",
+      "isCancelled": false,
+      "members": [
+        {
+          "id": 375,
+          "name": "Linea Palmisano",
+          "type": "Council Member"
+        },
+        {
+          "id": 5692,
+          "name": "Robin Wonsley",
+          "type": "Chair"
+        },
+        {
+          "id": 5696,
+          "name": "LaTrisha Vetaw",
+          "type": "Council Member"
+        },
+        {
+          "id": 5697,
+          "name": "Aisha Chughtai",
+          "type": "Council Member"
+        },
+        {
+          "id": 5776,
+          "name": "Aurin Chowdhury",
+          "type": "Council Member"
+        },
+        {
+          "id": 7961,
+          "name": "Pearll Warren",
+          "type": "Council Member"
+        },
+        {
+          "id": 7962,
+          "name": "Soren Stevenson",
+          "type": "Vice-Chair"
+        }
+      ]
+    },
+    {
+      "client": "minneapolis",
+      "jurisdiction": "Minneapolis City Council",
+      "bodyName": "Minneapolis Advisory Committee on Housing",
+      "date": "2026-12-10",
+      "time": "15:00",
+      "location": null,
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/MACH/",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/MACH/",
+      "isCancelled": false,
+      "members": [
+        {
+          "id": 6977,
+          "name": "David Jeffries",
+          "type": "ABC Member"
+        },
+        {
+          "id": 6978,
+          "name": "William O'Keefe",
+          "type": "ABC Member"
+        },
+        {
+          "id": 6979,
+          "name": "Vicky Selkowe",
+          "type": "ABC Member"
+        },
+        {
+          "id": 6980,
+          "name": "Myles Artis",
+          "type": "ABC Member"
+        },
+        {
+          "id": 6984,
+          "name": "Catrice Williams",
+          "type": "ABC Member"
+        },
+        {
+          "id": 6986,
+          "name": "Alyson Rodway",
+          "type": "ABC Member"
+        },
+        {
+          "id": 6987,
+          "name": "Hiawatha Smith",
+          "type": "ABC Member"
+        },
+        {
+          "id": 6988,
+          "name": "Rachel Almburg",
+          "type": "ABC Member"
+        },
+        {
+          "id": 6989,
+          "name": "Kymberly Miller",
+          "type": "ABC Member"
+        },
+        {
+          "id": 6992,
+          "name": "Julia Zwak",
+          "type": "ABC Member"
+        },
+        {
+          "id": 6993,
+          "name": "Janine Sieja",
+          "type": "ABC Member"
+        },
+        {
+          "id": 6994,
+          "name": "Michael Giovanis",
+          "type": "ABC Member"
+        }
+      ]
+    },
+    {
+      "client": "minneapolis",
+      "jurisdiction": "Minneapolis City Council",
+      "bodyName": "Zoning Board of Adjustment",
+      "date": "2026-12-10",
+      "time": "16:30",
+      "location": null,
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/ZBA/",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/ZBA/",
+      "isCancelled": false,
+      "members": [
+        {
+          "id": 6794,
+          "name": "Derek Eicholz",
+          "type": "ABC Member"
+        },
+        {
+          "id": 6841,
+          "name": "Matthew Perry",
+          "type": "ABC Member"
+        },
+        {
+          "id": 6876,
+          "name": "Taylor Smrikarova",
           "type": "ABC Member"
         }
       ]
