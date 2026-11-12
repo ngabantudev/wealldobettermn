@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-11T19:27:14.104Z",
+  "generatedAt": "2026-11-12T19:46:32.527Z",
   "meetingsThisWeek": [
     {
       "client": "minneapolis",
@@ -250,8 +250,8 @@
       "date": "2026-11-16",
       "time": "18:00",
       "location": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/MCCR/",
-      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/MCCR/",
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/MCCR/16354",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/MCCR/16354",
       "isCancelled": false,
       "members": [
         {
@@ -477,8 +477,8 @@
       "date": "2026-11-17",
       "time": "15:00",
       "location": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/EPB/",
-      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/EPB/",
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/EPB/16357",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/EPB/16357",
       "isCancelled": false,
       "members": [
         {
@@ -500,8 +500,8 @@
       "date": "2026-11-17",
       "time": "16:00",
       "location": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/BAC/",
-      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/BAC/",
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/BAC/16355",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/BAC/16355",
       "isCancelled": false,
       "members": [
         {
@@ -835,8 +835,8 @@
       "date": "2026-11-30",
       "time": "13:30",
       "location": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/Budget/",
-      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/Budget/",
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/Budget/16356",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/Budget/16356",
       "isCancelled": false,
       "members": [
         {
