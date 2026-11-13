@@ -1,15 +1,15 @@
 {
-  "generatedAt": "2026-11-12T19:43:59.673Z",
+  "generatedAt": "2026-11-13T19:26:29.695Z",
   "meetingsThisWeek": [
     {
       "client": "stpaul",
       "jurisdiction": "St. Paul City Council",
       "bodyName": "Legislative Hearings",
-      "date": "2026-11-12",
+      "date": "2026-11-17",
       "time": "10:00",
       "location": "Room 330 City Hall & Court House/Remote",
-      "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7824&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
-      "agendaUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/11/7824_A_Legislative_Hearings_26-11-12_ADA_Meeting_Agenda.pdf",
+      "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7831&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
+      "agendaUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/11/7831_A_Legislative_Hearings_26-11-17_ADA_Meeting_Agenda.pdf",
       "isCancelled": false,
       "members": []
     },
@@ -133,6 +133,54 @@
         {
           "id": 7108,
           "name": "Molly Coleman",
+          "type": "Councilmember"
+        }
+      ]
+    },
+    {
+      "client": "stpaul",
+      "jurisdiction": "St. Paul City Council",
+      "bodyName": "Policy Committee",
+      "date": "2026-11-18",
+      "time": "13:00",
+      "location": "Council Chambers, City Hall",
+      "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7825&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
+      "agendaUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/11/7825_A_Policy_Committee_26-11-18_ADA_Meeting_Agenda.pdf",
+      "isCancelled": false,
+      "members": [
+        {
+          "id": 6692,
+          "name": "Rebecca Noecker",
+          "type": "Councilmember"
+        },
+        {
+          "id": 7038,
+          "name": "Anika Bowie",
+          "type": "Councilmember"
+        },
+        {
+          "id": 7108,
+          "name": "Molly Coleman",
+          "type": "Councilmember"
+        },
+        {
+          "id": 7039,
+          "name": "Saura Jost",
+          "type": "Councilmember"
+        },
+        {
+          "id": 7040,
+          "name": "Cheniqua Johnson",
+          "type": "Councilmember"
+        },
+        {
+          "id": 6859,
+          "name": "Nelsie Yang",
+          "type": "Councilmember"
+        },
+        {
+          "id": 6785,
+          "name": "HwaJeong Kim",
           "type": "Councilmember"
         }
       ]
