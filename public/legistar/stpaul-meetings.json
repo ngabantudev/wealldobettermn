@@ -2,22 +2,22 @@
   "schemaVersion": 1,
   "client": "stpaul",
   "jurisdiction": "St. Paul City Council",
-  "generatedAt": "2026-11-13T19:26:29.693Z",
+  "generatedAt": "2026-11-14T17:49:53.167Z",
   "status": "ingested",
-  "note": "19 meeting(s) (19/19 event(s) in window) and 253 agenda item(s) ingested for 2026-10-30–2027-02-11.",
+  "note": "19 meeting(s) (19/19 event(s) in window) and 255 agenda item(s) ingested for 2026-10-31–2027-02-12.",
   "provenance": {
     "primarySourceUrl": "https://webapi.legistar.com/v1/stpaul/events",
     "sourceAgency": "St. Paul City Council",
     "documentType": "Legistar Web API — Events/EventItems",
     "documentId": null,
     "issuedDate": null,
-    "fetchedAt": "2026-11-13T19:26:29.693Z",
+    "fetchedAt": "2026-11-14T17:49:53.167Z",
     "licence": "Public records served via Legistar InSite; no separate machine-reuse licence published by the host jurisdiction as of this writing.",
-    "contentHash": "bc0d277d27caf5db4f3475344cbb5d256f66fe9d7b23fa30640809a081588ad4"
+    "contentHash": "96a506d9cb8457434ef3994dc92fe8c8f3770bf33d568c2d83f3a5612e7cd071"
   },
   "window": {
-    "startIso": "2026-10-30",
-    "endIso": "2027-02-11"
+    "startIso": "2026-10-31",
+    "endIso": "2027-02-12"
   },
   "meetings": [
     {
@@ -607,12 +607,12 @@
       "date": "2026-11-18",
       "time": "14:00",
       "location": "Council Chambers, City Hall",
-      "agendaStatus": "Final",
+      "agendaStatus": "Final-revised",
       "agendaUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/11/7829_A_Housing___Redevelopment_Authority_26-11-18_Meeting_Agenda.pdf",
       "minutesUrl": null,
       "videoStatus": "Public",
       "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7829&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
-      "lastModifiedUtc": "2026-11-12T17:24:50.813",
+      "lastModifiedUtc": "2026-11-13T22:02:15.487",
       "members": [
         {
           "id": 6692,
@@ -3673,8 +3673,8 @@
     {
       "id": "legistar-stpaul-eventitem-219037",
       "meeting_id": "legistar-stpaul-meeting-7829",
-      "sequence": 10,
-      "agendaNumber": "7",
+      "sequence": 12,
+      "agendaNumber": "9",
       "title": "Resolution Approving and Authorizing the Sale and Conveyance of an HRA-owned Parcel Located at 515 Lafond Avenue; District 7, Wards 1",
       "isConsent": false,
       "actionName": null,
@@ -3686,7 +3686,7 @@
     {
       "id": "legistar-stpaul-eventitem-219039",
       "meeting_id": "legistar-stpaul-meeting-7829",
-      "sequence": 11,
+      "sequence": 13,
       "agendaNumber": null,
       "title": "STAFF REPORT",
       "isConsent": false,
@@ -3699,8 +3699,8 @@
     {
       "id": "legistar-stpaul-eventitem-219044",
       "meeting_id": "legistar-stpaul-meeting-7829",
-      "sequence": 12,
-      "agendaNumber": "8",
+      "sequence": 14,
+      "agendaNumber": "10",
       "title": "HRA - PED 2028 Budget Amendment and Technical Change Presentation",
       "isConsent": false,
       "actionName": null,
@@ -3712,7 +3712,7 @@
     {
       "id": "legistar-stpaul-eventitem-219045",
       "meeting_id": "legistar-stpaul-meeting-7829",
-      "sequence": 13,
+      "sequence": 15,
       "agendaNumber": null,
       "title": "NEXT MEETING DATE ",
       "isConsent": false,
@@ -3725,7 +3725,7 @@
     {
       "id": "legistar-stpaul-eventitem-219046",
       "meeting_id": "legistar-stpaul-meeting-7829",
-      "sequence": 14,
+      "sequence": 16,
       "agendaNumber": null,
       "title": "ADJOURNMENT",
       "isConsent": false,
@@ -3738,7 +3738,7 @@
     {
       "id": "legistar-stpaul-eventitem-219047",
       "meeting_id": "legistar-stpaul-meeting-7829",
-      "sequence": 9,
+      "sequence": 11,
       "agendaNumber": null,
       "title": "PUBLIC HEARING",
       "isConsent": false,
@@ -3751,7 +3751,7 @@
     {
       "id": "legistar-stpaul-eventitem-219048",
       "meeting_id": "legistar-stpaul-meeting-7829",
-      "sequence": 15,
+      "sequence": 17,
       "agendaNumber": null,
       "title": "Housing and Redevelopment Authority Board of Commissioners (HRA) meetings are open for in person attendance, but the public may also comment on public hearing items in writing or via voicemail. Any comments and materials submitted by 12:00 p.m. of the day before the meeting will be attached to the public record and available for review by the Board. Comments may be submitted as follows: \r\n\r\nWritten public comment on public hearing items can be submitted to \r\n\r\nHRAHearing@ci.stpaul.mn.us. Live testimony will be taken in person in the Council Chambers, Third Floor City Hall. \r\n\r\nMembers of the public may view HRA meetings online at \r\n\r\nhttps://stpaul.legistar.com/Calendar.aspx or on local cable Channel 18. \r\n\r\nHRA Meeting Information  \r\n\r\nThe HRA is paperless which saves the environment and reduces expenses. The agendas and HRA files are all available on the Web (see below). Commissioners use mobile devices to review the files during the meeting. Using a mobile device greatly reduces costs since agendas, including the documents attached to files, can be over 100 pages when printed.  \r\n\r\nWeb \r\n\r\nMeetings are available on the City Council website. Email notification and web feeds (RSS) of newly released minutes, agendas, and meetings are available by subscription at https://public.govdelivery.com/accounts/STPAUL/subscriber/new.  \r\n\r\nVisit https://stpaul.legistar.com/Calendar.aspx for meeting videos and updated copies of the agendas, minutes and supporting documents.  \r\n\r\nCable \r\n\r\nMeetings are live on St Paul Channel 18 and replayed at various times. Check your local listings.",
       "isConsent": false,
@@ -3760,6 +3760,32 @@
       "matterFile": null,
       "matterId": null,
       "matterType": null
+    },
+    {
+      "id": "legistar-stpaul-eventitem-219103",
+      "meeting_id": "legistar-stpaul-meeting-7829",
+      "sequence": 9,
+      "agendaNumber": "7",
+      "title": "Resolution Approving the Decertification of the Highland Pointe Lofts Tax Increment Financing District (a Housing District), District 15, Ward 3",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "RES 26-1923",
+      "matterId": 53344,
+      "matterType": "Resolution"
+    },
+    {
+      "id": "legistar-stpaul-eventitem-219104",
+      "meeting_id": "legistar-stpaul-meeting-7829",
+      "sequence": 10,
+      "agendaNumber": "8",
+      "title": "Resolution Approving the Decertification of the Housing Tax Increment Financing District No. 2 (Shepard Davern Rental Housing Project), District 15, Ward 3",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "RES 26-1924",
+      "matterId": 53345,
+      "matterType": "Resolution"
     },
     {
       "id": "legistar-stpaul-eventitem-219049",
@@ -4010,28 +4036,19 @@
     }
   ],
   "diff": {
-    "addedIds": [
-      "legistar-stpaul-meeting-7825",
-      "legistar-stpaul-meeting-7831"
-    ],
+    "addedIds": [],
     "removedIds": [],
     "changed": [
       {
-        "id": "legistar-stpaul-meeting-7821",
-        "field": "minutesUrl",
-        "from": null,
-        "to": "https://legistar1.granicus.com/StPaul/meetings/2026/11/7821_M_Legislative_Hearings_26-11-10_Meeting_Minutes_-_Action_Only.pdf"
-      },
-      {
-        "id": "legistar-stpaul-meeting-7824",
-        "field": "minutesUrl",
-        "from": null,
-        "to": "https://legistar1.granicus.com/StPaul/meetings/2026/11/7824_M_Legislative_Hearings_26-11-12_Meeting_Minutes_-_Action_Only.pdf"
+        "id": "legistar-stpaul-meeting-7829",
+        "field": "agendaStatus",
+        "from": "Final",
+        "to": "Final-revised"
       }
     ]
   },
-  "previousGeneratedAt": "2026-11-12T19:43:59.672Z",
+  "previousGeneratedAt": "2026-11-13T19:26:29.693Z",
   "knownGaps": [
-    "Consent-agenda flagging uses Legistar's own EventItemConsent field only (27 of 253 agenda item(s) in this window flagged). \"No discussion\" / \"no public comment\" are NOT flagged — this API exposes no comparably reliable field for either, and AGENTS.md §3.3 rules out inferring one from absence."
+    "Consent-agenda flagging uses Legistar's own EventItemConsent field only (27 of 255 agenda item(s) in this window flagged). \"No discussion\" / \"no public comment\" are NOT flagged — this API exposes no comparably reliable field for either, and AGENTS.md §3.3 rules out inferring one from absence."
   ]
 }
