@@ -2,22 +2,22 @@
   "schemaVersion": 1,
   "client": "stpaul",
   "jurisdiction": "St. Paul City Council",
-  "generatedAt": "2026-11-15T18:40:56.225Z",
+  "generatedAt": "2026-11-16T21:50:25.080Z",
   "status": "ingested",
-  "note": "19 meeting(s) (19/19 event(s) in window) and 255 agenda item(s) ingested for 2026-11-01–2027-02-13.",
+  "note": "20 meeting(s) (20/20 event(s) in window) and 264 agenda item(s) ingested for 2026-11-02–2027-02-14.",
   "provenance": {
     "primarySourceUrl": "https://webapi.legistar.com/v1/stpaul/events",
     "sourceAgency": "St. Paul City Council",
     "documentType": "Legistar Web API — Events/EventItems",
     "documentId": null,
     "issuedDate": null,
-    "fetchedAt": "2026-11-15T18:40:56.225Z",
+    "fetchedAt": "2026-11-16T21:50:25.080Z",
     "licence": "Public records served via Legistar InSite; no separate machine-reuse licence published by the host jurisdiction as of this writing.",
-    "contentHash": "ff6080820c678d5b9e0035b518dcb6898241e3e52f4306caaa3bddc12788d617"
+    "contentHash": "98bd3ab1c5bb5df3eca1371567ba03686a2dd36f2ed6ed133dbb1c07b4a042ee"
   },
   "window": {
-    "startIso": "2026-11-01",
-    "endIso": "2027-02-13"
+    "startIso": "2026-11-02",
+    "endIso": "2027-02-14"
   },
   "meetings": [
     {
@@ -612,7 +612,7 @@
       "minutesUrl": null,
       "videoStatus": "Public",
       "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7829&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
-      "lastModifiedUtc": "2026-11-13T22:02:15.487",
+      "lastModifiedUtc": "2026-11-16T18:41:58.007",
       "members": [
         {
           "id": 6692,
@@ -709,12 +709,27 @@
       "date": "2026-11-17",
       "time": "10:00",
       "location": "Room 330 City Hall & Court House/Remote",
-      "agendaStatus": "Final",
+      "agendaStatus": "Final-revised",
       "agendaUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/11/7831_A_Legislative_Hearings_26-11-17_ADA_Meeting_Agenda.pdf",
       "minutesUrl": null,
       "videoStatus": "Public",
       "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7831&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
-      "lastModifiedUtc": "2026-11-12T21:12:16.48",
+      "lastModifiedUtc": "2026-11-16T16:42:18.817",
+      "members": []
+    },
+    {
+      "id": "legistar-stpaul-meeting-7833",
+      "body_id": "legistar-stpaul-body-195",
+      "bodyName": "Legislative Hearings",
+      "date": "2026-11-19",
+      "time": "09:00",
+      "location": "Remote (RiverRoom 370 Osborn-staff only)",
+      "agendaStatus": "Final",
+      "agendaUrl": null,
+      "minutesUrl": null,
+      "videoStatus": "Public",
+      "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7833&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
+      "lastModifiedUtc": "2026-11-16T21:13:42.18",
       "members": []
     }
   ],
@@ -731,6 +746,19 @@
       "matterFile": null,
       "matterId": null,
       "matterType": null
+    },
+    {
+      "id": "legistar-stpaul-eventitem-218747",
+      "meeting_id": "legistar-stpaul-meeting-7805",
+      "sequence": 2,
+      "agendaNumber": null,
+      "title": "Appeal of Mehkai Baker to a Rent Stabilization Determination at 808 BERRY STREET, APT. 404.",
+      "isConsent": false,
+      "actionName": "Laid Over",
+      "passedFlagName": null,
+      "matterFile": "RLH RSA 26-25",
+      "matterId": 53180,
+      "matterType": "Resolution LH Rent Stabilization Appeal"
     },
     {
       "id": "legistar-stpaul-eventitem-218565",
@@ -1981,6 +2009,19 @@
       "matterType": "Resolution LH Tax Assessment Appeal"
     },
     {
+      "id": "legistar-stpaul-eventitem-218798",
+      "meeting_id": "legistar-stpaul-meeting-7818",
+      "sequence": 4,
+      "agendaNumber": "2",
+      "title": "Ratifying the Appealed Special Tax Assessment for property at 2255 CONWAY STREET. (File No. 2607T, Assessment No. 269008)",
+      "isConsent": false,
+      "actionName": "Referred",
+      "passedFlagName": null,
+      "matterFile": "RLH TA 26-263",
+      "matterId": 53271,
+      "matterType": "Resolution LH Tax Assessment Appeal"
+    },
+    {
       "id": "legistar-stpaul-eventitem-218800",
       "meeting_id": "legistar-stpaul-meeting-7818",
       "sequence": 9,
@@ -2122,6 +2163,19 @@
       "matterFile": null,
       "matterId": null,
       "matterType": null
+    },
+    {
+      "id": "legistar-stpaul-eventitem-218772",
+      "meeting_id": "legistar-stpaul-meeting-7821",
+      "sequence": 7,
+      "agendaNumber": "3",
+      "title": "Deleting the Appealed Special Tax Assessment for property at 570 PRIOR STREET NORTH, aka 576 PRIOR STREET NORTH. (File No. J2615B, Assessment No. 268121)",
+      "isConsent": false,
+      "actionName": "Referred",
+      "passedFlagName": null,
+      "matterFile": "RLH TA 26-244",
+      "matterId": 53129,
+      "matterType": "Resolution LH Tax Assessment Appeal"
     },
     {
       "id": "legistar-stpaul-eventitem-218774",
@@ -3701,7 +3755,7 @@
       "meeting_id": "legistar-stpaul-meeting-7829",
       "sequence": 14,
       "agendaNumber": "10",
-      "title": "HRA - PED 2028 Budget Amendment and Technical Change Presentation",
+      "title": "HRA - PED 2027 Budget Amendment and Technical Change Presentation",
       "isConsent": false,
       "actionName": null,
       "passedFlagName": null,
@@ -3907,7 +3961,7 @@
     {
       "id": "legistar-stpaul-eventitem-219085",
       "meeting_id": "legistar-stpaul-meeting-7831",
-      "sequence": 5,
+      "sequence": 7,
       "agendaNumber": null,
       "title": "Summary & Vehicle Abatement Orders",
       "isConsent": false,
@@ -3920,8 +3974,8 @@
     {
       "id": "legistar-stpaul-eventitem-219086",
       "meeting_id": "legistar-stpaul-meeting-7831",
-      "sequence": 6,
-      "agendaNumber": "2",
+      "sequence": 8,
+      "agendaNumber": "3",
       "title": "Appeal of Maurice Culpepper to a Summary Abatement Order at 689 JACKSON STREET.",
       "isConsent": false,
       "actionName": null,
@@ -3933,8 +3987,8 @@
     {
       "id": "legistar-stpaul-eventitem-219087",
       "meeting_id": "legistar-stpaul-meeting-7831",
-      "sequence": 7,
-      "agendaNumber": "3",
+      "sequence": 9,
+      "agendaNumber": "4",
       "title": "Appeal of Daniel J. Vetter to a Summary Abatement Order at 364 SIDNEY STREET EAST.",
       "isConsent": false,
       "actionName": null,
@@ -3946,7 +4000,7 @@
     {
       "id": "legistar-stpaul-eventitem-219092",
       "meeting_id": "legistar-stpaul-meeting-7831",
-      "sequence": 8,
+      "sequence": 10,
       "agendaNumber": null,
       "title": "1:30 p.m. Hearings",
       "isConsent": false,
@@ -3959,7 +4013,7 @@
     {
       "id": "legistar-stpaul-eventitem-219093",
       "meeting_id": "legistar-stpaul-meeting-7831",
-      "sequence": 9,
+      "sequence": 11,
       "agendaNumber": null,
       "title": "Orders To Vacate - Fire Certificate of Occupancy",
       "isConsent": false,
@@ -3972,8 +4026,8 @@
     {
       "id": "legistar-stpaul-eventitem-219094",
       "meeting_id": "legistar-stpaul-meeting-7831",
-      "sequence": 10,
-      "agendaNumber": "4",
+      "sequence": 6,
+      "agendaNumber": "2",
       "title": "Appeal of Lita Fierro to a Notice of Condemnation as Unfit for Human Habitation & Order to Vacate at 927 DESOTO STREET.",
       "isConsent": false,
       "actionName": null,
@@ -3985,7 +4039,7 @@
     {
       "id": "legistar-stpaul-eventitem-219095",
       "meeting_id": "legistar-stpaul-meeting-7831",
-      "sequence": 11,
+      "sequence": 12,
       "agendaNumber": "5",
       "title": "Appeal of Ashray Gupta to a Fire Inspection Correction Notice, including Revocation and Order to Vacate at 251 MARIA AVENUE.",
       "isConsent": false,
@@ -3998,7 +4052,7 @@
     {
       "id": "legistar-stpaul-eventitem-219096",
       "meeting_id": "legistar-stpaul-meeting-7831",
-      "sequence": 12,
+      "sequence": 13,
       "agendaNumber": null,
       "title": "2:00 p.m. Hearings",
       "isConsent": false,
@@ -4011,7 +4065,7 @@
     {
       "id": "legistar-stpaul-eventitem-219097",
       "meeting_id": "legistar-stpaul-meeting-7831",
-      "sequence": 13,
+      "sequence": 14,
       "agendaNumber": null,
       "title": "Fire Certificates of Occupancy",
       "isConsent": false,
@@ -4024,7 +4078,7 @@
     {
       "id": "legistar-stpaul-eventitem-219098",
       "meeting_id": "legistar-stpaul-meeting-7831",
-      "sequence": 14,
+      "sequence": 15,
       "agendaNumber": "6",
       "title": "Appeal of Ashray Gupta, Representative on behalf of ENCF MK DREY MSP 03 LLC, to a Fire Certificate of Occupancy Correction Notice at 1863 SEVENTH STREET EAST.",
       "isConsent": false,
@@ -4033,15 +4087,102 @@
       "matterFile": "RLH FCO 26-89",
       "matterId": 53187,
       "matterType": "Resolution LH Fire C of O OR Correction Order"
+    },
+    {
+      "id": "legistar-stpaul-eventitem-219105",
+      "meeting_id": "legistar-stpaul-meeting-7831",
+      "sequence": 5,
+      "agendaNumber": null,
+      "title": "Orders to Vacate Code Enforcement",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-stpaul-eventitem-219131",
+      "meeting_id": "legistar-stpaul-meeting-7833",
+      "sequence": 2,
+      "agendaNumber": null,
+      "title": "Special Tax Assessments",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-stpaul-eventitem-219133",
+      "meeting_id": "legistar-stpaul-meeting-7833",
+      "sequence": 3,
+      "agendaNumber": "1",
+      "title": "Ratifying the Appealed Special Tax Assessment for property at 1158 HAWTHORNE AVENUE EAST. (File No. CG26Q2B3, Assessment No. 260163)",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "RLH TA 26-267",
+      "matterId": 53309,
+      "matterType": "Resolution LH Tax Assessment Appeal"
+    },
+    {
+      "id": "legistar-stpaul-eventitem-219134",
+      "meeting_id": "legistar-stpaul-meeting-7833",
+      "sequence": 4,
+      "agendaNumber": "2",
+      "title": "Ratifying the Appealed Special Tax Assessment for property at 927 DESOTO STREET. (File No. CG26Q2B4, Assessment No. 260164)",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "RLH TA 26-277",
+      "matterId": 53359,
+      "matterType": "Resolution LH Tax Assessment Appeal"
+    },
+    {
+      "id": "legistar-stpaul-eventitem-219135",
+      "meeting_id": "legistar-stpaul-meeting-7833",
+      "sequence": 5,
+      "agendaNumber": "3",
+      "title": "Ratifying the Appealed Special Tax Assessment for property at 926 EARL STREET. (File No. CG26Q2B4, Assessment No. 260164)",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "RLH TA 26-280",
+      "matterId": 53363,
+      "matterType": "Resolution LH Tax Assessment Appeal"
+    },
+    {
+      "id": "legistar-stpaul-eventitem-219136",
+      "meeting_id": "legistar-stpaul-meeting-7833",
+      "sequence": 1,
+      "agendaNumber": null,
+      "title": "10:00 a.m. Hearings",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
     }
   ],
   "diff": {
-    "addedIds": [],
+    "addedIds": [
+      "legistar-stpaul-meeting-7833"
+    ],
     "removedIds": [],
-    "changed": []
+    "changed": [
+      {
+        "id": "legistar-stpaul-meeting-7831",
+        "field": "agendaStatus",
+        "from": "Final",
+        "to": "Final-revised"
+      }
+    ]
   },
-  "previousGeneratedAt": "2026-11-14T17:49:53.167Z",
+  "previousGeneratedAt": "2026-11-15T18:40:56.225Z",
   "knownGaps": [
-    "Consent-agenda flagging uses Legistar's own EventItemConsent field only (27 of 255 agenda item(s) in this window flagged). \"No discussion\" / \"no public comment\" are NOT flagged — this API exposes no comparably reliable field for either, and AGENTS.md §3.3 rules out inferring one from absence."
+    "Consent-agenda flagging uses Legistar's own EventItemConsent field only (27 of 264 agenda item(s) in this window flagged). \"No discussion\" / \"no public comment\" are NOT flagged — this API exposes no comparably reliable field for either, and AGENTS.md §3.3 rules out inferring one from absence."
   ]
 }

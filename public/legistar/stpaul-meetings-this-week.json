@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-15T18:40:56.227Z",
+  "generatedAt": "2026-11-16T21:50:25.082Z",
   "meetingsThisWeek": [
     {
       "client": "stpaul",
@@ -280,6 +280,18 @@
           "type": "Councilmember"
         }
       ]
+    },
+    {
+      "client": "stpaul",
+      "jurisdiction": "St. Paul City Council",
+      "bodyName": "Legislative Hearings",
+      "date": "2026-11-19",
+      "time": "09:00",
+      "location": "Remote (RiverRoom 370 Osborn-staff only)",
+      "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7833&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
+      "agendaUrl": null,
+      "isCancelled": false,
+      "members": []
     }
   ]
 }
