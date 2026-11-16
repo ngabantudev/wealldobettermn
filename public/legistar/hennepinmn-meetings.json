@@ -2,22 +2,22 @@
   "schemaVersion": 1,
   "client": "hennepinmn",
   "jurisdiction": "Hennepin County Board",
-  "generatedAt": "2026-11-15T18:42:41.596Z",
+  "generatedAt": "2026-11-16T21:52:10.575Z",
   "status": "ingested",
-  "note": "11 meeting(s) (11/11 event(s) in window) and 209 agenda item(s) ingested for 2026-11-01–2027-02-13.",
+  "note": "11 meeting(s) (11/11 event(s) in window) and 213 agenda item(s) ingested for 2026-11-02–2027-02-14.",
   "provenance": {
     "primarySourceUrl": "https://webapi.legistar.com/v1/hennepinmn/events",
     "sourceAgency": "Hennepin County Board",
     "documentType": "Legistar Web API — Events/EventItems",
     "documentId": null,
     "issuedDate": null,
-    "fetchedAt": "2026-11-15T18:42:41.596Z",
+    "fetchedAt": "2026-11-16T21:52:10.575Z",
     "licence": "Public records served via Legistar InSite; no separate machine-reuse licence published by the host jurisdiction as of this writing.",
-    "contentHash": "f1686ea499173129512b313b4a6ca6d6e1697730c01578f2c0ebeeed65b8df4c"
+    "contentHash": "044bfdb13ad85fdb000ecac21a991e7ab5ecd850ed08be50735a4970246ba024"
   },
   "window": {
-    "startIso": "2026-11-01",
-    "endIso": "2027-02-13"
+    "startIso": "2026-11-02",
+    "endIso": "2027-02-14"
   },
   "meetings": [
     {
@@ -262,7 +262,7 @@
       "date": "2026-11-17",
       "time": "13:30",
       "location": "Government Center - County",
-      "agendaStatus": "Preliminary",
+      "agendaStatus": "Final",
       "agendaUrl": "https://hennepinmn.legistar1.com/hennepinmn/meetings/2026/11/1505_A_Health_Committee_26-11-17_COMMITTEE_AGENDA.pdf",
       "minutesUrl": null,
       "videoStatus": "Public",
@@ -313,7 +313,7 @@
       "date": "2026-11-17",
       "time": "13:30",
       "location": "Government Center - County Board Chambers",
-      "agendaStatus": "Preliminary",
+      "agendaStatus": "Final",
       "agendaUrl": "https://hennepinmn.legistar1.com/hennepinmn/meetings/2026/11/1506_A_Human_Services_Committee_26-11-17_COMMITTEE_AGENDA.pdf",
       "minutesUrl": null,
       "videoStatus": "Public",
@@ -364,7 +364,7 @@
       "date": "2026-11-17",
       "time": "13:30",
       "location": "Government Center - County Board Chambers",
-      "agendaStatus": "Preliminary",
+      "agendaStatus": "Final",
       "agendaUrl": "https://hennepinmn.legistar1.com/hennepinmn/meetings/2026/11/1507_A_Law%2C_Safety_and_Justice_Committee_26-11-17_COMMITTEE_AGENDA.pdf",
       "minutesUrl": null,
       "videoStatus": "Public",
@@ -415,7 +415,7 @@
       "date": "2026-11-17",
       "time": "13:30",
       "location": "Government Center - County Board Chambers",
-      "agendaStatus": "Preliminary",
+      "agendaStatus": "Final",
       "agendaUrl": "https://hennepinmn.legistar1.com/hennepinmn/meetings/2026/11/1508_A_Public_Works_Committee_26-11-17_COMMITTEE_AGENDA.pdf",
       "minutesUrl": null,
       "videoStatus": "Public",
@@ -466,7 +466,7 @@
       "date": "2026-11-17",
       "time": "13:30",
       "location": "Government Center - County Board Chambers",
-      "agendaStatus": "Preliminary",
+      "agendaStatus": "Final",
       "agendaUrl": "https://hennepinmn.legistar1.com/hennepinmn/meetings/2026/11/1509_A_Resident_Services_Committee_26-11-17_COMMITTEE_AGENDA.pdf",
       "minutesUrl": null,
       "videoStatus": "Public",
@@ -517,7 +517,7 @@
       "date": "2026-11-17",
       "time": "13:30",
       "location": "Government Center - County Board Chambers",
-      "agendaStatus": "Preliminary",
+      "agendaStatus": "Final",
       "agendaUrl": "https://hennepinmn.legistar1.com/hennepinmn/meetings/2026/11/1510_A_Hennepin_County_Housing_and_Redevelopment_Authority_26-11-17_AUTHORITY_AGENDA.pdf",
       "minutesUrl": null,
       "videoStatus": "Public",
@@ -2000,8 +2000,8 @@
       "agendaNumber": "11.A.",
       "title": "2027 State Legislative Priorities and Platform, as amended",
       "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
+      "actionName": "adopt",
+      "passedFlagName": "Pass",
       "matterFile": "26-0384",
       "matterId": 4921,
       "matterType": "Resolution"
@@ -2082,7 +2082,7 @@
       "passedFlagName": "Pass",
       "matterFile": "26-HCRRA-0023",
       "matterId": 5008,
-      "matterType": "RRA New Business"
+      "matterType": "Resolution"
     },
     {
       "id": "legistar-hennepinmn-eventitem-38448",
@@ -2434,6 +2434,58 @@
       "matterFile": "TMP-26-0937",
       "matterId": 5050,
       "matterType": "Minutes"
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-38549",
+      "meeting_id": "legistar-hennepinmn-meeting-1504",
+      "sequence": 11,
+      "agendaNumber": null,
+      "title": "Addendum",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-38550",
+      "meeting_id": "legistar-hennepinmn-meeting-1504",
+      "sequence": 14,
+      "agendaNumber": null,
+      "title": "Recognition of Hennepin County’s 175th anniversary in 2027",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "TMP-26-0920",
+      "matterId": 5033,
+      "matterType": "Resolution"
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-38551",
+      "meeting_id": "legistar-hennepinmn-meeting-1504",
+      "sequence": 13,
+      "agendaNumber": null,
+      "title": "Neg the assignment and assumption of Agmt A130611 approving the transfer of ownership of property to Mann Companies, with no change to NTE",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "TMP-26-0865",
+      "matterId": 4978,
+      "matterType": "Resolution"
+    },
+    {
+      "id": "legistar-hennepinmn-eventitem-38552",
+      "meeting_id": "legistar-hennepinmn-meeting-1504",
+      "sequence": 12,
+      "agendaNumber": null,
+      "title": "Review and approval of Three Rivers Park District 2027 Budget",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "TMP-26-0898",
+      "matterId": 5011,
+      "matterType": "Resolution"
     },
     {
       "id": "legistar-hennepinmn-eventitem-38467",
@@ -3284,10 +3336,47 @@
   "diff": {
     "addedIds": [],
     "removedIds": [],
-    "changed": []
+    "changed": [
+      {
+        "id": "legistar-hennepinmn-meeting-1505",
+        "field": "agendaStatus",
+        "from": "Preliminary",
+        "to": "Final"
+      },
+      {
+        "id": "legistar-hennepinmn-meeting-1506",
+        "field": "agendaStatus",
+        "from": "Preliminary",
+        "to": "Final"
+      },
+      {
+        "id": "legistar-hennepinmn-meeting-1507",
+        "field": "agendaStatus",
+        "from": "Preliminary",
+        "to": "Final"
+      },
+      {
+        "id": "legistar-hennepinmn-meeting-1508",
+        "field": "agendaStatus",
+        "from": "Preliminary",
+        "to": "Final"
+      },
+      {
+        "id": "legistar-hennepinmn-meeting-1509",
+        "field": "agendaStatus",
+        "from": "Preliminary",
+        "to": "Final"
+      },
+      {
+        "id": "legistar-hennepinmn-meeting-1510",
+        "field": "agendaStatus",
+        "from": "Preliminary",
+        "to": "Final"
+      }
+    ]
   },
-  "previousGeneratedAt": "2026-11-14T17:50:55.881Z",
+  "previousGeneratedAt": "2026-11-15T18:42:41.596Z",
   "knownGaps": [
-    "Consent-agenda flagging uses Legistar's own EventItemConsent field only (0 of 209 agenda item(s) in this window flagged). \"No discussion\" / \"no public comment\" are NOT flagged — this API exposes no comparably reliable field for either, and AGENTS.md §3.3 rules out inferring one from absence."
+    "Consent-agenda flagging uses Legistar's own EventItemConsent field only (0 of 213 agenda item(s) in this window flagged). \"No discussion\" / \"no public comment\" are NOT flagged — this API exposes no comparably reliable field for either, and AGENTS.md §3.3 rules out inferring one from absence."
   ]
 }
