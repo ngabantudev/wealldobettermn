@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-16T21:50:25.082Z",
+  "generatedAt": "2026-11-17T20:41:09.706Z",
   "meetingsThisWeek": [
     {
       "client": "stpaul",
@@ -289,7 +289,19 @@
       "time": "09:00",
       "location": "Remote (RiverRoom 370 Osborn-staff only)",
       "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7833&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
-      "agendaUrl": null,
+      "agendaUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/11/7833_A_Legislative_Hearings_26-11-19_ADA_Meeting_Agenda.pdf",
+      "isCancelled": false,
+      "members": []
+    },
+    {
+      "client": "stpaul",
+      "jurisdiction": "St. Paul City Council",
+      "bodyName": "Rent Stabilization Appeal Hearings",
+      "date": "2026-11-23",
+      "time": "10:00",
+      "location": "Room 330 City Hall & Court House",
+      "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7832&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
+      "agendaUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/11/7832_A_Rent_Stabilization_Appeal_Hearings_26-11-23_Meeting_Agenda.pdf",
       "isCancelled": false,
       "members": []
     }
