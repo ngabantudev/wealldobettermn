@@ -1,105 +1,6 @@
 {
-  "generatedAt": "2026-11-19T20:18:29.353Z",
+  "generatedAt": "2026-11-20T19:51:44.052Z",
   "meetingsThisWeek": [
-    {
-      "client": "minneapolis",
-      "jurisdiction": "Minneapolis City Council",
-      "bodyName": "Climate & Infrastructure Committee",
-      "date": "2026-11-19",
-      "time": "13:30",
-      "location": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/CI/16334",
-      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/CI/16334",
-      "isCancelled": false,
-      "members": [
-        {
-          "id": 375,
-          "name": "Linea Palmisano",
-          "type": "Council Member"
-        },
-        {
-          "id": 5692,
-          "name": "Robin Wonsley",
-          "type": "Chair"
-        },
-        {
-          "id": 5696,
-          "name": "LaTrisha Vetaw",
-          "type": "Council Member"
-        },
-        {
-          "id": 5697,
-          "name": "Aisha Chughtai",
-          "type": "Council Member"
-        },
-        {
-          "id": 5776,
-          "name": "Aurin Chowdhury",
-          "type": "Council Member"
-        },
-        {
-          "id": 7961,
-          "name": "Pearll Warren",
-          "type": "Council Member"
-        },
-        {
-          "id": 7962,
-          "name": "Soren Stevenson",
-          "type": "Vice-Chair"
-        }
-      ]
-    },
-    {
-      "client": "minneapolis",
-      "jurisdiction": "Minneapolis City Council",
-      "bodyName": "Pedestrian Advisory Committee",
-      "date": "2026-11-19",
-      "time": "16:00",
-      "location": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/PAC/16370",
-      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/PAC/16370",
-      "isCancelled": false,
-      "members": [
-        {
-          "id": 6920,
-          "name": "Leisa Meeuwen-Ristuben",
-          "type": "ABC Member"
-        },
-        {
-          "id": 6921,
-          "name": "Andrea Riehl",
-          "type": "ABC Member"
-        }
-      ]
-    },
-    {
-      "client": "minneapolis",
-      "jurisdiction": "Minneapolis City Council",
-      "bodyName": "Zoning Board of Adjustment",
-      "date": "2026-11-19",
-      "time": "16:30",
-      "location": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/ZBA/",
-      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/ZBA/",
-      "isCancelled": true,
-      "members": [
-        {
-          "id": 6794,
-          "name": "Derek Eicholz",
-          "type": "ABC Member"
-        },
-        {
-          "id": 6841,
-          "name": "Matthew Perry",
-          "type": "ABC Member"
-        },
-        {
-          "id": 6876,
-          "name": "Taylor Smrikarova",
-          "type": "ABC Member"
-        }
-      ]
-    },
     {
       "client": "minneapolis",
       "jurisdiction": "Minneapolis City Council",
@@ -107,8 +8,8 @@
       "date": "2026-11-20",
       "time": "10:00",
       "location": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/Council/",
-      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/Council/",
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/Council/16376",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/Council/16376",
       "isCancelled": false,
       "members": [
         {
@@ -198,6 +99,64 @@
           "id": 6965,
           "name": "William Walker Jr",
           "type": "ABC Member"
+        }
+      ]
+    },
+    {
+      "client": "minneapolis",
+      "jurisdiction": "Minneapolis City Council",
+      "bodyName": "Charter Commission Amendment Review Committee",
+      "date": "2026-11-24",
+      "time": "16:00",
+      "location": null,
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/charter-arc/16377",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/charter-arc/16377",
+      "isCancelled": false,
+      "members": [
+        {
+          "id": 323,
+          "name": "Matt Perry",
+          "type": "Council Member"
+        },
+        {
+          "id": 326,
+          "name": "Barry Clegg",
+          "type": "Council Member"
+        },
+        {
+          "id": 347,
+          "name": "Andrea Rubenstein",
+          "type": "Council Member"
+        },
+        {
+          "id": 348,
+          "name": "Andrew Kozak",
+          "type": "Chair"
+        },
+        {
+          "id": 4267,
+          "name": "Peter Ginder",
+          "type": "Vice-Chair"
+        },
+        {
+          "id": 5883,
+          "name": "Julie Doherty",
+          "type": "Council Member"
+        },
+        {
+          "id": 5884,
+          "name": "Sherri Boone",
+          "type": "Council Member"
+        },
+        {
+          "id": 6531,
+          "name": "Mariam DeMello",
+          "type": "Council Member"
+        },
+        {
+          "id": 7020,
+          "name": "Ben Cooper",
+          "type": "Council Member"
         }
       ]
     },
@@ -569,8 +528,8 @@
       "date": "2026-12-02",
       "time": "16:00",
       "location": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/Charter/",
-      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/Charter/",
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/Charter/16378",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/Charter/16378",
       "isCancelled": false,
       "members": [
         {

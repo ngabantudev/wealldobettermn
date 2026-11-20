@@ -2,39 +2,24 @@
   "schemaVersion": 1,
   "client": "stpaul",
   "jurisdiction": "St. Paul City Council",
-  "generatedAt": "2026-11-19T20:17:00.802Z",
+  "generatedAt": "2026-11-20T19:50:09.713Z",
   "status": "ingested",
-  "note": "17 meeting(s) (17/17 event(s) in window) and 172 agenda item(s) ingested for 2026-11-05–2027-02-17.",
+  "note": "17 meeting(s) (17/17 event(s) in window) and 181 agenda item(s) ingested for 2026-11-06–2027-02-18.",
   "provenance": {
     "primarySourceUrl": "https://webapi.legistar.com/v1/stpaul/events",
     "sourceAgency": "St. Paul City Council",
     "documentType": "Legistar Web API — Events/EventItems",
     "documentId": null,
     "issuedDate": null,
-    "fetchedAt": "2026-11-19T20:17:00.802Z",
+    "fetchedAt": "2026-11-20T19:50:09.713Z",
     "licence": "Public records served via Legistar InSite; no separate machine-reuse licence published by the host jurisdiction as of this writing.",
-    "contentHash": "e8dff9669c8f39ab2eb98abf97dc4c202238c28b2123b2b0725017d5e39c1f7b"
+    "contentHash": "81ec72a8587a162892e91cec4051ce310d7bb54b4a6109f57fced11f7b5d44a5"
   },
   "window": {
-    "startIso": "2026-11-05",
-    "endIso": "2027-02-17"
+    "startIso": "2026-11-06",
+    "endIso": "2027-02-18"
   },
   "meetings": [
-    {
-      "id": "legistar-stpaul-meeting-7805",
-      "body_id": "legistar-stpaul-body-237",
-      "bodyName": "Rent Stabilization Appeal Hearings",
-      "date": "2026-11-05",
-      "time": "01:00",
-      "location": "Room 330 City Hall & Court House",
-      "agendaStatus": "Final",
-      "agendaUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/11/7805_A_Rent_Stabilization_Appeal_Hearings_26-11-05_Meeting_Agenda.pdf",
-      "minutesUrl": null,
-      "videoStatus": "Public",
-      "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7805&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
-      "lastModifiedUtc": "2026-11-03T21:36:52.883",
-      "members": []
-    },
     {
       "id": "legistar-stpaul-meeting-7820",
       "body_id": "legistar-stpaul-body-192",
@@ -514,6 +499,21 @@
       "members": []
     },
     {
+      "id": "legistar-stpaul-meeting-7834",
+      "body_id": "legistar-stpaul-body-195",
+      "bodyName": "Legislative Hearings",
+      "date": "2026-11-24",
+      "time": "09:30",
+      "location": "Room 330 City Hall & Court House/Remote",
+      "agendaStatus": "Final",
+      "agendaUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/11/7834_A_Legislative_Hearings_26-11-24_ADA_Meeting_Agenda.pdf",
+      "minutesUrl": null,
+      "videoStatus": "Public",
+      "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7834&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
+      "lastModifiedUtc": "2026-11-19T20:20:21.423",
+      "members": []
+    },
+    {
       "id": "legistar-stpaul-meeting-7835",
       "body_id": "legistar-stpaul-body-138",
       "bodyName": "City Council",
@@ -617,32 +617,6 @@
     }
   ],
   "agendaItems": [
-    {
-      "id": "legistar-stpaul-eventitem-218746",
-      "meeting_id": "legistar-stpaul-meeting-7805",
-      "sequence": 1,
-      "agendaNumber": null,
-      "title": "Rent Stabilization Appeals",
-      "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
-      "matterFile": null,
-      "matterId": null,
-      "matterType": null
-    },
-    {
-      "id": "legistar-stpaul-eventitem-218747",
-      "meeting_id": "legistar-stpaul-meeting-7805",
-      "sequence": 2,
-      "agendaNumber": null,
-      "title": "Appeal of Mehkai Baker to a Rent Stabilization Determination at 808 BERRY STREET, APT. 404.",
-      "isConsent": false,
-      "actionName": "Laid Over",
-      "passedFlagName": null,
-      "matterFile": "RLH RSA 26-25",
-      "matterId": 53180,
-      "matterType": "Resolution LH Rent Stabilization Appeal"
-    },
     {
       "id": "legistar-stpaul-eventitem-218739",
       "meeting_id": "legistar-stpaul-meeting-7820",
@@ -2763,6 +2737,149 @@
       "matterType": null
     },
     {
+      "id": "legistar-stpaul-eventitem-219160",
+      "meeting_id": "legistar-stpaul-meeting-7834",
+      "sequence": 1,
+      "agendaNumber": null,
+      "title": "9:30 a.m. Hearings",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-stpaul-eventitem-219163",
+      "meeting_id": "legistar-stpaul-meeting-7834",
+      "sequence": 4,
+      "agendaNumber": null,
+      "title": "Special Tax Assessments",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-stpaul-eventitem-219164",
+      "meeting_id": "legistar-stpaul-meeting-7834",
+      "sequence": 7,
+      "agendaNumber": "3",
+      "title": "Ratifying the assessment for Securing and/or Emergency Boarding fees billed during August 2026 on Private Property. (File No. J2616B, Assessment No. 268122)",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "RLH AR 26-80",
+      "matterId": 53259,
+      "matterType": "Resolution LH Assessment Roll"
+    },
+    {
+      "id": "legistar-stpaul-eventitem-219165",
+      "meeting_id": "legistar-stpaul-meeting-7834",
+      "sequence": 8,
+      "agendaNumber": "4",
+      "title": "Ratifying the assessment for Demolition of Vacant, Nuisance and/or Hazardous Structure from the month of September 2026. (File No. J2609C, Assessment No. 262008)",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "RLH AR 26-81",
+      "matterId": 53260,
+      "matterType": "Resolution LH Assessment Roll"
+    },
+    {
+      "id": "legistar-stpaul-eventitem-219166",
+      "meeting_id": "legistar-stpaul-meeting-7834",
+      "sequence": 5,
+      "agendaNumber": "2",
+      "title": "Ratifying the Appealed Special Tax Assessment for property at 668 COOK AVENUE EAST. (File No. J2616B, Assessment No. 268122)",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "RLH TA 26-274",
+      "matterId": 53343,
+      "matterType": "Resolution LH Tax Assessment Appeal"
+    },
+    {
+      "id": "legistar-stpaul-eventitem-219167",
+      "meeting_id": "legistar-stpaul-meeting-7834",
+      "sequence": 3,
+      "agendaNumber": null,
+      "title": "10:00 a.m. Hearings",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-stpaul-eventitem-219168",
+      "meeting_id": "legistar-stpaul-meeting-7834",
+      "sequence": 10,
+      "agendaNumber": null,
+      "title": "Making Finding on Nuisance Abatements",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-stpaul-eventitem-219169",
+      "meeting_id": "legistar-stpaul-meeting-7834",
+      "sequence": 6,
+      "agendaNumber": null,
+      "title": "Special Tax Assessments",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-stpaul-eventitem-219170",
+      "meeting_id": "legistar-stpaul-meeting-7834",
+      "sequence": 9,
+      "agendaNumber": null,
+      "title": "10:30 a.m. Hearings",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": null,
+      "matterId": null,
+      "matterType": null
+    },
+    {
+      "id": "legistar-stpaul-eventitem-219172",
+      "meeting_id": "legistar-stpaul-meeting-7834",
+      "sequence": 11,
+      "agendaNumber": "5",
+      "title": "Making finding on the appeal of Jonathan Stierwald to a nuisance abatement ordered for 1020 ASHLAND AVENUE in Council File RLH SAO 26-113.",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "RLH SAO 26-117",
+      "matterId": 53381,
+      "matterType": "Resolution LH Summary Abatement Order"
+    },
+    {
+      "id": "legistar-stpaul-eventitem-219183",
+      "meeting_id": "legistar-stpaul-meeting-7834",
+      "sequence": 2,
+      "agendaNumber": "1",
+      "title": "Appeal of Wayne Carlson, George A Ohio LLC, to a Code Compliance Report at 548 OHIO STREET.",
+      "isConsent": false,
+      "actionName": null,
+      "passedFlagName": null,
+      "matterFile": "RLH OA 26-5",
+      "matterId": 53369,
+      "matterType": "Resolution LH Other Appeal Type"
+    },
+    {
       "id": "legistar-stpaul-eventitem-219185",
       "meeting_id": "legistar-stpaul-meeting-7835",
       "sequence": 1,
@@ -2856,57 +2973,15 @@
   ],
   "diff": {
     "addedIds": [
-      "legistar-stpaul-meeting-7835",
-      "legistar-stpaul-meeting-7836"
+      "legistar-stpaul-meeting-7834"
     ],
     "removedIds": [
-      "legistar-stpaul-meeting-7814",
-      "legistar-stpaul-meeting-7815",
-      "legistar-stpaul-meeting-7816",
-      "legistar-stpaul-meeting-7817",
-      "legistar-stpaul-meeting-7818"
+      "legistar-stpaul-meeting-7805"
     ],
-    "changed": [
-      {
-        "id": "legistar-stpaul-meeting-7826",
-        "field": "minutesUrl",
-        "from": null,
-        "to": "https://legistar1.granicus.com/StPaul/meetings/2026/11/7826_M_Audit_Committee_26-11-17_Meeting_Minutes.pdf"
-      },
-      {
-        "id": "legistar-stpaul-meeting-7828",
-        "field": "minutesUrl",
-        "from": null,
-        "to": "https://legistar1.granicus.com/StPaul/meetings/2026/11/7828_M_City_Council_26-11-18_Meeting_Minutes_-_Action_Only.pdf"
-      },
-      {
-        "id": "legistar-stpaul-meeting-7829",
-        "field": "minutesUrl",
-        "from": null,
-        "to": "https://legistar1.granicus.com/StPaul/meetings/2026/11/7829_M_Housing___Redevelopment_Authority_26-11-18_Meeting_Minutes.pdf"
-      },
-      {
-        "id": "legistar-stpaul-meeting-7830",
-        "field": "minutesUrl",
-        "from": null,
-        "to": "https://legistar1.granicus.com/StPaul/meetings/2026/11/7830_M_Budget_Committee_26-11-18_Meeting_Minutes_-_Action_Only.pdf"
-      },
-      {
-        "id": "legistar-stpaul-meeting-7831",
-        "field": "minutesUrl",
-        "from": null,
-        "to": "https://legistar1.granicus.com/StPaul/meetings/2026/11/7831_M_Legislative_Hearings_26-11-17_Meeting_Minutes_-_Action_Only.pdf"
-      },
-      {
-        "id": "legistar-stpaul-meeting-7833",
-        "field": "minutesUrl",
-        "from": null,
-        "to": "https://legistar1.granicus.com/StPaul/meetings/2026/11/7833_M_Legislative_Hearings_26-11-19_Meeting_Minutes_-_Action_Only.pdf"
-      }
-    ]
+    "changed": []
   },
-  "previousGeneratedAt": "2026-11-17T20:41:09.704Z",
+  "previousGeneratedAt": "2026-11-19T20:17:00.802Z",
   "knownGaps": [
-    "Consent-agenda flagging uses Legistar's own EventItemConsent field only (40 of 172 agenda item(s) in this window flagged). \"No discussion\" / \"no public comment\" are NOT flagged — this API exposes no comparably reliable field for either, and AGENTS.md §3.3 rules out inferring one from absence."
+    "Consent-agenda flagging uses Legistar's own EventItemConsent field only (40 of 181 agenda item(s) in this window flagged). \"No discussion\" / \"no public comment\" are NOT flagged — this API exposes no comparably reliable field for either, and AGENTS.md §3.3 rules out inferring one from absence."
   ]
 }
