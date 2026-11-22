@@ -2,22 +2,22 @@
   "schemaVersion": 1,
   "client": "minneapolis",
   "jurisdiction": "Minneapolis City Council",
-  "generatedAt": "2026-11-21T18:56:32.733Z",
+  "generatedAt": "2026-11-22T19:18:30.046Z",
   "status": "ingested",
-  "note": "101 meeting(s) and 231 agenda item(s) ingested for 2026-11-07–2027-02-19.",
+  "note": "101 meeting(s) and 231 agenda item(s) ingested for 2026-11-08–2027-02-20.",
   "provenance": {
     "primarySourceUrl": "https://lims.minneapolismn.gov/",
     "sourceAgency": "City of Minneapolis, Office of the City Clerk",
     "documentType": "LIMS API v1 — meetingCalendar/FileItemSearch",
     "documentId": null,
     "issuedDate": null,
-    "fetchedAt": "2026-11-21T18:56:32.733Z",
+    "fetchedAt": "2026-11-22T19:18:30.046Z",
     "licence": "Public records served via the City of Minneapolis LIMS API; no separate machine-reuse licence published as of this writing.",
     "contentHash": null
   },
   "window": {
-    "startIso": "2026-11-07",
-    "endIso": "2027-02-19"
+    "startIso": "2026-11-08",
+    "endIso": "2027-02-20"
   },
   "meetings": [
     {
@@ -13719,32 +13719,11 @@
     }
   ],
   "diff": {
-    "addedIds": [
-      "lims-minneapolis-meeting-charter-commission-government-structure-work-group-2027-01-13T16:00:00"
-    ],
+    "addedIds": [],
     "removedIds": [],
-    "changed": [
-      {
-        "id": "lims-minneapolis-meeting-city-council-2026-11-12T09:30:00",
-        "field": "minutesUrl",
-        "from": null,
-        "to": "https://lims.minneapolismn.gov/api/v1/downloads/CommitteeReport/5094/Council-Proceedings-11-12.pdf"
-      },
-      {
-        "id": "lims-minneapolis-meeting-ethical-practices-board-2026-11-17T15:00:00",
-        "field": "agendaUrl",
-        "from": "https://lims.minneapolismn.gov/Agenda/EPB/16357",
-        "to": "https://lims.minneapolismn.gov/Board/MarkedAgenda/EPB/16357"
-      },
-      {
-        "id": "lims-minneapolis-meeting-ethical-practices-board-2026-11-17T15:00:00",
-        "field": "minutesUrl",
-        "from": null,
-        "to": "https://lims.minneapolismn.gov/api/v1/downloads/CommitteeReport/5095/EPB_20261117_minutes.pdf"
-      }
-    ]
+    "changed": []
   },
-  "previousGeneratedAt": "2026-11-20T19:51:44.048Z",
+  "previousGeneratedAt": "2026-11-21T18:56:32.733Z",
   "knownGaps": [
     "Consent-agenda flagging not implemented — LIMS has no field structurally equivalent to Legistar's EventItemConsent; every agenda item ships isConsent: false rather than a guess."
   ]

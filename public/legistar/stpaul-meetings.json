@@ -2,22 +2,22 @@
   "schemaVersion": 1,
   "client": "stpaul",
   "jurisdiction": "St. Paul City Council",
-  "generatedAt": "2026-11-21T18:55:10.211Z",
+  "generatedAt": "2026-11-22T19:16:58.305Z",
   "status": "ingested",
-  "note": "17 meeting(s) (17/17 event(s) in window) and 181 agenda item(s) ingested for 2026-11-07–2027-02-19.",
+  "note": "17 meeting(s) (17/17 event(s) in window) and 184 agenda item(s) ingested for 2026-11-08–2027-02-20.",
   "provenance": {
     "primarySourceUrl": "https://webapi.legistar.com/v1/stpaul/events",
     "sourceAgency": "St. Paul City Council",
     "documentType": "Legistar Web API — Events/EventItems",
     "documentId": null,
     "issuedDate": null,
-    "fetchedAt": "2026-11-21T18:55:10.211Z",
+    "fetchedAt": "2026-11-22T19:16:58.305Z",
     "licence": "Public records served via Legistar InSite; no separate machine-reuse licence published by the host jurisdiction as of this writing.",
-    "contentHash": "10982ec0756eb3e8e861ad44530ad6f46e5f8fabba7a639502af0ad6ed44c2d7"
+    "contentHash": "79511f6906c78cf3dacd18f2edaba2e52a3371289e42435c6af9ee2112a8b068"
   },
   "window": {
-    "startIso": "2026-11-07",
-    "endIso": "2027-02-19"
+    "startIso": "2026-11-08",
+    "endIso": "2027-02-20"
   },
   "meetings": [
     {
@@ -683,6 +683,19 @@
       "matterType": null
     },
     {
+      "id": "legistar-stpaul-eventitem-218769",
+      "meeting_id": "legistar-stpaul-meeting-7821",
+      "sequence": 3,
+      "agendaNumber": "1",
+      "title": "Making finding on the appeal of Rashad Kennedy to a substantial abatement ordered for 299 SHERBURNE AVENUE in Council File RLH RR 26-5.",
+      "isConsent": false,
+      "actionName": "Referred",
+      "passedFlagName": null,
+      "matterFile": "RLH RR 26-21",
+      "matterId": 53188,
+      "matterType": "Resolution LH Substantial Abatement Order"
+    },
+    {
       "id": "legistar-stpaul-eventitem-218770",
       "meeting_id": "legistar-stpaul-meeting-7821",
       "sequence": 5,
@@ -1099,6 +1112,19 @@
       "matterType": "Resolution LH Tax Assessment Appeal"
     },
     {
+      "id": "legistar-stpaul-eventitem-218874",
+      "meeting_id": "legistar-stpaul-meeting-7824",
+      "sequence": 7,
+      "agendaNumber": "5",
+      "title": "Ratifying the Appealed Special Tax Assessment for property at 241 FRONT AVENUE. (File No. CG26Q2B4, Assessment No. 260164)",
+      "isConsent": false,
+      "actionName": "Referred",
+      "passedFlagName": null,
+      "matterFile": "RLH TA 26-268",
+      "matterId": 53311,
+      "matterType": "Resolution LH Tax Assessment Appeal"
+    },
+    {
       "id": "legistar-stpaul-eventitem-218875",
       "meeting_id": "legistar-stpaul-meeting-7824",
       "sequence": 11,
@@ -1135,6 +1161,19 @@
       "passedFlagName": null,
       "matterFile": "RLH TA 26-271",
       "matterId": 53316,
+      "matterType": "Resolution LH Tax Assessment Appeal"
+    },
+    {
+      "id": "legistar-stpaul-eventitem-218878",
+      "meeting_id": "legistar-stpaul-meeting-7824",
+      "sequence": 5,
+      "agendaNumber": "3",
+      "title": "Ratifying the Appealed Special Tax Assessment for property at 301 BURGESS STREET. (File No. CG26Q2B4, Assessment No. 260164)",
+      "isConsent": false,
+      "actionName": "Referred",
+      "passedFlagName": null,
+      "matterFile": "RLH TA 26-272",
+      "matterId": 53318,
       "matterType": "Resolution LH Tax Assessment Appeal"
     },
     {
@@ -2976,8 +3015,8 @@
     "removedIds": [],
     "changed": []
   },
-  "previousGeneratedAt": "2026-11-20T19:50:09.713Z",
+  "previousGeneratedAt": "2026-11-21T18:55:10.211Z",
   "knownGaps": [
-    "Consent-agenda flagging uses Legistar's own EventItemConsent field only (40 of 181 agenda item(s) in this window flagged). \"No discussion\" / \"no public comment\" are NOT flagged — this API exposes no comparably reliable field for either, and AGENTS.md §3.3 rules out inferring one from absence."
+    "Consent-agenda flagging uses Legistar's own EventItemConsent field only (40 of 184 agenda item(s) in this window flagged). \"No discussion\" / \"no public comment\" are NOT flagged — this API exposes no comparably reliable field for either, and AGENTS.md §3.3 rules out inferring one from absence."
   ]
 }
