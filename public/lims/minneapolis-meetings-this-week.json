@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-22T19:18:30.049Z",
+  "generatedAt": "2026-11-23T23:42:15.808Z",
   "meetingsThisWeek": [
     {
       "client": "minneapolis",
@@ -1753,6 +1753,107 @@
         {
           "id": 6921,
           "name": "Andrea Riehl",
+          "type": "ABC Member"
+        }
+      ]
+    },
+    {
+      "client": "minneapolis",
+      "jurisdiction": "Minneapolis City Council",
+      "bodyName": "City Council",
+      "date": "2026-12-22",
+      "time": "09:30",
+      "location": null,
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/Council/",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/Council/",
+      "isCancelled": false,
+      "members": [
+        {
+          "id": 375,
+          "name": "Linea Palmisano",
+          "type": "Council Member"
+        },
+        {
+          "id": 5269,
+          "name": "Jamal Osman",
+          "type": "Vice-President"
+        },
+        {
+          "id": 5692,
+          "name": "Robin Wonsley",
+          "type": "Minority Leader"
+        },
+        {
+          "id": 5696,
+          "name": "LaTrisha Vetaw",
+          "type": "Council Member"
+        },
+        {
+          "id": 5697,
+          "name": "Aisha Chughtai",
+          "type": "Majority Leader"
+        },
+        {
+          "id": 5698,
+          "name": "Jason Chavez",
+          "type": "Council Member"
+        },
+        {
+          "id": 5700,
+          "name": "Michael Rainville",
+          "type": "Council Member"
+        },
+        {
+          "id": 5701,
+          "name": "Elliott Payne",
+          "type": "President"
+        },
+        {
+          "id": 5776,
+          "name": "Aurin Chowdhury",
+          "type": "Council Member"
+        },
+        {
+          "id": 7961,
+          "name": "Pearll Warren",
+          "type": "Council Member"
+        },
+        {
+          "id": 7962,
+          "name": "Soren Stevenson",
+          "type": "Council Member"
+        },
+        {
+          "id": 7963,
+          "name": "Elizabeth Shaffer",
+          "type": "Council Member"
+        },
+        {
+          "id": 7964,
+          "name": "Jamison Whiting",
+          "type": "Council Member"
+        }
+      ]
+    },
+    {
+      "client": "minneapolis",
+      "jurisdiction": "Minneapolis City Council",
+      "bodyName": "Civil Service Commission",
+      "date": "2026-12-22",
+      "time": "14:00",
+      "location": null,
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/CSC/",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/CSC/",
+      "isCancelled": false,
+      "members": [
+        {
+          "id": 6964,
+          "name": "Candace Falk",
+          "type": "ABC Member"
+        },
+        {
+          "id": 6965,
+          "name": "William Walker Jr",
           "type": "ABC Member"
         }
       ]
