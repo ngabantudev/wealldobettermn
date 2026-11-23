@@ -2,22 +2,22 @@
   "schemaVersion": 1,
   "client": "minneapolis",
   "jurisdiction": "Minneapolis City Council",
-  "generatedAt": "2026-11-22T19:18:30.046Z",
+  "generatedAt": "2026-11-23T23:42:15.806Z",
   "status": "ingested",
-  "note": "101 meeting(s) and 231 agenda item(s) ingested for 2026-11-08–2027-02-20.",
+  "note": "101 meeting(s) and 231 agenda item(s) ingested for 2026-11-09–2027-02-21.",
   "provenance": {
     "primarySourceUrl": "https://lims.minneapolismn.gov/",
     "sourceAgency": "City of Minneapolis, Office of the City Clerk",
     "documentType": "LIMS API v1 — meetingCalendar/FileItemSearch",
     "documentId": null,
     "issuedDate": null,
-    "fetchedAt": "2026-11-22T19:18:30.046Z",
+    "fetchedAt": "2026-11-23T23:42:15.806Z",
     "licence": "Public records served via the City of Minneapolis LIMS API; no separate machine-reuse licence published as of this writing.",
     "contentHash": null
   },
   "window": {
-    "startIso": "2026-11-08",
-    "endIso": "2027-02-20"
+    "startIso": "2026-11-09",
+    "endIso": "2027-02-21"
   },
   "meetings": [
     {
@@ -1022,10 +1022,10 @@
       "time": "16:00",
       "location": null,
       "agendaStatus": null,
-      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/PAC/16370",
-      "minutesUrl": null,
+      "agendaUrl": "https://lims.minneapolismn.gov/Board/MarkedAgenda/PAC/16370",
+      "minutesUrl": "https://lims.minneapolismn.gov/api/v1/downloads/CommitteeReport/5096/Minutes_2026_11_19_PAC.pdf",
       "videoStatus": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/PAC/16370",
+      "sourceUrl": "https://lims.minneapolismn.gov/Board/MarkedAgenda/PAC/16370",
       "lastModifiedUtc": null,
       "members": [
         {
@@ -13721,9 +13721,22 @@
   "diff": {
     "addedIds": [],
     "removedIds": [],
-    "changed": []
+    "changed": [
+      {
+        "id": "lims-minneapolis-meeting-pedestrian-advisory-committee-2026-11-19T16:00:00",
+        "field": "agendaUrl",
+        "from": "https://lims.minneapolismn.gov/Agenda/PAC/16370",
+        "to": "https://lims.minneapolismn.gov/Board/MarkedAgenda/PAC/16370"
+      },
+      {
+        "id": "lims-minneapolis-meeting-pedestrian-advisory-committee-2026-11-19T16:00:00",
+        "field": "minutesUrl",
+        "from": null,
+        "to": "https://lims.minneapolismn.gov/api/v1/downloads/CommitteeReport/5096/Minutes_2026_11_19_PAC.pdf"
+      }
+    ]
   },
-  "previousGeneratedAt": "2026-11-21T18:56:32.733Z",
+  "previousGeneratedAt": "2026-11-22T19:18:30.046Z",
   "knownGaps": [
     "Consent-agenda flagging not implemented — LIMS has no field structurally equivalent to Legistar's EventItemConsent; every agenda item ships isConsent: false rather than a guess."
   ]
