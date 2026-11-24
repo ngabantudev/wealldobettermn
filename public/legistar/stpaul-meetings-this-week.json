@@ -1,25 +1,13 @@
 {
-  "generatedAt": "2026-11-23T23:39:41.311Z",
+  "generatedAt": "2026-11-24T22:09:22.764Z",
   "meetingsThisWeek": [
-    {
-      "client": "stpaul",
-      "jurisdiction": "St. Paul City Council",
-      "bodyName": "Rent Stabilization Appeal Hearings",
-      "date": "2026-11-23",
-      "time": "10:00",
-      "location": "https://teams.microsoft.com/meet/2184232858393984?p=b7vMgvfZN5E5OdZzX1\r\nMeeting ID:\r\n 218 423 285 839 398 4\r\nPasscode: \r\ntn9cC9tC",
-      "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7832&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
-      "agendaUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/11/7832_A_Rent_Stabilization_Appeal_Hearings_26-11-23_ADA_Meeting_Agenda.pdf",
-      "isCancelled": false,
-      "members": []
-    },
     {
       "client": "stpaul",
       "jurisdiction": "St. Paul City Council",
       "bodyName": "Legislative Hearings",
       "date": "2026-11-24",
       "time": "09:30",
-      "location": "Room 330 City Hall & Court House/Remote",
+      "location": "Osborn 370 (Remote Only)",
       "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7834&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
       "agendaUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/11/7834_A_Legislative_Hearings_26-11-24_ADA_Meeting_Agenda.pdf",
       "isCancelled": false,
@@ -168,6 +156,18 @@
           "type": "Councilmember"
         }
       ]
+    },
+    {
+      "client": "stpaul",
+      "jurisdiction": "St. Paul City Council",
+      "bodyName": "Legislative Hearings",
+      "date": "2026-12-01",
+      "time": "13:30",
+      "location": "Room 330 City Hall & Court House/Remote",
+      "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7839&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
+      "agendaUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/12/7839_A_Legislative_Hearings_26-12-01_ADA_Meeting_Agenda.pdf",
+      "isCancelled": false,
+      "members": []
     }
   ]
 }
