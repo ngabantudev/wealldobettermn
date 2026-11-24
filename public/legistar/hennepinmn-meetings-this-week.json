@@ -1,4 +1,33 @@
 {
-  "generatedAt": "2026-11-23T23:42:07.165Z",
-  "meetingsThisWeek": []
+  "generatedAt": "2026-11-24T22:10:35.425Z",
+  "meetingsThisWeek": [
+    {
+      "client": "hennepinmn",
+      "jurisdiction": "Hennepin County Board",
+      "bodyName": "HHS Quality, Safety, Audit and Compliance Committee",
+      "date": "2026-11-30",
+      "time": "13:00",
+      "location": "Government Ctr Conf Rm A2324",
+      "sourceUrl": "https://hennepinmn.legistar.com/MeetingDetail.aspx?LEGID=1514&GID=953&G=BA9AD5D7-E82F-425B-B72E-ABFEC8B35879",
+      "agendaUrl": null,
+      "isCancelled": false,
+      "members": [
+        {
+          "id": 544,
+          "name": "Kevin Anderson",
+          "type": "Commissioner"
+        },
+        {
+          "id": 508,
+          "name": "Irene Fernando",
+          "type": "Commissioner"
+        },
+        {
+          "id": 490,
+          "name": "Debbie Goettel",
+          "type": "Commissioner"
+        }
+      ]
+    }
+  ]
 }
