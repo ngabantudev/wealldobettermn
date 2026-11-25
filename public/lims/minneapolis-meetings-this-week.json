@@ -1,120 +1,6 @@
 {
-  "generatedAt": "2026-11-24T22:10:48.668Z",
+  "generatedAt": "2026-11-25T21:26:46.063Z",
   "meetingsThisWeek": [
-    {
-      "client": "minneapolis",
-      "jurisdiction": "Minneapolis City Council",
-      "bodyName": "Civil Service Commission",
-      "date": "2026-11-24",
-      "time": "14:00",
-      "location": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/CSC/",
-      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/CSC/",
-      "isCancelled": true,
-      "members": [
-        {
-          "id": 6964,
-          "name": "Candace Falk",
-          "type": "ABC Member"
-        },
-        {
-          "id": 6965,
-          "name": "William Walker Jr",
-          "type": "ABC Member"
-        }
-      ]
-    },
-    {
-      "client": "minneapolis",
-      "jurisdiction": "Minneapolis City Council",
-      "bodyName": "Charter Commission Amendment Review Committee",
-      "date": "2026-11-24",
-      "time": "16:00",
-      "location": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/charter-arc/16377",
-      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/charter-arc/16377",
-      "isCancelled": false,
-      "members": [
-        {
-          "id": 323,
-          "name": "Matt Perry",
-          "type": "Council Member"
-        },
-        {
-          "id": 326,
-          "name": "Barry Clegg",
-          "type": "Council Member"
-        },
-        {
-          "id": 347,
-          "name": "Andrea Rubenstein",
-          "type": "Council Member"
-        },
-        {
-          "id": 348,
-          "name": "Andrew Kozak",
-          "type": "Chair"
-        },
-        {
-          "id": 4267,
-          "name": "Peter Ginder",
-          "type": "Vice-Chair"
-        },
-        {
-          "id": 5883,
-          "name": "Julie Doherty",
-          "type": "Council Member"
-        },
-        {
-          "id": 5884,
-          "name": "Sherri Boone",
-          "type": "Council Member"
-        },
-        {
-          "id": 6531,
-          "name": "Mariam DeMello",
-          "type": "Council Member"
-        },
-        {
-          "id": 7020,
-          "name": "Ben Cooper",
-          "type": "Council Member"
-        }
-      ]
-    },
-    {
-      "client": "minneapolis",
-      "jurisdiction": "Minneapolis City Council",
-      "bodyName": "Public Health Advisory Committee",
-      "date": "2026-11-24",
-      "time": "17:00",
-      "location": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/PHAC/16375",
-      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/PHAC/16375",
-      "isCancelled": false,
-      "members": [
-        {
-          "id": 7007,
-          "name": "Hannaan Shire",
-          "type": "ABC Member"
-        },
-        {
-          "id": 7008,
-          "name": "Mariam Warsame",
-          "type": "ABC Member"
-        },
-        {
-          "id": 7009,
-          "name": "Christy Yoon",
-          "type": "ABC Member"
-        },
-        {
-          "id": 7010,
-          "name": "Jasmine Bloomdahl",
-          "type": "ABC Member"
-        }
-      ]
-    },
     {
       "client": "minneapolis",
       "jurisdiction": "Minneapolis City Council",
@@ -200,8 +86,8 @@
       "date": "2026-11-30",
       "time": "16:30",
       "location": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/CPC/",
-      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/CPC/",
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/CPC/16380",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/CPC/16380",
       "isCancelled": false,
       "members": [
         {
@@ -417,8 +303,8 @@
       "date": "2026-12-01",
       "time": "16:00",
       "location": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/CEAC/",
-      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/CEAC/",
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/CEAC/16385",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/CEAC/16385",
       "isCancelled": false,
       "members": [
         {
@@ -616,8 +502,8 @@
       "date": "2026-12-03",
       "time": "16:00",
       "location": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/PAC/",
-      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/PAC/",
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/PAC/16379",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/PAC/16379",
       "isCancelled": false,
       "members": [
         {
@@ -639,8 +525,8 @@
       "date": "2026-12-07",
       "time": "13:30",
       "location": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/ELR/",
-      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/ELR/",
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/ELR/16383",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/ELR/16383",
       "isCancelled": false,
       "members": [
         {
@@ -735,8 +621,8 @@
       "date": "2026-12-08",
       "time": "13:30",
       "location": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/BHZ/16373",
-      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/BHZ/16373",
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/BHZ/16381",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/BHZ/16381",
       "isCancelled": false,
       "members": [
         {
@@ -970,8 +856,8 @@
       "date": "2026-12-10",
       "time": "13:30",
       "location": null,
-      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/CI/",
-      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/CI/",
+      "sourceUrl": "https://lims.minneapolismn.gov/Agenda/CI/16384",
+      "agendaUrl": "https://lims.minneapolismn.gov/Agenda/CI/16384",
       "isCancelled": false,
       "members": [
         {
