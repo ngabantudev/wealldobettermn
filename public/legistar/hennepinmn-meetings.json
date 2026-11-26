@@ -2,22 +2,22 @@
   "schemaVersion": 1,
   "client": "hennepinmn",
   "jurisdiction": "Hennepin County Board",
-  "generatedAt": "2026-11-25T21:26:36.684Z",
+  "generatedAt": "2026-11-26T21:14:01.667Z",
   "status": "ingested",
-  "note": "12 meeting(s) (12/12 event(s) in window) and 207 agenda item(s) ingested for 2026-11-11–2027-02-23.",
+  "note": "12 meeting(s) (12/12 event(s) in window) and 207 agenda item(s) ingested for 2026-11-12–2027-02-24.",
   "provenance": {
     "primarySourceUrl": "https://webapi.legistar.com/v1/hennepinmn/events",
     "sourceAgency": "Hennepin County Board",
     "documentType": "Legistar Web API — Events/EventItems",
     "documentId": null,
     "issuedDate": null,
-    "fetchedAt": "2026-11-25T21:26:36.684Z",
+    "fetchedAt": "2026-11-26T21:14:01.667Z",
     "licence": "Public records served via Legistar InSite; no separate machine-reuse licence published by the host jurisdiction as of this writing.",
-    "contentHash": "bd46403bbeea4c6c2f58916686d445c114e853092fb2c7acce522d10899e780a"
+    "contentHash": "d43b0faeb3968078ec880848fa2440bf798e66086f00b63a1f62bd9881a945b1"
   },
   "window": {
-    "startIso": "2026-11-11",
-    "endIso": "2027-02-23"
+    "startIso": "2026-11-12",
+    "endIso": "2027-02-24"
   },
   "meetings": [
     {
@@ -3287,24 +3287,11 @@
     }
   ],
   "diff": {
-    "addedIds": [
-      "legistar-hennepinmn-meeting-1511",
-      "legistar-hennepinmn-meeting-1513"
-    ],
-    "removedIds": [
-      "legistar-hennepinmn-meeting-1501",
-      "legistar-hennepinmn-meeting-1502"
-    ],
-    "changed": [
-      {
-        "id": "legistar-hennepinmn-meeting-1514",
-        "field": "agendaUrl",
-        "from": null,
-        "to": "https://hennepinmn.legistar1.com/hennepinmn/meetings/2026/11/1514_A_HHS_Quality%2C_Safety%2C_Audit_and_Compliance_Committee_26-11-30_COMMITTEE_AGENDA.pdf"
-      }
-    ]
+    "addedIds": [],
+    "removedIds": [],
+    "changed": []
   },
-  "previousGeneratedAt": "2026-11-24T22:10:35.423Z",
+  "previousGeneratedAt": "2026-11-25T21:26:36.684Z",
   "knownGaps": [
     "Consent-agenda flagging uses Legistar's own EventItemConsent field only (39 of 207 agenda item(s) in this window flagged). \"No discussion\" / \"no public comment\" are NOT flagged — this API exposes no comparably reliable field for either, and AGENTS.md §3.3 rules out inferring one from absence."
   ]

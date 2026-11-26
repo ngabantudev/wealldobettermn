@@ -2,22 +2,22 @@
   "schemaVersion": 1,
   "client": "minneapolis",
   "jurisdiction": "Minneapolis City Council",
-  "generatedAt": "2026-11-25T21:26:46.059Z",
+  "generatedAt": "2026-11-26T21:14:15.253Z",
   "status": "ingested",
-  "note": "102 meeting(s) and 234 agenda item(s) ingested for 2026-11-11–2027-02-23.",
+  "note": "102 meeting(s) and 234 agenda item(s) ingested for 2026-11-12–2027-02-24.",
   "provenance": {
     "primarySourceUrl": "https://lims.minneapolismn.gov/",
     "sourceAgency": "City of Minneapolis, Office of the City Clerk",
     "documentType": "LIMS API v1 — meetingCalendar/FileItemSearch",
     "documentId": null,
     "issuedDate": null,
-    "fetchedAt": "2026-11-25T21:26:46.059Z",
+    "fetchedAt": "2026-11-26T21:14:15.253Z",
     "licence": "Public records served via the City of Minneapolis LIMS API; no separate machine-reuse licence published as of this writing.",
     "contentHash": null
   },
   "window": {
-    "startIso": "2026-11-11",
-    "endIso": "2027-02-23"
+    "startIso": "2026-11-12",
+    "endIso": "2027-02-24"
   },
   "meetings": [
     {
@@ -13773,59 +13773,11 @@
     }
   ],
   "diff": {
-    "addedIds": [
-      "lims-minneapolis-meeting-public-health-advisory-committee-2027-01-26T17:00:00",
-      "lims-minneapolis-meeting-committee-of-the-whole-2027-02-23T13:30:00"
-    ],
-    "removedIds": [
-      "lims-minneapolis-meeting-community-environmental-advisory-commission-2026-11-10T16:00:00"
-    ],
-    "changed": [
-      {
-        "id": "lims-minneapolis-meeting-climate-infrastructure-committee-2026-11-19T13:30:00",
-        "field": "minutesUrl",
-        "from": null,
-        "to": "https://lims.minneapolismn.gov/api/v1/downloads/CommitteeReport/5101/CI_11192026_Committee_Report.pdf"
-      },
-      {
-        "id": "lims-minneapolis-meeting-planning-commission-2026-11-30T16:30:00",
-        "field": "agendaUrl",
-        "from": "https://lims.minneapolismn.gov/Agenda/CPC/",
-        "to": "https://lims.minneapolismn.gov/Agenda/CPC/16380"
-      },
-      {
-        "id": "lims-minneapolis-meeting-community-environmental-advisory-commission-2026-12-01T16:00:00",
-        "field": "agendaUrl",
-        "from": "https://lims.minneapolismn.gov/Agenda/CEAC/",
-        "to": "https://lims.minneapolismn.gov/Agenda/CEAC/16385"
-      },
-      {
-        "id": "lims-minneapolis-meeting-pedestrian-advisory-committee-2026-12-03T16:00:00",
-        "field": "agendaUrl",
-        "from": "https://lims.minneapolismn.gov/Agenda/PAC/",
-        "to": "https://lims.minneapolismn.gov/Agenda/PAC/16379"
-      },
-      {
-        "id": "lims-minneapolis-meeting-enterprise-labor-relations-committee-2026-12-07T13:30:00",
-        "field": "agendaUrl",
-        "from": "https://lims.minneapolismn.gov/Agenda/ELR/",
-        "to": "https://lims.minneapolismn.gov/Agenda/ELR/16383"
-      },
-      {
-        "id": "lims-minneapolis-meeting-business-housing-zoning-committee-2026-12-08T13:30:00",
-        "field": "agendaUrl",
-        "from": "https://lims.minneapolismn.gov/Agenda/BHZ/16373",
-        "to": "https://lims.minneapolismn.gov/Agenda/BHZ/16381"
-      },
-      {
-        "id": "lims-minneapolis-meeting-climate-infrastructure-committee-2026-12-10T13:30:00",
-        "field": "agendaUrl",
-        "from": "https://lims.minneapolismn.gov/Agenda/CI/",
-        "to": "https://lims.minneapolismn.gov/Agenda/CI/16384"
-      }
-    ]
+    "addedIds": [],
+    "removedIds": [],
+    "changed": []
   },
-  "previousGeneratedAt": "2026-11-24T22:10:48.663Z",
+  "previousGeneratedAt": "2026-11-25T21:26:46.059Z",
   "knownGaps": [
     "Consent-agenda flagging not implemented — LIMS has no field structurally equivalent to Legistar's EventItemConsent; every agenda item ships isConsent: false rather than a guess."
   ]
