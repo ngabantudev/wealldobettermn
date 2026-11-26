@@ -2,22 +2,22 @@
   "schemaVersion": 1,
   "client": "stpaul",
   "jurisdiction": "St. Paul City Council",
-  "generatedAt": "2026-11-25T21:25:07.908Z",
+  "generatedAt": "2026-11-26T21:12:08.938Z",
   "status": "ingested",
-  "note": "18 meeting(s) (18/18 event(s) in window) and 229 agenda item(s) ingested for 2026-11-11–2027-02-23.",
+  "note": "18 meeting(s) (18/18 event(s) in window) and 229 agenda item(s) ingested for 2026-11-12–2027-02-24.",
   "provenance": {
     "primarySourceUrl": "https://webapi.legistar.com/v1/stpaul/events",
     "sourceAgency": "St. Paul City Council",
     "documentType": "Legistar Web API — Events/EventItems",
     "documentId": null,
     "issuedDate": null,
-    "fetchedAt": "2026-11-25T21:25:07.908Z",
+    "fetchedAt": "2026-11-26T21:12:08.938Z",
     "licence": "Public records served via Legistar InSite; no separate machine-reuse licence published by the host jurisdiction as of this writing.",
-    "contentHash": "02c7fdbf8a915944a078bf3f0f59f9873ba44812440dfb9bd1d819f72fe07a9f"
+    "contentHash": "31ae2411a6d009ae03f0b3eeb7920b3676d0da98f6e3019d63d28c9781a33f13"
   },
   "window": {
-    "startIso": "2026-11-11",
-    "endIso": "2027-02-23"
+    "startIso": "2026-11-12",
+    "endIso": "2027-02-24"
   },
   "meetings": [
     {
@@ -495,7 +495,7 @@
       "minutesUrl": null,
       "videoStatus": "Public",
       "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7837&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
-      "lastModifiedUtc": "2026-11-25T21:06:53.587",
+      "lastModifiedUtc": "2026-11-25T22:21:19.833",
       "members": [
         {
           "id": 6692,
@@ -3683,19 +3683,11 @@
     }
   ],
   "diff": {
-    "addedIds": [
-      "legistar-stpaul-meeting-7838",
-      "legistar-stpaul-meeting-7840",
-      "legistar-stpaul-meeting-7841"
-    ],
-    "removedIds": [
-      "legistar-stpaul-meeting-7821",
-      "legistar-stpaul-meeting-7822",
-      "legistar-stpaul-meeting-7823"
-    ],
+    "addedIds": [],
+    "removedIds": [],
     "changed": []
   },
-  "previousGeneratedAt": "2026-11-24T22:09:22.762Z",
+  "previousGeneratedAt": "2026-11-25T21:25:07.908Z",
   "knownGaps": [
     "Consent-agenda flagging uses Legistar's own EventItemConsent field only (34 of 229 agenda item(s) in this window flagged). \"No discussion\" / \"no public comment\" are NOT flagged — this API exposes no comparably reliable field for either, and AGENTS.md §3.3 rules out inferring one from absence."
   ]
