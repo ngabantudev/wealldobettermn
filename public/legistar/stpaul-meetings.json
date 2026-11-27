@@ -2,39 +2,24 @@
   "schemaVersion": 1,
   "client": "stpaul",
   "jurisdiction": "St. Paul City Council",
-  "generatedAt": "2026-11-26T21:12:08.938Z",
+  "generatedAt": "2026-11-27T20:55:28.366Z",
   "status": "ingested",
-  "note": "18 meeting(s) (18/18 event(s) in window) and 229 agenda item(s) ingested for 2026-11-12–2027-02-24.",
+  "note": "17 meeting(s) (17/17 event(s) in window) and 218 agenda item(s) ingested for 2026-11-13–2027-02-25.",
   "provenance": {
     "primarySourceUrl": "https://webapi.legistar.com/v1/stpaul/events",
     "sourceAgency": "St. Paul City Council",
     "documentType": "Legistar Web API — Events/EventItems",
     "documentId": null,
     "issuedDate": null,
-    "fetchedAt": "2026-11-26T21:12:08.938Z",
+    "fetchedAt": "2026-11-27T20:55:28.366Z",
     "licence": "Public records served via Legistar InSite; no separate machine-reuse licence published by the host jurisdiction as of this writing.",
-    "contentHash": "31ae2411a6d009ae03f0b3eeb7920b3676d0da98f6e3019d63d28c9781a33f13"
+    "contentHash": "e084a844a43ef86c4372e8fa339d87218ef481497dd31f27be24ccf6a24f7f45"
   },
   "window": {
-    "startIso": "2026-11-12",
-    "endIso": "2027-02-24"
+    "startIso": "2026-11-13",
+    "endIso": "2027-02-25"
   },
   "meetings": [
-    {
-      "id": "legistar-stpaul-meeting-7824",
-      "body_id": "legistar-stpaul-body-195",
-      "bodyName": "Legislative Hearings",
-      "date": "2026-11-12",
-      "time": "10:00",
-      "location": "Room 330 City Hall & Court House/Remote",
-      "agendaStatus": "Final-revised",
-      "agendaUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/11/7824_A_Legislative_Hearings_26-11-12_ADA_Meeting_Agenda.pdf",
-      "minutesUrl": "https://legistar1.granicus.com/StPaul/meetings/2026/11/7824_M_Legislative_Hearings_26-11-12_Minutes_-_Final.pdf",
-      "videoStatus": "Public",
-      "sourceUrl": "https://stpaul.legistar.com/MeetingDetail.aspx?LEGID=7824&GID=125&G=EDAB5C5F-1041-4DF4-A894-59E957785E36",
-      "lastModifiedUtc": "2026-11-17T15:01:13.943",
-      "members": []
-    },
     {
       "id": "legistar-stpaul-meeting-7825",
       "body_id": "legistar-stpaul-body-248",
@@ -704,149 +689,6 @@
     }
   ],
   "agendaItems": [
-    {
-      "id": "legistar-stpaul-eventitem-218861",
-      "meeting_id": "legistar-stpaul-meeting-7824",
-      "sequence": 2,
-      "agendaNumber": null,
-      "title": "Special Tax Assessments",
-      "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
-      "matterFile": null,
-      "matterId": null,
-      "matterType": null
-    },
-    {
-      "id": "legistar-stpaul-eventitem-218871",
-      "meeting_id": "legistar-stpaul-meeting-7824",
-      "sequence": 4,
-      "agendaNumber": "2",
-      "title": "Deleting the Appealed Special Tax Assessment for property at 1227 ARKWRIGHT STREET. (File No. CG26Q2B3, Assessment No. 260163)",
-      "isConsent": false,
-      "actionName": "Referred",
-      "passedFlagName": null,
-      "matterFile": "RLH TA 26-266",
-      "matterId": 53307,
-      "matterType": "Resolution LH Tax Assessment Appeal"
-    },
-    {
-      "id": "legistar-stpaul-eventitem-218872",
-      "meeting_id": "legistar-stpaul-meeting-7824",
-      "sequence": 6,
-      "agendaNumber": "4",
-      "title": "Ratifying the Appealed Special Tax Assessment for property at 668 COOK AVENUE EAST. (File No. CG26Q2B4, Assessment No. 260164)",
-      "isConsent": false,
-      "actionName": "Laid Over",
-      "passedFlagName": null,
-      "matterFile": "RLH TA 26-265",
-      "matterId": 53308,
-      "matterType": "Resolution LH Tax Assessment Appeal"
-    },
-    {
-      "id": "legistar-stpaul-eventitem-218874",
-      "meeting_id": "legistar-stpaul-meeting-7824",
-      "sequence": 7,
-      "agendaNumber": "5",
-      "title": "Ratifying the Appealed Special Tax Assessment for property at 241 FRONT AVENUE. (File No. CG26Q2B4, Assessment No. 260164)",
-      "isConsent": false,
-      "actionName": "Referred",
-      "passedFlagName": null,
-      "matterFile": "RLH TA 26-268",
-      "matterId": 53311,
-      "matterType": "Resolution LH Tax Assessment Appeal"
-    },
-    {
-      "id": "legistar-stpaul-eventitem-218875",
-      "meeting_id": "legistar-stpaul-meeting-7824",
-      "sequence": 11,
-      "agendaNumber": "8",
-      "title": "Ratifying the Appealed Special Tax Assessment for property at 1665 SHERBURNE AVENUE. (File No. CG26Q2B5, Assessment No. 260165)",
-      "isConsent": false,
-      "actionName": "Referred",
-      "passedFlagName": null,
-      "matterFile": "RLH TA 26-269",
-      "matterId": 53314,
-      "matterType": "Resolution LH Tax Assessment Appeal"
-    },
-    {
-      "id": "legistar-stpaul-eventitem-218876",
-      "meeting_id": "legistar-stpaul-meeting-7824",
-      "sequence": 9,
-      "agendaNumber": "7",
-      "title": "Deleting the Appealed Special Tax Assessment for property at 1104 LAWSON AVENUE EAST. (File No. CG26Q2B4, Assessment No. 260164)",
-      "isConsent": false,
-      "actionName": "Referred",
-      "passedFlagName": null,
-      "matterFile": "RLH TA 26-270",
-      "matterId": 53315,
-      "matterType": "Resolution LH Tax Assessment Appeal"
-    },
-    {
-      "id": "legistar-stpaul-eventitem-218877",
-      "meeting_id": "legistar-stpaul-meeting-7824",
-      "sequence": 3,
-      "agendaNumber": "1",
-      "title": "Ratifying the Appealed Special Tax Assessment for property at 1093 ARCADE STREET. (File No. CG26Q2B4, Assessment No. 260164)",
-      "isConsent": false,
-      "actionName": "Referred",
-      "passedFlagName": null,
-      "matterFile": "RLH TA 26-271",
-      "matterId": 53316,
-      "matterType": "Resolution LH Tax Assessment Appeal"
-    },
-    {
-      "id": "legistar-stpaul-eventitem-218878",
-      "meeting_id": "legistar-stpaul-meeting-7824",
-      "sequence": 5,
-      "agendaNumber": "3",
-      "title": "Ratifying the Appealed Special Tax Assessment for property at 301 BURGESS STREET. (File No. CG26Q2B4, Assessment No. 260164)",
-      "isConsent": false,
-      "actionName": "Referred",
-      "passedFlagName": null,
-      "matterFile": "RLH TA 26-272",
-      "matterId": 53318,
-      "matterType": "Resolution LH Tax Assessment Appeal"
-    },
-    {
-      "id": "legistar-stpaul-eventitem-218879",
-      "meeting_id": "legistar-stpaul-meeting-7824",
-      "sequence": 1,
-      "agendaNumber": null,
-      "title": "10:00 a.m. Hearings",
-      "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
-      "matterFile": null,
-      "matterId": null,
-      "matterType": null
-    },
-    {
-      "id": "legistar-stpaul-eventitem-218881",
-      "meeting_id": "legistar-stpaul-meeting-7824",
-      "sequence": 12,
-      "agendaNumber": null,
-      "title": "Special Tax Assessments - Rolls",
-      "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
-      "matterFile": null,
-      "matterId": null,
-      "matterType": null
-    },
-    {
-      "id": "legistar-stpaul-eventitem-218906",
-      "meeting_id": "legistar-stpaul-meeting-7824",
-      "sequence": 10,
-      "agendaNumber": null,
-      "title": "11:00 a.m. Hearings",
-      "isConsent": false,
-      "actionName": null,
-      "passedFlagName": null,
-      "matterFile": null,
-      "matterId": null,
-      "matterType": null
-    },
     {
       "id": "legistar-stpaul-eventitem-218898",
       "meeting_id": "legistar-stpaul-meeting-7825",
@@ -3684,11 +3526,13 @@
   ],
   "diff": {
     "addedIds": [],
-    "removedIds": [],
+    "removedIds": [
+      "legistar-stpaul-meeting-7824"
+    ],
     "changed": []
   },
-  "previousGeneratedAt": "2026-11-25T21:25:07.908Z",
+  "previousGeneratedAt": "2026-11-26T21:12:08.938Z",
   "knownGaps": [
-    "Consent-agenda flagging uses Legistar's own EventItemConsent field only (34 of 229 agenda item(s) in this window flagged). \"No discussion\" / \"no public comment\" are NOT flagged — this API exposes no comparably reliable field for either, and AGENTS.md §3.3 rules out inferring one from absence."
+    "Consent-agenda flagging uses Legistar's own EventItemConsent field only (34 of 218 agenda item(s) in this window flagged). \"No discussion\" / \"no public comment\" are NOT flagged — this API exposes no comparably reliable field for either, and AGENTS.md §3.3 rules out inferring one from absence."
   ]
 }
